@@ -1,0 +1,13 @@
+@startuml
+autonumber
+
+actor "Estafeta" as EST
+
+activate EST
+EST -> ":Sistema": estaciona a scooter num estacionamento
+activate ":Sistema"
+":Sistema" -> EST: notifica que a scooter foi "locked" e mostra\n a estimativa de carregamento da scooter
+deactivate ":Sistema"
+deactivate EST
+
+@enduml
