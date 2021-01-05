@@ -1,0 +1,24 @@
+@startuml
+autonumber
+actor "Administrador" as ADM
+
+activate ADM
+ADM -> ":Sistema" : Pretende inserir novos itens no stock
+activate ":Sistema"
+
+":Sistema" --> ADM : solicita dados dos itens (designacao, peso e preco base de cada item)
+deactivate ":Sistema"
+
+ADM -> ":Sistema" : introduz os dados solicitados
+activate ":Sistema"
+
+":Sistema" --> ADM : apresenta dados e solicita confirmação
+deactivate ":Sistema"
+
+ADM -> ":Sistema" : confirma
+activate ":Sistema"
+":Sistema" --> ADM : operação bem sucedida
+deactivate ":Sistema"
+
+deactivate ADM
+@enduml
