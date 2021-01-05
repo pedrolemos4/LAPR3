@@ -1,0 +1,38 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide methods
+left to right direction
+
+class Utilizador {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+class Endereco {
+  -morada
+}
+
+class LocalizacaoGPS {
+  -latitude
+  -longitude
+}
+
+class Cliente {
+  -numeroCartaoCredito
+  -dataDeValidade
+  -CCV
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+Endereco "1" -- "1" LocalizacaoGPS: tem >
+Cliente "1" -- "1" Endereco: tem >
+Cliente "1" -- "1" Utilizador: atua como >
+
+@enduml
