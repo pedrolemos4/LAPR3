@@ -1,0 +1,23 @@
+@startuml
+autonumber
+actor "Administrador" as ADM
+
+activate ADM
+ADM -> ":Sistema" : Pretende registar o estafeta
+activate ":Sistema"
+":Sistema" --> ADM : solicita dados do estafeta (nif, nome,\n email, número de segurança social e password)
+deactivate ":Sistema"
+
+
+ADM -> ":Sistema" : introduz os dados solicitados
+activate ":Sistema"
+":Sistema" --> ADM : apresenta dados e solicita confirmação
+deactivate ":Sistema"
+
+ADM -> ":Sistema" : confirma
+activate ":Sistema"
+":Sistema" --> ADM : operação bem sucedida
+deactivate ":Sistema"
+
+deactivate ADM
+@enduml
