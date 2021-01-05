@@ -1,0 +1,127 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide methods
+left to right direction
+
+class Entrega {
+  -idEntrega
+  -dataInicio
+  -dataFim
+}
+
+class Encomenda {
+  -idEncomenda
+  -dataPedida
+  -preco
+}
+
+class EstadoEncomenda {
+  -id_estado_encomenda
+  -designacao
+}
+
+class Produto {
+  -idProduto
+  -designacao
+  -peso
+  -precoBase
+}
+
+class Farmacia {
+  -NIF
+}
+
+
+class Estacionamento {
+  -numeroLote
+  -carregador
+}
+
+class Estafeta {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+class EstadoEstafeta {
+  -id_estado_estafeta
+  -designacao
+}
+
+class Utilizador {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+class Administrador {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+class Endereco {
+  -morada
+}
+
+class LocalizacaoGPS {
+  -latitude
+  -longitude
+}
+
+
+class Scooter {
+  -idScooter
+  -percentagemBateria
+  -pesoMaximo
+}
+
+class Parque {
+  -numeroMaximo
+}
+
+class Cliente {
+  -numeroCartaoCredito
+  -dataDeValidade
+  -CCV
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+
+Encomenda "1" -- "1" EstadoEncomenda : tem >
+Entrega "1" -- "*" Encomenda : possui >
+Estafeta "1" -- "*" Entrega: realiza >
+Estafeta "1" -- "1" EstadoEstafeta: tem >
+Estafeta "1" -- "1" Utilizador: atua como >
+Administrador "1" -- "1" Utilizador: atua como >
+Administrador "1" -- "*" Estafeta: regista >
+Administrador "1" -- "*" Produto: insere no stock >
+Administrador "1" -- "*" Scooter: adiciona, remove ou atualiza e cria QR code >
+Administrador "1" -- "1" Parque: define numeroMaximo >
+Endereco "1" -- "1" LocalizacaoGPS: tem >
+Cliente "1" -- "1" Endereco: tem >
+Cliente "1" -- "1" Utilizador: atua como >
+Cliente "1" -- "*" Encomenda: realiza e paga >
+Entrega "*" -- "1" Scooter: realiza <
+Farmacia "1" -- "*" Produto: tem >
+Encomenda "1" -- "*" Produto: tem >
+Farmacia "1" -- "1" Parque: possui >
+Parque "1" -- "*" Scooter: possui >
+Farmacia "1" -- "*" Scooter: possui >
+Parque "1" -- "1" Endereco: tem >
+Parque "1" -- "*" Estacionamento: tem >
+Estacionamento "1" -- "1" Scooter: tem >
+Farmacia "1" -- "*" Estafeta: tem >
+Farmacia "1" -- "1" Administrador: tem >
+
+@enduml
