@@ -1,0 +1,24 @@
+@startuml
+autonumber
+actor "Administrador" as UNR
+
+activate UNR
+UNR -> ":Sistema" : Pretende adicionar uma nova scooter
+activate ":Sistema"
+":Sistema" --> UNR : solicita dados da scooter (percentagem de bateria e peso máximo)
+deactivate ":Sistema"
+
+
+UNR -> ":Sistema" : introduz os dados solicitados
+activate ":Sistema"
+":Sistema" --> UNR : apresenta dados e solicita confirmação
+deactivate ":Sistema"
+
+UNR -> ":Sistema" : confirma
+activate ":Sistema"
+":Sistema" --> UNR : operação bem sucedida
+deactivate ":Sistema"
+
+deactivate UNR
+@enduml
+
