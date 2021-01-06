@@ -1,0 +1,45 @@
+@startuml
+autonumber
+
+actor "Administrador" as ADMIN
+
+participant ":ScooterUI" as UI
+participant ":ScooterController" as CTRL
+participant ":ScooterDB" as SCHL
+participant "scooter :Scooter" as SCOOT
+
+activate ADMIN
+ADMIN -> UI : inicia a adição de nova scooter
+activate UI
+UI -> ADMIN : solicita os dados necessários
+ADMIN -> UI : insere os dados (percentagem de bateria e peso máximo)
+UI -> CTRL : addNewScooter(percentagem de bateria,peso máximo)
+activate CTRL
+CTRL -> SCHL : addNewScooter(percentagem de bateria,peso máximo)
+activate SCHL
+deactivate SCHL
+CTRL -> SCHL : scooter = new Scooter(percentagem de bateria,peso máximo
+activate SCHL
+SCHL -> SCOOT : create (percentagem de bateria, peso máximo)
+activate SCOOT
+deactivate SCOOT
+deactivate SCHL
+deactivate CTRL
+  
+UI --> ADMIN : apresenta dos dados e solicita confirmação
+deactivate UI
+
+ADMIN -> UI : confirma os dados da scooter
+activate UI 
+UI -> CTRL : scooterHandler()
+activate CTRL
+CTRL -> SCHL : scooterHandler(scooter)
+activate SCHL
+SCHL -> SCHL : validaScooter(scooter)
+SCHL -> SCHL : addScooter(scooter)
+deactivate SCHL
+deactivate CTRL
+deactivate UI
+deactivate ADMIN
+
+@enduml
