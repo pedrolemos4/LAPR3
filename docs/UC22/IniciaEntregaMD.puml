@@ -1,0 +1,80 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide methods
+left to right direction
+
+class Entrega {
+  -idEntrega
+  -dataInicio
+  -dataFim
+}
+
+class Encomenda {
+  -idEncomenda
+  -dataPedida
+  -preco
+  -pesoEncomenda
+}
+
+class EstadoEncomenda {
+  -id_estado_encomenda
+  -designacao
+}
+
+class Produto {
+  -idProduto
+  -designacao
+  -peso
+  -precoBase
+}
+
+class Estafeta {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+  -pesoEstafeta
+}
+
+class Endereco {
+  -morada
+  -latitude
+  -longitude
+  -altitude
+}
+
+class Scooter {
+  -idScooter
+  -percentagemBateria
+  -pesoMaximo
+  -pesoScooter
+  -potencia
+}
+
+class Parque {
+  -numeroMaximo
+}
+
+class Cliente {
+  -numeroCartaoCredito
+  -dataDeValidade
+  -CCV
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+Encomenda "1" -- "1" EstadoEncomenda : tem >
+Entrega "1" -- "*" Encomenda : possui >
+Estafeta "1" -- "*" Entrega: realiza >
+Cliente "1" -- "1" Endereco: tem >
+Cliente "1" -- "*" Encomenda: realiza e paga >
+Entrega "*" -- "1" Scooter: realiza <
+Encomenda "1" -- "*" Produto: tem >
+Parque "1" -- "*" Scooter: possui >
+Parque "1" -- "1" Endereco: tem >
+
+@enduml
