@@ -1,0 +1,58 @@
+@startuml
+autonumber
+actor "Cliente" as ADM
+
+participant ":RegistarClienteUI" as UI
+participant ":RegistarClienteController" as CTRL
+participant "ClienteDB" as DB
+participant "end:Endereco" as END
+participant "cl:Cliente" as CLIENTE
+
+activate ADM
+ADM -> UI : inicia o seu registo
+activate UI
+UI --> ADM : solicita dados do cliente \n(NIF, nome, email, endereço residencial, localização GPS (latitude, longitude), \nnúmero de segurança social, password, número de cartão de crédito, data de validade, CCV)
+deactivate UI
+
+ADM -> UI : introduz os dados solicitados
+activate UI
+UI -> CTRL : novoCliente(NIF, nome, email, morada, latitude, longitude, \nnumSegSocial, password, numCC, dataValidade, CCV)
+activate CTRL
+
+CTRL -> DB: end=novoEndereco(morada, latitude, logitude)
+activate DB
+DB --> END ** : create(morada, latitude, logitude)
+deactivate DB
+
+CTRL -> DB: cliente=novoCliente(NIF, nome, email, end, numSegSocial, password, numCC, dataValidade, CCV)
+activate DB
+DB --> CLIENTE ** : create(NIF, nome, email, end, numSegSocial, password, numCC, dataValidade, CCV)
+deactivate DB
+
+CTRL -> DB: validaCliente(cliente)
+activate DB
+deactivate DB
+
+deactivate CTRL
+UI --> ADM : apresenta dados e solicita confirmação
+deactivate UI
+
+ADM -> UI : confirma
+activate UI
+
+UI -> CTRL: registaCliente()
+activate CTRL
+CTRL ->DB: registaCliente(cliente)
+activate DB
+DB -> DB: validaCliente(cliente)
+DB -> DB: addCliente(cliente)
+
+deactivate DB
+deactivate CTRL
+
+UI --> ADM : operação bem sucedida
+deactivate UI
+
+deactivate ADM
+
+@enduml

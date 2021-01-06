@@ -1,0 +1,51 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Cliente {
+  -Integer NIF
+  -String nome
+  -String email
+  -Endereco end
+  -String numSegSocial
+  -String password
+  -Integer numCC
+  -String dataValidade
+  -Integer CCV
+  +Cliente(Integer NIF, String nome, String email, Endereco end, String numSegSocial,\n String password, Integer numCC, String dataValidade, Integer CCV)
+}
+
+class Endereco {
+  -String morada
+  -Integer latitude
+  -Integer longitude
+  +Endereco(String morada, Integer latitude, Integer longitude)
+}
+
+class ClienteDB {
+  +Endereco novoEndereco(String morada, Integer latitude, Integer longitude)
+  +Cliente novoCliente(Integer NIF, String nome, String email, Endereco end, String numSegSocial,\n String password, Integer numCC, String dataValidade, Integer CCV)
+  +validaCliente(Cliente cliente)
+  +registaCliente(Cliente cliente)
+  -addCliente(Cliente cliente)
+}
+
+class DefinirClienteController {
+  +novoCliente(Integer NIF, String nome, String email, String morada, Integer latitude, Integer longitude,\n String numSegSocial, String password, Integer numCC, String dataValidade, Integer CCV)
+  +registaCliente()
+}
+
+class DefinirClienteUI {
+  
+}
+
+DefinirClienteUI ..> DefinirClienteController
+DefinirClienteController ..> ClienteDB
+DefinirClienteController ..> Cliente
+DefinirClienteController ..> Endereco
+ClienteDB ..> Endereco
+
+ClienteDB "1" --> "*" Cliente : possui
+Cliente "1" --> "1" Endereco : tem
+
+
+@enduml

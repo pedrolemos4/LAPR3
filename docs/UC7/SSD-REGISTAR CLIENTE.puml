@@ -3,7 +3,7 @@ autonumber
 actor "Cliente" as CL
 
 activate CL
-CL -> ":Sistema" : Pretende registar-se
+CL -> ":Sistema" : inicia o seu registo
 activate ":Sistema"
 ":Sistema" --> CL : solicita dados do cliente (NIF, nome, email, endereço residencial, localização GPS (latitude, longitude), \nnúmero de segurança social, password, número de cartão de crédito, data de validade, CCV)
 deactivate ":Sistema"
