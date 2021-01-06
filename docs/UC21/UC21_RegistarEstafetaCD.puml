@@ -1,0 +1,42 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class AplicacaoPOT
+{
+  +static getInstance()
+  +getSessaoAtual()
+}
+
+class Estafeta {
+  -String nif
+  -String nome
+  -String email
+  -Integer nss
+  -String pwd
+  +Estafeta(nif,nome,email,nss,pwd)
+}
+
+class EstafetaDB {
+  +Estafeta novoEstafeta(nif,nome,email,nss,pwd)
+  +validaEstafeta(Estafeta est)
+  +registaEstafeta(Estafeta est)
+  -addEstafeta(Estafeta est)
+}
+
+class RegistarOrganizacaoController {
+    +novaEstafeta(nif,nome,email,nss,pwd)
+    +registaEstafeta()
+    +getListaEstafetas()
+}
+
+class RegistarOrganizacaoUI {
+}
+
+RegistarOrganizacaoUI ..> RegistarOrganizacaoController
+RegistarOrganizacaoController ..> EstafetaDB
+RegistarOrganizacaoController ..> Estafeta
+RegistarOrganizacaoController ..> AplicacaoPOT
+
+EstafetaDB "1" --> "*" Estafeta : tem registadas
+
+@enduml

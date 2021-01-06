@@ -1,0 +1,73 @@
+@startuml
+autonumber
+
+actor "Administrador" as ADM
+participant ":Registar\nEstafetaUI" as UI
+participant ":RegistarEstafeta\nController" as CTRL
+participant ":EstafetaDB" as ESTS
+participant "est:Estafeta" as EST
+participant "AplicacaoPOT" as _APP
+participant "app\n:AplicacaoPOT" as APP
+
+activate ADM
+ADM -> UI : registar estafeta
+activate UI
+
+UI -> CTRL : le = getListaEstafetas()
+activate CTRL
+
+CTRL -> _APP: app = getInstance()
+activate _APP
+|||
+deactivate _APP
+
+CTRL -> APP: sessao = getSessaoAtual()
+activate APP
+|||
+deactivate APP
+
+deactivate CTRL
+
+UI --> ADM : solicita dados estafeta \n(nif,nome,email,número segurança social,password)
+deactivate UI
+
+ADM -> UI : introduz os dados solicitados
+activate UI
+
+UI -> CTRL : novoEstafeta(nif,nome,email,nss,pwd)
+activate CTRL
+
+CTRL -> ESTS: est = novoEstafeta(nif,nome,email,nss,pwd)
+activate ESTS
+
+ESTS --> EST ** : create(nif,nome,email,nss,pwd)
+
+deactivate ESTS
+
+CTRL -> ESTS : validaEstafeta(est)
+activate ESTS
+deactivate ESTS
+
+deactivate CTRL
+UI --> ADM : apresenta dados e solicita confirmação
+deactivate UI
+
+ADM -> UI : confirma
+activate UI
+
+UI -> CTRL: registaEstafeta()
+activate CTRL
+CTRL -> ESTS: registaEstafeta(est)
+activate ESTS
+
+ESTS -> ESTS: validaEstafeta(est)
+
+ESTS -> ESTS: addEstafeta(est)
+
+deactivate ESTS
+deactivate CTRL
+UI --> ADM : operação bem sucedida
+deactivate UI
+
+deactivate ADM
+@enduml
