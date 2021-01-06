@@ -5,8 +5,8 @@ actor "Administrador" as ADMIN
 
 participant ":ScooterUI" as UI
 participant ":ScooterController" as CTRL
-participant ":DataHandler" as DB
 participant ":ScooterDB" as SCHL
+participant "scooter :Scooter" as SCOOT
 
 
 activate ADMIN
@@ -14,9 +14,6 @@ ADMIN -> UI : inicia a remoção de scooter
 activate UI
 UI -> CTRL : getScooterList()
 activate CTRL
-CTRL -> DB : getScooterDB()
-activate DB
-deactivate DB
 
 CTRL -> SCHL : getScooterList()
 activate SCHL
@@ -25,7 +22,7 @@ deactivate CTRL
   
 UI --> ADMIN : apresenta a lista de scooters e solicita o id da scooter a remover
 deactivate UI
-loop
+
 ADMIN -> UI : insere o id da scooter
 activate UI 
 UI -> CTRL : removeScooter(id)
@@ -34,7 +31,6 @@ CTRL -> SCHL : removeScooter(id)
 activate SCHL
 deactivate SCHL
 deactivate CTRL
-end loop
 UI --> ADMIN : solicita confirmação
 deactivate UI
 

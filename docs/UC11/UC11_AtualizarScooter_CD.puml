@@ -1,0 +1,27 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class ScooterDB {
+  +Scooter setScooter(double percentagem de bateria,double peso máximo)
+  +scooterHandler(Scooter scooter)
+  +validaScooter(Scooter scooter)
+  +addScooter(Scooter scooter)
+}
+
+class ScooterController {
+    +Scooter setScooter(double percentagemBateria, double precoMaximo)
+    +scooterHandler()
+}
+
+class ScooterUI {
+}
+
+class Scooter {
+   +Scooter setScooter(percentagem de bateria,peso máximo)
+}
+
+ScooterUI ..> ScooterController 
+
+ScooterController ..> ScooterDB
+ScooterDB ..> Scooter
+@enduml

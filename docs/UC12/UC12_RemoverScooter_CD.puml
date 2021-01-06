@@ -1,0 +1,22 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class ScooterDB {
+  +List<Scooter> getScooterList()
+  +boolean removeScooter(int id)
+}
+
+class ScooterController {
+    +List<Scooter> getScooterList()
+    +boolean removeScooter(int id)
+}
+
+class ScooterUI {
+}
+
+
+ScooterUI ..> ScooterController 
+
+ScooterController ..> ScooterDB
+@enduml
+
