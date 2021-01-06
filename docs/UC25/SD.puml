@@ -83,10 +83,10 @@ CTRL --> PDH : lista = getLista()
 activate PDH
 deactivate PDH
 
-CTRL --> EDH : enc = novaEncomenda(lista, morada, idEncomenda, dataPedida, preco)
+CTRL --> EDH : enc = novaEncomenda(lista, morada, idEncomenda, dataPedida, preco, peso)
 activate EDH
 
-EDH --> ENC ** : create(lista, morada, idEncomenda, dataPedida, preco)
+EDH --> ENC ** : create(lista, morada, idEncomenda, dataPedida, preco, peso)
 deactivate EDH
 
 deactivate CTRL

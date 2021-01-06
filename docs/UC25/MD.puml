@@ -1,4 +1,3 @@
-
 @startuml
 skinparam classAttributeIconSize 0
 hide methods
@@ -9,6 +8,7 @@ class Encomenda {
   -idEncomenda
   -dataPedida
   -preco
+  -peso
 }
 
 class Produto {
