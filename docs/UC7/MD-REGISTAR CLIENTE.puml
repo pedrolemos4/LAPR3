@@ -13,9 +13,6 @@ class Utilizador {
 
 class Endereco {
   -morada
-}
-
-class LocalizacaoGPS {
   -latitude
   -longitude
 }
@@ -31,7 +28,6 @@ class Cliente {
   -password
 }
 
-Endereco "1" -- "1" LocalizacaoGPS: tem >
 Cliente "1" -- "1" Endereco: tem >
 Cliente "1" -- "1" Utilizador: atua como >
 

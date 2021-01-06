@@ -5,7 +5,7 @@ actor "Cliente" as CL
 activate CL
 CL -> ":Sistema" : Pretende registar-se
 activate ":Sistema"
-":Sistema" --> CL : solicita dados do cliente (NIF, nome, email, morada (latitude, longitude), \nnúmero de segurança social, password, número de cartão de crédito, data de validade, CCV)
+":Sistema" --> CL : solicita dados do cliente (NIF, nome, email, endereço residencial, localização GPS (latitude, longitude), \nnúmero de segurança social, password, número de cartão de crédito, data de validade, CCV)
 deactivate ":Sistema"
 
 CL -> ":Sistema" : introduz os dados solicitados
