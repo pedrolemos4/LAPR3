@@ -1,0 +1,100 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class AplicacaoPOT{
+  +static getInstance()
+  +getSessaoAtual()
+}
+
+class SessaoUtilizador{
+  +getEmailUtilizador()
+}
+
+class ScooterDB {
+  +getListaScooter()
+}
+
+class EncomendaDB {
+  +getListaEncomenda(
+}
+
+class Entrega {
+  -Integer idEntrega
+  -String dataInicio
+  -String dataFim
+  +create(idEntrega, dataInicio, dataFim)
+  +addEstafeta(est)
+  +novaEncomenda(idEncomenda, dataPedida, preco, estadoEncomenda, listaProdutos)
+  +addEncomenda(en)
+  +novaScooter(idScooter, percentagemBateria, potencia, pesoMaximo)
+  +addScooter(s)
+}
+
+class EntregaDB {
+  +generateIdEntrega()
+  +novaEntrega(idEntrega, dataInicio, dataFim)
+  +registaEntrega(entr)
+  +validaEntrega(entr)
+  +addEntrega(entr)
+}
+
+class EstafetaDB {
+  +getEstafetaByEmail(email)
+}
+
+class RegistarEntregaController {
+  +getEstafeta()
+  +novaEntrega(dataInicio, dataFim)
+  +getListaEncomenda()
+  +novaEncomenda(idEncomenda, dataPedida, preco, estadoEncomenda, listaProdutos)
+  +getListaScooter()
+  +novaScooter(idScooter, percentagemBateria, potencia, pesoMaximo)
+  +registaEntrega()
+}
+
+class RegistarEntregaUI {
+}
+
+class Encomenda {
+  -idEncomenda
+  -dataPedida
+  -preco
+  -pesoEncomenda
+}
+
+class Estafeta {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+  -pesoEstafeta
+}
+
+class Scooter {
+  -idScooter
+  -percentagemBateria
+  -pesoMaximo
+  -pesoScooter
+  -potencia
+}
+
+RegistarEntregaUI ..> RegistarEntregaController
+
+RegistarEntregaController ..> EstafetaDB
+RegistarEntregaController ..> EntregaDB
+RegistarEntregaController ..> EncomendaDB
+RegistarEntregaController ..> ScooterDB
+RegistarEntregaController ..> AplicacaoPOT
+RegistarEntregaController ..> SessaoUtilizador
+
+EntregaDB "1" --> "*" Entrega : tem registadas
+EstafetaDB "1" --> "*" Estafeta : tem registadas
+EncomendaDB "1" --> "*" Encomenda : tem registadas
+ScooterDB "1" --> "*" Scooter : tem registadas
+
+Entrega "1" -- "*" Encomenda : possui >
+Estafeta "1" -- "*" Entrega: realiza >
+Entrega "*" -- "1" Scooter: realiza <
+
+@enduml
