@@ -16,13 +16,14 @@ class Cliente {
 
 class Endereco {
   -String morada
-  -Integer latitude
-  -Integer longitude
-  +Endereco(String morada, Integer latitude, Integer longitude)
+  -Double latitude
+  -Double longitude
+  -Double altitude 
+  +Endereco(String morada, Double latitude, Double longitude, Double altitude)
 }
 
 class ClienteDB {
-  +Endereco novoEndereco(String morada, Integer latitude, Integer longitude)
+  +Endereco novoEndereco(String morada, Double latitude, Double longitude, Double altitude)
   +Cliente novoCliente(Integer NIF, String nome, String email, Endereco end, String numSegSocial,\n String password, Integer numCC, String dataValidade, Integer CCV)
   +validaCliente(Cliente cliente)
   +registaCliente(Cliente cliente)
@@ -30,7 +31,7 @@ class ClienteDB {
 }
 
 class DefinirClienteController {
-  +novoCliente(Integer NIF, String nome, String email, String morada, Integer latitude, Integer longitude,\n String numSegSocial, String password, Integer numCC, String dataValidade, Integer CCV)
+  +novoCliente(Integer NIF, String nome, String email, String morada, Double latitude, Double longitude, Double altitude \n String numSegSocial, String password, Integer numCC, String dataValidade, Integer CCV)
   +registaCliente()
 }
 
