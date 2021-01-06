@@ -1,11 +1,11 @@
 @startuml
 autonumber
-actor "Admnistrador" as ADM
+actor "Administrador" as ADM
 
 activate ADM
-ADM -> ":Sistema" : Pretende criar uma nova farmácia
+ADM -> ":Sistema" : inicia a criação de uma nova farmácia
 activate ":Sistema"
-":Sistema" --> ADM : solicita dados da farmácia (NIF) e limite \nmáximo de scooters no parque da farmácia
+":Sistema" --> ADM : solicita dados da farmácia (NIF), endereço do parque\n (morada, latitude, longitude e altitude) e número\n máximo de scooters elétricas
 deactivate ":Sistema"
 
 ADM -> ":Sistema" : introduz os dados solicitados

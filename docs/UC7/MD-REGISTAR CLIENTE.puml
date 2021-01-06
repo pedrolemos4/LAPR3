@@ -15,6 +15,7 @@ class Endereco {
   -morada
   -latitude
   -longitude
+  -altitude
 }
 
 class Cliente {

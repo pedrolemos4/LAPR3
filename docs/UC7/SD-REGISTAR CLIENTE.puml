@@ -11,17 +11,17 @@ participant "cl:Cliente" as CLIENTE
 activate ADM
 ADM -> UI : inicia o seu registo
 activate UI
-UI --> ADM : solicita dados do cliente \n(NIF, nome, email, endereço residencial, localização GPS (latitude, longitude), \nnúmero de segurança social, password, número de cartão de crédito, data de validade, CCV)
+UI --> ADM : solicita dados do cliente \n(NIF, nome, email, endereço residencial, localização GPS (latitude, longitude), altitude, \nnúmero de segurança social, password, número de cartão de crédito, data de validade, CCV)
 deactivate UI
 
 ADM -> UI : introduz os dados solicitados
 activate UI
-UI -> CTRL : novoCliente(NIF, nome, email, morada, latitude, longitude, \nnumSegSocial, password, numCC, dataValidade, CCV)
+UI -> CTRL : novoCliente(NIF, nome, email, morada, latitude, longitude, altitude, \nnumSegSocial, password, numCC, dataValidade, CCV)
 activate CTRL
 
-CTRL -> DB: end=novoEndereco(morada, latitude, logitude)
+CTRL -> DB: end=novoEndereco(morada, latitude, logitude, altitude)
 activate DB
-DB --> END ** : create(morada, latitude, logitude)
+DB --> END ** : create(morada, latitude, logitude, altitude)
 deactivate DB
 
 CTRL -> DB: cliente=novoCliente(NIF, nome, email, end, numSegSocial, password, numCC, dataValidade, CCV)
