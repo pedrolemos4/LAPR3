@@ -1,0 +1,115 @@
+@startuml
+autonumber
+'hide footbox
+actor "Cliente" as CLI
+
+participant ":RealizaEncomendaUI" as UI
+participant ":RealizaEncomendaController" as CTRL
+participant "AplicacaoPOT" as _APP
+participant "app\n:AplicacaoPOT" as APP
+participant "sessao\n:SessaoUtilizador" as SESSAO
+participant ":ClienteDataHandler" as DH
+participant ":ProdutoDataHandler" as PDH
+participant ":EncomendaDataHandler" as EDH
+participant "end: Endereco" as END
+participant "lprodutos\n:ListaProdutosEncomenda" as LPROD
+participant "enc: Encomenda" as ENC
+
+
+CLI --> UI : pretende realizar uma encomenda
+activate CLI
+activate UI
+
+UI --> CTRL : getListClients()
+activate CTRL
+
+CTRL -> _APP: app = getInstance()
+activate _APP
+|||
+deactivate _APP
+
+CTRL -> APP: sessao = getSessaoAtual()
+activate APP
+|||
+deactivate APP
+
+CTRL --> SESSAO : email = getEmail()
+activate SESSAO
+|||
+deactivate SESSAO
+
+
+CTRL --> DH : cliente = getClienteByEmail(email)
+activate DH
+deactivate DH
+
+CTRL --> DH : getEnderecoCliente(cliente)
+activate DH
+
+DH --> END : morada = getMorada()
+activate END
+deactivate END
+deactivate DH
+CTRL --> PDH : getListaProdutos()
+activate PDH
+deactivate PDH
+
+deactivate DH
+deactivate CTRL
+
+UI --> CLI : apresenta lista de produtos e pede para selecionar os produtos para a encomenda
+deactivate UI
+
+
+LOOP
+CLI --> UI : introduz o produto
+activate UI
+
+UI --> CTRL : produtoEncomenda(produto)
+activate CTRL
+
+CTRL --> PDH : verificaProduto(produto)
+activate PDH
+
+PDH --> LPROD : addNovoProduto(produto)
+activate LPROD
+
+deactivate PDH
+deactivate LPROD
+
+END LOOP
+
+CTRL --> PDH : lista = getLista()
+activate PDH
+deactivate PDH
+
+CTRL --> EDH : enc = novaEncomenda(lista, morada, idEncomenda, dataPedida, preco)
+activate EDH
+
+EDH --> ENC ** : create(lista, morada, idEncomenda, dataPedida, preco)
+deactivate EDH
+
+deactivate CTRL
+
+UI --> CLI : apresenta a encomenda e pede confirmação
+deactivate UI
+
+CLI --> UI : confirma
+activate UI
+
+UI --> CTRL : registaEncomenda()
+activate CTRL
+
+CTRL --> EDH : registaEncomenda(encomenda)
+activate EDH
+EDH -> EDH : validaAnuncio(enc)
+EDH -> EDH: addEncomenda(enc)
+deactivate EDH
+
+deactivate CTRL
+
+UI --> CLI : informa o sucesso da operação
+deactivate UI
+deactivate CLI
+
+@enduml

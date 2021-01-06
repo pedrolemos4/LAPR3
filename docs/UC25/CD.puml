@@ -1,0 +1,100 @@
+@startuml
+skinparam classAttributeIconSize 0
+left to right direction
+
+
+class RealizaEncomendaUI {
+    
+}
+
+class RealizaEncomendaController {
+    +getListClients()
+    +produtoEncomenda(produto)
+    +registaEncomenda()
+}
+
+class ClienteDataHandler {
+    +Cliente getClienteByEmail()
+    +getEnderecoCliente(cliente)
+}
+
+class ProdutoDataHandler {
+    +verificaProduto()
+    +List<Produto> getLista()
+    +List<Produto> getListaProdutos()
+}
+
+class EncomendaDataHandler {
+    +Encomenda novaEncomenda(lista, morada, idEncomenda, dataPedida, preco)
+    +registarEncomenda(encomenda)
+}
+
+class AplicacaoPOT
+{
+  +static getInstance()
+  +getSessaoAtual()
+}
+
+class SessaoUtilizador
+{
+  +getEmail()
+}
+
+
+
+class Entrega {
+  -idEntrega
+  -dataInicio
+  -dataFim
+}
+
+class Encomenda {
+  -idEncomenda
+  -dataPedida
+  -preco
+  +Encomenda(lista, morada, idEncomenda, dataPedida, preco)
+}
+
+class Produto {
+  -idProduto
+  -designacao
+  -peso
+  -precoBase
+}
+
+class Endereco {
+  -morada
+  -latitude
+  -longitude
+  +getMorada()
+}
+
+class Cliente {
+  -numeroCartaoCredito
+  -dataDeValidade
+  -CCV
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+RealizaEncomendaUI .> RealizaEncomendaController
+RealizaEncomendaController .> SessaoUtilizador
+RealizaEncomendaController .> AplicacaoPOT
+RealizaEncomendaController .> ClienteDataHandler
+RealizaEncomendaController .> ProdutoDataHandler
+RealizaEncomendaController .> EncomendaDataHandler
+
+ClienteDataHandler .> Cliente
+ProdutoDataHandler .> Produto
+EncomendaDataHandler .> Encomenda
+
+
+Entrega "1" -- "*" Encomenda : possui >
+Cliente "1" -- "*" Encomenda: realiza e paga >
+Encomenda "1" -- "1..*" Produto: tem >
+Cliente "1" -- "1" Endereco: tem >
+
+@enduml

@@ -1,22 +1,14 @@
+
 @startuml
 skinparam classAttributeIconSize 0
 hide methods
 left to right direction
 
-class Entrega {
-  -idEntrega
-}
 
 class Encomenda {
   -idEncomenda
-  -dataInicio
-  -dataFim
+  -dataPedida
   -preco
-}
-
-class EstadoEncomenda {
-  -id_estado_encomenda
-  -designacao
 }
 
 class Produto {
@@ -24,15 +16,6 @@ class Produto {
   -designacao
   -peso
   -precoBase
-}
-
-class Estafeta {
-  -NIF
-}
-
-class EstadoEstafeta {
-  -id_estado_estafeta
-  -designacao
 }
 
 class Utilizador {
@@ -45,29 +28,24 @@ class Utilizador {
 
 class Endereco {
   -morada
-}
-
-class Scooter {
-  -idScooter
-  -percentagemBateria
-  -pesoMaximo
+  -latitude
+  -longitude
 }
 
 class Cliente {
   -numeroCartaoCredito
   -dataDeValidade
   -CCV
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
 }
 
 
-Encomenda "1" -- "1" EstadoEncomenda : tem >
-Entrega "1" -- "*" Encomenda : possui >
-Estafeta "1" -- "*" Entrega: realiza >
-Estafeta "1" -- "1" EstadoEstafeta: tem >
-Estafeta "1" -- "1" Utilizador: atua como >
 Cliente "1" -- "1" Utilizador: atua como >
 Cliente "1" -- "*" Encomenda: realiza e paga >
-Scooter "*" -- "1" Entrega: realiza >
 Encomenda "1" -- "1..*" Produto: tem >
 Cliente "1" -- "1" Endereco: tem >
 

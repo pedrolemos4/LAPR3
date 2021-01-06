@@ -5,7 +5,7 @@ actor "Cliente" as UNR
 activate UNR
 UNR -> ":Sistema" : Pretende realizar a encomenda
 activate ":Sistema"
-":Sistema" --> UNR : solicita dados da encomenda (produtos e a morada e ou localização)
+":Sistema" --> UNR : apresenta lista de produtos em stock e solicita os produtos para a encomenda
 deactivate ":Sistema"
 
 
