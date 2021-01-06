@@ -27,6 +27,10 @@ class ProdutoDataHandler {
 class EncomendaDataHandler {
     +Encomenda novaEncomenda(lista, morada, idEncomenda, dataPedida, preco, peso)
     +registarEncomenda(encomenda)
+    +getPeso()
+    +getPreco()
+    +generateId()
+    +getData()
 }
 
 class AplicacaoPOT

@@ -83,6 +83,22 @@ CTRL --> PDH : lista = getLista()
 activate PDH
 deactivate PDH
 
+CTRL --> EDH : preco = getPreco()
+activate EDH
+deactivate EDH
+
+CTRL --> EDH : idEncomenda = generateId()
+activate EDH
+deactivate EDH
+
+CTRL --> EDH : peso = getPeso()
+activate EDH
+deactivate EDH
+
+CTRL --> EDH : dataPedida = getData()
+activate EDH
+deactivate EDH
+
 CTRL --> EDH : enc = novaEncomenda(lista, morada, idEncomenda, dataPedida, preco, peso)
 activate EDH
 
