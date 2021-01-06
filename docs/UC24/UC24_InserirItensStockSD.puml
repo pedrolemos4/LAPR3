@@ -1,0 +1,69 @@
+@startuml
+autonumber
+
+actor "Administrador" as ADM
+participant ":InserirItensStockUI" as UI
+participant ":InserirItensStockController" as CTL
+participant ":AplicacaoPOT" as _APP
+participant "app:\nAplicacaoPOT" as APP
+participant ":ProdutosDB" as PDB
+participant "prod:Produto" as PROD
+
+activate ADM
+ADM -> UI : nova inserção de produtos
+activate UI
+UI -> CTL : lp = getListaProdutos()
+activate CTL
+CTL -> _APP : app = getInstance()
+activate _APP
+deactivate _APP
+CTL -> APP : sessao = getSessaoAtual()
+activate APP
+deactivate APP
+
+CTL -> PDB : lp = getListaProdutos()
+activate PDB
+deactivate PDB
+
+deactivate CTL
+
+loop
+UI -> CTL : novoProduto(desig,peso,preco_base)
+activate CTL
+
+CTL -> PDB: id = generateID()
+activate PDB
+deactivate PDB
+
+CTL -> PDB: prod = novoProduto(id,desig,peso,preco_base)
+activate PDB
+
+PDB --> PROD ** : create(id,desig,peso,preco_base)
+
+deactivate PDB
+
+CTL -> PDB : validaProduto(prod)
+activate PDB
+PDB -> PDB : addListaProds(prod)
+deactivate PDB
+
+deactivate CTL
+end
+
+UI --> ADM : apresenta dados dos itens e solicita confirmação
+deactivate UI
+ADM -> UI : confirma
+activate UI
+UI -> CTL : addProdutos()
+activate PDB
+
+activate CTL
+CTL -> PDB :addProdutos(lprods)
+deactivate CTL
+
+PDB -> PDB : validaListaProdutos(lprods)
+deactivate PDB
+UI --> ADM: informa sucesso da operação
+
+deactivate ADM
+@enduml

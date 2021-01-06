@@ -1,0 +1,43 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class AplicacaoPOT
+{
+  +static getInstance()
+  +getSessaoAtual()
+}
+
+class Produto {
+  -Integer id
+  -String desig
+  -Double peso
+  -Double preco_base
+  +Produto(id,desig,peso,preco_base)
+}
+
+class ProdutosDB {
+  +Produto novoProduto(id,desig,peso,preco_base)
+  +getListaProdutos()
+  +validaProduto(prod)
+  +addListaProds(prod)
+  +addProdutos(lprods)
+  +validaListaProdutos(lprods)
+}
+
+class InserirItensStockController {
+    +novoProduto(id,desig,peso,preco_base)
+    +addProdutos()
+    +getListaProdutos()
+}
+
+class InserirItensStockUI {
+}
+
+InserirItensStockUI ..> InserirItensStockController
+InserirItensStockController ..> ProdutosDB
+InserirItensStockController ..> Produto
+InserirItensStockController ..> AplicacaoPOT
+
+ProdutosDB "1" --> "*" Produto : tem registadas
+
+@enduml
