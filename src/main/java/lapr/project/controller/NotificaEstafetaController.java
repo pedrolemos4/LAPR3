@@ -1,8 +1,8 @@
 package lapr.project.controller;
-
+/*
 public class NotificaEstafetaController {
 
-    /*Scooter scoot;
+    Scooter scoot;
     EstacionamentoScooter estac;
 
     public boolean checkWellDockedScooter(){
@@ -24,5 +24,6 @@ public class NotificaEstafetaController {
         double bateriaAtual = scoot.percentagemBateria;
         double bateriaNecessaria = 100 - bateriaAtual;
         return bateriaNecessaria; //DEFINIR CONSTANTE
-    }*/
+    }
 }
+*/
