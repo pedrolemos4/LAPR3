@@ -1,0 +1,29 @@
+@startuml
+autonumber
+actor "Administrador" as UNR
+
+activate UNR
+UNR -> ":Sistema" : Pretende atualizar uma nova scooter
+activate ":Sistema"
+":Sistema" --> UNR : apresenta a lista de scooters
+deactivate ":Sistema"
+
+
+UNR -> ":Sistema" : escolhe a scooter pretendida
+activate ":Sistema"
+":Sistema" --> UNR : apresenta dados da scooter
+deactivate ":Sistema"
+
+UNR -> ":Sistema" : introduz dados que pretende atualizar
+activate ":Sistema"
+":Sistema" --> UNR : apresenta os novos dados e solicita confirmação
+deactivate ":Sistema"
+
+UNR -> ":Sistema" : confirma
+activate ":Sistema"
+":Sistema" --> UNR : operação bem sucedida
+deactivate ":Sistema"
+
+
+deactivate UNR
+@enduml

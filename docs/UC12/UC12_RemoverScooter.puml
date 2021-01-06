@@ -1,0 +1,25 @@
+@startuml
+autonumber
+actor "Administrador" as UNR
+
+activate UNR
+UNR -> ":Sistema" : Pretende remover uma nova scooter
+activate ":Sistema"
+":Sistema" --> UNR : apresenta a lista de scooters
+deactivate ":Sistema"
+
+
+UNR -> ":Sistema" : escolhe a scooter pretendida
+activate ":Sistema"
+":Sistema" --> UNR : apresenta dados e solicita confirmação
+deactivate ":Sistema"
+
+UNR -> ":Sistema" : confirma
+activate ":Sistema"
+":Sistema" --> UNR : operação bem sucedida
+deactivate ":Sistema"
+
+
+deactivate UNR
+@enduml
+
