@@ -14,19 +14,9 @@ class Encomenda {
   -dataPedida
   -preco
   -pesoEncomenda
+  -taxa
 }
 
-class EstadoEncomenda {
-  -id_estado_encomenda
-  -designacao
-}
-
-class Produto {
-  -idProduto
-  -designacao
-  -peso
-  -precoBase
-}
 
 class Estafeta {
   -NIF
@@ -57,9 +47,6 @@ class Parque {
 }
 
 class Cliente {
-  -numeroCartaoCredito
-  -dataDeValidade
-  -CCV
   -NIF
   -nome
   -email
@@ -67,7 +54,26 @@ class Cliente {
   -password
 }
 
+class Cartao {
+  -numeroCartao
+  -dataDeValidade
+  -CCV
+}
+
+class EstadoEncomenda {
+  -id_estado_encomenda
+  -designacao
+}
+
+class Produto {
+  -idProduto
+  -designacao
+  -peso
+  -precoBase
+}
+
 Encomenda "1" -- "1" EstadoEncomenda : tem >
+Cliente "1" -- "1" Cartao : tem >
 Entrega "1" -- "*" Encomenda : possui >
 Estafeta "1" -- "*" Entrega: realiza >
 Cliente "1" -- "1" Endereco: tem >
