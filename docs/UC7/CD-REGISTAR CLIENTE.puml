@@ -5,7 +5,6 @@ class Cliente {
   -Integer NIF
   -String nome
   -String email
-  -Endereco end
   -String numSegSocial
   -String password
   -Integer numCC
@@ -23,11 +22,17 @@ class Endereco {
 }
 
 class ClienteDB {
-  +Endereco novoEndereco(String morada, Double latitude, Double longitude, Double altitude)
   +Cliente novoCliente(Integer NIF, String nome, String email, Endereco end, String numSegSocial,\n String password, Integer numCC, String dataValidade, Integer CCV)
   +validaCliente(Cliente cliente)
   +registaCliente(Cliente cliente)
   -addCliente(Cliente cliente)
+}
+
+class EnderecoDB {
+  +Endereco novoEndereco(String morada, Double latitude, Double longitude, Double altitude)
+  +validaEndereco(Endereco end)
+  +registaEndereco(Endereco end)
+  -addEndereco(Endereco end)
 }
 
 class DefinirClienteController {
@@ -41,11 +46,12 @@ class DefinirClienteUI {
 
 DefinirClienteUI ..> DefinirClienteController
 DefinirClienteController ..> ClienteDB
+DefinirClienteController ..> EnderecoDB
 DefinirClienteController ..> Cliente
 DefinirClienteController ..> Endereco
-ClienteDB ..> Endereco
 
 ClienteDB "1" --> "*" Cliente : possui
+EnderecoDB "1" --> "*" Endereco : possui
 Cliente "1" --> "1" Endereco : tem
 
 

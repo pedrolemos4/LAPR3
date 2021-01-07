@@ -5,6 +5,7 @@ actor "Cliente" as ADM
 participant ":RegistarClienteUI" as UI
 participant ":RegistarClienteController" as CTRL
 participant "ClienteDB" as DB
+participant "EnderecoDB" as EDB
 participant "end:Endereco" as END
 participant "cl:Cliente" as CLIENTE
 
@@ -19,10 +20,14 @@ activate UI
 UI -> CTRL : novoCliente(NIF, nome, email, morada, latitude, longitude, altitude, \nnumSegSocial, password, numCC, dataValidade, CCV)
 activate CTRL
 
-CTRL -> DB: end=novoEndereco(morada, latitude, logitude, altitude)
-activate DB
-DB --> END ** : create(morada, latitude, logitude, altitude)
-deactivate DB
+CTRL -> EDB: end=novoEndereco(morada, latitude, logitude, altitude)
+activate EDB
+EDB --> END ** : create(morada, latitude, logitude, altitude)
+deactivate EDB
+
+CTRL -> EDB: validaEndereco(end)
+activate EDB
+deactivate EDB
 
 CTRL -> DB: cliente=novoCliente(NIF, nome, email, end, numSegSocial, password, numCC, dataValidade, CCV)
 activate DB
@@ -48,6 +53,14 @@ DB -> DB: validaCliente(cliente)
 DB -> DB: addCliente(cliente)
 
 deactivate DB
+
+CTRL ->EDB: registaEndereco(end)
+activate EDB
+EDB -> EDB: validaEndereco(end)
+EDB -> EDB: addEndereco(end)
+
+deactivate EDB
+
 deactivate CTRL
 
 UI --> ADM : operação bem sucedida
