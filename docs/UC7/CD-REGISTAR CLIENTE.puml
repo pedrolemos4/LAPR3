@@ -7,10 +7,7 @@ class Cliente {
   -String email
   -String numSegSocial
   -String password
-  -Integer numCC
-  -String dataValidade
-  -Integer CCV
-  +Cliente(Integer NIF, String nome, String email, Endereco end, String numSegSocial,\n String password, Integer numCC, String dataValidade, Integer CCV)
+  +Cliente(Integer NIF, String nome, String email, Endereco end, String numSegSocial, String password, Cartao cc)
 }
 
 class Endereco {
@@ -19,6 +16,13 @@ class Endereco {
   -Double longitude
   -Double altitude 
   +Endereco(String morada, Double latitude, Double longitude, Double altitude)
+}
+
+class Cartao {
+  -Integer numCC
+  -String dataValidade
+  -Integer CCV
+  +Cartao(Integer numCC, String dataValidade, Integer CCV))
 }
 
 class ClienteDB {
@@ -35,6 +39,13 @@ class EnderecoDB {
   -addEndereco(Endereco end)
 }
 
+class CartaoDB {
+  +Cartao novoCartao(Integer numCC, String dataValidade, Integer CCV)
+  +validaCartao(Cartao cc)
+  +registaCartao(Cartao cc)
+  -addCartao(Cartao cc)
+}
+
 class DefinirClienteController {
   +novoCliente(Integer NIF, String nome, String email, String morada, Double latitude, Double longitude, Double altitude \n String numSegSocial, String password, Integer numCC, String dataValidade, Integer CCV)
   +registaCliente()
@@ -47,12 +58,16 @@ class DefinirClienteUI {
 DefinirClienteUI ..> DefinirClienteController
 DefinirClienteController ..> ClienteDB
 DefinirClienteController ..> EnderecoDB
+DefinirClienteController ..> CartaoDB
 DefinirClienteController ..> Cliente
 DefinirClienteController ..> Endereco
+DefinirClienteController ..> Cartao
 
 ClienteDB "1" --> "*" Cliente : possui
 EnderecoDB "1" --> "*" Endereco : possui
+CartaoDB "1" --> "*" Cartao : possui
 Cliente "1" --> "1" Endereco : tem
+Cliente "1" --> "1" Cartao : tem
 
 
 @enduml
