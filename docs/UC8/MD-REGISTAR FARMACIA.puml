@@ -7,11 +7,6 @@ class Farmacia {
   -NIF
 }
 
-class Estacionamento {
-  -numeroLote
-  -carregador
-}
-
 class Utilizador {
   -NIF
   -nome
@@ -43,7 +38,6 @@ Administrador "1" -- "1" Utilizador: atua como >
 Administrador "1" -- "1" Parque: define numeroMaximo >
 Farmacia "1" -- "1" Parque: possui >
 Parque "1" -- "1" Endereco: tem >
-Parque "1" -- "*" Estacionamento: tem >
 Farmacia "1" -- "1" Administrador: tem >
 
 @enduml
