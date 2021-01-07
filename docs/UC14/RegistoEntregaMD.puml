@@ -14,6 +14,7 @@ class Encomenda {
   -dataPedida
   -preco
   -pesoEncomenda
+  -taxa
 }
 
 class Estafeta {
@@ -41,9 +42,23 @@ class Utilizador {
   -password
 }
 
+class EstadoEncomenda {
+  -id_estado_encomenda
+  -designacao
+}
+
+class Produto {
+  -idProduto
+  -designacao
+  -peso
+  -precoBase
+}
+
 Estafeta "1" -- "1" Utilizador: atua como >
 Entrega "1" -- "*" Encomenda : possui >
 Estafeta "1" -- "*" Entrega: realiza >
 Entrega "*" -- "1" Scooter: realiza <
+Encomenda "1" -- "*" Produto: tem >
+Encomenda "1" -- "1" EstadoEncomenda : tem >
 
 @enduml
