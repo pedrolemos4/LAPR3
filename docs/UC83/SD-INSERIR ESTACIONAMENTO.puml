@@ -1,0 +1,90 @@
+@startuml
+autonumber
+
+actor "Administrador" as ADM
+participant ":InserirEstacionamentosUI" as UI
+participant ":InserirEstacionamentosController" as CTL
+participant ":AplicacaoPOT" as _APP
+participant "app:\nAplicacaoPOT" as APP
+participant ":ParqueDB" as PDB
+participant ":EstacionamentoDB" as EDB
+participant "parque:Parque" as PARK
+participant "estac:Estacionamento" as ESTAC
+
+activate ADM
+ADM -> UI : inserção de estacionamentos
+activate UI
+UI --> ADM : solicita dados do parque (NIF da farmácia)
+deactivate UI
+
+ADM -> UI : introduz os dados solicitados
+
+activate UI
+UI -> CTL : numMax = getParqueNumMaxByNIF(NIF)
+activate CTL
+CTL -> _APP : app = getInstance()
+activate _APP
+deactivate _APP
+CTL -> APP : sessao = getSessaoAtual()
+activate APP
+deactivate APP
+
+CTL -> PDB : parque = getParqueByNIF(NIF)
+activate PDB
+deactivate PDB
+
+CTL -> PARK : numMax = getNumMax()
+activate PARK
+deactivate PARK
+deactivate CTL
+
+UI --> ADM : solicita dados dos estacionamentos (disponibilidade do carregador)
+deactivate UI
+
+ADM --> UI : introduz os dados solicitados
+activate UI
+
+loop
+UI -> CTL : novoEstacionamento(NIF, numeroLote, carregador)
+activate CTL
+
+CTL -> EDB: estac = novoEstacionameento(NIF, numeroLote, carregador)
+activate EDB
+
+EDB --> ESTAC ** : create(NIF, numeroLote, carregador)
+
+deactivate EDB
+
+CTL -> EDB : validaEstacionamento(estac)
+activate EDB
+EDB -> EDB : addEstacionamento(estac)
+deactivate EDB
+
+deactivate CTL
+end
+
+UI --> CTL : lEstac = getListaEstacionamentos()
+activate CTL
+CTL --> EDB : lEstac= getEstacionamentos()
+activate EDB
+deactivate EDB
+deactivate CTL
+
+UI --> ADM : apresenta dados dos estacionamentos e solicita confirmação
+deactivate UI
+ADM -> UI : confirma
+activate UI
+UI -> CTL : addEstacionamentos(lEstac)
+
+activate CTL
+CTL -> EDB :addEstacionamentos(lEstac)
+activate EDB
+
+EDB -> EDB : validaListaEstacionamentos(lEstac)
+deactivate EDB
+deactivate CTL
+UI --> ADM: informa sucesso da operação
+
+deactivate UI
+deactivate ADM
+@enduml

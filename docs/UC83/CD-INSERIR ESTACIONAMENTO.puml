@@ -1,0 +1,55 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class AplicacaoPOT
+{
+  +static getInstance()
+  +getSessaoAtual()
+}
+
+class Parque {
+  -Integer numeroMaximo
+  +getNumMax()
+}
+
+class Estacionamento {
+  -Integer numeroLote
+  -Integer carregador
+  +Estacionamento(NIF, numeroLote, carregador)
+}
+
+class ParqueDB {
+  +getParqueByNIF(NIF)
+}
+
+class EstacionamentoDB {
+  +Estacionamento novoEstacionamento(NIF, numeroLote, carregador)
+  +validaEstacionamento(estac)
+  +addEstacionamento(estac)
+  +getEstacionamentos()
+  +addEstacionamentos(lEstac)
+  +validaListaEstacionamentos(lEstac)
+}
+
+class InserirEstacionamentosController {
+    +getParqueNumMaxByNIF(NIF)
+    +novoEstacionamento(NIF, numeroLote, carregador)
+    +getListaListaEstacionamentos()
+    +addEstacionamentos(lEstac)
+}
+
+class InserirEstacionamentosUI {
+}
+
+InserirEstacionamentosUI ..> InserirEstacionamentosController
+InserirEstacionamentosController ..> ParqueDB
+InserirEstacionamentosController ..> Parque
+InserirEstacionamentosController ..> EstacionamentoDB
+InserirEstacionamentosController ..> Estacionamento
+InserirEstacionamentosController ..> AplicacaoPOT
+
+ParqueDB "1" --> "*" Parque : possui
+Parque "1" --> "*" Estacionamento : tem
+EstacionamentoDB "1" --> "*" Estacionamento : possui
+
+@enduml
