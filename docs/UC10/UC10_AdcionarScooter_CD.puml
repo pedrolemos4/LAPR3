@@ -27,3 +27,35 @@ ScooterUI ..> ScooterController
 ScooterController ..> ScooterDB
 ScooterDB ..> Scooter
 @enduml
+@startuml
+skinparam classAttributeIconSize 0
+
+class ScooterDB {
+  +void addNewScooter(double percentagemBateria,double pesoScooter, double pesoMaximo)
+  +Scooter newScooter(int idScooter, double percentagemBateria,double pesoScooter, double pesoMaximo)
+  +scooterHandler(Scooter scooter)
+  +boolean validaScooter(Scooter scooter)
+  +boolean addScooter(Scooter scooter)
+  +int generateIdScooter()
+  +String generateQrCode()
+}
+
+class ScooterController {
+    +generateIdScooter()
+    +generateQrCode()
+    +void addNewScooter(double percentagemBateria, double pesoScooter, double pesoMaximo)
+    +scooterHandler()
+}
+
+class ScooterUI {
+}
+
+class Scooter {
+   +Scooter(int idScooter, double percentagemBateria, double pesoScooter,double peso máximo)
+}
+
+ScooterUI ..> ScooterController 
+
+ScooterController ..> ScooterDB
+ScooterDB ..> Scooter
+@enduml

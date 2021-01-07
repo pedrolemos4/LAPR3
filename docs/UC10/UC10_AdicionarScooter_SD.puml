@@ -11,16 +11,42 @@ participant "scooter :Scooter" as SCOOT
 activate ADMIN
 ADMIN -> UI : inicia a adição de nova scooter
 activate UI
-UI -> ADMIN : solicita os dados necessários
-ADMIN -> UI : insere os dados (percentagem de bateria e peso máximo)
-UI -> CTRL : addNewScooter(percentagem de bateria,peso máximo)
+UI -> ADMIN : questiona se pretende que a scooter tenha número único ou QrCode
+deactivate UI
+
+alt 
+ADMIN -> UI : escolhe id
+activate UI
+UI -> CTRL : generateIdScooter()
 activate CTRL
-CTRL -> SCHL : addNewScooter(percentagem de bateria,peso máximo)
+CTRL -> SCHL : idScooter = generateIdScooter()
+activate SCHL
+deactivate SCHL 
+deactivate CTRL
+end alt
+
+alt 
+ADMIN -> UI : escolhe QrCode
+UI -> CTRL : generateQrCode()
+activate CTRL
+CTRL -> SCHL : qrCode = generateQrCode()
 activate SCHL
 deactivate SCHL
-CTRL -> SCHL : scooter = new Scooter(percentagem de bateria,peso máximo
+deactivate CTRL
+end alt
+
+UI -> ADMIN : solicita os restantes dados necessários da scooter
+deactivate UI
+ADMIN -> UI : insere os dados (percentagem de bateria, peso da scooter e peso máximo)
+activate UI
+UI -> CTRL : addNewScooter(percentagem de bateria,peso da scooter,peso máximo)
+activate CTRL
+CTRL -> SCHL : addNewScooter(percentagem de bateria,peso da scooter, peso máximo)
 activate SCHL
-SCHL -> SCOOT : create (percentagem de bateria, peso máximo)
+deactivate SCHL
+CTRL -> SCHL : scooter = new Scooter(idScooter,percentagem de bateria,peso da scooter, peso máximo)
+activate SCHL
+SCHL -> SCOOT : create (idScooter,percentagem de bateria, peso da scooter, peso máximo)
 activate SCOOT
 deactivate SCOOT
 deactivate SCHL
