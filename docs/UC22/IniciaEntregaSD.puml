@@ -1,0 +1,89 @@
+@startuml
+autonumber
+actor "Estafeta" as EST
+
+participant ":IniciarEntregaUI" as UI
+participant ":IniciarEntregaController" as CTRL
+participant "AplicacaoPOT" as _APP
+participant "app\n:AplicacaoPOT" as APP
+participant "sessao\n:SessaoUtilizador" as SESSAO
+
+participant ":EstafetaDB" as ESTDB
+participant ":EntregaDB" as ENTR
+participant ":EncomendaDB" as ENC
+participant ":ScooterDB" as S
+participant ":ParqueDB" as P
+participant ":ClienteDB" as C
+participant ":Entrega" as EE
+participant ":Endereco" as E
+
+
+activate EST
+EST -> UI : inicia entrega
+activate UI
+UI -> CTRL : getEstafeta()
+activate CTRL
+CTRL -> _APP: app = getInstance()
+activate _APP
+|||
+deactivate _APP
+CTRL -> APP: sessao = getSessaoAtual()
+activate APP
+|||
+deactivate APP
+
+CTRL -> SESSAO: email = getEmailUtilizador()
+activate SESSAO
+|||
+deactivate SESSAO
+CTRL -> ESTDB : est=getEstafetaByEmail(email)
+activate ESTDB
+deactivate ESTDB
+deactivate CTRL
+deactivate CTRL
+UI --> EST : solicita o id de uma entrega
+deactivate UI
+
+EST -> UI : introduz os dados solicitados
+activate UI
+UI -> CTRL : calculatePath(idEntrega)
+activate CTRL
+CTRL -> P : origem=getEndereco()
+activate P
+deactivate P
+CTRL -> ENTR : listaEncomenda=getListaEncomenda(idEntrega)
+activate ENTR
+deactivate ENTR
+loop
+CTRL -> ENC : idEncomenda=getIdEncomenda(listaEncomenda)
+activate ENC
+deactivate ENC
+CTRL -> ENC : pesoEncomenda=getPesoEncomenda(idEncomenda)
+activate ENC
+deactivate ENC
+CTRL -> EE : pesoTotal=addPesoEncomenda(pesoEncomenda, pesoTotal)
+activate EE
+deactivate EE
+CTRL -> C : clienteNif=getClienteNif(idEncomenda)
+activate C
+deactivate C
+CTRL -> C : enderecoCliente=getEnderecoNif(clienteNif)
+activate C
+deactivate C
+CTRL -> E : listaEnderecos=addListaEndereco(enderecoCliente, listaEnderecos)
+activate E
+deactivate E
+end loop
+CTRL -> ENTR : scooter=getScooter(idEntrega)
+activate ENTR
+deactivate ENTR
+CTRL -> ENTR : calculatePath(origem, listaEnderecos, est, pesoTotal, scooter)
+activate ENTR
+deactivate ENTR
+deactivate CTRL
+UI --> EST : apresenta a energia minima percorrida durante a entrega
+deactivate UI
+
+deactivate EST
+
+@enduml

@@ -1,0 +1,142 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class AplicacaoPOT{
+  +static getInstance()
+  +getSessaoAtual()
+}
+
+class SessaoUtilizador{
+  +getEmailUtilizador()
+}
+
+class ParqueDB {
+  +getEndereco()
+}
+
+class EncomendaDB {
+  +getIdEncomenda(listaEncomenda)
+  +getPesoEncomenda(idEncomenda)
+}
+
+class Entrega {
+  -Integer idEntrega
+  -String dataInicio
+  -String dataFim
+  +addPesoEncomenda(pesoEncomenda, pesoTotal)
+}
+
+class EntregaDB {
+  +getListaEncomenda(idEntrega)
+  +getScooter(idEntrega)
+  +calculatePath(origem, listaEnderecos, est, pesoTotal, scooter)
+}
+
+class EstafetaDB {
+  +getEstafetaByEmail(email)
+}
+
+class IniciarEntregaController {
+  +getEstafeta()
+  +calculatePath(idEntrega)
+}
+
+class IniciarEntregaUI {
+}
+
+class Encomenda {
+  -Integer idEncomenda
+  -String dataPedida
+  -Double preco
+  -Double pesoEncomenda
+  -Double taxa
+}
+
+class Estafeta {
+  -Integer NIF
+  -String nome
+  -String email
+  -Integer numeroSegurancaSocial
+  -String password
+  -Double pesoEstafeta
+}
+
+class Scooter {
+  -Integer idScooter
+  -Double percentagemBateria
+  -Double pesoMaximo
+  -Double pesoScooter
+  -Double potencia
+}
+
+class Endereco {
+  -String morada
+  -Double latitude
+  -Double longitude
+  -Double altitude
+  +addListaEndereco(enderecoCliente, listaEnderecos)
+}
+
+class Parque {
+  -Integer numeroMaximo
+}
+
+class Cliente {
+  -Integer NIF
+  -String nome
+  -String email
+  -Integer numeroSegurancaSocial
+  -String password
+}
+
+class ClienteDB {
+  +getClienteNif(idEncomenda)
+  +getEnderecoNif(clienteNif)
+}
+
+class Cartao {
+  -numeroCartao
+  -dataDeValidade
+  -CCV
+}
+
+class EstadoEncomenda {
+  -id_estado_encomenda
+  -designacao
+}
+
+class Produto {
+  -idProduto
+  -designacao
+  -peso
+  -precoBase
+}
+
+IniciarEntregaUI ..> IniciarEntregaController
+
+IniciarEntregaController ..> EstafetaDB
+IniciarEntregaController ..> ParqueDB
+IniciarEntregaController ..> ClienteDB
+IniciarEntregaController ..> EntregaDB
+IniciarEntregaController ..> EncomendaDB
+IniciarEntregaController ..> AplicacaoPOT
+IniciarEntregaController ..> SessaoUtilizador
+
+EntregaDB "1" --> "*" Entrega : tem registadas
+EstafetaDB "1" --> "*" Estafeta : tem registadas
+EncomendaDB "1" --> "*" Encomenda : tem registadas
+ParqueDB "1" --> "*" Parque : tem registadas
+ClienteDB "1" --> "*" Cliente : tem registadas
+
+Cliente "1" -- "1" Cartao : tem >
+Parque "1" --> "*" Scooter: possui >
+Parque "1" --> "1" Endereco: tem >
+Entrega "1" --> "*" Encomenda : possui >
+Estafeta "1" --> "*" Entrega: realiza >
+Entrega "*" --> "1" Scooter: realiza <
+Cliente "1" --> "1" Endereco: tem >
+Cliente "1" --> "*" Encomenda: realiza e paga >
+Encomenda "1" -- "1" EstadoEncomenda : tem >
+Encomenda "1" -- "*" Produto: tem >
+
+@enduml
