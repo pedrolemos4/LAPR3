@@ -1,0 +1,99 @@
+@startuml
+skinparam classAttributeIconSize 0
+left to right direction
+
+
+class RealizaPagamentoUI {
+    
+}
+
+class RealizaPagamentoController {
+    +getListClients()
+    +registaPagamento()
+}
+
+class ClienteDataHandler {
+    +getClienteByEmail()
+}
+
+class ProdutoDataHandler {
+    +List<Produto> getListaProdutos()
+}
+
+class PagamentoDataHandler {
+    +validaPagamento(pag)
+    +addPagamento(pag)
+    +registaPagamento(pag)
+    +generateIdPagamento()
+}
+
+class EncomendaDataHandler {
+    +getEncomenda()
+}
+
+class AplicacaoPOT
+{
+  +static getInstance()
+  +getSessaoAtual()
+}
+
+class SessaoUtilizador
+{
+  +getEmail()
+}
+
+
+class Encomenda {
+  -idEncomenda
+  -dataPedida
+  -preco
+  -pesoEncomenda
+  -taxa
+  +getPreco()
+  +getTaxa()
+}
+
+class Pagamento {
+  -idPagamento
+  -precoTotal
+  +create(idPagamento, preco, taxa)
+}
+
+class EstadoEncomenda {
+  -id_estado_encomenda
+  -designacao
+}
+
+class Cliente {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+class Produto {
+  -idProduto
+  -designacao
+  -peso
+  -precoBase
+}
+
+RealizaPagamentoUI .> RealizaPagamentoController
+RealizaPagamentoController .> SessaoUtilizador
+RealizaPagamentoController .> AplicacaoPOT
+RealizaPagamentoController .> ClienteDataHandler
+RealizaPagamentoController .> ProdutoDataHandler
+RealizaPagamentoController .> EncomendaDataHandler
+RealizaPagamentoController .> PagamentoDataHandler
+
+PagamentoDataHandler .> Pagamento
+Encomenda "1" -- "1" EstadoEncomenda : tem >
+Cliente "1" -- "*" Encomenda: realiza e paga >
+Encomenda "1" -- "*" Produto: tem >
+Encomenda "1" -- "1" Pagamento: tem >
+
+ClienteDataHandler .> Cliente
+EncomendaDataHandler .> Encomenda
+
+@enduml

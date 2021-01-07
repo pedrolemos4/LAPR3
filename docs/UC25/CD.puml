@@ -57,6 +57,7 @@ class Encomenda {
   -dataPedida
   -preco
   -peso
+  -taxa
   +Encomenda(lista, morada, idEncomenda, dataPedida, preco, peso)
 }
 
@@ -75,9 +76,6 @@ class Endereco {
 }
 
 class Cliente {
-  -numeroCartaoCredito
-  -dataDeValidade
-  -CCV
   -NIF
   -nome
   -email
@@ -103,3 +101,4 @@ Encomenda "1" -- "1..*" Produto: tem >
 Cliente "1" -- "1" Endereco: tem >
 
 @enduml
+

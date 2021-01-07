@@ -1,0 +1,43 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide methods
+left to right direction
+
+class Encomenda {
+  -idEncomenda
+  -dataPedida
+  -preco
+  -pesoEncomenda
+  -taxa
+}
+
+class Pagamento {
+  -precoTotal
+}
+
+class EstadoEncomenda {
+  -id_estado_encomenda
+  -designacao
+}
+
+class Cliente {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+class Produto {
+  -idProduto
+  -designacao
+  -peso
+  -precoBase
+}
+
+Encomenda "1" -- "1" EstadoEncomenda : tem >
+Cliente "1" -- "*" Encomenda: realiza e paga >
+Encomenda "1" -- "*" Produto: tem >
+Encomenda "1" -- "1" Pagamento: tem >
+
+@enduml
