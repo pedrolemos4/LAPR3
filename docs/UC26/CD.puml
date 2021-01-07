@@ -70,6 +70,7 @@ class Cliente {
   -email
   -numeroSegurancaSocial
   -password
+  -creditos
 }
 
 class Produto {

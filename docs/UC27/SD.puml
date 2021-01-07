@@ -3,8 +3,8 @@ autonumber
 'hide footbox
 actor "Cliente" as CLI
 
-participant ":EnviaReciboUI" as UI
-participant ":EnviaReciboController" as CTRL
+participant ":GeraReciboUI" as UI
+participant ":GeraReciboController" as CTRL
 participant "AplicacaoPOT" as _APP
 participant "app\n:AplicacaoPOT" as APP
 participant "sessao\n:SessaoUtilizador" as SESSAO

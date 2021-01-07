@@ -81,6 +81,7 @@ class Cliente {
   -email
   -numeroSegurancaSocial
   -password
+  -credito
 }
 
 RealizaEncomendaUI .> RealizaEncomendaController

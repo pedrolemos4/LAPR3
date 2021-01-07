@@ -39,6 +39,7 @@ class Cliente {
   -email
   -numeroSegurancaSocial
   -password
+  -creditos
 }
 
 

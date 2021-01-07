@@ -27,6 +27,7 @@ class Cliente {
   -email
   -numeroSegurancaSocial
   -password
+  -creditos
 }
 
 Cliente "1" -- "*" Encomenda: realiza e paga >
