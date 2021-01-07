@@ -22,6 +22,7 @@ class Utilizador {
 class Scooter {
   -idScooter
   -percentagemBateria
+  -pesoScooter
   -pesoMaximo
 }
 
