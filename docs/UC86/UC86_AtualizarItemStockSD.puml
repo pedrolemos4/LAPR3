@@ -1,0 +1,59 @@
+@startuml
+autonumber
+
+actor "Administrador" as ADM
+participant ":AtualizarItensStockUI" as UI
+participant ":AtualizarItensStockController" as CTL
+participant ":AplicacaoPOT" as _APP
+participant "app:\nAplicacaoPOT" as APP
+participant ":ProdutosDB" as PDB
+
+activate ADM
+ADM -> UI : nova atualização de item
+activate UI
+UI -> CTL : getListaProdutos()
+activate CTL
+CTL -> _APP : app = getInstance()
+activate _APP
+deactivate _APP
+CTL -> APP : sessao = getSessaoAtual()
+activate APP
+deactivate APP
+
+CTL -> PDB : lp = getListaProdutos()
+activate PDB
+deactivate PDB
+
+deactivate CTL
+
+UI --> ADM : apresenta a lista de itens no stock
+deactivate UI
+ADM -> UI : seleciona o item a atualizar
+activate UI
+UI -> CTL : getProdutoByID(idProd)
+activate CTL
+CTL -> PDB : est = getProdutobyID(idProd)
+
+activate PDB
+deactivate PDB
+deactivate CTL
+UI --> ADM : apresenta dados do item e solicita confirmação
+deactivate UI
+ADM -> UI : confirma
+activate UI
+UI -> CTL : atualizarProduto()
+
+activate CTL
+
+CTL -> PDB : atualizarProduto(prod)
+activate PDB
+PDB -> PDB : validaListaProdutos()
+
+
+deactivate PDB
+deactivate CTL
+
+UI --> ADM: informa sucesso da operação
+deactivate UI
+deactivate ADM
+@enduml
