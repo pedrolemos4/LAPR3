@@ -5,7 +5,12 @@ actor "Administrador" as UNR
 activate UNR
 UNR -> ":Sistema" : Pretende adicionar uma nova scooter
 activate ":Sistema"
-":Sistema" --> UNR : solicita dados da scooter (percentagem de bateria e peso máximo)
+":Sistema" --> UNR : questiona se o administrador pretende gerar um número único ou um QrCode
+deactivate ":Sistema"
+
+UNR -> ":Sistema" : escolhe número único ou QrCode
+activate ":Sistema"
+":Sistema" --> UNR : solicita dados da scooter (percentagem de bateria, peso da scooter e peso máximo)
 deactivate ":Sistema"
 
 
