@@ -12,6 +12,7 @@ class Encomenda {
 }
 
 class Pagamento {
+  -idPagamento
   -precoTotal
 }
 
