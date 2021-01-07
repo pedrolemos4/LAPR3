@@ -12,13 +12,13 @@ participant "scooter :Scooter" as SCOOT
 activate ADMIN
 ADMIN -> UI : inicia a atualização de uma scooter
 activate UI
-UI -> ADMIN : solicita os dados necessários (percentagem de bateria e peso máximo)
+UI -> ADMIN : solicita os dados necessários (peso da scooter,percentagem de bateria e peso máximo)
 ADMIN -> UI : insere os dados 
-UI -> CTRL : setScooter(percentagem de bateria,peso máximo)
+UI -> CTRL : setScooter(peso da scooter, percentagem de bateria,peso máximo)
 activate CTRL
-CTRL -> SCHL : setScooter(percentagem de bateria,peso máximo)
+CTRL -> SCHL : setScooter(peso da scooter,percentagem de bateria,peso máximo)
 activate SCHL
-SCHL -> SCOOT : scooter = setScooter(percentagem de bateria,peso máximo)
+SCHL -> SCOOT : scooter = setScooter(peso da scooter, percentagem de bateria,peso máximo)
 activate SCOOT 
 deactivate SCOOT
 deactivate SCHL
