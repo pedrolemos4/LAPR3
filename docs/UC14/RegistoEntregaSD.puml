@@ -64,15 +64,15 @@ deactivate RENC
 deactivate CTRL
 UI --> EST : mostra a lista de encomendas
 loop
-UI --> EST : solicita a introdução de uma encomenda(idEncomenda, dataPedida, preco, estadoEncomenda, listaProdutos)
+UI --> EST : solicita a introdução de uma encomenda(idEncomenda, dataPedida, preco, pesoEncomenda, taxa, estadoEncomenda, listaProdutos)
 deactivate UI
 
 
 EST -> UI : introduz os dados solicitados
 activate UI
-UI -> CTRL : novaEncomenda(idEncomenda, dataPedida, preco, estadoEncomenda, listaProdutos)
+UI -> CTRL : novaEncomenda(idEncomenda, dataPedida, preco, pesoEncomenda, taxa, estadoEncomenda, listaProdutos)
 activate CTRL
-CTRL -> ENTR : en=novaEncomenda(idEncomenda, dataPedida, preco,  estadoEncomenda, listaProdutos)
+CTRL -> ENTR : en=novaEncomenda(idEncomenda, dataPedida, preco, pesoEncomenda, taxa,  estadoEncomenda, listaProdutos)
 deactivate CTRL
 activate ENTR
 ENTR -> ENTR : addEncomenda(en)
@@ -84,15 +84,15 @@ CTRL -> RS : ls=getListaScooter()
 activate RS
 deactivate RS
 deactivate CTRL
-UI --> EST : mostra a lista de scooters e solicita escolha de uma scooter(idScooter, percentagemBateria, potencia, pesoMaximo)
+UI --> EST : mostra a lista de scooters e solicita escolha de uma scooter(idScooter, percentagemBateria, potencia, pesoMaximo, pesoScooter)
 deactivate UI
 
 
 EST -> UI : introduz os dados solicitados
 activate UI
-UI -> CTRL : novaScooter(idScooter, percentagemBateria, potencia, pesoMaximo)
+UI -> CTRL : novaScooter(idScooter, percentagemBateria, potencia, pesoMaximo, pesoScooter)
 activate CTRL
-CTRL -> ENTR : s=novaScooter(idScooter, percentagemBateria, potencia, pesoMaximo)
+CTRL -> ENTR : s=novaScooter(idScooter, percentagemBateria, potencia, pesoMaximo, pesoScooter)
 deactivate CTRL
 activate ENTR
 ENTR -> ENTR : addScooter(s)
