@@ -1,0 +1,97 @@
+@startuml
+autonumber
+actor "Administrador" as ADM
+
+participant ":RegistarFarmaciaUI" as UI
+participant ":RegistarFarmaciaController" as CTRL
+participant ":AplicacaoPOT" as _APP
+participant "app:\nAplicacaoPOT" as APP
+participant "FarmaciaDB" as DB
+participant "ParqueDB" as PDB
+participant "EnderecoDB" as EDB
+participant "farm:Farmacia" as FARMACIA
+participant "parque:Parque" as PQ
+
+activate ADM
+ADM -> UI : inicia a criação de uma nova farmácia
+activate UI
+UI --> ADM : solicita dados da farmácia (NIF), dados do parque\n (morada, latitude, longitude, altitude \ne limite(número máximo de scooters)
+deactivate UI
+
+ADM -> UI : introduz os dados solicitados
+activate UI
+UI -> CTRL : novaFarmacia(NIF, morada, latitude, longitude, altitude, numeroMaximo)
+activate CTRL
+
+CTRL -> _APP : app = getInstance()
+activate _APP
+deactivate _APP
+CTRL -> APP : sessao = getSessaoAtual()
+activate APP
+deactivate APP
+
+CTRL -> DB: farm=novaFarmacia(NIF)
+activate DB
+DB --> FARMACIA ** : create(NIF)
+deactivate DB
+
+CTRL -> DB: validaFarmacia(farm)
+activate DB
+deactivate DB
+
+CTRL -> EDB: end=novoEndereco(morada, latitude, logitude, altitude)
+activate EDB
+EDB --> END ** : create(morada, latitude, logitude, altitude)
+deactivate EDB
+
+CTRL -> EDB: validaEndereco(end)
+activate EDB
+deactivate EDB
+
+CTRL -> PDB: parque=novoParque(NIF, end, numeroMaximo)
+activate PDB
+PDB --> PQ ** : create(NIF, end, numeroMaximo)
+deactivate PDB
+
+CTRL -> PDB: validaParque(parque)
+activate PDB
+deactivate PDB
+
+deactivate CTRL
+UI --> ADM : apresenta dados e solicita confirmação
+deactivate UI
+
+ADM -> UI : confirma
+activate UI
+
+UI -> CTRL: registaFarmacia()
+activate CTRL
+CTRL ->DB: registaFarmacia(farm)
+activate DB
+DB -> DB: validaFarmacia(farm)
+DB -> DB: addFarmacia(farm)
+
+deactivate DB
+
+CTRL ->EDB: registaEndereco(end)
+activate EDB
+EDB -> EDB: validaEndereco(end)
+EDB -> EDB: addEndereco(end)
+
+deactivate EDB
+
+CTRL ->PDB: registaParque(parque)
+activate PDB
+PDB -> PDB: validaParque(parque)
+PDB -> PDB: addParque(parque)
+
+deactivate PDB
+
+deactivate CTRL
+
+UI --> ADM : operação bem sucedida
+deactivate UI
+
+deactivate ADM
+
+@enduml

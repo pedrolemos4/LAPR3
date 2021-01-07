@@ -1,0 +1,67 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Farmacia {
+  -Integer NIF
+  +Farmacia(Integer NIF)
+}
+
+class Endereco {
+  -String morada
+  -Double latitude
+  -Double longitude
+  -Double altitude 
+  +Endereco(String morada, Double latitude, Double longitude, Double altitude)
+}
+
+class Parque {
+  -Integer numeroMaximo
+  +Endereco(Integer NIF, Integer numeroMaximo, Endereco end)
+}
+
+class FarmaciaDB {
+  +Farmacia novaFarmacia(NIF, morada, latitude, longitude, altitude, numMaximo)
+  +validaFarmacia(Farmacia farm)
+  +registaFarmacia(Farmacia farm)
+  -addFarmacia(Farmacia farm)
+}
+
+class EnderecoDB {
+  +Endereco novoEndereco(String morada, Double latitude, Double longitude, Double altitude)
+  +validaEndereco(Endereco end)
+  +registaEndereco(Endereco end)
+  -addEndereco(Endereco end)
+}
+
+class ParqueDB {
+  +Parque novoEndereco(Integer numeroMaximo, Endereco end)
+  +validaParque(Parque parque)
+  +registaParque(Parque parque)
+  -addParque(Parque parque)
+}
+
+class RegistarFarmaciaController {
+  +novaFarmacia(NIF, morada, latitude, longitude, altitude, numeroMaximo)
+  +registaFarmacia()
+}
+
+class RegistarFarmaciaUI {
+  
+}
+
+RegistarFarmaciaUI ..> RegistarFarmaciaController
+RegistarFarmaciaController ..> ParqueDB
+RegistarFarmaciaController ..> EnderecoDB
+RegistarFarmaciaController ..> FarmaciaDB
+RegistarFarmaciaController ..> Parque
+RegistarFarmaciaController ..> Endereco
+RegistarFarmaciaController ..> Farmacia
+
+ParqueDB "1" --> "*" Parque : possui
+EnderecoDB "1" --> "*" Endereco : possui
+FarmaciaDB "1" --> "*" Farmacia : possui
+Farmacia "1" --> "1" Parque : tem
+Parque "1" --> "1" Endereco : tem
+
+
+@enduml
