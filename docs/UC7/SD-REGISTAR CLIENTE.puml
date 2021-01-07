@@ -6,7 +6,9 @@ participant ":RegistarClienteUI" as UI
 participant ":RegistarClienteController" as CTRL
 participant "ClienteDB" as DB
 participant "EnderecoDB" as EDB
+participant "CartaoDB" as CDB
 participant "end:Endereco" as END
+participant "cc:Cartao" as CARTAO
 participant "cl:Cliente" as CLIENTE
 
 activate ADM
@@ -29,9 +31,18 @@ CTRL -> EDB: validaEndereco(end)
 activate EDB
 deactivate EDB
 
-CTRL -> DB: cliente=novoCliente(NIF, nome, email, end, numSegSocial, password, numCC, dataValidade, CCV)
+CTRL -> CDB: cc=novoCartao(numCC, dataValidade, CCV)
+activate CDB
+CDB --> CARTAO ** : create(numCC, dataValidade, CCV)
+deactivate CDB
+
+CTRL -> CDB: validaCartao(cc)
+activate CDB
+deactivate CDB
+
+CTRL -> DB: cliente=novoCliente(NIF, nome, email, end, numSegSocial, password, cc)
 activate DB
-DB --> CLIENTE ** : create(NIF, nome, email, end, numSegSocial, password, numCC, dataValidade, CCV)
+DB --> CLIENTE ** : create(NIF, nome, email, end, numSegSocial, password, cc)
 deactivate DB
 
 CTRL -> DB: validaCliente(cliente)
@@ -60,6 +71,13 @@ EDB -> EDB: validaEndereco(end)
 EDB -> EDB: addEndereco(end)
 
 deactivate EDB
+
+CTRL ->CDB: registaCartao(cc)
+activate CDB
+CDB -> CDB: validaCartao(cc)
+CDB -> CDB: addCartao(cc)
+
+deactivate CDB
 
 deactivate CTRL
 
