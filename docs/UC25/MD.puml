@@ -9,6 +9,7 @@ class Encomenda {
   -dataPedida
   -preco
   -peso
+  -taxa
 }
 
 class Produto {
@@ -33,9 +34,6 @@ class Endereco {
 }
 
 class Cliente {
-  -numeroCartaoCredito
-  -dataDeValidade
-  -CCV
   -NIF
   -nome
   -email

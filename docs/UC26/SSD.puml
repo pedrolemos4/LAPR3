@@ -1,0 +1,17 @@
+@startuml
+autonumber
+actor "Cliente" as UNR
+
+activate UNR
+UNR -> ":Sistema" : Pretende realizar o pagamento
+activate ":Sistema"
+":Sistema" --> UNR : apresenta o preco da encomenda e a lista de produtos e e solicita confirmação
+deactivate ":Sistema"
+
+UNR -> ":Sistema" : confirma
+activate ":Sistema"
+":Sistema" --> UNR : operação bem sucedida
+deactivate ":Sistema"
+
+deactivate UNR
+@enduml
