@@ -1,0 +1,59 @@
+@startuml
+autonumber
+
+actor "Administrador" as ADM
+participant ":AtualizarEstafetaUI" as UI
+participant ":AtualizarEstafetaController" as CTL
+participant ":AplicacaoPOT" as _APP
+participant "app:\nAplicacaoPOT" as APP
+participant ":EstafetaDB" as EDB
+
+activate ADM
+ADM -> UI : nova atualização de estafeta
+activate UI
+UI -> CTL : getListaEstafetas()
+activate CTL
+CTL -> _APP : app = getInstance()
+activate _APP
+deactivate _APP
+CTL -> APP : sessao = getSessaoAtual()
+activate APP
+deactivate APP
+
+CTL -> EDB : le = getListaEstafetas()
+activate EDB
+deactivate EDB
+
+deactivate CTL
+
+UI --> ADM : apresenta a lista de estafetas
+deactivate UI
+ADM -> UI : seleciona o estafeta a atualizar
+activate UI
+UI -> CTL : getEstafetaByNIF(nifEst)
+activate CTL
+CTL -> EDB : est = getEstafetaByNIF(nifEst)
+
+activate EDB
+deactivate EDB
+deactivate CTL
+UI --> ADM : apresenta dados do estafeta e solicita confirmação
+deactivate UI
+ADM -> UI : confirma
+activate UI
+UI -> CTL : atualizarEstafeta()
+
+activate CTL
+
+CTL -> EDB : atualizarEstafeta(est)
+activate EDB
+EDB -> EDB : validaListaEstafetas()
+
+
+deactivate EDB
+deactivate CTL
+
+UI --> ADM: informa sucesso da operação
+deactivate UI
+deactivate ADM
+@enduml
