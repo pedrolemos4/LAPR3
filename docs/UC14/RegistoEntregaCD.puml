@@ -24,9 +24,9 @@ class Entrega {
   -String dataFim
   +create(idEntrega, dataInicio, dataFim)
   +addEstafeta(est)
-  +novaEncomenda(idEncomenda, dataPedida, preco, pesoEncomenda, taxa, estadoEncomenda, listaProdutos)
+  +novaEncomenda(idEncomenda, dataPedida, preco, estadoEncomenda, listaProdutos)
   +addEncomenda(en)
-  +novaScooter(idScooter, percentagemBateria, pesoMaximo, pesoScooter, potencia)
+  +novaScooter(idScooter, percentagemBateria, potencia, pesoMaximo)
   +addScooter(s)
 }
 
@@ -46,9 +46,9 @@ class RegistarEntregaController {
   +getEstafeta()
   +novaEntrega(dataInicio, dataFim)
   +getListaEncomenda()
-  +novaEncomenda(idEncomenda, dataPedida, preco, pesoEncomenda, taxa, estadoEncomenda, listaProdutos)
+  +novaEncomenda(idEncomenda, dataPedida, preco, estadoEncomenda, listaProdutos)
   +getListaScooter()
-  +novaScooter(idScooter, percentagemBateria, pesoMaximo, pesoScooter, potencia)
+  +novaScooter(idScooter, percentagemBateria, potencia, pesoMaximo)
   +registaEntrega()
 }
 
@@ -56,40 +56,27 @@ class RegistarEntregaUI {
 }
 
 class Encomenda {
-  -Integer idEncomenda
-  -String dataPedida
-  -Double preco
-  -Double pesoEncomenda
-  -Double taxa
+  -idEncomenda
+  -dataPedida
+  -preco
+  -pesoEncomenda
 }
 
 class Estafeta {
-  -String NIF
-  -String nome
-  -String email
-  -Integer numeroSegurancaSocial
-  -String password
-  -Double pesoEstafeta
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+  -pesoEstafeta
 }
 
 class Scooter {
-  -Integer idScooter
-  -Double percentagemBateria
-  -Double pesoMaximo
-  -Double pesoScooter
-  -Double potencia
-}
-
-class EstadoEncomenda {
-  -Integer id_estado_encomenda
-  -String designacao
-}
-
-class Produto {
-  -Integer idProduto
-  -String designacao
-  -Double peso
-  -Double precoBase
+  -idScooter
+  -percentagemBateria
+  -pesoMaximo
+  -pesoScooter
+  -potencia
 }
 
 RegistarEntregaUI ..> RegistarEntregaController
@@ -105,10 +92,9 @@ EntregaDB "1" --> "*" Entrega : tem registadas
 EstafetaDB "1" --> "*" Estafeta : tem registadas
 EncomendaDB "1" --> "*" Encomenda : tem registadas
 ScooterDB "1" --> "*" Scooter : tem registadas
-Encomenda "1" -- "1" EstadoEncomenda : tem >
+
 Entrega "1" -- "*" Encomenda : possui >
 Estafeta "1" -- "*" Entrega: realiza >
 Entrega "*" -- "1" Scooter: realiza <
-Encomenda "1" -- "*" Produto: tem >
 
 @enduml
