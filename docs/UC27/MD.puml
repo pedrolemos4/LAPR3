@@ -1,0 +1,38 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide methods
+left to right direction
+
+class Pagamento {
+  -idPagamento
+  -precoTotal
+}
+
+class Recibo {
+  -idRecibo
+  -dataRecibo
+}
+
+class Encomenda {
+  -idEncomenda
+  -dataPedida
+  -preco
+  -pesoEncomenda
+  -taxa
+}
+
+class Cliente {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+Cliente "1" -- "*" Encomenda: realiza e paga >
+Recibo "1" -- "1" Encomenda: referente a >
+Recibo "1" -- "1" Cliente: referente a >
+Pagamento "1" -- "1" Encomenda: referente a >
+
+
+@enduml

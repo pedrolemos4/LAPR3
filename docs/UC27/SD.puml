@@ -1,0 +1,80 @@
+@startuml
+autonumber
+'hide footbox
+actor "Cliente" as CLI
+
+participant ":EnviaReciboUI" as UI
+participant ":EnviaReciboController" as CTRL
+participant "AplicacaoPOT" as _APP
+participant "app\n:AplicacaoPOT" as APP
+participant "sessao\n:SessaoUtilizador" as SESSAO
+participant ":ClienteDataHandler" as CDH
+participant ":EncomendaDataHandler" as EDH
+participant ":ReciboDataHandler" as RDH
+participant ":Encomenda" as ENC
+participant "rec:Recibo" as REC
+
+
+
+CLI --> UI : Acaba de efetuar a encomenda
+activate CLI
+
+activate UI
+UI --> CTRL : getListClients()
+activate CTRL
+
+CTRL -> _APP: app = getInstance()
+activate _APP
+|||
+deactivate _APP
+
+CTRL -> APP: sessao = getSessaoAtual()
+activate APP
+|||
+deactivate APP
+
+CTRL --> SESSAO : email = getEmail()
+activate SESSAO
+|||
+deactivate SESSAO
+
+
+CTRL --> CDH : cliente = getClienteByEmail(email)
+activate CDH
+deactivate CDH
+
+CTRL --> EDH : getEncomenda()
+activate EDH
+deactivate EDH
+
+CTRL --> ENC : dataRecibo = getDataPedida()
+activate ENC
+deactivate ENC
+
+CTRL --> RDH : id = generateIdRecibo()
+activate RDH
+deactivate RDH
+
+deactivate CTRL
+
+UI --> CTRL : novoRecibo(id, dataRecibo)
+activate CTRL
+
+CTRL --> RDH : create(id, dataRecibo)
+activate RDH
+
+RDH --> REC ** : create(id, dataRecibo)
+
+RDH --> RDH : validateRecibo(rec)
+
+RDH --> RDH : addRecibo(rec)
+deactivate RDH
+
+deactivate CTRL
+
+UI --> CLI : Gera o recibo e finaliza a tarefa
+deactivate UI
+
+deactivate CLI
+
+@enduml

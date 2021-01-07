@@ -1,0 +1,89 @@
+@startuml
+skinparam classAttributeIconSize 0
+left to right direction
+
+@startuml
+skinparam classAttributeIconSize 0
+left to right direction
+
+
+class GeraReciboUI {
+    
+}
+
+class GeraReciboController {
+    +getListClients()
+    +novoRecibo(id, dataRecibo)
+}
+
+class ClienteDataHandler {
+    +getClienteByEmail()
+}
+
+class ReciboDataHandler {
+    +validateRecibo(rec)
+    +addRecibo(rec)
+    +create(id, dataRecibo)
+    +generateIdRecibo()
+}
+
+class EncomendaDataHandler {
+    +getEncomenda()
+}
+
+class AplicacaoPOT
+{
+  +static getInstance()
+  +getSessaoAtual()
+}
+
+class SessaoUtilizador
+{
+  +getEmail()
+}
+
+
+class Pagamento {
+  -idPagamento
+  -precoTotal
+}
+
+class Recibo {
+  -idRecibo
+  -dataRecibo
+  +create(id, dataRecibo)
+}
+
+class Encomenda {
+  -idEncomenda
+  -dataPedida
+  -preco
+  -pesoEncomenda
+  -taxa
+  +getDataPedida()
+}
+
+class Cliente {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+
+GeraReciboUI .> GeraReciboController
+GeraReciboController .> SessaoUtilizador
+GeraReciboController .> AplicacaoPOT
+GeraReciboController .> ClienteDataHandler
+GeraReciboController .> ReciboDataHandler
+GeraReciboController .> EncomendaDataHandler
+GeraReciboController .> Encomenda
+
+Cliente "1" -- "*" Encomenda: realiza e paga >
+Recibo "1" -- "1" Encomenda: referente a >
+Recibo "1" -- "1" Cliente: referente a >
+Pagamento "1" -- "1" Encomenda: referente a >
+
+
+@enduml
