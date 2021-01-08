@@ -39,7 +39,7 @@ public class EncomendaDB extends DataHandler{
     public void novaEncomenda() {
         EstadoEncomenda ee = new EstadoEncomenda(1, "encomendado");
         enc = new Encomenda(new Cliente(), getData(), produtoDB.getPreco(), produtoDB.getPeso(), 1.0, ee);
-        enc.setLst(getListaProdutos());
+//        enc.setLst(getListaProdutos());
     }
     
     /**
@@ -107,13 +107,7 @@ public class EncomendaDB extends DataHandler{
 
         try {
             openConnection();
-            /*
-             *  Objeto "callStmt" para invocar o procedimento "addSailor" armazenado
-             *  na BD.
-             *
-             *  PROCEDURE addSailor(sid NUMBER, sname VARCHAR, rating NUMBER, age NUMBER)
-             *  PACKAGE pkgSailors AS TYPE ref_cursor IS REF CURSOR; END pkgSailors;
-             */
+            
             CallableStatement callStmt = getConnection().prepareCall("{ call addEncomenda(?,?,?,?) }");
 
             callStmt.setInt(1, id);
@@ -123,11 +117,18 @@ public class EncomendaDB extends DataHandler{
             callStmt.setDouble(5, pesoEncomenda);
             callStmt.setDouble(6, taxa);
             callStmt.setInt(7, estado.getId_estado_encomenda());
-            callStmt.setString(8, lst.toString());
-
+            
             callStmt.execute();
-
+            
+            CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?,?,?) }");
+            
+            for(int i=0;i<lst.size();i++){
+                callStmt1.setInt(1, id);
+                callStmt1.setInt(2, lst.get(i).getId());
+            }
+            
             closeAll();
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
