@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author beatr
  */
-public class EstafetaTest {
+public class EstafetaTest extends UtilizadorTest{
     
     /**
      * Test of getPesoEstafeta method, of class Estafeta.
