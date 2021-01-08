@@ -19,10 +19,10 @@ public class InserirItensStockController {
 
     public void novoProduto(String desig, double peso, double preco_base) {
         produtosDB.novoProduto(produtosDB.generateID(),desig,peso,preco_base);
+
     }
 
-    public void addProdutos() {
-        List<Produto> lp = new ArrayList<>();
+    public void addProdutos(List<Produto> lp) {
         produtosDB.addProdutos(lp);
     }
 }
