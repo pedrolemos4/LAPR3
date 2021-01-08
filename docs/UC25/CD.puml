@@ -11,6 +11,7 @@ class RealizaEncomendaController {
     +getListClients()
     +produtoEncomenda(produto)
     +registaEncomenda()
+    +novaEncomenda()
 }
 
 class ClienteDataHandler {
@@ -19,16 +20,16 @@ class ClienteDataHandler {
 }
 
 class ProdutoDataHandler {
-    +verificaProduto()
-    +List<Produto> getLista()
+    +List<Produto> getListaStock()
     +List<Produto> getListaProdutos()
+    +addNovoProduto(produto)
 }
 
 class EncomendaDataHandler {
-    +Encomenda novaEncomenda(lista, morada, idEncomenda, dataPedida, preco, peso)
+    +Encomenda novaEncomenda(lista, cliente, idEncomenda, dataPedida, preco, peso)
     +registarEncomenda(encomenda)
-    +getPeso()
-    +getPreco()
+    +validaEncomenda(enc)
+    +addEncomenda(enc)
     +generateId()
     +getData()
 }
@@ -39,8 +40,7 @@ class AplicacaoPOT
   +getSessaoAtual()
 }
 
-class SessaoUtilizador
-{
+class SessaoUtilizador{
   +getEmail()
 }
 
@@ -58,14 +58,16 @@ class Encomenda {
   -preco
   -peso
   -taxa
-  +Encomenda(lista, morada, idEncomenda, dataPedida, preco, peso)
+  +create(lista, cliente, idEncomenda, dataPedida, preco, peso)
 }
 
 class Produto {
-  -idProduto
-  -designacao
-  -peso
-  -precoBase
+    -idProduto
+    -designacao
+    -peso
+    -precoBase
+    +getPeso()
+    +getPreco()
 }
 
 class Endereco {
@@ -102,4 +104,3 @@ Encomenda "1" -- "1..*" Produto: tem >
 Cliente "1" -- "1" Endereco: tem >
 
 @enduml
-

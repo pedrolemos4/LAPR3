@@ -10,8 +10,9 @@ participant "app\n:AplicacaoPOT" as APP
 participant "sessao\n:SessaoUtilizador" as SESSAO
 participant ":ClienteDataHandler" as DH
 participant ":ProdutoDataHandler" as PDH
+participant ":Produto" as PRO
 participant ":EncomendaDataHandler" as EDH
-participant "end: Endereco" as END
+participant "EnderecoDB" as END
 participant "lprodutos\n:ListaProdutosEncomenda" as LPROD
 participant "enc: Encomenda" as ENC
 
@@ -43,14 +44,8 @@ CTRL --> DH : cliente = getClienteByEmail(email)
 activate DH
 deactivate DH
 
-CTRL --> DH : getEnderecoCliente(cliente)
-activate DH
-
-DH --> END : morada = getMorada()
-activate END
-deactivate END
 deactivate DH
-CTRL --> PDH : getListaProdutos()
+CTRL --> PDH : getListaStock()
 activate PDH
 deactivate PDH
 
@@ -68,30 +63,31 @@ activate UI
 UI --> CTRL : produtoEncomenda(produto)
 activate CTRL
 
-CTRL --> PDH : verificaProduto(produto)
-activate PDH
-
-PDH --> LPROD : addNovoProduto(produto)
+CTRL --> LPROD : addNovoProduto(produto)
 activate LPROD
 
 deactivate PDH
 deactivate LPROD
 
-END LOOP
+CTRL --> PRO : preco = getPreco()
+activate PRO
+deactivate PRO
 
-CTRL --> PDH : lista = getLista()
+CTRL --> PRO : peso = getPeso()
+activate PRO
+deactivate PRO
+
+END LOOP
+deactivate CTRL
+
+UI --> CTRL : novaEncomenda()
+activate CTRL
+
+CTRL --> PDH : lista = getListaProdutos()
 activate PDH
 deactivate PDH
 
-CTRL --> EDH : preco = getPreco()
-activate EDH
-deactivate EDH
-
 CTRL --> EDH : idEncomenda = generateId()
-activate EDH
-deactivate EDH
-
-CTRL --> EDH : peso = getPeso()
 activate EDH
 deactivate EDH
 
@@ -99,10 +95,10 @@ CTRL --> EDH : dataPedida = getData()
 activate EDH
 deactivate EDH
 
-CTRL --> EDH : enc = novaEncomenda(lista, morada, idEncomenda, dataPedida, preco, peso)
+CTRL --> EDH : enc = novaEncomenda(lista, morada, idEncomenda, dataPedida, preco, peso, estado)
 activate EDH
 
-EDH --> ENC ** : create(lista, morada, idEncomenda, dataPedida, preco, peso)
+EDH --> ENC ** : create(lista, morada, idEncomenda, dataPedida, preco, peso, estado)
 deactivate EDH
 
 deactivate CTRL
@@ -118,7 +114,7 @@ activate CTRL
 
 CTRL --> EDH : registaEncomenda(encomenda)
 activate EDH
-EDH -> EDH : validaAnuncio(enc)
+EDH -> EDH : validaEncomenda(enc)
 EDH -> EDH: addEncomenda(enc)
 deactivate EDH
 
