@@ -57,8 +57,8 @@ public class ProdutoTest {
     public void testGetPrecoBase() {
         System.out.println("getPrecoBase");
         Produto instance = new Produto("sdf", 50, 58);
-        int expResult = 58;
-        int result = instance.getPrecoBase();
+        double expResult = 58;
+        double result = instance.getPrecoBase();
         assertEquals(expResult, result);
 
     }
@@ -93,7 +93,7 @@ public class ProdutoTest {
     @Test
     public void testSetPrecoBase() {
         System.out.println("setPrecoBase");
-        int precoBase = 56;
+        double precoBase = 56;
         Produto instance = new Produto("sdf", 50, 58);
         instance.setPrecoBase(precoBase);
         assertEquals(precoBase, instance.getPrecoBase());
