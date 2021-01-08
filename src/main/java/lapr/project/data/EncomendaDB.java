@@ -5,10 +5,13 @@
  */
 package lapr.project.data;
 
+import java.sql.CallableStatement;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.EstadoEncomenda;
 import lapr.project.model.Produto;
@@ -17,7 +20,7 @@ import lapr.project.model.Produto;
  *
  * @author pedro
  */
-public class EncomendaDB {
+public class EncomendaDB extends DataHandler{
 
     private Encomenda enc;
     private final ProdutosDB produtoDB;
@@ -35,15 +38,8 @@ public class EncomendaDB {
      */
     public void novaEncomenda() {
         EstadoEncomenda ee = new EstadoEncomenda(1, "encomendado");
-        enc = new Encomenda(getListaProdutos(), new Cliente(), getData(), produtoDB.getPreco(), produtoDB.getPeso(), ee);
-    }
-
-    /**
-     * Gera id com base no tamanho da lista de encomendas
-     * @return 
-     */
-    public int generateId(){
-        return lstEnc.size()+1;
+        enc = new Encomenda(new Cliente(), getData(), produtoDB.getPreco(), produtoDB.getPeso(), 1.0, ee);
+        enc.setLst(getListaProdutos());
     }
     
     /**
@@ -92,8 +88,49 @@ public class EncomendaDB {
      * Adiciona a lista de encomendas a encomenda
      * @param enc 
      */
-    private void addEncomenda(Encomenda enc) {
-        lstEnc.add(enc);
+    public void addEncomenda(Encomenda enc) {
+        addEncomenda(enc.getId(), enc.getCliente(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado(), enc.getLst());
+    }
+    
+    /**
+     * Adiciona a encomenda à base de dados
+     * @param id
+     * @param cliente
+     * @param dataPedida
+     * @param preco
+     * @param pesoEncomenda
+     * @param taxa
+     * @param estado
+     * @param lst 
+     */
+    private void addEncomenda(int id, Cliente cliente, String dataPedida, double preco, double pesoEncomenda, double taxa, EstadoEncomenda estado, List<Produto> lst) {
+
+        try {
+            openConnection();
+            /*
+             *  Objeto "callStmt" para invocar o procedimento "addSailor" armazenado
+             *  na BD.
+             *
+             *  PROCEDURE addSailor(sid NUMBER, sname VARCHAR, rating NUMBER, age NUMBER)
+             *  PACKAGE pkgSailors AS TYPE ref_cursor IS REF CURSOR; END pkgSailors;
+             */
+            CallableStatement callStmt = getConnection().prepareCall("{ call addEncomenda(?,?,?,?) }");
+
+            callStmt.setInt(1, id);
+            callStmt.setInt(2, cliente.getNIF());
+            callStmt.setString(3, dataPedida);
+            callStmt.setDouble(4, preco);
+            callStmt.setDouble(5, pesoEncomenda);
+            callStmt.setDouble(6, taxa);
+            callStmt.setInt(7, estado.getId_estado_encomenda());
+            callStmt.setString(8, lst.toString());
+
+            callStmt.execute();
+
+            closeAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
 }

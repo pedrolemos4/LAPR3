@@ -1,5 +1,6 @@
 package lapr.project.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Encomenda {
@@ -22,9 +23,8 @@ public class Encomenda {
      * @param taxa taxa da encomenda
      * @param estado estado atual da encomenda
      */
-    public Encomenda(int id,List<Produto> lst, Cliente cliente, String dataPedida, double preco, double pesoEncomenda, double taxa, EstadoEncomenda estado) {
-        this.id=id;
-        this.lst=lst;
+    public Encomenda(Cliente cliente, String dataPedida, double preco, double pesoEncomenda, double taxa, EstadoEncomenda estado) {
+        this.lst=new ArrayList<>();
         this.c=cliente;
         this.dataPedida = dataPedida;
         this.preco = preco;

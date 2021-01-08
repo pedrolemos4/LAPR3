@@ -23,6 +23,14 @@ public class EstadoEncomenda {
     }
 
     /**
+     * Devolve o id do estado da encomenda
+     * @return 
+     */
+    public int getId_estado_encomenda() {
+        return id_estado_encomenda;
+    }
+
+    /**
      * Devolve a designação do estado da encomenda
      * @return designação do estado da encomenda
      */
