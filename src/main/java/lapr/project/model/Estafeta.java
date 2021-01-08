@@ -7,7 +7,8 @@ package lapr.project.model;
 public class Estafeta extends Utilizador{
     
     private double pesoEstafeta;
-    
+    private EstadoEstafeta estado;
+
     /**
      * Constrói uma instância de Estafeta recebendo o peso do estafeta, o
      * nif do estafeta, o nome do estafeta, o email do estafeta, o
@@ -19,10 +20,12 @@ public class Estafeta extends Utilizador{
      * @param email o email do estafeta
      * @param numeroSegurancaSocial o numero de Seguranca Social do estafeta
      * @param password a password do estafeta
+     * @param estado o estado atual do estafeta
      */
-    public Estafeta(double pesoEstafeta, int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
+    public Estafeta(double pesoEstafeta, int NIF, String nome, String email, int numeroSegurancaSocial, String password, EstadoEstafeta estado) {
         super(NIF, nome, email, numeroSegurancaSocial, password);
         this.pesoEstafeta = pesoEstafeta;
+        this.estado = estado;
     }
     
     /**
@@ -31,6 +34,7 @@ public class Estafeta extends Utilizador{
     public Estafeta() {
         super(0, null, null, 0, null);
         this.pesoEstafeta = 0;
+        this.estado = new EstadoEstafeta();
     }
     
     /**
@@ -42,11 +46,25 @@ public class Estafeta extends Utilizador{
         return pesoEstafeta;
     }
     /**
-     * Modifica o peso do estafeta
+     * Modifica o peso do estafeta pelo valor recebido por parâmetro
      * @param pesoEstafeta o novo peso do estafeta.
      */
     public void setPesoEstafeta(double pesoEstafeta) {
         this.pesoEstafeta = pesoEstafeta;
     }
-    
+    /**
+     * Devolve o estado do estafeta.
+     *
+     * @return estado do estafeta.
+     */
+    public EstadoEstafeta getEstado() {
+        return estado;
+    }
+    /**
+     * Modifica o estado do estafeta pelo valor recebido por parâmetro
+     * @param estado o novo estado do estafeta.
+     */
+    public void setEstado(EstadoEstafeta estado) {
+        this.estado = estado;
+    }
 }

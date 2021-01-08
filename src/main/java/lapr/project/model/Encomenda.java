@@ -13,12 +13,14 @@ public class Encomenda {
      * @param preco preco da encomenda
      * @param pesoEncomenda peso da encomenda
      * @param taxa taxa da encomenda
+     * @param estado estado atual da encomenda
      */
-    public Encomenda(String dataPedida, double preco, double pesoEncomenda, double taxa) {
+    public Encomenda(String dataPedida, double preco, double pesoEncomenda, double taxa, EstadoEncomenda estado) {
         this.dataPedida = dataPedida;
         this.preco = preco;
         this.pesoEncomenda = pesoEncomenda;
         this.taxa = taxa;
+        this.estado = estado;
     }
 
     /**
@@ -83,5 +85,21 @@ public class Encomenda {
      */
     public void setTaxa(int taxa) {
         this.taxa = taxa;
+    }
+
+    /**
+     * Devolve o valor do estado da encomenda
+     * @return estado da encomenda
+     */
+    public EstadoEncomenda getEstado() {
+        return estado;
+    }
+
+    /**
+     * Modifica o valor do estado da encomenda pelo valor recebido por parâmetro
+     * @param estado novo estado da encomenda
+     */
+    public void setEstado(EstadoEncomenda estado) {
+        this.estado = estado;
     }
 }
