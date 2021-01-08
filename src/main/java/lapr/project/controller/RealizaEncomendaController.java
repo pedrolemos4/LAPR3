@@ -29,9 +29,13 @@ public class RealizaEncomendaController {
 
     public void novaEncomenda() {
         EstadoEncomenda ee = new EstadoEncomenda(1, "encomendado");
-        enc = new Encomenda(getListaProdutos(), /*morada,*/ getDataPedida(), produtoDB.getPreco(), produtoDB.getPeso(), ee);
+        enc = new Encomenda(getListaProdutos(), /*cliente,*/ getDataPedida(), produtoDB.getPreco(), produtoDB.getPeso(), ee);
     }
 
+    /**
+     * Devolve a data quando a encomenda é pedida
+     * @return 
+     */
     public String getDataPedida() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
         Date date = new Date(System.currentTimeMillis());

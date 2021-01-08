@@ -8,6 +8,7 @@ public class Encomenda {
     private double pesoEncomenda;
     private String morada;
     private double taxa;
+    private Cliente c;
     private List<Produto> lst;
     private EstadoEncomenda estado;
 
@@ -20,14 +21,22 @@ public class Encomenda {
      * @param taxa taxa da encomenda
      * @param estado estado atual da encomenda
      */
-    public Encomenda(List<Produto> lst, String morada, String dataPedida, double preco, double pesoEncomenda, double taxa, EstadoEncomenda estado) {
+    public Encomenda(List<Produto> lst, Cliente cliente, String dataPedida, double preco, double pesoEncomenda, double taxa, EstadoEncomenda estado) {
         this.lst=lst;
-        this.morada=morada;
+        this.c=cliente;
         this.dataPedida = dataPedida;
         this.preco = preco;
         this.pesoEncomenda = pesoEncomenda;
         this.taxa = taxa;
         this.estado = estado;
+    }
+
+    /**
+     * Devolve o cliente
+     * @return 
+     */
+    public Cliente getCliente() {
+        return c;
     }
 
     /**
@@ -37,22 +46,6 @@ public class Encomenda {
     public List<Produto> getLst() {
         return lst;
     }
-
-    /**
-     * Devolve a morada
-     * @return 
-     */
-    public String getMorada() {
-        return morada;
-    }
-
-    /**
-     * Modifica a morada
-     * @param morada 
-     */
-    public void setMorada(String morada) {
-        this.morada = morada;
-    }
     
     
     /**
@@ -61,14 +54,6 @@ public class Encomenda {
      */
     public String getDataPedida() {
         return dataPedida;
-    }
-
-    /**
-     * Modifica o valor da data da encomenda pelo valor recebido por parâmetro
-     * @param dataPedida nova data da encomenda
-     */
-    public void setDataPedida(String dataPedida) {
-        this.dataPedida = dataPedida;
     }
 
     /**
