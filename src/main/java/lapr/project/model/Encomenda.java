@@ -11,6 +11,7 @@ public class Encomenda {
     private Cliente c;
     private List<Produto> lst;
     private EstadoEncomenda estado;
+    private int id;
 
     /**
      * Constrói uma instância de encomenda recebendo a lista de produtos, a data, o preco, o peso e a taxa da encomenda
@@ -21,7 +22,8 @@ public class Encomenda {
      * @param taxa taxa da encomenda
      * @param estado estado atual da encomenda
      */
-    public Encomenda(List<Produto> lst, Cliente cliente, String dataPedida, double preco, double pesoEncomenda, double taxa, EstadoEncomenda estado) {
+    public Encomenda(int id,List<Produto> lst, Cliente cliente, String dataPedida, double preco, double pesoEncomenda, double taxa, EstadoEncomenda estado) {
+        this.id=id;
         this.lst=lst;
         this.c=cliente;
         this.dataPedida = dataPedida;
@@ -37,6 +39,14 @@ public class Encomenda {
      */
     public Cliente getCliente() {
         return c;
+    }
+
+    /**
+     * Devolve o id
+     * @return 
+     */
+    public int getId() {
+        return id;
     }
 
     /**
