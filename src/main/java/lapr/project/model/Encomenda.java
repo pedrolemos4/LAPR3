@@ -1,21 +1,28 @@
 package lapr.project.model;
 
+import java.util.List;
+
 public class Encomenda {
     private String dataPedida;
     private double preco;
     private double pesoEncomenda;
+    private String morada;
     private double taxa;
+    private List<Produto> lst;
     private EstadoEncomenda estado;
 
     /**
-     * Constrói uma instância de encomenda recebendo a data, o preco, o peso e a taxa da encomenda
+     * Constrói uma instância de encomenda recebendo a lista de produtos, a data, o preco, o peso e a taxa da encomenda
+     * @param lst
      * @param dataPedida data em que foi pedida a encomenda
      * @param preco preco da encomenda
      * @param pesoEncomenda peso da encomenda
      * @param taxa taxa da encomenda
      * @param estado estado atual da encomenda
      */
-    public Encomenda(String dataPedida, double preco, double pesoEncomenda, double taxa, EstadoEncomenda estado) {
+    public Encomenda(List<Produto> lst, String morada, String dataPedida, double preco, double pesoEncomenda, double taxa, EstadoEncomenda estado) {
+        this.lst=lst;
+        this.morada=morada;
         this.dataPedida = dataPedida;
         this.preco = preco;
         this.pesoEncomenda = pesoEncomenda;
@@ -23,6 +30,31 @@ public class Encomenda {
         this.estado = estado;
     }
 
+    /**
+     * Devolve a lista de produtos
+     * @return 
+     */
+    public List<Produto> getLst() {
+        return lst;
+    }
+
+    /**
+     * Devolve a morada
+     * @return 
+     */
+    public String getMorada() {
+        return morada;
+    }
+
+    /**
+     * Modifica a morada
+     * @param morada 
+     */
+    public void setMorada(String morada) {
+        this.morada = morada;
+    }
+    
+    
     /**
      * Devolve o valor da data em que foi pedida a encomenda
      * @return data em que foi pedida a encomenda
@@ -61,6 +93,14 @@ public class Encomenda {
      */
     public double getPesoEncomenda() {
         return pesoEncomenda;
+    }
+
+    /**
+     * Modifica a lista de encomenda
+     * @param lst 
+     */
+    public void setLst(List<Produto> lst) {
+        this.lst = lst;
     }
 
     /**

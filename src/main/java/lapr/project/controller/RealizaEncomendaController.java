@@ -5,7 +5,12 @@
  */
 package lapr.project.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import lapr.project.data.ProdutosDB;
+import lapr.project.model.Encomenda;
+import lapr.project.model.EstadoEncomenda;
 import lapr.project.model.Produto;
 
 /**
@@ -13,29 +18,32 @@ import lapr.project.model.Produto;
  * @author pedro
  */
 public class RealizaEncomendaController {
-    
+
     private final ProdutosDB produtoDB;
-    
-    public RealizaEncomendaController(ProdutosDB produtoDB){
-        this.produtoDB=produtoDB;
-    }
-    
-    public void produtoEncomenda(Produto prod){
-        produtoDB.novoProduto(prod.getId(), prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase());
+    //private final ClienteDB clienteDB;
+    private Encomenda enc;
+
+    public RealizaEncomendaController(ProdutosDB produtoDB) {
+        this.produtoDB = produtoDB;
     }
 
-//    /**
-//     * Lista dos clientes todos
-//     */
-//    public void getListClients(){
-//        
-//    }
-//    
-//    /**
-//     * Regista Encomenda
-//     */
-//    public void registaEncomenda(){
-//        
-//    }
-    
+    public void novaEncomenda() {
+        EstadoEncomenda ee = new EstadoEncomenda(1, "encomendado");
+        enc = new Encomenda(getListaProdutos(), /*morada,*/ getDataPedida(), produtoDB.getPreco(), produtoDB.getPeso(), ee);
+    }
+
+    public String getDataPedida() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+        Date date = new Date(System.currentTimeMillis());
+        return date.toString();
+    }
+
+    public void produtoEncomenda(Produto prod) {
+        produtoDB.registaProduto(prod);
+    }
+
+    public List<Produto> getListaProdutos() {
+        return produtoDB.getListaProdutos();
+    }
+
 }
