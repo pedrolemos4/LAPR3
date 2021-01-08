@@ -1,6 +1,5 @@
 package lapr.project.data;
 
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,6 +9,9 @@ import java.sql.*;
  * Exemplo de classe cujas instâncias manipulam dados de BD Oracle.
  */
 public class DataHandler {
+
+    private static DataHandler instance = null;
+    
     /**
      * O URL da BD.
      */
@@ -53,7 +55,7 @@ public class DataHandler {
      * Constrói uma instância de "DataHandler" recebendo, por parâmetro, o URL
      * da BD e as credenciais do utilizador.
      *
-     * @param jdbcUrl  o URL da BD.
+     * @param jdbcUrl o URL da BD.
      * @param username o nome do utilizador.
      * @param password a password do utilizador.
      */
@@ -64,6 +66,15 @@ public class DataHandler {
         connection = null;
         callStmt = null;
         rSet = null;
+    }
+
+    public static DataHandler getInstance() {
+        if (instance == null) {
+            instance = new DataHandler();
+        }
+
+        return instance;
+
     }
 
     /**
@@ -138,12 +149,11 @@ public class DataHandler {
         return message.toString();
     }
 
-
     protected Connection getConnection() {
-        if (connection == null)
+        if (connection == null) {
             openConnection();
+        }
         return connection;
     }
-
 
 }

@@ -10,49 +10,66 @@ package lapr.project.model;
  * @author pedro
  */
 public class Scooter {
-    
+
+    private int id;
     private int percentagemBateria;
     private double pesoMaximo;
     private double pesoScooter;
     private double potencia;
-    
-    
+    private EstadoScooter estado;
+
     /**
-     * Contrói uma instância recebendo a percentagem da bateria, o peso máximo
-     * o peso da scooter e a potência da scooter.
+     * Contrói uma instância recebendo a percentagem da bateria, o peso máximo o
+     * peso da scooter e a potência da scooter.
+     *
      * @param percentagemBateria
      * @param pesoMaximo
      * @param pesoScooter
-     * @param potencia 
+     * @param potencia
      */
-    public Scooter(int percentagemBateria, double pesoMaximo, double pesoScooter, double potencia) {
+    public Scooter(int percentagemBateria, double pesoMaximo, double pesoScooter, double potencia, int estado) {
+        this.id = 0;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
         this.pesoScooter = pesoScooter;
         this.potencia = potencia;
+        this.estado = new EstadoScooter(estado);
     }
-    
+
     /**
      * Constrói uma instância vazia da scooter
      */
     public Scooter() {
+        this.id = 0;
         this.percentagemBateria = 0;
         this.pesoMaximo = 0;
         this.pesoScooter = 0;
         this.potencia = 0;
+        this.estado = new EstadoScooter(0);
+    }
+
+    /**
+     * Devolve o id da scooter
+     *
+     * @return
+     */
+    public int getId() {
+        return id;
     }
 
     /**
      * Devolve a percentagem da bateria
-     * @return 
+     *
+     * @return
      */
     public int getPercentagemBateria() {
         return percentagemBateria;
     }
-    
+
     /**
      * Devolve o peso máximo
-     * @return 
+     *
+     * @return
      */
     public double getPesoMaximo() {
         return pesoMaximo;
@@ -60,7 +77,8 @@ public class Scooter {
 
     /**
      * Devolve o peso da scooter
-     * @return 
+     *
+     * @return
      */
     public double getPesoScooter() {
         return pesoScooter;
@@ -68,15 +86,34 @@ public class Scooter {
 
     /**
      * Devolve a potência
-     * @return 
+     *
+     * @return
      */
     public double getPotencia() {
         return potencia;
     }
 
     /**
+     * Devolve o estado da scooter
+     *
+     * @return
+     */
+    public EstadoScooter getEstadoScooter() {
+        return estado;
+    }
+
+    /**
+     * Modifica o id
+     * @param id 
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
      * Modifica a percentagem da bateria
-     * @param percentagemBateria 
+     *
+     * @param percentagemBateria
      */
     public void setPercentagemBateria(int percentagemBateria) {
         this.percentagemBateria = percentagemBateria;
@@ -84,7 +121,8 @@ public class Scooter {
 
     /**
      * Modifica o peso máximo
-     * @param pesoMaximo 
+     *
+     * @param pesoMaximo
      */
     public void setPesoMaximo(double pesoMaximo) {
         this.pesoMaximo = pesoMaximo;
@@ -92,7 +130,8 @@ public class Scooter {
 
     /**
      * Modifica o peso da scooter
-     * @param pesoScooter 
+     *
+     * @param pesoScooter
      */
     public void setPesoScooter(double pesoScooter) {
         this.pesoScooter = pesoScooter;
@@ -100,10 +139,14 @@ public class Scooter {
 
     /**
      * Modifica a potencia
-     * @param potencia 
+     *
+     * @param potencia
      */
     public void setPotencia(double potencia) {
         this.potencia = potencia;
     }
-            
+
+    public void setEstadoScooter(int estado) {
+        this.estado = new EstadoScooter(estado);
+    }
 }
