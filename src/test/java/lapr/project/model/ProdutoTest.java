@@ -19,7 +19,7 @@ public class ProdutoTest {
 
     @Test
     void ProdutoConstructorTest(){
-        Produto instance = new Produto("sdf", 50, 58);
+        Produto instance = new Produto(1,"sdf", 50, 58);
 
         assertEquals(instance,instance);
     }
@@ -30,7 +30,7 @@ public class ProdutoTest {
     @Test
     public void testGetDesignacao() {
         System.out.println("getDesignacao");
-        Produto instance = new Produto("sdf", 50, 58);
+        Produto instance = new Produto(1,"sdf", 50, 58);
         String expResult = "sdf";
         String result = instance.getDesignacao();
         assertEquals(expResult, result);
@@ -43,7 +43,7 @@ public class ProdutoTest {
     @Test
     public void testGetPeso() {
         System.out.println("getPeso");
-        Produto instance = new Produto("sdf", 50, 58);
+        Produto instance = new Produto(1,"sdf", 50, 58);
         double expResult = 50.0;
         double result = instance.getPeso();
         assertEquals(expResult, result, 0.0);
@@ -56,7 +56,7 @@ public class ProdutoTest {
     @Test
     public void testGetPrecoBase() {
         System.out.println("getPrecoBase");
-        Produto instance = new Produto("sdf", 50, 58);
+        Produto instance = new Produto(1,"sdf", 50, 58);
         double expResult = 58;
         double result = instance.getPrecoBase();
         assertEquals(expResult, result);
@@ -70,7 +70,7 @@ public class ProdutoTest {
     public void testSetDesignacao() {
         System.out.println("setDesignacao");
         String designacao = "df";
-        Produto instance = new Produto("sdf", 50, 58);
+        Produto instance = new Produto(1,"sdf", 50, 58);
         instance.setDesignacao(designacao);
         assertEquals(designacao, instance.getDesignacao());
     }
@@ -82,7 +82,7 @@ public class ProdutoTest {
     public void testSetPeso() {
         System.out.println("setPeso");
         double peso = 25.0;
-        Produto instance = new Produto("sdf", 50, 58);
+        Produto instance = new Produto(1,"sdf", 50, 58);
         instance.setPeso(peso);
         assertEquals(peso, instance.getPeso());
     }
@@ -94,7 +94,7 @@ public class ProdutoTest {
     public void testSetPrecoBase() {
         System.out.println("setPrecoBase");
         double precoBase = 56;
-        Produto instance = new Produto("sdf", 50, 58);
+        Produto instance = new Produto(1,"sdf", 50, 58);
         instance.setPrecoBase(precoBase);
         assertEquals(precoBase, instance.getPrecoBase());
 
