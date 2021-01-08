@@ -63,7 +63,7 @@ class EncomendaTest {
         System.out.println("setPesoEncomenda");
         double peso = 11;
         Encomenda instance = new Encomenda("01-01-2000",10,10,10);
-        instance.setPreco(11);
+        instance.setPesoEncomenda(11);
         assertEquals(peso, instance.getPesoEncomenda());
     }
 
@@ -81,7 +81,7 @@ class EncomendaTest {
         System.out.println("setTaxa");
         double taxa = 11;
         Encomenda instance = new Encomenda("01-01-2000",10,10,10);
-        instance.setPreco(11);
+        instance.setTaxa(11);
         assertEquals(taxa, instance.getTaxa());
     }
 }
