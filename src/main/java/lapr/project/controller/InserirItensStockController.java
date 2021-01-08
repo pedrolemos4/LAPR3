@@ -1,24 +1,28 @@
 package lapr.project.controller;
 
+import lapr.project.data.ProdutosDB;
 import lapr.project.model.Produto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InserirItensStockController {
-    List<Produto> lp = new ArrayList<>();
-    /*lp = getListaProdutos();
+    private final ProdutosDB produtosDB;
 
+    public InserirItensStockController(ProdutosDB produtosDB){
+        this.produtosDB = produtosDB;
+    }
 
     public List<Produto> getListaProdutos() {
-        return null;
+        return produtosDB.getListaProdutos();
     }
 
     public void novoProduto(String desig, double peso, double preco_base) {
-
+        produtosDB.novoProduto(produtosDB.generateID(),desig,peso,preco_base);
     }
 
     public void addProdutos() {
-
-    }*/
+        List<Produto> lp = new ArrayList<>();
+        produtosDB.addProdutos(lp);
+    }
 }

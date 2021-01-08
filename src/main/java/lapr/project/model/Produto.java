@@ -5,6 +5,8 @@
  */
 package lapr.project.model;
 
+import lapr.project.data.ProdutosDB;
+
 /**
  *
  * @author pedro
@@ -15,14 +17,15 @@ public class Produto {
     private String designacao;
     private double peso;
     private double precoBase;
-    
     /**
      * Constrói instância produto com o designacao, peso e o preco base.
+     * @param id
      * @param designacao
      * @param peso
      * @param precoBase 
      */
-    public Produto(String designacao, double peso, double precoBase) {
+    public Produto(int id, String designacao, double peso, double precoBase) {
+        this.id = id;
         this.designacao = designacao;
         this.peso = peso;
         this.precoBase = precoBase;
@@ -32,6 +35,7 @@ public class Produto {
      * Constrói uma instância do produto vazia.
      */
     public Produto(){
+        this.id = 0;
         this.designacao = null;
         this.peso = 0;
         this.precoBase = 0;

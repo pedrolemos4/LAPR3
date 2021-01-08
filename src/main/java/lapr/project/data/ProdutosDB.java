@@ -30,8 +30,8 @@ public class ProdutosDB {
         return lstStock.size() + 1;
     }
 
-    public boolean novoProduto(String desig, double peso, double preco_base) {
-        Produto prod1 = new Produto(desig, peso, preco_base);
+    public boolean novoProduto(int id, String desig, double peso, double preco_base) {
+        Produto prod1 = new Produto(id, desig, peso, preco_base);
         for(int i=0;i<lstStock.size();i++){
             if(lstStock.get(i).equals(prod1)){
                 return true;
@@ -89,7 +89,7 @@ public class ProdutosDB {
     }
 
     public void registaProduto(Produto prod) {
-        if(novoProduto(prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase())==true){
+        if(novoProduto(prod.getId(), prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase())==true){
             addListaProds(prod);
         }
     }
