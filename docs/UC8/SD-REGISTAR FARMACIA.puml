@@ -11,6 +11,7 @@ participant "ParqueDB" as PDB
 participant "EnderecoDB" as EDB
 participant "farm:Farmacia" as FARMACIA
 participant "parque:Parque" as PQ
+participant "end:Endereco" as END
 
 activate ADM
 ADM -> UI : inicia a criação de uma nova farmácia
