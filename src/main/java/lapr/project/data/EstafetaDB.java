@@ -8,7 +8,6 @@ import java.util.List;
 
 import lapr.project.model.EstadoEstafeta;
 import lapr.project.model.Estafeta;
-import lapr.project.model.Produto;
 import oracle.jdbc.OracleTypes;
 
 public class EstafetaDB extends DataHandler{
@@ -21,8 +20,18 @@ public class EstafetaDB extends DataHandler{
         lstEstafetas = new ArrayList<>();
     }
 
+    public List<Estafeta> getLstEstafetas() {
+        return lstEstafetas;
+    }
+
     public void novoEstafeta(int nif, String nome, String email, double peso, int nss, String pwd) {
         est = new Estafeta(nif, nome, email, peso, nss, pwd, new EstadoEstafeta(1,"disponível"));
+    }
+
+    public void registaEstafeta(Estafeta est) {
+        if (validaEstafeta(est)){
+            addEstafeta(est);
+        }
     }
 
     public boolean validaEstafeta(Estafeta est) {
@@ -32,12 +41,8 @@ public class EstafetaDB extends DataHandler{
         return true;
     }
 
-    public void registaEstafeta(Estafeta est) {
-
-    }
-
     public void addEstafeta(Estafeta est) {
-
+        lstEstafetas.add(est);
     }
 
     public Estafeta getEstafetaByEmail(String email) {
