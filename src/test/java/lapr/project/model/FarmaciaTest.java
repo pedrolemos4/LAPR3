@@ -43,9 +43,9 @@ public class FarmaciaTest {
     public void testGetParque() {
         System.out.println("getParque");
         Farmacia instance = new Farmacia(12345789);
-        Parque expResult = new Parque(5);
-        Parque result = expResult;
-        assertEquals(expResult, result);
+        instance.setParque(new Parque(5));
+        int expResult = 5;
+        assertEquals(expResult, instance.getParque().getNumeroMaximo());
 
     }
 
