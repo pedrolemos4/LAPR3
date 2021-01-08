@@ -19,11 +19,11 @@ public class RegistarEstafetaController {
     }
 
     public void novoEstafeta(int nif, String nome, String email, double peso, int nss, String pwd) {
-        estafetaDB.novoEstafeta(nif,nome,email,peso,nss,pwd);
+        Estafeta est = estafetaDB.novoEstafeta(nif,nome,email,peso,nss,pwd);
+        registaEstafeta(est);
     }
 
-    public void registaEstafeta() {
-        Estafeta est = new Estafeta();
-        estafetaDB.registaEstafeta(est);
+    public boolean registaEstafeta(Estafeta est) {
+        return estafetaDB.registaEstafeta(est);
     }
 }

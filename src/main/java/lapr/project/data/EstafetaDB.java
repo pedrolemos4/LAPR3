@@ -24,14 +24,16 @@ public class EstafetaDB extends DataHandler{
         return lstEstafetas;
     }
 
-    public void novoEstafeta(int nif, String nome, String email, double peso, int nss, String pwd) {
+    public Estafeta novoEstafeta(int nif, String nome, String email, double peso, int nss, String pwd) {
         est = new Estafeta(nif, nome, email, peso, nss, pwd, new EstadoEstafeta(1,"disponível"));
+        return est;
     }
 
-    public void registaEstafeta(Estafeta est) {
+    public boolean registaEstafeta(Estafeta est) {
         if (validaEstafeta(est)){
-            addEstafeta(est);
+            return addEstafeta(est);
         }
+        return false;
     }
 
     public boolean validaEstafeta(Estafeta est) {
@@ -41,8 +43,8 @@ public class EstafetaDB extends DataHandler{
         return true;
     }
 
-    public void addEstafeta(Estafeta est) {
-        lstEstafetas.add(est);
+    public boolean addEstafeta(Estafeta est) {
+        return lstEstafetas.add(est);
     }
 
     public Estafeta getEstafetaByEmail(String email) {
