@@ -22,7 +22,7 @@ public class Estafeta extends Utilizador{
      * @param password a password do estafeta
      * @param estado o estado atual do estafeta
      */
-    public Estafeta(double pesoEstafeta, int NIF, String nome, String email, int numeroSegurancaSocial, String password, EstadoEstafeta estado) {
+    public Estafeta(int NIF, String nome, String email, double pesoEstafeta, int numeroSegurancaSocial, String password, EstadoEstafeta estado) {
         super(NIF, nome, email, numeroSegurancaSocial, password);
         this.pesoEstafeta = pesoEstafeta;
         this.estado = estado;
