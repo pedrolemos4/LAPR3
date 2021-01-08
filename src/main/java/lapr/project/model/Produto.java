@@ -11,9 +11,10 @@ package lapr.project.model;
  */
 public class Produto {
     
+    private int id;
     private String designacao;
     private double peso;
-    private int precoBase;
+    private double precoBase;
     
     /**
      * Constrói instância produto com o designacao, peso e o preco base.
@@ -21,7 +22,7 @@ public class Produto {
      * @param peso
      * @param precoBase 
      */
-    public Produto(String designacao, double peso, int precoBase) {
+    public Produto(String designacao, double peso, double precoBase) {
         this.designacao = designacao;
         this.peso = peso;
         this.precoBase = precoBase;
@@ -36,6 +37,15 @@ public class Produto {
         this.precoBase = 0;
     }
 
+    /**
+     * Devolve o id da scooter
+     *
+     * @return
+     */
+    public int getId() {
+        return id;
+    }
+    
     /**
      * Devolve a designacao
      * @return 
@@ -56,10 +66,19 @@ public class Produto {
      * Devolve o preco base
      * @return 
      */
-    public int getPrecoBase() {
+    public double getPrecoBase() {
         return precoBase;
     }
 
+    /**
+     * Modifica o id da produto
+     *
+     * @return
+     */
+    public int setId(int id) {
+        return this.id=id;
+    }
+    
     /**
      * Modifica a designacao
      * @param designacao 
@@ -80,7 +99,7 @@ public class Produto {
      * Modifica preco base
      * @param precoBase 
      */
-    public void setPrecoBase(int precoBase) {
+    public void setPrecoBase(double precoBase) {
         this.precoBase = precoBase;
     }
     
