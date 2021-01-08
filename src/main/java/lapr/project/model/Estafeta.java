@@ -7,7 +7,7 @@ package lapr.project.model;
 public class Estafeta extends Utilizador{
     
     private double pesoEstafeta;
-    private EstadoEstafeta estado;
+    private int idEstado;
 
     /**
      * Constrói uma instância de Estafeta recebendo o peso do estafeta, o
@@ -20,12 +20,12 @@ public class Estafeta extends Utilizador{
      * @param email o email do estafeta
      * @param numeroSegurancaSocial o numero de Seguranca Social do estafeta
      * @param password a password do estafeta
-     * @param estado o estado atual do estafeta
+     * @param idEstado o estado atual do estafeta
      */
-    public Estafeta(int NIF, String nome, String email, double pesoEstafeta, int numeroSegurancaSocial, String password, EstadoEstafeta estado) {
+    public Estafeta(int NIF, String nome, String email, double pesoEstafeta, int numeroSegurancaSocial, String password, int idEstado) {
         super(NIF, nome, email, numeroSegurancaSocial, password);
         this.pesoEstafeta = pesoEstafeta;
-        this.estado = estado;
+        this.idEstado = idEstado;
     }
     
     /**
@@ -34,7 +34,7 @@ public class Estafeta extends Utilizador{
     public Estafeta() {
         super(0, null, null, 0, null);
         this.pesoEstafeta = 0;
-        this.estado = new EstadoEstafeta();
+        this.idEstado = 0;
     }
     
     /**
@@ -57,14 +57,14 @@ public class Estafeta extends Utilizador{
      *
      * @return estado do estafeta.
      */
-    public EstadoEstafeta getEstado() {
-        return estado;
+    public int getEstado() {
+        return idEstado;
     }
     /**
      * Modifica o estado do estafeta pelo valor recebido por parâmetro
-     * @param estado o novo estado do estafeta.
+     * @param idEstado o novo estado do estafeta.
      */
-    public void setEstado(EstadoEstafeta estado) {
-        this.estado = estado;
+    public void setEstado(int idEstado) {
+        this.idEstado = idEstado;
     }
 }

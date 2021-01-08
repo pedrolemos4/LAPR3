@@ -16,7 +16,7 @@ public class Scooter {
     private double pesoMaximo;
     private double pesoScooter;
     private double potencia;
-    private EstadoScooter estado;
+    private int idEstado;
 
     /**
      * Contrói uma instância recebendo a percentagem da bateria, o peso máximo o
@@ -33,7 +33,7 @@ public class Scooter {
         this.pesoMaximo = pesoMaximo;
         this.pesoScooter = pesoScooter;
         this.potencia = potencia;
-        this.estado = new EstadoScooter(estado);
+        this.idEstado = estado;
     }
 
     /**
@@ -45,7 +45,7 @@ public class Scooter {
         this.pesoMaximo = 0;
         this.pesoScooter = 0;
         this.potencia = 0;
-        this.estado = new EstadoScooter(0);
+        this.idEstado = 0;
     }
 
     /**
@@ -98,8 +98,8 @@ public class Scooter {
      *
      * @return
      */
-    public EstadoScooter getEstadoScooter() {
-        return estado;
+    public int getEstadoScooter() {
+        return idEstado;
     }
 
     /**
@@ -147,6 +147,6 @@ public class Scooter {
     }
 
     public void setEstadoScooter(int estado) {
-        this.estado = new EstadoScooter(estado);
+        this.idEstado = estado;
     }
 }
