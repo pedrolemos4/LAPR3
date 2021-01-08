@@ -14,8 +14,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Tiago
  */
 public class EnderecoTest {
-    
-    public EnderecoTest() {
+
+    @Test
+    void EnderecoEmptyConstructorTest(){
+        Endereco instance = new Endereco();
+
+        assertEquals(instance,instance);
+    }
+
+    @Test
+    void EnderecoConstructorTest(){
+        Endereco instance = new Endereco("Rua do ISEP",41.45,30.58,34.23);
+
+        assertEquals(instance,instance);
     }
 
     /**

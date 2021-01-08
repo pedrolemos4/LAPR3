@@ -13,8 +13,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Tiago
  */
 public class UtilizadorTest {
-    
-    public UtilizadorTest() {
+
+    @Test
+    void UtilizadorEmptyConstructorTest(){
+        Utilizador instance = new Utilizador();
+
+        assertEquals(instance,instance);
+    }
+
+    @Test
+    void UtilizadorConstructorTest(){
+        Utilizador instance = new Utilizador(111111111,"Ronaldo","email",112323232,"password");
+
+        assertEquals(instance,instance);
     }
 
     /**

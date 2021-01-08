@@ -7,6 +7,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class EstadoEstafetaTest {
 
     @Test
+    void EntadoEstafetaEmptyConstructorTest(){
+        EstadoEstafeta estado = new EstadoEstafeta();
+
+        assertEquals(estado,estado);
+    }
+
+    @Test
+    void EntadoEstafetaConstructorTest(){
+        EstadoEstafeta estado = new EstadoEstafeta(123,"design");
+
+        assertEquals(estado,estado);
+    }
+
+    @Test
     void getId_estado_estafeta() {
         EstadoEstafeta estado = new EstadoEstafeta();
 

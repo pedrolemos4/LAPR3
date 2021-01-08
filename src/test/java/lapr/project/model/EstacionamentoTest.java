@@ -7,6 +7,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class EstacionamentoTest {
 
     @Test
+    void EstacionamentoEmptyConstructorTest(){
+        Estacionamento instance = new Estacionamento();
+
+        assertEquals(instance,instance);
+    }
+
+    @Test
+    void EstacionamentoConstructorTest(){
+        Estacionamento instance = new Estacionamento(1,0);
+
+        assertEquals(instance,instance);
+    }
+
+    @Test
     void getNumeroLote() {
         System.out.println("getNumeroLote");
         Estacionamento instance = new Estacionamento(1,0);

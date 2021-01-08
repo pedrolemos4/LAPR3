@@ -7,6 +7,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class EncomendaTest {
 
     @Test
+    void EncomendaConstructorTest(){
+        Encomenda instance = new Encomenda("01-01-2000",10,10,10);
+
+        assertEquals(instance,instance);
+    }
+
+    @Test
     void getDataPedida() {
         System.out.println("getDataPedida");
         Encomenda instance = new Encomenda("01-01-2000",10,10,10);

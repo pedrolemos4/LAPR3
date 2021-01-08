@@ -7,6 +7,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class EstadoEncomendaTest {
 
     @Test
+    void EntadoEncomendaEmptyConstructorTest(){
+        EstadoEncomenda instance = new EstadoEncomenda();
+
+        assertEquals(instance,instance);
+    }
+
+    @Test
+    void EntadoEncomendaConstructorTest(){
+        EstadoEncomenda instance = new EstadoEncomenda(1,"entregue");
+
+        assertEquals(instance,instance);
+    }
+
+    @Test
     void getDesignacao() {
         System.out.println("getDesignacao");
         EstadoEncomenda instance = new EstadoEncomenda(1,"entregue");

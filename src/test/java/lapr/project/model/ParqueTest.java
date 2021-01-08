@@ -7,6 +7,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class ParqueTest {
 
     @Test
+    void ParqueEmptyConstructorTest(){
+        Parque instance = new Parque();
+
+        assertEquals(instance,instance);
+    }
+
+    @Test
+    void ParqueConstructorTest(){
+        Parque instance = new Parque(20);
+
+        assertEquals(instance,instance);
+    }
+
+    @Test
     void getNumeroMaximo() {
         System.out.println("getNumeroMaximo");
         Parque instance = new Parque(20);

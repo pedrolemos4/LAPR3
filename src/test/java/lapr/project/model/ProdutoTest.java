@@ -9,6 +9,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author beatr
  */
 public class ProdutoTest {
+
+    @Test
+    void ProdutoEmptyConstructorTest(){
+        Produto instance = new Produto();
+
+        assertEquals(instance,instance);
+    }
+
+    @Test
+    void ProdutoConstructorTest(){
+        Produto instance = new Produto("sdf", 50, 58);
+
+        assertEquals(instance,instance);
+    }
     
     /**
      * Test of getDesignacao method, of class Produto.

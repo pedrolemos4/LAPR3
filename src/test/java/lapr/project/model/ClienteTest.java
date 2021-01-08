@@ -7,6 +7,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class ClienteTest extends UtilizadorTest{
 
     @Test
+    public void ClienteEmptyConstructorTest(){
+        Cliente clienteTest = new Cliente();
+
+        assertEquals(clienteTest,clienteTest);
+    }
+
+    @Test
+    public void ClienteConstructorTest(){
+        Cliente novoCliente = new Cliente(3,new Cartao(),3,"teste","@",123,"teste");
+
+        assertEquals(novoCliente,novoCliente);
+    }
+
+    @Test
     void getCreditos() {
         Cartao cartao = new Cartao();
         Cliente novoCliente = new Cliente(3,cartao,3,"teste","@",123,"teste");

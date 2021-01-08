@@ -10,6 +10,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class ScooterTest {
 
+    @Test
+    void ScooterEmptyConstructorTest(){
+        Scooter instance = new Scooter();
+
+        assertEquals(instance,instance);
+    }
+
+    @Test
+    void ScooterConstructorTest(){
+        Scooter instance = new Scooter(85, 50, 30, 40);
+
+        assertEquals(instance,instance);
+    }
+
     /**
      * Test of getPercentagemBateria method, of class Scooter.
      */
