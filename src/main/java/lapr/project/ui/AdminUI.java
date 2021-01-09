@@ -43,7 +43,7 @@ public class AdminUI {
             idestado = 1;
             estado = "Disponível";
         } else {
-            idestado = 2;
+            idestado = 0;
             estado = "Indisponível";
         }
         
