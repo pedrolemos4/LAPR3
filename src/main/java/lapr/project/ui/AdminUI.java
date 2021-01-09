@@ -26,12 +26,13 @@ public class AdminUI {
     /**
      * Interface that allows the addition of a scooter into the system
      */
-    public void addScooter()  {
+    public static void addScooter()  {
 
         System.out.println("Insira a capacidade máxima da bateria:");
         int percentagemBateria = LER.nextInt();
 
         System.out.println("\nA scooter vai estar disponível imediatamente após a sua criação? (S/N)");
+        LER.nextLine();
         String resposta = LER.nextLine();
         int idestado;
         String estado;
@@ -68,11 +69,11 @@ public class AdminUI {
                 + "\nPeso máximo:\t" + pesoMaximo
                 + "\nPotencia:\t" + potencia);
 
-        System.out.println("\nConfirme a informação relativa à scooter");
+        System.out.println("\nConfirme a informação relativa à scooter(S/N)");
         LER.nextLine();
         String confirmacao = LER.nextLine();
 
-        if (confirmacao.equalsIgnoreCase("Y") || confirmacao.equalsIgnoreCase("YES")) {
+        if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
 
             ScooterController sc = new ScooterController(new ScooterDataHandler());
             try {

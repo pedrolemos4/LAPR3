@@ -90,6 +90,7 @@ class Main {
             System.out.println(ex.getMessage());
         }
 
+        AdminUI.addScooter();
     }
 }
 

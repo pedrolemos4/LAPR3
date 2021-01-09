@@ -12,11 +12,11 @@ package lapr.project.model;
 public class Scooter {
 
     private int id;
-    private int percentagemBateria;
+    private double percentagemBateria;
     private double pesoMaximo;
     private double pesoScooter;
     private double potencia;
-    private int idEstado;
+    private EstadoScooter estado;
 
     /**
      * Contrói uma instância recebendo a percentagem da bateria, o peso máximo o
@@ -27,13 +27,13 @@ public class Scooter {
      * @param pesoScooter
      * @param potencia
      */
-    public Scooter(int percentagemBateria, double pesoMaximo, double pesoScooter, double potencia, int estado) {
+    public Scooter(double percentagemBateria, double pesoMaximo, double pesoScooter, double potencia, int estado) {
         this.id = 0;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
         this.pesoScooter = pesoScooter;
         this.potencia = potencia;
-        this.idEstado = estado;
+        this.estado = new EstadoScooter(estado);
     }
 
     /**
@@ -45,7 +45,7 @@ public class Scooter {
         this.pesoMaximo = 0;
         this.pesoScooter = 0;
         this.potencia = 0;
-        this.idEstado = 0;
+        this.estado = new EstadoScooter(0);
     }
 
     /**
@@ -62,7 +62,7 @@ public class Scooter {
      *
      * @return
      */
-    public int getPercentagemBateria() {
+    public double getPercentagemBateria() {
         return percentagemBateria;
     }
 
@@ -98,8 +98,8 @@ public class Scooter {
      *
      * @return
      */
-    public int getEstadoScooter() {
-        return idEstado;
+    public EstadoScooter getEstadoScooter() {
+        return estado;
     }
 
     /**
@@ -115,7 +115,7 @@ public class Scooter {
      *
      * @param percentagemBateria
      */
-    public void setPercentagemBateria(int percentagemBateria) {
+    public void setPercentagemBateria(double percentagemBateria) {
         this.percentagemBateria = percentagemBateria;
     }
 
@@ -146,7 +146,11 @@ public class Scooter {
         this.potencia = potencia;
     }
 
+    /**
+     * Modifica o estado da scooter
+     * @param estado 
+     */
     public void setEstadoScooter(int estado) {
-        this.idEstado = estado;
+        this.estado = new EstadoScooter(estado);
     }
 }
