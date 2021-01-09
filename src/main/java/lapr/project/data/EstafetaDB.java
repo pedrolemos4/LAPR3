@@ -67,6 +67,28 @@ public class EstafetaDB extends DataHandler{
         }
     }
 
+    public void atualizarEstafeta(Estafeta est) {
+        atualizarEstafeta(est.getNIF(), est.getEstado(), est.getPesoEstafeta());
+    }
+
+    private void atualizarEstafeta(int nif, int estadoEstafeta, double peso) {
+        try {
+            openConnection();
+
+            CallableStatement callStmt = getConnection().prepareCall("{ call atualizarEstafeta(?,?,?) }");
+
+            callStmt.setInt(1, nif);
+            callStmt.setInt(2, estadoEstafeta);
+            callStmt.setDouble(3, peso);
+
+            callStmt.execute();
+            closeAll();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Estafeta getEstafetaByEmail(String email) {
         String query = "SELECT * FROM estafeta e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE e.email= " + email;
         

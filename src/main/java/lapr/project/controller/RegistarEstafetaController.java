@@ -23,7 +23,7 @@ public class RegistarEstafetaController {
         registaEstafeta(est);
     }
 
-    public boolean registaEstafeta(Estafeta est) {
-        return estafetaDB.registaEstafeta(est);
+    public void registaEstafeta(Estafeta est) {
+        estafetaDB.registaEstafeta(est);
     }
 }

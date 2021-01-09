@@ -16,11 +16,11 @@ public class AtualizarEstafetaController {
         return estafetaDB.getLstEstafetas();
     }
 
-    public void getEstafetaByNIF(int nifEst) {
-
+    public void getEstafetaByEmail(String email) {
+        estafetaDB.getEstafetaByEmail(email);
     }
 
-    public boolean atualizarEstafeta(Estafeta est) {
-        return true;
+    public void atualizarEstafeta(Estafeta est) {
+         estafetaDB.atualizarEstafeta(est);
     }
 }
