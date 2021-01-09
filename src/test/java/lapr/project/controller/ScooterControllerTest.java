@@ -25,14 +25,15 @@ public class ScooterControllerTest {
     public void testAddScooter() throws Exception {
         System.out.println("addScooter");
         ScooterDB scooterDataHandler =new ScooterDB();
+        String descricao = "descricao";
         int percentagemBateria = 85;
         double pesoMaximo = 50;
         double pesoScooter = 30;
         double potencia = 40;
         int estado = 1;
         ScooterController instance = new ScooterController(scooterDataHandler);
-        Scooter expResult = new Scooter(percentagemBateria, pesoMaximo, pesoScooter, potencia,estado);
-        Scooter result = instance.addScooter(percentagemBateria, pesoMaximo, pesoScooter, potencia, estado);
+        Scooter expResult = new Scooter(descricao,percentagemBateria, pesoMaximo, pesoScooter, potencia,estado);
+        Scooter result = instance.addScooter(descricao,percentagemBateria, pesoMaximo, pesoScooter, potencia, estado);
         assertEquals(expResult, result);
     }
 
