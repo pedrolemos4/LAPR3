@@ -80,9 +80,12 @@ public class RegistarClienteUI {
 
         if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
             controller.registaCliente(cl);
+            controller.registaUtilizador(user);
+            controller.registaCartao(cc);
+            controller.registaEndereco(end);
             System.out.println("\n\nCliente registado com sucesso!");
         } else {
-            System.out.println("\n\nCliente do estafeta cancelado!");
+            System.out.println("\n\nRegisto do Cliente cancelado!");
         }
     }
 }

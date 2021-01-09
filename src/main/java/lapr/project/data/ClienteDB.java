@@ -21,9 +21,6 @@ import lapr.project.model.Cliente;
  */
 public class ClienteDB extends DataHandler {
 
-    Cliente cl;
-    EnderecoDB edb;
-    CartaoDB cdb;
     private final DataHandler dataHandler;
 
     public ClienteDB() {
@@ -39,7 +36,7 @@ public class ClienteDB extends DataHandler {
      * @return o novo cliente criado
      */
     public Cliente novoCliente(int nif, String morada, int numCC) {
-        cl = new Cliente(nif, 0, morada, numCC);
+        Cliente cl = new Cliente(nif, 0, morada, numCC);
         return cl;
     }
 
