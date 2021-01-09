@@ -26,7 +26,7 @@ public class AdminUI {
     /**
      * Interface that allows the addition of a scooter into the system
      */
-    public static void addScooter()  {
+    public static void addScooter() {
 
         System.out.println("Insira a capacidade máxima da bateria:");
         int percentagemBateria = LER.nextInt();
@@ -86,6 +86,25 @@ public class AdminUI {
 //            loop();
 //        } else {
 //            loop();
+        }
+    }
+
+    public static void removeScooter() {
+        System.out.println("Insira o id da scooter a remover:");
+        int idScooter = LER.nextInt();
+        ScooterController sc = new ScooterController(new ScooterDataHandler());
+
+        System.out.println("Confirma a remoção da scooter com o id " + idScooter + "?(S/N)");
+        LER.nextLine();
+        String resposta = LER.nextLine();
+
+        if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("N")) {
+            try {
+                sc.removeScooter(idScooter);
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("Scooter removida com sucesso.");
         }
     }
 

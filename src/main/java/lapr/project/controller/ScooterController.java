@@ -28,4 +28,12 @@ public class ScooterController {
         scooter.setId(scooterDataHandler.addScooter(scooter));
         return scooter;
     }
+    
+    public boolean removeScooter(int idScooter) throws SQLException {
+        boolean removed = false;
+
+        removed = scooterDataHandler.removeScooter(idScooter);
+
+        return removed;
+    }
 }
