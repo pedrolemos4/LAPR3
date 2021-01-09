@@ -19,7 +19,6 @@ public class Produto {
     private double precoBase;
     /**
      * Constrói instância produto com o designacao, peso e o preco base.
-     * @param id
      * @param designacao
      * @param peso
      * @param precoBase 
