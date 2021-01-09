@@ -8,7 +8,7 @@ import lapr.project.controller.RegistarEntregaController;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
-import lapr.project.data.ScooterDataHandler;
+import lapr.project.data.ScooterDB;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
@@ -22,7 +22,7 @@ public class RegistarEntregaUI {
     
     public static final Scanner LER = new Scanner(System.in);
     
-    RegistarEntregaController controller = new RegistarEntregaController(new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new ScooterDataHandler());
+    RegistarEntregaController controller = new RegistarEntregaController(new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new ScooterDB());
     
     
     public void introduzEntrega() {
