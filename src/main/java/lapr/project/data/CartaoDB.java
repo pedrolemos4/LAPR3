@@ -20,7 +20,6 @@ import lapr.project.model.Cartao;
  */
 public class CartaoDB extends DataHandler {
 
-    Cartao cc;
     private final DataHandler dataHandler;
     private List<Cartao> lstCartoes;
 
@@ -28,25 +27,51 @@ public class CartaoDB extends DataHandler {
         this.dataHandler = DataHandler.getInstance();
     }
 
+    /**
+     * Cria um novo cartão de cidadão
+     * @param numeroCartao número do cartão de cidadão
+     * @param dataDeValidade data de validade do cartão de cidadão
+     * @param CCV código de segurança do cartão de cidadão
+     * @return o novo cartão de cidadão criado
+     */
     public Cartao novoCartao(int numeroCartao, String dataDeValidade, int CCV) {
-        cc = new Cartao(numeroCartao, dataDeValidade, CCV);
+        Cartao cc = new Cartao(numeroCartao, dataDeValidade, CCV);
         return cc;
     }
 
+    /**
+     * Regista cartão de cidadão
+     * @param cc cartão de cidadão
+     */
     public void registaCartao(Cartao cc) {
         if (validaCartao(cc)) {
             addCartao(cc);
         }
     }
 
+    /**
+     * Valida cartão de cidadão
+     * @param cc cartão de cidadão
+     * @return true se os dados do cartão de cidadão são válidos
+     */
     private boolean validaCartao(Cartao cc) {
         return !(cc == null || cc.getNumeroCartao() <= 0 || cc.getCCV() <= 0 || !cc.getDataDeValidade().isEmpty());
     }
 
+    /**
+     * Adiciona cartão de cidadão à base de dados
+     * @param cc cartão de cidadão
+     */
     public void addCartao(Cartao cc) {
         addCartao(cc.getNumeroCartao(), cc.getDataDeValidade(), cc.getCCV());
     }
 
+    /**
+     * Adiciona cartão de cidadão à base de dados
+     * @param numeroCartao número do cartão de cidadão
+     * @param dataDeValidade data de validade do cartão de cidadão
+     * @param CCV código de segurança do cartão de cidadão
+     */
     private void addCartao(int numeroCartao, String dataDeValidade, int CCV) {
         try {
             openConnection();
@@ -62,7 +87,11 @@ public class CartaoDB extends DataHandler {
         }
     }
 
-    public List<Cartao> getLstClientes() {
+    /**
+     * Retorna todos os cartões de cidadão
+     * @return lista de cartões de cidadão registados
+     */
+    public List<Cartao> getLstCC() {
         ArrayList<Cartao> list = new ArrayList<>();
         String query = "SELECT * FROM cartao";
 

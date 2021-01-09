@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Entrega;
+import lapr.project.model.Estafeta;
+
 /**
  *
  * @author beatr
@@ -55,6 +57,24 @@ public class EntregaDB extends DataHandler{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Entrega getEntregaAtiva(String email){
+
+        try {
+            openConnection();
+
+            CallableStatement callStmt = getConnection().prepareCall("{ call getEntregaAtiva(?) }");
+            callStmt.setString(1,email);
+
+            callStmt.execute();
+
+            closeAll();
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }

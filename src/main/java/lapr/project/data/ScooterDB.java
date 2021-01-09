@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import lapr.project.model.Estacionamento;
 import lapr.project.model.Scooter;
 import oracle.jdbc.OracleTypes;
 
@@ -176,4 +178,24 @@ public class ScooterDB extends DataHandler {
         return removed;
     }
 
+    public void addEstacionamentoScooter(Estacionamento estac, Scooter scoot){
+        addEstacionamentoScooter(estac.getNumeroLote(), scoot.getId());
+    }
+
+    private void addEstacionamentoScooter(int numLote, int idScooter){
+
+        try {
+            openConnection();
+
+            CallableStatement callStmt = getConnection().prepareCall("{ call AddEstacionamentoScooter(?,?) }");
+            callStmt.setInt(1, numLote);
+            callStmt.setInt(2, idScooter);
+
+            callStmt.execute();
+
+            closeAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

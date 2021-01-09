@@ -90,7 +90,9 @@ class Main {
             System.out.println(ex.getMessage());
         }
 
-        AdminUI.addScooter();
+        NotificaEstafetaUI nui = new NotificaEstafetaUI();
+        nui.controller.simulateParkingScooter();
+        //AdminUI.addScooter();
     }
 }
 

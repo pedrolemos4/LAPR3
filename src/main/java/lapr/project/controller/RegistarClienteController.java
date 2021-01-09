@@ -25,9 +25,6 @@ public class RegistarClienteController {
     private final UtilizadorDB utilizadorDB;
     private final EnderecoDB enderecoDB;
     private final CartaoDB cartaoDB;
-    private Utilizador user;
-    private Endereco end;
-    private Cartao cc;
 
     public RegistarClienteController(ClienteDB clienteDB, UtilizadorDB utilizadorDB, EnderecoDB enderecoDB, CartaoDB cartaoDB) {
         this.clienteDB = clienteDB;
@@ -40,27 +37,40 @@ public class RegistarClienteController {
         return clienteDB.getLstClientes();
     }
 
-    public Cliente novoCliente(int NIF, String nome, String email, String morada, double latitude, double longitude, double altitude, int numSegSocial, String password, int numCC, String dataValidade, int CCV) {
-        end = enderecoDB.novoEndereco(morada, latitude, longitude, altitude);
-        cc = cartaoDB.novoCartao(numCC, dataValidade, numCC);
-        user = utilizadorDB.novoUtilizador(NIF, nome, email, numSegSocial, password);
+    public Cliente novoCliente(int NIF, String morada, int numCC) {
         Cliente cl = clienteDB.novoCliente(NIF, morada, numCC);
         return cl;
+    }
+
+    public Utilizador novoUtilizador(int NIF, String nome, String email, int numSegSocial, String password) {
+        Utilizador user = utilizadorDB.novoUtilizador(NIF, nome, email, numSegSocial, password);
+        return user;
+    }
+
+    public Cartao novoCartao(int numCC, String dataValidade, int CCV) {
+        Cartao cc = cartaoDB.novoCartao(numCC, dataValidade, numCC);
+        return cc;
+    }
+
+    public Endereco novoEndereco(String morada, double latitude, double longitude, double altitude) {
+        Endereco end = enderecoDB.novoEndereco(morada, latitude, longitude, altitude);
+        return end;
     }
 
     public void registaCliente(Cliente cl) {
         clienteDB.registaCliente(cl);
     }
 
-    public void registaUtilizador() {
+    public void registaUtilizador(Utilizador user) {
         utilizadorDB.registaUtilizador(user);
     }
 
-    public void registaEndereco() {
+    public void registaEndereco(Endereco end) {
         enderecoDB.registaEndereco(end);
     }
 
-    public void registaCartao() {
+    public void registaCartao(Cartao cc) {
         cartaoDB.registaCartao(cc);
     }
+
 }

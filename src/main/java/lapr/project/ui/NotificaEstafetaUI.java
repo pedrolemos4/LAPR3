@@ -1,15 +1,19 @@
 package lapr.project.ui;
 
 import lapr.project.controller.NotificaEstafetaController;
+import lapr.project.data.EntregaDB;
+import lapr.project.data.EstafetaDB;
+import lapr.project.data.ScooterDB;
+import lapr.project.model.Entrega;
+
+import java.io.IOException;
 
 public class NotificaEstafetaUI {
     NotificaEstafetaController controller;
-/*
-    public NotificaEstafetaUI(){
-        if(controller.checkWellDockedScooter()){
-            System.out.println("Scooter locked.\nEstimativa de tempo até estar completamente carregada: " + controller.calcEstimativa() +" horas.");
-        }else{
-            System.out.println("Scooter mal estacionada, tente de novo.");
-        }
-    }*/
+
+    public NotificaEstafetaUI() throws IOException {
+        controller = new NotificaEstafetaController(new EstafetaDB(), new ScooterDB(), new EntregaDB());
+
+        controller.simulateParkingScooter();
+    }
 }
