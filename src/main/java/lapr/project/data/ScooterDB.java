@@ -27,11 +27,12 @@ public class ScooterDB extends DataHandler{
 
         callStmt = getConnection().prepareCall("{ ? = call funcAddScooter(?,?,?,?,?,?) }");
         callStmt.registerOutParameter(1, OracleTypes.INTEGER);
-        callStmt.setDouble(2, scooter.getPercentagemBateria());
-        callStmt.setDouble(3, scooter.getPesoMaximo());
-        callStmt.setDouble(4, scooter.getPesoScooter());
-        callStmt.setDouble(5, scooter.getPotencia());
-        callStmt.setInt(6, scooter.getEstadoScooter().getId());
+        callStmt.setString(2, scooter.getDescricao());
+        callStmt.setDouble(3, scooter.getPercentagemBateria());
+        callStmt.setDouble(4, scooter.getPesoMaximo());
+        callStmt.setDouble(5, scooter.getPesoScooter());
+        callStmt.setDouble(6, scooter.getPotencia());
+        callStmt.setInt(7, scooter.getEstadoScooter().getId());
         callStmt.execute();
 
         id = callStmt.getInt(1);
