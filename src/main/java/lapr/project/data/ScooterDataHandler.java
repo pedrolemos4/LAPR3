@@ -123,4 +123,27 @@ public class ScooterDataHandler extends DataHandler{
         return null;
     }
 
+    public boolean removeScooter(int id) throws SQLException {
+        boolean removed = false;
+        CallableStatement callV = null;
+
+        callV = getConnection().prepareCall("{ call removeVehicle(?) }");
+
+        callV.setInt(1, id);
+
+        callV.execute();
+
+        removed = true;
+
+        try {
+
+            callV.close();
+
+        } catch (SQLException | NullPointerException ex) {
+            Logger.getLogger(ScooterDataHandler.class.getName()).log(Level.WARNING, ex.getMessage());
+
+        }
+        return removed;
+    }
+
 }
