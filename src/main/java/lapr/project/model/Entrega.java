@@ -13,27 +13,26 @@ public class Entrega {
     private String dataInicio;
     private String dataFim;
     private List<Encomenda> listEncomendas;
-    private Scooter scooter;
-    private Estafeta estafeta;
+    private int idScooter;
+    private int idEstafeta;
     
     /**
      * Constrói uma instância de Entrega recebendo a data de inicio da entrega, a
-     * data final da entrega, a lista de encomendas da entrega, a scooter associada à entrega,
+     * data final da entrega, a scooter associada à entrega,
      * o estafeta asscociado à entrega.
      * 
      * @param dataInicio data de incio da entrega
      * @param dataFim data de fim da entrega
-     * @param listEncomendas lista de encomendas da entrega
-     * @param scooter scooter associada à entrega
-     * @param estafeta estafeta associado à entrega
+     * @param idScooter scooter associada à entrega
+     * @param idEstafeta estafeta associado à entrega
      */
-    public Entrega(String dataInicio, String dataFim, List<Encomenda> listEncomendas, Scooter scooter, Estafeta estafeta) {
+    public Entrega(String dataInicio, String dataFim, int idScooter, int idEstafeta) {
         this.idEntrega = 0;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.listEncomendas = new ArrayList<>();
-        this.scooter = scooter;
-        this.estafeta = estafeta;
+        this.idScooter = idScooter;
+        this.idEstafeta = idEstafeta;
     }
     
     /**
@@ -44,8 +43,8 @@ public class Entrega {
         this.dataInicio = null;
         this.dataFim = null;
         this.listEncomendas = null;
-        this.scooter = null;
-        this.estafeta = null;
+        this.idScooter = 0;
+        this.idEstafeta = 0;
     }
     
     /**
@@ -109,47 +108,39 @@ public class Entrega {
      * @param listEncomendas a nova lista de encomendas da entrega
      */
     public void setListEncomendas(List<Encomenda> listEncomendas) {
-        this.listEncomendas = listEncomendas;
-    }
-    
-    /**
-     * Adiciona à lista de encomendas da entrega uma entrega
-     * @param enc a encomenda a ser adicionada à lista
-     */
-    public void addListEncomendas(Encomenda enc) {
-        this.listEncomendas.add(enc);
+        this.listEncomendas = new ArrayList<>();
     }
     
     /**
      * Devolve a scooter associada à entrega
      * @return scooter asscoiada à entrega
      */
-    public Scooter getScooter() {
-        return scooter;
+    public int getIdScooter() {
+        return idScooter;
     }
     
     /**
      * Modifica a scooter associada à entrega
-     * @param scooter a nova scooter associada à entrega
+     * @param idScooter a nova scooter associada à entrega
      */
-    public void setScooter(Scooter scooter) {
-        this.scooter = scooter;
+    public void setScooter(int idScooter) {
+        this.idScooter = idScooter;
     }
     
     /**
      * Devolve o estafeta associado à entrega
      * @return estafeta associado à entrega
      */
-    public Estafeta getEstafeta() {
-        return estafeta;
+    public int getidEstafeta() {
+        return idEstafeta;
     }
     
     /**
      * Modifica o estafeta associado à entrega
      * @param estafeta o novo estafeta associado à entrega
      */
-    public void setEstafeta(Estafeta estafeta) {
-        this.estafeta = estafeta;
+    public void setEstafeta(int idEstafeta) {
+        this.idEstafeta = idEstafeta;
     }
        
 }

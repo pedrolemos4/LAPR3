@@ -9,23 +9,23 @@ public class Encomenda {
     private double pesoEncomenda;
     private String morada;
     private double taxa;
-    private Cliente c;
+    private int nifCliente;
     private List<Produto> lst;
-    private EstadoEncomenda estado;
+    private int estado;
     private int id;
 
     /**
      * Constrói uma instância de encomenda recebendo a lista de produtos, a data, o preco, o peso e a taxa da encomenda
-     * @param lst
+     * @param nifCliente
      * @param dataPedida data em que foi pedida a encomenda
      * @param preco preco da encomenda
      * @param pesoEncomenda peso da encomenda
      * @param taxa taxa da encomenda
      * @param estado estado atual da encomenda
      */
-    public Encomenda(Cliente cliente, String dataPedida, double preco, double pesoEncomenda, double taxa, EstadoEncomenda estado) {
+    public Encomenda(int nifCliente, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) {
         this.lst=new ArrayList<>();
-        this.c=cliente;
+        this.nifCliente=nifCliente;
         this.dataPedida = dataPedida;
         this.preco = preco;
         this.pesoEncomenda = pesoEncomenda;
@@ -34,13 +34,21 @@ public class Encomenda {
     }
 
     /**
-     * Devolve o cliente
+     * Devolve o nif do cliente
      * @return 
      */
-    public Cliente getCliente() {
-        return c;
+    public int getNif() {
+        return nifCliente;
     }
-
+    
+    
+    /**
+     * Modifica o nif do cliente
+     * @return 
+     */
+    public int setNif(int nifCliente) {
+        return nifCliente;
+    }
     /**
      * Devolve o id
      * @return 
@@ -118,7 +126,7 @@ public class Encomenda {
      * Modifica o valor do taxa da encomenda pelo valor recebido por parâmetro
      * @param taxa nova taxa da encomenda
      */
-    public void setTaxa(int taxa) {
+    public void setTaxa(double taxa) {
         this.taxa = taxa;
     }
 
@@ -126,7 +134,7 @@ public class Encomenda {
      * Devolve o valor do estado da encomenda
      * @return estado da encomenda
      */
-    public EstadoEncomenda getEstado() {
+    public int getEstado() {
         return estado;
     }
 
@@ -134,7 +142,7 @@ public class Encomenda {
      * Modifica o valor do estado da encomenda pelo valor recebido por parâmetro
      * @param estado novo estado da encomenda
      */
-    public void setEstado(EstadoEncomenda estado) {
+    public void setEstado(int estado) {
         this.estado = estado;
     }
 }
