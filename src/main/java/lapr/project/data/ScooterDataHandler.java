@@ -34,7 +34,7 @@ public class ScooterDataHandler {
         callStmt.setDouble(3, scooter.getPesoMaximo());
         callStmt.setDouble(4, scooter.getPesoScooter());
         callStmt.setDouble(5, scooter.getPotencia());
-        callStmt.setString(6, scooter.getEstadoScooter().getDesignacao());
+        callStmt.setInt/*String*/(6, scooter.getEstadoScooter()/*.getDesignacao()*/);
         callStmt.execute();
 
         id = callStmt.getInt(1);

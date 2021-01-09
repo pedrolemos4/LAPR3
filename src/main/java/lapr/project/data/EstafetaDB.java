@@ -25,7 +25,7 @@ public class EstafetaDB extends DataHandler{
     }
 
     public Estafeta novoEstafeta(int nif, String nome, String email, double peso, int nss, String pwd) {
-        est = new Estafeta(nif, nome, email, peso, nss, pwd, new EstadoEstafeta(1,"disponível"));
+        est = new Estafeta(nif, nome, email, peso, nss, pwd, 1 /*new EstadoEstafeta(1,"disponível")*/);
         return est;
     }
 
@@ -37,7 +37,7 @@ public class EstafetaDB extends DataHandler{
     }
 
     public boolean validaEstafeta(Estafeta est) {
-        if(est.getPesoEstafeta() < 0 || est.getNome() == null || est.getPassword() == null || est.getEstado() == null){
+        if(est.getPesoEstafeta() < 0 || est.getNome() == null || est.getPassword() == null || est.getEstado() == 0/*null*/){
             return false;
         }
         return true;
@@ -74,7 +74,7 @@ public class EstafetaDB extends DataHandler{
                 int id_estado_estafeta = rSet.getInt(7);
                 String designacao = rSet.getString(8);
 
-                return new Estafeta(NIF, nome, emailE, pesoEstafeta, numeroSegurancaSocial, password, new EstadoEstafeta(id_estado_estafeta, designacao));
+                return new Estafeta(NIF, nome, emailE, pesoEstafeta, numeroSegurancaSocial, password, id_estado_estafeta/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
             }
         } catch (SQLException e) {
             e.printStackTrace();

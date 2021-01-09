@@ -38,7 +38,7 @@ public class EncomendaDB extends DataHandler{
      */
     public void novaEncomenda() {
         EstadoEncomenda ee = new EstadoEncomenda(1, "encomendado");
-        enc = new Encomenda(new Cliente(), getData(), produtoDB.getPreco(), produtoDB.getPeso(), 1.0, ee);
+        //enc = new Encomenda(new Cliente(), getData(), produtoDB.getPreco(), produtoDB.getPeso(), 1.0, ee);
 //        enc.setLst(getListaProdutos());
     }
     
@@ -66,7 +66,7 @@ public class EncomendaDB extends DataHandler{
      * @return 
      */
     public boolean validaEncomenda(Encomenda enc){
-        if(enc.getCliente()!=null && enc.getDataPedida()!= null && enc.getEstado()!=null && enc.getId()!= 0 && enc.getLst()!= null && enc.getPesoEncomenda()>0 && enc.getPreco()>0 && enc.getTaxa()>0){
+        if(enc.getNif()!=0 && enc.getDataPedida()!= null && enc.getEstado()!=0 && enc.getId()!= 0 && enc.getLst()!= null && enc.getPesoEncomenda()>0 && enc.getPreco()>0 && enc.getTaxa()>0){
             return true;
         }
         return false;
@@ -89,7 +89,7 @@ public class EncomendaDB extends DataHandler{
      * @param enc 
      */
     public void addEncomenda(Encomenda enc) {
-        addEncomenda(enc.getId(), enc.getCliente(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado(), enc.getLst());
+        addEncomenda(enc.getId(), enc.getNif(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado(), enc.getLst());
     }
     
     /**
@@ -103,7 +103,7 @@ public class EncomendaDB extends DataHandler{
      * @param estado
      * @param lst 
      */
-    private void addEncomenda(int id, Cliente cliente, String dataPedida, double preco, double pesoEncomenda, double taxa, EstadoEncomenda estado, List<Produto> lst) {
+    private void addEncomenda(int id, int nif, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado, List<Produto> lst) {
 
         try {
             openConnection();
@@ -111,12 +111,12 @@ public class EncomendaDB extends DataHandler{
             CallableStatement callStmt = getConnection().prepareCall("{ call addEncomenda(?,?,?,?) }");
 
             callStmt.setInt(1, id);
-            callStmt.setInt(2, cliente.getNIF());
+            callStmt.setInt(2, nif);
             callStmt.setString(3, dataPedida);
             callStmt.setDouble(4, preco);
             callStmt.setDouble(5, pesoEncomenda);
             callStmt.setDouble(6, taxa);
-            callStmt.setInt(7, estado.getId_estado_encomenda());
+            callStmt.setInt(7, estado);
             
             callStmt.execute();
             
