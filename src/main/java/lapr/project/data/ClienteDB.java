@@ -30,25 +30,57 @@ public class ClienteDB extends DataHandler {
         this.dataHandler = DataHandler.getInstance();
     }
 
+    /**
+     * Cria um novo cliente
+     *
+     * @param nif nif do cliente
+     * @param morada morada do cliente
+     * @param numCC número do cartão de cidadão do cliente
+     * @return o novo cliente criado
+     */
     public Cliente novoCliente(int nif, String morada, int numCC) {
         cl = new Cliente(nif, 0, morada, numCC);
         return cl;
     }
 
+    /**
+     * Regista o cliente
+     *
+     * @param cl o cliente
+     */
     public void registaCliente(Cliente cl) {
         if (validaCliente(cl)) {
             addCliente(cl);
         }
     }
 
+    /**
+     * Valida o cliente recebido
+     *
+     * @param cl o cliente
+     * @return true se os dados do cliente forem válidos
+     */
     private boolean validaCliente(Cliente cl) {
         return cl != null;
     }
 
+    /**
+     * Adiciona o cliente à base de dados
+     *
+     * @param cl o cliente
+     */
     public void addCliente(Cliente cl) {
         addCliente(cl.getNIF(), cl.getCreditos(), cl.getEnderecoMorada(), cl.getNumCartaoCredito());
     }
 
+    /**
+     * Adiciona o cliente à base de dados
+     *
+     * @param nif nif do cliente
+     * @param creditos créditos do cliente
+     * @param enderecoMorada morada do cliente
+     * @param numCC número do cartão de cidadão do cliente
+     */
     private void addCliente(int nif, int creditos, String enderecoMorada, int numCC) {
         try {
             openConnection();
@@ -64,6 +96,11 @@ public class ClienteDB extends DataHandler {
         }
     }
 
+    /**
+     * Retorna todos os clientes
+     *
+     * @return lista de todos os clientes registados
+     */
     public List<Cliente> getLstClientes() {
         ArrayList<Cliente> list = new ArrayList<>();
         String query = "SELECT * FROM cliente";
@@ -89,6 +126,12 @@ public class ClienteDB extends DataHandler {
         return list;
     }
 
+    /**
+     * Procura cliente por email recebido
+     *
+     * @param email email do cliente
+     * @return cliente
+     */
     public Cliente getClienteByEmail(String email) {
         String query = "SELECT * FROM cliente e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE e.email= " + email;
 
