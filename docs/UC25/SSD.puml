@@ -16,7 +16,7 @@ deactivate ":Sistema"
 
 UNR -> ":Sistema" : confirma
 activate ":Sistema"
-":Sistema" --> UNR : operação bem sucedida
+":Sistema" --> UNR : gera o recibo e informa que a operação foi bem sucedida
 deactivate ":Sistema"
 
 deactivate UNR
