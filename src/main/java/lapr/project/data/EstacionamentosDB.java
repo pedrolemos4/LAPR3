@@ -17,11 +17,11 @@ import lapr.project.model.Estacionamento;
  *
  * @author josep
  */
-public class InserirEstacionamentosDB extends DataHandler {
+public class EstacionamentosDB extends DataHandler {
 
     private final DataHandler dataHandler;
 
-    public InserirEstacionamentosDB() {
+    public EstacionamentosDB() {
         this.dataHandler = DataHandler.getInstance();
     }
 
