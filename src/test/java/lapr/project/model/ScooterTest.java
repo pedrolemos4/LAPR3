@@ -131,8 +131,8 @@ public class ScooterTest {
     public void testGetEstadoScooter() {
         System.out.println("getEstadoScooter");
         Scooter instance = new Scooter(85, 50, 30, 40,1);
-        EstadoScooter expResult = new EstadoScooter(1,"Disponível");
-        EstadoScooter result = instance.getEstadoScooter();
+        int expResult = 1;
+        int result = instance.getEstadoScooter();
         assertEquals(expResult, result);
     }
 

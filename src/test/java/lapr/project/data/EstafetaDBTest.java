@@ -15,7 +15,7 @@ class EstafetaDBTest {
     void getLstEstafetas() {
         System.out.println("getLstEstafetas");
         List<Estafeta> expResult = new ArrayList<>();
-        Estafeta instance = new Estafeta(55, "ss", "dd", 58, 55, "sd", new EstadoEstafeta());
+        Estafeta instance = new Estafeta(55, "ss", "dd", 58, 55, "sd", 1);
         expResult.add(instance);
 
         List<Estafeta> result = expResult;
@@ -34,7 +34,7 @@ class EstafetaDBTest {
     void validaEstafeta() {
         System.out.println("validaEstafeta");
         EstafetaDB edb = new EstafetaDB();
-        Estafeta instance = new Estafeta(55, "ss", "dd", 58, 55, "sd", new EstadoEstafeta());
+        Estafeta instance = new Estafeta(55, "ss", "dd", 58, 55, "sd", 1);
         boolean expResult = true;
 
         boolean result = edb.validaEstafeta(instance);

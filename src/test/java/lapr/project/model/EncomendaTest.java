@@ -14,7 +14,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
 
         assertEquals(instance,instance);
     }
@@ -26,7 +26,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         String expResult = "01-01-2000";
         String result = instance.getDataPedida();
         assertEquals(expResult, result);
@@ -39,7 +39,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10,1);
         double expResult = 10;
         double result = instance.getPreco();
         assertEquals(expResult, result);
@@ -53,7 +53,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         instance.setPreco(11);
         assertEquals(preco, instance.getPreco());
     }
@@ -65,7 +65,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         double expResult = 10;
         double result = instance.getPesoEncomenda();
         assertEquals(expResult, result);
@@ -79,7 +79,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         instance.setPesoEncomenda(11);
         assertEquals(peso, instance.getPesoEncomenda());
     }
@@ -91,7 +91,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda( c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda( c.getNIF(),"01-01-2000",10,10,10, 1);
         double expResult = 10;
         double result = instance.getTaxa();
         assertEquals(expResult, result);
@@ -105,7 +105,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         instance.setTaxa(11);
         assertEquals(taxa, instance.getTaxa());
     }
@@ -117,38 +117,38 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda(1,"encomendado"));
-        String expResult = "encomendado";
-        String result = instance.getEstado().getDesignacao();
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        int expResult = 1;
+        int result = instance.getEstado();
         assertEquals(expResult, result);
     }
 
     @Test
     void setEstado() {
         System.out.println("setEstado");
-        String estado = "entregue";
+        int estado = 2;
         List<Produto> lp = new ArrayList<>();
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
-        instance.setEstado(new EstadoEncomenda(2,"entregue"));
-        assertEquals(estado, instance.getEstado().getDesignacao());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        instance.setEstado(estado);
+        assertEquals(estado, instance.getEstado());
     }
 
     /**
      * Test of getCliente method, of class Encomenda.
      */
     @org.junit.Test
-    public void testGetCliente() {
-        System.out.println("getCliente");
+    public void testGetNif() {
+        System.out.println("getNif");
         List<Produto> lp = new ArrayList<>();
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
-        Cliente expResult = c;
-        Cliente result = instance.getCliente();
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        int expResult = c.getNIF();
+        int result = instance.getNif();
         assertEquals(expResult, result);
     }
 
@@ -162,7 +162,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         List<Produto> expResult = lp;
         List<Produto> result = instance.getLst();
         assertEquals(expResult, result);
@@ -178,7 +178,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         String expResult = "01-01-2000";
         String result = instance.getDataPedida();
         assertEquals(expResult, result);
@@ -194,7 +194,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         double expResult = 10.0;
         double result = instance.getPreco();
         assertEquals(expResult, result, 0.0);
@@ -211,7 +211,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10,1);
         instance.setPreco(preco);
     }
 
@@ -225,7 +225,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         double expResult = 10.0;
         double result = instance.getPesoEncomenda();
         assertEquals(expResult, result, 0.0);
@@ -242,7 +242,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         instance.setLst(lst);
     }
 
@@ -257,7 +257,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         instance.setPesoEncomenda(pesoEncomenda);
     }
 
@@ -271,7 +271,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         double expResult = 10.0;
         double result = instance.getTaxa();
         assertEquals(expResult, result, 0.0);
@@ -288,38 +288,8 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         instance.setTaxa(taxa);
     }
 
-    /**
-     * Test of getEstado method, of class Encomenda.
-     */
-    @org.junit.Test
-    public void testGetEstado() {
-        System.out.println("getEstado");
-        List<Produto> lp = new ArrayList<>();
-        Produto p = new Produto();
-        Cliente c = new Cliente();
-        lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
-        EstadoEncomenda expResult = new EstadoEncomenda();
-        EstadoEncomenda result = instance.getEstado();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of setEstado method, of class Encomenda.
-     */
-    @org.junit.Test
-    public void testSetEstado() {
-        System.out.println("setEstado");
-        EstadoEncomenda estado = null;
-        List<Produto> lp = new ArrayList<>();
-        Produto p = new Produto();
-        Cliente c = new Cliente();
-        lp.add(p);
-        Encomenda instance = new Encomenda(c,"01-01-2000",10,10,10, new EstadoEncomenda());
-        instance.setEstado(estado);
-    }
 }

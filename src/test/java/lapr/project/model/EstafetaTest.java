@@ -16,7 +16,7 @@ public class EstafetaTest extends UtilizadorTest{
     @Test
     public void testGetPesoEstafeta() {
         System.out.println("getPesoEstafeta");
-        Estafeta instance = new Estafeta(55, "ss", "dd", 58, 55, "sd", new EstadoEstafeta());
+        Estafeta instance = new Estafeta(55, "ss", "dd", 58, 55, "sd", 1);
         double expResult = 58.0;
         double result = instance.getPesoEstafeta();
         assertEquals(expResult, result, 0.0);
@@ -39,9 +39,9 @@ public class EstafetaTest extends UtilizadorTest{
     @Test
     public void testGetEstado() {
         System.out.println("getEstado");
-        Estafeta instance = new Estafeta(58,"ss", "dd",123,55, "sd", new EstadoEstafeta(1,"disponível"));
-        String expResult = "disponível";
-        String result = instance.getEstado().getDesignacao();
+        Estafeta instance = new Estafeta(58,"ss", "dd",123,55, "sd", 1);
+        int expResult = 1;
+        int result = instance.getEstado();
         assertEquals(expResult, result);
 
     }
@@ -49,10 +49,10 @@ public class EstafetaTest extends UtilizadorTest{
     @Test
     public void testSetEstado() {
         System.out.println("setEstado");
-        String estado = "indisponível";
-        Estafeta instance = new Estafeta();
-        instance.setEstado(new EstadoEstafeta(2,"indisponível"));
-        assertEquals(estado, instance.getEstado().getDesignacao());
+        int estado = 2;
+        Estafeta instance = new Estafeta(58,"ss", "dd",123,55, "sd", 1);
+        instance.setEstado(estado);
+        assertEquals(estado, instance.getEstado());
 
     }
     
