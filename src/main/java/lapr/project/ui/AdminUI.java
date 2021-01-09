@@ -5,6 +5,7 @@
  */
 package lapr.project.ui;
 
+import static java.lang.System.exit;
 import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -23,6 +24,68 @@ public class AdminUI {
      */
     public static final Scanner LER = new Scanner(System.in);
 
+    /**
+     * 
+     */
+    public static void showMenu() {
+        System.out.println("\nRIDE SHARING - Menu Administrador\n--------------------------------"
+                //+ "\n 1 - Add park"
+                //+ "\n 2 - Add point of interest"
+                //+ "\n 3 - Remove park"
+                //+ "\n 4 - Update park"
+                + "\n 1 - Adicionar scooter"
+                + "\n 2 - Remover scooter"
+                + "\n 3 - Atualizar scooter"
+                //+ "\n 8 - Report about unlocked vehicles"
+                //+ "\n 9 - Add path"
+                + "\n 0 - Exit"
+                + "\n Choose one of the options above.");
+    }
+
+    public void loop(){
+            String opt;
+        do {
+            showMenu();
+            opt = LER.nextLine();
+
+            switch (opt) {
+               /* case "1":
+                    addPark();
+                    break;
+                case "2":
+                    addPOI();
+                    break;
+                case "3":
+                    removePark();
+                    break;
+                case "4":
+                    updatePark();
+                    break;*/
+                case "1":
+                    addScooter();
+                    break;
+                case "2":
+                    removeScooter();
+                    break;
+               /* case "7":
+                    updateVehicle();
+                    break;
+                case "8":
+                    getUnlockedvehicles();
+                    break;
+                case "9":
+                    addPath();
+                    break;*/
+                case "0":
+                    exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid option");
+            }
+        } while (!opt.equals("0"));// || isNumeric(opt));
+    }
+
+    
     /**
      * Interface that allows the addition of a scooter into the system
      */
