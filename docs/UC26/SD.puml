@@ -20,7 +20,7 @@ CLI --> UI : pretende realizar o pagamento
 activate CLI
 activate UI
 
-UI --> CTRL : getListClients()
+UI --> CTRL : getCliente()
 activate CTRL
 
 CTRL -> _APP: app = getInstance()
@@ -43,13 +43,13 @@ CTRL --> CDH : cliente = getClienteByEmail(email)
 activate CDH
 deactivate CDH
 
+CTRL --> EDH : getEncomendaByCliente()
+activate EDH
+deactivate EDH
+
 CTRL --> PDH : listaProdutos = getListaProdutos()
 activate PDH
 deactivate PDH
-
-CTRL --> EDH : getEncomenda()
-activate EDH
-deactivate EDH
 
 CTRL --> ENC : preco = getPreco()
 activate ENC
@@ -59,11 +59,9 @@ CTRL --> ENC : taxa = getTaxa()
 activate ENC
 deactivate ENC
 
-CTRL --> PAD : idPagamento = generateIdPagamento()
+CTRL --> PAD : novoPagamento(idEncomenda, precoTotal)
 activate PAD
-CTRL --> PAD : novoPagamento(idPagamento, preco, taxa)
-
-PAD --> PAG ** : create(preco, taxa)
+PAD --> PAG ** : create(idEncomenda, precoTotal)
 deactivate PAD
 
 deactivate CTRL
@@ -76,7 +74,7 @@ deactivate CTRL
 CLI --> UI : confirma
 activate UI
 
-UI --> CTRL : registaPagamento()
+UI --> CTRL : registaPagamento(pag)
 activate CTRL
 
 CTRL --> PAD : registaPagamento(pag)

@@ -12,10 +12,12 @@ import lapr.project.authorization.FacadeAuthorization;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.ProdutosDB;
+import lapr.project.data.ReciboDB;
 import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.EstadoEncomenda;
 import lapr.project.model.Produto;
+import lapr.project.model.Recibo;
 
 /**
  *
@@ -26,11 +28,13 @@ public class RealizaEncomendaController {
     private ProdutosDB produtoDB;
     private EncomendaDB encDB;
     private ClienteDB cliDB;
+    private ReciboDB reciboDB;
     private FacadeAuthorization facade;
 
     public RealizaEncomendaController() {
         produtoDB = new ProdutosDB();
         encDB = new EncomendaDB();
+        reciboDB = new ReciboDB();
         cliDB = new ClienteDB();
         this.facade = POTApplication.getFacadeAuthorization();
     }
@@ -39,11 +43,15 @@ public class RealizaEncomendaController {
         produtoDB.registaProduto(prod);
     }
     
-    public boolean registaEncomenda(Encomenda enc1){
-        return encDB.registaEncomenda(enc1);
+    public void registaEncomenda(Encomenda enc1){
+        encDB.registaEncomenda(enc1);
     }
     
-    public List<Produto> getListaEncomenda(){
+    public void registaEncomendaProduto(Encomenda enc, Produto p) {
+        encDB.registaEncomendaProduto(enc,p);
+    }
+    
+    public List<Produto> getListaProdutoEncomenda(){
         return produtoDB.getLista();
     }
     
@@ -67,6 +75,14 @@ public class RealizaEncomendaController {
         String email = facade.getCurrentSession().getUser().getEmail();
         Cliente cliente = cliDB.getClienteByEmail(email);
         return cliente.getNIF();
+    }
+    
+    public void novoRecibo(Recibo rec){
+        reciboDB.registaRecibo(rec);
+    }
+    
+    public void novoRecibo(Recibo rec, Produto prod){
+        reciboDB.registaRecibo(rec, prod);
     }
 
 }

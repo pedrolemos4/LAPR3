@@ -40,7 +40,7 @@ public class EnderecoDB extends DataHandler {
     }
 
     public boolean validaEndereco(Endereco end) {
-        if (end == null || end.getMorada().isEmpty() || end.getLatitude() <= 0 || end.getLongitude() <= 0 || end.getAltitude() <= 0) {
+        if (end == null || end.getMorada().isEmpty() || end.getLatitude() < 0 || end.getLongitude() < 0 || end.getAltitude() < 0) {
             return false;
         }
         return true;

@@ -12,6 +12,11 @@ class Encomenda {
   -taxa
 }
 
+class Recibo {
+  -idRecibo
+  -dataRecibo
+}
+
 class Produto {
   -idProduto
   -designacao
@@ -47,5 +52,7 @@ Cliente "1" -- "1" Utilizador: atua como >
 Cliente "1" -- "*" Encomenda: realiza e paga >
 Encomenda "1" -- "1..*" Produto: tem >
 Cliente "1" -- "1" Endereco: tem >
+Recibo "1" -- "1" Encomenda: referente a >
+Recibo "1" -- "1" Cliente: referente a >
 
 @enduml

@@ -23,14 +23,14 @@ import lapr.project.model.Produto;
  *
  * @author pedro
  */
-public class EncomendaDB extends DataHandler{
+public class EncomendaDB extends DataHandler {
 
     private Encomenda enc;
     private final ProdutosDB produtoDB;
     private final DataHandler dataHandler;
     private List<Encomenda> lstEnc;
-    
-    public EncomendaDB(){
+
+    public EncomendaDB() {
         this.dataHandler = DataHandler.getInstance();
         produtoDB = new ProdutosDB();
         lstEnc = new ArrayList<>();
@@ -38,31 +38,50 @@ public class EncomendaDB extends DataHandler{
 
     /**
      * Devolve a lista de produtos da encomenda
-     * @return 
+     *
+     * @return
      */
     public List<Produto> getListaProdutos() {
         return produtoDB.getListaProdutos();
     }
-    
+
+    /**
+     * Devolve a encomenda com base no nif do cliente
+     *
+     * @param nif
+     * @return
+     */
+    public Encomenda getEncomenda(int nif) {
+        for (int i = 0; i < getListaEncomenda().size(); i++) {
+            Encomenda get = getListaEncomenda().get(i);
+            if (get.getNif() == nif) {
+                return get;
+            }
+        }
+        return null;
+    }
+
     /**
      * Valida a encomenda
+     *
      * @param enc
-     * @return 
+     * @return
      */
-    public boolean validaEncomenda(Encomenda enc){
-        if(enc.getNif()!=0 && enc.getDataPedida()!= null && enc.getEstado()!=0 && enc.getId()!= 0 && enc.getLst()!= null && enc.getPesoEncomenda()>0 && enc.getPreco()>0 && enc.getTaxa()>0){
+    public boolean validaEncomenda(Encomenda enc) {
+        if (enc.getNif() != 0 && enc.getDataPedida() != null && enc.getEstado() != 0 && enc.getId() != 0 && enc.getLst() != null && enc.getPesoEncomenda() > 0 && enc.getPreco() > 0 && enc.getTaxa() > 0) {
             return true;
         }
         return false;
     }
-    
+
     /**
      * Regista e encomenda se for válida
+     *
      * @param enc
-     * @return 
+     * @return
      */
     public boolean registaEncomenda(Encomenda enc) {
-        if(validaEncomenda(enc)){
+        if (validaEncomenda(enc)) {
             addEncomenda(enc);
         }
         return false;
@@ -70,14 +89,16 @@ public class EncomendaDB extends DataHandler{
 
     /**
      * Adiciona a lista de encomendas a encomenda
-     * @param enc 
+     *
+     * @param enc
      */
     public void addEncomenda(Encomenda enc) {
         addEncomenda(enc.getId(), enc.getNif(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado(), enc.getLst());
     }
-    
+
     /**
      * Adiciona a encomenda à base de dados
+     *
      * @param id
      * @param cliente
      * @param dataPedida
@@ -85,13 +106,13 @@ public class EncomendaDB extends DataHandler{
      * @param pesoEncomenda
      * @param taxa
      * @param estado
-     * @param lst 
+     * @param lst
      */
     private void addEncomenda(int id, int nif, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado, List<Produto> lst) {
 
         try {
             openConnection();
-            
+
             CallableStatement callStmt = getConnection().prepareCall("{ call addEncomenda(?,?,?,?) }");
 
             callStmt.setInt(1, id);
@@ -101,38 +122,54 @@ public class EncomendaDB extends DataHandler{
             callStmt.setDouble(5, pesoEncomenda);
             callStmt.setDouble(6, taxa);
             callStmt.setInt(7, estado);
-            
+
             callStmt.execute();
-            
-            CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?,?,?) }");
-            
-            for(int i=0;i<lst.size();i++){
-                callStmt1.setInt(1, id);
-                callStmt1.setInt(2, lst.get(i).getId());
-            }
-            
+
             closeAll();
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     
     /**
+     * Guarda na base de dados a lista de produtos por encomenda
+     * @param enc
+     * @param p 
+     */
+    public void registaEncomendaProduto(Encomenda enc, Produto p) {
+        try {
+            openConnection();
+
+            CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?,?,?) }");
+
+            callStmt1.setInt(1, enc.getId());
+            callStmt1.setInt(2, p.getId());
+
+            callStmt1.execute();
+            closeAll();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Devolve a lista de encomendas
-     * @return 
+     *
+     * @return
      */
     public List<Encomenda> getListaEncomenda() {
         ArrayList<Encomenda> list = new ArrayList<>();
         String query = "SELECT * FROM encomenda WHERE EstadoEncomendaidEstadoEncomenda = 1";
-        
+
         Statement stm = null;
         ResultSet rSet = null;
-        
+
         try {
             stm = getConnection().createStatement();
             rSet = stm.executeQuery(query);
-            
+
             while (rSet.next()) {
                 int idEncomenda = rSet.getInt(1);
                 Timestamp dataPedida = rSet.getTimestamp(2);
@@ -141,15 +178,17 @@ public class EncomendaDB extends DataHandler{
                 double taxa = rSet.getDouble(5);
                 int estado = rSet.getInt(6);
                 int nif = rSet.getInt(7);
-                                
+
                 list.add(new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado));
             }
             return list;
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
+
     
+
 }
