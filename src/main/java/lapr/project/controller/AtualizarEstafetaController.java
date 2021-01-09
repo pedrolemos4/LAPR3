@@ -17,7 +17,8 @@ public class AtualizarEstafetaController {
     }
 
     public void getEstafetaByEmail(String email) {
-        estafetaDB.getEstafetaByEmail(email);
+        Estafeta est = estafetaDB.getEstafetaByEmail(email);
+        atualizarEstafeta(est);
     }
 
     public void atualizarEstafeta(Estafeta est) {
