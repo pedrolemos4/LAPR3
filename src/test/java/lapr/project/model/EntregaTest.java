@@ -26,10 +26,7 @@ public class EntregaTest {
 
     @Test
     void EntregaConstructorTest(){
-        List<Encomenda> listEncomendas = new ArrayList<>();
-        listEncomendas.add(new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er")));
-        listEncomendas.add(new Encomenda("25/12/2252", 10, 25, 6, new EstadoEncomenda(8, "wd")));
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", listEncomendas, new Scooter(87, 56, 48, 96, 1), new Estafeta(987654321, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel")));
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 1);
         
         assertEquals(instance,instance);
     }
@@ -40,10 +37,7 @@ public class EntregaTest {
     @Test
     public void testGetIdEntrega() {
         System.out.println("getIdEntrega");
-        List<Encomenda> listEncomendas = new ArrayList<>();
-        listEncomendas.add(new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er")));
-        listEncomendas.add(new Encomenda("25/12/2252", 10, 25, 6, new EstadoEncomenda(8, "wd")));
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", listEncomendas, new Scooter(87, 56, 48, 96, 1), new Estafeta(987654321, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel")));
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
         
         int expResult = 1;
         instance.setIdEntrega(1);
@@ -59,10 +53,7 @@ public class EntregaTest {
     public void testSetIdEntrega() {
         System.out.println("setIdEntrega");
         int idEntrega = 8;
-        List<Encomenda> listEncomendas = new ArrayList<>();
-        listEncomendas.add(new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er")));
-        listEncomendas.add(new Encomenda("25/12/2252", 10, 25, 6, new EstadoEncomenda(8, "wd")));
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", listEncomendas, new Scooter(87, 56, 48, 96, 1), new Estafeta(987654321, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel")));
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
         
         instance.setIdEntrega(idEntrega);
         assertEquals(idEntrega, instance.getIdEntrega());
@@ -74,10 +65,7 @@ public class EntregaTest {
     @Test
     public void testGetDataInicio() {
         System.out.println("getDataInicio");
-        List<Encomenda> listEncomendas = new ArrayList<>();
-        listEncomendas.add(new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er")));
-        listEncomendas.add(new Encomenda("25/12/2252", 10, 25, 6, new EstadoEncomenda(8, "wd")));
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", listEncomendas, new Scooter(87, 56, 48, 96, 1), new Estafeta(987654321, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel")));
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
         
         String expResult = "25/12/2252";
         String result = instance.getDataInicio();
@@ -92,10 +80,7 @@ public class EntregaTest {
     public void testSetDataInicio() {
         System.out.println("setDataInicio");
         String dataInicio = "24/12/2252";
-        List<Encomenda> listEncomendas = new ArrayList<>();
-        listEncomendas.add(new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er")));
-        listEncomendas.add(new Encomenda("25/12/2252", 10, 25, 6, new EstadoEncomenda(8, "wd")));
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", listEncomendas, new Scooter(87, 56, 48, 96, 1), new Estafeta(987654321, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel")));
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
         
         instance.setDataInicio(dataInicio);
         assertEquals(dataInicio, instance.getDataInicio());
@@ -108,10 +93,7 @@ public class EntregaTest {
     @Test
     public void testGetDataFim() {
         System.out.println("getDataFim");
-        List<Encomenda> listEncomendas = new ArrayList<>();
-        listEncomendas.add(new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er")));
-        listEncomendas.add(new Encomenda("25/12/2252", 10, 25, 6, new EstadoEncomenda(8, "wd")));
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", listEncomendas, new Scooter(87, 56, 48, 96, 1), new Estafeta(987654321, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel")));
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
         
         String expResult = "26/12/2252";
         String result = instance.getDataFim();
@@ -126,10 +108,7 @@ public class EntregaTest {
     public void testSetDataFim() {
         System.out.println("setDataFim");
         String dataFim = "25/12/2252";
-        List<Encomenda> listEncomendas = new ArrayList<>();
-        listEncomendas.add(new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er")));
-        listEncomendas.add(new Encomenda("25/12/2252", 10, 25, 6, new EstadoEncomenda(8, "wd")));
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", listEncomendas, new Scooter(87, 56, 48, 96, 1), new Estafeta(987654321, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel")));
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
         
         instance.setDataFim(dataFim);
         assertEquals(dataFim, instance.getDataFim());
@@ -141,15 +120,16 @@ public class EntregaTest {
     @Test
     public void testGetListEncomendas() {
         System.out.println("getListEncomendas");
-        Encomenda enc = new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er"));
+        Encomenda enc = new Encomenda(2,"25/12/2252", 15, 20, 5, 1);
         List<Encomenda> expResult = new ArrayList<>();
         expResult.add(enc);
         
-        Scooter scooter = new Scooter(87, 56, 48, 96, 1);
-        Estafeta estafeta = new Estafeta(987654321, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel"));
         List<Encomenda> list = new ArrayList<>();
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", list, scooter, estafeta);
-        instance.addListEncomendas(enc);
+        list.add(enc);
+        
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
+        instance.setListEncomendas(list);
+        
         List<Encomenda> result = instance.getListEncomendas();
         
         assertEquals(expResult, result);
@@ -163,12 +143,9 @@ public class EntregaTest {
     public void testSetListEncomendas() {
         System.out.println("setListEncomendas");
         List<Encomenda> expResult = new ArrayList<>();
-        expResult.add(new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er")));
-        expResult.add(new Encomenda("25/12/2252", 10, 25, 6, new EstadoEncomenda(8, "wd")));
-        List<Encomenda> listEncomendas = new ArrayList<>();
-        listEncomendas.add(new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er")));
-        listEncomendas.add(new Encomenda("25/12/2252", 10, 25, 6, new EstadoEncomenda(8, "wd")));
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", listEncomendas, new Scooter(87, 56, 48, 96, 1), new Estafeta(123456789, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel")));
+        expResult.add(new Encomenda(2,"25/12/2252", 15, 20, 5, 1));
+        expResult.add(new Encomenda(3,"25/12/2252", 10, 25, 6, 2));
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
         
         instance.setListEncomendas(expResult);
         assertEquals(expResult, instance.getListEncomendas());
@@ -178,16 +155,13 @@ public class EntregaTest {
      * Test of getScooter method, of class Entrega.
      */
     @Test
-    public void testGetScooter() {
-        System.out.println("getScooter");
-        List<Encomenda> listEncomendas = new ArrayList<>();
-        listEncomendas.add(new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er")));
-        listEncomendas.add(new Encomenda("25/12/2252", 10, 25, 6, new EstadoEncomenda(8, "wd")));
-        Scooter expResult = new Scooter(87, 56, 48, 96, 1);
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", listEncomendas, expResult, new Estafeta(123456789, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel")));
+    public void testGetIdScooter() {
+        System.out.println("getIdScooter");
+        int expResult = 1;
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
         
         
-        Scooter result = instance.getScooter();
+        int result = instance.getIdScooter();
         assertEquals(expResult, result);
 
     }
@@ -196,28 +170,24 @@ public class EntregaTest {
      * Test of setScooter method, of class Entrega.
      */
     @Test
-    public void testSetScooter() {
-        System.out.println("setScooter");
-        Scooter scooter = new Scooter(87, 56, 48, 96, 2);
-        List<Encomenda> listEncomendas = new ArrayList<>();
-        listEncomendas.add(new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er")));
-        listEncomendas.add(new Encomenda("25/12/2252", 10, 25, 6, new EstadoEncomenda(8, "wd")));
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", listEncomendas, scooter, new Estafeta(123456789, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel")));
+    public void testSetIdScooter() {
+        System.out.println("setIdScooter");
+        int scooter = 2;
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
         
         instance.setScooter(scooter);
-        assertEquals(scooter, instance.getScooter());
+        assertEquals(scooter, instance.getIdScooter());
     }
 
     /**
      * Test of getEstafeta method, of class Entrega.
      */
     @Test
-    public void testGetEstafeta() {
-        System.out.println("getEstafeta");
-        Estafeta est =new Estafeta(123456789, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel"));
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", null, new Scooter(87, 56, 48, 96, 1),est);
-        Estafeta expResult =est;
-        Estafeta result = instance.getEstafeta();
+    public void testGetIdEstafeta() {
+        System.out.println("getIdEstafeta");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 1);
+        int expResult = 1;
+        int result = instance.getidEstafeta();
         assertEquals(expResult, result);
 
     }
@@ -226,33 +196,15 @@ public class EntregaTest {
      * Test of setEstafeta method, of class Entrega.
      */
     @Test
-    public void testSetEstafeta() {
-        System.out.println("setEstafeta");
-        Estafeta estafeta = new Estafeta(987654321, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel"));
-        List<Encomenda> listEncomendas = new ArrayList<>();
-        listEncomendas.add(new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er")));
-        listEncomendas.add(new Encomenda("25/12/2252", 10, 25, 6, new EstadoEncomenda(8, "wd")));
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", listEncomendas, new Scooter(87, 56, 48, 96, 1), new Estafeta(123456789, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel")));
+    public void testSetIdEstafeta() {
+        System.out.println("setIdEstafeta");
+        int estafeta = 2;
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1);
         
         instance.setEstafeta(estafeta);
-        assertEquals(estafeta, instance.getEstafeta());
+        assertEquals(estafeta, instance.getidEstafeta());
         
     }
 
-    /**
-     * Test of addListEncomendas method, of class Entrega.
-     */
-    @org.junit.Test
-    public void testAddListEncomendas() {
-        System.out.println("addListEncomendas");
-        Encomenda enc = new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er"));
-        List<Encomenda> listEncomendas = new ArrayList<>();
-        listEncomendas.add(new Encomenda("25/12/2252", 15, 20, 5, new EstadoEncomenda(5, "er")));
-        listEncomendas.add(new Encomenda("25/12/2252", 10, 25, 6, new EstadoEncomenda(8, "wd")));
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", listEncomendas, new Scooter(87, 56, 48, 96, 1), new Estafeta(123456789, "ddd", "ni", 15, 56, "dd", new EstadoEstafeta(5, "disponivel")));
-        
-        instance.addListEncomendas(enc);
-
-    }
     
 }

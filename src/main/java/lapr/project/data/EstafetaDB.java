@@ -1,10 +1,12 @@
 package lapr.project.data;
 
-import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import lapr.project.model.EstadoEstafeta;
 import lapr.project.model.Estafeta;
@@ -12,11 +14,9 @@ import oracle.jdbc.OracleTypes;
 
 public class EstafetaDB extends DataHandler{
     Estafeta est;
-    private final DataHandler dataHandler;
-    private List<Estafeta> lstEstafetas;
+    private final List<Estafeta> lstEstafetas;
 
     public EstafetaDB() {
-        this.dataHandler = DataHandler.getInstance();
         lstEstafetas = new ArrayList<>();
     }
 
@@ -25,7 +25,7 @@ public class EstafetaDB extends DataHandler{
     }
 
     public Estafeta novoEstafeta(int nif, String nome, String email, double peso, int nss, String pwd) {
-        est = new Estafeta(nif, nome, email, peso, nss, pwd, new EstadoEstafeta(1,"disponível"));
+        est = new Estafeta(nif, nome, email, peso, nss, pwd, 1 /*new EstadoEstafeta(1,"disponível")*/);
         return est;
     }
 
@@ -37,7 +37,7 @@ public class EstafetaDB extends DataHandler{
     }
 
     public boolean validaEstafeta(Estafeta est) {
-        if(est.getPesoEstafeta() < 0 || est.getNome() == null || est.getPassword() == null || est.getEstado() == null){
+        if(est.getPesoEstafeta() < 0 || est.getNome() == null || est.getPassword() == null || est.getEstado() == 0/*null*/){
             return false;
         }
         return true;
@@ -48,22 +48,15 @@ public class EstafetaDB extends DataHandler{
     }
 
     public Estafeta getEstafetaByEmail(String email) {
-
-        CallableStatement callStmt = null;
+        String query = "SELECT * FROM estafeta e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE e.email= " + email;
+        
+        Statement stm = null;
+        ResultSet rSet = null;
+        
         try {
-            callStmt = getConnection().prepareCall("{ ? = call getEstafetaByEmail(?) }");
-
-            // Regista o tipo de dados SQL para interpretar o resultado obtido.
-            callStmt.registerOutParameter(1, OracleTypes.CURSOR);
-            // Especifica o parâmetro de entrada da função "getEstafetaByEmail".
-            callStmt.setString(4, email);
-
-            // Executa a invocação da função "getEstafetaByEmail".
-            callStmt.execute();
-
-            // Guarda o cursor retornado num objeto "ResultSet".
-            ResultSet rSet = (ResultSet) callStmt.getObject(1);
-
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+            
             if (rSet.next()) {
                 double pesoEstafeta = rSet.getDouble(1);
                 int NIF = rSet.getInt(2);
@@ -74,11 +67,22 @@ public class EstafetaDB extends DataHandler{
                 int id_estado_estafeta = rSet.getInt(7);
                 String designacao = rSet.getString(8);
 
-                return new Estafeta(NIF, nome, emailE, pesoEstafeta, numeroSegurancaSocial, password, new EstadoEstafeta(id_estado_estafeta, designacao));
+                return new Estafeta(NIF, nome, emailE, pesoEstafeta, numeroSegurancaSocial, password, id_estado_estafeta/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }finally {
+            try {
+                if (rSet != null) {
+                    rSet.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            }
         }
-        throw new IllegalArgumentException("No Sailor with ID:" + email);
+        return null;
     }
 }
