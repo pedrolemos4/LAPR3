@@ -41,7 +41,7 @@ public class CartaoDB {
     }
 
     public boolean validaCartao(Cartao cc) {
-        if (cc.getNumeroCartao() <= 0 || cc.getDataDeValidade().isBlank() || cc.getDataDeValidade() == null || cc.getCCV() <= 0) {
+        if (cc.getNumeroCartao() <= 0 || cc.getDataDeValidade().isEmpty() || cc.getDataDeValidade() == null || cc.getCCV() <= 0) {
             return false;
         }
         for (Cartao e : lstCartoes) {

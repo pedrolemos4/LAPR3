@@ -41,7 +41,7 @@ public class EnderecoDB {
     }
 
     public boolean validaEndereco(Endereco end) {
-        if (end.getMorada() == null || end.getMorada().isBlank() || end.getLatitude() <= 0 || end.getLongitude() <= 0 || end.getAltitude() <= 0) {
+        if (end.getMorada() == null || end.getMorada().isEmpty() || end.getLatitude() <= 0 || end.getLongitude() <= 0 || end.getAltitude() <= 0) {
             return false;
         }
         for (Endereco e : lstEnderecos) {
