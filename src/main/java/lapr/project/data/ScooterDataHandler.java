@@ -79,6 +79,49 @@ public class ScooterDataHandler extends DataHandler{
         }
         return list;
     }
+    
+    /**
+     * Devolve a lista de scooters
+     * @param idScooter
+     * @return 
+     */
+    public Scooter getScooterById(int idScooter) {
+        String query = "SELECT * FROM scooter WHERE idScooter = " + idScooter;
+
+        Statement stm = null;
+        ResultSet rSet = null;
+
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+
+            if (rSet.next()) {
+                int id = rSet.getInt(1);
+                double percentagemBateria = rSet.getDouble(2);
+                double pesoMaximo = rSet.getDouble(3);
+                double pesoScooter = rSet.getDouble(4);
+                double potencia = rSet.getDouble(5);
+                int idEstado = rSet.getInt(6);
+                
+                return new Scooter(percentagemBateria, pesoMaximo, pesoScooter, potencia, idEstado);
+            }
+
+        } catch (SQLException e) {
+            Logger.getLogger(ScooterDataHandler.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                if (rSet != null) {
+                    rSet.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(ScooterDataHandler.class.getName()).log(Level.WARNING, e.getMessage());
+            }
+        }
+        return null;
+    }
 
     public boolean removeScooter(int id) throws SQLException {
         boolean removed = false;

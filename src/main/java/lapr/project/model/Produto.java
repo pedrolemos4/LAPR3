@@ -19,13 +19,12 @@ public class Produto {
     private double precoBase;
     /**
      * Constrói instância produto com o designacao, peso e o preco base.
-     * @param id
      * @param designacao
      * @param peso
      * @param precoBase 
      */
-    public Produto(int id, String designacao, double peso, double precoBase) {
-        this.id = id;
+    public Produto(String designacao, double peso, double precoBase) {
+        this.id = 0;
         this.designacao = designacao;
         this.peso = peso;
         this.precoBase = precoBase;

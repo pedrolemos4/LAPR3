@@ -1,5 +1,6 @@
 package lapr.project.data;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,6 +11,7 @@ import java.util.logging.Logger;
 
 import lapr.project.model.EstadoEstafeta;
 import lapr.project.model.Estafeta;
+import lapr.project.model.Produto;
 import oracle.jdbc.OracleTypes;
 
 public class EstafetaDB extends DataHandler{
@@ -29,11 +31,10 @@ public class EstafetaDB extends DataHandler{
         return est;
     }
 
-    public boolean registaEstafeta(Estafeta est) {
+    public void registaEstafeta(Estafeta est) {
         if (validaEstafeta(est)){
-            return addEstafeta(est);
+            addEstafeta(est);
         }
-        return false;
     }
 
     public boolean validaEstafeta(Estafeta est) {
@@ -43,8 +44,49 @@ public class EstafetaDB extends DataHandler{
         return true;
     }
 
-    public boolean addEstafeta(Estafeta est) {
-        return lstEstafetas.add(est);
+    public void addEstafeta(Estafeta est) {
+        addEstafeta(est.getNIF(), est.getEstado(), est.getPesoEstafeta());
+    }
+
+    private void addEstafeta(int nif, int estadoEstafeta, double peso) {
+
+        try {
+            openConnection();
+
+            CallableStatement callStmt = getConnection().prepareCall("{ call addEstafeta(?,?,?) }");
+
+            callStmt.setInt(1, nif);
+            callStmt.setInt(2, estadoEstafeta);
+            callStmt.setDouble(3, peso);
+
+            callStmt.execute();
+            closeAll();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void atualizarEstafeta(Estafeta est) {
+        atualizarEstafeta(est.getNIF(), est.getEstado(), est.getPesoEstafeta());
+    }
+
+    private void atualizarEstafeta(int nif, int estadoEstafeta, double peso) {
+        try {
+            openConnection();
+
+            CallableStatement callStmt = getConnection().prepareCall("{ call atualizarEstafeta(?,?,?) }");
+
+            callStmt.setInt(1, nif);
+            callStmt.setInt(2, estadoEstafeta);
+            callStmt.setDouble(3, peso);
+
+            callStmt.execute();
+            closeAll();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public Estafeta getEstafetaByEmail(String email) {

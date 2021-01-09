@@ -21,13 +21,13 @@ import lapr.project.model.Produto;
  */
 public class RealizaEncomendaController {
 
-    private final ProdutosDB produtoDB;
+    private ProdutosDB produtoDB;
     private Encomenda enc;
     private EncomendaDB encDB;
 
-    public RealizaEncomendaController(ProdutosDB produtoDB, EncomendaDB encDB) {
-        this.produtoDB = produtoDB;
-        this.encDB = encDB;
+    public RealizaEncomendaController() {
+        produtoDB = new ProdutosDB();
+        encDB = new EncomendaDB();
     }
 
     public void novaEncomenda() {
@@ -40,6 +40,14 @@ public class RealizaEncomendaController {
     
     public boolean registaEncomenda(){
         return encDB.registaEncomenda(enc);
+    }
+    
+    public List<Produto> getListaEncomenda(){
+        return produtoDB.getLista();
+    }
+    
+    public List<Produto> getListStock(){
+        return produtoDB.getListaProdutos();
     }
 
 }
