@@ -100,16 +100,12 @@ public class EstafetaDB extends DataHandler{
             rSet = stm.executeQuery(query);
             
             if (rSet.next()) {
-                double pesoEstafeta = rSet.getDouble(1);
-                int NIF = rSet.getInt(2);
-                String nome = rSet.getString(3);
-                String emailE = rSet.getString(4);
-                int numeroSegurancaSocial = rSet.getInt(5);
-                String password = rSet.getString(6);
-                int id_estado_estafeta = rSet.getInt(7);
-                String designacao = rSet.getString(8);
+                int NIF = rSet.getInt(1);
+                String nome = rSet.getString(2);
+                int id_estado_estafeta = rSet.getInt(3);
+                double peso = rSet.getDouble(4);
 
-                return new Estafeta(NIF, nome, emailE, pesoEstafeta, numeroSegurancaSocial, password, id_estado_estafeta/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
+                return new Estafeta(NIF,nome,id_estado_estafeta,peso/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
             }
         } catch (SQLException e) {
             Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());

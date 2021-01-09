@@ -8,6 +8,8 @@ public class Estafeta extends Utilizador{
     
     private double pesoEstafeta;
     private int idEstado;
+    private int NIF;
+    private String nome;
 
     /**
      * Constrói uma instância de Estafeta recebendo o peso do estafeta, o
@@ -27,7 +29,20 @@ public class Estafeta extends Utilizador{
         this.pesoEstafeta = pesoEstafeta;
         this.idEstado = idEstado;
     }
-    
+
+    /**
+     * Constrói uma instância de Estafeta
+     * @param NIF
+     * @param nome
+     * @param idEstado
+     * @param pesoEstafeta
+     */
+    public Estafeta(int NIF, String nome, int idEstado, double pesoEstafeta) {
+        this.NIF = NIF;
+        this.nome = nome;
+        this.pesoEstafeta = pesoEstafeta;
+        this.idEstado = idEstado;
+    }
     /**
      * Constrói uma instância de Estafeta com o estafeta por omissão.
      */
