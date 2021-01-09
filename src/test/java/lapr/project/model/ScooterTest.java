@@ -25,12 +25,19 @@ public class ScooterTest {
     }
 
     @Test
+    void ScooterCompleteConstructorTest() {
+        Scooter instance = new Scooter(1, "descricao", 85, 50, 30, 40,1);
+
+        assertEquals(instance, instance);
+    }
+
+    @Test
     public void testGetDescricao() {
         System.out.println("getDescrição");
         Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
         String expResult = "descricao";
         String result = instance.getDescricao();
-        assertEquals(expResult,result);
+        assertEquals(expResult, result);
     }
 
     /**
