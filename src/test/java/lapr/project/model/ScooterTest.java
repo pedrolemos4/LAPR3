@@ -31,8 +31,8 @@ public class ScooterTest {
     public void testGetPercentagemBateria() {
         System.out.println("getPercentagemBateria");
         Scooter instance = new Scooter(85, 50, 30, 40,1);
-        double expResult = 85;
-        double result = instance.getPercentagemBateria();
+        int expResult = 85;
+        int result = instance.getPercentagemBateria();
         assertEquals(expResult, result);
 
     }
@@ -82,7 +82,7 @@ public class ScooterTest {
     @Test
     public void testSetPercentagemBateria() {
         System.out.println("setPercentagemBateria");
-        double percentagemBateria = 75;
+        int percentagemBateria = 75;
         Scooter instance = new Scooter(85, 50, 30, 40,1);
         instance.setPercentagemBateria(percentagemBateria);
         assertEquals(percentagemBateria, instance.getPercentagemBateria(), 0.0);
@@ -132,7 +132,7 @@ public class ScooterTest {
         System.out.println("getEstadoScooter");
         Scooter instance = new Scooter(85, 50, 30, 40,1);
         int expResult = 1;
-        int result = instance.getEstadoScooter().getId();
+        int result = instance.getEstadoScooter();
         assertEquals(expResult, result);
     }
 
