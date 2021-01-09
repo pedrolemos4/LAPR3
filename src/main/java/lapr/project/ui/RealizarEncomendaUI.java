@@ -14,6 +14,7 @@ import lapr.project.model.Encomenda;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Produto;
+import lapr.project.model.Recibo;
 import static lapr.project.ui.RegistarEntregaUI.LER;
 
 /**
@@ -30,7 +31,7 @@ public class RealizarEncomendaUI {
         controller = new RealizaEncomendaController();
     }
 
-    private void introduzEncomenda() {
+    public void introduzEncomenda() {
 
         System.out.println("Lista de produtos: ");
         List<Produto> list = controller.getListStock();
@@ -46,7 +47,7 @@ public class RealizarEncomendaUI {
             controller.produtoEncomenda(prod);
         }
 
-        System.out.println(controller.getListaEncomenda().toString());
+        System.out.println(controller.getListaProdutoEncomenda().toString());
 
         System.out.println("Confirme os dados introduzidos: (S/N)");
         LER.nextLine();
@@ -58,10 +59,27 @@ public class RealizarEncomendaUI {
             Date date = new Date(System.currentTimeMillis());
             
             Encomenda enc = new Encomenda(controller.getNifCliente(), date.toString(), controller.getPreco(), controller.getPreco(), 1.0, 1);
-
+            List<Produto> lst = controller.getListaProdutoEncomenda();
             controller.registaEncomenda(enc);
-
-            System.out.println("\n\nEntrega adicionada com sucesso'");
+            
+            for(Produto p : lst){
+                controller.registaEncomendaProduto(enc, p);
+            }
+            
+            Recibo rec = new Recibo(controller.getNifCliente(), date.toString());
+            
+            for(Produto p : lst){
+                controller.novoRecibo(rec, p);
+            }
+            
+            System.out.println("Recibo:");
+            System.out.println(rec.getData());
+            
+            for(int i=0; i<lst.size(); i++){
+                System.out.println(lst.get(i).getDesignacao() + " " + lst.get(i).getPrecoBase());
+            }
+            
+            System.out.println("\n\nEncomenda adicionada com sucesso'");
         }
     }
 
