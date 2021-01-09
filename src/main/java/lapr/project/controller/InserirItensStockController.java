@@ -3,7 +3,6 @@ package lapr.project.controller;
 import lapr.project.data.ProdutosDB;
 import lapr.project.model.Produto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InserirItensStockController {
@@ -17,9 +16,9 @@ public class InserirItensStockController {
         return produtosDB.getListaProdutos();
     }
 
-    public void novoProduto(String desig, double peso, double preco_base) {
+    public Produto novoProduto(String desig, double peso, double preco_base) {
         Produto prod = produtosDB.novoProduto(desig,peso,preco_base);
-        registaProduto(prod);
+        return prod;
     }
 
     public void registaProduto(Produto prod) {

@@ -37,7 +37,7 @@ public class ClienteDB extends DataHandler {
         return lstClientes;
     }
 
-    public Cliente novoCliente(Cartao cartaoCredito, Endereco end, int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
+    public Cliente novoCliente(int cartaoCredito, String end, int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
         cl = new Cliente(0, cartaoCredito, end, NIF, nome, email, numeroSegurancaSocial, password);
         return cl;
     }
@@ -50,13 +50,7 @@ public class ClienteDB extends DataHandler {
     }
 
     public boolean validaCliente(Cliente cl) {
-        if (cl.getNome() == null || cl.getNome().isEmpty() || cl.getNIF() <= 0 || cl.getEmail() == null || cl.getEmail().isEmpty() || cl.getNumeroSegurancaSocial() <= 0 || cl.getPassword() == null || cl.getPassword().isEmpty()) {
-            return false;
-        }
-        if (!edb.validaEndereco(cl.getEndereco())) {
-            return false;
-        }
-        if (!cdb.validaCartao(cl.getCartaoCredito())) {
+        if (cl.getNome() == null || cl.getNome().isEmpty() || cl.getNIF() <= 0 || cl.getEmail() == null || cl.getEmail().isEmpty() || cl.getNumeroSegurancaSocial() <= 0 || cl.getPassword() == null || cl.getPassword().isEmpty() || cl.getEndereco() == null || cl.getCartaoCredito() < 0 ) {
             return false;
         }
         for (Cliente c : lstClientes) {
@@ -72,25 +66,22 @@ public class ClienteDB extends DataHandler {
         return lstClientes.add(cl);
     }
     
-    public Cliente getEstafetaByEmail(String email) {
+    public Cliente getClienteByEmail(String email) {
         String query = "SELECT * FROM cliente e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE e.email= " + email;
         
         Statement stm = null;
         ResultSet rSet = null;
-        
-//        DADOS CLIENTE(NIF, nome, email, numeroSegurancaSocial, password);
-//        this.creditos = creditos;
-//        this.endereco = endereco;
-//        this.cartaoCredito = cartaoCredito;
         
         try {
             stm = getConnection().createStatement();
             rSet = stm.executeQuery(query);
             
             if (rSet.next()) {
-                
-
-                return new Cliente();
+                int aInt = rSet.getInt(1);
+                int aInt1 = rSet.getInt(2);
+                String string = rSet.getString(3);
+                int aInt2 = rSet.getInt(4);
+                return new Cliente(aInt, aInt1, string, aInt2);
             }
         } catch (SQLException e) {
             Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());

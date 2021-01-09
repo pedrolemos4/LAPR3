@@ -7,8 +7,8 @@ package lapr.project.model;
 public class Cliente extends Utilizador {
 
     private int creditos;
-    private Endereco endereco;
-    private Cartao cartaoCredito;
+    private String endereco;
+    private int cartaoCredito;
 
     /**
      * Constrói uma instância de Cliente recebendo os creditos do cliente, o o
@@ -25,7 +25,7 @@ public class Cliente extends Utilizador {
      * @param numeroSegurancaSocial numero de seguranca social do cliente
      * @param password password do cliente
      */
-    public Cliente(int creditos, Cartao cartaoCredito, Endereco endereco, int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
+    public Cliente(int creditos, int cartaoCredito, String endereco, int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
         super(NIF, nome, email, numeroSegurancaSocial, password);
         this.creditos = creditos;
         this.endereco = endereco;
@@ -39,7 +39,11 @@ public class Cliente extends Utilizador {
         super(0, null, null, 0, null);
         this.creditos = 0;
         this.endereco = null;
-        this.cartaoCredito = null;
+        this.cartaoCredito = 0;
+    }
+
+    public Cliente(int nif, int creditos, String enderecoMorada, int cartaoNumeroCartaoCredito) {
+        
     }
 
     /**
@@ -65,7 +69,7 @@ public class Cliente extends Utilizador {
      *
      * @return cartao de credito do cliente
      */
-    public Cartao getCartaoCredito() {
+    public int getCartaoCredito() {
         return cartaoCredito;
     }
 
@@ -74,7 +78,7 @@ public class Cliente extends Utilizador {
      *
      * @param cartaoCredito o novo cartao de credito do cliente
      */
-    public void setCartaoCredito(Cartao cartaoCredito) {
+    public void setCartaoCredito(int cartaoCredito) {
         this.cartaoCredito = cartaoCredito;
     }
 
@@ -83,7 +87,7 @@ public class Cliente extends Utilizador {
      *
      * @return endereco do cliente
      */
-    public Endereco getEndereco() {
+    public String getEndereco() {
         return endereco;
     }
 
@@ -92,7 +96,7 @@ public class Cliente extends Utilizador {
      *
      * @param endereco o novo endereco do cliente
      */
-    public void setEndereco(Endereco endereco) {
+    public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
 }

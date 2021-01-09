@@ -15,7 +15,7 @@ class ClienteTest extends UtilizadorTest {
 
     @Test
     public void ClienteConstructorTest() {
-        Cliente novoCliente = new Cliente(3, new Cartao(), new Endereco(), 3, "teste", "@", 123, "teste");
+        Cliente novoCliente = new Cliente(3, 0, "a", 3, "teste", "@", 123, "teste");
         assertEquals(novoCliente, novoCliente);
     }
 
@@ -23,7 +23,7 @@ class ClienteTest extends UtilizadorTest {
     void getCreditos() {
         Cartao cartao = new Cartao();
         Endereco endereco = new Endereco();
-        Cliente novoCliente = new Cliente(3, cartao, endereco, 3, "teste", "@", 123, "teste");
+        Cliente novoCliente = new Cliente(3, 0, "a", 3, "teste", "@", 123, "teste");
         assertEquals(3, novoCliente.getCreditos());
     }
 
@@ -31,43 +31,37 @@ class ClienteTest extends UtilizadorTest {
     void setCreditos() {
         Cartao cartao = new Cartao();
         Endereco endereco = new Endereco();
-        Cliente novoCliente = new Cliente(3, cartao, endereco, 3, "teste", "@", 123, "teste");
+        Cliente novoCliente = new Cliente(3, 0, "a", 3, "teste", "@", 123, "teste");
         novoCliente.setCreditos(2);
         assertEquals(2, novoCliente.getCreditos());
     }
 
     @Test
     void getCartaoCredito() {
-        Cartao cartao = new Cartao();
-        Endereco endereco = new Endereco();
-        Cliente novoCliente = new Cliente(3, cartao, endereco, 3, "teste", "@", 123, "teste");
+        int cartao = 0;
+        Cliente novoCliente = new Cliente(3, 0, "a", 3, "teste", "@", 123, "teste");
         assertEquals(cartao, novoCliente.getCartaoCredito());
     }
 
     @Test
     void setCartaoCredito() {
-        Cartao cartao = new Cartao();
-        Endereco endereco = new Endereco();
-        Cliente novoCliente = new Cliente(3, cartao, endereco, 3, "teste", "@", 123, "teste");
-        Cartao novoCartao = new Cartao(123, "123", 123);
+        int novoCartao = 0;
+        Cliente novoCliente = new Cliente(3, 0, "a", 3, "teste", "@", 123, "teste");
         novoCliente.setCartaoCredito(novoCartao);
         assertEquals(novoCartao, novoCliente.getCartaoCredito());
     }
 
     @Test
     void getEndereco() {
-        Cartao cartao = new Cartao();
-        Endereco endereco = new Endereco();
-        Cliente novoCliente = new Cliente(3, cartao, endereco, 3, "teste", "@", 123, "teste");
+        String endereco = "a";
+        Cliente novoCliente = new Cliente(3, 0, "a", 3, "teste", "@", 123, "teste");
         assertEquals(endereco, novoCliente.getEndereco());
     }
 
     @Test
     void setEndereco() {
-        Cartao cartao = new Cartao();
-        Endereco endereco = new Endereco();
-        Cliente novoCliente = new Cliente(3, cartao, endereco, 3, "teste", "@", 123, "teste");
-        Endereco novoEndereco = new Endereco("nada", 5764, 3242, 21312);
+        Cliente novoCliente = new Cliente(3, 0, "a", 3, "teste", "@", 123, "teste");
+        String novoEndereco = "a";
         novoCliente.setEndereco(novoEndereco);
         assertEquals(novoEndereco, novoCliente.getEndereco());
     }
