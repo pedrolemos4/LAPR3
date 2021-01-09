@@ -54,7 +54,7 @@ public class FarmaciaDB extends DataHandler {
      * @return true se a farmacia é valida
      */
     public boolean validaFarmacia(Farmacia farm) {
-        return farm.getNIF() > 0;
+        return !(farm == null || farm.getNIF() <= 0);
     }
 
     /**

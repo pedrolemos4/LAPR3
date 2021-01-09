@@ -56,7 +56,7 @@ public class ParqueDB extends DataHandler {
      * @return true se o parque é valido
      */
     public boolean validaParque(Parque park) {
-        return !(park.getNIF() <= 0 || park.getNumeroMaximo() <= 0 || park.getMorada().isEmpty());
+        return !(park.getNIF() < 0 || park.getNumeroMaximo() < 0 || park.getMorada().isEmpty());
     }
 
     /**
