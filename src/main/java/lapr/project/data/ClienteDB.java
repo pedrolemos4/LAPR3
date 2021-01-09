@@ -58,7 +58,7 @@ public class ClienteDB extends DataHandler {
      * @return true se os dados do cliente forem válidos
      */
     private boolean validaCliente(Cliente cl) {
-        return cl != null;
+        return !(cl == null || cl.getClienteNIF() < 0 || cl.getNumCartaoCredito() < 0);
     }
 
     /**
