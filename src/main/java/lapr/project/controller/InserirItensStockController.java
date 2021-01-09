@@ -22,7 +22,7 @@ public class InserirItensStockController {
 
     }
 
-    public void addProdutos(List<Produto> lp) {
-        produtosDB.addProdutos(lp);
+    public void registaProduto(Produto prod) {
+        produtosDB.registaProduto(prod);
     }
 }

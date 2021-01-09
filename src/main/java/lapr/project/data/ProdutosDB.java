@@ -1,10 +1,14 @@
 package lapr.project.data;
 
+import java.sql.CallableStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import lapr.project.model.Estafeta;
 import lapr.project.model.Produto;
 
-public class ProdutosDB {
+public class ProdutosDB extends DataHandler {
 
     private Produto prod;
     private final DataHandler dataHandler;
@@ -47,6 +51,12 @@ public class ProdutosDB {
         return true;
     }
 
+    public void registaProduto(Produto prod) {
+        if (validaProduto(prod) == true) {
+            addProduto(prod);
+        }
+    }
+
     public void addListaProds(Produto prod) {
         if (validaProduto(prod) == true) {
             preco = preco + prod.getPrecoBase();
@@ -59,7 +69,30 @@ public class ProdutosDB {
     public void addProdutos(List<Produto> lprods){
         lstStock.addAll(lprods);
     }
-    
+
+    public void addProduto(Produto prod) {
+        addProduto(prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase());
+    }
+
+    private void addProduto(String desig, double peso, double precoBase) {
+
+        try {
+            openConnection();
+
+            CallableStatement callStmt = getConnection().prepareCall("{ call addProduto(?,?,?) }");
+
+            callStmt.setString(1, desig);
+            callStmt.setDouble(2, peso);
+            callStmt.setDouble(3, precoBase);
+
+            callStmt.execute();
+            closeAll();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean validaListaProdutos(List<Produto> lprods) {
         boolean check = true;
         for (Produto prod : lprods) {
@@ -86,12 +119,6 @@ public class ProdutosDB {
     
     public double getPeso(){
         return peso;
-    }
-
-    public void registaProduto(Produto prod) {
-        if(novoProduto(prod.getId(), prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase())==true){
-            addListaProds(prod);
-        }
     }
     
 }
