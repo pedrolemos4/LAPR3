@@ -22,8 +22,11 @@ public class RegistarEntregaUI {
     
     public static final Scanner LER = new Scanner(System.in);
     
-    RegistarEntregaController controller = new RegistarEntregaController(new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new ScooterDB());
-    
+    RegistarEntregaController controller;
+
+    public RegistarEntregaUI(RegistarEntregaController controller) {
+        this.controller = controller;
+    }
     
     public void introduzEntrega() {
         

@@ -16,9 +16,9 @@ public class AtualizarItensStockController {
         return produtosDB.getListaProdutos();
     }
 
-    public void getProdutoByID(int idProd) {
+    public Produto getProdutoByID(int idProd) {
         Produto prod = produtosDB.getProdutoByID(idProd);
-        atualizarProduto(prod);
+        return prod;
     }
 
     public void atualizarProduto(Produto prod) {

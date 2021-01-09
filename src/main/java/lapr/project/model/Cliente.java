@@ -6,44 +6,44 @@ package lapr.project.model;
  */
 public class Cliente extends Utilizador {
 
+    private int nif;
     private int creditos;
-    private String endereco;
-    private int cartaoCredito;
+    private String enderecomorada;
+    private int numCartaoCredito;
 
-    /**
-     * Constrói uma instância de Cliente recebendo os creditos do cliente, o o
-     * cartao de credito do cliente, o nif do cliente, o nome do cliente, o
-     * email do cliente, o numero de Seguranca Social do estafeta, a password do
-     * estafeta.
-     *
-     * @param creditos creditos do cliente
-     * @param cartaoCredito cartao de credito do cliente
-     * @param endereco endereco do cliente
-     * @param NIF nif do cliente
-     * @param nome nome do cliente
-     * @param email email do cliente
-     * @param numeroSegurancaSocial numero de seguranca social do cliente
-     * @param password password do cliente
-     */
-    public Cliente(int creditos, int cartaoCredito, String endereco, int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
-        super(NIF, nome, email, numeroSegurancaSocial, password);
+    public Cliente(int nif, int creditos, String morada, int numCC) {
+        this.nif = nif;
         this.creditos = creditos;
-        this.endereco = endereco;
-        this.cartaoCredito = cartaoCredito;
+        this.enderecomorada = morada;
+        this.numCartaoCredito = numCC;
     }
 
     /**
      * Constrói uma instância de Cliente com o cliente por omissão.
      */
     public Cliente() {
-        super(0, null, null, 0, null);
+        this.nif = 0;
         this.creditos = 0;
-        this.endereco = null;
-        this.cartaoCredito = 0;
+        this.enderecomorada = "";
+        this.numCartaoCredito = 0;
     }
 
-    public Cliente(int nif, int creditos, String enderecoMorada, int cartaoNumeroCartaoCredito) {
-        
+    /**
+     * Devolve o nif do cliente
+     *
+     * @return nif do cliente
+     */
+    public int getClienteNIF() {
+        return nif;
+    }
+
+    /**
+     * Modifica o nif do cliente
+     *
+     * @param nif o novo nif do cliente
+     */
+    public void setClienteNIF(int nif) {
+        this.nif = nif;
     }
 
     /**
@@ -65,38 +65,38 @@ public class Cliente extends Utilizador {
     }
 
     /**
-     * Devolve o cartao de credito do cliente
-     *
-     * @return cartao de credito do cliente
-     */
-    public int getCartaoCredito() {
-        return cartaoCredito;
-    }
-
-    /**
-     * Modifica o cartao de credito do cliente
-     *
-     * @param cartaoCredito o novo cartao de credito do cliente
-     */
-    public void setCartaoCredito(int cartaoCredito) {
-        this.cartaoCredito = cartaoCredito;
-    }
-
-    /**
      * Devolve o endereco do cliente
      *
      * @return endereco do cliente
      */
-    public String getEndereco() {
-        return endereco;
+    public String getEnderecoMorada() {
+        return enderecomorada;
     }
 
     /**
      * Modifica o endereco do cliente
      *
-     * @param endereco o novo endereco do cliente
+     * @param enderecomorada o novo endereco do cliente
      */
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setEnderecoMorada(String enderecomorada) {
+        this.enderecomorada = enderecomorada;
+    }
+
+    /**
+     * Devolve o número de cartão de crédito do cliente
+     *
+     * @return número de cartão de crédito do cliente
+     */
+    public int getNumCartaoCredito() {
+        return numCartaoCredito;
+    }
+
+    /**
+     * Modifica o número de cartão de crédito do cliente
+     *
+     * @param numCartaoCredito o novo número de cartão de crédito do cliente
+     */
+    public void setNumCartaoCredito(int numCartaoCredito) {
+        this.numCartaoCredito = numCartaoCredito;
     }
 }

@@ -27,7 +27,7 @@ public class ScooterDB extends DataHandler{
         CallableStatement callStmt = null;
         int id = 0;
 
-        callStmt = getConnection().prepareCall("{ ? = call funcAddScooter(?,?,?,?,?,?) }");
+        callStmt = getConnection().prepareCall("{ ? = call addScooter(?,?,?,?,?,?) }");
         callStmt.registerOutParameter(1, OracleTypes.INTEGER);
         callStmt.setString(2, scooter.getDescricao());
         callStmt.setDouble(3, scooter.getPercentagemBateria());
