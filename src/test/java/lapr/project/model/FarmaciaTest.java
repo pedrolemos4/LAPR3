@@ -9,14 +9,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author beatr
  */
 public class FarmaciaTest {
-    
+
     /**
      * Test of getNif method, of class Farmacia.
      */
     @Test
     public void testGetNif() {
         System.out.println("getNif");
-        Farmacia instance = new Farmacia(123456789);
+        Endereco endereco = new Endereco();
+        Parque park = new Parque(123, endereco, 20);
+        Farmacia instance = new Farmacia(123456789, park);
         int expResult = 123456789;
         int result = instance.getNif();
         assertEquals(expResult, result);
@@ -42,11 +44,10 @@ public class FarmaciaTest {
     @Test
     public void testGetParque() {
         System.out.println("getParque");
-        Farmacia instance = new Farmacia(12345789);
-        instance.setParque(new Parque(5));
-        int expResult = 5;
-        assertEquals(expResult, instance.getParque().getNumeroMaximo());
-
+        Endereco endereco = new Endereco();
+        Parque park = new Parque(123, endereco, 20);
+        Farmacia instance = new Farmacia(12345789, park);
+        assertEquals(endereco, instance.getParque());
     }
 
     /**
@@ -55,10 +56,11 @@ public class FarmaciaTest {
     @Test
     public void testSetParque() {
         System.out.println("setParque");
-        Parque parque = new Parque(6);
+        Endereco endereco = new Endereco();
+        Parque park = new Parque(123, endereco, 20);
         Farmacia instance = new Farmacia();
-        instance.setParque(parque);
-        assertEquals(parque, instance.getParque());
+        instance.setParque(park);
+        assertEquals(park, instance.getParque());
     }
-    
+
 }
