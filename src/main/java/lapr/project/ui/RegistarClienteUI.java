@@ -22,7 +22,8 @@ public class RegistarClienteUI {
         this.controller = new RegistarClienteController(new ClienteDB(), new UtilizadorDB(), new EnderecoDB(), new CartaoDB());
     }
 
-    private void registaCliente() {
+    public boolean registaCliente() {
+        boolean aux = false;
         System.out.println("Lista de Clientes: ");
         List<Cliente> lc = controller.getListaClientes();
 
@@ -84,8 +85,10 @@ public class RegistarClienteUI {
             controller.registaCartao(cc);
             controller.registaEndereco(end);
             System.out.println("\n\nCliente registado com sucesso!");
+            aux = true;
         } else {
             System.out.println("\n\nRegisto do Cliente cancelado!");
         }
+        return aux;
     }
 }

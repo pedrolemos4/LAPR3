@@ -27,7 +27,7 @@ public class AdminUI {
     /**
      *
      */
-    public static void showMenu() {
+    public void showMenu() {
         System.out.println("\nRIDE SHARING - Menu Administrador\n--------------------------------"
                 //+ "\n 1 - Add park"
                 //+ "\n 2 - Add point of interest"
@@ -42,7 +42,7 @@ public class AdminUI {
                 + "\n Choose one of the options above.");
     }
 
-    public static void menu() {
+    public void menu() {
         String opt;
         do {
             showMenu();
@@ -88,7 +88,7 @@ public class AdminUI {
     /**
      * Interface that allows the addition of a scooter into the system
      */
-    public static void addScooter() {
+    public void addScooter() {
 
         System.out.println("Insira uma descrição única da scooter:");
         LER.nextLine();
@@ -156,7 +156,7 @@ public class AdminUI {
         }
     }
 
-    public static void removeScooter() {
+    public void removeScooter() {
         System.out.println("Insira o id da scooter a remover:");
         int idScooter = LER.nextInt();
         ScooterController sc = new ScooterController(new ScooterDB());

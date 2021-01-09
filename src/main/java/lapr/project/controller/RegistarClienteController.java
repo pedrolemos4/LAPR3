@@ -33,6 +33,15 @@ public class RegistarClienteController {
         this.cartaoDB = cartaoDB;
     }
 
+    public Utilizador login(String email, String password) {
+        Utilizador user = null;
+
+        int id = utilizadorDB.validateLogin(email, password);
+        //user = utilizadorDB.getByID(id);
+
+        return user;
+    }
+
     public List<Cliente> getListaClientes() {
         return clienteDB.getLstClientes();
     }

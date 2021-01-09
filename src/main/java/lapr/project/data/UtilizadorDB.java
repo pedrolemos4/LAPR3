@@ -11,7 +11,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import lapr.project.model.Cliente;
+import lapr.project.model.Produto;
 import lapr.project.model.Utilizador;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -85,4 +90,73 @@ public class UtilizadorDB extends DataHandler {
         }
         return list;
     }
+    
+    /**
+     * Validates if the loggin has been successfull
+     *
+     * @param email username or email
+     * @param password password
+     * @return if the loggin was successfull or not
+     */
+    public int validateLogin(String email, String password) {
+        CallableStatement callStmt = null;
+        int result = 0;
+        try {
+            callStmt = dataHandler.getConnection().prepareCall("{ ? = call funcValidateLogin(?,?) }");
+            callStmt.registerOutParameter(1, OracleTypes.INTEGER);
+            callStmt.setString(2, email);
+            callStmt.setString(3, password);
+            callStmt.execute();
+
+            result = callStmt.getInt(1);
+
+        } catch (SQLException e) {
+            Logger.getLogger(UtilizadorDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                if (callStmt != null) {
+                    callStmt.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(UtilizadorDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            }
+        }
+        return result;
+    }
+    
+//    public Cliente getByID(int id) {
+//        String query = "SELECT * FROM cliente p WHERE p.idCliente= " + id;
+//
+//        Statement stm = null;
+//        ResultSet rSet = null;
+//
+//        try {
+//            stm = getConnection().createStatement();
+//            rSet = stm.executeQuery(query);
+//
+//            if (rSet.next()) {
+//                String desig = rSet.getString(2);
+//                double peso = rSet.getDouble(3);
+//                double precoBase = rSet.getDouble(4);
+//
+//                return new Produto(desig, peso, precoBase/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
+//            }
+//        } catch (SQLException e) {
+//            Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+//        } finally {
+//            try {
+//                if (rSet != null) {
+//                    rSet.close();
+//                }
+//                if (stm != null) {
+//                    stm.close();
+//                }
+//            } catch (SQLException e) {
+//                Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+//            }
+//        }
+//        return null;
+//    }
+
+
 }
