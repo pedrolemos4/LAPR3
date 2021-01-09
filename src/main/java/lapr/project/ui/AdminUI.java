@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr.project.controller.ScooterController;
-import lapr.project.data.ScooterDataHandler;
+import lapr.project.data.ScooterDB;
 
 /**
  *
@@ -28,6 +28,9 @@ public class AdminUI {
      */
     public static void addScooter() {
 
+        System.out.println("Insira uma descrição única da scooter:");
+        LER.nextLine();
+        String descricao = LER.nextLine();
         System.out.println("Insira a capacidade máxima da bateria:");
         int percentagemBateria = LER.nextInt();
 
@@ -43,7 +46,7 @@ public class AdminUI {
             idestado = 2;
             estado = "Indisponível";
         }
-
+        
         /*System.out.println("Insert the scooter's description:");
         String description = LER.nextLine();*/
         System.out.println("Insira o peso total da scooter:");
@@ -63,7 +66,8 @@ public class AdminUI {
         System.out.println("Insert the scooter's motor:");
         int motor = LER.nextInt();*/
 
-        System.out.println("Estado:\t" + estado
+        System.out.println("Descrição:\t" + descricao
+                +"Estado:\t" + estado
                 + "\nCapacidade de Bateria:\t" + percentagemBateria
                 + "\nPeso:\t" + peso
                 + "\nPeso máximo:\t" + pesoMaximo
@@ -75,9 +79,9 @@ public class AdminUI {
 
         if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
 
-            ScooterController sc = new ScooterController(new ScooterDataHandler());
+            ScooterController sc = new ScooterController(new ScooterDB());
             try {
-                sc.addScooter(percentagemBateria, peso, pesoMaximo, potencia, idestado);
+                sc.addScooter(descricao,percentagemBateria, peso, pesoMaximo, potencia, idestado);
             } catch (SQLException ex) {
                 Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -92,7 +96,7 @@ public class AdminUI {
     public static void removeScooter() {
         System.out.println("Insira o id da scooter a remover:");
         int idScooter = LER.nextInt();
-        ScooterController sc = new ScooterController(new ScooterDataHandler());
+        ScooterController sc = new ScooterController(new ScooterDB());
 
         System.out.println("Confirma a remoção da scooter com o id " + idScooter + "?(S/N)");
         LER.nextLine();

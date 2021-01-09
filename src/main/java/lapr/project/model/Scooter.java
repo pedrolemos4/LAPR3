@@ -11,6 +11,7 @@ package lapr.project.model;
  */
 public class Scooter {
 
+    private String descricao;
     private int id;
     private double percentagemBateria;
     private double pesoMaximo;
@@ -27,8 +28,9 @@ public class Scooter {
      * @param pesoScooter
      * @param potencia
      */
-    public Scooter(double percentagemBateria, double pesoMaximo, double pesoScooter, double potencia, int estado) {
+    public Scooter(String descricao,double percentagemBateria, double pesoMaximo, double pesoScooter, double potencia, int estado) {
         this.id = 0;
+        this.descricao=descricao;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
         this.pesoScooter = pesoScooter;
@@ -57,6 +59,13 @@ public class Scooter {
         return id;
     }
 
+    /**
+     * Devolve a descrição da scooter.
+     * @return 
+     */
+    public String getDescricao(){
+        return descricao;
+    }
     /**
      * Devolve a percentagem da bateria
      *

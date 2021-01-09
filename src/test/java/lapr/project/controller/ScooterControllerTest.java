@@ -5,7 +5,7 @@
  */
 package lapr.project.controller;
 
-import lapr.project.data.ScooterDataHandler;
+import lapr.project.data.ScooterDB;
 import lapr.project.model.Scooter;
 
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ public class ScooterControllerTest {
     @Test
     public void testAddScooter() throws Exception {
         System.out.println("addScooter");
-        ScooterDataHandler scooterDataHandler =new ScooterDataHandler();
+        ScooterDB scooterDataHandler =new ScooterDB();
         int percentagemBateria = 85;
         double pesoMaximo = 50;
         double pesoScooter = 30;
