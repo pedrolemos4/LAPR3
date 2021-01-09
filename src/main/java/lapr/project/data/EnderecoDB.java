@@ -5,6 +5,10 @@
  */
 package lapr.project.data;
 
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import lapr.project.model.Endereco;
@@ -13,19 +17,13 @@ import lapr.project.model.Endereco;
  *
  * @author josep
  */
-public class EnderecoDB {
+public class EnderecoDB extends DataHandler {
 
     Endereco end;
     private final DataHandler dataHandler;
-    private List<Endereco> lstEnderecos;
 
     public EnderecoDB() {
         this.dataHandler = DataHandler.getInstance();
-        lstEnderecos = new ArrayList<>();
-    }
-
-    public List<Endereco> getLstEnderecos() {
-        return lstEnderecos;
     }
 
     public Endereco novoEndereco(String morada, double latitude, double longitude, double altitude) {
@@ -33,26 +31,59 @@ public class EnderecoDB {
         return end;
     }
 
-    public boolean registaCliente(Endereco end) {
+    public void registaEndereco(Endereco end) {
         if (validaEndereco(end)) {
-            return addEndereco(end);
+            addEndereco(end);
         }
-        return false;
     }
 
     public boolean validaEndereco(Endereco end) {
-        if (end.getMorada() == null || end.getMorada().isBlank() || end.getLatitude() <= 0 || end.getLongitude() <= 0 || end.getAltitude() <= 0) {
+        if (end == null || end.getMorada().isEmpty() || end.getLatitude() <= 0 || end.getLongitude() <= 0 || end.getAltitude() <= 0) {
             return false;
-        }
-        for (Endereco e : lstEnderecos) {
-            if (e.equals(end)) {
-                return false;
-            }
         }
         return true;
     }
 
-    public boolean addEndereco(Endereco end) {
-        return lstEnderecos.add(end);
+    public void addEndereco(Endereco end) {
+        addEndereco(end.getMorada(), end.getLatitude(), end.getLongitude(), end.getAltitude());
+    }
+
+    private void addEndereco(String morada, double latitude, double longitude, double altitude) {
+        try {
+            openConnection();
+            CallableStatement callStmt = getConnection().prepareCall("{ call addEndereco(?,?,?,?) }");
+            callStmt.setString(1, morada);
+            callStmt.setDouble(2, latitude);
+            callStmt.setDouble(3, longitude);
+            callStmt.setDouble(4, altitude);
+            callStmt.execute();
+            closeAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Endereco> getLstEnderecos() {
+        ArrayList<Endereco> list = new ArrayList<>();
+        String query = "SELECT * FROM endereco";
+
+        Statement stm = null;
+        ResultSet rSet = null;
+
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+            while (rSet.next()) {
+                String morada = rSet.getString(1);
+                double latitude = rSet.getDouble(2);
+                double longitude = rSet.getDouble(3);
+                double altitude = rSet.getDouble(4);
+                list.add(new Endereco(morada, latitude, longitude, altitude));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

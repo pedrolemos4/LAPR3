@@ -5,6 +5,11 @@
  */
 package lapr.project.data;
 
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import lapr.project.model.Cartao;
@@ -13,7 +18,7 @@ import lapr.project.model.Cartao;
  *
  * @author josep
  */
-public class CartaoDB {
+public class CartaoDB extends DataHandler {
 
     Cartao cc;
     private final DataHandler dataHandler;
@@ -21,11 +26,6 @@ public class CartaoDB {
 
     public CartaoDB() {
         this.dataHandler = DataHandler.getInstance();
-        lstCartoes = new ArrayList<>();
-    }
-
-    public List<Cartao> getLstCartoes() {
-        return lstCartoes;
     }
 
     public Cartao novoCartao(int numeroCartao, String dataDeValidade, int CCV) {
@@ -33,26 +33,55 @@ public class CartaoDB {
         return cc;
     }
 
-    public boolean registaCartao(Cartao cc) {
+    public void registaCartao(Cartao cc) {
         if (validaCartao(cc)) {
-            return addCartao(cc);
+            addCartao(cc);
         }
-        return false;
     }
 
-    public boolean validaCartao(Cartao cc) {
-        if (cc.getNumeroCartao() <= 0 || cc.getDataDeValidade().isBlank() || cc.getDataDeValidade() == null || cc.getCCV() <= 0) {
-            return false;
+    private boolean validaCartao(Cartao cc) {
+        return !(cc == null || cc.getNumeroCartao() <= 0 || cc.getCCV() <= 0 || !cc.getDataDeValidade().isEmpty());
+    }
+
+    public void addCartao(Cartao cc) {
+        addCartao(cc.getNumeroCartao(), cc.getDataDeValidade(), cc.getCCV());
+    }
+
+    private void addCartao(int numeroCartao, String dataDeValidade, int CCV) {
+        try {
+            openConnection();
+            CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }");
+            callStmt.setInt(1, numeroCartao);
+            Timestamp dValidade = Timestamp.valueOf(dataDeValidade);
+            callStmt.setTimestamp(2, dValidade);
+            callStmt.setInt(3, CCV);
+            callStmt.execute();
+            closeAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        for (Cartao e : lstCartoes) {
-            if (e.equals(cc) || e.getNumeroCartao() == cc.getNumeroCartao() || e.getCCV() == cc.getCCV()) {
-                return false;
+    }
+
+    public List<Cartao> getLstClientes() {
+        ArrayList<Cartao> list = new ArrayList<>();
+        String query = "SELECT * FROM cartao";
+
+        Statement stm = null;
+        ResultSet rSet = null;
+
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+            while (rSet.next()) {
+                int numeroCartao = rSet.getInt(1);
+                String dataDeValidade = rSet.getTimestamp(2).toString();
+                int CCV = rSet.getInt(3);
+                list.add(new Cartao(numeroCartao, dataDeValidade, CCV));
             }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return true;
-    }
-
-    public boolean addCartao(Cartao cc) {
-        return lstCartoes.add(cc);
+        return list;
     }
 }
