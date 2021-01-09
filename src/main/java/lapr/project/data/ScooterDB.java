@@ -15,12 +15,11 @@ import oracle.jdbc.OracleTypes;
  *
  * @author Tiago
  */
-public class ScooterDB extends DataHandler{
-
+public class ScooterDB extends DataHandler {
 
     public ScooterDB() {
     }
-    
+
     public int addScooter(Scooter scooter) throws SQLException {
         CallableStatement callStmt = null;
         int id = 0;
@@ -47,10 +46,11 @@ public class ScooterDB extends DataHandler{
         }
         return id;
     }
-    
+
     /**
      * Devolve a lista de scooters
-     * @return 
+     *
+     * @return
      */
     public List<Scooter> getListaScooter() {
         ArrayList<Scooter> list = new ArrayList<>();
@@ -72,7 +72,7 @@ public class ScooterDB extends DataHandler{
                 double potencia = rSet.getDouble(6);
                 int idEstado = rSet.getInt(7);
 
-                list.add(new Scooter(descricao,percentagemBateria, pesoMaximo, pesoScooter, potencia, idEstado));
+                list.add(new Scooter(descricao, percentagemBateria, pesoMaximo, pesoScooter, potencia, idEstado));
             }
             return list;
 
@@ -81,11 +81,12 @@ public class ScooterDB extends DataHandler{
         }
         return list;
     }
-    
+
     /**
      * Devolve a lista de scooters
+     *
      * @param idScooter
-     * @return 
+     * @return
      */
     public Scooter getScooterById(int idScooter) {
         String query = "SELECT * FROM scooter WHERE idScooter = " + idScooter;
@@ -105,8 +106,8 @@ public class ScooterDB extends DataHandler{
                 double pesoScooter = rSet.getDouble(5);
                 double potencia = rSet.getDouble(6);
                 int idEstado = rSet.getInt(7);
-                
-                return new Scooter(descricao,percentagemBateria, pesoMaximo, pesoScooter, potencia, idEstado);
+
+                return new Scooter(descricao, percentagemBateria, pesoMaximo, pesoScooter, potencia, idEstado);
             }
 
         } catch (SQLException e) {
@@ -124,6 +125,32 @@ public class ScooterDB extends DataHandler{
             }
         }
         return null;
+    }
+
+    public boolean updateScooter(Scooter scooter) throws SQLException {
+        CallableStatement callSmt = null;
+
+        callSmt = getConnection().prepareCall("{ call updateScooter(?,?,?,?,?,?,?) }");
+
+        callSmt.setInt(1, scooter.getId());
+        callSmt.setString(2, scooter.getDescricao());
+        callSmt.setDouble(3, scooter.getPercentagemBateria());
+        callSmt.setDouble(4, scooter.getPesoMaximo());
+        callSmt.setDouble(5, scooter.getPesoScooter());
+        callSmt.setDouble(6, scooter.getPotencia());
+        callSmt.setInt(7, scooter.getEstadoScooter().getId());
+        callSmt.execute();
+
+        try {
+
+            callSmt.close();
+
+        } catch (SQLException | NullPointerException ex) {
+            Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
+        }
+
+        return false;
+
     }
 
     public boolean removeScooter(int id) throws SQLException {

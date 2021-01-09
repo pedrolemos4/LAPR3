@@ -15,24 +15,34 @@ import lapr.project.model.Scooter;
  */
 public class ScooterController {
 
-    private final ScooterDB scooterDataHandler;
+    private final ScooterDB scooterDB;
 
-    public ScooterController(ScooterDB scooterDataHandler) {
-        this.scooterDataHandler = scooterDataHandler;
+    public ScooterController(ScooterDB scooterDB) {
+        this.scooterDB = scooterDB;
     }
 
-    public Scooter addScooter(String descricao,int percentagemBateria, double pesoMaximo,
+    public Scooter addScooter(String descricao, int percentagemBateria, double pesoMaximo,
             double pesoScooter, double potencia, int estado) throws SQLException {
-        Scooter scooter = new Scooter(descricao,percentagemBateria, pesoMaximo, pesoScooter, potencia, estado);
+        Scooter scooter = new Scooter(descricao, percentagemBateria, pesoMaximo, pesoScooter, potencia, estado);
 
-        scooter.setId(scooterDataHandler.addScooter(scooter));
+        scooter.setId(scooterDB.addScooter(scooter));
         return scooter;
     }
-    
+
+    public boolean updateScooter(int idScooter, String descricao, int percentagemBateria,
+            double pesoMaximo, double pesoScooter, double potencia, int estado) throws SQLException {
+        boolean removed = false;
+        Scooter scooter = new Scooter(idScooter, descricao, percentagemBateria, pesoMaximo,
+                pesoScooter, potencia, estado);
+
+        removed = scooterDB.updateScooter(scooter);
+        return removed;
+    }
+
     public boolean removeScooter(int idScooter) throws SQLException {
         boolean removed = false;
 
-        removed = scooterDataHandler.removeScooter(idScooter);
+        removed = scooterDB.removeScooter(idScooter);
 
         return removed;
     }

@@ -11,8 +11,8 @@ package lapr.project.model;
  */
 public class Scooter {
 
-    private String descricao;
     private int id;
+    private String descricao;
     private double percentagemBateria;
     private double pesoMaximo;
     private double pesoScooter;
@@ -20,17 +20,41 @@ public class Scooter {
     private EstadoScooter estado;
 
     /**
-     * Contrói uma instância recebendo a percentagem da bateria, o peso máximo o
-     * peso da scooter e a potência da scooter.
-     *
+     * Constrói uma instância recebendo o id, a descrição,a percentagem da bateria, o
+     * peso máximo o peso da scooter,a potência da scooter e o estado da scooter
+     * 
+     * @param id
+     * @param descricao
      * @param percentagemBateria
      * @param pesoMaximo
      * @param pesoScooter
      * @param potencia
+     * @param estado 
      */
-    public Scooter(String descricao,double percentagemBateria, double pesoMaximo, double pesoScooter, double potencia, int estado) {
+    public Scooter(int id, String descricao, double percentagemBateria, double pesoMaximo, double pesoScooter, double potencia, int estado) {
+        this.id = id;
+        this.descricao = descricao;
+        this.percentagemBateria = percentagemBateria;
+        this.pesoMaximo = pesoMaximo;
+        this.pesoScooter = pesoScooter;
+        this.potencia = potencia;
+        this.estado = new EstadoScooter(estado);
+    }
+
+    /**
+     * Constrói uma instância recebendo a descrição,a percentagem da bateria, o
+     * peso máximo o peso da scooter,a potência da scooter e o estado da scooter
+     *
+     * @param descricao
+     * @param percentagemBateria
+     * @param pesoMaximo
+     * @param pesoScooter
+     * @param potencia
+     * @param estado
+     */
+    public Scooter(String descricao, double percentagemBateria, double pesoMaximo, double pesoScooter, double potencia, int estado) {
         this.id = 0;
-        this.descricao=descricao;
+        this.descricao = descricao;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
         this.pesoScooter = pesoScooter;
@@ -61,11 +85,13 @@ public class Scooter {
 
     /**
      * Devolve a descrição da scooter.
-     * @return 
+     *
+     * @return
      */
-    public String getDescricao(){
+    public String getDescricao() {
         return descricao;
     }
+
     /**
      * Devolve a percentagem da bateria
      *
@@ -113,7 +139,8 @@ public class Scooter {
 
     /**
      * Modifica o id
-     * @param id 
+     *
+     * @param id
      */
     public void setId(int id) {
         this.id = id;
@@ -157,7 +184,8 @@ public class Scooter {
 
     /**
      * Modifica o estado da scooter
-     * @param estado 
+     *
+     * @param estado
      */
     public void setEstadoScooter(int estado) {
         this.estado = new EstadoScooter(estado);

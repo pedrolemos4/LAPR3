@@ -25,7 +25,7 @@ public class AdminUI {
     public static final Scanner LER = new Scanner(System.in);
 
     /**
-     * 
+     *
      */
     public static void showMenu() {
         System.out.println("\nRIDE SHARING - Menu Administrador\n--------------------------------"
@@ -42,14 +42,14 @@ public class AdminUI {
                 + "\n Choose one of the options above.");
     }
 
-    public void loop(){
-            String opt;
+    public static void menu() {
+        String opt;
         do {
             showMenu();
             opt = LER.nextLine();
 
             switch (opt) {
-               /* case "1":
+                /* case "1":
                     addPark();
                     break;
                 case "2":
@@ -67,7 +67,7 @@ public class AdminUI {
                 case "2":
                     removeScooter();
                     break;
-               /* case "7":
+                /* case "7":
                     updateVehicle();
                     break;
                 case "8":
@@ -85,7 +85,6 @@ public class AdminUI {
         } while (!opt.equals("0"));// || isNumeric(opt));
     }
 
-    
     /**
      * Interface that allows the addition of a scooter into the system
      */
@@ -109,7 +108,7 @@ public class AdminUI {
             idestado = 0;
             estado = "Indisponível";
         }
-        
+
         /*System.out.println("Insert the scooter's description:");
         String description = LER.nextLine();*/
         System.out.println("Insira o peso total da scooter:");
@@ -130,7 +129,7 @@ public class AdminUI {
         int motor = LER.nextInt();*/
 
         System.out.println("Descrição:\t" + descricao
-                +"Estado:\t" + estado
+                + "Estado:\t" + estado
                 + "\nCapacidade de Bateria:\t" + percentagemBateria
                 + "\nPeso:\t" + peso
                 + "\nPeso máximo:\t" + pesoMaximo
@@ -144,15 +143,16 @@ public class AdminUI {
 
             ScooterController sc = new ScooterController(new ScooterDB());
             try {
-                sc.addScooter(descricao,percentagemBateria, peso, pesoMaximo, potencia, idestado);
+                sc.addScooter(descricao, percentagemBateria, peso, pesoMaximo, potencia, idestado);
+                System.out.println("\n\nScooter adicionada com sucesso'");
             } catch (SQLException ex) {
                 Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
             }
             System.out.println("\n\nScooter adicionada com sucesso'");
 
-//            loop();
-//        } else {
-//            loop();
+            menu();
+        } else {
+            menu();
         }
     }
 
@@ -168,10 +168,13 @@ public class AdminUI {
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("N")) {
             try {
                 sc.removeScooter(idScooter);
+                System.out.println("Scooter removida com sucesso.");
             } catch (SQLException ex) {
                 Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("Scooter removida com sucesso.");
+            menu();
+        } else {
+            menu();
         }
     }
 
