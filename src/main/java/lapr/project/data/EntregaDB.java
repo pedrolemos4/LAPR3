@@ -64,7 +64,7 @@ public class EntregaDB extends DataHandler{
              *  PROCEDURE addSailor(sid NUMBER, sname VARCHAR, rating NUMBER, age NUMBER)
              *  PACKAGE pkgSailors AS TYPE ref_cursor IS REF CURSOR; END pkgSailors;
              */
-            CallableStatement callStmt = getConnection().prepareCall("{ call addEntrega(?,?,?,?) }");
+            CallableStatement callStmt = getConnection().prepareCall("{ call funcAddEntrega(?,?,?,?) }");
             Timestamp dInicio = Timestamp.valueOf(dataInicio);
             callStmt.setTimestamp(1, dInicio);
             Timestamp dFim = Timestamp.valueOf(dataFim);
