@@ -35,25 +35,6 @@ public class EncomendaDB extends DataHandler{
         produtoDB = new ProdutosDB();
         lstEnc = new ArrayList<>();
     }
-    
-    /**
-     * Cria nova encomenda
-     */
-    public void novaEncomenda() {
-        EstadoEncomenda ee = new EstadoEncomenda(1, "encomendado");
-        //enc = new Encomenda(new Cliente(), getData(), produtoDB.getPreco(), produtoDB.getPeso(), 1.0, ee);
-//        enc.setLst(getListaProdutos());
-    }
-    
-    /**
-     * Devolve a data quando a encomenda é pedida
-     * @return 
-     */
-    public String getData() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-        Date date = new Date(System.currentTimeMillis());
-        return date.toString();
-    }
 
     /**
      * Devolve a lista de produtos da encomenda

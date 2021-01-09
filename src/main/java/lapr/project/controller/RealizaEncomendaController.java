@@ -8,6 +8,8 @@ package lapr.project.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import lapr.project.authorization.FacadeAuthorization;
+import lapr.project.data.ClienteDB;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.ProdutosDB;
 import lapr.project.model.Cliente;
@@ -22,24 +24,23 @@ import lapr.project.model.Produto;
 public class RealizaEncomendaController {
 
     private ProdutosDB produtoDB;
-    private Encomenda enc;
     private EncomendaDB encDB;
+    private ClienteDB cliDB;
+    private FacadeAuthorization facade;
 
     public RealizaEncomendaController() {
         produtoDB = new ProdutosDB();
         encDB = new EncomendaDB();
-    }
-
-    public void novaEncomenda() {
-        encDB.novaEncomenda();
+        cliDB = new ClienteDB();
+        this.facade = POTApplication.getFacadeAuthorization();
     }
 
     public void produtoEncomenda(Produto prod) {
         produtoDB.registaProduto(prod);
     }
     
-    public boolean registaEncomenda(){
-        return encDB.registaEncomenda(enc);
+    public boolean registaEncomenda(Encomenda enc1){
+        return encDB.registaEncomenda(enc1);
     }
     
     public List<Produto> getListaEncomenda(){
@@ -48,6 +49,24 @@ public class RealizaEncomendaController {
     
     public List<Produto> getListStock(){
         return produtoDB.getListaProdutos();
+    }
+    
+    public Produto getProdutoByID(int id){
+        return produtoDB.getProdutoByID(id);
+    }
+    
+    public double getPreco(){
+        return produtoDB.getPreco();
+    }
+    
+    public double getPeso(){
+        return produtoDB.getPeso();
+    }
+    
+    public int getNifCliente(){
+        String email = facade.getCurrentSession().getUser().getEmail();
+        Cliente cliente = cliDB.getClienteByEmail(email);
+        return cliente.getNIF();
     }
 
 }
