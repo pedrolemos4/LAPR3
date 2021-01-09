@@ -10,13 +10,19 @@ class RealizaEncomendaUI {
 class RealizaEncomendaController {
     +getListClients()
     +produtoEncomenda(produto)
-    +registaEncomenda()
-    +novaEncomenda()
+    +registaEncomenda(enc)
+    +novoRecibo(nifCliente, lista, dataRecibo)
 }
 
 class ClienteDataHandler {
     +Cliente getClienteByEmail()
     +getEnderecoCliente(cliente)
+}
+
+class ReciboDataHandler {
+    +validateRecibo(rec)
+    +addRecibo(rec)
+    +create(nifCliente, lista, dataRecibo)
 }
 
 class ProdutoDataHandler {
@@ -30,12 +36,10 @@ class EncomendaDataHandler {
     +registarEncomenda(encomenda)
     +validaEncomenda(enc)
     +addEncomenda(enc)
-    +generateId()
     +getData()
 }
 
-class AplicacaoPOT
-{
+class AplicacaoPOT{
   +static getInstance()
   +getSessaoAtual()
 }
@@ -50,6 +54,12 @@ class Entrega {
   -idEntrega
   -dataInicio
   -dataFim
+}
+
+class Recibo {
+  -idRecibo
+  -dataRecibo
+  +create(nifCliente, lista, dataRecibo)
 }
 
 class Encomenda {
@@ -92,12 +102,14 @@ RealizaEncomendaController .> AplicacaoPOT
 RealizaEncomendaController .> ClienteDataHandler
 RealizaEncomendaController .> ProdutoDataHandler
 RealizaEncomendaController .> EncomendaDataHandler
+RealizaEncomendaController .> ReciboDataHandler
 
 ClienteDataHandler .> Cliente
 ProdutoDataHandler .> Produto
 EncomendaDataHandler .> Encomenda
 
-
+Recibo "1" -- "1" Encomenda: referente a >
+Recibo "1" -- "1" Cliente: referente a >
 Entrega "1" -- "*" Encomenda : possui >
 Cliente "1" -- "*" Encomenda: realiza e paga >
 Encomenda "1" -- "1..*" Produto: tem >
