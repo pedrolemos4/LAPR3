@@ -18,8 +18,8 @@ public class InserirItensStockController {
     }
 
     public void novoProduto(String desig, double peso, double preco_base) {
-        produtosDB.novoProduto(produtosDB.generateID(),desig,peso,preco_base);
-
+        Produto prod = produtosDB.novoProduto(produtosDB.generateID(),desig,peso,preco_base);
+        registaProduto(prod);
     }
 
     public void registaProduto(Produto prod) {
