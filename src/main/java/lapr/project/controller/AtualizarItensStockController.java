@@ -17,10 +17,11 @@ public class AtualizarItensStockController {
     }
 
     public void getProdutoByID(int idProd) {
-
+        Produto prod = produtosDB.getProdutoByID(idProd);
+        atualizarProduto(prod);
     }
 
-    public boolean atualizarProduto(Produto prod) {
-        return true;
+    public void atualizarProduto(Produto prod) {
+        produtosDB.atualizarProduto(prod);
     }
 }
