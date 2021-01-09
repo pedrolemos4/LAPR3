@@ -1,7 +1,11 @@
 package lapr.project.data;
 
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr.project.model.Scooter;
@@ -21,13 +25,13 @@ public class ScooterDataHandler extends DataHandler{
         CallableStatement callStmt = null;
         int id = 0;
 
-        callStmt = getConnection().prepareCall("{ ? = call funcAddScooter(?,?,?,?,?,?,?,?,?,?,?) }");
+        callStmt = getConnection().prepareCall("{ ? = call funcAddScooter(?,?,?,?,?,?) }");
         callStmt.registerOutParameter(1, OracleTypes.INTEGER);
         callStmt.setDouble(2, scooter.getPercentagemBateria());
         callStmt.setDouble(3, scooter.getPesoMaximo());
         callStmt.setDouble(4, scooter.getPesoScooter());
         callStmt.setDouble(5, scooter.getPotencia());
-        callStmt.setInt/*String*/(6, scooter.getEstadoScooter()/*.getDesignacao()*/);
+        callStmt.setInt(6, scooter.getEstadoScooter().getId());
         callStmt.execute();
 
         id = callStmt.getInt(1);
@@ -41,6 +45,39 @@ public class ScooterDataHandler extends DataHandler{
             Logger.getLogger(ScooterDataHandler.class.getName()).log(Level.WARNING, ex.getMessage());
         }
         return id;
+    }
+    
+    /**
+     * Devolve a lista de scooters
+     * @return 
+     */
+    public List<Scooter> getListaScooter() {
+        ArrayList<Scooter> list = new ArrayList<>();
+        String query = "SELECT * FROM scooter WHERE EstadoScooterid = 1";
+
+        Statement stm = null;
+        ResultSet rSet = null;
+
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+
+            while (rSet.next()) {
+                int id = rSet.getInt(1);
+                double percentagemBateria = rSet.getDouble(2);
+                double pesoMaximo = rSet.getDouble(3);
+                double pesoScooter = rSet.getDouble(4);
+                double potencia = rSet.getDouble(5);
+                int idEstado = rSet.getInt(6);
+
+                list.add(new Scooter(percentagemBateria, pesoMaximo, pesoScooter, potencia, idEstado));
+            }
+            return list;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 }

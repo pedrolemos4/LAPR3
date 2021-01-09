@@ -42,13 +42,21 @@ public class EstadoScooter {
     }
 
     /**
+     * Devolve o id de estado da scooter
+     * @return id de estado da scooter
+     */
+    public int getId(){
+        return id_estado_scooter;
+    }
+    
+    /**
      * Devolve a designação do estado da scooter
      * @return designação do estado da scooter
      */
     public String getDesignacao() {
         return designacao;
     }
-
+    
     /**
      * Modifica o valor da designação do estado da scooter com o valor recebido por parâmetro
      * @param designacao nova designação do estado da scooter
