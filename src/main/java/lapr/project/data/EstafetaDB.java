@@ -101,11 +101,10 @@ public class EstafetaDB extends DataHandler{
             
             if (rSet.next()) {
                 int NIF = rSet.getInt(1);
-                String nome = rSet.getString(2);
-                int id_estado_estafeta = rSet.getInt(3);
-                double peso = rSet.getDouble(4);
+                int id_estado_estafeta = rSet.getInt(2);
+                double peso = rSet.getDouble(3);
 
-                return new Estafeta(NIF,nome,id_estado_estafeta,peso/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
+                return new Estafeta(NIF,id_estado_estafeta,peso/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
             }
         } catch (SQLException e) {
             Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());

@@ -33,13 +33,11 @@ public class Estafeta extends Utilizador{
     /**
      * Constrói uma instância de Estafeta
      * @param NIF
-     * @param nome
      * @param idEstado
      * @param pesoEstafeta
      */
-    public Estafeta(int NIF, String nome, int idEstado, double pesoEstafeta) {
+    public Estafeta(int NIF, int idEstado, double pesoEstafeta) {
         this.NIF = NIF;
-        this.nome = nome;
         this.pesoEstafeta = pesoEstafeta;
         this.idEstado = idEstado;
     }

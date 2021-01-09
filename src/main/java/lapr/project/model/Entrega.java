@@ -12,7 +12,7 @@ public class Entrega {
     private int idEntrega;
     private String dataInicio;
     private String dataFim;
-    private List<Encomenda> listEncomendas;
+    private List<Encomenda> listEncomendas = new ArrayList<>();
     private int idScooter;
     private int idEstafeta;
     
@@ -100,7 +100,7 @@ public class Entrega {
      * @return lista de encomendas da entrega
      */
     public List<Encomenda> getListEncomendas() {
-        return listEncomendas;
+        return new ArrayList<>(listEncomendas);
     }
     
     /**
@@ -108,7 +108,7 @@ public class Entrega {
      * @param listEncomendas a nova lista de encomendas da entrega
      */
     public void setListEncomendas(List<Encomenda> listEncomendas) {
-        this.listEncomendas = new ArrayList<>();
+        this.listEncomendas = new ArrayList<>(listEncomendas);
     }
     
     /**

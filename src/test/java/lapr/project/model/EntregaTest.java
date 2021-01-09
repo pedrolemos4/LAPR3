@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class EntregaTest {
     
+    private Entrega entrega = new Entrega("25/12/2252", "26/12/2252", 1, 2);
     @Test
     void EntregaEmptyConstructorTest(){
         Entrega instance = new Entrega();
@@ -120,14 +121,14 @@ public class EntregaTest {
     @Test
     public void testGetListEncomendas() {
         System.out.println("getListEncomendas");
-        Encomenda enc = new Encomenda(2,"25/12/2252", 15, 20, 5, 1);
         List<Encomenda> expResult = new ArrayList<>();
-        expResult.add(enc);
+        Encomenda e = new Encomenda(2,"25/12/2252", 15, 20, 5, 1);
+        expResult.add(e);
         
         List<Encomenda> list = new ArrayList<>();
-        list.add(enc);
-        
+        list.add(e);
         Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
+
         instance.setListEncomendas(list);
         
         List<Encomenda> result = instance.getListEncomendas();

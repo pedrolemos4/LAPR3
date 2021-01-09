@@ -1,13 +1,14 @@
 package lapr.project.ui;
 
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lapr.project.controller.RegistarEntregaController;
+import lapr.project.data.EncomendaDB;
+import lapr.project.data.EntregaDB;
+import lapr.project.data.EstafetaDB;
+import lapr.project.data.ScooterDataHandler;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
@@ -21,14 +22,10 @@ public class RegistarEntregaUI {
     
     public static final Scanner LER = new Scanner(System.in);
     
-    RegistarEntregaController controller;
-
-    public RegistarEntregaUI() {
-        this.controller = new RegistarEntregaController();
-    }
+    RegistarEntregaController controller = new RegistarEntregaController(new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new ScooterDataHandler());
     
     
-    private void introduzEntrega() {
+    public void introduzEntrega() {
         
         System.out.println("Lista de scooters: ");
         List<Scooter> list = controller.getListScooter();
