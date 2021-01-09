@@ -3,20 +3,20 @@ package lapr.project.model;
 public class Parque {
 
     private int nif;
-    private Endereco end;
+    private String morada;
     private int numeroMaximo;
 
     /**
      * Constrói uma instância de parque com o nif do parque(igual ao nif da
-     * farmácia), endereço do parque e número máximo de lugares
+     * farmácia), morada do parque e número máximo de lugares
      *
      * @param nif nif do parque
-     * @param end endereço do parque
+     * @param morada morada do parque
      * @param numeroMaximo número máximo de lugares do parque
      */
-    public Parque(int nif, Endereco end, int numeroMaximo) {
+    public Parque(int nif, String morada, int numeroMaximo) {
         this.nif = nif;
-        this.end = end;
+        this.morada = morada;
         this.numeroMaximo = numeroMaximo;
     }
 
@@ -26,7 +26,7 @@ public class Parque {
      */
     public Parque() {
         this.nif = 0;
-        this.end = null;
+        this.morada = "";
         this.numeroMaximo = 0;
     }
 
@@ -35,7 +35,7 @@ public class Parque {
      *
      * @return nif do parque
      */
-    public int getNif() {
+    public int getNIF() {
         return nif;
     }
 
@@ -44,26 +44,26 @@ public class Parque {
      *
      * @param nif novo nif do parque
      */
-    public void setNif(int nif) {
+    public void setNIF(int nif) {
         this.nif = nif;
     }
 
     /**
-     * Devolve o endereço do parque
+     * Devolve a morada do parque
      *
      * @return endereço do parque
      */
-    public Endereco getEndereco() {
-        return end;
+    public String getMorada() {
+        return morada;
     }
 
     /**
-     * Modifica o endereço do parque com o valor recebido por parâmetro
+     * Modifica a morada do parque com o valor recebido por parâmetro
      *
-     * @param end novo endereço do parque
+     * @param morada nova morada do parque
      */
-    public void setEndereco(Endereco end) {
-        this.end = end;
+    public void setMorada(String morada) {
+        this.morada = morada;
     }
 
     /**
