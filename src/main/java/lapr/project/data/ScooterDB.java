@@ -15,10 +15,10 @@ import oracle.jdbc.OracleTypes;
  *
  * @author Tiago
  */
-public class ScooterDataHandler extends DataHandler{
+public class ScooterDB extends DataHandler{
 
 
-    public ScooterDataHandler() {
+    public ScooterDB() {
     }
     
     public int addScooter(Scooter scooter) throws SQLException {
@@ -42,7 +42,7 @@ public class ScooterDataHandler extends DataHandler{
 
         } catch (SQLException | NullPointerException ex) {
 
-            Logger.getLogger(ScooterDataHandler.class.getName()).log(Level.WARNING, ex.getMessage());
+            Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
         }
         return id;
     }
@@ -64,13 +64,14 @@ public class ScooterDataHandler extends DataHandler{
 
             while (rSet.next()) {
                 int id = rSet.getInt(1);
-                double percentagemBateria = rSet.getDouble(2);
-                double pesoMaximo = rSet.getDouble(3);
-                double pesoScooter = rSet.getDouble(4);
-                double potencia = rSet.getDouble(5);
-                int idEstado = rSet.getInt(6);
+                String descricao = rSet.getString(2);
+                double percentagemBateria = rSet.getDouble(3);
+                double pesoMaximo = rSet.getDouble(4);
+                double pesoScooter = rSet.getDouble(5);
+                double potencia = rSet.getDouble(6);
+                int idEstado = rSet.getInt(7);
 
-                list.add(new Scooter(percentagemBateria, pesoMaximo, pesoScooter, potencia, idEstado));
+                list.add(new Scooter(descricao,percentagemBateria, pesoMaximo, pesoScooter, potencia, idEstado));
             }
             return list;
 
@@ -97,17 +98,18 @@ public class ScooterDataHandler extends DataHandler{
 
             if (rSet.next()) {
                 int id = rSet.getInt(1);
-                double percentagemBateria = rSet.getDouble(2);
-                double pesoMaximo = rSet.getDouble(3);
-                double pesoScooter = rSet.getDouble(4);
-                double potencia = rSet.getDouble(5);
-                int idEstado = rSet.getInt(6);
+                String descricao = rSet.getString(2);
+                double percentagemBateria = rSet.getDouble(3);
+                double pesoMaximo = rSet.getDouble(4);
+                double pesoScooter = rSet.getDouble(5);
+                double potencia = rSet.getDouble(6);
+                int idEstado = rSet.getInt(7);
                 
-                return new Scooter(percentagemBateria, pesoMaximo, pesoScooter, potencia, idEstado);
+                return new Scooter(descricao,percentagemBateria, pesoMaximo, pesoScooter, potencia, idEstado);
             }
 
         } catch (SQLException e) {
-            Logger.getLogger(ScooterDataHandler.class.getName()).log(Level.WARNING, e.getMessage());
+            Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, e.getMessage());
         } finally {
             try {
                 if (rSet != null) {
@@ -117,7 +119,7 @@ public class ScooterDataHandler extends DataHandler{
                     stm.close();
                 }
             } catch (SQLException e) {
-                Logger.getLogger(ScooterDataHandler.class.getName()).log(Level.WARNING, e.getMessage());
+                Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, e.getMessage());
             }
         }
         return null;
@@ -140,7 +142,7 @@ public class ScooterDataHandler extends DataHandler{
             callV.close();
 
         } catch (SQLException | NullPointerException ex) {
-            Logger.getLogger(ScooterDataHandler.class.getName()).log(Level.WARNING, ex.getMessage());
+            Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
 
         }
         return removed;

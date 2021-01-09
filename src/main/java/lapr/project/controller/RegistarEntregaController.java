@@ -4,7 +4,7 @@ import java.util.List;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
-import lapr.project.data.ScooterDataHandler;
+import lapr.project.data.ScooterDB;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
@@ -19,7 +19,7 @@ public class RegistarEntregaController {
     private EstafetaDB estafetaDB;
     private EntregaDB entregaDB;
     private EncomendaDB encomendaDB;
-    private ScooterDataHandler scooterDB;
+    private ScooterDB scooterDB;
     
     public RegistarEntregaController(){
         

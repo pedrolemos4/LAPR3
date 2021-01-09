@@ -6,7 +6,7 @@
 package lapr.project.controller;
 
 import java.sql.SQLException;
-import lapr.project.data.ScooterDataHandler;
+import lapr.project.data.ScooterDB;
 import lapr.project.model.Scooter;
 
 /**
@@ -15,15 +15,15 @@ import lapr.project.model.Scooter;
  */
 public class ScooterController {
 
-    private final ScooterDataHandler scooterDataHandler;
+    private final ScooterDB scooterDataHandler;
 
-    public ScooterController(ScooterDataHandler scooterDataHandler) {
+    public ScooterController(ScooterDB scooterDataHandler) {
         this.scooterDataHandler = scooterDataHandler;
     }
 
-    public Scooter addScooter(int percentagemBateria, double pesoMaximo,
+    public Scooter addScooter(String descricao,int percentagemBateria, double pesoMaximo,
             double pesoScooter, double potencia, int estado) throws SQLException {
-        Scooter scooter = new Scooter(percentagemBateria, pesoMaximo, pesoScooter, potencia, estado);
+        Scooter scooter = new Scooter(descricao,percentagemBateria, pesoMaximo, pesoScooter, potencia, estado);
 
         scooter.setId(scooterDataHandler.addScooter(scooter));
         return scooter;
