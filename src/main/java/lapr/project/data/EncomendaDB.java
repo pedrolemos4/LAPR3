@@ -188,7 +188,42 @@ public class EncomendaDB extends DataHandler {
         }
         return list;
     }
-
+    
+    
+    /**
+     * Devolve a lista de encomendas
+     * @param idEntrega
+     * @return 
+     */
+    public List<Encomenda> getListaEncomenda(int idEntrega) {
+        ArrayList<Encomenda> list = new ArrayList<>();
+        String query = "SELECT * FROM encomenda e INNER JOIN EncomendaEntrega ee ON ee.EntregaidEntrega = e.idEntrega WHERE e.idEntrega = " + idEntrega;
+        
+        Statement stm = null;
+        ResultSet rSet = null;
+        
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+            
+            while (rSet.next()) {
+                int idEncomenda = rSet.getInt(1);
+                Timestamp dataPedida = rSet.getTimestamp(2);
+                double preco = rSet.getDouble(3);
+                double pesoEncomenda = rSet.getDouble(4);
+                double taxa = rSet.getDouble(5);
+                int estado = rSet.getInt(6);
+                int nif = rSet.getInt(7);
+                                
+                list.add(new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado));
+            }
+            return list;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
     
 
 }

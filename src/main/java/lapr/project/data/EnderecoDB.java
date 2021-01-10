@@ -99,4 +99,40 @@ public class EnderecoDB extends DataHandler {
         }
         return list;
     }
+    
+    public Endereco getEnderecoByNifCliente(int nif){
+        String query = "SELECT * FROM endereco e INNER JOIN cliente c ON e.morada = c.Enderecomorada WHERE c.UtilizadorNIF = " + nif;
+
+        Statement stm = null;
+        ResultSet rSet = null;
+
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+
+            if (rSet.next()) {
+                String morada = rSet.getString(1);
+                double latitude = rSet.getDouble(2);
+                double longitude = rSet.getDouble(3);
+                double altitude = rSet.getDouble(4);
+                
+                return new Endereco(morada, latitude, longitude, altitude);
+            }
+
+        } catch (SQLException e) {
+            Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                if (rSet != null) {
+                    rSet.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            }
+        }
+        return null;
+    }
 }
