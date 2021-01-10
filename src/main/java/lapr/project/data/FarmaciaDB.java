@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lapr.project.model.Farmacia;
 
 /**
@@ -104,7 +106,18 @@ public class FarmaciaDB extends DataHandler {
             }
             return list;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                if (rSet != null) {
+                    rSet.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            }
         }
         return list;
     }
