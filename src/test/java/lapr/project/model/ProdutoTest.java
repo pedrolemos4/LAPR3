@@ -99,5 +99,24 @@ public class ProdutoTest {
         assertEquals(precoBase, instance.getPrecoBase());
 
     }
-    
+
+    @Test
+    public void testGetId() {
+        System.out.println("getId");
+        Produto instance = new Produto("sdf", 50, 58);
+        double expResult = 0;
+        double result = instance.getId();
+        assertEquals(expResult, result);
+
+    }
+
+    @Test
+    public void testsetId() {
+        System.out.println("setsetId");
+        int newid = 56;
+        Produto instance = new Produto("sdf", 50, 58);
+        instance.setId(newid);
+        assertEquals(newid, instance.getId());
+
+    }
 }

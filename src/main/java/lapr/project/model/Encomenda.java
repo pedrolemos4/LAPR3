@@ -46,8 +46,8 @@ public class Encomenda {
      * Modifica o nif do cliente
      * @return 
      */
-    public int setNif(int nifCliente) {
-        return nifCliente;
+    public void setNif(int nifCliente) {
+        this.nifCliente = nifCliente;
     }
     /**
      * Devolve o id

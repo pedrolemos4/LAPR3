@@ -14,6 +14,12 @@ class ClienteTest extends UtilizadorTest {
     }
 
     @Test
+    public void ClienteConstructor2Test() {
+        Cliente novoCliente = new Cliente(123,"Teste","@",1234,12,"Ali",123,"pass");
+        assertEquals(novoCliente, novoCliente);
+    }
+
+    @Test
     public void ClienteConstructorTest() {
         Cliente novoCliente = new Cliente(123, 56, "não sei", 65746);
         assertEquals(novoCliente, novoCliente);

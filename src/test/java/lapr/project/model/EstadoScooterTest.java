@@ -53,4 +53,11 @@ public class EstadoScooterTest {
         assertEquals(designacao,instance.getDesignacao());
     }
 
+    @Test
+    public void testgetId() {
+        System.out.println("getId");
+        EstadoScooter instance = new EstadoScooter(1);
+        assertEquals(1,instance.getId());
+    }
+
 }

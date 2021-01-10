@@ -161,7 +161,7 @@ public class ScooterTest {
         int estado = 2;
         Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
         instance.setEstadoScooter(estado);
-        assertEquals(estado, instance.getEstadoScooter());
+        assertEquals(estado, instance.getEstadoScooter().getId());
     }
 
     /**
@@ -173,8 +173,7 @@ public class ScooterTest {
         Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
         int expResult = 1;
         instance.setId(1);
-        int result = instance.getId();
-        assertEquals(expResult, result);
+        assertEquals(expResult, instance.getId());
     }
 
     /**

@@ -37,4 +37,11 @@ class EstadoEncomendaTest {
         instance.setDesignacao("em falta");
         assertEquals(designacao, instance.getDesignacao());
     }
+
+    @Test
+    void getId_estado_encomenda(){
+        System.out.println("getId_estado_encomenda");
+        EstadoEncomenda instance = new EstadoEncomenda(2,"entregue");
+        assertEquals(2, instance.getId_estado_encomenda());
+    }
 }

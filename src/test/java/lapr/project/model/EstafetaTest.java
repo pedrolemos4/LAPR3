@@ -9,6 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author beatr
  */
 public class EstafetaTest extends UtilizadorTest{
+
+    @Test
+    public void EstafetaConstructorTest() {
+        Estafeta estafetaTest = new Estafeta(123,2,4);
+
+        assertEquals(estafetaTest, estafetaTest);
+    }
     
     /**
      * Test of getPesoEstafeta method, of class Estafeta.

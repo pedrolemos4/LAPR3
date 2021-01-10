@@ -292,4 +292,15 @@ class EncomendaTest {
         instance.setTaxa(taxa);
     }
 
+    @org.junit.Test
+    public void testSetNif() {
+        System.out.println("setNif");
+        int nif = 0;
+        List<Produto> lp = new ArrayList<>();
+        Produto p = new Produto();
+        Cliente c = new Cliente();
+        lp.add(p);
+        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        instance.setNif(nif);
+    }
 }
