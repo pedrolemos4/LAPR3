@@ -22,11 +22,7 @@ import lapr.project.model.Cartao;
  */
 public class CartaoDB extends DataHandler {
 
-    private final DataHandler dataHandler;
-    private List<Cartao> lstCartoes;
-
     public CartaoDB() {
-        this.dataHandler = DataHandler.getInstance();
     }
 
     /**
@@ -38,8 +34,7 @@ public class CartaoDB extends DataHandler {
      * @return o novo cartão de cidadão criado
      */
     public Cartao novoCartao(int numeroCartao, String dataDeValidade, int CCV) {
-        Cartao cc = new Cartao(numeroCartao, dataDeValidade, CCV);
-        return cc;
+        return new Cartao(numeroCartao, dataDeValidade, CCV);
     }
 
     /**
@@ -59,7 +54,7 @@ public class CartaoDB extends DataHandler {
      * @param cc cartão de cidadão
      * @return true se os dados do cartão de cidadão são válidos
      */
-    private boolean validaCartao(Cartao cc) {
+    public boolean validaCartao(Cartao cc) {
         return !(cc == null || cc.getNumeroCartao() < 0 || cc.getCCV() < 0 || !cc.getDataDeValidade().isEmpty());
     }
 
@@ -79,7 +74,7 @@ public class CartaoDB extends DataHandler {
      * @param dataDeValidade data de validade do cartão de cidadão
      * @param CCV código de segurança do cartão de cidadão
      */
-    private void addCartao(int numeroCartao, String dataDeValidade, int CCV) {
+    public void addCartao(int numeroCartao, String dataDeValidade, int CCV) {
         try {
             openConnection();
             CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }");

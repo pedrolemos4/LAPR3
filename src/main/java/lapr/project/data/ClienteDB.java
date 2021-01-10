@@ -21,10 +21,7 @@ import lapr.project.model.Cliente;
  */
 public class ClienteDB extends DataHandler {
 
-    private final DataHandler dataHandler;
-
     public ClienteDB() {
-        this.dataHandler = DataHandler.getInstance();
     }
 
     /**
@@ -40,8 +37,8 @@ public class ClienteDB extends DataHandler {
      * @return o novo cliente criado
      */
     public Cliente novoCliente(int NIF, String nome, String email, int numeroSegurancaSocial, String morada, int numCC, String password) {
-        Cliente cl = new Cliente(NIF, nome, email, numeroSegurancaSocial, 0, morada, numCC, password);
-        return cl;
+        int creditos = 0;
+        return new Cliente(NIF, nome, email, numeroSegurancaSocial, creditos, morada, numCC, password);
     }
 
     /**
@@ -61,7 +58,7 @@ public class ClienteDB extends DataHandler {
      * @param cl o cliente
      * @return true se os dados do cliente forem válidos
      */
-    private boolean validaCliente(Cliente cl) {
+    public boolean validaCliente(Cliente cl) {
         return !(cl == null || cl.getClienteNIF() < 0 || cl.getNumCartaoCredito() < 0);
     }
 
@@ -83,7 +80,7 @@ public class ClienteDB extends DataHandler {
      * @param enderecoMorada morada do cliente
      * @param numCC número do cartão de cidadão do cliente
      */
-    private void addCliente(int nif, int creditos, String enderecoMorada, int numCC) {
+    public void addCliente(int nif, int creditos, String enderecoMorada, int numCC) {
         try {
             openConnection();
             CallableStatement callStmt = getConnection().prepareCall("{ call addCliente(?,?,?,?) }");
@@ -98,7 +95,7 @@ public class ClienteDB extends DataHandler {
         }
     }
 
-    private void addUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
+    public void addUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
         try {
             openConnection();
             CallableStatement callStmt = getConnection().prepareCall("{ call addUtilizador(?,?,?,?,?) }");
@@ -114,7 +111,7 @@ public class ClienteDB extends DataHandler {
         }
     }
 
-    private void atualizarUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
+    public void atualizarUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
         try {
             openConnection();
 
@@ -188,7 +185,7 @@ public class ClienteDB extends DataHandler {
                 return new Cliente(aInt, aInt1, string, aInt2);
             }
         } catch (SQLException e) {
-            Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
         } finally {
             try {
                 if (rSet != null) {
@@ -198,7 +195,7 @@ public class ClienteDB extends DataHandler {
                     stm.close();
                 }
             } catch (SQLException e) {
-                Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+                Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
             }
         }
         return null;

@@ -21,11 +21,7 @@ import lapr.project.model.Endereco;
  */
 public class EnderecoDB extends DataHandler {
 
-    Endereco end;
-    private final DataHandler dataHandler;
-
     public EnderecoDB() {
-        this.dataHandler = DataHandler.getInstance();
     }
 
     /**
@@ -38,8 +34,7 @@ public class EnderecoDB extends DataHandler {
      * @return novo endereço criado
      */
     public Endereco novoEndereco(String morada, double latitude, double longitude, double altitude) {
-        end = new Endereco(morada, latitude, longitude, altitude);
-        return end;
+        return new Endereco(morada, latitude, longitude, altitude);
     }
 
     /**
@@ -60,10 +55,7 @@ public class EnderecoDB extends DataHandler {
      * @return true se os dados do endereço são válidos
      */
     public boolean validaEndereco(Endereco end) {
-        if (end == null || end.getMorada().isEmpty() || end.getLatitude() < 0 || end.getLongitude() < 0 || end.getAltitude() < 0) {
-            return false;
-        }
-        return true;
+        return !(end == null || end.getMorada().isEmpty() || end.getLatitude() < 0 || end.getLongitude() < 0 || end.getAltitude() < 0);
     }
 
     /**
@@ -83,7 +75,7 @@ public class EnderecoDB extends DataHandler {
      * @param longitude longitude do endereço
      * @param altitude altitude do endereço
      */
-    private void addEndereco(String morada, double latitude, double longitude, double altitude) {
+    public void addEndereco(String morada, double latitude, double longitude, double altitude) {
         try {
             openConnection();
             CallableStatement callStmt = getConnection().prepareCall("{ call addEndereco(?,?,?,?) }");

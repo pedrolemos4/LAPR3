@@ -23,7 +23,7 @@ public class RegistarClienteUI {
      * Criação do controlador responsável por registar clientes
      */
     public RegistarClienteUI() {
-        this.controller = new RegistarClienteController(new ClienteDB(), new UtilizadorDB(), new EnderecoDB(), new CartaoDB());
+        this.controller = new RegistarClienteController();
     }
 
     /**

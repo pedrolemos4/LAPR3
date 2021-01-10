@@ -26,19 +26,17 @@ public class RegistarClienteController {
     private final EnderecoDB enderecoDB;
     private final CartaoDB cartaoDB;
 
-    public RegistarClienteController(ClienteDB clienteDB, UtilizadorDB utilizadorDB, EnderecoDB enderecoDB, CartaoDB cartaoDB) {
-        this.clienteDB = clienteDB;
-        this.utilizadorDB = utilizadorDB;
-        this.enderecoDB = enderecoDB;
-        this.cartaoDB = cartaoDB;
+    public RegistarClienteController() {
+        this.clienteDB = new ClienteDB();
+        this.utilizadorDB = new UtilizadorDB();
+        this.enderecoDB = new EnderecoDB();
+        this.cartaoDB = new CartaoDB();
     }
 
     public Utilizador login(String email, String password) {
         Utilizador user = null;
-
         int nif = utilizadorDB.validateLogin(email, password);
         user = utilizadorDB.getByID(nif);
-
         return user;
     }
 
