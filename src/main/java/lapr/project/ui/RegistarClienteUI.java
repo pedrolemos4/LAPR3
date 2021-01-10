@@ -58,16 +58,15 @@ public class RegistarClienteUI {
         int ccv = LER.nextInt();
         System.out.println("Password:");
         String pwd = LER.nextLine();
-        Cliente cl = controller.novoCliente(nif, morada, ncc);
-        Utilizador user = controller.novoUtilizador(nif, nome, email, nss, pwd);
+        Cliente cl = controller.novoCliente(nif, nome, email, nss, morada, ncc, pwd);
         Endereco end = controller.novoEndereco(morada, lat, lon, alt);
         Cartao cc = controller.novoCartao(ncc, dvcc, ccv);
 
         System.out.println("--Cliente Criado--");
         System.out.println(cl.getNIF());
-        System.out.println(user.getNome());
-        System.out.println(user.getEmail());
-        System.out.println(user.getNumeroSegurancaSocial());
+        System.out.println(cl.getNome());
+        System.out.println(cl.getEmail());
+        System.out.println(cl.getNumeroSegurancaSocial());
         System.out.println(end.getMorada());
         System.out.println(end.getLatitude());
         System.out.println(end.getLongitude());
@@ -81,7 +80,6 @@ public class RegistarClienteUI {
 
         if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
             controller.registaCliente(cl);
-            controller.registaUtilizador(user);
             controller.registaCartao(cc);
             controller.registaEndereco(end);
             System.out.println("\n\nCliente registado com sucesso!");

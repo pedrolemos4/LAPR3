@@ -30,13 +30,17 @@ public class ClienteDB extends DataHandler {
     /**
      * Cria um novo cliente
      *
-     * @param nif nif do cliente
+     * @param NIF nif do cliente
+     * @param nome nome do cliente
+     * @param email email do cliente
+     * @param numeroSegurancaSocial número de segurança social do cliente
+     * @param password password do cliente
      * @param morada morada do cliente
      * @param numCC número do cartão de cidadão do cliente
      * @return o novo cliente criado
      */
-    public Cliente novoCliente(int nif, String morada, int numCC) {
-        Cliente cl = new Cliente(nif, 0, morada, numCC);
+    public Cliente novoCliente(int NIF, String nome, String email, int numeroSegurancaSocial, String morada, int numCC, String password) {
+        Cliente cl = new Cliente(NIF, nome, email, numeroSegurancaSocial, 0, morada, numCC, password);
         return cl;
     }
 
@@ -68,6 +72,7 @@ public class ClienteDB extends DataHandler {
      */
     public void addCliente(Cliente cl) {
         addCliente(cl.getNIF(), cl.getCreditos(), cl.getEnderecoMorada(), cl.getNumCartaoCredito());
+        addUtilizador(cl.getNIF(), cl.getNome(), cl.getEmail(), cl.getNumeroSegurancaSocial(), cl.getPassword());
     }
 
     /**
@@ -88,6 +93,42 @@ public class ClienteDB extends DataHandler {
             callStmt.setInt(4, numCC);
             callStmt.execute();
             closeAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
+        try {
+            openConnection();
+            CallableStatement callStmt = getConnection().prepareCall("{ call addUtilizador(?,?,?,?,?) }");
+            callStmt.setInt(1, NIF);
+            callStmt.setString(2, nome);
+            callStmt.setString(3, email);
+            callStmt.setInt(4, numeroSegurancaSocial);
+            callStmt.setString(5, password);
+            callStmt.execute();
+            closeAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void atualizarUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
+        try {
+            openConnection();
+
+            CallableStatement callStmt = getConnection().prepareCall("{ call atualizarUtilizador(?,?,?,?,?) }");
+
+            callStmt.setInt(1, NIF);
+            callStmt.setString(2, nome);
+            callStmt.setString(3, email);
+            callStmt.setInt(4, numeroSegurancaSocial);
+            callStmt.setString(5, password);
+
+            callStmt.execute();
+            closeAll();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
