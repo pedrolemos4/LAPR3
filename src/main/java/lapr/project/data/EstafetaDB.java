@@ -9,10 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import lapr.project.model.EstadoEstafeta;
 import lapr.project.model.Estafeta;
-import lapr.project.model.Produto;
-import oracle.jdbc.OracleTypes;
 
 public class EstafetaDB extends DataHandler{
     Estafeta est;
@@ -46,6 +43,7 @@ public class EstafetaDB extends DataHandler{
 
     public void addEstafeta(Estafeta est) {
         addEstafeta(est.getNIF(), est.getEstado(), est.getPesoEstafeta());
+        lstEstafetas.add(est);
         addUtilizador(est.getNIF(), est.getNome(), est.getEmail(), est.getNumeroSegurancaSocial(), est.getPassword());
     }
 
@@ -87,6 +85,7 @@ public class EstafetaDB extends DataHandler{
     public void atualizarEstafeta(Estafeta est) {
         atualizarEstafeta(est.getNIF(), est.getEstado(), est.getPesoEstafeta());
         atualizarUtilizador(est.getNIF(), est.getNome(), est.getEmail(), est.getNumeroSegurancaSocial(), est.getPassword());
+        validaEstafeta(est);
     }
 
     private void atualizarEstafeta(int nif, int estadoEstafeta, double peso) {
