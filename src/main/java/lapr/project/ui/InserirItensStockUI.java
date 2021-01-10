@@ -16,7 +16,7 @@ public class InserirItensStockUI {
         this.controller = new InserirItensStockController(new ProdutosDB());
     }
 
-    private void registaProduto() {
+    public void registaProduto() {
         System.out.println("Stock da farmácia: ");
         List<Produto> lp = controller.getListaProdutos();
 

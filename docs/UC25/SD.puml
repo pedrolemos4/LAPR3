@@ -70,6 +70,16 @@ activate UI
 UI --> CTRL : produtoEncomenda(produto)
 activate CTRL
 
+CTRL --> CTRL : verificaProdutoStock(prod)
+
+OPT
+note  over CTRL : Se nao houver o produto no stock
+
+ref over CTRL : notificarCliente
+
+END OPT
+
+
 CTRL --> LPROD : addNovoProduto(produto)
 activate LPROD
 
@@ -90,9 +100,9 @@ CTRL --> PDH : lista = getListaProdutos()
 activate PDH
 deactivate PDH
 
-CTRL --> EDH : dataPedida = getData()
-activate EDH
-deactivate EDH
+CTRL --> CTRL : precoTotal = getPrecoTotal()
+
+CTRL --> UI : dataPedida = getData()
 
 CTRL --> EDH : enc = novaEncomenda(lista, endereco, nifCliente, dataPedida, preco, peso, estado)
 activate EDH
@@ -119,13 +129,13 @@ deactivate EDH
 
 deactivate CTRL
 
-UI --> CTRL : novoRecibo(nifCliente, lista, dataRecibo)
+UI --> CTRL : novoRecibo(nifCliente, precoTotal, lista, dataPedida)
 activate CTRL
 
-CTRL --> RDH : create(nifCliente, lista, dataRecibo)
+CTRL --> RDH : create(nifCliente, precoTotal, lista, dataPedida)
 activate RDH
 
-RDH --> REC ** : create(nifCliente, lista, dataRecibo)
+RDH --> REC ** : create(nifCliente, precoTotal, lista, dataPedida)
 
 RDH --> RDH : validateRecibo(rec)
 

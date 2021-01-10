@@ -17,7 +17,7 @@ public class RegistarEstafetaUI {
         this.controller = new RegistarEstafetaController(new EstafetaDB());
     }
 
-    private void registaEstafeta() {
+    public void registaEstafeta() {
         System.out.println("Lista de Estafetas: ");
         List<Estafeta> le = controller.getListaEstafetas();
 

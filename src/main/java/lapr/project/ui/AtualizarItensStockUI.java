@@ -16,7 +16,7 @@ public class AtualizarItensStockUI {
         this.controller = new AtualizarItensStockController(new ProdutosDB());
     }
 
-    private void atualizarEstafeta() {
+    public void atualizarEstafeta() {
         System.out.println("Stock da farmácia:");
         List<Produto> lp = controller.getListaProdutos();
 

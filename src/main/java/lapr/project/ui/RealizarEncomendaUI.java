@@ -5,6 +5,7 @@
  */
 package lapr.project.ui;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -31,9 +32,9 @@ public class RealizarEncomendaUI {
         controller = new RealizaEncomendaController();
     }
 
-    public void introduzEncomenda() {
-
-        System.out.println("Lista de produtos: ");
+    public void introduzEncomenda() throws SQLException {
+        System.out.println("Lista de produtos disponível: ");
+        
         List<Produto> list = controller.getListStock();
 
         for (Produto s : list) {
@@ -58,7 +59,7 @@ public class RealizarEncomendaUI {
             
             Date date = new Date(System.currentTimeMillis());
             
-            Encomenda enc = new Encomenda(controller.getNifCliente(), date.toString(), controller.getPreco(), controller.getPreco(), 1.0, 1);
+            Encomenda enc = new Encomenda(controller.getNifCliente(), date.toString(), controller.getPreco(), controller.getPreco(), 1.6, 1);
             List<Produto> lst = controller.getListaProdutoEncomenda();
             controller.registaEncomenda(enc);
             
@@ -66,15 +67,20 @@ public class RealizarEncomendaUI {
                 controller.registaEncomendaProduto(enc, p);
             }
             
-            Recibo rec = new Recibo(controller.getNifCliente(), date.toString());
+            double precoTotal = controller.getPrecoTotal(enc.getTaxa());
+            
+            Recibo rec = new Recibo(controller.getNifCliente(), precoTotal, date.toString(), enc.getId());
+            rec.setLst(lst);
             
             for(Produto p : lst){
                 controller.novoRecibo(rec, p);
             }
             
-            System.out.println("Recibo:");
+            System.out.println("Data do Recibo:");
             System.out.println(rec.getData());
-            
+            System.out.println("Preco Total:");
+            System.out.println(precoTotal);
+            System.out.println("Lista de Produtos:");
             for(int i=0; i<lst.size(); i++){
                 System.out.println(lst.get(i).getDesignacao() + " " + lst.get(i).getPrecoBase());
             }

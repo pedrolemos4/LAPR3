@@ -34,7 +34,7 @@ class Main {
      *
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException, SQLException {
+    public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
    /*     CalculatorExample calculatorExample = new CalculatorExample();
         int value = calculatorExample.sum(3, 5);
 

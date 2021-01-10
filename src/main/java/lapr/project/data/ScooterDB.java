@@ -26,14 +26,15 @@ public class ScooterDB extends DataHandler {
         CallableStatement callStmt = null;
         int id = 0;
 
-        callStmt = getConnection().prepareCall("{ ? = call addScooter(?,?,?,?,?,?) }");
+        callStmt = getConnection().prepareCall("{ ? = call addScooter(?,?,?,?,?,?,?) }");
         callStmt.registerOutParameter(1, OracleTypes.INTEGER);
         callStmt.setString(2, scooter.getDescricao());
         callStmt.setDouble(3, scooter.getPercentagemBateria());
         callStmt.setDouble(4, scooter.getPesoMaximo());
         callStmt.setDouble(5, scooter.getPesoScooter());
         callStmt.setDouble(6, scooter.getPotencia());
-        callStmt.setInt(7, scooter.getEstadoScooter().getId());
+        callStmt.setDouble(7,scooter.getAreaFrontal());
+        callStmt.setInt(6, scooter.getEstadoScooter().getId());
         callStmt.execute();
 
         id = callStmt.getInt(1);
@@ -56,7 +57,7 @@ public class ScooterDB extends DataHandler {
      */
     public List<Scooter> getListaScooter() {
         ArrayList<Scooter> list = new ArrayList<>();
-        String query = "SELECT * FROM scooter WHERE EstadoScooterid = 1";
+        String query = "SELECT * FROM scooter WHERE EstadoScooterid = 1 AND percentagemBateria = 100";
 
         Statement stm = null;
         ResultSet rSet = null;
@@ -134,9 +135,10 @@ public class ScooterDB extends DataHandler {
     }
 
     public boolean updateScooter(Scooter scooter) throws SQLException {
+        boolean removed = false;
         CallableStatement callSmt = null;
 
-        callSmt = getConnection().prepareCall("{ call updateScooter(?,?,?,?,?,?,?) }");
+        callSmt = getConnection().prepareCall("{ call updateScooter(?,?,?,?,?,?,?,?) }");
 
         callSmt.setInt(1, scooter.getId());
         callSmt.setString(2, scooter.getDescricao());
@@ -144,9 +146,11 @@ public class ScooterDB extends DataHandler {
         callSmt.setDouble(4, scooter.getPesoMaximo());
         callSmt.setDouble(5, scooter.getPesoScooter());
         callSmt.setDouble(6, scooter.getPotencia());
-        callSmt.setInt(7, scooter.getEstadoScooter().getId());
+        callSmt.setDouble(7,scooter.getAreaFrontal());
+        callSmt.setInt(8, scooter.getEstadoScooter().getId());
         callSmt.execute();
 
+        removed = true;
         try {
 
             callSmt.close();
@@ -155,7 +159,7 @@ public class ScooterDB extends DataHandler {
             Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
         }
 
-        return false;
+        return removed;
 
     }
 

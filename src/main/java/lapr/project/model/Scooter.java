@@ -160,6 +160,14 @@ public class Scooter {
     }
 
     /**
+     * Modifica a descrição da scooter.
+     * @param descricao 
+     */
+    public void setDescricao (String descricao){
+        this.descricao=descricao;
+    }
+    
+    /**
      * Modifica a percentagem da bateria
      *
      * @param percentagemBateria
@@ -211,4 +219,14 @@ public class Scooter {
     public void setEstadoScooter(int estado) {
         this.estado = new EstadoScooter(estado);
     }
+
+    @Override
+    public String toString() {
+        return "Scooterid" + id + "\nDescrição=" + descricao + "\nPercentagem de Bateria=" 
+                + percentagemBateria + "\nPeso máximo=" + pesoMaximo + "\nPeso da Scooter="
+                + pesoScooter + "\nPotência=" + potencia + "\nÁrea frontal=" + areaFrontal +
+                "\nEstado=" + estado.getDesignacao();
+    }
+    
+    
 }

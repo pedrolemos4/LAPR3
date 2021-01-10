@@ -169,11 +169,10 @@ public class ProdutosDB extends DataHandler {
         return list;
     }
 
-    public void addListaProdutos(int id) {
-        Produto produtoByID = getProdutoByID(id);
-        peso = peso + produtoByID.getPeso();
-        preco = preco + produtoByID.getPrecoBase();
-        listEnc.add(produtoByID);
+    public void addListaProdutos(Produto prod) {
+        peso = peso + prod.getPeso();
+        preco = preco + prod.getPrecoBase();
+        listEnc.add(prod);
     }
 
     public List<Produto> getListaProdutos(){

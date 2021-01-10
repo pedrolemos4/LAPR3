@@ -211,4 +211,12 @@ public class ScooterTest {
         assertEquals(id, instance.getId());
     }
 
+    @Test
+    public void testSetDescricao(){
+        System.out.println("setDescrição");
+        String descricao = "teste";
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
+        instance.setDescricao(descricao);
+        assertEquals(descricao,instance.getDescricao());
+    }
 }

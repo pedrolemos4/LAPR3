@@ -106,7 +106,7 @@ public class RegistarClienteUI {
                 + "\n Choose one of the options above.");
     }
 
-    public void loop() throws ClassNotFoundException, SQLException {
+    public void menuCliente() throws ClassNotFoundException, SQLException {
         String opt;
         do {
             textoMenuCliente();
