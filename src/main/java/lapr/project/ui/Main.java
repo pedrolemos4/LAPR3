@@ -1,5 +1,6 @@
 package lapr.project.ui;
 
+import lapr.project.controller.NotificaEstafetaController;
 import lapr.project.data.DataHandler;
 import lapr.project.data.EmailDB;
 import lapr.project.model.CalculatorExample;
@@ -92,11 +93,12 @@ class Main {
             System.out.println(ex.getMessage());
         }
 */
-       // NotificaEstafetaUI nui = new NotificaEstafetaUI();
-        //nui.controller.simulateParkingScooter();
+        NotificaEstafetaUI nui = new NotificaEstafetaUI();
+        nui.controller.simulateParkingScooter("rodrikcraft@gmail.com");
         //LoginUI login = new LoginUI();
         //login.menu();
         //AdminUI.addScooter();
+
     }
 }
 
