@@ -12,7 +12,6 @@ participant ":EstafetaDB" as ESTDB
 participant ":EntregaDB" as ENTRDB
 participant "entr:Entrega" as ENTR
 
-participant ":EncomendaDB" as RENC
 participant ":ScooterDB" as RS
 
 
@@ -38,68 +37,33 @@ CTRL -> ESTDB : est=getEstafetaByEmail(email)
 activate ESTDB
 deactivate ESTDB
 deactivate CTRL
-UI --> EST : solicita os dados (dataInicio, dataFim)
+UI -> CTRL : getListScooter()
+activate CTRL
+CTRL -> RS : list=getListScooter()
+activate RS
+deactivate RS
+deactivate CTRL
+UI --> EST : mostra lista de scooters e solicita o id da scooter
 deactivate UI
 
 EST -> UI : introduz dados solicitados
 activate UI
-UI -> CTRL : novaEntrega(dataInicio, dataFim)
+UI -> CTRL : getScooter(idScooter)
 activate CTRL
-CTRL -> ENTRDB : idEntrega=generateIdEntrega()
-activate ENTRDB
-deactivate ENTRDB
-CTRL -> ENTRDB : entr=novaEntrega(idEntrega, dataInicio, dataFim)
-activate ENTRDB
-ENTRDB -> ENTR ** : create(idEntrega, dataInicio, dataFim)
-activate ENTR
-ENTR -> ENTR : addEstafeta(est)
-deactivate ENTR
-deactivate ENTRDB
-deactivate CTRL
-UI -> CTRL : getListaEncomenda()
-activate CTRL
-CTRL -> RENC : lenc=getListaEncomenda()
-activate RENC
-deactivate RENC
-deactivate CTRL
-UI --> EST : mostra a lista de encomendas
-loop
-UI --> EST : solicita a introdução de uma encomenda(idEncomenda, dataPedida, preco, pesoEncomenda, taxa, estadoEncomenda, listaProdutos)
-deactivate UI
-
-
-EST -> UI : introduz os dados solicitados
-activate UI
-UI -> CTRL : novaEncomenda(idEncomenda, dataPedida, preco, pesoEncomenda, taxa, estadoEncomenda, listaProdutos)
-activate CTRL
-CTRL -> ENTR : en=novaEncomenda(idEncomenda, dataPedida, preco, pesoEncomenda, taxa,  estadoEncomenda, listaProdutos)
-deactivate CTRL
-activate ENTR
-ENTR -> ENTR : addEncomenda(en)
-deactivate ENTR
-end loop
-UI -> CTRL : getListaScooter()
-activate CTRL
-CTRL -> RS : ls=getListaScooter()
+CTRL -> RS : scooter=getScooter(idScooter)
 activate RS
 deactivate RS
 deactivate CTRL
-UI --> EST : mostra a lista de scooters e solicita escolha de uma scooter(idScooter, percentagemBateria, potencia, pesoMaximo, pesoScooter)
-deactivate UI
-
-
-EST -> UI : introduz os dados solicitados
-activate UI
-UI -> CTRL : novaScooter(idScooter, percentagemBateria, potencia, pesoMaximo, pesoScooter)
+UI -> CTRL: novaEntrega(dataInicio, dataFim, scooter, est)
 activate CTRL
-CTRL -> ENTR : s=novaScooter(idScooter, percentagemBateria, potencia, pesoMaximo, pesoScooter)
+CTRL -> ENTRDB : entr=novaEntrega(idEntrega, dataInicio, dataFim, scooter, est)
+activate ENTRDB
+ENTRDB -> ENTR ** : create(idEntrega, dataInicio, dataFim, scooter, est)
+
+deactivate ENTRDB
 deactivate CTRL
-activate ENTR
-ENTR -> ENTR : addScooter(s)
-deactivate ENTR
 UI --> EST : apresenta dados e solicita confirmação
 deactivate UI
-
 
 EST -> UI : confirma os dados
 activate UI

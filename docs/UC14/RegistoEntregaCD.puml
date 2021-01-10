@@ -11,28 +11,21 @@ class SessaoUtilizador{
 }
 
 class ScooterDB {
-  +getListaScooter()
+  +getListScooter()
+  +getScooter(idScooter)
 }
 
-class EncomendaDB {
-  +getListaEncomenda(
-}
 
 class Entrega {
   -Integer idEntrega
   -String dataInicio
   -String dataFim
-  +create(idEntrega, dataInicio, dataFim)
-  +addEstafeta(est)
-  +novaEncomenda(idEncomenda, dataPedida, preco, pesoEncomenda, taxa, estadoEncomenda, listaProdutos)
-  +addEncomenda(en)
-  +novaScooter(idScooter, percentagemBateria, pesoMaximo, pesoScooter, potencia)
+  +create(idEntrega, dataInicio, dataFim, scooter, est)
   +addScooter(s)
 }
 
 class EntregaDB {
-  +generateIdEntrega()
-  +novaEntrega(idEntrega, dataInicio, dataFim)
+  +novaEntrega(idEntrega, dataInicio, dataFim, scooter, est)
   +registaEntrega(entr)
   +validaEntrega(entr)
   +addEntrega(entr)
@@ -44,11 +37,9 @@ class EstafetaDB {
 
 class RegistarEntregaController {
   +getEstafeta()
-  +novaEntrega(dataInicio, dataFim)
-  +getListaEncomenda()
-  +novaEncomenda(idEncomenda, dataPedida, preco, pesoEncomenda, taxa, estadoEncomenda, listaProdutos)
-  +getListaScooter()
-  +novaScooter(idScooter, percentagemBateria, pesoMaximo, pesoScooter, potencia)
+  +getListScooter()
+  +getScooter(idScooter)
+  +novaEntrega(dataInicio, dataFim, scooter, est)
   +registaEntrega()
 }
 
@@ -78,6 +69,7 @@ class Scooter {
   -Double pesoMaximo
   -Double pesoScooter
   -Double potencia
+  -Double areaFrontal
 }
 
 class EstadoEncomenda {
@@ -96,14 +88,12 @@ RegistarEntregaUI ..> RegistarEntregaController
 
 RegistarEntregaController ..> EstafetaDB
 RegistarEntregaController ..> EntregaDB
-RegistarEntregaController ..> EncomendaDB
 RegistarEntregaController ..> ScooterDB
 RegistarEntregaController ..> AplicacaoPOT
 RegistarEntregaController ..> SessaoUtilizador
 
 EntregaDB "1" --> "*" Entrega : tem registadas
 EstafetaDB "1" --> "*" Estafeta : tem registadas
-EncomendaDB "1" --> "*" Encomenda : tem registadas
 ScooterDB "1" --> "*" Scooter : tem registadas
 Encomenda "1" -- "1" EstadoEncomenda : tem >
 Entrega "1" -- "*" Encomenda : possui >

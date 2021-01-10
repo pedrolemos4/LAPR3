@@ -32,6 +32,7 @@ class Scooter {
   -pesoMaximo
   -pesoScooter
   -potencia
+  -areaFrontal
 }
 
 class Utilizador {
