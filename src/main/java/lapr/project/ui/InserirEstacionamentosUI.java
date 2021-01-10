@@ -1,5 +1,6 @@
 package lapr.project.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.InserirEstacionamentosController;
@@ -13,33 +14,43 @@ public class InserirEstacionamentosUI {
 
     InserirEstacionamentosController controller;
 
+    /**
+     * Criação do controlador responsável por inserir estacionamentos
+     */
     public InserirEstacionamentosUI() {
         this.controller = new InserirEstacionamentosController(new EstacionamentosDB(), new ParqueDB());
     }
 
-    private void RegistaEstacionamento() {
+    /**
+     * Interface responsável por inserir estacionamentos
+     */
+    public void InserirEstacionamento() {
+        List<Estacionamento> lestac = new ArrayList<>();
         System.out.println("--Registo de Novo Estacionamento--");
         System.out.println("Introduza o NIF do parque/farmácia:");
         int nif = LER.nextInt();
         int numMax = controller.getNumMaxParqueByNIF(nif);
         for (int i = 0; i < numMax; i++) {
-            System.out.println("Introduza a disponibilidade do carregador do estacionamento (0 ou 1):");
+            System.out.println("Introduza a disponibilidade do carregador do estacionamento " + i);
+            System.out.println("Indisponível - 0");
+            System.out.println("Disponível - 1");
             int carregador = LER.nextInt();
-            Estacionamento estac = controller.novoEstacionamento(i + 1, carregador, nif);
+            int numLote = i + 1;
+            Estacionamento estac = controller.novoEstacionamento(numLote, carregador, nif);
+            lestac.add(estac);
             System.out.println("--Estacionamento Criado--");
-            System.out.println(estac.getNumeroLote());
-            System.out.println(estac.getCarregador());
-            System.out.println(estac.getNIF());
-            System.out.println("Deseja registar o Estacionamento criado? (S/N)");
-            String confirm = LER.next();
+        }
+        for (Estacionamento est : lestac) {
+            System.out.println(est);
+        }
+        System.out.println("Deseja registar os Estacionamentos criados? (S/N)");
+        String confirm = LER.next();
 
-            if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
-                controller.registaEstacionamento(estac);
-                System.out.println("\n\nEstacionamento registado com sucesso!");
-            } else {
-                System.out.println("\n\nRegisto do Estacionamento cancelado!");
-                break;
-            }
+        if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
+            controller.registaEstacionamento(lestac);
+            System.out.println("\n\nEstacionamentos registados com sucesso!");
+        } else {
+            System.out.println("\n\nRegisto de Estacionamentos cancelado!");
         }
     }
 }

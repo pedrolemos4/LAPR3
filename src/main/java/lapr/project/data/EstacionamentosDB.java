@@ -118,4 +118,32 @@ public class EstacionamentosDB extends DataHandler {
         }
         return list;
     }
+
+    /**
+     * Retorna lista de estacionamento de um determinado parque recendo o seu
+     * nif por parâmetro
+     *
+     * @param parqueNif nif do parque/farmácia
+     * @return lista de estacionamento do parque
+     */
+    public List<Estacionamento> getLstEstacionamentosByNif(int parqueNif) {
+        ArrayList<Estacionamento> list = new ArrayList<>();
+        String query = "SELECT e.numeroLote, e.carregador, e.ParqueFarmaciaNIF FROM estacionamento e INNER JOIN parque p ON p.FaarmaciaNIF = e.ParqueFarmaciaNIF WHERE p.FaarmaciaNIF = " + parqueNif;
+        Statement stm = null;
+        ResultSet rSet = null;
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+            while (rSet.next()) {
+                int numLote = rSet.getInt(1);
+                int carregador = rSet.getInt(2);
+                int nif = rSet.getInt(3);
+                list.add(new Estacionamento(numLote, carregador, nif));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
