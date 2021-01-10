@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import lapr.project.authorization.FacadeAuthorization;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
@@ -46,7 +49,11 @@ public class RealizaEncomendaController {
         if (verificaProdutoEncomenda(prod) == true) {
             produtoDB.addListaProdutos(prod);
         } else {
-            notificaCliente();
+            try {
+                notificaCliente();
+            } catch (MessagingException ex) {
+                Logger.getLogger(RealizaEncomendaController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -96,11 +103,11 @@ public class RealizaEncomendaController {
         return getListStock().contains(prod);
     }
 
-    public void notificaCliente() {
+    public void notificaCliente() throws MessagingException {
         String assunto = "Produto nao disponivel.";
         String mensagem = "O produto nao disponivel foi retirado da lista de produtos da sua encomenda.";
         String email = UserSession.getInstance().getUser().getEmail();
-        //emailDB.sendEmail(email, assunto, mensagem);
+        emailDB.sendEmail(email, assunto, mensagem);
     }
 
     public double getPrecoTotal(double taxa) {
@@ -111,8 +118,7 @@ public class RealizaEncomendaController {
             preco = preco + lst.get(i).getPrecoBase();
         }
         
-        return preco + preco * taxa;
-        
+        return preco + preco * taxa;  
     }
 
 }
