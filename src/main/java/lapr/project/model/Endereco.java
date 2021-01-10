@@ -10,7 +10,7 @@ package lapr.project.model;
  * @author pedro
  */
 public class Endereco {
-    
+
     private String morada;
     private double latitude;
     private double longitude;
@@ -18,10 +18,11 @@ public class Endereco {
 
     /**
      * Constrói instância endereço com a morada, latitude, longitude e altitude
-     * @param morada
-     * @param latitude
-     * @param longitude
-     * @param altitude 
+     *
+     * @param morada morada do endereço
+     * @param latitude latitude do endereço
+     * @param longitude longitude do endereço
+     * @param altitude altitude do endereço
      */
     public Endereco(String morada, double latitude, double longitude, double altitude) {
         this.morada = morada;
@@ -30,16 +31,17 @@ public class Endereco {
         this.altitude = altitude;
     }
 
-    public Endereco(){
+    public Endereco() {
         this.morada = null;
         this.latitude = 0;
         this.longitude = 0;
         this.altitude = 0;
     }
-    
+
     /**
      * Devolve morada
-     * @return 
+     *
+     * @return
      */
     public String getMorada() {
         return morada;
@@ -47,7 +49,8 @@ public class Endereco {
 
     /**
      * Devolve latitude
-     * @return 
+     *
+     * @return
      */
     public double getLatitude() {
         return latitude;
@@ -55,7 +58,8 @@ public class Endereco {
 
     /**
      * Devolve longitude
-     * @return 
+     *
+     * @return
      */
     public double getLongitude() {
         return longitude;
@@ -63,15 +67,17 @@ public class Endereco {
 
     /**
      * Devolve altitude
-     * @return 
+     *
+     * @return
      */
     public double getAltitude() {
         return altitude;
     }
-    
+
     /**
      * Modifica morada
-     * @param morada 
+     *
+     * @param morada
      */
     public void setMorada(String morada) {
         this.morada = morada;
@@ -79,7 +85,8 @@ public class Endereco {
 
     /**
      * Modifica latitude
-     * @param latitude 
+     *
+     * @param latitude
      */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
@@ -87,7 +94,8 @@ public class Endereco {
 
     /**
      * Modifica longitude
-     * @param longitude 
+     *
+     * @param longitude
      */
     public void setLongitude(double longitude) {
         this.longitude = longitude;
@@ -95,10 +103,11 @@ public class Endereco {
 
     /**
      * Modifica altitude
-     * @param altitude 
+     *
+     * @param altitude
      */
     public void setAltitude(double altitude) {
         this.altitude = altitude;
     }
-    
+
 }

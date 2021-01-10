@@ -28,17 +28,37 @@ public class EnderecoDB extends DataHandler {
         this.dataHandler = DataHandler.getInstance();
     }
 
+    /**
+     * Cria um novo endereço
+     *
+     * @param morada morada do endereço
+     * @param latitude latitude do endereço
+     * @param longitude longitude do endereço
+     * @param altitude altitude do endereço
+     * @return novo endereço criado
+     */
     public Endereco novoEndereco(String morada, double latitude, double longitude, double altitude) {
         end = new Endereco(morada, latitude, longitude, altitude);
         return end;
     }
 
+    /**
+     * Regista o endereço
+     *
+     * @param end endereço
+     */
     public void registaEndereco(Endereco end) {
         if (validaEndereco(end)) {
             addEndereco(end);
         }
     }
 
+    /**
+     * Valida endereço
+     *
+     * @param end endereço
+     * @return true se os dados do endereço são válidos
+     */
     public boolean validaEndereco(Endereco end) {
         if (end == null || end.getMorada().isEmpty() || end.getLatitude() < 0 || end.getLongitude() < 0 || end.getAltitude() < 0) {
             return false;
@@ -46,10 +66,23 @@ public class EnderecoDB extends DataHandler {
         return true;
     }
 
+    /**
+     * Adiciona o endereço à base de dados
+     *
+     * @param end endereço
+     */
     public void addEndereco(Endereco end) {
         addEndereco(end.getMorada(), end.getLatitude(), end.getLongitude(), end.getAltitude());
     }
 
+    /**
+     * Adiciona o endereço à base de dados
+     *
+     * @param morada morada do endereço
+     * @param latitude latitude do endereço
+     * @param longitude longitude do endereço
+     * @param altitude altitude do endereço
+     */
     private void addEndereco(String morada, double latitude, double longitude, double altitude) {
         try {
             openConnection();
@@ -65,6 +98,11 @@ public class EnderecoDB extends DataHandler {
         }
     }
 
+    /**
+     * Retorna a lista de todos os endereços registados
+     *
+     * @return lista dos endereços
+     */
     public List<Endereco> getLstEnderecos() {
         ArrayList<Endereco> list = new ArrayList<>();
         String query = "SELECT * FROM endereco";
@@ -99,8 +137,14 @@ public class EnderecoDB extends DataHandler {
         }
         return list;
     }
-    
-    public Endereco getEnderecoByNifCliente(int nif){
+
+    /**
+     * Retorna endereço do cliente recebendo o nif por parãmetro
+     *
+     * @param nif nif do cliente
+     * @return endereço do cliente
+     */
+    public Endereco getEnderecoByNifCliente(int nif) {
         String query = "SELECT * FROM endereco e INNER JOIN cliente c ON e.morada = c.Enderecomorada WHERE c.UtilizadorNIF = " + nif;
 
         Statement stm = null;
@@ -115,7 +159,7 @@ public class EnderecoDB extends DataHandler {
                 double latitude = rSet.getDouble(2);
                 double longitude = rSet.getDouble(3);
                 double altitude = rSet.getDouble(4);
-                
+
                 return new Endereco(morada, latitude, longitude, altitude);
             }
 
@@ -135,8 +179,13 @@ public class EnderecoDB extends DataHandler {
         }
         return null;
     }
-    
-    public Endereco getEnderecoParque(){
+
+    /**
+     * Retorna endereço do parque
+     *
+     * @return endereço do parque
+     */
+    public Endereco getEnderecoParque() {
         String query = "SELECT * FROM endereco e INNER JOIN parque c ON e.morada = c.Enderecomorada ";
 
         Statement stm = null;
@@ -151,7 +200,7 @@ public class EnderecoDB extends DataHandler {
                 double latitude = rSet.getDouble(2);
                 double longitude = rSet.getDouble(3);
                 double altitude = rSet.getDouble(4);
-                
+
                 return new Endereco(morada, latitude, longitude, altitude);
             }
 
