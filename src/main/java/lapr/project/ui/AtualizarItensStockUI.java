@@ -40,7 +40,7 @@ public class AtualizarItensStockUI {
             double peso = LER.nextDouble();
             System.out.println("Preço Base:");
             double preco = LER.nextDouble();
-
+            
             Produto new_prod = new Produto(desig,peso,preco);
             
             System.out.println("--Novos Dados do Produto--");
