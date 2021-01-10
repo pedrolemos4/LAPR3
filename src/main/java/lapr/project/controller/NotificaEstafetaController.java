@@ -8,24 +8,17 @@ import lapr.project.model.Entrega;
 import lapr.project.model.Estacionamento;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Scooter;
-import oracle.sql.TIMESTAMP;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 
 public class NotificaEstafetaController {
 
-    private Scooter scoot;
-    private Estafeta estafeta;
-    private Entrega entrega;
+    private final Scooter scoot;
+    private final Estafeta estafeta;
+    private final Entrega entrega;
     private Estacionamento estac;
     private final EstafetaDB estafetaDB;
     private final EntregaDB entregaDB;
     private final ScooterDB scooterDB;
-    private FacadeAuthorization facade;
+    private final FacadeAuthorization facade;
 
     public NotificaEstafetaController(EstafetaDB estafetaDB, ScooterDB scooterDB, EntregaDB entregaDB) {
         this.estafetaDB = estafetaDB;
