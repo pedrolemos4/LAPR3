@@ -1,5 +1,6 @@
 package lapr.project.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 import lapr.project.authorization.FacadeAuthorization;
 import lapr.project.data.EncomendaDB;
@@ -51,7 +52,7 @@ public class RegistarEntregaController {
         return list;
     }
     
-    public void addEntrega(Entrega en){
+    public void addEntrega(Entrega en) throws SQLException{
         entregaDB.addEntrega(en);
     }
     

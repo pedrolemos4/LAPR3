@@ -5,57 +5,107 @@
  */
 package lapr.project.data;
 
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import lapr.project.model.Endereco;
 import lapr.project.model.Farmacia;
-import lapr.project.model.Parque;
 
 /**
  *
  * @author josep
  */
-public class FarmaciaDB {
+public class FarmaciaDB extends DataHandler {
 
-    Farmacia farm;
-    private EnderecoDB edb;
     private final DataHandler dataHandler;
-    private List<Farmacia> lstFarmacias;
 
     public FarmaciaDB() {
         this.dataHandler = DataHandler.getInstance();
-        lstFarmacias = new ArrayList<>();
     }
 
-    public List<Farmacia> getLstFarmacias() {
-        return lstFarmacias;
-    }
-
-    public Farmacia novaFarmacia(int nif, Parque park) {
-        farm = new Farmacia(nif, park);
+    /**
+     * Cria uma nova farmácia
+     *
+     * @param nif nif da farmácia
+     * @return nova farmacia criada
+     */
+    public Farmacia novaFarmacia(int nif) {
+        Farmacia farm = new Farmacia(nif);
         return farm;
     }
 
-    public boolean registaFarmacia(Farmacia farm) {
+    /**
+     * Regista a farmacia
+     *
+     * @param farm farmacia
+     */
+    public void registaFarmacia(Farmacia farm) {
         if (validaFarmacia(farm)) {
-            return addFarmacia(farm);
+            addFarmacia(farm);
         }
-        return false;
     }
 
+    /**
+     * Valida a farmacia
+     *
+     * @param farm farmacia
+     * @return true se a farmacia é valida
+     */
     public boolean validaFarmacia(Farmacia farm) {
-        if (farm.getNif() <= 0 || farm.getParque() == null) {
-            return false;
-        }
-        for (Farmacia f : lstFarmacias) {
-            if (f.equals(farm) || f.getNif() == farm.getNif()) {
-                return false;
-            }
-        }
-        return true;
+        return !(farm == null || farm.getNIF() <= 0);
     }
 
-    public boolean addFarmacia(Farmacia farm) {
-        return lstFarmacias.add(farm);
+    /**
+     * Adiciona a farmacia à base de dados
+     *
+     * @param farm farmacia
+     */
+    public void addFarmacia(Farmacia farm) {
+        addFarmacia(farm.getNIF());
+    }
+
+    /**
+     * Adiciona a farmacia à base de dados
+     *
+     * @param nif nif da farmácia
+     */
+    private void addFarmacia(int nif) {
+        try {
+            openConnection();
+            CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?) }");
+            callStmt.setInt(1, nif);
+            callStmt.execute();
+            closeAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Retorna lista com todas as farmácias
+     *
+     * @return lista das farmácias
+     */
+    public List<Farmacia> getLstFarmacias() {
+        ArrayList<Farmacia> list = new ArrayList<>();
+        String query = "SELECT * FROM farmacia";
+
+        Statement stm = null;
+        ResultSet rSet = null;
+
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+            while (rSet.next()) {
+                int nif = rSet.getInt(1);
+                list.add(new Farmacia(nif));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

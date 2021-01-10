@@ -29,6 +29,7 @@ public class CartaoDB extends DataHandler {
 
     /**
      * Cria um novo cartão de cidadão
+     *
      * @param numeroCartao número do cartão de cidadão
      * @param dataDeValidade data de validade do cartão de cidadão
      * @param CCV código de segurança do cartão de cidadão
@@ -41,6 +42,7 @@ public class CartaoDB extends DataHandler {
 
     /**
      * Regista cartão de cidadão
+     *
      * @param cc cartão de cidadão
      */
     public void registaCartao(Cartao cc) {
@@ -51,15 +53,17 @@ public class CartaoDB extends DataHandler {
 
     /**
      * Valida cartão de cidadão
+     *
      * @param cc cartão de cidadão
      * @return true se os dados do cartão de cidadão são válidos
      */
     private boolean validaCartao(Cartao cc) {
-        return !(cc == null || cc.getNumeroCartao() <= 0 || cc.getCCV() <= 0 || !cc.getDataDeValidade().isEmpty());
+        return !(cc == null || cc.getNumeroCartao() < 0 || cc.getCCV() < 0 || !cc.getDataDeValidade().isEmpty());
     }
 
     /**
      * Adiciona cartão de cidadão à base de dados
+     *
      * @param cc cartão de cidadão
      */
     public void addCartao(Cartao cc) {
@@ -68,6 +72,7 @@ public class CartaoDB extends DataHandler {
 
     /**
      * Adiciona cartão de cidadão à base de dados
+     *
      * @param numeroCartao número do cartão de cidadão
      * @param dataDeValidade data de validade do cartão de cidadão
      * @param CCV código de segurança do cartão de cidadão
@@ -89,6 +94,7 @@ public class CartaoDB extends DataHandler {
 
     /**
      * Retorna todos os cartões de cidadão
+     *
      * @return lista de cartões de cidadão registados
      */
     public List<Cartao> getLstCC() {

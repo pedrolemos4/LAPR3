@@ -33,14 +33,30 @@ public class RegistarFarmaciaController {
         return farmaciaDB.getLstFarmacias();
     }
 
-    public void novaFarmacia(int nif, String morada, double latitude, double longitude, double altitude, int numMax) {
-        Endereco end = enderecoDB.novoEndereco(morada, latitude, longitude, altitude);
-        Parque park = parqueDB.novoParque(nif, end, numMax);
-        Farmacia farm = farmaciaDB.novaFarmacia(nif, park);
-        registaFarmacia(farm);
+    public Farmacia novaFarmacia(int nif) {
+        Farmacia farm = farmaciaDB.novaFarmacia(nif);
+        return farm;
     }
 
-    public boolean registaFarmacia(Farmacia farm) {
-        return farmaciaDB.registaFarmacia(farm);
+    public Parque novoParque(int nif, String morada, int numMax) {
+        Parque park = parqueDB.novoParque(nif, morada, numMax);
+        return park;
+    }
+
+    public Endereco novoEndereco(String morada, double latitude, double longitude, double altitude) {
+        Endereco end = enderecoDB.novoEndereco(morada, latitude, longitude, altitude);
+        return end;
+    }
+
+    public void registaFarmacia(Farmacia farm) {
+        farmaciaDB.registaFarmacia(farm);
+    }
+
+    public void registaParque(Parque park) {
+        parqueDB.registaParque(park);
+    }
+
+    public void registaEndereco(Endereco end) {
+        enderecoDB.registaEndereco(end);
     }
 }

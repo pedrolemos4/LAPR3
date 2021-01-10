@@ -11,6 +11,33 @@ public class Cliente extends Utilizador {
     private String enderecomorada;
     private int numCartaoCredito;
 
+    /**
+     * Controi uma instância de cliente
+     *
+     * @param nif nif do cliente
+     * @param nome nome do cliente
+     * @param email email do cliente
+     * @param numeroSegurancaSocial numero de seguranca social do cliente
+     * @param creditos creditos do cliente
+     * @param morada morada do cliente
+     * @param numCC número de cartão de cidadão do cliente
+     * @param password password do cliente
+     */
+    public Cliente(int nif, String nome, String email, int numeroSegurancaSocial, int creditos, String morada, int numCC, String password) {
+        super(nif, nome, email, numeroSegurancaSocial, password);
+        this.creditos = creditos;
+        this.enderecomorada = morada;
+        this.numCartaoCredito = numCC;
+    }
+
+    /**
+     * Controi uma instância de cliente
+     *
+     * @param nif nif do cliente
+     * @param creditos creditos do cliente
+     * @param morada morada do cliente
+     * @param numCC número de cartão de cidadão do cliente
+     */
     public Cliente(int nif, int creditos, String morada, int numCC) {
         this.nif = nif;
         this.creditos = creditos;

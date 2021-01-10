@@ -12,17 +12,14 @@ package lapr.project.model;
 public class Farmacia {
 
     private int nif;
-    private Parque parque;
 
     /**
      * Constrói uma instância de farmácia com o nif da mesma e o seu parque
      *
      * @param nif nif da farmácia
-     * @param park parque da farmácia
      */
-    public Farmacia(int nif, Parque park) {
+    public Farmacia(int nif) {
         this.nif = nif;
-        this.parque = park;
     }
 
     /**
@@ -30,7 +27,6 @@ public class Farmacia {
      */
     public Farmacia() {
         this.nif = 0;
-        this.parque = null;
     }
 
     /**
@@ -38,7 +34,7 @@ public class Farmacia {
      *
      * @return nif da farmácia
      */
-    public int getNif() {
+    public int getNIF() {
         return nif;
     }
 
@@ -47,27 +43,8 @@ public class Farmacia {
      *
      * @param nif novo nif da farmácia
      */
-    public void setNif(int nif) {
+    public void setNIF(int nif) {
         this.nif = nif;
-    }
-
-    /**
-     * Devolve a instância do parque da farmácia
-     *
-     * @return parque da farmácia
-     */
-    public Parque getParque() {
-        return parque;
-    }
-
-    /**
-     * Modifica a instância de parque da farmácia com o parque recebido por
-     * parâmetro
-     *
-     * @param parque novo parque da farmácia
-     */
-    public void setParque(Parque parque) {
-        this.parque = parque;
     }
 
 }

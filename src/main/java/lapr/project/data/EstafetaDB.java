@@ -46,6 +46,7 @@ public class EstafetaDB extends DataHandler{
 
     public void addEstafeta(Estafeta est) {
         addEstafeta(est.getNIF(), est.getEstado(), est.getPesoEstafeta());
+        addUtilizador(est.getNIF(), est.getNome(), est.getEmail(), est.getNumeroSegurancaSocial(), est.getPassword());
     }
 
     private void addEstafeta(int nif, int estadoEstafeta, double peso) {
@@ -67,8 +68,25 @@ public class EstafetaDB extends DataHandler{
         }
     }
 
+    private void addUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
+        try {
+            openConnection();
+            CallableStatement callStmt = getConnection().prepareCall("{ call addUtilizador(?,?,?,?,?) }");
+            callStmt.setInt(1, NIF);
+            callStmt.setString(2, nome);
+            callStmt.setString(3, email);
+            callStmt.setInt(4, numeroSegurancaSocial);
+            callStmt.setString(5, password);
+            callStmt.execute();
+            closeAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void atualizarEstafeta(Estafeta est) {
         atualizarEstafeta(est.getNIF(), est.getEstado(), est.getPesoEstafeta());
+        atualizarUtilizador(est.getNIF(), est.getNome(), est.getEmail(), est.getNumeroSegurancaSocial(), est.getPassword());
     }
 
     private void atualizarEstafeta(int nif, int estadoEstafeta, double peso) {
@@ -80,6 +98,26 @@ public class EstafetaDB extends DataHandler{
             callStmt.setInt(1, nif);
             callStmt.setInt(2, estadoEstafeta);
             callStmt.setDouble(3, peso);
+
+            callStmt.execute();
+            closeAll();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void atualizarUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
+        try {
+            openConnection();
+
+            CallableStatement callStmt = getConnection().prepareCall("{ call atualizarUtilizador(?,?,?,?,?) }");
+
+            callStmt.setInt(1, NIF);
+            callStmt.setString(2, nome);
+            callStmt.setString(3, email);
+            callStmt.setInt(4, numeroSegurancaSocial);
+            callStmt.setString(5, password);
 
             callStmt.execute();
             closeAll();

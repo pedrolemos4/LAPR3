@@ -1,5 +1,6 @@
 package lapr.project.ui;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +29,7 @@ public class RegistarEntregaUI {
         this.controller = controller;
     }
     
-    public void introduzEntrega() {
+    public void introduzEntrega() throws SQLException {
         
         System.out.println("Lista de scooters: ");
         List<Scooter> list = controller.getListScooter();

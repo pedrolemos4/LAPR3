@@ -9,7 +9,7 @@ class RealizaPagamentoUI {
 
 class RealizaPagamentoController {
     +getListClients()
-    +registaPagamento()
+    +registaPagamento(pag)
 }
 
 class ClienteDataHandler {
@@ -24,21 +24,18 @@ class PagamentoDataHandler {
     +validaPagamento(pag)
     +addPagamento(pag)
     +registaPagamento(pag)
-    +generateIdPagamento()
 }
 
 class EncomendaDataHandler {
-    +getEncomenda()
+    +getEncomendaByCliente()
 }
 
-class AplicacaoPOT
-{
+class AplicacaoPOT{
   +static getInstance()
   +getSessaoAtual()
 }
 
-class SessaoUtilizador
-{
+class SessaoUtilizador{
   +getEmail()
 }
 
@@ -56,7 +53,7 @@ class Encomenda {
 class Pagamento {
   -idPagamento
   -precoTotal
-  +create(idPagamento, preco, taxa)
+  +create(idEncomenda, precoTotal)
 }
 
 class EstadoEncomenda {

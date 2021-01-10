@@ -33,18 +33,22 @@ public class RegistarClienteController {
         this.cartaoDB = cartaoDB;
     }
 
+    public Utilizador login(String email, String password) {
+        Utilizador user = null;
+
+        int id = utilizadorDB.validateLogin(email, password);
+        //user = utilizadorDB.getByID(id);
+
+        return user;
+    }
+
     public List<Cliente> getListaClientes() {
         return clienteDB.getLstClientes();
     }
 
-    public Cliente novoCliente(int NIF, String morada, int numCC) {
-        Cliente cl = clienteDB.novoCliente(NIF, morada, numCC);
+    public Cliente novoCliente(int NIF, String nome, String email, int numeroSegurancaSocial, String morada, int numCC, String password) {
+        Cliente cl = clienteDB.novoCliente(NIF, nome, email, numeroSegurancaSocial, morada, numCC, password);
         return cl;
-    }
-
-    public Utilizador novoUtilizador(int NIF, String nome, String email, int numSegSocial, String password) {
-        Utilizador user = utilizadorDB.novoUtilizador(NIF, nome, email, numSegSocial, password);
-        return user;
     }
 
     public Cartao novoCartao(int numCC, String dataValidade, int CCV) {
@@ -59,10 +63,6 @@ public class RegistarClienteController {
 
     public void registaCliente(Cliente cl) {
         clienteDB.registaCliente(cl);
-    }
-
-    public void registaUtilizador(Utilizador user) {
-        utilizadorDB.registaUtilizador(user);
     }
 
     public void registaEndereco(Endereco end) {

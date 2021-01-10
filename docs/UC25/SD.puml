@@ -9,10 +9,13 @@ participant "AplicacaoPOT" as _APP
 participant "app\n:AplicacaoPOT" as APP
 participant "sessao\n:SessaoUtilizador" as SESSAO
 participant ":ClienteDataHandler" as DH
+participant ":Cliente" as CLIEN
 participant ":ProdutoDataHandler" as PDH
 participant ":Produto" as PRO
 participant ":EncomendaDataHandler" as EDH
 participant "EnderecoDB" as END
+participant ":ReciboDataHandler" as RDH
+participant "rec:Recibo" as REC
 participant "lprodutos\n:ListaProdutosEncomenda" as LPROD
 participant "enc: Encomenda" as ENC
 
@@ -43,6 +46,10 @@ deactivate SESSAO
 CTRL --> DH : cliente = getClienteByEmail(email)
 activate DH
 deactivate DH
+
+CTRL --> CLIEN : nifCLiente = getNif()
+activate CLIEN
+deactivate CLIEN
 
 deactivate DH
 CTRL --> PDH : getListaStock()
@@ -78,27 +85,19 @@ activate PRO
 deactivate PRO
 
 END LOOP
-deactivate CTRL
-
-UI --> CTRL : novaEncomenda()
-activate CTRL
 
 CTRL --> PDH : lista = getListaProdutos()
 activate PDH
 deactivate PDH
 
-CTRL --> EDH : idEncomenda = generateId()
-activate EDH
-deactivate EDH
-
 CTRL --> EDH : dataPedida = getData()
 activate EDH
 deactivate EDH
 
-CTRL --> EDH : enc = novaEncomenda(lista, morada, idEncomenda, dataPedida, preco, peso, estado)
+CTRL --> EDH : enc = novaEncomenda(lista, endereco, nifCliente, dataPedida, preco, peso, estado)
 activate EDH
 
-EDH --> ENC ** : create(lista, morada, idEncomenda, dataPedida, preco, peso, estado)
+EDH --> ENC ** : create(lista, endereco, nifCliente, dataPedida, preco, peso, estado)
 deactivate EDH
 
 deactivate CTRL
@@ -109,7 +108,7 @@ deactivate UI
 CLI --> UI : confirma
 activate UI
 
-UI --> CTRL : registaEncomenda()
+UI --> CTRL : registaEncomenda(enc)
 activate CTRL
 
 CTRL --> EDH : registaEncomenda(encomenda)
@@ -117,6 +116,21 @@ activate EDH
 EDH -> EDH : validaEncomenda(enc)
 EDH -> EDH: addEncomenda(enc)
 deactivate EDH
+
+deactivate CTRL
+
+UI --> CTRL : novoRecibo(nifCliente, lista, dataRecibo)
+activate CTRL
+
+CTRL --> RDH : create(nifCliente, lista, dataRecibo)
+activate RDH
+
+RDH --> REC ** : create(nifCliente, lista, dataRecibo)
+
+RDH --> RDH : validateRecibo(rec)
+
+RDH --> RDH : addRecibo(rec)
+deactivate RDH
 
 deactivate CTRL
 
