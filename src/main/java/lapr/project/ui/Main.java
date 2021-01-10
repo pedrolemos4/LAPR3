@@ -35,7 +35,7 @@ class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, SQLException {
-        CalculatorExample calculatorExample = new CalculatorExample();
+   /*     CalculatorExample calculatorExample = new CalculatorExample();
         int value = calculatorExample.sum(3, 5);
 
         if (LOGGER.isLoggable(Level.INFO))
@@ -89,7 +89,7 @@ class Main {
         } catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
-
+*/
         NotificaEstafetaUI nui = new NotificaEstafetaUI();
         nui.controller.simulateParkingScooter();
         //AdminUI.addScooter();

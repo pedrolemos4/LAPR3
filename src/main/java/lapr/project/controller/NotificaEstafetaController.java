@@ -34,6 +34,7 @@ public class NotificaEstafetaController {
         this.facade = POTApplication.getFacadeAuthorization();
 
         String email = facade.getCurrentSession().getUser().getEmail();
+
         this.estafeta = estafetaDB.getEstafetaByEmail(email);
 
         this.entrega = entregaDB.getEntregaAtiva(email);
@@ -43,18 +44,11 @@ public class NotificaEstafetaController {
         this.scoot = scooterDB.getScooterById(scootId);
     }
 
-    public void simulateParkingScooter() throws IOException {
-        Runtime rt = Runtime.getRuntime();
-        try {
-            Process p = rt.exec("main");
-        }catch(Exception ex) {
-            ex.printStackTrace();
-        }
+    public void simulateParkingScooter() {
+
     }
 
     public boolean checkWellDockedScooter(){
-
-
         return false;
     }
 

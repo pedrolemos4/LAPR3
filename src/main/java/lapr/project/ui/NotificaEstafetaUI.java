@@ -14,6 +14,5 @@ public class NotificaEstafetaUI {
     public NotificaEstafetaUI() throws IOException {
         controller = new NotificaEstafetaController(new EstafetaDB(), new ScooterDB(), new EntregaDB());
 
-        controller.simulateParkingScooter();
     }
 }

@@ -59,6 +59,43 @@ public class EntregaDB extends DataHandler{
         }
     }
 
+    public Entrega getEntregaByID(int entregaID){
+        String query = "SELECT * FROM entrega WHERE identrega = " + entregaID;
+
+        Statement stm = null;
+        ResultSet rSet = null;
+
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+
+            if (rSet.next()) {
+                int id = rSet.getInt(1);
+                int idEstafeta = rSet.getInt(2);
+                int idScooter = rSet.getInt(3);
+                String dataInicio = rSet.getString(4);
+                String dataFim = rSet.getString(5);
+
+                return new Entrega(dataInicio, dataFim, idScooter, idEstafeta);
+            }
+
+        } catch (SQLException e) {
+            Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                if (rSet != null) {
+                    rSet.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            }
+        }
+        return null;
+    }
+
     public Entrega getEntregaAtiva(String email){
 
         try {
@@ -69,7 +106,11 @@ public class EntregaDB extends DataHandler{
 
             callStmt.execute();
 
+            int v_res = callStmt.getInt(1);
+
             closeAll();
+
+            return getEntregaByID(v_res);
         } catch(SQLException e){
             e.printStackTrace();
         }
