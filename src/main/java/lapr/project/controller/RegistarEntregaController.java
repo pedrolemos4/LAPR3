@@ -7,6 +7,7 @@ import lapr.project.data.EncomendaDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
 import lapr.project.data.ScooterDB;
+import lapr.project.login.UserSession;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
@@ -22,14 +23,12 @@ public class RegistarEntregaController {
     private EntregaDB entregaDB;
     private EncomendaDB encomendaDB;
     private ScooterDB scooterDB;
-    private FacadeAuthorization facade;
 
     public RegistarEntregaController() {
         this.estafetaDB = new EstafetaDB();
         this.entregaDB = new EntregaDB();
         this.encomendaDB = new EncomendaDB();
         this.scooterDB = new ScooterDB();
-        this.facade = POTApplication.getFacadeAuthorization();
     }
     
     public List<Scooter> getListScooter(){
@@ -37,7 +36,7 @@ public class RegistarEntregaController {
         return listScooter;
     }
     public Estafeta getEstafeta(){
-        String email = facade.getCurrentSession().getUser().getEmail();
+        String email = UserSession.getInstance().getUser().getEmail();
         Estafeta est = estafetaDB.getEstafetaByEmail(email);
         return est;
     }
