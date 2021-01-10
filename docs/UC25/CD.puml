@@ -11,7 +11,9 @@ class RealizaEncomendaController {
     +getListClients()
     +produtoEncomenda(produto)
     +registaEncomenda(enc)
-    +novoRecibo(nifCliente, lista, dataRecibo)
+    +novoRecibo(nifCliente, lista, precoTotal, dataRecibo)
+    +verificaProdutoStock(prod)
+    +getPrecoTotal()
 }
 
 class ClienteDataHandler {
@@ -19,10 +21,14 @@ class ClienteDataHandler {
     +getEnderecoCliente(cliente)
 }
 
+class EmailDB {
+    +sendEmail(email, assunto, mensagem)
+}
+
 class ReciboDataHandler {
     +validateRecibo(rec)
     +addRecibo(rec)
-    +create(nifCliente, lista, dataRecibo)
+    +create(nifCliente, lista, precoTotal, dataRecibo)
 }
 
 class ProdutoDataHandler {
@@ -58,8 +64,10 @@ class Entrega {
 
 class Recibo {
   -idRecibo
+  -precoTotal
+  -lista
   -dataRecibo
-  +create(nifCliente, lista, dataRecibo)
+  +create(nifCliente, lista, precoTotal, dataRecibo)
 }
 
 class Encomenda {
@@ -103,10 +111,12 @@ RealizaEncomendaController .> ClienteDataHandler
 RealizaEncomendaController .> ProdutoDataHandler
 RealizaEncomendaController .> EncomendaDataHandler
 RealizaEncomendaController .> ReciboDataHandler
+RealizaEncomendaController .> EmailDB
 
 ClienteDataHandler .> Cliente
 ProdutoDataHandler .> Produto
 EncomendaDataHandler .> Encomenda
+ReciboDataHandler .> Recibo
 
 Recibo "1" -- "1" Encomenda: referente a >
 Recibo "1" -- "1" Cliente: referente a >
