@@ -33,7 +33,7 @@ public class ScooterDB extends DataHandler {
             callStmt.setDouble(5, scooter.getPesoScooter());
             callStmt.setDouble(6, scooter.getPotencia());
             callStmt.setDouble(7, scooter.getAreaFrontal());
-            callStmt.setInt(6, scooter.getEstadoScooter().getId());
+            callStmt.setInt(8, scooter.getEstadoScooter().getId());
             callStmt.execute();
 
             id = callStmt.getInt(1);
