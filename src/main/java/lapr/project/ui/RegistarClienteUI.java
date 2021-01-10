@@ -94,7 +94,7 @@ public class RegistarClienteUI {
     
     public static void textoMenuCliente() {
         System.out.println("\nRIDE SHARING - Menu Cliente\n------------"
-                + "\n 1 - Fazer encomenda"/*
+                + "\n 1 - Realizar encomenda"/*
                 + "\n 2 - Find parks near me"
                 + "\n 3 - Check rentals history"
                 + "\n 4 - Park vehicle"
@@ -114,7 +114,7 @@ public class RegistarClienteUI {
 
             switch (opt) {
                 case "1":
-                    //RealizarEncomendaUI;
+                    realizarEncomenda();
                     break;
                 /*case "2":
                     getNearestParks();
@@ -146,4 +146,9 @@ public class RegistarClienteUI {
         } while (!opt.equals("0"));// || isNumeric(opt));
     }
 
+    public void realizarEncomenda() throws SQLException, ClassNotFoundException{
+        RealizarEncomendaUI regEncUI = new RealizarEncomendaUI();
+        regEncUI.introduzEncomenda();
+        menuCliente();
+    }
 }

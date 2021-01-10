@@ -35,7 +35,7 @@ class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
-   /*     CalculatorExample calculatorExample = new CalculatorExample();
+        CalculatorExample calculatorExample = new CalculatorExample();
         int value = calculatorExample.sum(3, 5);
 
         if (LOGGER.isLoggable(Level.INFO))
@@ -58,9 +58,9 @@ class Main {
 
         //Initial Database Setup
         DataHandler dh = new DataHandler();
-        dh.scriptRunner("target/test-classes/demo_jdbc.sql");
+        dh.scriptRunner("target/test-classes/BaseDeDados_1.sql");
 
-        System.out.println("\nVerificar se existe Sailor 100...");
+        /*System.out.println("\nVerificar se existe Sailor 100...");
         try {
             Sailor.getSailor(100);
             System.out.println("Nunca deve aparecer esta mensagem");
