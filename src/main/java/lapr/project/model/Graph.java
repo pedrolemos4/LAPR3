@@ -1,10 +1,7 @@
 package lapr.project.model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -18,8 +15,8 @@ public class Graph<V,E> implements GraphInterface<V,E> {
 
     private int numVert;
     private int numEdge;
-    private boolean isDirected;
-    private Map<V,Vertex<V,E>> vertices;  //all Vertices of the graph
+    private final boolean isDirected;
+    private final Map<V,Vertex<V,E>> vertices;  //all Vertices of the graph
 
     // Constructs an empty graph (either undirected or directed)
     public Graph(boolean directed) {
