@@ -91,7 +91,6 @@ public class AdminUI {
     public void addScooter() {
 
         System.out.println("Insira uma descrição única da scooter:");
-        LER.nextLine();
         String descricao = LER.nextLine();
         System.out.println("Insira a capacidade máxima da bateria:");
         int percentagemBateria = LER.nextInt();
@@ -114,16 +113,16 @@ public class AdminUI {
         System.out.println("Insira o peso total da scooter:");
         double peso = LER.nextDouble();
 
-        System.out.println("Insira o peso máximo que a scooter suporta");
+        System.out.println("Insira o peso máximo que a scooter suporta:");
         double pesoMaximo = LER.nextDouble();
 
         System.out.println("Insira a potência da scooter:");
         double potencia = LER.nextDouble();
+        
+        System.out.println("Insira a área frontal da scooter:");
+        double areaFrontal = LER.nextDouble();
         /*System.out.println("Insert the scooter's aerodynamic coefficient:");
         double aerodynamicCoefficient = LER.nextDouble();
-
-        System.out.println("Insert the scooter's frontal area:");
-        double frontalArea = LER.nextDouble();
         
         System.out.println("Insert the scooter's motor:");
         int motor = LER.nextInt();*/
@@ -133,7 +132,8 @@ public class AdminUI {
                 + "\nCapacidade de Bateria:\t" + percentagemBateria
                 + "\nPeso:\t" + peso
                 + "\nPeso máximo:\t" + pesoMaximo
-                + "\nPotencia:\t" + potencia);
+                + "\nPotencia:\t" + potencia
+                + "\nÁrea Frontal:\t" + areaFrontal);
 
         System.out.println("\nConfirme a informação relativa à scooter(S/N)");
         LER.nextLine();
@@ -143,7 +143,7 @@ public class AdminUI {
 
             ScooterController sc = new ScooterController(new ScooterDB());
             try {
-                sc.addScooter(descricao, percentagemBateria, peso, pesoMaximo, potencia, idestado);
+                sc.addScooter(descricao, percentagemBateria, peso, pesoMaximo, potencia,areaFrontal, idestado);
                 System.out.println("\n\nScooter adicionada com sucesso'");
             } catch (SQLException ex) {
                 Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);

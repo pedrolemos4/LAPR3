@@ -22,18 +22,19 @@ public class ScooterController {
     }
 
     public Scooter addScooter(String descricao, int percentagemBateria, double pesoMaximo,
-            double pesoScooter, double potencia, int estado) throws SQLException {
-        Scooter scooter = new Scooter(descricao, percentagemBateria, pesoMaximo, pesoScooter, potencia, estado);
+            double pesoScooter, double potencia,double areaFrontal, int estado) throws SQLException {
+        Scooter scooter = new Scooter(descricao, percentagemBateria, pesoMaximo, 
+                pesoScooter, potencia,areaFrontal, estado);
 
         scooter.setId(scooterDB.addScooter(scooter));
         return scooter;
     }
 
     public boolean updateScooter(int idScooter, String descricao, int percentagemBateria,
-            double pesoMaximo, double pesoScooter, double potencia, int estado) throws SQLException {
+            double pesoMaximo, double pesoScooter, double potencia,double areaFrontal, int estado) throws SQLException {
         boolean removed = false;
         Scooter scooter = new Scooter(idScooter, descricao, percentagemBateria, pesoMaximo,
-                pesoScooter, potencia, estado);
+                pesoScooter, potencia,areaFrontal, estado);
 
         removed = scooterDB.updateScooter(scooter);
         return removed;

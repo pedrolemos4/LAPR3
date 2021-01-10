@@ -17,6 +17,7 @@ public class Scooter {
     private double pesoMaximo;
     private double pesoScooter;
     private double potencia;
+    private double areaFrontal;
     private EstadoScooter estado;
 
     /**
@@ -31,13 +32,15 @@ public class Scooter {
      * @param potencia
      * @param estado 
      */
-    public Scooter(int id, String descricao, double percentagemBateria, double pesoMaximo, double pesoScooter, double potencia, int estado) {
+    public Scooter(int id, String descricao, double percentagemBateria, 
+            double pesoMaximo, double pesoScooter, double potencia, double areaFrontal,int estado) {
         this.id = id;
         this.descricao = descricao;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
         this.pesoScooter = pesoScooter;
         this.potencia = potencia;
+        this.areaFrontal=areaFrontal;
         this.estado = new EstadoScooter(estado);
     }
 
@@ -52,13 +55,15 @@ public class Scooter {
      * @param potencia
      * @param estado
      */
-    public Scooter(String descricao, double percentagemBateria, double pesoMaximo, double pesoScooter, double potencia, int estado) {
+    public Scooter(String descricao, double percentagemBateria, double pesoMaximo,
+            double pesoScooter, double potencia,double areaFrontal, int estado) {
         this.id = 0;
         this.descricao = descricao;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
         this.pesoScooter = pesoScooter;
         this.potencia = potencia;
+        this.areaFrontal=areaFrontal;
         this.estado = new EstadoScooter(estado);
     }
 
@@ -120,12 +125,20 @@ public class Scooter {
     }
 
     /**
-     * Devolve a potência
+     * Devolve a potência da scooter
      *
      * @return
      */
     public double getPotencia() {
         return potencia;
+    }
+    
+    /**
+     * Devolve a área frontal da scooter
+     * @return 
+     */
+    public double getAreaFrontal(){
+        return areaFrontal;
     }
 
     /**
@@ -174,7 +187,7 @@ public class Scooter {
     }
 
     /**
-     * Modifica a potencia
+     * Modifica a potencia da scooter
      *
      * @param potencia
      */
@@ -182,6 +195,14 @@ public class Scooter {
         this.potencia = potencia;
     }
 
+    /**
+     * Modifica a área frontal da scooter
+     * @param areaFrontal 
+     */
+    public void setAreaFrontal(double areaFrontal){
+        this.areaFrontal=areaFrontal;
+    }
+    
     /**
      * Modifica o estado da scooter
      *

@@ -72,9 +72,11 @@ public class ScooterDB extends DataHandler {
                 double pesoMaximo = rSet.getDouble(4);
                 double pesoScooter = rSet.getDouble(5);
                 double potencia = rSet.getDouble(6);
-                int idEstado = rSet.getInt(7);
+                double areaFrontal = rSet.getDouble(7);
+                int idEstado = rSet.getInt(8);
 
-                list.add(new Scooter(descricao, percentagemBateria, pesoMaximo, pesoScooter, potencia, idEstado));
+                list.add(new Scooter(descricao, percentagemBateria, pesoMaximo,
+                        pesoScooter, potencia, areaFrontal,idEstado));
             }
             return list;
 
@@ -107,9 +109,11 @@ public class ScooterDB extends DataHandler {
                 double pesoMaximo = rSet.getDouble(4);
                 double pesoScooter = rSet.getDouble(5);
                 double potencia = rSet.getDouble(6);
-                int idEstado = rSet.getInt(7);
+                double areaFrontal = rSet.getDouble(7);
+                int idEstado = rSet.getInt(8);
 
-                return new Scooter(descricao, percentagemBateria, pesoMaximo, pesoScooter, potencia, idEstado);
+                return new Scooter(descricao, percentagemBateria, pesoMaximo,
+                        pesoScooter, potencia,areaFrontal, idEstado);
             }
 
         } catch (SQLException e) {

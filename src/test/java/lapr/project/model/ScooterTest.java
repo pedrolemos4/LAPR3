@@ -19,14 +19,14 @@ public class ScooterTest {
 
     @Test
     void ScooterConstructorTest() {
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
 
         assertEquals(instance, instance);
     }
 
     @Test
     void ScooterCompleteConstructorTest() {
-        Scooter instance = new Scooter(1, "descricao", 85, 50, 30, 40,1);
+        Scooter instance = new Scooter(1, "descricao", 85, 50, 30, 40, 50, 1);
 
         assertEquals(instance, instance);
     }
@@ -34,7 +34,7 @@ public class ScooterTest {
     @Test
     public void testGetDescricao() {
         System.out.println("getDescrição");
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
         String expResult = "descricao";
         String result = instance.getDescricao();
         assertEquals(expResult, result);
@@ -46,7 +46,7 @@ public class ScooterTest {
     @Test
     public void testGetPercentagemBateria() {
         System.out.println("getPercentagemBateria");
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
         double expResult = 85;
         double result = instance.getPercentagemBateria();
         assertEquals(expResult, result);
@@ -59,7 +59,7 @@ public class ScooterTest {
     @Test
     public void testGetPesoMaximo() {
         System.out.println("getPesoMaximo");
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 2);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 2);
         double expResult = 50.0;
         double result = instance.getPesoMaximo();
         assertEquals(expResult, result, 0.0);
@@ -72,7 +72,7 @@ public class ScooterTest {
     @Test
     public void testGetPesoScooter() {
         System.out.println("getPesoScooter");
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 2);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 2);
         double expResult = 30.0;
         double result = instance.getPesoScooter();
         assertEquals(expResult, result, 0.0);
@@ -85,7 +85,7 @@ public class ScooterTest {
     @Test
     public void testGetPotencia() {
         System.out.println("getPotencia");
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
         double expResult = 40.0;
         double result = instance.getPotencia();
         assertEquals(expResult, result, 0.0);
@@ -93,13 +93,36 @@ public class ScooterTest {
     }
 
     /**
+     * Test of getAreaFrontal method, of class Scooter.
+     */
+    @Test
+    public void testGetAreaFrontal() {
+        System.out.println("getAreaFrontal");
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
+        double expResult = 50.0;
+        double result = instance.getAreaFrontal();
+        assertEquals(expResult, result, 0.0);
+    }
+
+    /**
+     * Test of setAreaFrontal method, of class Scooter.
+     */
+    @Test
+    public void testSetAreaFrontal(){
+        System.out.println("setAreaFrontal");
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
+        double expResult = 30.0;
+        instance.setAreaFrontal(expResult);
+        assertEquals(expResult,instance.getAreaFrontal(),0.0);
+    }
+    /**
      * Test of setPercentagemBateria method, of class Scooter.
      */
     @Test
     public void testSetPercentagemBateria() {
         System.out.println("setPercentagemBateria");
         double percentagemBateria = 75;
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
         instance.setPercentagemBateria(percentagemBateria);
         assertEquals(percentagemBateria, instance.getPercentagemBateria(), 0.0);
     }
@@ -111,7 +134,7 @@ public class ScooterTest {
     public void testSetPesoMaximo() {
         System.out.println("setPesoMaximo");
         double pesoMaximo = 36.0;
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
         instance.setPesoMaximo(pesoMaximo);
         assertEquals(pesoMaximo, instance.getPesoMaximo(), 0.0);
     }
@@ -123,7 +146,7 @@ public class ScooterTest {
     public void testSetPesoScooter() {
         System.out.println("setPesoScooter");
         double pesoScooter = 20.0;
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
         instance.setPesoScooter(pesoScooter);
         assertEquals(pesoScooter, instance.getPesoScooter(), 0.0);
     }
@@ -135,7 +158,7 @@ public class ScooterTest {
     public void testSetPotencia() {
         System.out.println("setPotencia");
         double potencia = 29.0;
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
         instance.setPotencia(potencia);
         assertEquals(potencia, instance.getPotencia(), 0.0);
     }
@@ -146,7 +169,7 @@ public class ScooterTest {
     @org.junit.Test
     public void testGetEstadoScooter() {
         System.out.println("getEstadoScooter");
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
         int expResult = 1;
         int result = instance.getEstadoScooter().getId();
         assertEquals(expResult, result);
@@ -159,7 +182,7 @@ public class ScooterTest {
     public void testSetEstadoScooter() {
         System.out.println("setEstadoScooter");
         int estado = 2;
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
         instance.setEstadoScooter(estado);
         assertEquals(estado, instance.getEstadoScooter().getId());
     }
@@ -170,7 +193,7 @@ public class ScooterTest {
     @org.junit.Test
     public void testGetId() {
         System.out.println("getId");
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
         int expResult = 1;
         instance.setId(1);
         assertEquals(expResult, instance.getId());
@@ -183,7 +206,7 @@ public class ScooterTest {
     public void testSetId() {
         System.out.println("setId");
         int id = 1;
-        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 1);
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
         instance.setId(1);
         assertEquals(id, instance.getId());
     }
