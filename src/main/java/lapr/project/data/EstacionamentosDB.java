@@ -9,9 +9,15 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import lapr.project.model.Estacionamento;
+import lapr.project.model.Scooter;
 
 /**
  *
@@ -68,7 +74,7 @@ public class EstacionamentosDB extends DataHandler {
     /**
      * Adiciona o estacionamento à base de dados
      *
-     * @param numLote número de lote do estacionamento
+     * @param numeroLote número de lote do estacionamento
      * @param carregador disponibilidade do carregador do estacionamento (1 se
      * disponível, 0 se não esta disponível)
      * @param nif nif da farmácia/parque
@@ -141,5 +147,54 @@ public class EstacionamentosDB extends DataHandler {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public Estacionamento getEstacionamentoById(int loteEstacionameto) {
+        String query = "SELECT * FROM estacionamento WHERE numerolote = " + loteEstacionameto;
+
+        Statement stm = null;
+        ResultSet rSet = null;
+
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+
+            if (rSet.next()) {
+                int lote = rSet.getInt(1);
+                int carregador = rSet.getInt(2);
+                int farmnif = rSet.getInt(3);
+
+                return new Estacionamento(lote,carregador,farmnif);
+            }
+
+        } catch (SQLException e) {
+            Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                if (rSet != null) {
+                    rSet.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            }
+        }
+        return null;
+    }
+
+    public void addEstacionamentoScooter(Estacionamento estacionamento, Scooter scooter) {
+        try {
+            openConnection();
+            CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoScooter(?,?,?,?) }");
+            callStmt.setInt(1,estacionamento.getNIF());
+            callStmt.setInt(2, scooter.getId());
+            callStmt.setTimestamp(3,Timestamp.valueOf(LocalDateTime.now()));
+            callStmt.execute();
+            closeAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
