@@ -57,7 +57,7 @@ public class ScooterDB extends DataHandler {
      */
     public List<Scooter> getListaScooter() {
         ArrayList<Scooter> list = new ArrayList<>();
-        String query = "SELECT * FROM scooter WHERE EstadoScooterid = 1";
+        String query = "SELECT * FROM scooter WHERE EstadoScooterid = 1 AND percentagemBateria = 100";
 
         Statement stm = null;
         ResultSet rSet = null;
