@@ -6,6 +6,7 @@
 package lapr.project.ui;
 
 import static java.lang.System.exit;
+import java.sql.SQLException;
 import java.util.Scanner;
 import lapr.project.controller.RegistarClienteController;
 import lapr.project.data.CartaoDB;
@@ -35,7 +36,7 @@ public class LoginUI {
                 + "0- Sair");
     }
 
-    public void menu() {
+    public void menu() throws ClassNotFoundException, SQLException {
         String opcao;
         do {
             textoMenuLogin();
@@ -56,7 +57,7 @@ public class LoginUI {
         } while (!opcao.equals("0"));
     }
 
-    public void login() {
+    public void login() throws ClassNotFoundException, SQLException {
         System.out.println("\nEmail:");
         String email = LER.nextLine();
 
@@ -72,18 +73,18 @@ public class LoginUI {
         } else if ((utilizador = ctrl.login(email, pwd)) != null) {
             RegistarClienteUI rcui = new RegistarClienteUI();
             UserSession.getInstance().setUser(utilizador);
-            //rcui.menuCliente();
+            rcui.menuCliente();
         } else {
             System.err.println("\nE-mail or Password are incorrect.\n");
             menu();
         }
     }
 
-    public void registo() {
+    public void registo() throws ClassNotFoundException, SQLException {
         RegistarClienteUI rcui = new RegistarClienteUI();
         boolean res = rcui.registaCliente();
         if (res == true) {
-            //rcui.menuCliente();
+            rcui.menuCliente();
         } else{
             menu();
         }
