@@ -24,7 +24,7 @@ import oracle.jdbc.OracleTypes;
  */
 public class EncomendaDB extends DataHandler {
 
-    private final Encomenda enc;
+    private Encomenda enc;
     private final ProdutosDB produtoDB;
     private final DataHandler dataHandler;
     private List<Encomenda> lstEnc;
