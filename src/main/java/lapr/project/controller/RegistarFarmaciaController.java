@@ -49,8 +49,7 @@ public class RegistarFarmaciaController {
      * @return nova farmacia criada
      */
     public Farmacia novaFarmacia(int nif) {
-        Farmacia farm = farmaciaDB.novaFarmacia(nif);
-        return farm;
+        return farmaciaDB.novaFarmacia(nif);
     }
 
     /**
@@ -62,8 +61,7 @@ public class RegistarFarmaciaController {
      * @return novo parque criado
      */
     public Parque novoParque(int nif, String morada, int numMax) {
-        Parque park = parqueDB.novoParque(nif, morada, numMax);
-        return park;
+        return parqueDB.novoParque(nif, morada, numMax);
     }
 
     /**
@@ -76,8 +74,7 @@ public class RegistarFarmaciaController {
      * @return novo endereço criado
      */
     public Endereco novoEndereco(String morada, double latitude, double longitude, double altitude) {
-        Endereco end = enderecoDB.novoEndereco(morada, latitude, longitude, altitude);
-        return end;
+        return enderecoDB.novoEndereco(morada, latitude, longitude, altitude);
     }
 
     /**
