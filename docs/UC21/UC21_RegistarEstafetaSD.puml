@@ -13,7 +13,7 @@ activate ADM
 ADM -> UI : registar estafeta
 activate UI
 
-UI -> CTRL : le = getListaEstafetas()
+UI -> CTRL : getListaEstafetas()
 activate CTRL
 
 CTRL -> _APP: app = getInstance()
@@ -28,7 +28,7 @@ deactivate APP
 
 deactivate CTRL
 
-UI --> ADM : solicita dados estafeta \n(nif,nome,email,número segurança social,password)
+UI --> ADM : solicita dados estafeta \n(nif,nome,email,peso,número segurança social,password)
 deactivate UI
 
 ADM -> UI : introduz os dados solicitados
@@ -37,10 +37,10 @@ activate UI
 UI -> CTRL : novoEstafeta(nif,nome,email,nss,pwd)
 activate CTRL
 
-CTRL -> ESTS: est = novoEstafeta(nif,nome,email,nss,pwd)
+CTRL -> ESTS: est = novoEstafeta(nif,nome,email,peso,nss,pwd)
 activate ESTS
 
-ESTS --> EST ** : create(nif,nome,email,nss,pwd)
+ESTS --> EST ** : create(nif,nome,email,peso,nss,pwd)
 
 deactivate ESTS
 
@@ -55,7 +55,7 @@ deactivate UI
 ADM -> UI : confirma
 activate UI
 
-UI -> CTRL: registaEstafeta()
+UI -> CTRL: registaEstafeta(est)
 activate CTRL
 CTRL -> ESTS: registaEstafeta(est)
 activate ESTS

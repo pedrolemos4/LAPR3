@@ -11,20 +11,21 @@ class Estafeta {
   -String nif
   -String nome
   -String email
+  -Double peso
   -Integer nss
   -String pwd
-  +Estafeta(nif,nome,email,nss,pwd)
+  +Estafeta(nif,nome,email,peso,nss,pwd)
 }
 
 class EstafetaDB {
-  +Estafeta novoEstafeta(nif,nome,email,nss,pwd)
+  +Estafeta novoEstafeta(nif,nome,email,peso,nss,pwd)
   +validaEstafeta(Estafeta est)
   +registaEstafeta(Estafeta est)
   -addEstafeta(Estafeta est)
 }
 
 class RegistarOrganizacaoController {
-    +novaEstafeta(nif,nome,email,nss,pwd)
+    +novaEstafeta(nif,nome,email,peso,nss,pwd)
     +registaEstafeta()
     +getListaEstafetas()
 }

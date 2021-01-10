@@ -5,9 +5,8 @@ actor "Administrador" as ADM
 activate ADM
 ADM -> ":Sistema" : Pretende registar o estafeta
 activate ":Sistema"
-":Sistema" --> ADM : solicita dados do estafeta (nif, nome,\n email, número de segurança social e password)
+":Sistema" --> ADM : solicita dados do estafeta (nif, nome, email, peso,\n número de segurança social e password)
 deactivate ":Sistema"
-
 
 ADM -> ":Sistema" : introduz os dados solicitados
 activate ":Sistema"
