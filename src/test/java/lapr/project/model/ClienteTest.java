@@ -21,7 +21,7 @@ class ClienteTest extends UtilizadorTest {
 
     @Test
     void getClienteNIF() {
-        Cliente novoCliente = new Cliente(123, 56, "não sei", 65746);
+        Cliente novoCliente = new Cliente(56, 123, "não sei", 65746);
         assertEquals(56, novoCliente.getClienteNIF());
     }
 
