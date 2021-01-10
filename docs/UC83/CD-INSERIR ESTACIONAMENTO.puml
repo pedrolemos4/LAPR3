@@ -1,12 +1,6 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class AplicacaoPOT
-{
-  +static getInstance()
-  +getSessaoAtual()
-}
-
 class Parque {
   -Integer numeroMaximo
   +getNumMax()
@@ -15,27 +9,24 @@ class Parque {
 class Estacionamento {
   -Integer numeroLote
   -Integer carregador
-  +Estacionamento(NIF, numeroLote, carregador)
+  -Integer NIF
+  +Estacionamento(numeroLote, carregador, NIF)
 }
 
 class ParqueDB {
-  +getParqueByNIF(NIF)
+  +getNumMaxParqueByNIF(NIF)
 }
 
 class EstacionamentoDB {
-  +Estacionamento novoEstacionamento(NIF, numeroLote, carregador)
+  +Estacionamento novoEstacionamento(numeroLote, carregador, NIF)
+  +registaEstacionamento(estac)
   +validaEstacionamento(estac)
-  +addEstacionamento(estac)
-  +getEstacionamentos()
-  +addEstacionamentos(lEstac)
-  +validaListaEstacionamentos(lEstac)
 }
 
 class InserirEstacionamentosController {
-    +getParqueNumMaxByNIF(NIF)
-    +novoEstacionamento(NIF, numeroLote, carregador)
-    +getListaListaEstacionamentos()
-    +addEstacionamentos(lEstac)
+    +getNumMaxParqueByNIF(NIF)
+    +novoEstacionamento(numeroLote, carregador, NIF)
+    +registaEstacionamentos(lEstac)
 }
 
 class InserirEstacionamentosUI {
@@ -46,7 +37,6 @@ InserirEstacionamentosController ..> ParqueDB
 InserirEstacionamentosController ..> Parque
 InserirEstacionamentosController ..> EstacionamentoDB
 InserirEstacionamentosController ..> Estacionamento
-InserirEstacionamentosController ..> AplicacaoPOT
 
 ParqueDB "1" --> "*" Parque : possui
 Parque "1" --> "*" Estacionamento : tem

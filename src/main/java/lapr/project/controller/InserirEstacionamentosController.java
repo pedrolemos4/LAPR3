@@ -58,8 +58,7 @@ public class InserirEstacionamentosController {
      * @return novo estacionamento criado
      */
     public Estacionamento novoEstacionamento(int numLote, int carregador, int nif) {
-        Estacionamento estac = estacionamentoDB.novoEstacionamento(numLote, carregador, nif);
-        return estac;
+        return estacionamentoDB.novoEstacionamento(numLote, carregador, nif);
     }
 
     /**
@@ -67,7 +66,7 @@ public class InserirEstacionamentosController {
      *
      * @param lestac lista de estacionamentos
      */
-    public void registaEstacionamento(List<Estacionamento> lestac) {
+    public void registaEstacionamentos(List<Estacionamento> lestac) {
         for (Estacionamento estac : lestac) {
             estacionamentoDB.registaEstacionamento(estac);
         }
@@ -81,7 +80,6 @@ public class InserirEstacionamentosController {
      * @return limite máximo de scooters do parque
      */
     public int getNumMaxParqueByNIF(int nif) {
-        int numMax = parqueDB.getNumMaxParqueByNIF(nif);
-        return numMax;
+        return parqueDB.getNumMaxParqueByNIF(nif);
     }
 }

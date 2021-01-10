@@ -3,9 +3,9 @@ autonumber
 actor "Estafeta" as EST
 
 activate EST
-EST -> ":Sistema" : nova entrega
+EST -> ":Sistema" : inicia registo de entrega
 activate ":Sistema"
-":Sistema" --> EST : solicita dados entrega \n(idEntrega,dataInicio, dataFim, encomenda, scooter)
+":Sistema" --> EST : mostra lista de scooters e solicita o id da scooter
 deactivate ":Sistema"
 
 EST -> ":Sistema" : introduz os dados solicitados
@@ -13,7 +13,7 @@ activate ":Sistema"
 ":Sistema" --> EST : apresenta dados e solicita confirmação
 deactivate ":Sistema"
 
-EST -> ":Sistema" : confirma
+EST -> ":Sistema" : confirma os dados
 activate ":Sistema"
 ":Sistema" --> EST : operação bem sucedida
 deactivate ":Sistema"

@@ -112,17 +112,17 @@ public class CartaoDB extends DataHandler {
             }
             return list;
         } catch (SQLException e) {
-            Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            Logger.getLogger(CartaoDB.class.getName()).log(Level.WARNING, e.getMessage());
         } finally {
             try {
                 if (rSet != null) {
                     rSet.close();
-                }
+        } 
                 if (stm != null) {
                     stm.close();
                 }
             } catch (SQLException e) {
-                Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+                Logger.getLogger(CartaoDB.class.getName()).log(Level.WARNING, e.getMessage());
             }
         }
         return list;

@@ -10,15 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
-import lapr.project.model.EstadoEncomenda;
 import lapr.project.model.Produto;
 import oracle.jdbc.OracleTypes;
 

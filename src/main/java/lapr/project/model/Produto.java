@@ -78,8 +78,8 @@ public class Produto {
      *
      * @return
      */
-    public int setId(int id) {
-        return this.id=id;
+    public void setId(int id) {
+        this.id=id;
     }
     
     /**

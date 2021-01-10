@@ -47,7 +47,7 @@ public class InserirEstacionamentosUI {
         String confirm = LER.next();
 
         if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
-            controller.registaEstacionamento(lestac);
+            controller.registaEstacionamentos(lestac);
             System.out.println("\n\nEstacionamentos registados com sucesso!");
         } else {
             System.out.println("\n\nRegisto de Estacionamentos cancelado!");

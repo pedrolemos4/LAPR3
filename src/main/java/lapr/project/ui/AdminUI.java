@@ -146,7 +146,7 @@ public class AdminUI {
         int motor = LER.nextInt();*/
 
         System.out.println("Descrição:\t" + descricao
-                + "Estado:\t" + estado
+                + "\nEstado:\t" + estado
                 + "\nCapacidade de Bateria:\t" + percentagemBateria
                 + "\nPeso:\t" + peso
                 + "\nPeso máximo:\t" + pesoMaximo
