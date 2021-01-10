@@ -2,7 +2,6 @@ package lapr.project.controller;
 
 import java.util.LinkedList;
 import java.util.List;
-import lapr.project.authorization.FacadeAuthorization;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.EnderecoDB;
 import lapr.project.data.EntregaDB;
@@ -21,10 +20,10 @@ import lapr.project.model.Scooter;
  */
 public class IniciarEntregaController {
     
-    private EntregaDB entregaDB;
-    private EncomendaDB encomendaDB;
-    private EstafetaDB estafetaDB;
-    private EnderecoDB enderecoDB;
+    private final EntregaDB entregaDB;
+    private final EncomendaDB encomendaDB;
+    private final EstafetaDB estafetaDB;
+    private final EnderecoDB enderecoDB;
     private ScooterDB scooterDB;
 
     public IniciarEntregaController() {
@@ -52,8 +51,7 @@ public class IniciarEntregaController {
     
     public Estafeta getEstafeta(){
         String email = UserSession.getInstance().getUser().getEmail();
-        Estafeta est = estafetaDB.getEstafetaByEmail(email);
-        return est;
+        return estafetaDB.getEstafetaByEmail(email);
     }
     
     public Endereco getEnderecoByNifCliente(int nif){
