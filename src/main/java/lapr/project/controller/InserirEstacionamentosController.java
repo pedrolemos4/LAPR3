@@ -67,7 +67,7 @@ public class InserirEstacionamentosController {
      *
      * @param lestac lista de estacionamentos
      */
-    public void registaEstacionamento(List<Estacionamento> lestac) {
+    public void registaEstacionamentos(List<Estacionamento> lestac) {
         for (Estacionamento estac : lestac) {
             estacionamentoDB.registaEstacionamento(estac);
         }
