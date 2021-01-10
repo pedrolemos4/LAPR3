@@ -11,21 +11,22 @@ class Estafeta {
   -String nif
   -String nome
   -String email
+  -Double peso
   -Integer nss
   -String pwd
-  +Estafeta(nif,nome,email,nss,pwd)
+  +Estafeta(nif,nome,email,peso,nss,pwd)
 }
 
 class EstafetaDB {
   +getListaEstafetas()
-  +getEstafetaByNIF(nifEst)
+  +getEstafetaByEmail(email)
   +atualizarEstafeta(est)
-  +validaListaEstafetas()
+  +validaEstafeta(est)
 }
 
 class AtualizarEstafetaController {
-    +getEstafetaByNIF(nifEst)
-    +atualizarEstafeta()
+    +getEstafetaByEmail(email)
+    +atualizarEstafeta(est)
     +getListaEstafetas()
 }
 
@@ -37,6 +38,6 @@ AtualizarEstafetaController ..> EstafetaDB
 AtualizarEstafetaController ..> Estafeta
 AtualizarEstafetaController ..> AplicacaoPOT
 
-EstafetaDB "1" --> "*" Estafeta : tem registadas
+EstafetaDB "1" --> "*" Estafeta : tem registados
 
 @enduml

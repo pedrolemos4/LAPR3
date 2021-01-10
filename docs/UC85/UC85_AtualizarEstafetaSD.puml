@@ -30,9 +30,9 @@ UI --> ADM : apresenta a lista de estafetas
 deactivate UI
 ADM -> UI : seleciona o estafeta a atualizar
 activate UI
-UI -> CTL : getEstafetaByNIF(nifEst)
+UI -> CTL : getEstafetaByEmail(email)
 activate CTL
-CTL -> EDB : est = getEstafetaByNIF(nifEst)
+CTL -> EDB : est = getEstafetaByEmail(email)
 
 activate EDB
 deactivate EDB
@@ -41,13 +41,13 @@ UI --> ADM : apresenta dados do estafeta e solicita confirmação
 deactivate UI
 ADM -> UI : confirma
 activate UI
-UI -> CTL : atualizarEstafeta()
+UI -> CTL : atualizarEstafeta(est)
 
 activate CTL
 
 CTL -> EDB : atualizarEstafeta(est)
 activate EDB
-EDB -> EDB : validaListaEstafetas()
+EDB -> EDB : validaEstafeta(est)
 
 
 deactivate EDB
