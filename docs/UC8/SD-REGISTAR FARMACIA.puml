@@ -1,62 +1,49 @@
 @startuml
 autonumber
-actor "Administrador" as ADM
+actor "Cliente" as ADM
 
-participant ":RegistarFarmaciaUI" as UI
-participant ":RegistarFarmaciaController" as CTRL
-participant ":AplicacaoPOT" as _APP
-participant "app:\nAplicacaoPOT" as APP
-participant "FarmaciaDB" as DB
-participant "ParqueDB" as PDB
+participant ":RegistarClienteUI" as UI
+participant ":RegistarClienteController" as CTRL
+participant "ClienteDB" as DB
 participant "EnderecoDB" as EDB
-participant "farm:Farmacia" as FARMACIA
-participant "parque:Parque" as PQ
+participant "CartaoDB" as CDB
 participant "end:Endereco" as END
+participant "cc:Cartao" as CARTAO
+participant "us:Utilizador" as UTILIZADOR
+participant "cl:Cliente" as CLIENTE
 
 activate ADM
-ADM -> UI : inicia a criação de uma nova farmácia
+ADM -> UI : inicia o seu registo
 activate UI
-UI --> ADM : solicita dados da farmácia (NIF), dados do parque\n (morada, latitude, longitude, altitude \ne limite(número máximo de scooters)
+UI --> ADM : solicita dados do cliente \n(NIF, nome, email, endereço residencial, localização GPS (latitude, longitude, altitude), \nnúmero de segurança social, password, número de cartão de crédito, data de validade, CCV)
 deactivate UI
 
 ADM -> UI : introduz os dados solicitados
 activate UI
-UI -> CTRL : novaFarmacia(NIF, morada, latitude, longitude, altitude, numeroMaximo)
+UI -> CTRL : novoCliente(NIF, nome, email, numeroSegurancaSocial, morada, numCC, password)
 activate CTRL
 
-CTRL -> _APP : app = getInstance()
-activate _APP
-deactivate _APP
-CTRL -> APP : sessao = getSessaoAtual()
-activate APP
-deactivate APP
-
-CTRL -> DB: farm=novaFarmacia(NIF)
+CTRL -> DB: cliente=novoCliente(NIF, nome, email, numeroSegurancaSocial, morada, numCC, password)
 activate DB
-DB --> FARMACIA ** : create(NIF)
+DB --> UTILIZADOR ** : create(NIF, nome, email, numeroSegurancaSocial, password)
+DB --> CLIENTE ** : create(creditos, morada, numCC)
 deactivate DB
+deactivate CTRL
 
-CTRL -> DB: validaFarmacia(farm)
-activate DB
-deactivate DB
-
+UI -> CTRL : novoEndereco(morada, latitude, logitude, altitude)
+activate CTRL
 CTRL -> EDB: end=novoEndereco(morada, latitude, logitude, altitude)
 activate EDB
 EDB --> END ** : create(morada, latitude, logitude, altitude)
 deactivate EDB
+deactivate CTRL
 
-CTRL -> EDB: validaEndereco(end)
-activate EDB
-deactivate EDB
-
-CTRL -> PDB: parque=novoParque(NIF, end, numeroMaximo)
-activate PDB
-PDB --> PQ ** : create(NIF, end, numeroMaximo)
-deactivate PDB
-
-CTRL -> PDB: validaParque(parque)
-activate PDB
-deactivate PDB
+UI -> CTRL : novoCartao(numCC, dataValidade, CCV)
+activate CTRL
+CTRL -> CDB: cc=novoCartao(numCC, dataValidade, CCV)
+activate CDB
+CDB --> CARTAO ** : create(numCC, dataValidade, CCV)
+deactivate CDB
 
 deactivate CTRL
 UI --> ADM : apresenta dados e solicita confirmação
@@ -65,28 +52,35 @@ deactivate UI
 ADM -> UI : confirma
 activate UI
 
-UI -> CTRL: registaFarmacia()
+UI -> CTRL: registaCliente()
 activate CTRL
-CTRL ->DB: registaFarmacia(farm)
+CTRL ->DB: registaCliente(cliente)
 activate DB
-DB -> DB: validaFarmacia(farm)
-DB -> DB: addFarmacia(farm)
+DB -> DB: validaCliente(cliente)
+DB -> DB: addCliente(cliente)
+DB -> DB: addUtilizador(NIF, nome, email, numeroSegurancaSocial, password)
+deactivate CTRL
 
 deactivate DB
 
+UI -> CTRL: registaEndereco()
+activate CTRL
 CTRL ->EDB: registaEndereco(end)
 activate EDB
 EDB -> EDB: validaEndereco(end)
 EDB -> EDB: addEndereco(end)
 
 deactivate EDB
+deactivate CTRL
 
-CTRL ->PDB: registaParque(parque)
-activate PDB
-PDB -> PDB: validaParque(parque)
-PDB -> PDB: addParque(parque)
+UI -> CTRL: registaCartao()
+activate CTRL
+CTRL ->CDB: registaCartao(cc)
+activate CDB
+CDB -> CDB: validaCartao(cc)
+CDB -> CDB: addCartao(cc)
 
-deactivate PDB
+deactivate CDB
 
 deactivate CTRL
 

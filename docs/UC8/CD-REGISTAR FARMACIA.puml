@@ -1,67 +1,88 @@
 @startuml
-skinparam classAttributeIconSize 0
+autonumber
+actor "Administrador" as ADM
 
-class Farmacia {
-  -Integer NIF
-  +Farmacia(Integer NIF)
-}
+participant ":RegistarFarmaciaUI" as UI
+participant ":RegistarFarmaciaController" as CTRL
+participant "FarmaciaDB" as DB
+participant "ParqueDB" as PDB
+participant "EnderecoDB" as EDB
+participant "farm:Farmacia" as FARMACIA
+participant "parque:Parque" as PQ
+participant "end:Endereco" as END
 
-class Endereco {
-  -String morada
-  -Double latitude
-  -Double longitude
-  -Double altitude 
-  +Endereco(String morada, Double latitude, Double longitude, Double altitude)
-}
+activate ADM
+ADM -> UI : inicia a criação de uma nova farmácia
+activate UI
+UI --> ADM : solicita dados da farmácia (NIF), dados do parque\n (morada, latitude, longitude, altitude \ne limite(número máximo de scooters)
+deactivate UI
 
-class Parque {
-  -Integer numeroMaximo
-  +Endereco(Integer NIF, Integer numeroMaximo, Endereco end)
-}
+ADM -> UI : introduz os dados solicitados
+activate UI
+UI -> CTRL : novaFarmacia(NIF)
+activate CTRL
 
-class FarmaciaDB {
-  +Farmacia novaFarmacia(NIF, morada, latitude, longitude, altitude, numMaximo)
-  +validaFarmacia(Farmacia farm)
-  +registaFarmacia(Farmacia farm)
-  -addFarmacia(Farmacia farm)
-}
+CTRL -> DB: farm=novaFarmacia(NIF)
+activate DB
+DB --> FARMACIA ** : create(NIF)
+deactivate DB
+deactivate CTRL
 
-class EnderecoDB {
-  +Endereco novoEndereco(String morada, Double latitude, Double longitude, Double altitude)
-  +validaEndereco(Endereco end)
-  +registaEndereco(Endereco end)
-  -addEndereco(Endereco end)
-}
+UI -> CTRL : novoEndereco(morada, latitude, longitude, altitude)
+activate CTRL
+CTRL -> EDB: end=novoEndereco(morada, latitude, logitude, altitude)
+activate EDB
+EDB --> END ** : create(morada, latitude, logitude, altitude)
+deactivate EDB
+deactivate CTRL
 
-class ParqueDB {
-  +Parque novoEndereco(Integer numeroMaximo, Endereco end)
-  +validaParque(Parque parque)
-  +registaParque(Parque parque)
-  -addParque(Parque parque)
-}
+UI -> CTRL : novoParque(NIF, morada, numeroMaximo)
+activate CTRL
+CTRL -> PDB: parque=novoParque(NIF, morada, numeroMaximo)
+activate PDB
+PDB --> PQ ** : create(NIF, morada, numeroMaximo)
+deactivate PDB
 
-class RegistarFarmaciaController {
-  +novaFarmacia(NIF, morada, latitude, longitude, altitude, numeroMaximo)
-  +registaFarmacia()
-}
+deactivate CTRL
+UI --> ADM : apresenta dados e solicita confirmação
+deactivate UI
 
-class RegistarFarmaciaUI {
-  
-}
+ADM -> UI : confirma
+activate UI
 
-RegistarFarmaciaUI ..> RegistarFarmaciaController
-RegistarFarmaciaController ..> ParqueDB
-RegistarFarmaciaController ..> EnderecoDB
-RegistarFarmaciaController ..> FarmaciaDB
-RegistarFarmaciaController ..> Parque
-RegistarFarmaciaController ..> Endereco
-RegistarFarmaciaController ..> Farmacia
+UI -> CTRL: registaFarmacia(farm)
+activate CTRL
+CTRL ->DB: registaFarmacia(farm)
+activate DB
+DB -> DB: validaFarmacia(farm)
+DB -> DB: addFarmacia(farm)
 
-ParqueDB "1" --> "*" Parque : possui
-EnderecoDB "1" --> "*" Endereco : possui
-FarmaciaDB "1" --> "*" Farmacia : possui
-Farmacia "1" --> "1" Parque : tem
-Parque "1" --> "1" Endereco : tem
+deactivate DB
+deactivate CTRL
 
+UI -> CTRL: registaEndereco(end)
+activate CTRL
+CTRL ->EDB: registaEndereco(end)
+activate EDB
+EDB -> EDB: validaEndereco(end)
+EDB -> EDB: addEndereco(end)
+
+deactivate EDB
+deactivate CTRL
+
+UI -> CTRL: registaParque(parque)
+activate CTRL
+CTRL ->PDB: registaParque(parque)
+activate PDB
+PDB -> PDB: validaParque(parque)
+PDB -> PDB: addParque(parque)
+
+deactivate PDB
+deactivate CTRL
+
+UI --> ADM : operação bem sucedida
+deactivate UI
+
+deactivate ADM
 
 @enduml
