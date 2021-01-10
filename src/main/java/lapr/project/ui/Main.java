@@ -1,18 +1,7 @@
 package lapr.project.ui;
 
-import lapr.project.controller.NotificaEstafetaController;
-import lapr.project.data.DataHandler;
-import lapr.project.data.EmailDB;
-import lapr.project.model.CalculatorExample;
-import lapr.project.model.Sailor;
-
-import javax.mail.MessagingException;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**

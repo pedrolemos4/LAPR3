@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Encomenda {
-    private String dataPedida;
+    private final String dataPedida;
     private double preco;
     private double pesoEncomenda;
-    private String morada;
     private double taxa;
     private int nifCliente;
     private List<Produto> lst;
