@@ -6,6 +6,7 @@
 package lapr.project.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 import lapr.project.data.ScooterDB;
 import lapr.project.model.Scooter;
 
@@ -30,16 +31,25 @@ public class ScooterController {
         return scooter;
     }
 
-    public boolean updateScooter(int idScooter, String descricao, int percentagemBateria,
-            double pesoMaximo, double pesoScooter, double potencia,double areaFrontal, int estado) throws SQLException {
-        boolean removed = false;
-        Scooter scooter = new Scooter(idScooter, descricao, percentagemBateria, pesoMaximo,
-                pesoScooter, potencia,areaFrontal, estado);
+    public boolean updateScooter(Scooter scooter) throws SQLException {
+        boolean updated = false;
+        //Scooter scooter = new Scooter(idScooter, descricao, percentagemBateria, pesoMaximo,
+          //      pesoScooter, potencia,areaFrontal, estado);
 
-        removed = scooterDB.updateScooter(scooter);
-        return removed;
+        updated = scooterDB.updateScooter(scooter);
+        return updated;
+    }
+    
+    public List<Scooter> getListaScooter(){
+        List<Scooter> list = scooterDB.getListaScooter();
+        return list;
     }
 
+    public Scooter getScooterById(int id){
+        Scooter scooter = scooterDB.getScooterById(id);
+        return scooter;
+    }
+    
     public boolean removeScooter(int idScooter) throws SQLException {
         boolean removed = false;
 
