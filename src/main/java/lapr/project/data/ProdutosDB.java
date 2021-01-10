@@ -68,7 +68,9 @@ public class ProdutosDB extends DataHandler {
     }
 
     public void atualizarProduto(Produto prod) {
-        atualizarProduto(prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase());
+        if (validaProduto(prod)){
+            atualizarProduto(prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase());
+        }
     }
 
     private void atualizarProduto(String desig, double peso, double precoBase) {

@@ -32,7 +32,7 @@ ADM -> UI : seleciona o item a atualizar
 activate UI
 UI -> CTL : getProdutoByID(idProd)
 activate CTL
-CTL -> PDB : est = getProdutobyID(idProd)
+CTL -> PDB : prod = getProdutobyID(idProd)
 
 activate PDB
 deactivate PDB
@@ -41,13 +41,15 @@ UI --> ADM : apresenta dados do item e solicita confirmação
 deactivate UI
 ADM -> UI : confirma
 activate UI
-UI -> CTL : atualizarProduto()
+UI -> CTL : atualizarProduto(prod)
 
 activate CTL
 
 CTL -> PDB : atualizarProduto(prod)
 activate PDB
-PDB -> PDB : validaListaProdutos()
+PDB -> PDB : validaProduto(prod)
+
+PDB -> PDB : atualizarProduto(prod)
 
 
 deactivate PDB

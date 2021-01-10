@@ -12,19 +12,19 @@ class Produto {
   -String designacao
   -Double peso
   -Double preco_base
-  +Produto(idProduto,designacao,peso,preco_base)
+  +Produto(designacao,peso,preco_base)
 }
 
 class ProdutosDB {
   +getListaProdutos()
   +getProdutoByID(idProd)
   +atualizarProduto(prod)
-  +validaListaProdutos()
+  +validaProduto(prod)
 }
 
 class AtualizarItensStockController {
     +getProdutoByID(idProd)
-    +atualizarProduto()
+    +atualizarProduto(prod)
     +getListaProdutos()
 }
 
