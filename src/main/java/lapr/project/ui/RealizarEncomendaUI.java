@@ -69,7 +69,7 @@ public class RealizarEncomendaUI {
             
             double precoTotal = controller.getPrecoTotal(enc.getTaxa());
             
-            Recibo rec = new Recibo(controller.getNifCliente(), precoTotal, date.toString());
+            Recibo rec = new Recibo(controller.getNifCliente(), precoTotal, date.toString(), enc.getId());
             
             for(Produto p : lst){
                 controller.novoRecibo(rec, p);

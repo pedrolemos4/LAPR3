@@ -37,7 +37,7 @@ public class ReciboDB extends DataHandler {
     }
 
     private boolean validaRecibo(Recibo rec) {
-        if (rec.getData() == null || rec.getId() < 0 || rec.getNif() < 0) {
+        if (rec.getData() == null || rec.getId() < 0 || rec.getNif() < 0 || rec.getIdEncomenda() < 0) {
             return false;
         }
         return true;
@@ -49,7 +49,7 @@ public class ReciboDB extends DataHandler {
      * @param enc
      */
     public void addRecibo(Recibo rec) throws SQLException {
-        addRecibo(rec.getData(), rec.getPreco(), rec.getNif());
+        addRecibo(rec.getData(), rec.getPreco(), rec.getNif(), rec.getIdEncomenda());
     }
 
     /**
@@ -60,18 +60,19 @@ public class ReciboDB extends DataHandler {
      * @param lst
      * @param nif
      */
-    private int addRecibo(String data, double preco, int nif) throws SQLException {
+    private int addRecibo(String data, double preco, int nif, int idEncomenda) throws SQLException {
         CallableStatement callStmt = null;
         int id=0;
         
         openConnection();
 
-        callStmt = getConnection().prepareCall("{ call addEncomenda(?,?,?) }");
+        callStmt = getConnection().prepareCall("{ call addEncomenda(?,?,?,?) }");
 
         callStmt.registerOutParameter(1, OracleTypes.INTEGER);
         callStmt.setInt(2, nif);
         callStmt.setDouble(3, preco);
         callStmt.setString(4, data);
+        callStmt.setInt(5, idEncomenda);
         
         id = callStmt.getInt(1);
         
