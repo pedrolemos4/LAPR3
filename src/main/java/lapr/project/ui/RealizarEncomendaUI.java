@@ -33,8 +33,8 @@ public class RealizarEncomendaUI {
     }
 
     public void introduzEncomenda() throws SQLException {
-
         System.out.println("Lista de produtos disponível: ");
+        
         List<Produto> list = controller.getListStock();
 
         for (Produto s : list) {
@@ -70,6 +70,7 @@ public class RealizarEncomendaUI {
             double precoTotal = controller.getPrecoTotal(enc.getTaxa());
             
             Recibo rec = new Recibo(controller.getNifCliente(), precoTotal, date.toString(), enc.getId());
+            rec.setLst(lst);
             
             for(Produto p : lst){
                 controller.novoRecibo(rec, p);
@@ -77,10 +78,8 @@ public class RealizarEncomendaUI {
             
             System.out.println("Data do Recibo:");
             System.out.println(rec.getData());
-            
             System.out.println("Preco Total:");
             System.out.println(precoTotal);
-            
             System.out.println("Lista de Produtos:");
             for(int i=0; i<lst.size(); i++){
                 System.out.println(lst.get(i).getDesignacao() + " " + lst.get(i).getPrecoBase());
