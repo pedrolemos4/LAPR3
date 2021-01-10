@@ -10,13 +10,17 @@ class SessaoUtilizador{
   +getEmailUtilizador()
 }
 
-class ParqueDB {
-  +getEndereco()
+class EnderecoDB {
+  +getEnderecoParque()
+  +getEnderecoByNifCliente(nif)
+}
+
+class ScooterDB {
+  +getScooterById(idScooter)
 }
 
 class EncomendaDB {
-  +getIdEncomenda(listaEncomenda)
-  +getPesoEncomenda(idEncomenda)
+  +getListaEncomendaById(idEntrega)
 }
 
 class Entrega {
@@ -27,9 +31,9 @@ class Entrega {
 }
 
 class EntregaDB {
-  +getListaEncomenda(idEntrega)
-  +getScooter(idEntrega)
-  +calculatePath(origem, listaEnderecos, est, pesoTotal, scooter)
+  +getListaEntregaByNifEstafeta(nifEstafeta)
+  +getEntregaById(int idEntrega)
+  +generateGraph(listEnderecos, est, scooter, pesoTotal)
 }
 
 class EstafetaDB {
@@ -67,6 +71,7 @@ class Scooter {
   -Double pesoMaximo
   -Double pesoScooter
   -Double potencia
+  -Double areaFrontal
 }
 
 class Endereco {
@@ -87,12 +92,9 @@ class Cliente {
   -String email
   -Integer numeroSegurancaSocial
   -String password
+  -Integer creditos
 }
 
-class ClienteDB {
-  +getClienteNif(idEncomenda)
-  +getEnderecoNif(clienteNif)
-}
 
 class Cartao {
   -numeroCartao
@@ -115,8 +117,8 @@ class Produto {
 IniciarEntregaUI ..> IniciarEntregaController
 
 IniciarEntregaController ..> EstafetaDB
-IniciarEntregaController ..> ParqueDB
-IniciarEntregaController ..> ClienteDB
+IniciarEntregaController ..> EnderecoDB
+IniciarEntregaController ..> ScooterDB
 IniciarEntregaController ..> EntregaDB
 IniciarEntregaController ..> EncomendaDB
 IniciarEntregaController ..> AplicacaoPOT
@@ -125,8 +127,8 @@ IniciarEntregaController ..> SessaoUtilizador
 EntregaDB "1" --> "*" Entrega : tem registadas
 EstafetaDB "1" --> "*" Estafeta : tem registadas
 EncomendaDB "1" --> "*" Encomenda : tem registadas
-ParqueDB "1" --> "*" Parque : tem registadas
-ClienteDB "1" --> "*" Cliente : tem registadas
+EnderecoDB "1" --> "*" Endereco : tem registadas
+ScooterDB "1" --> "*" Scooter : tem registadas
 
 Cliente "1" -- "1" Cartao : tem >
 Parque "1" --> "*" Scooter: possui >
