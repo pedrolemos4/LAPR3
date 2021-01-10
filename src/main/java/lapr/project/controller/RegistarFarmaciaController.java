@@ -26,14 +26,11 @@ public class RegistarFarmaciaController {
     /**
      * Cria instância do controlador InserirEstacionamentosController
      *
-     * @param farmaciaDB classe handler de farmácia
-     * @param parqueDB clase handler de parques
-     * @param enderecoDB clase handler de endereços
      */
-    public RegistarFarmaciaController(FarmaciaDB farmaciaDB, ParqueDB parqueDB, EnderecoDB enderecoDB) {
-        this.farmaciaDB = farmaciaDB;
-        this.parqueDB = parqueDB;
-        this.enderecoDB = enderecoDB;
+    public RegistarFarmaciaController() {
+        this.farmaciaDB = new FarmaciaDB();
+        this.parqueDB = new ParqueDB();
+        this.enderecoDB = new EnderecoDB();
     }
 
     /**

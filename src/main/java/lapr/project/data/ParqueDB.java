@@ -21,10 +21,7 @@ import lapr.project.model.Parque;
  */
 public class ParqueDB extends DataHandler {
 
-    private final DataHandler dataHandler;
-
     public ParqueDB() {
-        this.dataHandler = DataHandler.getInstance();
     }
 
     /**
@@ -36,8 +33,7 @@ public class ParqueDB extends DataHandler {
      * @return novo parque criado
      */
     public Parque novoParque(int nif, String morada, int numMax) {
-        Parque park = new Parque(nif, morada, numMax);
-        return park;
+        return new Parque(nif, morada, numMax);
     }
 
     /**
@@ -77,7 +73,7 @@ public class ParqueDB extends DataHandler {
      * @param morada morada do parque
      * @param numMax limite máximo de scooters do parque
      */
-    private void addParque(int nif, String morada, int numMax) {
+    public void addParque(int nif, String morada, int numMax) {
         try {
             openConnection();
             CallableStatement callStmt = getConnection().prepareCall("{ call addParque(?,?,?) }");
@@ -114,7 +110,7 @@ public class ParqueDB extends DataHandler {
             }
             return list;
         } catch (SQLException e) {
-            Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
         } finally {
             try {
                 if (rSet != null) {
@@ -124,7 +120,7 @@ public class ParqueDB extends DataHandler {
                     stm.close();
                 }
             } catch (SQLException e) {
-                Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+                Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
             }
         }
         return list;
@@ -147,7 +143,7 @@ public class ParqueDB extends DataHandler {
             rSet = stm.executeQuery(query);
             numMax = rSet.getInt(1);
         } catch (SQLException e) {
-            Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
         } finally {
             try {
                 if (rSet != null) {
@@ -157,7 +153,7 @@ public class ParqueDB extends DataHandler {
                     stm.close();
                 }
             } catch (SQLException e) {
-                Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+                Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
             }
         }
         return numMax;

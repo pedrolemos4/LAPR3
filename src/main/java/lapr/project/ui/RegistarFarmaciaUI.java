@@ -20,7 +20,7 @@ public class RegistarFarmaciaUI {
      * Criação do controlador responsável por registar farmácias
      */
     public RegistarFarmaciaUI() {
-        this.controller = new RegistarFarmaciaController(new FarmaciaDB(), new ParqueDB(), new EnderecoDB());
+        this.controller = new RegistarFarmaciaController();
     }
 
     /**

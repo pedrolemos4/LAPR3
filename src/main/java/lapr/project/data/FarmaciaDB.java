@@ -21,10 +21,7 @@ import lapr.project.model.Farmacia;
  */
 public class FarmaciaDB extends DataHandler {
 
-    private final DataHandler dataHandler;
-
     public FarmaciaDB() {
-        this.dataHandler = DataHandler.getInstance();
     }
 
     /**
@@ -34,8 +31,7 @@ public class FarmaciaDB extends DataHandler {
      * @return nova farmacia criada
      */
     public Farmacia novaFarmacia(int nif) {
-        Farmacia farm = new Farmacia(nif);
-        return farm;
+        return new Farmacia(nif);
     }
 
     /**
@@ -73,7 +69,7 @@ public class FarmaciaDB extends DataHandler {
      *
      * @param nif nif da farmácia
      */
-    private void addFarmacia(int nif) {
+    public void addFarmacia(int nif) {
         try {
             openConnection();
             CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?) }");
@@ -106,7 +102,7 @@ public class FarmaciaDB extends DataHandler {
             }
             return list;
         } catch (SQLException e) {
-            Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
         } finally {
             try {
                 if (rSet != null) {
@@ -116,7 +112,7 @@ public class FarmaciaDB extends DataHandler {
                     stm.close();
                 }
             } catch (SQLException e) {
-                Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+                Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
             }
         }
         return list;
