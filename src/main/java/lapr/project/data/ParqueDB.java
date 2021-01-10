@@ -116,4 +116,27 @@ public class ParqueDB extends DataHandler {
         }
         return list;
     }
+
+    /**
+     * Retorna o limite máximo de scooters do parque recebendo o nif da farmácia
+     * referente ao parque
+     *
+     * @param nif nif do parque/farmácia
+     * @return limite máximo de scooters do parque
+     */
+    public int getNumMaxParqueByNIF(int nif) {
+        int numMax = 0;
+        String query = "SELECT p.numeroMaximo FROM parque p inner join estacionamento e on p.FarmaciaNIF=e.ParqueFarmaciaNIF";
+        Statement stm = null;
+        ResultSet rSet = null;
+
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+            numMax = rSet.getInt(3);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return numMax;
+    }
 }
