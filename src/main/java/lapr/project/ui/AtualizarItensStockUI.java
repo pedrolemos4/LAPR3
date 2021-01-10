@@ -37,22 +37,23 @@ public class AtualizarItensStockUI {
             System.out.println("Introduza os novos dados relativos ao produto");
             System.out.println("Designação:");
             String desig = LER.nextLine();
+            produto.setDesignacao(desig);
             System.out.println("Peso:");
             double peso = LER.nextDouble();
+            produto.setPeso(peso);
             System.out.println("Preço Base:");
             double preco = LER.nextDouble();
-
-            Produto new_prod = pdb.novoProduto(desig,peso,preco);
+            produto.setPrecoBase(preco);
 
             System.out.println("--Novos Dados do Produto--");
-            System.out.println(new_prod.getDesignacao());
-            System.out.println(new_prod.getPeso());
-            System.out.println(new_prod.getPrecoBase());
+            System.out.println(produto.getDesignacao());
+            System.out.println(produto.getPeso());
+            System.out.println(produto.getPrecoBase());
             System.out.println("Deseja atualizar os dados do produto? (S/N)");
             String confirm = LER.next();
 
             if(confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")){
-                controller.atualizarProduto(new_prod);
+                controller.atualizarProduto(produto);
                 System.out.println("\n\nProduto atualizado com sucesso!");
             } else {
                 System.out.println("\n\nAtualização do produto cancelada!");

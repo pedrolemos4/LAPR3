@@ -69,19 +69,20 @@ public class ProdutosDB extends DataHandler {
 
     public void atualizarProduto(Produto prod) {
         if (validaProduto(prod)){
-            atualizarProduto(prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase());
+            atualizarProduto(prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase(), prod.getId());
         }
     }
 
-    private void atualizarProduto(String desig, double peso, double precoBase) {
+    private void atualizarProduto(String desig, double peso, double precoBase, int id) {
         try {
             openConnection();
 
-            CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?) }");
+            CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?,?) }");
 
             callStmt.setString(1, desig);
             callStmt.setDouble(2, peso);
             callStmt.setDouble(3, precoBase);
+            callStmt.setInt(4, id);
 
             callStmt.execute();
             closeAll();
