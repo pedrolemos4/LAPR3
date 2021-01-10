@@ -6,13 +6,10 @@
 package lapr.project.controller;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.MessagingException;
-import lapr.project.authorization.FacadeAuthorization;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
 import lapr.project.data.EncomendaDB;
@@ -21,7 +18,6 @@ import lapr.project.data.ReciboDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
-import lapr.project.model.EstadoEncomenda;
 import lapr.project.model.Produto;
 import lapr.project.model.Recibo;
 
@@ -31,11 +27,11 @@ import lapr.project.model.Recibo;
  */
 public class RealizaEncomendaController {
 
-    private ProdutosDB produtoDB;
-    private EncomendaDB encDB;
-    private ClienteDB cliDB;
-    private ReciboDB reciboDB;
-    private EmailDB emailDB;
+    private final ProdutosDB produtoDB;
+    private final EncomendaDB encDB;
+    private final ClienteDB cliDB;
+    private final ReciboDB reciboDB;
+    private final EmailDB emailDB;
 
     public RealizaEncomendaController() {
         produtoDB = new ProdutosDB();
