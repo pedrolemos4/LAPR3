@@ -16,18 +16,22 @@ public class Recibo {
     
     private int nif;
     private int id;
+    private double preco;
     private String data;
+    private int idEncomenda;
     private List<Produto> lst;
     
     /**
-     * Cria instancia receibo com nif do cliente e a data gerada
+     * Cria instancia receibo com nif do cliente, a data gerada e o preco total
      * @param nif
      * @param data 
      */
-    public Recibo(int nif, String data){
+    public Recibo(int nif, double preco, String data, int idEncomenda){
         this.id=0;
+        this.preco=preco;
         this.nif=nif;
         this.data=data;
+        this.idEncomenda=idEncomenda;
         lst = new ArrayList<>();
     }
     
@@ -37,10 +41,36 @@ public class Recibo {
     public Recibo (){
         this.id=0;
         this.nif=0;
+        this.preco=0;
+        this.idEncomenda=0;
         this.data="";
         lst = new ArrayList<>();
     }
 
+    /**
+     * Devolve o preco 
+     * @return 
+     */
+    public double getPreco() {
+        return preco;
+    }
+
+    /**
+     * Modifica o preco
+     * @param preco 
+     */
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    /**
+     * Devolve o id da encomenda presente no recibo
+     * @return 
+     */
+    public int getIdEncomenda() {
+        return idEncomenda;
+    }
+    
     /**
      * Devolve nif
      * @return 

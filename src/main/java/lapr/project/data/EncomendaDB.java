@@ -14,10 +14,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.EstadoEncomenda;
 import lapr.project.model.Produto;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -80,7 +83,7 @@ public class EncomendaDB extends DataHandler {
      * @param enc
      * @return
      */
-    public boolean registaEncomenda(Encomenda enc) {
+    public boolean registaEncomenda(Encomenda enc) throws SQLException {
         if (validaEncomenda(enc)) {
             addEncomenda(enc);
         }
@@ -88,12 +91,12 @@ public class EncomendaDB extends DataHandler {
     }
 
     /**
-     * Adiciona a lista de encomendas a encomenda
+     * Adiciona a encomenda à base de dados
      *
      * @param enc
      */
-    public void addEncomenda(Encomenda enc) {
-        addEncomenda(enc.getId(), enc.getNif(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado(), enc.getLst());
+    public void addEncomenda(Encomenda enc) throws SQLException {
+        addEncomenda(enc.getNif(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado(), enc.getLst());
     }
 
     /**
@@ -108,40 +111,47 @@ public class EncomendaDB extends DataHandler {
      * @param estado
      * @param lst
      */
-    private void addEncomenda(int id, int nif, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado, List<Produto> lst) {
+    private int addEncomenda(int nif, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado, List<Produto> lst) throws SQLException {
+
+        CallableStatement callStmt = null;
+        int id = 0;
+        openConnection();
+
+        callStmt = getConnection().prepareCall("{ call addEncomenda(?,?,?,?,?,?) }");
+
+        callStmt.registerOutParameter(1, OracleTypes.INTEGER);
+        callStmt.setInt(2, nif);
+        callStmt.setString(3, dataPedida);
+        callStmt.setDouble(4, preco);
+        callStmt.setDouble(5, pesoEncomenda);
+        callStmt.setDouble(6, taxa);
+        callStmt.setInt(7, estado);
+
+        callStmt.execute();
+        id = callStmt.getInt(1);
 
         try {
-            openConnection();
-
-            CallableStatement callStmt = getConnection().prepareCall("{ call addEncomenda(?,?,?,?) }");
-
-            callStmt.setInt(1, id);
-            callStmt.setInt(2, nif);
-            callStmt.setString(3, dataPedida);
-            callStmt.setDouble(4, preco);
-            callStmt.setDouble(5, pesoEncomenda);
-            callStmt.setDouble(6, taxa);
-            callStmt.setInt(7, estado);
-
-            callStmt.execute();
 
             closeAll();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (NullPointerException ex) {
+
+            Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
         }
+        return id;
     }
-    
+
     /**
      * Guarda na base de dados a lista de produtos por encomenda
+     *
      * @param enc
-     * @param p 
+     * @param p
      */
     public void registaEncomendaProduto(Encomenda enc, Produto p) {
         try {
             openConnection();
 
-            CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?,?,?) }");
+            CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?) }");
 
             callStmt1.setInt(1, enc.getId());
             callStmt1.setInt(2, p.getId());
@@ -188,24 +198,24 @@ public class EncomendaDB extends DataHandler {
         }
         return list;
     }
-    
-    
+
     /**
      * Devolve a lista de encomendas
+     *
      * @param idEntrega
-     * @return 
+     * @return
      */
     public List<Encomenda> getListaEncomenda(int idEntrega) {
         ArrayList<Encomenda> list = new ArrayList<>();
         String query = "SELECT * FROM encomenda e INNER JOIN EncomendaEntrega ee ON ee.EntregaidEntrega = e.idEntrega WHERE e.idEntrega = " + idEntrega;
-        
+
         Statement stm = null;
         ResultSet rSet = null;
-        
+
         try {
             stm = getConnection().createStatement();
             rSet = stm.executeQuery(query);
-            
+
             while (rSet.next()) {
                 int idEncomenda = rSet.getInt(1);
                 Timestamp dataPedida = rSet.getTimestamp(2);
@@ -214,16 +224,15 @@ public class EncomendaDB extends DataHandler {
                 double taxa = rSet.getDouble(5);
                 int estado = rSet.getInt(6);
                 int nif = rSet.getInt(7);
-                                
+
                 list.add(new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado));
             }
             return list;
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
-    
 
 }
