@@ -72,9 +72,10 @@ public class FarmaciaDB extends DataHandler {
     public void addFarmacia(int nif) {
         try {
             openConnection();
-            CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?) }");
-            callStmt.setInt(1, nif);
-            callStmt.execute();
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?) }")) {
+                callStmt.setInt(1, nif);
+                callStmt.execute();
+            }
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,30 +91,16 @@ public class FarmaciaDB extends DataHandler {
         ArrayList<Farmacia> list = new ArrayList<>();
         String query = "SELECT * FROM farmacia";
 
-        Statement stm = null;
-        ResultSet rSet = null;
-
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
-            while (rSet.next()) {
-                int nif = rSet.getInt(1);
-                list.add(new Farmacia(nif));
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
+                while (rSet.next()) {
+                    int nif = rSet.getInt(1);
+                    list.add(new Farmacia(nif));
+                }
+                return list;
             }
-            return list;
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
-        } finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
         }
         return list;
     }

@@ -82,11 +82,12 @@ public class EstacionamentosDB extends DataHandler {
     public void addEstacionamento(int numeroLote, int carregador, int nif) {
         try {
             openConnection();
-            CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamento(?,?,?) }");
-            callStmt.setInt(1, numeroLote);
-            callStmt.setInt(2, carregador);
-            callStmt.setInt(3, nif);
-            callStmt.execute();
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamento(?,?,?) }")) {
+                callStmt.setInt(1, numeroLote);
+                callStmt.setInt(2, carregador);
+                callStmt.setInt(3, nif);
+                callStmt.execute();
+            }
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,19 +103,16 @@ public class EstacionamentosDB extends DataHandler {
         ArrayList<Estacionamento> list = new ArrayList<>();
         String query = "SELECT * FROM estacionamento";
 
-        Statement stm = null;
-        ResultSet rSet = null;
-
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
-            while (rSet.next()) {
-                int numLote = rSet.getInt(1);
-                int carregador = rSet.getInt(2);
-                int nif = rSet.getInt(3);
-                list.add(new Estacionamento(numLote, carregador, nif));
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
+                while (rSet.next()) {
+                    int numLote = rSet.getInt(1);
+                    int carregador = rSet.getInt(2);
+                    int nif = rSet.getInt(3);
+                    list.add(new Estacionamento(numLote, carregador, nif));
+                }
+                return list;
             }
-            return list;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -131,18 +129,16 @@ public class EstacionamentosDB extends DataHandler {
     public List<Estacionamento> getLstEstacionamentosByNif(int parqueNif) {
         ArrayList<Estacionamento> list = new ArrayList<>();
         String query = "SELECT e.numeroLote, e.carregador, e.ParqueFarmaciaNIF FROM estacionamento e INNER JOIN parque p ON p.FaarmaciaNIF = e.ParqueFarmaciaNIF WHERE p.FaarmaciaNIF = " + parqueNif;
-        Statement stm = null;
-        ResultSet rSet = null;
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
-            while (rSet.next()) {
-                int numLote = rSet.getInt(1);
-                int carregador = rSet.getInt(2);
-                int nif = rSet.getInt(3);
-                list.add(new Estacionamento(numLote, carregador, nif));
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
+                while (rSet.next()) {
+                    int numLote = rSet.getInt(1);
+                    int carregador = rSet.getInt(2);
+                    int nif = rSet.getInt(3);
+                    list.add(new Estacionamento(numLote, carregador, nif));
+                }
+                return list;
             }
-            return list;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -152,34 +148,19 @@ public class EstacionamentosDB extends DataHandler {
     public Estacionamento getEstacionamentoById(int loteEstacionameto) {
         String query = "SELECT * FROM estacionamento WHERE numerolote = " + loteEstacionameto;
 
-        Statement stm = null;
-        ResultSet rSet = null;
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
 
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
+                if (rSet.next()) {
+                    int lote = rSet.getInt(1);
+                    int carregador = rSet.getInt(2);
+                    int farmnif = rSet.getInt(3);
 
-            if (rSet.next()) {
-                int lote = rSet.getInt(1);
-                int carregador = rSet.getInt(2);
-                int farmnif = rSet.getInt(3);
-
-                return new Estacionamento(lote,carregador,farmnif);
+                    return new Estacionamento(lote, carregador, farmnif);
+                }
             }
-
         } catch (SQLException e) {
             Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
-        } finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
         }
         return null;
     }
@@ -187,11 +168,12 @@ public class EstacionamentosDB extends DataHandler {
     public void addEstacionamentoScooter(Estacionamento estacionamento, Scooter scooter) {
         try {
             openConnection();
-            CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoScooter(?,?,?,?) }");
-            callStmt.setInt(1,estacionamento.getNIF());
-            callStmt.setInt(2, scooter.getId());
-            callStmt.setTimestamp(3,Timestamp.valueOf(LocalDateTime.now()));
-            callStmt.execute();
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoScooter(?,?,?,?) }")) {
+                callStmt.setInt(1, estacionamento.getNIF());
+                callStmt.setInt(2, scooter.getId());
+                callStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+                callStmt.execute();
+            }
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();

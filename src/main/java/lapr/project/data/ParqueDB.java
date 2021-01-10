@@ -76,11 +76,12 @@ public class ParqueDB extends DataHandler {
     public void addParque(int nif, String morada, int numMax) {
         try {
             openConnection();
-            CallableStatement callStmt = getConnection().prepareCall("{ call addParque(?,?,?) }");
-            callStmt.setInt(1, nif);
-            callStmt.setString(2, morada);
-            callStmt.setInt(3, numMax);
-            callStmt.execute();
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addParque(?,?,?) }")) {
+                callStmt.setInt(1, nif);
+                callStmt.setString(2, morada);
+                callStmt.setInt(3, numMax);
+                callStmt.execute();
+            }
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,32 +97,18 @@ public class ParqueDB extends DataHandler {
         ArrayList<Parque> list = new ArrayList<>();
         String query = "SELECT * FROM parque";
 
-        Statement stm = null;
-        ResultSet rSet = null;
-
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
-            while (rSet.next()) {
-                int nif = rSet.getInt(1);
-                String morada = rSet.getString(2);
-                int numMax = rSet.getInt(3);
-                list.add(new Parque(nif, morada, numMax));
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
+                while (rSet.next()) {
+                    int nif = rSet.getInt(1);
+                    String morada = rSet.getString(2);
+                    int numMax = rSet.getInt(3);
+                    list.add(new Parque(nif, morada, numMax));
+                }
+                return list;
             }
-            return list;
         } catch (SQLException e) {
             Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
-        } finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
         }
         return list;
     }
@@ -136,25 +123,12 @@ public class ParqueDB extends DataHandler {
     public int getNumMaxParqueByNIF(int parqueNif) {
         int numMax = 0;
         String query = "SELECT p.numeroMaximo FROM parque p INNER JOIN estacionamento e ON p.FaarmaciaNIF = e.ParqueFarmaciaNIF WHERE p.FaarmaciaNIF = " + parqueNif;
-        Statement stm = null;
-        ResultSet rSet = null;
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
-            numMax = rSet.getInt(1);
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
+                numMax = rSet.getInt(1);
+            }
         } catch (SQLException e) {
             Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
-        } finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
         }
         return numMax;
     }

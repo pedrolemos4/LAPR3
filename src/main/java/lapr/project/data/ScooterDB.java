@@ -59,28 +59,24 @@ public class ScooterDB extends DataHandler {
         ArrayList<Scooter> list = new ArrayList<>();
         String query = "SELECT * FROM scooter WHERE EstadoScooterid = 1 AND percentagemBateria = 100";
 
-        Statement stm = null;
-        ResultSet rSet = null;
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
 
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
+                while (rSet.next()) {
+                    int id = rSet.getInt(1);
+                    String descricao = rSet.getString(2);
+                    double percentagemBateria = rSet.getDouble(3);
+                    double pesoMaximo = rSet.getDouble(4);
+                    double pesoScooter = rSet.getDouble(5);
+                    double potencia = rSet.getDouble(6);
+                    double areaFrontal = rSet.getDouble(7);
+                    int idEstado = rSet.getInt(8);
 
-            while (rSet.next()) {
-                int id = rSet.getInt(1);
-                String descricao = rSet.getString(2);
-                double percentagemBateria = rSet.getDouble(3);
-                double pesoMaximo = rSet.getDouble(4);
-                double pesoScooter = rSet.getDouble(5);
-                double potencia = rSet.getDouble(6);
-                double areaFrontal = rSet.getDouble(7);
-                int idEstado = rSet.getInt(8);
-
-                list.add(new Scooter(descricao, percentagemBateria, pesoMaximo,
-                        pesoScooter, potencia, areaFrontal,idEstado));
+                    list.add(new Scooter(descricao, percentagemBateria, pesoMaximo,
+                            pesoScooter, potencia, areaFrontal, idEstado));
+                }
+                return list;
             }
-            return list;
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -96,67 +92,52 @@ public class ScooterDB extends DataHandler {
     public Scooter getScooterById(int idScooter) {
         String query = "SELECT * FROM scooter WHERE idScooter = " + idScooter;
 
-        Statement stm = null;
-        ResultSet rSet = null;
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
 
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
+                if (rSet.next()) {
+                    int id = rSet.getInt(1);
+                    String descricao = rSet.getString(2);
+                    double percentagemBateria = rSet.getDouble(3);
+                    double pesoMaximo = rSet.getDouble(4);
+                    double pesoScooter = rSet.getDouble(5);
+                    double potencia = rSet.getDouble(6);
+                    double areaFrontal = rSet.getDouble(7);
+                    int idEstado = rSet.getInt(8);
 
-            if (rSet.next()) {
-                int id = rSet.getInt(1);
-                String descricao = rSet.getString(2);
-                double percentagemBateria = rSet.getDouble(3);
-                double pesoMaximo = rSet.getDouble(4);
-                double pesoScooter = rSet.getDouble(5);
-                double potencia = rSet.getDouble(6);
-                double areaFrontal = rSet.getDouble(7);
-                int idEstado = rSet.getInt(8);
-
-                return new Scooter(descricao, percentagemBateria, pesoMaximo,
-                        pesoScooter, potencia,areaFrontal, idEstado);
+                    return new Scooter(descricao, percentagemBateria, pesoMaximo,
+                            pesoScooter, potencia, areaFrontal, idEstado);
+                }
             }
-
         } catch (SQLException e) {
             Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, e.getMessage());
-        } finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
         }
         return null;
     }
 
     public boolean updateScooter(Scooter scooter) throws SQLException {
         boolean removed = false;
-        CallableStatement callSmt = null;
 
-        callSmt = getConnection().prepareCall("{ call updateScooter(?,?,?,?,?,?,?,?) }");
+        try (CallableStatement callSmt = getConnection().prepareCall("{ call updateScooter(?,?,?,?,?,?,?,?) }")) {
 
-        callSmt.setInt(1, scooter.getId());
-        callSmt.setString(2, scooter.getDescricao());
-        callSmt.setDouble(3, scooter.getPercentagemBateria());
-        callSmt.setDouble(4, scooter.getPesoMaximo());
-        callSmt.setDouble(5, scooter.getPesoScooter());
-        callSmt.setDouble(6, scooter.getPotencia());
-        callSmt.setDouble(7,scooter.getAreaFrontal());
-        callSmt.setInt(8, scooter.getEstadoScooter().getId());
-        callSmt.execute();
+            callSmt.setInt(1, scooter.getId());
+            callSmt.setString(2, scooter.getDescricao());
+            callSmt.setDouble(3, scooter.getPercentagemBateria());
+            callSmt.setDouble(4, scooter.getPesoMaximo());
+            callSmt.setDouble(5, scooter.getPesoScooter());
+            callSmt.setDouble(6, scooter.getPotencia());
+            callSmt.setDouble(7, scooter.getAreaFrontal());
+            callSmt.setInt(8, scooter.getEstadoScooter().getId());
+            callSmt.execute();
 
-        removed = true;
-        try {
+            removed = true;
+            try {
 
-            callSmt.close();
+                callSmt.close();
 
-        } catch (SQLException | NullPointerException ex) {
-            Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            } catch (SQLException | NullPointerException ex) {
+                Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            }
         }
 
         return removed;
@@ -165,23 +146,23 @@ public class ScooterDB extends DataHandler {
 
     public boolean removeScooter(int id) throws SQLException {
         boolean removed = false;
-        CallableStatement callV = null;
 
-        callV = getConnection().prepareCall("{ call removeVehicle(?) }");
+        try (CallableStatement callV = getConnection().prepareCall("{ call removeVehicle(?) }")) {
 
-        callV.setInt(1, id);
+            callV.setInt(1, id);
 
-        callV.execute();
+            callV.execute();
 
-        removed = true;
+            removed = true;
 
-        try {
+            try {
 
-            callV.close();
+                callV.close();
 
-        } catch (SQLException | NullPointerException ex) {
-            Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            } catch (SQLException | NullPointerException ex) {
+                Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
 
+            }
         }
         return removed;
     }
@@ -195,11 +176,12 @@ public class ScooterDB extends DataHandler {
         try {
             openConnection();
 
-            CallableStatement callStmt = getConnection().prepareCall("{ call AddEstacionamentoScooter(?,?) }");
-            callStmt.setInt(1, numLote);
-            callStmt.setInt(2, idScooter);
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call AddEstacionamentoScooter(?,?) }")) {
+                callStmt.setInt(1, numLote);
+                callStmt.setInt(2, idScooter);
 
-            callStmt.execute();
+                callStmt.execute();
+            }
 
             closeAll();
         } catch (SQLException e) {
