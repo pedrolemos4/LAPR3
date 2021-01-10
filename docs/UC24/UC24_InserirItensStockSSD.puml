@@ -6,7 +6,7 @@ activate ADM
 ADM -> ":Sistema" : Pretende inserir novos itens no stock
 activate ":Sistema"
 
-":Sistema" --> ADM : solicita dados dos itens (designacao, peso e preco base de cada item)
+":Sistema" --> ADM : solicita dados do item (designacao, peso e preco base)
 deactivate ":Sistema"
 
 ADM -> ":Sistema" : introduz os dados solicitados
