@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import lapr.project.authorization.FacadeAuthorization;
 import lapr.project.data.ClienteDB;
+import lapr.project.data.EmailDB;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.ProdutosDB;
 import lapr.project.data.ReciboDB;
@@ -31,16 +32,18 @@ public class RealizaEncomendaController {
     private EncomendaDB encDB;
     private ClienteDB cliDB;
     private ReciboDB reciboDB;
+    private EmailDB emailDB;
 
     public RealizaEncomendaController() {
         produtoDB = new ProdutosDB();
         encDB = new EncomendaDB();
         reciboDB = new ReciboDB();
         cliDB = new ClienteDB();
+        emailDB = new EmailDB();
     }
 
     public void produtoEncomenda(Produto prod) {
-        if (verficiaProdutoEncomenda(prod) == true) {
+        if (verificaProdutoEncomenda(prod) == true) {
             produtoDB.addListaProdutos(prod);
         } else {
             notificaCliente();
@@ -89,12 +92,15 @@ public class RealizaEncomendaController {
         reciboDB.registaRecibo(rec, prod);
     }
 
-    public boolean verficiaProdutoEncomenda(Produto prod) {
+    public boolean verificaProdutoEncomenda(Produto prod) {
         return getListStock().contains(prod);
     }
 
     public void notificaCliente() {
-
+        String assunto = "Produto nao disponivel.";
+        String mensagem = "O produto nao disponivel foi retirado da lista de produtos da sua encomenda.";
+        String email = UserSession.getInstance().getUser().getEmail();
+        emailDB.sendEmail(email, assunto, mensagem);
     }
 
     public double getPrecoTotal(double taxa) {
