@@ -82,12 +82,13 @@ public class ClienteDB extends DataHandler {
     public void addCliente(int nif, int creditos, String enderecoMorada, int numCC) {
         try {
             openConnection();
-            CallableStatement callStmt = getConnection().prepareCall("{ call addCliente(?,?,?,?) }");
-            callStmt.setInt(1, nif);
-            callStmt.setInt(2, creditos);
-            callStmt.setString(3, enderecoMorada);
-            callStmt.setInt(4, numCC);
-            callStmt.execute();
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addCliente(?,?,?,?) }")) {
+                callStmt.setInt(1, nif);
+                callStmt.setInt(2, creditos);
+                callStmt.setString(3, enderecoMorada);
+                callStmt.setInt(4, numCC);
+                callStmt.execute();
+            }
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -103,21 +104,18 @@ public class ClienteDB extends DataHandler {
         ArrayList<Cliente> list = new ArrayList<>();
         String query = "SELECT * FROM cliente";
 
-        Statement stm = null;
-        ResultSet rSet = null;
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
+                while (rSet.next()) {
+                    int nif = rSet.getInt(1);
+                    int creditos = rSet.getInt(2);
+                    String enderecoMorada = rSet.getString(3);
+                    int numCC = rSet.getInt(4);
 
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
-            while (rSet.next()) {
-                int nif = rSet.getInt(1);
-                int creditos = rSet.getInt(2);
-                String enderecoMorada = rSet.getString(3);
-                int numCC = rSet.getInt(4);
-
-                list.add(new Cliente(nif, creditos, enderecoMorada, numCC));
+                    list.add(new Cliente(nif, creditos, enderecoMorada, numCC));
+                }
+                return list;
             }
-            return list;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -133,33 +131,19 @@ public class ClienteDB extends DataHandler {
     public Cliente getClienteByEmail(String email) {
         String query = "SELECT * FROM cliente e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE e.email= " + email;
 
-        Statement stm = null;
-        ResultSet rSet = null;
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
 
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
-
-            if (rSet.next()) {
-                int aInt = rSet.getInt(1);
-                int aInt1 = rSet.getInt(2);
-                String string = rSet.getString(3);
-                int aInt2 = rSet.getInt(4);
-                return new Cliente(aInt, aInt1, string, aInt2);
+                if (rSet.next()) {
+                    int aInt = rSet.getInt(1);
+                    int aInt1 = rSet.getInt(2);
+                    String string = rSet.getString(3);
+                    int aInt2 = rSet.getInt(4);
+                    return new Cliente(aInt, aInt1, string, aInt2);
+                }
             }
         } catch (SQLException e) {
             Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
-        } finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
         }
         return null;
     }

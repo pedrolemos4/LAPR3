@@ -53,13 +53,14 @@ public class ProdutosDB extends DataHandler {
         try {
             openConnection();
 
-            CallableStatement callStmt = getConnection().prepareCall("{ call addProduto(?,?,?) }");
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addProduto(?,?,?) }")) {
 
-            callStmt.setString(1, desig);
-            callStmt.setDouble(2, peso);
-            callStmt.setDouble(3, precoBase);
+                callStmt.setString(1, desig);
+                callStmt.setDouble(2, peso);
+                callStmt.setDouble(3, precoBase);
 
-            callStmt.execute();
+                callStmt.execute();
+            }
             closeAll();
 
         } catch (SQLException e) {
@@ -77,14 +78,15 @@ public class ProdutosDB extends DataHandler {
         try {
             openConnection();
 
-            CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?,?) }");
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?,?) }")) {
 
-            callStmt.setString(1, desig);
-            callStmt.setDouble(2, peso);
-            callStmt.setDouble(3, precoBase);
-            callStmt.setInt(4, id);
+                callStmt.setString(1, desig);
+                callStmt.setDouble(2, peso);
+                callStmt.setDouble(3, precoBase);
+                callStmt.setInt(4, id);
 
-            callStmt.execute();
+                callStmt.execute();
+            }
             closeAll();
 
         } catch (SQLException e) {
@@ -107,33 +109,19 @@ public class ProdutosDB extends DataHandler {
     public Produto getProdutoByID(int id) {
         String query = "SELECT * FROM produto p WHERE p.idProduto= " + id;
 
-        Statement stm = null;
-        ResultSet rSet = null;
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
 
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
+                if (rSet.next()) {
+                    String desig = rSet.getString(2);
+                    double peso = rSet.getDouble(3);
+                    double precoBase = rSet.getDouble(4);
 
-            if (rSet.next()) {
-                String desig = rSet.getString(2);
-                double peso = rSet.getDouble(3);
-                double precoBase = rSet.getDouble(4);
-
-                return new Produto(desig, peso, precoBase/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
+                    return new Produto(desig, peso, precoBase/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
+                }
             }
         } catch (SQLException e) {
             Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
-        } finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
         }
         return null;
     }
@@ -147,22 +135,18 @@ public class ProdutosDB extends DataHandler {
         ArrayList<Produto> list = new ArrayList<>();
         String query = "SELECT * FROM produto";
 
-        Statement stm = null;
-        ResultSet rSet = null;
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
 
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
+                while (rSet.next()) {
+                    String designacao = rSet.getString(2);
+                    double peso = rSet.getDouble(3);
+                    double precoBase = rSet.getDouble(4);
 
-            while (rSet.next()) {
-                String designacao = rSet.getString(2);
-                double peso = rSet.getDouble(3);
-                double precoBase = rSet.getDouble(4);
-
-                list.add(new Produto(designacao, peso, precoBase));
+                    list.add(new Produto(designacao, peso, precoBase));
+                }
+                return list;
             }
-            return list;
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

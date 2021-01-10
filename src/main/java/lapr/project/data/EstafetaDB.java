@@ -24,22 +24,18 @@ public class EstafetaDB extends DataHandler{
         ArrayList<Estafeta> list = new ArrayList<>();
         String query = "SELECT * FROM estafeta";
 
-        Statement stm = null;
-        ResultSet rSet = null;
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
 
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
+                while (rSet.next()) {
+                    int nif = rSet.getInt(1);
+                    int idEstado = rSet.getInt(2);
+                    double peso = rSet.getDouble(3);
 
-            while (rSet.next()) {
-                int nif = rSet.getInt(1);
-                int idEstado = rSet.getInt(2);
-                double peso = rSet.getDouble(3);
-
-                list.add(new Estafeta(nif, idEstado, peso));
+                    list.add(new Estafeta(nif, idEstado, peso));
+                }
+                return list;
             }
-            return list;
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -75,13 +71,14 @@ public class EstafetaDB extends DataHandler{
         try {
             openConnection();
 
-            CallableStatement callStmt = getConnection().prepareCall("{ call addEstafeta(?,?,?) }");
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addEstafeta(?,?,?) }")) {
 
-            callStmt.setInt(1, nif);
-            callStmt.setInt(2, estadoEstafeta);
-            callStmt.setDouble(3, peso);
+                callStmt.setInt(1, nif);
+                callStmt.setInt(2, estadoEstafeta);
+                callStmt.setDouble(3, peso);
 
-            callStmt.execute();
+                callStmt.execute();
+            }
             closeAll();
 
         } catch (SQLException e) {
@@ -92,13 +89,14 @@ public class EstafetaDB extends DataHandler{
     private void addUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
         try {
             openConnection();
-            CallableStatement callStmt = getConnection().prepareCall("{ call addUtilizador(?,?,?,?,?) }");
-            callStmt.setInt(1, NIF);
-            callStmt.setString(2, nome);
-            callStmt.setString(3, email);
-            callStmt.setInt(4, numeroSegurancaSocial);
-            callStmt.setString(5, password);
-            callStmt.execute();
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addUtilizador(?,?,?,?,?) }")) {
+                callStmt.setInt(1, NIF);
+                callStmt.setString(2, nome);
+                callStmt.setString(3, email);
+                callStmt.setInt(4, numeroSegurancaSocial);
+                callStmt.setString(5, password);
+                callStmt.execute();
+            }
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,13 +114,14 @@ public class EstafetaDB extends DataHandler{
         try {
             openConnection();
 
-            CallableStatement callStmt = getConnection().prepareCall("{ call atualizarEstafeta(?,?,?) }");
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarEstafeta(?,?,?) }")) {
 
-            callStmt.setInt(1, nif);
-            callStmt.setInt(2, estadoEstafeta);
-            callStmt.setDouble(3, peso);
+                callStmt.setInt(1, nif);
+                callStmt.setInt(2, estadoEstafeta);
+                callStmt.setDouble(3, peso);
 
-            callStmt.execute();
+                callStmt.execute();
+            }
             closeAll();
 
         } catch (SQLException e) {
@@ -134,15 +133,16 @@ public class EstafetaDB extends DataHandler{
         try {
             openConnection();
 
-            CallableStatement callStmt = getConnection().prepareCall("{ call atualizarUtilizador(?,?,?,?,?) }");
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarUtilizador(?,?,?,?,?) }")) {
 
-            callStmt.setInt(1, NIF);
-            callStmt.setString(2, nome);
-            callStmt.setString(3, email);
-            callStmt.setInt(4, numeroSegurancaSocial);
-            callStmt.setString(5, password);
+                callStmt.setInt(1, NIF);
+                callStmt.setString(2, nome);
+                callStmt.setString(3, email);
+                callStmt.setInt(4, numeroSegurancaSocial);
+                callStmt.setString(5, password);
 
-            callStmt.execute();
+                callStmt.execute();
+            }
             closeAll();
 
         } catch (SQLException e) {
@@ -152,34 +152,20 @@ public class EstafetaDB extends DataHandler{
 
     public Estafeta getEstafetaByEmail(String email) {
         String query = "SELECT * FROM estafeta e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE e.email= " + email;
-        
-        Statement stm = null;
-        ResultSet rSet = null;
-        
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
-            
-            if (rSet.next()) {
-                int NIF = rSet.getInt(1);
-                int id_estado_estafeta = rSet.getInt(2);
-                double peso = rSet.getDouble(3);
 
-                return new Estafeta(NIF,id_estado_estafeta,peso/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
+
+                if (rSet.next()) {
+                    int NIF = rSet.getInt(1);
+                    int id_estado_estafeta = rSet.getInt(2);
+                    double peso = rSet.getDouble(3);
+
+                    return new Estafeta(NIF, id_estado_estafeta, peso/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
+                }
             }
         } catch (SQLException e) {
             Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
-        }finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
         }
         return null;
     }

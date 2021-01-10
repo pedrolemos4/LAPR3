@@ -78,12 +78,13 @@ public class EnderecoDB extends DataHandler {
     public void addEndereco(String morada, double latitude, double longitude, double altitude) {
         try {
             openConnection();
-            CallableStatement callStmt = getConnection().prepareCall("{ call addEndereco(?,?,?,?) }");
-            callStmt.setString(1, morada);
-            callStmt.setDouble(2, latitude);
-            callStmt.setDouble(3, longitude);
-            callStmt.setDouble(4, altitude);
-            callStmt.execute();
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addEndereco(?,?,?,?) }")) {
+                callStmt.setString(1, morada);
+                callStmt.setDouble(2, latitude);
+                callStmt.setDouble(3, longitude);
+                callStmt.setDouble(4, altitude);
+                callStmt.execute();
+            }
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,33 +100,19 @@ public class EnderecoDB extends DataHandler {
         ArrayList<Endereco> list = new ArrayList<>();
         String query = "SELECT * FROM endereco";
 
-        Statement stm = null;
-        ResultSet rSet = null;
-
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
-            while (rSet.next()) {
-                String morada = rSet.getString(1);
-                double latitude = rSet.getDouble(2);
-                double longitude = rSet.getDouble(3);
-                double altitude = rSet.getDouble(4);
-                list.add(new Endereco(morada, latitude, longitude, altitude));
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
+                while (rSet.next()) {
+                    String morada = rSet.getString(1);
+                    double latitude = rSet.getDouble(2);
+                    double longitude = rSet.getDouble(3);
+                    double altitude = rSet.getDouble(4);
+                    list.add(new Endereco(morada, latitude, longitude, altitude));
+                }
+                return list;
             }
-            return list;
         } catch (SQLException e) {
             Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
-        } finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
         }
         return list;
     }
@@ -139,35 +126,20 @@ public class EnderecoDB extends DataHandler {
     public Endereco getEnderecoByNifCliente(int nif) {
         String query = "SELECT * FROM endereco e INNER JOIN cliente c ON e.morada = c.Enderecomorada WHERE c.UtilizadorNIF = " + nif;
 
-        Statement stm = null;
-        ResultSet rSet = null;
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
 
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
+                if (rSet.next()) {
+                    String morada = rSet.getString(1);
+                    double latitude = rSet.getDouble(2);
+                    double longitude = rSet.getDouble(3);
+                    double altitude = rSet.getDouble(4);
 
-            if (rSet.next()) {
-                String morada = rSet.getString(1);
-                double latitude = rSet.getDouble(2);
-                double longitude = rSet.getDouble(3);
-                double altitude = rSet.getDouble(4);
-
-                return new Endereco(morada, latitude, longitude, altitude);
+                    return new Endereco(morada, latitude, longitude, altitude);
+                }
             }
-
         } catch (SQLException e) {
             Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
-        } finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
         }
         return null;
     }
@@ -180,35 +152,20 @@ public class EnderecoDB extends DataHandler {
     public Endereco getEnderecoParque() {
         String query = "SELECT * FROM endereco e INNER JOIN parque c ON e.morada = c.Enderecomorada ";
 
-        Statement stm = null;
-        ResultSet rSet = null;
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
 
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
+                if (rSet.next()) {
+                    String morada = rSet.getString(1);
+                    double latitude = rSet.getDouble(2);
+                    double longitude = rSet.getDouble(3);
+                    double altitude = rSet.getDouble(4);
 
-            if (rSet.next()) {
-                String morada = rSet.getString(1);
-                double latitude = rSet.getDouble(2);
-                double longitude = rSet.getDouble(3);
-                double altitude = rSet.getDouble(4);
-
-                return new Endereco(morada, latitude, longitude, altitude);
+                    return new Endereco(morada, latitude, longitude, altitude);
+                }
             }
-
         } catch (SQLException e) {
             Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
-        } finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
         }
         return null;
     }

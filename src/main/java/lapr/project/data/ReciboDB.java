@@ -43,40 +43,28 @@ public class ReciboDB extends DataHandler {
         return true;
     }
 
-    /**
-     * Adiciona o recibo
-     *
-     * @param enc
-     */
+
     public void addRecibo(Recibo rec) throws SQLException {
         addRecibo(rec.getData(), rec.getPreco(), rec.getNif(), rec.getIdEncomenda());
     }
 
-    /**
-     * Adiciona o recibo à base de dados
-     *
-     * @param id
-     * @param data
-     * @param lst
-     * @param nif
-     */
     private int addRecibo(String data, double preco, int nif, int idEncomenda) throws SQLException {
-        CallableStatement callStmt = null;
         int id=0;
         
         openConnection();
 
-        callStmt = getConnection().prepareCall("{ call addEncomenda(?,?,?,?) }");
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call addEncomenda(?,?,?,?) }")) {
 
-        callStmt.registerOutParameter(1, OracleTypes.INTEGER);
-        callStmt.setInt(2, nif);
-        callStmt.setDouble(3, preco);
-        callStmt.setString(4, data);
-        callStmt.setInt(5, idEncomenda);
-        
-        id = callStmt.getInt(1);
-        
-        callStmt.execute();
+            callStmt.registerOutParameter(1, OracleTypes.INTEGER);
+            callStmt.setInt(2, nif);
+            callStmt.setDouble(3, preco);
+            callStmt.setString(4, data);
+            callStmt.setInt(5, idEncomenda);
+
+            id = callStmt.getInt(1);
+
+            callStmt.execute();
+        }
         try {
             closeAll();
 
@@ -91,12 +79,13 @@ public class ReciboDB extends DataHandler {
         try {
             openConnection();
 
-            CallableStatement callStmt1 = getConnection().prepareCall("{ call addLinhaRecibo(?,?) }");
+            try (CallableStatement callStmt1 = getConnection().prepareCall("{ call addLinhaRecibo(?,?) }")) {
 
-            callStmt1.setInt(1, rec.getId());
-            callStmt1.setInt(2, prod.getId());
+                callStmt1.setInt(1, rec.getId());
+                callStmt1.setInt(2, prod.getId());
 
-            callStmt1.execute();
+                callStmt1.execute();
+            }
             closeAll();
 
         } catch (SQLException e) {

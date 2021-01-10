@@ -77,12 +77,13 @@ public class CartaoDB extends DataHandler {
     public void addCartao(int numeroCartao, String dataDeValidade, int CCV) {
         try {
             openConnection();
-            CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }");
-            callStmt.setInt(1, numeroCartao);
-            Timestamp dValidade = Timestamp.valueOf(dataDeValidade);
-            callStmt.setTimestamp(2, dValidade);
-            callStmt.setInt(3, CCV);
-            callStmt.execute();
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }")) {
+                callStmt.setInt(1, numeroCartao);
+                Timestamp dValidade = Timestamp.valueOf(dataDeValidade);
+                callStmt.setTimestamp(2, dValidade);
+                callStmt.setInt(3, CCV);
+                callStmt.execute();
+            }
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -98,32 +99,18 @@ public class CartaoDB extends DataHandler {
         ArrayList<Cartao> list = new ArrayList<>();
         String query = "SELECT * FROM cartao";
 
-        Statement stm = null;
-        ResultSet rSet = null;
-
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
-            while (rSet.next()) {
-                int numeroCartao = rSet.getInt(1);
-                String dataDeValidade = rSet.getTimestamp(2).toString();
-                int CCV = rSet.getInt(3);
-                list.add(new Cartao(numeroCartao, dataDeValidade, CCV));
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)){
+                while (rSet.next()) {
+                    int numeroCartao = rSet.getInt(1);
+                    String dataDeValidade = rSet.getTimestamp(2).toString();
+                    int CCV = rSet.getInt(3);
+                    list.add(new Cartao(numeroCartao, dataDeValidade, CCV));
+                }
+                return list;
             }
-            return list;
         } catch (SQLException e) {
             Logger.getLogger(CartaoDB.class.getName()).log(Level.WARNING, e.getMessage());
-        } finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-        } 
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(CartaoDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
         }
         return list;
     }
