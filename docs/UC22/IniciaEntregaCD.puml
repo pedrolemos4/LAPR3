@@ -27,7 +27,6 @@ class Entrega {
   -Integer idEntrega
   -String dataInicio
   -String dataFim
-  +addPesoEncomenda(pesoEncomenda, pesoTotal)
 }
 
 class EntregaDB {
@@ -42,7 +41,13 @@ class EstafetaDB {
 
 class IniciarEntregaController {
   +getEstafeta()
-  +calculatePath(idEntrega)
+  +getListaEntregaByNifEstafeta(nifEstafeta)
+  +getListaEncomendaById(idEntrega)
+  +getEntregaById(int idEntrega)
+  +getScooterById(idScooter)
+  +getEnderecoParque()
+  +getEnderecoByNifCliente(nif)
+  +generateGraph(listEnderecos, est, scooter, pesoTotal)
 }
 
 class IniciarEntregaUI {
@@ -79,7 +84,6 @@ class Endereco {
   -Double latitude
   -Double longitude
   -Double altitude
-  +addListaEndereco(enderecoCliente, listaEnderecos)
 }
 
 class Parque {
@@ -97,21 +101,21 @@ class Cliente {
 
 
 class Cartao {
-  -numeroCartao
-  -dataDeValidade
-  -CCV
+  -Integer numeroCartao
+  -String dataDeValidade
+  -Integer CCV
 }
 
 class EstadoEncomenda {
-  -id_estado_encomenda
-  -designacao
+  -Integer id_estado_encomenda
+  -String designacao
 }
 
 class Produto {
-  -idProduto
-  -designacao
-  -peso
-  -precoBase
+  -Integer idProduto
+  -String designacao
+  -Double peso
+  -Double precoBase
 }
 
 IniciarEntregaUI ..> IniciarEntregaController
