@@ -3,7 +3,19 @@ skinparam classAttributeIconSize 0
 hide methods
 left to right direction
 
+class Farmacia {
+  -NIF
+}
+
 class Utilizador {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+class Administrador {
   -NIF
   -nome
   -email
@@ -18,23 +30,14 @@ class Endereco {
   -altitude
 }
 
-class Cliente {
-  -NIF
-  -nome
-  -email
-  -numeroSegurancaSocial
-  -password
-  -creditos
+class Parque {
+  -numeroMaximo
 }
 
-class Cartao {
-  -numeroCartao
-  -dataDeValidade
-  -CCV
-}
-
-Cliente "1" -- "1" Endereco: tem >
-Cliente "1" -- "1" Utilizador: atua como >
-Cliente "1" -- "1" Cartao: possui >
+Administrador "1" -- "1" Utilizador: atua como >
+Administrador "1" -- "1" Parque: define numeroMaximo >
+Farmacia "1" -- "1" Parque: possui >
+Parque "1" -- "1" Endereco: tem >
+Farmacia "1" -- "1" Administrador: tem >
 
 @enduml
