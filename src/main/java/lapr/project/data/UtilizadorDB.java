@@ -90,7 +90,7 @@ public class UtilizadorDB extends DataHandler {
         }
         return list;
     }
-    
+
     /**
      * Validates if the loggin has been successfull
      *
@@ -123,40 +123,43 @@ public class UtilizadorDB extends DataHandler {
         }
         return result;
     }
-    
-//    public Cliente getByID(int id) {
-//        String query = "SELECT * FROM cliente p WHERE p.idCliente= " + id;
-//
-//        Statement stm = null;
-//        ResultSet rSet = null;
-//
-//        try {
-//            stm = getConnection().createStatement();
-//            rSet = stm.executeQuery(query);
-//
-//            if (rSet.next()) {
-//                String desig = rSet.getString(2);
-//                double peso = rSet.getDouble(3);
-//                double precoBase = rSet.getDouble(4);
-//
-//                return new Produto(desig, peso, precoBase/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
-//            }
-//        } catch (SQLException e) {
-//            Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
-//        } finally {
-//            try {
-//                if (rSet != null) {
-//                    rSet.close();
-//                }
-//                if (stm != null) {
-//                    stm.close();
-//                }
-//            } catch (SQLException e) {
-//                Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
-//            }
-//        }
-//        return null;
-//    }
 
+    public Cliente getByID(int nif) {
+        String query = "SELECT * FROM cliente p WHERE p.nif= " + nif;
+
+        Statement stm = null;
+        ResultSet rSet = null;
+
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+
+            if (rSet.next()) {
+                String nome = rSet.getString(2);
+                String email = rSet.getString(3);
+                int nSegSocial = rSet.getInt(4);
+                int creditos = rSet.getInt(5);
+                String morada = rSet.getString(6);
+                int numCC = rSet.getInt(7);
+                String password = rSet.getString(8);
+
+                return new Cliente(nif, nome, email,nSegSocial,creditos,morada,numCC,password);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                if (rSet != null) {
+                    rSet.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            }
+        }
+        return null;
+    }
 
 }

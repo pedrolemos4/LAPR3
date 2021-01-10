@@ -29,7 +29,7 @@ public class LoginUI {
     }
 
     public static void textoMenuLogin() {
-        System.out.println("ISTO É RIDE SHARING MOTHERFUCKERS!!");
+        System.out.println("Bem-vindo à Ride Sharing");
         System.out.println("1- Login    \n"
                 + "2- Registo \n"
                 + "0- Sair");
@@ -47,7 +47,7 @@ public class LoginUI {
                 case "2":
                     registo();
                     break;
-                case "3":
+                case "0":
                     exit(0);
                     break;
                 default:
@@ -71,8 +71,8 @@ public class LoginUI {
             aui.menu();
         } else if ((utilizador = ctrl.login(email, pwd)) != null) {
             RegistarClienteUI rcui = new RegistarClienteUI();
-            UserSession.getInstance().getUser();
-            //rcui.registaCliente();
+            UserSession.getInstance().setUser(utilizador);
+            //rcui.menuCliente();
         } else {
             System.err.println("\nE-mail or Password are incorrect.\n");
             menu();

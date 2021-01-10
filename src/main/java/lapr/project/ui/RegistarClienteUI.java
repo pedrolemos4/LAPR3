@@ -1,5 +1,7 @@
 package lapr.project.ui;
 
+import static java.lang.System.exit;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.RegistarClienteController;
@@ -89,4 +91,59 @@ public class RegistarClienteUI {
         }
         return aux;
     }
+    
+    public static void textoMenuCliente() {
+        System.out.println("\nRIDE SHARING - Menu Cliente\n------------"
+                + "\n 1 - Fazer encomenda"/*
+                + "\n 2 - Find parks near me"
+                + "\n 3 - Check rentals history"
+                + "\n 4 - Park vehicle"
+                + "\n 5 - Pay monthly invoice"
+                + "\n 6 - Check Spots in a Park for my loaned vehicle"
+                + "\n 7 - Check Spots in a Park for Scooters"
+                + "\n 8 - Check Spots in a Park for Bicycles"*/
+                + "\n 0 - Exit"
+                + "\n Choose one of the options above.");
+    }
+
+    public void loop() throws ClassNotFoundException, SQLException {
+        String opt;
+        do {
+            textoMenuCliente();
+            opt = LER.nextLine();
+
+            switch (opt) {
+                case "1":
+                    //RealizarEncomendaUI;
+                    break;
+                /*case "2":
+                    getNearestParks();
+                    break;
+                case "3":
+                    getUserHistorical();
+                    break;
+                case "4":
+                    parkVehicleAtAGivenPark();
+                    break;
+                case "5":
+                    System.out.println("Not available at the moment.");
+                    break;
+                case "6":
+                    checkParkFeeSpotsForMyLoanedVehicle();
+                    break;
+                case "7":
+                    checkParkFreeScooterSpots();
+                    break;
+                case "8":
+                    checkParkFreeBicycleSpots();
+                    break;*/
+                case "0":
+                    exit(0);
+                    break;
+                default:
+                    System.out.println("Insira uma opção válida");
+            }
+        } while (!opt.equals("0"));// || isNumeric(opt));
+    }
+
 }
