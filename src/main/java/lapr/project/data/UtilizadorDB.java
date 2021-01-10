@@ -24,7 +24,6 @@ import oracle.jdbc.OracleTypes;
  */
 public class UtilizadorDB extends DataHandler {
 
-    Utilizador user;
     private final DataHandler dataHandler;
 
     public UtilizadorDB() {
@@ -32,8 +31,7 @@ public class UtilizadorDB extends DataHandler {
     }
 
     public Utilizador novoUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
-        user = new Utilizador(NIF, nome, email, numeroSegurancaSocial, password);
-        return user;
+        return new Utilizador(NIF, nome, email, numeroSegurancaSocial, password);
     }
 
     public void registaUtilizador(Utilizador user) {
@@ -143,7 +141,7 @@ public class UtilizadorDB extends DataHandler {
                 int numCC = rSet.getInt(7);
                 String password = rSet.getString(8);
 
-                return new Cliente(nif, nome, email,nSegSocial,creditos,morada,numCC,password);
+                return new Cliente(nif, nome, email, nSegSocial, creditos, morada, numCC, password);
             }
         } catch (SQLException e) {
             Logger.getLogger(UtilizadorDB.class.getName()).log(Level.WARNING, e.getMessage());
@@ -161,5 +159,4 @@ public class UtilizadorDB extends DataHandler {
         }
         return null;
     }
-
 }

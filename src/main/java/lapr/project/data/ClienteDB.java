@@ -69,7 +69,6 @@ public class ClienteDB extends DataHandler {
      */
     public void addCliente(Cliente cl) {
         addCliente(cl.getNIF(), cl.getCreditos(), cl.getEnderecoMorada(), cl.getNumCartaoCredito());
-        addUtilizador(cl.getNIF(), cl.getNome(), cl.getEmail(), cl.getNumeroSegurancaSocial(), cl.getPassword());
     }
 
     /**
@@ -90,42 +89,6 @@ public class ClienteDB extends DataHandler {
             callStmt.setInt(4, numCC);
             callStmt.execute();
             closeAll();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
-        try {
-            openConnection();
-            CallableStatement callStmt = getConnection().prepareCall("{ call addUtilizador(?,?,?,?,?) }");
-            callStmt.setInt(1, NIF);
-            callStmt.setString(2, nome);
-            callStmt.setString(3, email);
-            callStmt.setInt(4, numeroSegurancaSocial);
-            callStmt.setString(5, password);
-            callStmt.execute();
-            closeAll();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void atualizarUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
-        try {
-            openConnection();
-
-            CallableStatement callStmt = getConnection().prepareCall("{ call atualizarUtilizador(?,?,?,?,?) }");
-
-            callStmt.setInt(1, NIF);
-            callStmt.setString(2, nome);
-            callStmt.setString(3, email);
-            callStmt.setInt(4, numeroSegurancaSocial);
-            callStmt.setString(5, password);
-
-            callStmt.execute();
-            closeAll();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
