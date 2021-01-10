@@ -17,7 +17,6 @@ public class AtualizarItensStockUI {
     }
 
     private void atualizarEstafeta() {
-        ProdutosDB pdb = new ProdutosDB();
         System.out.println("Stock da farmácia:");
         List<Produto> lp = controller.getListaProdutos();
 
@@ -42,8 +41,8 @@ public class AtualizarItensStockUI {
             System.out.println("Preço Base:");
             double preco = LER.nextDouble();
 
-            Produto new_prod = pdb.novoProduto(desig,peso,preco);
-
+            Produto new_prod = new Produto(desig,peso,preco);
+            
             System.out.println("--Novos Dados do Produto--");
             System.out.println(new_prod.getDesignacao());
             System.out.println(new_prod.getPeso());
@@ -52,7 +51,10 @@ public class AtualizarItensStockUI {
             String confirm = LER.next();
 
             if(confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")){
-                controller.atualizarProduto(new_prod);
+                produto.setDesignacao(desig);
+                produto.setPeso(peso);
+                produto.setPrecoBase(preco);
+                controller.atualizarProduto(produto);
                 System.out.println("\n\nProduto atualizado com sucesso!");
             } else {
                 System.out.println("\n\nAtualização do produto cancelada!");

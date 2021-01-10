@@ -15,7 +15,7 @@ public class RegistarEstafetaController {
     }
 
     public List<Estafeta> getListaEstafetas() {
-        return estafetaDB.getLstEstafetas();
+        return estafetaDB.getListaEstafetas();
     }
 
     public Estafeta novoEstafeta(int nif, String nome, String email, double peso, int nss, String pwd) {

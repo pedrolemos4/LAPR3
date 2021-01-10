@@ -17,7 +17,6 @@ public class AtualizarEstafetaUI {
     }
 
     private void atualizarEstafeta() {
-        EstafetaDB edb = new EstafetaDB();
         System.out.println("Lista de Estafetas:");
         List<Estafeta> le = controller.getListaEstafetas();
 
@@ -29,11 +28,11 @@ public class AtualizarEstafetaUI {
         String e_mail = LER.nextLine();
 
         Estafeta est = controller.getEstafetaByEmail(e_mail);
+
         if (!controller.getListaEstafetas().contains(est)){
             System.out.println("O estafeta não existe!");
         } else {
             System.out.println("--Atualização do Estafeta--");
-
             System.out.println("Introduza os novos dados relativos ao estafeta");
             System.out.println("NIF:");
             int nif = LER.nextInt();
@@ -48,7 +47,7 @@ public class AtualizarEstafetaUI {
             System.out.println("Password:");
             String pwd = LER.nextLine();
 
-            Estafeta new_est = edb.novoEstafeta(nif,nome,email,peso,nss,pwd);
+            Estafeta new_est = new Estafeta(nif,nome,email,peso,nss,pwd,1);
 
             System.out.println("--Novos Dados do Estafeta--");
             System.out.println(new_est.getNIF());
@@ -61,7 +60,13 @@ public class AtualizarEstafetaUI {
             String confirm = LER.next();
 
             if(confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")){
-                controller.atualizarEstafeta(new_est);
+                est.setNIF(nif);
+                est.setNome(nome);
+                est.setEmail(email);
+                est.setPesoEstafeta(peso);
+                est.setNumeroSegurancaSocial(nss);
+                est.setPassword(pwd);
+                controller.atualizarEstafeta(est);
                 System.out.println("\n\nEstafeta atualizado com sucesso!");
             } else {
                 System.out.println("\n\nAtualização do estafeta cancelada!");

@@ -12,21 +12,20 @@ class Produto {
   -String desig
   -Double peso
   -Double preco_base
-  +Produto(id,desig,peso,preco_base)
+  +Produto(desig,peso,preco_base)
 }
 
 class ProdutosDB {
-  +Produto novoProduto(id,desig,peso,preco_base)
+  +Produto novoProduto(desig,peso,preco_base)
   +getListaProdutos()
   +validaProduto(prod)
-  +addListaProds(prod)
-  +addProdutos(lprods)
-  +validaListaProdutos(lprods)
+  +registaProduto(prod)
+  +addProduto(prod)
 }
 
 class InserirItensStockController {
-    +novoProduto(id,desig,peso,preco_base)
-    +addProdutos()
+    +novoProduto(desig,peso,preco_base)
+    +registaProduto(prod)
     +getListaProdutos()
 }
 

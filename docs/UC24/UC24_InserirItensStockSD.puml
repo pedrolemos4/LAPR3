@@ -10,9 +10,9 @@ participant ":ProdutosDB" as PDB
 participant "prod:Produto" as PROD
 
 activate ADM
-ADM -> UI : nova inserção de produtos
+ADM -> UI : nova inserção de produto
 activate UI
-UI -> CTL : lp = getListaProdutos()
+UI -> CTL : getListaProdutos()
 activate CTL
 CTL -> _APP : app = getInstance()
 activate _APP
@@ -27,42 +27,37 @@ deactivate PDB
 
 deactivate CTL
 
-loop
 UI -> CTL : novoProduto(desig,peso,preco_base)
 activate CTL
 
-CTL -> PDB: id = generateID()
-activate PDB
-deactivate PDB
-
-CTL -> PDB: prod = novoProduto(id,desig,peso,preco_base)
+CTL -> PDB: prod = novoProduto(desig,peso,preco_base)
 activate PDB
 
-PDB --> PROD ** : create(id,desig,peso,preco_base)
+PDB --> PROD ** : create(desig,peso,preco_base)
 
 deactivate PDB
 
 CTL -> PDB : validaProduto(prod)
 activate PDB
-PDB -> PDB : addListaProds(prod)
 deactivate PDB
 
 deactivate CTL
-end
 
-UI --> ADM : apresenta dados dos itens e solicita confirmação
+UI --> ADM : apresenta dados dos item e solicita confirmação
 deactivate UI
 ADM -> UI : confirma
 activate UI
-UI -> CTL : addProdutos()
-activate PDB
+UI -> CTL : registaProduto(prod)
 
 activate CTL
-CTL -> PDB :addProdutos(lprods)
-deactivate CTL
+CTL -> PDB :registaProduto(prod)
 
-PDB -> PDB : validaListaProdutos(lprods)
+activate PDB
+PDB -> PDB : validaProduto(prod)
+
+PDB -> PDB : addProduto(prod)
 deactivate PDB
+deactivate CTL
 UI --> ADM: informa sucesso da operação
 
 deactivate ADM
