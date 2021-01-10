@@ -13,7 +13,7 @@ public class AtualizarEstafetaController {
     }
 
     public List<Estafeta> getListaEstafetas() {
-        return estafetaDB.getLstEstafetas();
+        return estafetaDB.getListaEstafetas();
     }
 
     public Estafeta getEstafetaByEmail(String email) {

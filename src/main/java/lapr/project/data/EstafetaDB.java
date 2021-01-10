@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import lapr.project.model.Estafeta;
+import lapr.project.model.Produto;
 
 public class EstafetaDB extends DataHandler{
     Estafeta est;
@@ -19,8 +20,30 @@ public class EstafetaDB extends DataHandler{
         lstEstafetas = new ArrayList<>();
     }
 
-    public List<Estafeta> getLstEstafetas() {
-        return lstEstafetas;
+    public List<Estafeta> getListaEstafetas() {
+        ArrayList<Estafeta> list = new ArrayList<>();
+        String query = "SELECT * FROM estafeta";
+
+        Statement stm = null;
+        ResultSet rSet = null;
+
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+
+            while (rSet.next()) {
+                int nif = rSet.getInt(1);
+                int idEstado = rSet.getInt(2);
+                double peso = rSet.getDouble(3);
+
+                list.add(new Estafeta(nif, idEstado, peso));
+            }
+            return list;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     public Estafeta novoEstafeta(int nif, String nome, String email, double peso, int nss, String pwd) {
