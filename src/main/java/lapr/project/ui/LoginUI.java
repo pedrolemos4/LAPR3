@@ -74,7 +74,7 @@ public class LoginUI {
             UserSession.getInstance().setUser(utilizador);
             rcui.menuCliente();
         } else {
-            System.err.println("\nE-mail or Password are incorrect.\n");
+            System.err.println("\nE-mail or Password estão incorretos.\n");
             menu();
         }
     }

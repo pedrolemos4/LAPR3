@@ -31,14 +31,17 @@ public class RegistarEstafetaUI {
         System.out.println("NIF:");
         int nif = LER.nextInt();
         System.out.println("Nome:");
+        LER.nextLine();
         String nome = LER.nextLine();
         System.out.println("Email:");
+        LER.nextLine();
         String email = LER.nextLine();
         System.out.println("Peso:");
         double peso = LER.nextDouble();
         System.out.println("Número de Segurança Social:");
         int nss = LER.nextInt();
         System.out.println("Password:");
+        LER.nextLine();
         String pwd = LER.nextLine();
 
         Estafeta est = controller.novoEstafeta(nif,nome,email,peso,nss,pwd);

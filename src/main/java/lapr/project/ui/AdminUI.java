@@ -45,7 +45,7 @@ public class AdminUI {
                 //+ "\n 8 - Report about unlocked vehicles"
                 //+ "\n 9 - Add path"
                 + "\n 0 - Exit"
-                + "\n Choose one of the options above.");
+                + "\n Escolha uma das opções.");
     }
 
     public void menu() {
@@ -202,11 +202,13 @@ public class AdminUI {
 
         System.out.println("Insira o id da scooter que pretende atualizar");
         for (Scooter s : lista) {
+            System.out.println();
             System.out.println(s.toString());
         }
         int id = LER.nextInt();
         Scooter scooter = sc.getScooterById(id);
         System.out.println("Pretende atualizar a descrição da scooter? (S/N)");
+        LER.nextLine();
         String resposta = LER.nextLine();
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
             System.out.println("Insira a descrição atualizada da scooter:");
@@ -243,7 +245,6 @@ public class AdminUI {
         }
 
         System.out.println("\nA scooter vai estar disponível imediatamente após a sua atualização? (S/N)");
-        LER.nextLine();
         resposta = LER.nextLine();
         int idestado;
         String estado;
