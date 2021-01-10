@@ -68,7 +68,7 @@ public class EstacionamentosDB extends DataHandler {
     /**
      * Adiciona o estacionamento à base de dados
      *
-     * @param numLote número de lote do estacionamento
+     * @param numeroLote número de lote do estacionamento
      * @param carregador disponibilidade do carregador do estacionamento (1 se
      * disponível, 0 se não esta disponível)
      * @param nif nif da farmácia/parque
