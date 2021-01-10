@@ -36,8 +36,8 @@ public class RegistarClienteController {
     public Utilizador login(String email, String password) {
         Utilizador user = null;
 
-        int id = utilizadorDB.validateLogin(email, password);
-        //user = utilizadorDB.getByID(id);
+        int nif = utilizadorDB.validateLogin(email, password);
+        user = utilizadorDB.getByID(nif);
 
         return user;
     }

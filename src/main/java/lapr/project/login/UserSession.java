@@ -1,11 +1,12 @@
 package lapr.project.login;
 
-import java.io.Serializable;
+import lapr.project.model.Utilizador;
 
 public class UserSession {
 
     private static UserSession instance;
     private User m_oUser;
+    private Utilizador user;
 
     public UserSession() {
         this.m_oUser = null;
@@ -16,6 +17,10 @@ public class UserSession {
             instance = new UserSession();
         }
         return instance;
+    }
+
+    public void setUser(Utilizador user) {
+        this.user = user;
     }
 
     public UserSession(User oUser) {
