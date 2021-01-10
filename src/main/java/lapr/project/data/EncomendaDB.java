@@ -98,8 +98,6 @@ public class EncomendaDB extends DataHandler {
     /**
      * Adiciona a encomenda à base de dados
      *
-     * @param id
-     * @param cliente
      * @param dataPedida
      * @param preco
      * @param pesoEncomenda
@@ -108,24 +106,22 @@ public class EncomendaDB extends DataHandler {
      * @param lst
      */
     private int addEncomenda(int nif, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado, List<Produto> lst) throws SQLException {
-
-        CallableStatement callStmt = null;
         int id = 0;
         openConnection();
 
-        callStmt = getConnection().prepareCall("{ call addEncomenda(?,?,?,?,?,?) }");
+        try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addEncomenda(?,?,?,?,?,?) }")) {
 
-        callStmt.registerOutParameter(1, OracleTypes.INTEGER);
-        callStmt.setInt(2, nif);
-        callStmt.setString(3, dataPedida);
-        callStmt.setDouble(4, preco);
-        callStmt.setDouble(5, pesoEncomenda);
-        callStmt.setDouble(6, taxa);
-        callStmt.setInt(7, estado);
+            callStmt.registerOutParameter(1, OracleTypes.INTEGER);
+            callStmt.setInt(2, nif);
+            callStmt.setString(3, dataPedida);
+            callStmt.setDouble(4, preco);
+            callStmt.setDouble(5, pesoEncomenda);
+            callStmt.setDouble(6, taxa);
+            callStmt.setInt(7, estado);
 
-        callStmt.execute();
-        id = callStmt.getInt(1);
-
+            callStmt.execute();
+            id = callStmt.getInt(1);
+        }
         try {
 
             closeAll();
@@ -147,12 +143,13 @@ public class EncomendaDB extends DataHandler {
         try {
             openConnection();
 
-            CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?) }");
+            try (CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?) }")) {
 
-            callStmt1.setInt(1, enc.getId());
-            callStmt1.setInt(2, p.getId());
+                callStmt1.setInt(1, enc.getId());
+                callStmt1.setInt(2, p.getId());
 
-            callStmt1.execute();
+                callStmt1.execute();
+            }
             closeAll();
 
         } catch (SQLException e) {
@@ -169,41 +166,7 @@ public class EncomendaDB extends DataHandler {
         ArrayList<Encomenda> list = new ArrayList<>();
         String query = "SELECT * FROM encomenda WHERE EstadoEncomendaidEstadoEncomenda = 1";
 
-        Statement stm = null;
-        ResultSet rSet = null;
-
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
-
-            while (rSet.next()) {
-                int idEncomenda = rSet.getInt(1);
-                Timestamp dataPedida = rSet.getTimestamp(2);
-                double preco = rSet.getDouble(3);
-                double pesoEncomenda = rSet.getDouble(4);
-                double taxa = rSet.getDouble(5);
-                int estado = rSet.getInt(6);
-                int nif = rSet.getInt(7);
-
-                list.add(new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado));
-            }
-            return list;
-
-        } catch (SQLException e) {
-            Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
-        } finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
-        }
-        return list;
+        return getFromDatabase(query);
     }
 
     /**
@@ -215,40 +178,29 @@ public class EncomendaDB extends DataHandler {
     public List<Encomenda> getListaEncomendaById(int idEntrega) {
         ArrayList<Encomenda> list = new ArrayList<>();
         String query = "SELECT * FROM encomenda e INNER JOIN EncomendaEntrega ee ON ee.EntregaidEntrega = e.idEntrega WHERE e.idEntrega = " + idEntrega;
+        return getFromDatabase(query);
+    }
 
-        Statement stm = null;
-        ResultSet rSet = null;
+    public List<Encomenda> getFromDatabase(String query){
+        ArrayList<Encomenda> list = new ArrayList<>();
+        try (Statement stm = getConnection().createStatement()){
+            try(ResultSet rSet  = stm.executeQuery(query)) {
 
-        try {
-            stm = getConnection().createStatement();
-            rSet = stm.executeQuery(query);
+                while (rSet.next()) {
+                    int idEncomenda = rSet.getInt(1);
+                    Timestamp dataPedida = rSet.getTimestamp(2);
+                    double preco = rSet.getDouble(3);
+                    double pesoEncomenda = rSet.getDouble(4);
+                    double taxa = rSet.getDouble(5);
+                    int estado = rSet.getInt(6);
+                    int nif = rSet.getInt(7);
 
-            while (rSet.next()) {
-                int idEncomenda = rSet.getInt(1);
-                Timestamp dataPedida = rSet.getTimestamp(2);
-                double preco = rSet.getDouble(3);
-                double pesoEncomenda = rSet.getDouble(4);
-                double taxa = rSet.getDouble(5);
-                int estado = rSet.getInt(6);
-                int nif = rSet.getInt(7);
-
-                list.add(new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado));
+                    list.add(new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado));
+                }
+                return list;
             }
-            return list;
-
         } catch (SQLException e) {
             Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
-        } finally {
-            try {
-                if (rSet != null) {
-                    rSet.close();
-                }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException e) {
-                Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
-            }
         }
         return list;
     }

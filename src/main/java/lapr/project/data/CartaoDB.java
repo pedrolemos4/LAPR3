@@ -99,17 +99,16 @@ public class CartaoDB extends DataHandler {
         ArrayList<Cartao> list = new ArrayList<>();
         String query = "SELECT * FROM cartao";
 
-        ResultSet rSet = null;
-
         try (Statement stm = getConnection().createStatement()){
-            rSet = stm.executeQuery(query);
-            while (rSet.next()) {
-                int numeroCartao = rSet.getInt(1);
-                String dataDeValidade = rSet.getTimestamp(2).toString();
-                int CCV = rSet.getInt(3);
-                list.add(new Cartao(numeroCartao, dataDeValidade, CCV));
+            try(ResultSet rSet  = stm.executeQuery(query)){
+                while (rSet.next()) {
+                    int numeroCartao = rSet.getInt(1);
+                    String dataDeValidade = rSet.getTimestamp(2).toString();
+                    int CCV = rSet.getInt(3);
+                    list.add(new Cartao(numeroCartao, dataDeValidade, CCV));
+                }
+                return list;
             }
-            return list;
         } catch (SQLException e) {
             Logger.getLogger(CartaoDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
