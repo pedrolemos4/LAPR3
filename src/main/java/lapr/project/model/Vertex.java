@@ -21,7 +21,7 @@ public class Vertex<V, E> {
 
     private int key ;                     //Vertex key number
     private V  element ;                 //Vertex information
-    private Map<V, Edge<V,E>> outVerts; //adjacent vertices
+    private final Map<V, Edge<V,E>> outVerts; //adjacent vertices
 
     public Vertex () {
         key = -1; element = null; outVerts = new LinkedHashMap<>();

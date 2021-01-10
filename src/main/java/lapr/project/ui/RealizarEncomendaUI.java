@@ -59,7 +59,7 @@ public class RealizarEncomendaUI {
             
             Date date = new Date(System.currentTimeMillis());
             
-            Encomenda enc = new Encomenda(controller.getNifCliente(), date.toString(), controller.getPreco(), controller.getPreco(), 1.6, 1);
+            Encomenda enc = new Encomenda(controller.getNifCliente(), date.toString(), controller.getPreco(), controller.getPeso(), 0.6, 1);
             List<Produto> lst = controller.getListaProdutoEncomenda();
             controller.registaEncomenda(enc);
             

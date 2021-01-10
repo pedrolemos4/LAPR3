@@ -19,10 +19,7 @@ import lapr.project.model.Estacionamento;
  */
 public class EstacionamentosDB extends DataHandler {
 
-    private final DataHandler dataHandler;
-
     public EstacionamentosDB() {
-        this.dataHandler = DataHandler.getInstance();
     }
 
     /**
@@ -35,8 +32,7 @@ public class EstacionamentosDB extends DataHandler {
      * @return novo estacionamento criado
      */
     public Estacionamento novoEstacionamento(int numLote, int carregador, int nif) {
-        Estacionamento estac = new Estacionamento(numLote, carregador, nif);
-        return estac;
+        return new Estacionamento(numLote, carregador, nif);
     }
 
     /**
@@ -72,12 +68,12 @@ public class EstacionamentosDB extends DataHandler {
     /**
      * Adiciona o estacionamento à base de dados
      *
-     * @param numLote número de lote do estacionamento
+     * @param numeroLote número de lote do estacionamento
      * @param carregador disponibilidade do carregador do estacionamento (1 se
      * disponível, 0 se não esta disponível)
      * @param nif nif da farmácia/parque
      */
-    private void addEstacionamento(int numeroLote, int carregador, int nif) {
+    public void addEstacionamento(int numeroLote, int carregador, int nif) {
         try {
             openConnection();
             CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamento(?,?,?) }");
@@ -103,6 +99,34 @@ public class EstacionamentosDB extends DataHandler {
         Statement stm = null;
         ResultSet rSet = null;
 
+        try {
+            stm = getConnection().createStatement();
+            rSet = stm.executeQuery(query);
+            while (rSet.next()) {
+                int numLote = rSet.getInt(1);
+                int carregador = rSet.getInt(2);
+                int nif = rSet.getInt(3);
+                list.add(new Estacionamento(numLote, carregador, nif));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    /**
+     * Retorna lista de estacionamento de um determinado parque recendo o seu
+     * nif por parâmetro
+     *
+     * @param parqueNif nif do parque/farmácia
+     * @return lista de estacionamento do parque
+     */
+    public List<Estacionamento> getLstEstacionamentosByNif(int parqueNif) {
+        ArrayList<Estacionamento> list = new ArrayList<>();
+        String query = "SELECT e.numeroLote, e.carregador, e.ParqueFarmaciaNIF FROM estacionamento e INNER JOIN parque p ON p.FaarmaciaNIF = e.ParqueFarmaciaNIF WHERE p.FaarmaciaNIF = " + parqueNif;
+        Statement stm = null;
+        ResultSet rSet = null;
         try {
             stm = getConnection().createStatement();
             rSet = stm.executeQuery(query);

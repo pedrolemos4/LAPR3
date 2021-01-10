@@ -1,15 +1,7 @@
 package lapr.project.ui;
 
-import lapr.project.data.DataHandler;
-import lapr.project.model.CalculatorExample;
-import lapr.project.model.Sailor;
-
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -90,11 +82,12 @@ class Main {
             System.out.println(ex.getMessage());
         }
 */
-       // NotificaEstafetaUI nui = new NotificaEstafetaUI();
-        //nui.controller.simulateParkingScooter();
-        LoginUI login = new LoginUI();
-        login.menu();
+        //NotificaEstafetaUI nui = new NotificaEstafetaUI();
+        //nui.controller.simulateParkingScooter("rodrikcraft@gmail.com");
+        //LoginUI login = new LoginUI();
+        //login.menu();
         //AdminUI.addScooter();
+
     }
 }
 

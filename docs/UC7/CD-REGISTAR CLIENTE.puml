@@ -7,7 +7,19 @@ class Cliente {
   -String email
   -String numSegSocial
   -String password
-  +Cliente(Integer NIF, String nome, String email, Endereco end, String numSegSocial, String password, Cartao cc)
+  -Integer creditos
+  -String morada
+  -Integer numCC
+  +Cliente(Integer NIF, String nome, String email, String numSegSocial, Integer creditos, String morada, Integer numCC, String password)
+}
+
+class Utilizador {
+  -Integer NIF
+  -String nome
+  -String email
+  -String numSegSocial
+  -String password
+  +Utilizador(Integer NIF, String nome, String email, String numSegSocial, String password)
 }
 
 class Endereco {
@@ -26,10 +38,16 @@ class Cartao {
 }
 
 class ClienteDB {
-  +Cliente novoCliente(Integer NIF, String nome, String email, Endereco end, String numSegSocial,\n String password, Integer numCC, String dataValidade, Integer CCV)
+  +Cliente novoCliente(Integer NIF, String nome, String email, String numSegSocial, String morada, Integer numCC, String password))
   +validaCliente(Cliente cliente)
   +registaCliente(Cliente cliente)
   -addCliente(Cliente cliente)
+}
+
+class UtilizadorDB {
+  +registaUtilizador(Cliente cliente)
+  +validaUtilizador(Cliente cliente)
+  -addUtilizador(Cliente cliente)
 }
 
 class EnderecoDB {
@@ -47,8 +65,12 @@ class CartaoDB {
 }
 
 class DefinirClienteController {
-  +novoCliente(Integer NIF, String nome, String email, String morada, Double latitude, Double longitude, Double altitude \n String numSegSocial, String password, Integer numCC, String dataValidade, Integer CCV)
-  +registaCliente()
+  +novoCliente(Integer NIF, String nome, String email, String numSegSocial, String morada, Integer numCC, String password)
+  +novoEndereco(String morada, Double latitude, Double longitude, Double altitude)
+  +novoCartao(Integer numCC, String dataValidade, Integer CCV)
+  +registaCliente(Cliente cliente)
+  +registaEndereco(Endereco end)
+  +registaCartao(Cartao cc)
 }
 
 class DefinirClienteUI {
@@ -57,17 +79,21 @@ class DefinirClienteUI {
 
 DefinirClienteUI ..> DefinirClienteController
 DefinirClienteController ..> ClienteDB
+DefinirClienteController ..> UtilizadorDB
 DefinirClienteController ..> EnderecoDB
 DefinirClienteController ..> CartaoDB
 DefinirClienteController ..> Cliente
+DefinirClienteController ..> Utilizador
 DefinirClienteController ..> Endereco
 DefinirClienteController ..> Cartao
 
 ClienteDB "1" --> "*" Cliente : possui
+UtilizadorDB "1" --> "*" Utilizador : possui
 EnderecoDB "1" --> "*" Endereco : possui
 CartaoDB "1" --> "*" Cartao : possui
 Cliente "1" --> "1" Endereco : tem
 Cliente "1" --> "1" Cartao : tem
+Cliente "1" --> "1" Utilizador : atua como
 
 
 @enduml

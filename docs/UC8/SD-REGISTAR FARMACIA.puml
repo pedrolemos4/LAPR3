@@ -4,8 +4,6 @@ actor "Administrador" as ADM
 
 participant ":RegistarFarmaciaUI" as UI
 participant ":RegistarFarmaciaController" as CTRL
-participant ":AplicacaoPOT" as _APP
-participant "app:\nAplicacaoPOT" as APP
 participant "FarmaciaDB" as DB
 participant "ParqueDB" as PDB
 participant "EnderecoDB" as EDB
@@ -21,41 +19,28 @@ deactivate UI
 
 ADM -> UI : introduz os dados solicitados
 activate UI
-UI -> CTRL : novaFarmacia(NIF, morada, latitude, longitude, altitude, numeroMaximo)
+UI -> CTRL : novaFarmacia(NIF)
 activate CTRL
-
-CTRL -> _APP : app = getInstance()
-activate _APP
-deactivate _APP
-CTRL -> APP : sessao = getSessaoAtual()
-activate APP
-deactivate APP
 
 CTRL -> DB: farm=novaFarmacia(NIF)
 activate DB
 DB --> FARMACIA ** : create(NIF)
 deactivate DB
+deactivate CTRL
 
-CTRL -> DB: validaFarmacia(farm)
-activate DB
-deactivate DB
-
+UI -> CTRL : novoEndereco(morada, latitude, longitude, altitude)
+activate CTRL
 CTRL -> EDB: end=novoEndereco(morada, latitude, logitude, altitude)
 activate EDB
 EDB --> END ** : create(morada, latitude, logitude, altitude)
 deactivate EDB
+deactivate CTRL
 
-CTRL -> EDB: validaEndereco(end)
-activate EDB
-deactivate EDB
-
-CTRL -> PDB: parque=novoParque(NIF, end, numeroMaximo)
+UI -> CTRL : novoParque(NIF, morada, numeroMaximo)
+activate CTRL
+CTRL -> PDB: parque=novoParque(NIF, morada, numeroMaximo)
 activate PDB
-PDB --> PQ ** : create(NIF, end, numeroMaximo)
-deactivate PDB
-
-CTRL -> PDB: validaParque(parque)
-activate PDB
+PDB --> PQ ** : create(NIF, morada, numeroMaximo)
 deactivate PDB
 
 deactivate CTRL
@@ -65,7 +50,7 @@ deactivate UI
 ADM -> UI : confirma
 activate UI
 
-UI -> CTRL: registaFarmacia()
+UI -> CTRL: registaFarmacia(farm)
 activate CTRL
 CTRL ->DB: registaFarmacia(farm)
 activate DB
@@ -73,21 +58,26 @@ DB -> DB: validaFarmacia(farm)
 DB -> DB: addFarmacia(farm)
 
 deactivate DB
+deactivate CTRL
 
+UI -> CTRL: registaEndereco(end)
+activate CTRL
 CTRL ->EDB: registaEndereco(end)
 activate EDB
 EDB -> EDB: validaEndereco(end)
 EDB -> EDB: addEndereco(end)
 
 deactivate EDB
+deactivate CTRL
 
+UI -> CTRL: registaParque(parque)
+activate CTRL
 CTRL ->PDB: registaParque(parque)
 activate PDB
 PDB -> PDB: validaParque(parque)
 PDB -> PDB: addParque(parque)
 
 deactivate PDB
-
 deactivate CTRL
 
 UI --> ADM : operação bem sucedida

@@ -16,11 +16,17 @@ public class RegistarFarmaciaUI {
 
     RegistarFarmaciaController controller;
 
+    /**
+     * Criação do controlador responsável por registar farmácias
+     */
     public RegistarFarmaciaUI() {
-        this.controller = new RegistarFarmaciaController(new FarmaciaDB(), new ParqueDB(), new EnderecoDB());
+        this.controller = new RegistarFarmaciaController();
     }
 
-    private void registaFarmacia() {
+    /**
+     * Interface responsável por registar farmácias
+     */
+    public void registaFarmacia() {
         System.out.println("Lista de Farmácias: ");
         List<Farmacia> lf = controller.getListaFarmacias();
 

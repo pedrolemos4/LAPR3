@@ -13,7 +13,7 @@ public class AtualizarItensStockUI {
     AtualizarItensStockController controller;
 
     public AtualizarItensStockUI() {
-        this.controller = new AtualizarItensStockController(new ProdutosDB());
+        this.controller = new AtualizarItensStockController();
     }
 
     public void atualizarEstafeta() {
@@ -40,7 +40,7 @@ public class AtualizarItensStockUI {
             double peso = LER.nextDouble();
             System.out.println("Preço Base:");
             double preco = LER.nextDouble();
-
+            
             Produto new_prod = new Produto(desig,peso,preco);
             
             System.out.println("--Novos Dados do Produto--");

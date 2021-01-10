@@ -5,14 +5,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.RegistarClienteController;
-import lapr.project.data.CartaoDB;
-import lapr.project.data.ClienteDB;
-import lapr.project.data.EnderecoDB;
-import lapr.project.data.UtilizadorDB;
 import lapr.project.model.Cartao;
 import lapr.project.model.Cliente;
 import lapr.project.model.Endereco;
-import lapr.project.model.Utilizador;
 
 public class RegistarClienteUI {
 
@@ -20,10 +15,18 @@ public class RegistarClienteUI {
 
     RegistarClienteController controller;
 
+    /**
+     * Criação do controlador responsável por registar clientes
+     */
     public RegistarClienteUI() {
-        this.controller = new RegistarClienteController(new ClienteDB(), new UtilizadorDB(), new EnderecoDB(), new CartaoDB());
+        this.controller = new RegistarClienteController();
     }
 
+    /**
+     * Interface responsável por registar clientes
+     *
+     * @return
+     */
     public boolean registaCliente() {
         boolean aux = false;
         System.out.println("Lista de Clientes: ");
@@ -91,7 +94,10 @@ public class RegistarClienteUI {
         }
         return aux;
     }
-    
+
+    /**
+     * Menu da interface cliente
+     */
     public static void textoMenuCliente() {
         System.out.println("\nRIDE SHARING - Menu Cliente\n------------"
                 + "\n 1 - Realizar encomenda"/*
@@ -106,6 +112,12 @@ public class RegistarClienteUI {
                 + "\n Choose one of the options above.");
     }
 
+    /**
+     * Menu do cliente
+     *
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public void menuCliente() throws ClassNotFoundException, SQLException {
         String opt;
         do {

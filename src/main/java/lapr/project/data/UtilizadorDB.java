@@ -24,7 +24,6 @@ import oracle.jdbc.OracleTypes;
  */
 public class UtilizadorDB extends DataHandler {
 
-    Utilizador user;
     private final DataHandler dataHandler;
 
     public UtilizadorDB() {
@@ -32,8 +31,7 @@ public class UtilizadorDB extends DataHandler {
     }
 
     public Utilizador novoUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
-        user = new Utilizador(NIF, nome, email, numeroSegurancaSocial, password);
-        return user;
+        return new Utilizador(NIF, nome, email, numeroSegurancaSocial, password);
     }
 
     public void registaUtilizador(Utilizador user) {
@@ -42,7 +40,7 @@ public class UtilizadorDB extends DataHandler {
         }
     }
 
-    private boolean validaUtilizador(Utilizador user) {
+    public boolean validaUtilizador(Utilizador user) {
         return user != null;
     }
 
@@ -50,7 +48,7 @@ public class UtilizadorDB extends DataHandler {
         addUtilizador(user.getNIF(), user.getNome(), user.getEmail(), user.getNumeroSegurancaSocial(), user.getPassword());
     }
 
-    private void addUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
+    public void addUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
         try {
             openConnection();
             CallableStatement callStmt = getConnection().prepareCall("{ call addUtilizador(?,?,?,?,?) }");
@@ -143,10 +141,10 @@ public class UtilizadorDB extends DataHandler {
                 int numCC = rSet.getInt(7);
                 String password = rSet.getString(8);
 
-                return new Cliente(nif, nome, email,nSegSocial,creditos,morada,numCC,password);
+                return new Cliente(nif, nome, email, nSegSocial, creditos, morada, numCC, password);
             }
         } catch (SQLException e) {
-            Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            Logger.getLogger(UtilizadorDB.class.getName()).log(Level.WARNING, e.getMessage());
         } finally {
             try {
                 if (rSet != null) {
@@ -156,10 +154,9 @@ public class UtilizadorDB extends DataHandler {
                     stm.close();
                 }
             } catch (SQLException e) {
-                Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+                Logger.getLogger(UtilizadorDB.class.getName()).log(Level.WARNING, e.getMessage());
             }
         }
         return null;
     }
-
 }

@@ -19,9 +19,6 @@ class Endereco {
 }
 
 class Cliente {
-  -numeroCartaoCredito
-  -dataDeValidade
-  -CCV
   -NIF
   -nome
   -email
@@ -29,7 +26,14 @@ class Cliente {
   -password
 }
 
+class Cartao {
+  -numeroCartaoCredito
+  -dataDeValidade
+  -CCV
+}
+
 Cliente "1" -- "1" Endereco: tem >
+Cliente "1" -- "1" Cartao: tem >
 Cliente "1" -- "1" Utilizador: atua como >
 
 @enduml

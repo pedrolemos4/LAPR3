@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lapr.project.model.Farmacia;
 
 /**
@@ -19,10 +21,7 @@ import lapr.project.model.Farmacia;
  */
 public class FarmaciaDB extends DataHandler {
 
-    private final DataHandler dataHandler;
-
     public FarmaciaDB() {
-        this.dataHandler = DataHandler.getInstance();
     }
 
     /**
@@ -32,8 +31,7 @@ public class FarmaciaDB extends DataHandler {
      * @return nova farmacia criada
      */
     public Farmacia novaFarmacia(int nif) {
-        Farmacia farm = new Farmacia(nif);
-        return farm;
+        return new Farmacia(nif);
     }
 
     /**
@@ -71,7 +69,7 @@ public class FarmaciaDB extends DataHandler {
      *
      * @param nif nif da farmácia
      */
-    private void addFarmacia(int nif) {
+    public void addFarmacia(int nif) {
         try {
             openConnection();
             CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?) }");
@@ -104,7 +102,18 @@ public class FarmaciaDB extends DataHandler {
             }
             return list;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                if (rSet != null) {
+                    rSet.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            }
         }
         return list;
     }

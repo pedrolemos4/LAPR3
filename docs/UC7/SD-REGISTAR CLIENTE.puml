@@ -5,49 +5,45 @@ actor "Cliente" as ADM
 participant ":RegistarClienteUI" as UI
 participant ":RegistarClienteController" as CTRL
 participant "ClienteDB" as DB
+participant "UtilizadorDB" as UDB
 participant "EnderecoDB" as EDB
 participant "CartaoDB" as CDB
 participant "end:Endereco" as END
 participant "cc:Cartao" as CARTAO
+participant "us:Utilizador" as UTILIZADOR
 participant "cl:Cliente" as CLIENTE
 
 activate ADM
 ADM -> UI : inicia o seu registo
 activate UI
-UI --> ADM : solicita dados do cliente \n(NIF, nome, email, endereço residencial, localização GPS (latitude, longitude), altitude, \nnúmero de segurança social, password, número de cartão de crédito, data de validade, CCV)
+UI --> ADM : solicita dados do cliente \n(NIF, nome, email, endereço residencial, localização GPS (latitude, longitude, altitude), \nnúmero de segurança social, password, número de cartão de crédito, data de validade, CCV)
 deactivate UI
 
 ADM -> UI : introduz os dados solicitados
 activate UI
-UI -> CTRL : novoCliente(NIF, nome, email, morada, latitude, longitude, altitude, \nnumSegSocial, password, numCC, dataValidade, CCV)
+UI -> CTRL : novoCliente(NIF, nome, email, numeroSegurancaSocial, morada, numCC, password)
 activate CTRL
 
+CTRL -> DB: cliente=novoCliente(NIF, nome, email, numeroSegurancaSocial, morada, numCC, password)
+activate DB
+DB --> CLIENTE ** : create(NIF, nome, email, numeroSegurancaSocial, creditos, morada, numCC, password)
+deactivate DB
+deactivate CTRL
+
+UI -> CTRL : novoEndereco(morada, latitude, logitude, altitude)
+activate CTRL
 CTRL -> EDB: end=novoEndereco(morada, latitude, logitude, altitude)
 activate EDB
 EDB --> END ** : create(morada, latitude, logitude, altitude)
 deactivate EDB
+deactivate CTRL
 
-CTRL -> EDB: validaEndereco(end)
-activate EDB
-deactivate EDB
-
+UI -> CTRL : novoCartao(numCC, dataValidade, CCV)
+activate CTRL
 CTRL -> CDB: cc=novoCartao(numCC, dataValidade, CCV)
 activate CDB
 CDB --> CARTAO ** : create(numCC, dataValidade, CCV)
 deactivate CDB
-
-CTRL -> CDB: validaCartao(cc)
-activate CDB
-deactivate CDB
-
-CTRL -> DB: cliente=novoCliente(NIF, nome, email, end, numSegSocial, password, cc)
-activate DB
-DB --> CLIENTE ** : create(NIF, nome, email, end, numSegSocial, password, cc)
-deactivate DB
-
-CTRL -> DB: validaCliente(cliente)
-activate DB
-deactivate DB
 
 deactivate CTRL
 UI --> ADM : apresenta dados e solicita confirmação
@@ -56,22 +52,33 @@ deactivate UI
 ADM -> UI : confirma
 activate UI
 
-UI -> CTRL: registaCliente()
+UI -> CTRL: registaCliente(cliente)
 activate CTRL
 CTRL ->DB: registaCliente(cliente)
 activate DB
 DB -> DB: validaCliente(cliente)
 DB -> DB: addCliente(cliente)
-
 deactivate DB
 
+CTRL ->UDB: registaUtilizador(cliente)
+activate UDB
+UDB -> UDB: validaUtilizador(cliente)
+UDB -> UDB: addUtilizador(cliente)
+deactivate UDB
+deactivate CTRL
+
+UI -> CTRL: registaEndereco(end)
+activate CTRL
 CTRL ->EDB: registaEndereco(end)
 activate EDB
 EDB -> EDB: validaEndereco(end)
 EDB -> EDB: addEndereco(end)
 
 deactivate EDB
+deactivate CTRL
 
+UI -> CTRL: registaCartao(cc)
+activate CTRL
 CTRL ->CDB: registaCartao(cc)
 activate CDB
 CDB -> CDB: validaCartao(cc)

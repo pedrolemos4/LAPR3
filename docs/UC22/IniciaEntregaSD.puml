@@ -2,21 +2,18 @@
 autonumber
 actor "Estafeta" as EST
 
-participant ":IniciarEntregaUI" as UI
-participant ":IniciarEntregaController" as CTRL
+participant ":RegistarEntregaUI" as UI
+participant ":RegistarEntregaController" as CTRL
 participant "AplicacaoPOT" as _APP
 participant "app\n:AplicacaoPOT" as APP
 participant "sessao\n:SessaoUtilizador" as SESSAO
 
 participant ":EstafetaDB" as ESTDB
-participant ":EntregaDB" as ENTR
-participant ":EncomendaDB" as ENC
-participant ":ScooterDB" as S
-participant ":ParqueDB" as P
-participant ":ClienteDB" as C
-participant ":Entrega" as EE
-participant ":Endereco" as E
+participant ":EntregaDB" as ENTRDB
 
+participant ":EncomendaDB" as RENC
+participant ":ScooterDB" as RS
+participant ":EnderecoDB" as END
 
 activate EST
 EST -> UI : inicia entrega
@@ -40,48 +37,65 @@ CTRL -> ESTDB : est=getEstafetaByEmail(email)
 activate ESTDB
 deactivate ESTDB
 deactivate CTRL
+UI -> CTRL : getListaEntregaByNifEstafeta(nifEstafeta)
+activate CTRL
+CTRL -> ENTRDB : listaEntregas=getListaEntregaByNifEstafeta(nifEstafeta)
+activate ENTRDB
+deactivate ENTRDB
 deactivate CTRL
-UI --> EST : solicita o id de uma entrega
+UI --> EST : mostra a lista de entregas do estafeta e solicita escolha de uma entrega
 deactivate UI
 
-EST -> UI : introduz os dados solicitados
+EST -> UI : introduz dados solicitados
 activate UI
-UI -> CTRL : calculatePath(idEntrega)
+UI -> CTRL : getListaEncomendaById(idEntrega)
 activate CTRL
-CTRL -> P : origem=getEndereco()
-activate P
-deactivate P
-CTRL -> ENTR : listaEncomenda=getListaEncomenda(idEntrega)
-activate ENTR
-deactivate ENTR
-loop
-CTRL -> ENC : idEncomenda=getIdEncomenda(listaEncomenda)
-activate ENC
-deactivate ENC
-CTRL -> ENC : pesoEncomenda=getPesoEncomenda(idEncomenda)
-activate ENC
-deactivate ENC
-CTRL -> EE : pesoTotal=addPesoEncomenda(pesoEncomenda, pesoTotal)
-activate EE
-deactivate EE
-CTRL -> C : clienteNif=getClienteNif(idEncomenda)
-activate C
-deactivate C
-CTRL -> C : enderecoCliente=getEnderecoNif(clienteNif)
-activate C
-deactivate C
-CTRL -> E : listaEnderecos=addListaEndereco(enderecoCliente, listaEnderecos)
-activate E
-deactivate E
-end loop
-CTRL -> ENTR : scooter=getScooter(idEntrega)
-activate ENTR
-deactivate ENTR
-CTRL -> ENTR : calculatePath(origem, listaEnderecos, est, pesoTotal, scooter)
-activate ENTR
-deactivate ENTR
+CTRL -> RENC : listaEncomendas=getListaEncomendaById(idEntrega)
+activate RENC
+deactivate RENC
 deactivate CTRL
-UI --> EST : apresenta a energia minima percorrida durante a entrega
+UI -> CTRL : getEntregaById(int idEntrega)
+activate CTRL
+CTRL -> ENTRDB : entr=getEntregaById(int idEntrega)
+activate ENTRDB
+deactivate ENTRDB
+deactivate CTRL
+UI -> CTRL : getScooterById(idScooter)
+activate CTRL
+CTRL -> RS : scooter=getScooterById(idScooter)
+activate RS
+deactivate RS
+deactivate CTRL
+
+
+UI --> EST : apresenta dados e solicita confirmação
+deactivate UI
+
+EST -> UI : confirma os dados
+activate UI
+UI -> CTRL : getEnderecoParque()
+activate CTRL
+CTRL-> END : origem=getEnderecoParque()
+activate END
+deactivate END
+deactivate CTRL
+loop
+UI -> CTRL : getEnderecoByNifCliente(int nif)
+activate CTRL
+CTRL -> END : endereco=getEnderecoByNifCliente(nif)
+activate END
+deactivate END
+deactivate CTRL
+end loop
+
+UI -> CTRL : generateGraph(listEnderecos, est, scooter, pesoTotal)
+activate CTRL
+CTRL -> ENTRDB : generateGraph(listEnderecos, est, scooter, pesoTotal)
+activate ENTRDB
+deactivate ENTRDB
+deactivate CTRL
+UI --> EST : informa operação bem sucedida
+deactivate CTRL
 deactivate UI
 
 deactivate EST

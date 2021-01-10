@@ -5,12 +5,17 @@ actor "Estafeta" as EST
 activate EST
 EST -> ":Sistema" : inicia entrega 
 activate ":Sistema"
-":Sistema" --> EST : solicita o id de uma entrega
+":Sistema" --> EST : mostra a lista de entregas do estafeta e solicita escolha de uma entrega
 deactivate ":Sistema"
 
-EST -> ":Sistema" : introduz os dados solicitados
+EST -> ":Sistema" : introduz dados solicitados
 activate ":Sistema"
-":Sistema" --> EST : apresenta a energia minima percorrida durante a entrega
+":Sistema" --> EST : apresenta dados e solicita confirmação
+deactivate ":Sistema"
+
+EST -> ":Sistema" : confirma os dados
+activate ":Sistema"
+":Sistema" --> EST : informa operação bem sucedida
 deactivate ":Sistema"
 
 deactivate EST

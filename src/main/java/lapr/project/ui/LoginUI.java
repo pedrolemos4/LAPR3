@@ -65,8 +65,7 @@ public class LoginUI {
         String pwd = LER.nextLine();
 
         Utilizador utilizador = null;
-        RegistarClienteController ctrl = new RegistarClienteController(new ClienteDB(),
-                new UtilizadorDB(), new EnderecoDB(), new CartaoDB());
+        RegistarClienteController ctrl = new RegistarClienteController();
         if (email.equalsIgnoreCase(ADMIN_LOGIN) && pwd.equalsIgnoreCase(ADMIN_ACESS)) {
             AdminUI aui = new AdminUI();
             aui.menu();
@@ -85,7 +84,7 @@ public class LoginUI {
         boolean res = rcui.registaCliente();
         if (res == true) {
             rcui.menuCliente();
-        } else{
+        } else {
             menu();
         }
     }

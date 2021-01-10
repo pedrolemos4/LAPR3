@@ -10,112 +10,11 @@ import java.util.LinkedList;
  */
 
 public class GraphAlgorithms {
-
-    /**
-     * Performs breadth-first search of a Graph starting in a Vertex
-     * @param g Graph instance
-     * @param vert information of the Vertex that will be the source of the search
-     * @return qbfs a queue with the vertices of breadth-first search
-     */
-    public static<V,E> LinkedList<V> BreadthFirstSearch(Graph<V,E> g, V vert){
-        if(!g.validVertex(vert)){
-            return null;
-        }
-        LinkedList<V> qbfs = new LinkedList<>();
-        LinkedList<V> qaux = new LinkedList<>();
-
-        qaux.add(vert);
-        qbfs.add(vert);
-
-        while(!qaux.isEmpty()){
-            vert=qaux.remove();
-            for (V vAdj : g.adjVertices(vert)){
-                if(!qbfs.contains(vAdj)){
-                    qbfs.add(vAdj);
-                    qaux.add(vAdj);
-                }
-            }
-        }
-        return qbfs;
+    
+    public GraphAlgorithms(){
+        
     }
 
-    /**
-     * Performs depth-first search starting in a Vertex
-     * @param g Graph instance
-     * @param vOrig Vertex of graph g that will be the source of the search
-     * @param visited set of discovered vertices
-     * @param qdfs queue with vertices of depth-first search
-     */
-    private static <V, E> void DepthFirstSearch(Graph<V, E> g, V vOrig, boolean[] visited, LinkedList<V> qdfs) {
-        visited[g.getKey(vOrig)] = true;
-        qdfs.add(vOrig);
-        for (V adjVertice : g.adjVertices(vOrig)) {
-            if (!visited[g.getKey(adjVertice)]) {
-                DepthFirstSearch(g, adjVertice, visited, qdfs);
-            }
-        }
-    }
-
-    /**
-     * @param g Graph instance
-     * @param vert information of the Vertex that will be the source of the search
-     * @return qdfs a queue with the vertices of depth-first search
-     */
-    public static <V, E> LinkedList<V> DepthFirstSearch(Graph<V, E> g, V vert) {
-        LinkedList<V> qdfs = new LinkedList<>();
-        boolean visited[] = new boolean[g.numVertices()];
-        if (!g.validVertex(vert)) {
-            return null;
-        }
-        DepthFirstSearch(g, vert, visited, qdfs);
-        return qdfs;
-    }
-
-    /**
-     * Returns all paths from vOrig to vDest
-     * @param g Graph instance
-     * @param vOrig Vertex that will be the source of the path
-     * @param vDest Vertex that will be the end of the path
-     * @param visited set of discovered vertices
-     * @param path stack with vertices of the current path (the path is in reverse order)
-     * @param paths ArrayList with all the paths (in correct order)
-     */
-    private static <V, E> void allPaths(Graph<V, E> g, V vOrig, V vDest, boolean[] visited,
-                                        LinkedList<V> path, ArrayList<LinkedList<V>> paths) {
-        visited[g.getKey(vOrig)] = true;
-        path.add(vOrig);
-        for (Edge<V,E> edg : g.outgoingEdges(vOrig)) {
-            if (edg.getVDest().equals(vDest)) {
-                path.add(vDest);
-                paths.add(path);
-                path.removeLast();
-            } else {
-                if (!visited[g.getKey(edg.getVDest())]) {
-                    allPaths(g, edg.getVDest(), vDest, visited, path, paths);
-                }
-            }
-
-        }
-        visited[g.getKey(vOrig)] = false;
-        path.removeLast();
-    }
-
-    /**
-     * @param g Graph instance
-     * @param vOrig information of the Vertex origin
-     * @param vDest information of the Vertex destination
-     * @return paths ArrayList with all paths from voInf to vdInf
-     */
-    public static <V, E> ArrayList<LinkedList<V>> allPaths(Graph<V, E> g, V vOrig, V vDest) {
-        LinkedList<V> path = new LinkedList<>();
-        ArrayList<LinkedList<V>> paths = new ArrayList<>();
-        if (g.validVertex(vDest) && g.validVertex(vOrig)) {
-            boolean[] visited = new boolean[g.numVertices()];
-            allPaths(g, vOrig, vDest, visited, path, paths);
-            return paths;
-        }
-        return null;
-    }
 
     /**
      * Computes shortest-path distance from a source vertex to all reachable
@@ -238,18 +137,4 @@ public class GraphAlgorithms {
     }
 
 
-    /**
-     * Reverses the path
-     * @param path stack with path
-     */
-    private static<V,E> LinkedList<V> revPath(LinkedList<V> path){
-
-        LinkedList<V> pathcopy = new LinkedList<>(path);
-        LinkedList<V> pathrev = new LinkedList<>();
-
-        while (!pathcopy.isEmpty())
-            pathrev.push(pathcopy.pop());
-
-        return pathrev ;
-    }
 }

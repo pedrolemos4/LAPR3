@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lapr.project.model.Parque;
 
 /**
@@ -19,10 +21,7 @@ import lapr.project.model.Parque;
  */
 public class ParqueDB extends DataHandler {
 
-    private final DataHandler dataHandler;
-
     public ParqueDB() {
-        this.dataHandler = DataHandler.getInstance();
     }
 
     /**
@@ -34,8 +33,7 @@ public class ParqueDB extends DataHandler {
      * @return novo parque criado
      */
     public Parque novoParque(int nif, String morada, int numMax) {
-        Parque park = new Parque(nif, morada, numMax);
-        return park;
+        return new Parque(nif, morada, numMax);
     }
 
     /**
@@ -75,7 +73,7 @@ public class ParqueDB extends DataHandler {
      * @param morada morada do parque
      * @param numMax limite máximo de scooters do parque
      */
-    private void addParque(int nif, String morada, int numMax) {
+    public void addParque(int nif, String morada, int numMax) {
         try {
             openConnection();
             CallableStatement callStmt = getConnection().prepareCall("{ call addParque(?,?,?) }");
@@ -112,7 +110,18 @@ public class ParqueDB extends DataHandler {
             }
             return list;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                if (rSet != null) {
+                    rSet.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
+            }
         }
         return list;
     }
@@ -121,21 +130,31 @@ public class ParqueDB extends DataHandler {
      * Retorna o limite máximo de scooters do parque recebendo o nif da farmácia
      * referente ao parque
      *
-     * @param nif nif do parque/farmácia
-     * @return limite máximo de scooters do parque
+     * @param parqueNif nif do parque
+     * @return limite máximo de scooters
      */
-    public int getNumMaxParqueByNIF(int nif) {
+    public int getNumMaxParqueByNIF(int parqueNif) {
         int numMax = 0;
-        String query = "SELECT p.numeroMaximo FROM parque p inner join estacionamento e on p.FarmaciaNIF=e.ParqueFarmaciaNIF";
+        String query = "SELECT p.numeroMaximo FROM parque p INNER JOIN estacionamento e ON p.FaarmaciaNIF = e.ParqueFarmaciaNIF WHERE p.FaarmaciaNIF = " + parqueNif;
         Statement stm = null;
         ResultSet rSet = null;
-
         try {
             stm = getConnection().createStatement();
             rSet = stm.executeQuery(query);
-            numMax = rSet.getInt(3);
+            numMax = rSet.getInt(1);
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                if (rSet != null) {
+                    rSet.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
+            }
         }
         return numMax;
     }

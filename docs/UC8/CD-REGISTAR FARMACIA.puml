@@ -15,34 +15,40 @@ class Endereco {
 }
 
 class Parque {
+  -Integer NIF
+  -String morada
   -Integer numeroMaximo
-  +Endereco(Integer NIF, Integer numeroMaximo, Endereco end)
+  +Endereco(Integer NIF, String morada, Integer numeroMaximo)
 }
 
 class FarmaciaDB {
-  +Farmacia novaFarmacia(NIF, morada, latitude, longitude, altitude, numMaximo)
-  +validaFarmacia(Farmacia farm)
+  +Farmacia novaFarmacia(NIF)
   +registaFarmacia(Farmacia farm)
+  +validaFarmacia(Farmacia farm)
   -addFarmacia(Farmacia farm)
 }
 
 class EnderecoDB {
   +Endereco novoEndereco(String morada, Double latitude, Double longitude, Double altitude)
-  +validaEndereco(Endereco end)
   +registaEndereco(Endereco end)
+  +validaEndereco(Endereco end)
   -addEndereco(Endereco end)
 }
 
 class ParqueDB {
-  +Parque novoEndereco(Integer numeroMaximo, Endereco end)
-  +validaParque(Parque parque)
+  +Parque novoParque(Integer NIF, String morada, Integer numeroMaximo)
   +registaParque(Parque parque)
+  +validaParque(Parque parque)
   -addParque(Parque parque)
 }
 
 class RegistarFarmaciaController {
-  +novaFarmacia(NIF, morada, latitude, longitude, altitude, numeroMaximo)
-  +registaFarmacia()
+  +novaFarmacia(NIF)
+  +novoEndereco(morada, latitude, longitude, altitude)
+  +novoParque(Integer NIF, String morada, Integer numeroMaximo)
+  +registaFarmacia(farm)
+  +registaEndereco(end)
+  +registaParque(parque)
 }
 
 class RegistarFarmaciaUI {

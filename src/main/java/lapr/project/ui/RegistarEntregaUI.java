@@ -36,6 +36,7 @@ public class RegistarEntregaUI {
         for(Scooter s : list){
             System.out.println(s);
         }
+        
         System.out.println("Introduza o id de uma scooter apresentada: ");
         int idScooter = LER.nextInt();
         Scooter scooter = controller.getScooter(idScooter);

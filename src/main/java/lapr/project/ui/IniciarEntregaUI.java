@@ -3,6 +3,7 @@ package lapr.project.ui;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.IniciarEntregaController;
@@ -28,37 +29,46 @@ public class IniciarEntregaUI {
     
     public void iniciaEntrega() {
         
+        Estafeta est = controller.getEstafeta();
+        
         System.out.println("Lista de entregas: ");
-        List<Entrega> list = controller.getListaEntrega();
+        List<Entrega> list = controller.getListaEntregaByNifEstafeta(est.getNIF());
         for(Entrega e : list){
             System.out.println(e);
         }
         
         System.out.println("Introduza o id de uma entrega apresentada: ");
         int idEntrega = LER.nextInt();
-        List<Encomenda> listEnc = controller.getListaEncomenda(idEntrega);
+        List<Encomenda> listEnc = controller.getListaEncomendaById(idEntrega);
         
-        Estafeta est = controller.getEstafeta();
+        Entrega entr = controller.getEntregaById(idEntrega);
+        Scooter scooter = controller.getScooterById(entr.getIdScooter());
         
         System.out.println("IdEntrega:\t" + idEntrega
                 + "\nLista de Encomendas associadas à entrega:\t" + listEnc
-                + "\nEstafeta:\t" + est);
+                + "\nEstafeta:\t" + est
+                + "\nScooter associada à entrega:\t" + scooter);
         
         System.out.println("Confirme os dados introduzidos: (S/N)");
         LER.nextLine();
         String confirm = LER.nextLine();
         
         if(confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")){
-            List<Endereco> listEnderecos = new ArrayList<>();
+            Endereco endOrigem = controller.getEnderecoParque();
+            List<Endereco> listEnderecos = new LinkedList<>();
+            listEnderecos.add(endOrigem);
+            double pesoTotal = 0;
             
             for(Encomenda e : listEnc){
+                pesoTotal = pesoTotal + e.getPesoEncomenda();
                 Endereco end = controller.getEnderecoByNifCliente(e.getNif());
                 listEnderecos.add(end);
             }
             
-            System.out.println("\n\nEntrega adicionada com sucesso'");
+            LinkedList<Endereco> lEn = controller.generateGraph(listEnderecos, est, scooter, pesoTotal);
+            
+            System.out.println("\n\nCaminho com menor energia gasta: '" + lEn);
         }
     }
-    
     
 }

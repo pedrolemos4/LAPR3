@@ -8,8 +8,8 @@ import java.util.List;
 public class AtualizarEstafetaController {
     private final EstafetaDB estafetaDB;
 
-    public AtualizarEstafetaController(EstafetaDB estafetaDB){
-        this.estafetaDB = estafetaDB;
+    public AtualizarEstafetaController(){
+        this.estafetaDB = new EstafetaDB();
     }
 
     public List<Estafeta> getListaEstafetas() {

@@ -13,9 +13,10 @@ participant ":Cliente" as CLIEN
 participant ":ProdutoDataHandler" as PDH
 participant ":Produto" as PRO
 participant ":EncomendaDataHandler" as EDH
-participant "EnderecoDB" as END
+participant ":EnderecoDB" as END
 participant ":ReciboDataHandler" as RDH
 participant "rec:Recibo" as REC
+participant ":EmailDB" as EMDB
 participant "lprodutos\n:ListaProdutosEncomenda" as LPROD
 participant "enc: Encomenda" as ENC
 
@@ -75,7 +76,9 @@ CTRL --> CTRL : verificaProdutoStock(prod)
 OPT
 note  over CTRL : Se nao houver o produto no stock
 
-ref over CTRL : notificarCliente
+CTRL --> EMDB : sendEmail(email, assunto, mensagem)
+activate EMDB
+deactivate EMDB
 
 END OPT
 
