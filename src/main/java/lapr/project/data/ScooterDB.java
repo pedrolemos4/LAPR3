@@ -23,29 +23,29 @@ public class ScooterDB extends DataHandler {
     }
 
     public int addScooter(Scooter scooter) throws SQLException {
-        CallableStatement callStmt = null;
         int id = 0;
 
-        callStmt = getConnection().prepareCall("{ ? = call addScooter(?,?,?,?,?,?,?) }");
-        callStmt.registerOutParameter(1, OracleTypes.INTEGER);
-        callStmt.setString(2, scooter.getDescricao());
-        callStmt.setDouble(3, scooter.getPercentagemBateria());
-        callStmt.setDouble(4, scooter.getPesoMaximo());
-        callStmt.setDouble(5, scooter.getPesoScooter());
-        callStmt.setDouble(6, scooter.getPotencia());
-        callStmt.setDouble(7,scooter.getAreaFrontal());
-        callStmt.setInt(6, scooter.getEstadoScooter().getId());
-        callStmt.execute();
+        try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addScooter(?,?,?,?,?,?,?) }")) {
+            callStmt.registerOutParameter(1, OracleTypes.INTEGER);
+            callStmt.setString(2, scooter.getDescricao());
+            callStmt.setDouble(3, scooter.getPercentagemBateria());
+            callStmt.setDouble(4, scooter.getPesoMaximo());
+            callStmt.setDouble(5, scooter.getPesoScooter());
+            callStmt.setDouble(6, scooter.getPotencia());
+            callStmt.setDouble(7, scooter.getAreaFrontal());
+            callStmt.setInt(6, scooter.getEstadoScooter().getId());
+            callStmt.execute();
 
-        id = callStmt.getInt(1);
+            id = callStmt.getInt(1);
 
-        try {
+            try {
 
-            callStmt.close();
+                callStmt.close();
 
-        } catch (SQLException | NullPointerException ex) {
+            } catch (SQLException | NullPointerException ex) {
 
-            Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
+                Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            }
         }
         return id;
     }
