@@ -39,7 +39,7 @@ public class IniciarEntregaUI {
         
         System.out.println("Introduza o id de uma entrega apresentada: ");
         int idEntrega = LER.nextInt();
-        List<Encomenda> listEnc = controller.getListaEncomenda(idEntrega);
+        List<Encomenda> listEnc = controller.getListaEncomendaById(idEntrega);
         
         Entrega entr = controller.getEntregaById(idEntrega);
         Scooter scooter = controller.getScooterById(entr.getIdScooter());
@@ -65,7 +65,7 @@ public class IniciarEntregaUI {
                 listEnderecos.add(end);
             }
             
-            LinkedList<Endereco> lEn = controller.generateGraph(listEnderecos, listEnc, est, scooter, pesoTotal);
+            LinkedList<Endereco> lEn = controller.generateGraph(listEnderecos, est, scooter, pesoTotal);
             
             System.out.println("\n\nCaminho com menor energia gasta: '" + lEn);
         }

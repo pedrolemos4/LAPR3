@@ -43,7 +43,6 @@ public class EntregaDB extends DataHandler {
         callStmt.execute();
         id = callStmt.getInt(1);
 
-        closeAll();
         try {
 
             callStmt.close();
@@ -76,38 +75,6 @@ public class EntregaDB extends DataHandler {
         }
     }
 
-//    /**
-//     * Devolve a lista de encomendas
-//     *
-//     * @return
-//     */
-//    public List<Entrega> getListaEntrega() {
-//        ArrayList<Entrega> list = new ArrayList<>();
-//        String query = "SELECT * FROM entrega";
-//
-//        Statement stm = null;
-//        ResultSet rSet = null;
-//
-//        try {
-//            stm = getConnection().createStatement();
-//            rSet = stm.executeQuery(query);
-//
-//            while (rSet.next()) {
-//                int idEntrega = rSet.getInt(1);
-//                int nif = rSet.getInt(2);
-//                int idscooter = rSet.getInt(3);
-//                Timestamp dataInicio = rSet.getTimestamp(4);
-//                Timestamp dataFim = rSet.getTimestamp(5);
-//
-//                list.add(new Entrega(dataInicio.toString(), dataFim.toString(), idscooter, nif));
-//            }
-//            return list;
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return list;
-//    }
     public Entrega getEntregaById(int idEntrega) {
         String query = "SELECT * FROM entrega WHERE idEntrega = " + idEntrega;
 
@@ -190,12 +157,23 @@ public class EntregaDB extends DataHandler {
             return list;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                if (rSet != null) {
+                    rSet.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            }
         }
         return list;
     }
 
-    public LinkedList<Endereco> generateGraph(List<Endereco> listEnderecos, List<Encomenda> listEncomenda, Estafeta est, Scooter scooter, double pesoTotalEntrega) {
+    public LinkedList<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Scooter scooter, double pesoTotalEntrega) {
         Graph<Endereco, Double> graph = new Graph<>(true);
 
         for (Endereco e : listEnderecos) {
@@ -223,7 +201,7 @@ public class EntregaDB extends DataHandler {
         return finalShortPath;
     }
     
-     public double getPath(Graph<Endereco,Double> graph, List<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia) {
+     public double getPath(Graph<Endereco,Double> graph, List<Endereco> listEnderecos, List<Endereco> finalShortPath, Endereco origem, double energia) {
         double dFinal;
         if (!listEnderecos.isEmpty()) {
             double dist;
@@ -233,9 +211,6 @@ public class EntregaDB extends DataHandler {
                     LinkedList<Endereco> shortPath = new LinkedList<>();
                     dist = GraphAlgorithms.shortestPath(graph, origem, c, shortPath);
                     if (dist < min) {
-//                        System.out.println("dist: " + dist);
-//                        System.out.println("shortPath: " + shortPath);
-//                        System.out.println(" ");
                         min = dist;
                         end = c;
                     }

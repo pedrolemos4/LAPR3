@@ -194,7 +194,18 @@ public class EncomendaDB extends DataHandler {
             return list;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                if (rSet != null) {
+                    rSet.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            }
         }
         return list;
     }
@@ -205,7 +216,7 @@ public class EncomendaDB extends DataHandler {
      * @param idEntrega
      * @return
      */
-    public List<Encomenda> getListaEncomenda(int idEntrega) {
+    public List<Encomenda> getListaEncomendaById(int idEntrega) {
         ArrayList<Encomenda> list = new ArrayList<>();
         String query = "SELECT * FROM encomenda e INNER JOIN EncomendaEntrega ee ON ee.EntregaidEntrega = e.idEntrega WHERE e.idEntrega = " + idEntrega;
 
@@ -230,7 +241,18 @@ public class EncomendaDB extends DataHandler {
             return list;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            try {
+                if (rSet != null) {
+                    rSet.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            }
         }
         return list;
     }

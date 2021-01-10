@@ -38,8 +38,8 @@ public class IniciarEntregaController {
         return entregaDB.getListaEntregaByNifEstafeta(nifEstafeta);
     }
     
-    public List<Encomenda> getListaEncomenda(int idEntrega){
-        return encomendaDB.getListaEncomenda(idEntrega);
+    public List<Encomenda> getListaEncomendaById(int idEntrega){
+        return encomendaDB.getListaEncomendaById(idEntrega);
     }
     
     public Entrega getEntregaById(int idEntrega){
@@ -64,7 +64,7 @@ public class IniciarEntregaController {
         return enderecoDB.getEnderecoParque();
     }
     
-    public LinkedList<Endereco> generateGraph(List<Endereco> listEnderecos, List<Encomenda> listEncomenda, Estafeta est, Scooter scooter, double pesoTotal){
-        return entregaDB.generateGraph(listEnderecos, listEncomenda, est, scooter, pesoTotal);
+    public LinkedList<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Scooter scooter, double pesoTotal){
+        return entregaDB.generateGraph(listEnderecos, est, scooter, pesoTotal);
     }
 }
