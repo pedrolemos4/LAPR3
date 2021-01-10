@@ -38,6 +38,10 @@ public class AdminUI {
                 + "\n 1 - Adicionar scooter"
                 + "\n 2 - Remover scooter"
                 + "\n 3 - Atualizar scooter"
+                + "\n 4 - Registar estafeta"
+                + "\n 5 - Atualizar estafeta"
+                + "\n 6 - Adicionar item ao stock"
+                + "\n 7 - Atualizar item"
                 //+ "\n 8 - Report about unlocked vehicles"
                 //+ "\n 9 - Add path"
                 + "\n 0 - Exit"
@@ -71,6 +75,18 @@ public class AdminUI {
                     break;
                 case "3":
                     updateScooter();
+                    break;
+                case "4":
+                    registarEstafeta();
+                    break;
+                case "5":
+                    atualizarEstafeta();
+                    break;
+                case "6":
+                    adicionarItem();
+                    break;
+                case "7":
+                    atualizarItem();
                     break;
                 /*case "8":
                     getUnlockedvehicles();
@@ -225,7 +241,7 @@ public class AdminUI {
             double area = LER.nextDouble();
             scooter.setPesoScooter(area);
         }
-        
+
         System.out.println("\nA scooter vai estar disponível imediatamente após a sua atualização? (S/N)");
         LER.nextLine();
         resposta = LER.nextLine();
@@ -254,7 +270,7 @@ public class AdminUI {
         String confirmacao = LER.nextLine();
 
         if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
-           try {
+            try {
                 sc.updateScooter(scooter);
                 System.out.println("Scooter atualizada com sucesso.");
             } catch (SQLException ex) {
@@ -266,4 +282,27 @@ public class AdminUI {
         }
     }
 
+    public void registarEstafeta() {
+        RegistarEstafetaUI regEstUI = new RegistarEstafetaUI();
+        regEstUI.registaEstafeta();
+        menu();
+    }
+    
+    public void atualizarEstafeta(){
+        AtualizarEstafetaUI atEstUI = new AtualizarEstafetaUI();
+        atEstUI.atualizarEstafeta();
+        menu();
+    }
+    
+    public void adicionarItem(){
+        InserirItensStockUI itStoUI = new InserirItensStockUI();
+        itStoUI.registaProduto();
+        menu();
+    }
+    
+    public void atualizarItem(){
+        AtualizarItensStockUI atStoUI = new AtualizarItensStockUI();
+        atStoUI.atualizarEstafeta();
+        menu();
+    }
 }

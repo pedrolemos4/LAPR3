@@ -16,7 +16,7 @@ public class AtualizarEstafetaUI {
         this.controller = new AtualizarEstafetaController(new EstafetaDB());
     }
 
-    private void atualizarEstafeta() {
+    public void atualizarEstafeta() {
         System.out.println("Lista de Estafetas:");
         List<Estafeta> le = controller.getListaEstafetas();
 
