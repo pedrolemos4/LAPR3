@@ -20,7 +20,7 @@ public class EmailDB {
 
     }
 
-    public void sendEmail(String email, String assunto, String mensagem) throws MessagingException {
+    public boolean sendEmail(String email, String assunto, String mensagem){
         Properties props = new Properties();
         // Parâmetros de conexão com servidor Gmail */
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -56,7 +56,7 @@ public class EmailDB {
             //Método para enviar a mensagem criada/
             Transport.send(message);
 
-            System.out.println("Feito!!!");
+            return true;
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);

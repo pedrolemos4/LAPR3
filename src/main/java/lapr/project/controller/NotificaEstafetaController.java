@@ -11,34 +11,28 @@ import lapr.project.model.Estafeta;
 import lapr.project.model.Scooter;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.Properties;
 import java.util.Scanner;
 
 import javax.mail.*;
-import javax.activation.*;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import javax.security.auth.login.Configuration;
 
 public class NotificaEstafetaController {
 
-    /*private final Scooter scoot;
+    private final Scooter scoot;
     private final Estafeta estafeta;
-    private final Entrega entrega;*/
+    private final Entrega entrega;
     private Estacionamento estac;
     private final EstafetaDB estafetaDB;
     private final EntregaDB entregaDB;
     private final ScooterDB scooterDB;
-    //rivate final FacadeAuthorization facade;
+    private final FacadeAuthorization facade;
 
     public NotificaEstafetaController(EstafetaDB estafetaDB, ScooterDB scooterDB, EntregaDB entregaDB) {
         this.estafetaDB = estafetaDB;
         this.scooterDB = scooterDB;
         this.entregaDB = entregaDB;
-        /*this.facade = POTApplication.getFacadeAuthorization();
+        this.facade = POTApplication.getFacadeAuthorization();
 
         String email = facade.getCurrentSession().getUser().getEmail();
 
@@ -48,30 +42,19 @@ public class NotificaEstafetaController {
 
         int scootId = this.entrega.getIdScooter();
 
-        this.scoot = scooterDB.getScooterById(scootId);*/
+        this.scoot = scooterDB.getScooterById(scootId);
     }
 
-    public void simulateParkingScooter(String email) {
-        File newFile = new File("C:\\ARQCP\\partilha\\LAPR3\\estimate_2021_02_02_02_02_02.data");
+    public void simulateParkingScooter(String email) throws FileNotFoundException {
+        String path = "C:\\ARQCP\\partilha\\LAPR3\\estimate_2021_02_02_02_02_02.data";
+        File newFile = new File(path);
 
-        try {
-            Scanner scan = new Scanner(newFile);
+        try (Scanner scan = new Scanner(newFile)) {
             String line = scan.nextLine();
             int estimativa = Integer.parseInt(line);
 
             EmailDB emaildb = new EmailDB();
-            emaildb.sendEmail(email,"Estacionamento Scooter","A Scooter foi estacionada com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.");
-
-        } catch (FileNotFoundException | MessagingException e) {
-            e.printStackTrace();
+            emaildb.sendEmail(email, "Estacionamento Scooter", "A Scooter foi estacionada com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.");
         }
-
     }
-
-    public boolean checkWellDockedScooter(){
-        return false;
-    }
-
-
-
 }
