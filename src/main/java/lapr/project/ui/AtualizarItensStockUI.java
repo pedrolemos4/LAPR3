@@ -17,7 +17,6 @@ public class AtualizarItensStockUI {
     }
 
     private void atualizarEstafeta() {
-        ProdutosDB pdb = new ProdutosDB();
         System.out.println("Stock da farmácia:");
         List<Produto> lp = controller.getListaProdutos();
 
@@ -37,22 +36,24 @@ public class AtualizarItensStockUI {
             System.out.println("Introduza os novos dados relativos ao produto");
             System.out.println("Designação:");
             String desig = LER.nextLine();
-            produto.setDesignacao(desig);
             System.out.println("Peso:");
             double peso = LER.nextDouble();
-            produto.setPeso(peso);
             System.out.println("Preço Base:");
             double preco = LER.nextDouble();
-            produto.setPrecoBase(preco);
 
+            Produto new_prod = new Produto(desig,peso,preco);
+            
             System.out.println("--Novos Dados do Produto--");
-            System.out.println(produto.getDesignacao());
-            System.out.println(produto.getPeso());
-            System.out.println(produto.getPrecoBase());
+            System.out.println(new_prod.getDesignacao());
+            System.out.println(new_prod.getPeso());
+            System.out.println(new_prod.getPrecoBase());
             System.out.println("Deseja atualizar os dados do produto? (S/N)");
             String confirm = LER.next();
 
             if(confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")){
+                produto.setDesignacao(desig);
+                produto.setPeso(peso);
+                produto.setPrecoBase(preco);
                 controller.atualizarProduto(produto);
                 System.out.println("\n\nProduto atualizado com sucesso!");
             } else {
