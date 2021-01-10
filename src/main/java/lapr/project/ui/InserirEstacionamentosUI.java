@@ -18,7 +18,7 @@ public class InserirEstacionamentosUI {
      * Criação do controlador responsável por inserir estacionamentos
      */
     public InserirEstacionamentosUI() {
-        this.controller = new InserirEstacionamentosController(new EstacionamentosDB(), new ParqueDB());
+        this.controller = new InserirEstacionamentosController();
     }
 
     /**

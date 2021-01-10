@@ -19,10 +19,7 @@ import lapr.project.model.Estacionamento;
  */
 public class EstacionamentosDB extends DataHandler {
 
-    private final DataHandler dataHandler;
-
     public EstacionamentosDB() {
-        this.dataHandler = DataHandler.getInstance();
     }
 
     /**
@@ -35,8 +32,7 @@ public class EstacionamentosDB extends DataHandler {
      * @return novo estacionamento criado
      */
     public Estacionamento novoEstacionamento(int numLote, int carregador, int nif) {
-        Estacionamento estac = new Estacionamento(numLote, carregador, nif);
-        return estac;
+        return new Estacionamento(numLote, carregador, nif);
     }
 
     /**
@@ -77,7 +73,7 @@ public class EstacionamentosDB extends DataHandler {
      * disponível, 0 se não esta disponível)
      * @param nif nif da farmácia/parque
      */
-    private void addEstacionamento(int numeroLote, int carregador, int nif) {
+    public void addEstacionamento(int numeroLote, int carregador, int nif) {
         try {
             openConnection();
             CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamento(?,?,?) }");

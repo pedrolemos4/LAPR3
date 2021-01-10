@@ -22,12 +22,10 @@ public class InserirEstacionamentosController {
     /**
      * Cria instância do controlador InserirEstacionamentosController
      *
-     * @param estacionamentoDB classe handler de estacionamentos
-     * @param parqueDB clase handler de parques
      */
-    public InserirEstacionamentosController(EstacionamentosDB estacionamentoDB, ParqueDB parqueDB) {
-        this.estacionamentoDB = estacionamentoDB;
-        this.parqueDB = parqueDB;
+    public InserirEstacionamentosController() {
+        this.estacionamentoDB = new EstacionamentosDB();
+        this.parqueDB = new ParqueDB();
     }
 
     /**
