@@ -1,9 +1,11 @@
 package lapr.project.ui;
 
 import lapr.project.data.DataHandler;
+import lapr.project.data.EmailDB;
 import lapr.project.model.CalculatorExample;
 import lapr.project.model.Sailor;
 
+import javax.mail.MessagingException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -92,8 +94,8 @@ class Main {
 */
        // NotificaEstafetaUI nui = new NotificaEstafetaUI();
         //nui.controller.simulateParkingScooter();
-        LoginUI login = new LoginUI();
-        login.menu();
+        //LoginUI login = new LoginUI();
+        //login.menu();
         //AdminUI.addScooter();
     }
 }

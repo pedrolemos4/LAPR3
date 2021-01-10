@@ -9,6 +9,16 @@ import lapr.project.model.Estacionamento;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Scooter;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.util.Properties;
+
+import javax.mail.*;
+import javax.activation.*;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 public class NotificaEstafetaController {
 
     private final Scooter scoot;
@@ -38,11 +48,14 @@ public class NotificaEstafetaController {
     }
 
     public void simulateParkingScooter() {
+        File newFile = new File("..\\parking\\estimativa*.data");
 
     }
 
     public boolean checkWellDockedScooter(){
         return false;
     }
+
+
 
 }

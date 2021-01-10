@@ -100,7 +100,7 @@ public class RealizaEncomendaController {
         String assunto = "Produto nao disponivel.";
         String mensagem = "O produto nao disponivel foi retirado da lista de produtos da sua encomenda.";
         String email = UserSession.getInstance().getUser().getEmail();
-        emailDB.sendEmail(email, assunto, mensagem);
+        //emailDB.sendEmail(email, assunto, mensagem);
     }
 
     public double getPrecoTotal(double taxa) {
