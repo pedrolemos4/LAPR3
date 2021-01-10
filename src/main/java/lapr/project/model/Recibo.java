@@ -134,5 +134,12 @@ public class Recibo {
     public void setLst(List<Produto> lst) {
         this.lst = lst;
     }
+
+    @Override
+    public String toString() {
+        return "Recibo{" + "nif=" + nif + ", id=" + id + ", preco=" + preco + ", data=" + data + ", idEncomenda=" + idEncomenda + ", lst=" + lst + '}';
+    }
+    
+    
     
 }

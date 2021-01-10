@@ -46,7 +46,10 @@ public class RealizaEncomendaController {
             produtoDB.addListaProdutos(prod);
         } else {
             try {
-                notificaCliente();
+                String assunto = "Produto nao disponivel.";
+                String mensagem = "O produto nao disponivel foi retirado da lista de produtos da sua encomenda.";
+                String email = UserSession.getInstance().getUser().getEmail();
+                notificaCliente(email, assunto, mensagem);
             } catch (MessagingException ex) {
                 Logger.getLogger(RealizaEncomendaController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -87,8 +90,12 @@ public class RealizaEncomendaController {
         return cliente.getNIF();
     }
 
-    public void novoRecibo(Recibo rec) throws SQLException {
+    public void novoRecibo(Recibo rec) throws SQLException, MessagingException {
         reciboDB.registaRecibo(rec);
+        String assunto = "Recibo.";
+        String mensagem = rec.toString();
+        String email = UserSession.getInstance().getUser().getEmail();
+        notificaCliente(email,assunto,mensagem);
     }
 
     public void novoRecibo(Recibo rec, Produto prod) {
@@ -99,22 +106,19 @@ public class RealizaEncomendaController {
         return getListStock().contains(prod);
     }
 
-    public void notificaCliente() throws MessagingException {
-        String assunto = "Produto nao disponivel.";
-        String mensagem = "O produto nao disponivel foi retirado da lista de produtos da sua encomenda.";
-        String email = UserSession.getInstance().getUser().getEmail();
+    public void notificaCliente(String email, String assunto, String mensagem) throws MessagingException {
         emailDB.sendEmail(email, assunto, mensagem);
     }
 
     public double getPrecoTotal(double taxa) {
         List<Produto> lst = getListaProdutoEncomenda();
-        double preco=0.0;
-        
-        for(int i=0;i<lst.size();i++){
+        double preco = 0.0;
+
+        for (int i = 0; i < lst.size(); i++) {
             preco = preco + lst.get(i).getPrecoBase();
         }
-        
-        return preco + preco * taxa;  
+
+        return preco + preco * taxa;
     }
 
 }
