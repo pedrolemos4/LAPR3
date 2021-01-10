@@ -14,7 +14,7 @@ public class RegistarEstafetaUI {
     RegistarEstafetaController controller;
 
     public RegistarEstafetaUI() {
-        this.controller = new RegistarEstafetaController(new EstafetaDB());
+        this.controller = new RegistarEstafetaController();
     }
 
     public void registaEstafeta() {

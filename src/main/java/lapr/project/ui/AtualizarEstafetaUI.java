@@ -13,7 +13,7 @@ public class AtualizarEstafetaUI {
     AtualizarEstafetaController controller;
 
     public AtualizarEstafetaUI() {
-        this.controller = new AtualizarEstafetaController(new EstafetaDB());
+        this.controller = new AtualizarEstafetaController();
     }
 
     public void atualizarEstafeta() {

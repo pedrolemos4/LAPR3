@@ -13,7 +13,7 @@ public class AtualizarItensStockUI {
     AtualizarItensStockController controller;
 
     public AtualizarItensStockUI() {
-        this.controller = new AtualizarItensStockController(new ProdutosDB());
+        this.controller = new AtualizarItensStockController();
     }
 
     public void atualizarEstafeta() {
