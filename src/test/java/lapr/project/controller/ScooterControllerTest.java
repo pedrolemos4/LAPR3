@@ -7,10 +7,7 @@ import lapr.project.data.ScooterDB;
 import lapr.project.model.Scooter;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
+import static org.mockito.Mockito.*;
 /**
  *
  * @author beatr
