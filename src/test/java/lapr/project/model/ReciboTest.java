@@ -79,7 +79,7 @@ class ReciboTest {
     /**
      * Test of getPreco method, of class Recibo.
      */
-    @org.junit.Test
+    @Test
     public void testGetPreco() {
         System.out.println("getPreco");
         Recibo instance = new Recibo(123,10.2,"data",321);
@@ -91,7 +91,7 @@ class ReciboTest {
     /**
      * Test of setPreco method, of class Recibo.
      */
-    @org.junit.Test
+    @Test
     public void testSetPreco() {
         System.out.println("setPreco");
         double preco = 0.0;
@@ -102,7 +102,7 @@ class ReciboTest {
     /**
      * Test of getIdEncomenda method, of class Recibo.
      */
-    @org.junit.Test
+    @Test
     public void testGetIdEncomenda() {
         System.out.println("getIdEncomenda");
         Recibo instance = new Recibo(123,10.2,"data",321);
@@ -114,7 +114,7 @@ class ReciboTest {
     /**
      * Test of getNif method, of class Recibo.
      */
-    @org.junit.Test
+    @Test
     public void testGetNif() {
         System.out.println("getNif");
         Recibo instance = new Recibo(123,10.2,"data",321);
@@ -126,7 +126,7 @@ class ReciboTest {
     /**
      * Test of getId method, of class Recibo.
      */
-    @org.junit.Test
+    @Test
     public void testGetId() {
         System.out.println("getId");
         Recibo instance = new Recibo(123,10.2,"data",321);
@@ -138,7 +138,7 @@ class ReciboTest {
     /**
      * Test of getData method, of class Recibo.
      */
-    @org.junit.Test
+    @Test
     public void testGetData() {
         System.out.println("getData");
         Recibo instance = new Recibo(123,10.2,"data",321);
@@ -150,7 +150,7 @@ class ReciboTest {
     /**
      * Test of getLst method, of class Recibo.
      */
-    @org.junit.Test
+    @Test
     public void testGetLst() {
         System.out.println("getLst");
         Recibo instance = new Recibo(123,10.2,"data",321);
@@ -162,7 +162,7 @@ class ReciboTest {
     /**
      * Test of setNif method, of class Recibo.
      */
-    @org.junit.Test
+    @Test
     public void testSetNif() {
         System.out.println("setNif");
         int nif = 0;
@@ -173,7 +173,7 @@ class ReciboTest {
     /**
      * Test of setId method, of class Recibo.
      */
-    @org.junit.Test
+    @Test
     public void testSetId() {
         System.out.println("setId");
         int id = 0;
@@ -184,7 +184,7 @@ class ReciboTest {
     /**
      * Test of setData method, of class Recibo.
      */
-    @org.junit.Test
+    @Test
     public void testSetData() {
         System.out.println("setData");
         String data = "";
@@ -195,7 +195,7 @@ class ReciboTest {
     /**
      * Test of setLst method, of class Recibo.
      */
-    @org.junit.Test
+    @Test
     public void testSetLst() {
         System.out.println("setLst");
         List<Produto> lst = null;

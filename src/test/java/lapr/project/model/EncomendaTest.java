@@ -139,7 +139,7 @@ class EncomendaTest {
     /**
      * Test of getCliente method, of class Encomenda.
      */
-    @org.junit.Test
+    @Test
     public void testGetNif() {
         System.out.println("getNif");
         List<Produto> lp = new ArrayList<>();
@@ -171,7 +171,7 @@ class EncomendaTest {
     /**
      * Test of getDataPedida method, of class Encomenda.
      */
-    @org.junit.Test
+    @Test
     public void testGetDataPedida() {
         System.out.println("getDataPedida");
         List<Produto> lp = new ArrayList<>();
@@ -187,7 +187,7 @@ class EncomendaTest {
     /**
      * Test of getPreco method, of class Encomenda.
      */
-    @org.junit.Test
+    @Test
     public void testGetPreco() {
         System.out.println("getPreco");
         List<Produto> lp = new ArrayList<>();
@@ -203,7 +203,7 @@ class EncomendaTest {
     /**
      * Test of setPreco method, of class Encomenda.
      */
-    @org.junit.Test
+    @Test
     public void testSetPreco() {
         System.out.println("setPreco");
         int preco = 10;
@@ -218,7 +218,7 @@ class EncomendaTest {
     /**
      * Test of getPesoEncomenda method, of class Encomenda.
      */
-    @org.junit.Test
+    @Test
     public void testGetPesoEncomenda() {
         System.out.println("getPesoEncomenda");
         List<Produto> lp = new ArrayList<>();
@@ -234,7 +234,7 @@ class EncomendaTest {
     /**
      * Test of setLst method, of class Encomenda.
      */
-    @org.junit.Test
+    @Test
     public void testSetLst() {
         System.out.println("setLst");
         List<Produto> lst = null;
@@ -249,7 +249,7 @@ class EncomendaTest {
     /**
      * Test of setPesoEncomenda method, of class Encomenda.
      */
-    @org.junit.Test
+    @Test
     public void testSetPesoEncomenda() {
         System.out.println("setPesoEncomenda");
         int pesoEncomenda = 0;
@@ -264,7 +264,7 @@ class EncomendaTest {
     /**
      * Test of getTaxa method, of class Encomenda.
      */
-    @org.junit.Test
+    @Test
     public void testGetTaxa() {
         System.out.println("getTaxa");
         List<Produto> lp = new ArrayList<>();
@@ -280,7 +280,7 @@ class EncomendaTest {
     /**
      * Test of setTaxa method, of class Encomenda.
      */
-    @org.junit.Test
+    @Test
     public void testSetTaxa() {
         System.out.println("setTaxa");
         int taxa = 0;
@@ -292,7 +292,7 @@ class EncomendaTest {
         instance.setTaxa(taxa);
     }
 
-    @org.junit.Test
+    @Test
     public void testSetNif() {
         System.out.println("setNif");
         int nif = 0;
