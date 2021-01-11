@@ -155,15 +155,16 @@ class EncomendaTest {
     /**
      * Test of getLst method, of class Encomenda.
      */
-    @org.junit.Test
+    @Test
     public void testGetLst() {
         System.out.println("getLst");
         List<Produto> lp = new ArrayList<>();
-        Produto p = new Produto();
-        Cliente c = new Cliente();
+        Produto p = new Produto(123, "321", 12.2, 14.3);
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
-        List<Produto> expResult = lp;
+        Encomenda instance = new Encomenda(123,"01-01-2000",10,10,10, 1);
+        instance.setLst(lp);
+        List<Produto> expResult = new ArrayList<>();
+        expResult.add(p);
         List<Produto> result = instance.getLst();
         assertEquals(expResult, result);
     }

@@ -166,7 +166,7 @@ public class ScooterTest {
     /**
      * Test of getEstadoScooter method, of class Scooter.
      */
-    @org.junit.Test
+    @Test
     public void testGetEstadoScooter() {
         System.out.println("getEstadoScooter");
         Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
@@ -178,7 +178,7 @@ public class ScooterTest {
     /**
      * Test of setEstadoScooter method, of class Scooter.
      */
-    @org.junit.Test
+    @Test
     public void testSetEstadoScooter() {
         System.out.println("setEstadoScooter");
         int estado = 2;
@@ -190,7 +190,7 @@ public class ScooterTest {
     /**
      * Test of getId method, of class Scooter.
      */
-    @org.junit.Test
+    @Test
     public void testGetId() {
         System.out.println("getId");
         Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
@@ -202,7 +202,7 @@ public class ScooterTest {
     /**
      * Test of setId method, of class Scooter.
      */
-    @org.junit.Test
+    @Test
     public void testSetId() {
         System.out.println("setId");
         int id = 1;
