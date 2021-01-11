@@ -8,8 +8,8 @@ import java.util.List;
 public class InserirItensStockController {
     private final ProdutosDB produtosDB;
 
-    public InserirItensStockController(){
-        this.produtosDB = new ProdutosDB();
+    public InserirItensStockController(ProdutosDB produtosDB){
+        this.produtosDB = produtosDB;
     }
 
     public List<Produto> getListaProdutos() {

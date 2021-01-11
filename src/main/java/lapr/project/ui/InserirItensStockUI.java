@@ -13,7 +13,7 @@ public class InserirItensStockUI {
     InserirItensStockController controller;
 
     public InserirItensStockUI() {
-        this.controller = new InserirItensStockController();
+        this.controller = new InserirItensStockController(new ProdutosDB());
     }
 
     public void registaProduto() {

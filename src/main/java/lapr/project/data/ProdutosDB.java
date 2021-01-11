@@ -42,10 +42,12 @@ public class ProdutosDB extends DataHandler {
         return true;
     }
 
-    public void registaProduto(Produto prod) {
+    public boolean registaProduto(Produto prod) {
         if (validaProduto(prod) == true) {
             addProduto(prod);
+            return true;
         }
+        return false;
     }
 
     public void addProduto(Produto prod) {
