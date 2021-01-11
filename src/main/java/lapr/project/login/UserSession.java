@@ -30,6 +30,10 @@ public class UserSession {
         this.m_oUser = oUser;
     }
 
+    public static void RefreshInstance(UserSession us){
+        instance = us;
+    }
+
     public void doLogout() {
         this.m_oUser = null;
     }

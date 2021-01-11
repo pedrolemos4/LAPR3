@@ -1,6 +1,5 @@
 package lapr.project.controller;
 
-import lapr.project.authorization.FacadeAuthorization;
 import lapr.project.data.*;
 import lapr.project.login.UserSession;
 import lapr.project.model.Entrega;
@@ -17,17 +16,11 @@ public class NotificaEstafetaController {
     private final Scooter scoot;
     private final Estafeta estafeta;
     private final Entrega entrega;
-    private Estacionamento estac;
-    private final EstafetaDB estafetaDB;
-    private final EntregaDB entregaDB;
-    private final ScooterDB scooterDB;
+
     private final EstacionamentosDB estacionamentosDB;
 
-    public NotificaEstafetaController() {
-        this.estafetaDB = new EstafetaDB();
-        this.scooterDB = new ScooterDB();
-        this.entregaDB = new EntregaDB();
-        this.estacionamentosDB = new EstacionamentosDB();
+    public NotificaEstafetaController(EstafetaDB estafetaDB, ScooterDB scooterDB, EntregaDB entregaDB, EstacionamentosDB estacionamentosDB) {
+        this.estacionamentosDB = estacionamentosDB;
 
         String email = UserSession.getInstance().getUser().getEmail();
 
@@ -43,7 +36,6 @@ public class NotificaEstafetaController {
     public void simulateParkingScooter(int estacionamentoLote) throws FileNotFoundException {
         String path = "C:\\ARQCP\\partilha\\LAPR3\\estimate_2021_02_02_02_02_02.data";
         File newFile = new File(path);
-        this.estac = estacionamentosDB.getEstacionamentoById(estacionamentoLote);
 
         try (Scanner scan = new Scanner(newFile)) {
             String line = scan.nextLine();
@@ -53,7 +45,7 @@ public class NotificaEstafetaController {
 
             EmailDB emaildb = new EmailDB();
 
-            estac = estacionamentosDB.getEstacionamentoById(estacionamentoLote);
+            Estacionamento estac = estacionamentosDB.getEstacionamentoById(estacionamentoLote);
 
             estacionamentosDB.addEstacionamentoScooter(estac,scoot);
             emaildb.sendEmail(this.estafeta.getEmail(), "Estacionamento Scooter", "A Scooter foi estacionada com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.");

@@ -2,7 +2,6 @@ package lapr.project.controller;
 
 import java.sql.SQLException;
 import java.util.List;
-import lapr.project.authorization.FacadeAuthorization;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;

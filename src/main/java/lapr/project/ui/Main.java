@@ -85,8 +85,6 @@ class Main {
             System.out.println(ex.getMessage());
         }
 */
-        //NotificaEstafetaUI nui = new NotificaEstafetaUI();
-        //nui.controller.simulateParkingScooter("rodrikcraft@gmail.com");
         LoginUI login = new LoginUI();
         login.menu();
         //AdminUI.addScooter();
