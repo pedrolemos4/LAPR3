@@ -8,7 +8,7 @@ public class NotificaEstafetaUI {
     NotificaEstafetaController controller;
 
     public NotificaEstafetaUI() throws IOException {
-        controller = new NotificaEstafetaController();
+        //controller = new NotificaEstafetaController();
 
     }
 }

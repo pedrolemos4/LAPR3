@@ -105,11 +105,12 @@ public class EstafetaDB extends DataHandler{
         }
     }
 
-    public void atualizarEstafeta(Estafeta est) {
+    public boolean atualizarEstafeta(Estafeta est) {
         if (validaEstafeta(est)){
             atualizarEstafeta(est.getNIF(), est.getEstado(), est.getPesoEstafeta());
             atualizarUtilizador(est.getNIF(), est.getNome(), est.getEmail(), est.getNumeroSegurancaSocial(), est.getPassword());
         }
+        return true;
     }
 
     private void atualizarEstafeta(int nif, int estadoEstafeta, double peso) {

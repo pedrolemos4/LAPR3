@@ -39,7 +39,7 @@ class RegistarEstafetaControllerTest {
 
     @Test
     void novoEstafeta() {
-        System.out.println("registaEstafeta");
+        System.out.println("novoEstafeta");
         Estafeta est = estafetaMock.novoEstafeta(1, "45", "56", 48, 486, "aaa");
         when(estafetaMock.novoEstafeta(1, "45", "56", 48, 486, "aaa")).thenReturn(est);
         assertEquals(est, estafetaMock.novoEstafeta(1, "45", "56", 48, 486, "aaa"));
