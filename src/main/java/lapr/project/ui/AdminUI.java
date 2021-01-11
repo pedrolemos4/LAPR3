@@ -111,7 +111,7 @@ public class AdminUI {
         System.out.println("Insira uma descrição única da scooter:");
         String descricao = LER.nextLine();
         System.out.println("Insira a capacidade máxima da bateria:");
-        int percentagemBateria = LER.nextInt();
+        double percentagemBateria = LER.nextInt();
 
         System.out.println("\nA scooter vai estar disponível imediatamente após a sua criação? (S/N)");
         LER.nextLine();

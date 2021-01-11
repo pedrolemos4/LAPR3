@@ -17,7 +17,7 @@ public class ScooterController {
         this.scooterDB = scooterDB;
     }
 
-    public Scooter addScooter(String descricao, int percentagemBateria, double pesoMaximo,
+    public Scooter addScooter(String descricao, double percentagemBateria, double pesoMaximo,
             double pesoScooter, double potencia,double areaFrontal, int estado) throws SQLException {
         Scooter scooter = new Scooter(descricao, percentagemBateria, pesoMaximo, 
                 pesoScooter, potencia,areaFrontal, estado);
