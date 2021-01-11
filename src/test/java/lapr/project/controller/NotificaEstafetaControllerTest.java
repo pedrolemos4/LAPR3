@@ -37,22 +37,25 @@ class NotificaEstafetaControllerTest {
         estacionamentoDBMock = mock(EstacionamentosDB.class);
         estafetaDBMock = mock(EstafetaDB.class);
         entregaDBMock = mock(EntregaDB.class);
-        instance = new NotificaEstafetaController(estafetaDBMock,scooterDBMock,entregaDBMock,estacionamentoDBMock);
-        s = new Scooter("", 23, 45, 3, 435, 34, 1);
-        e = new Estafeta();
-        et = new Entrega("","",0,0);
+        UserSession us = new UserSession(new User("123","1","123"));
+        UserSession.RefreshInstance(us);
+        s = new Scooter(1,"", 23, 45, 3, 435, 34, 1);
+        e = new Estafeta(1,"1","1",1,1,"1",1);
+        et = new Entrega("",null,1,1);
         est = new Estacionamento();
+
+        scooterDBMock.addScooter(s);
+        estafetaDBMock.addEstafeta(e);
+        entregaDBMock.addEntrega(et);
+        estacionamentoDBMock.addEstacionamento(est);
+
+        when(entregaDBMock.getEntregaAtiva(e.getEmail())).thenReturn(et);
+
+        instance = new NotificaEstafetaController(estafetaDBMock,scooterDBMock,entregaDBMock,estacionamentoDBMock);
     }
 
     @Test
     public void NotificaEstafetaControllerConstructorTest() throws SQLException {
-        UserSession us = new UserSession(new User("123","123","123"));
-        UserSession.RefreshInstance(us);
-
-        scooterDBMock.addScooter(new Scooter());
-        estafetaDBMock.addEstafeta(new Estafeta());
-        entregaDBMock.addEntrega(new Entrega("","",0,0));
-
         assertEquals(instance, instance);
     }
 }
