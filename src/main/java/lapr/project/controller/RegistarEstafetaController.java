@@ -10,8 +10,8 @@ public class RegistarEstafetaController {
 
     private final EstafetaDB estafetaDB;
 
-    public RegistarEstafetaController(){
-        this.estafetaDB = new EstafetaDB();
+    public RegistarEstafetaController(EstafetaDB estafetaDB){
+        this.estafetaDB = estafetaDB;
     }
 
     public List<Estafeta> getListaEstafetas() {

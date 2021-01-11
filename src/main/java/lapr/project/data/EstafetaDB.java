@@ -47,10 +47,11 @@ public class EstafetaDB extends DataHandler{
         return est;
     }
 
-    public void registaEstafeta(Estafeta est) {
+    public boolean registaEstafeta(Estafeta est) {
         if (validaEstafeta(est)){
             addEstafeta(est);
         }
+        return true;
     }
 
     public boolean validaEstafeta(Estafeta est) {
@@ -60,10 +61,11 @@ public class EstafetaDB extends DataHandler{
         return true;
     }
 
-    public void addEstafeta(Estafeta est) {
+    public boolean addEstafeta(Estafeta est) {
         addEstafeta(est.getNIF(), est.getEstado(), est.getPesoEstafeta());
         lstEstafetas.add(est);
         addUtilizador(est.getNIF(), est.getNome(), est.getEmail(), est.getNumeroSegurancaSocial(), est.getPassword());
+        return true;
     }
 
     private void addEstafeta(int nif, int estadoEstafeta, double peso) {
