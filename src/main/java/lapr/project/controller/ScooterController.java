@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr.project.controller;
 
 import java.sql.SQLException;
@@ -36,25 +31,20 @@ public class ScooterController {
         //Scooter scooter = new Scooter(idScooter, descricao, percentagemBateria, pesoMaximo,
           //      pesoScooter, potencia,areaFrontal, estado);
 
-        updated = scooterDB.updateScooter(scooter);
-        return updated;
+        return scooterDB.updateScooter(scooter);
     }
     
     public List<Scooter> getListaScooter(){
-        List<Scooter> list = scooterDB.getListaScooter();
-        return list;
+        return scooterDB.getListaScooter();
     }
 
     public Scooter getScooterById(int id){
-        Scooter scooter = scooterDB.getScooterById(id);
-        return scooter;
+        return scooterDB.getScooterById(id);
     }
     
     public boolean removeScooter(int idScooter) throws SQLException {
         boolean removed = false;
 
-        removed = scooterDB.removeScooter(idScooter);
-
-        return removed;
+        return scooterDB.removeScooter(idScooter);
     }
 }
