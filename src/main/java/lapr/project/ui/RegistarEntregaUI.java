@@ -22,11 +22,14 @@ import lapr.project.model.Scooter;
 public class RegistarEntregaUI {
     
     public static final Scanner LER = new Scanner(System.in);
-    
-    RegistarEntregaController controller;
+    private EstafetaDB estafetaDB;
+    private EntregaDB entregaDB;
+    private EncomendaDB encomendaDB;
+    private ScooterDB scooterDB;
+    public RegistarEntregaController controller;
 
-    public RegistarEntregaUI(RegistarEntregaController controller) {
-        this.controller = controller;
+    public RegistarEntregaUI() {
+        this.controller = new RegistarEntregaController(estafetaDB, entregaDB, encomendaDB, scooterDB);
     }
     
     public void introduzEntrega() throws SQLException {

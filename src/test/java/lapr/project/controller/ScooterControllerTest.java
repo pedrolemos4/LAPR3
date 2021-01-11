@@ -51,25 +51,6 @@ public class ScooterControllerTest {
         assertEquals(1, scooterDBMock.addScooter(s));
 
     }
-    
-    /**
-     * Test of addScooter method, of class ScooterController.
-     * @throws java.sql.SQLException
-     */
-    @Test
-    public void testAddScooter1() throws SQLException {
-        System.out.println("addScooter1");
-        String descricao = "";
-        int percentagemBateria = 1;
-        double pesoMaximo = 45.0;
-        double pesoScooter = 56.0;
-        double potencia = 12.0;
-        double areaFrontal = 0.0;
-        int estado = 1;
-        when(scooterDBMock.addScooter(s)).thenReturn(2);
-        assertEquals(2, scooterDBMock.addScooter(s));
-
-    }
 
     /**
      * Test of updateScooter method, of class ScooterController.

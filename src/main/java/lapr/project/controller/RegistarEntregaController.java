@@ -2,7 +2,6 @@ package lapr.project.controller;
 
 import java.sql.SQLException;
 import java.util.List;
-import lapr.project.authorization.FacadeAuthorization;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
@@ -24,11 +23,11 @@ public class RegistarEntregaController {
     private EncomendaDB encomendaDB;
     private ScooterDB scooterDB;
 
-    public RegistarEntregaController() {
-        this.estafetaDB = new EstafetaDB();
-        this.entregaDB = new EntregaDB();
-        this.encomendaDB = new EncomendaDB();
-        this.scooterDB = new ScooterDB();
+    public RegistarEntregaController(EstafetaDB estafetaDB, EntregaDB entregaDB, EncomendaDB encomendaDB, ScooterDB scooterDB) {
+        this.estafetaDB = estafetaDB;
+        this.entregaDB = entregaDB;
+        this.encomendaDB = encomendaDB;
+        this.scooterDB = scooterDB;
     }
     
     public List<Scooter> getListScooter(){
