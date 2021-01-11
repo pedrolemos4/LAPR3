@@ -5,8 +5,6 @@
  */
 package lapr.project.controller;
 
-import lapr.project.authorization.FacadeAuthorization;
-
 /**
  *
  * @author pedro
