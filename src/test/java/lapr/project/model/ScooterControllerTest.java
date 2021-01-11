@@ -1,4 +1,4 @@
-package lapr.project.controller;
+package lapr.project.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
