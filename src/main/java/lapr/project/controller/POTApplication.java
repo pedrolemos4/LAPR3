@@ -12,7 +12,7 @@ import lapr.project.authorization.FacadeAuthorization;
  * @author pedro
  */
 public class POTApplication {
-
+/*
     public static FacadeAuthorization m_oAuthorization = new FacadeAuthorization();
 
     public POTApplication() {
@@ -26,6 +26,6 @@ public class POTApplication {
     public static void setAuthorizationFacade(FacadeAuthorization authorizationFacade){
         m_oAuthorization = authorizationFacade;
     }
-    
+    */
 }
 
