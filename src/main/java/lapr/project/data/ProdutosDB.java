@@ -17,6 +17,8 @@ public class ProdutosDB extends DataHandler {
     private Produto prod;
     private final DataHandler dataHandler;
     private List<Produto> listEnc;
+    private List<Integer> listQuant;
+    private EncomendaDB encDB;
 
     private double peso;
     private double preco;
@@ -24,6 +26,7 @@ public class ProdutosDB extends DataHandler {
     public ProdutosDB() {
         this.dataHandler = DataHandler.getInstance();
         listEnc = new ArrayList<>();
+        listQuant = new ArrayList<>();
         peso = 0;
         preco = 0;
     }
@@ -113,11 +116,12 @@ public class ProdutosDB extends DataHandler {
             try(ResultSet rSet  = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
+                    int id1 = rSet.getInt(1);
                     String desig = rSet.getString(2);
                     double peso = rSet.getDouble(3);
                     double precoBase = rSet.getDouble(4);
 
-                    return new Produto(desig, peso, precoBase/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
+                    return new Produto(id1, desig, peso, precoBase);
                 }
             }
         } catch (SQLException e) {
@@ -139,11 +143,12 @@ public class ProdutosDB extends DataHandler {
             try(ResultSet rSet  = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
+                    int id = rSet.getInt(1);
                     String designacao = rSet.getString(2);
                     double peso = rSet.getDouble(3);
                     double precoBase = rSet.getDouble(4);
 
-                    list.add(new Produto(designacao, peso, precoBase));
+                    list.add(new Produto(id, designacao, peso, precoBase));
                 }
                 return list;
             }
@@ -153,14 +158,19 @@ public class ProdutosDB extends DataHandler {
         return list;
     }
 
-    public void addListaProdutos(Produto prod) {
+    /**
+     * Adiciona a lista de produtos da encomenda
+     * @param prod 
+     */
+    public void addListaProdutos(Produto prod, int qntd) {
         peso = peso + prod.getPeso();
         preco = preco + prod.getPrecoBase();
         listEnc.add(prod);
+        listQuant.add(qntd);
     }
-
-    public List<Produto> getListaProdutos(){
-        return listEnc;
+    
+    public List<Integer> getListaQuantidade(){
+        return listQuant;
     }
     
     public double getPreco(){
@@ -169,6 +179,49 @@ public class ProdutosDB extends DataHandler {
     
     public double getPeso(){
         return peso;
+    }
+
+    /**
+     * Retorna a lista de produtos da encomenda
+     * @return 
+     */
+    public List<Produto> getListaProdutos() {
+        return listEnc;
+    }
+
+    /**
+     * Remove os produtos da base de dadoa
+     * @param lst 
+     */
+    public void removerProdutosEncomenda(List<Produto> lst, List<Integer> lst2) {
+        for(int i=0;i<lst.size();i++){
+            Integer y = lst2.get(i);
+            while(y>0){
+                y--;
+                removerProdutosEncomenda(lst.get(i).getDesignacao());
+            }
+        }
+    }
+    
+    /**
+     * Remove os produtos da base de dadoa
+     * @param id 
+     */
+    private void removerProdutosEncomenda(String des) {
+        try {
+            openConnection();
+
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call procRemoverProduto(?) }")) {
+
+                callStmt.setString(1, des);
+
+                callStmt.execute();
+            }
+            closeAll();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
 }

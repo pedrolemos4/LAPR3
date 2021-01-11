@@ -40,6 +40,13 @@ public class Produto {
         this.precoBase = 0;
     }
 
+    public Produto(int id, String designacao, double peso, double precoBase) {
+        this.id = id;
+        this.designacao = designacao;
+        this.peso = peso;
+        this.precoBase = precoBase;
+    }
+
     /**
      * Devolve o id da scooter
      *

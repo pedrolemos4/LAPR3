@@ -41,9 +41,9 @@ public class RealizaEncomendaController {
         emailDB = new EmailDB();
     }
 
-    public void produtoEncomenda(Produto prod) {
-        if (verificaProdutoEncomenda(prod) == true) {
-            produtoDB.addListaProdutos(prod);
+    public void produtoEncomenda(Produto prod, int qntd) {
+        if (verificaProdutoEncomenda(prod, qntd) == true) {
+            produtoDB.addListaProdutos(prod, qntd);
         } else {
             try {
                 String assunto = "Produto nao disponivel.";
@@ -65,11 +65,15 @@ public class RealizaEncomendaController {
     }
 
     public List<Produto> getListaProdutoEncomenda() {
-        return produtoDB.getLista();
+        return produtoDB.getListaProdutos();
     }
 
     public List<Produto> getListStock() {
-        return produtoDB.getListaProdutos();
+        return produtoDB.getLista();
+    }
+    
+    public List<Integer> getListQuantidade(){
+        return produtoDB.getListaQuantidade();
     }
 
     public Produto getProdutoByID(int id) {
@@ -95,15 +99,18 @@ public class RealizaEncomendaController {
         String assunto = "Recibo.";
         String mensagem = rec.toString();
         String email = UserSession.getInstance().getUser().getEmail();
-        notificaCliente(email,assunto,mensagem);
+        notificaCliente(email, assunto, mensagem);
     }
 
     public void novoRecibo(Recibo rec, Produto prod) {
         reciboDB.registaRecibo(rec, prod);
     }
 
-    public boolean verificaProdutoEncomenda(Produto prod) {
-        return getListStock().contains(prod);
+    public boolean verificaProdutoEncomenda(Produto prod, int qntd) {
+        if (getListStock().contains(prod) == true && contarNumeroProds(prod) >= qntd) {
+            return true;
+        }
+        return false;
     }
 
     public void notificaCliente(String email, String assunto, String mensagem) throws MessagingException {
@@ -119,6 +126,21 @@ public class RealizaEncomendaController {
         }
 
         return preco + preco * taxa;
+    }
+
+    public void removerProdutosEncomenda(List<Produto> lst, List<Integer> lst2) {
+        produtoDB.removerProdutosEncomenda(lst, lst2);
+    }
+
+    private int contarNumeroProds(Produto prod) {
+        List<Produto> listStock = getListStock();
+        int i = 0;
+        for(Produto p : listStock){
+            if(p.getDesignacao()==prod.getDesignacao() && p.getPeso()==prod.getPeso() && p.getPrecoBase()==prod.getPrecoBase()){
+                i++;
+            }
+        }
+        return i;
     }
 
 }

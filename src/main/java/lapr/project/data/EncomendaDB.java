@@ -144,9 +144,10 @@ public class EncomendaDB extends DataHandler {
             openConnection();
 
             try (CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?) }")) {
-
-                callStmt1.setInt(1, enc.getId());
-                callStmt1.setInt(2, p.getId());
+                
+                callStmt1.registerOutParameter(1, OracleTypes.INTEGER);
+                callStmt1.setInt(2, enc.getId());
+                callStmt1.setInt(3, p.getId());
 
                 callStmt1.execute();
             }
