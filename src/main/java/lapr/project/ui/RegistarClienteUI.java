@@ -63,7 +63,8 @@ public class RegistarClienteUI {
         int ccv = LER.nextInt();
         System.out.println("Password:");
         String pwd = LER.nextLine();
-        Cliente cl = controller.novoCliente(nif, nome, email, nss, morada, ncc, pwd);
+        int creditos=0;
+        Cliente cl = controller.novoCliente(nif, nome, email, nss,creditos, morada, ncc, pwd);
         Endereco end = controller.novoEndereco(morada, lat, lon, alt);
         Cartao cc = controller.novoCartao(ncc, dvcc, ccv);
 

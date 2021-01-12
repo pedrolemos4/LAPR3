@@ -31,13 +31,13 @@ public class ClienteDB extends DataHandler {
      * @param nome nome do cliente
      * @param email email do cliente
      * @param numeroSegurancaSocial número de segurança social do cliente
+     * @param creditos
      * @param password password do cliente
      * @param morada morada do cliente
      * @param numCC número do cartão de cidadão do cliente
      * @return o novo cliente criado
      */
-    public Cliente novoCliente(int NIF, String nome, String email, int numeroSegurancaSocial, String morada, int numCC, String password) {
-        int creditos = 0;
+    public Cliente novoCliente(int NIF, String nome, String email, int numeroSegurancaSocial, int creditos, String morada, int numCC, String password) {
         return new Cliente(NIF, nome, email, numeroSegurancaSocial, creditos, morada, numCC, password);
     }
 
@@ -45,11 +45,13 @@ public class ClienteDB extends DataHandler {
      * Regista o cliente
      *
      * @param cl o cliente
+     * @return 
      */
-    public void registaCliente(Cliente cl) {
+    public boolean registaCliente(Cliente cl) {
         if (validaCliente(cl)) {
             addCliente(cl);
         }
+        return true;
     }
 
     /**
@@ -66,9 +68,11 @@ public class ClienteDB extends DataHandler {
      * Adiciona o cliente à base de dados
      *
      * @param cl o cliente
+     * @return 
      */
-    public void addCliente(Cliente cl) {
+    public boolean addCliente(Cliente cl) {
         addCliente(cl.getNIF(), cl.getCreditos(), cl.getEnderecoMorada(), cl.getNumCartaoCredito());
+        return true;
     }
 
     /**
@@ -82,7 +86,7 @@ public class ClienteDB extends DataHandler {
     public void addCliente(int nif, int creditos, String enderecoMorada, int numCC) {
         try {
             openConnection();
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addCliente(?,?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCliente(?,?,?,?) }")) {
                 callStmt.setInt(1, nif);
                 callStmt.setInt(2, creditos);
                 callStmt.setString(3, enderecoMorada);
@@ -104,8 +108,8 @@ public class ClienteDB extends DataHandler {
         ArrayList<Cliente> list = new ArrayList<>();
         String query = "SELECT * FROM cliente";
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
                     int creditos = rSet.getInt(2);
@@ -131,8 +135,8 @@ public class ClienteDB extends DataHandler {
     public Cliente getClienteByEmail(String email) {
         String query = "SELECT * FROM cliente e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE e.email= " + email;
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int aInt = rSet.getInt(1);

@@ -42,8 +42,8 @@ public class RegistarClienteController {
         return clienteDB.getLstClientes();
     }
 
-    public Cliente novoCliente(int NIF, String nome, String email, int numeroSegurancaSocial, String morada, int numCC, String password) {
-        return clienteDB.novoCliente(NIF, nome, email, numeroSegurancaSocial, morada, numCC, password);
+    public Cliente novoCliente(int NIF, String nome, String email, int numeroSegurancaSocial,int creditos, String morada, int numCC, String password) {
+        return clienteDB.novoCliente(NIF, nome, email, numeroSegurancaSocial,creditos, morada, numCC, password);
     }
 
     public Cartao novoCartao(int numCC, String dataValidade, int CCV) {

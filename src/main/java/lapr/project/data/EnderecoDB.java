@@ -41,11 +41,13 @@ public class EnderecoDB extends DataHandler {
      * Regista o endereço
      *
      * @param end endereço
+     * @return
      */
-    public void registaEndereco(Endereco end) {
+    public boolean registaEndereco(Endereco end) {
         if (validaEndereco(end)) {
             addEndereco(end);
         }
+        return true;
     }
 
     /**
@@ -62,9 +64,11 @@ public class EnderecoDB extends DataHandler {
      * Adiciona o endereço à base de dados
      *
      * @param end endereço
+     * @return
      */
-    public void addEndereco(Endereco end) {
+    public boolean addEndereco(Endereco end) {
         addEndereco(end.getMorada(), end.getLatitude(), end.getLongitude(), end.getAltitude());
+        return true;
     }
 
     /**
@@ -78,7 +82,7 @@ public class EnderecoDB extends DataHandler {
     public void addEndereco(String morada, double latitude, double longitude, double altitude) {
         try {
             openConnection();
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addEndereco(?,?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEndereco(?,?,?,?) }")) {
                 callStmt.setString(1, morada);
                 callStmt.setDouble(2, latitude);
                 callStmt.setDouble(3, longitude);
@@ -100,8 +104,8 @@ public class EnderecoDB extends DataHandler {
         ArrayList<Endereco> list = new ArrayList<>();
         String query = "SELECT * FROM endereco";
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     String morada = rSet.getString(1);
                     double latitude = rSet.getDouble(2);
@@ -126,8 +130,8 @@ public class EnderecoDB extends DataHandler {
     public Endereco getEnderecoByNifCliente(int nif) {
         String query = "SELECT * FROM endereco e INNER JOIN cliente c ON e.morada = c.Enderecomorada WHERE c.UtilizadorNIF = " + nif;
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     String morada = rSet.getString(1);
@@ -152,8 +156,8 @@ public class EnderecoDB extends DataHandler {
     public Endereco getEnderecoParque() {
         String query = "SELECT * FROM endereco e INNER JOIN parque c ON e.morada = c.Enderecomorada ";
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     String morada = rSet.getString(1);

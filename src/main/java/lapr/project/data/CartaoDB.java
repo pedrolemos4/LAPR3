@@ -41,11 +41,13 @@ public class CartaoDB extends DataHandler {
      * Regista cartão de cidadão
      *
      * @param cc cartão de cidadão
+     * @return
      */
-    public void registaCartao(Cartao cc) {
+    public boolean registaCartao(Cartao cc) {
         if (validaCartao(cc)) {
             addCartao(cc);
         }
+        return true;
     }
 
     /**
@@ -62,9 +64,11 @@ public class CartaoDB extends DataHandler {
      * Adiciona cartão de cidadão à base de dados
      *
      * @param cc cartão de cidadão
+     * @return
      */
-    public void addCartao(Cartao cc) {
+    public boolean addCartao(Cartao cc) {
         addCartao(cc.getNumeroCartao(), cc.getDataDeValidade(), cc.getCCV());
+        return true;
     }
 
     /**
@@ -77,7 +81,7 @@ public class CartaoDB extends DataHandler {
     public void addCartao(int numeroCartao, String dataDeValidade, int CCV) {
         try {
             openConnection();
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }")) {
                 callStmt.setInt(1, numeroCartao);
                 Timestamp dValidade = Timestamp.valueOf(dataDeValidade);
                 callStmt.setTimestamp(2, dValidade);
@@ -99,8 +103,8 @@ public class CartaoDB extends DataHandler {
         ArrayList<Cartao> list = new ArrayList<>();
         String query = "SELECT * FROM cartao";
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)){
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int numeroCartao = rSet.getInt(1);
                     String dataDeValidade = rSet.getTimestamp(2).toString();
