@@ -45,7 +45,7 @@ public class ClienteDB extends DataHandler {
      * Regista o cliente
      *
      * @param cl o cliente
-     * @return 
+     * @return
      */
     public boolean registaCliente(Cliente cl) {
         if (validaCliente(cl)) {
@@ -68,7 +68,7 @@ public class ClienteDB extends DataHandler {
      * Adiciona o cliente à base de dados
      *
      * @param cl o cliente
-     * @return 
+     * @return
      */
     public boolean addCliente(Cliente cl) {
         addCliente(cl.getNIF(), cl.getCreditos(), cl.getEnderecoMorada(), cl.getNumCartaoCredito());
@@ -83,12 +83,12 @@ public class ClienteDB extends DataHandler {
      * @param enderecoMorada morada do cliente
      * @param numCC número do cartão de cidadão do cliente
      */
-    public void addCliente(int nif, int creditos, String enderecoMorada, int numCC) {
+    public void addCliente(int nif, double creditos, String enderecoMorada, int numCC) {
         try {
             openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCliente(?,?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addCliente(?,?,?,?) }")) {
                 callStmt.setInt(1, nif);
-                callStmt.setInt(2, creditos);
+                callStmt.setDouble(2, creditos);
                 callStmt.setString(3, enderecoMorada);
                 callStmt.setInt(4, numCC);
                 callStmt.execute();
@@ -108,8 +108,8 @@ public class ClienteDB extends DataHandler {
         ArrayList<Cliente> list = new ArrayList<>();
         String query = "SELECT * FROM cliente";
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
                     int creditos = rSet.getInt(2);
@@ -133,10 +133,10 @@ public class ClienteDB extends DataHandler {
      * @return cliente
      */
     public Cliente getClienteByEmail(String email) {
-        String query = "SELECT * FROM cliente e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE e.email= " + email;
+        String query = "SELECT * FROM cliente e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.email= " + email;
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int aInt = rSet.getInt(1);
@@ -150,5 +150,25 @@ public class ClienteDB extends DataHandler {
             Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
         return null;
+    }
+
+    public boolean removerCreditos(String email, double creditosData) throws SQLException {
+
+        boolean removed = false;
+
+        try (CallableStatement callV = getConnection().prepareCall("{ call removeCreditos(?,?) }")) {
+
+            callV.setString(1, email);
+            callV.setDouble(2, creditosData);
+            callV.execute();
+
+            removed = true;
+            callV.close();
+        } catch (SQLException | NullPointerException ex) {
+            Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
+
+        }
+
+        return removed;
     }
 }

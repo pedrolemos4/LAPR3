@@ -20,6 +20,7 @@ import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Produto;
 import lapr.project.model.Recibo;
+import lapr.project.utils.Data;
 
 /**
  *
@@ -135,6 +136,18 @@ public class RealizaEncomendaController {
             }
         }
         return i;
+    }
+
+    public double getCreditosData(Data date, double preco) {
+        return encDB.getCreditosData(date, preco);
+    }
+
+    public double verificaCreditos(String email) {
+        return cliDB.getClienteByEmail(email).getCreditos();
+    }
+
+    public boolean removerCreditos(String email, double creditosData) throws SQLException {
+        return cliDB.removerCreditos(email, creditosData);
     }
 
 }

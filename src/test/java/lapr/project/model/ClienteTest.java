@@ -47,7 +47,7 @@ class ClienteTest extends UtilizadorTest {
     @Test
     void setCreditos() {
         Cliente novoCliente = new Cliente(123, 56, "não sei", 65746);
-        novoCliente.setCreditos(2);
+        novoCliente.setCreditos(2.0);
         assertEquals(2, novoCliente.getCreditos());
     }
 
@@ -76,4 +76,5 @@ class ClienteTest extends UtilizadorTest {
         novoCliente.setEnderecoMorada("sei");
         assertEquals("sei", novoCliente.getEnderecoMorada());
     }
+    
 }
