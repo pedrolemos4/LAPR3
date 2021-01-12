@@ -60,6 +60,8 @@ class RealizaEncomendaControllerTest {
     public void testProdutoEncomenda() {
         System.out.println("produtoEncomenda");
         Produto prod = new Produto("a",1,1);
+        boolean expResult = true;
+        when(encDB.registaEncomendaProduto(enc, prod)).thenReturn(expResult);
         assertEquals(false, instance.produtoEncomenda(prod,1));
     }
 
