@@ -11,16 +11,16 @@ package lapr.project.model;
  */
 public class EstadoScooter {
     
-    private int id_estado_scooter;
+    private int idEstadoScooter;
     private String designacao;
 
     /**
      * Constrói uma instância de estado da scooter com o id e a designação do estado
-     * @param id_estado_scooter id do estado da scooter
+     * @param idEstadoScooter id do estado da scooter
      * @param designacao designação do estado da scooter
      */
-    public EstadoScooter(int id_estado_scooter, String designacao){
-        this.id_estado_scooter = id_estado_scooter;
+    public EstadoScooter(int idEstadoScooter, String designacao){
+        this.idEstadoScooter = idEstadoScooter;
         this.designacao = designacao;
     }
 
@@ -28,13 +28,13 @@ public class EstadoScooter {
      * Constrói uma instância de estado da scooter com o id e designacao por omissão
      */
     public EstadoScooter(){
-        this.id_estado_scooter = 0;
+        this.idEstadoScooter = 0;
         this.designacao = "Indisponível";
     }
 
-    public EstadoScooter(int id_estado_scooter) {
-        this.id_estado_scooter = id_estado_scooter;
-        if(this.id_estado_scooter==1){
+    public EstadoScooter(int idEstadoScooter) {
+        this.idEstadoScooter = idEstadoScooter;
+        if(this.idEstadoScooter==1){
             this.designacao="Disponível";
         } else{
             this.designacao="Indisponível";
@@ -46,7 +46,7 @@ public class EstadoScooter {
      * @return id de estado da scooter
      */
     public int getId(){
-        return id_estado_scooter;
+        return idEstadoScooter;
     }
     
     /**

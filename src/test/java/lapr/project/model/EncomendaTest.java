@@ -144,7 +144,7 @@ class EncomendaTest {
         System.out.println("getNif");
         List<Produto> lp = new ArrayList<>();
         Produto p = new Produto();
-        Cliente c = new Cliente();
+        Cliente c = new Cliente(123,"Teste","@",1234,12,"Ali",123,"pass");
         lp.add(p);
         Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         int expResult = c.getNIF();

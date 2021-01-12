@@ -6,18 +6,18 @@ package lapr.project.model;
  */
 public class EstadoEstafeta {
     
-    private int id_estado_estafeta;
+    private int idEstadoEstafeta;
     private String designacao;
     
     /**
      * Constrói uma instância de EstadoEstafeta recebendo o id do estado do estafeta, o
      * designacao do estado de estafeta.
      *
-     * @param id_estado_estafeta id do estado de estafeta
+     * @param idEstadoEstafeta id do estado de estafeta
      * @param designacao designacao do estado de estafeta
      */
-    public EstadoEstafeta(int id_estado_estafeta, String designacao) {
-        this.id_estado_estafeta = id_estado_estafeta;
+    public EstadoEstafeta(int idEstadoEstafeta, String designacao) {
+        this.idEstadoEstafeta = idEstadoEstafeta;
         this.designacao = designacao;
     }
     
@@ -25,7 +25,7 @@ public class EstadoEstafeta {
      * Constrói uma instância de EstadoEstafeta com o estado do estafeta por omissão.
      */
     public EstadoEstafeta() {
-        this.id_estado_estafeta = 0;
+        this.idEstadoEstafeta = 0;
         this.designacao = null;
     }
     
@@ -34,15 +34,15 @@ public class EstadoEstafeta {
      * @return id de estado do estafeta
      */
     public int getId_estado_estafeta() {
-        return id_estado_estafeta;
+        return idEstadoEstafeta;
     }
     
     /**
      * Modifica o id de estado do estafeta
      * @param id_estado_estafeta o novo id de estado do estafeta
      */
-    public void setId_estado_estafeta(int id_estado_estafeta) {
-        this.id_estado_estafeta = id_estado_estafeta;
+    public void setId_estado_estafeta(int idEstadoEstafeta) {
+        this.idEstadoEstafeta = idEstadoEstafeta;
     }
     
     /**
