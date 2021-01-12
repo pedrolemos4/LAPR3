@@ -77,11 +77,7 @@ public class ProdutosDB extends DataHandler {
             atualizarProduto(prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase(), prod.getId());
             return true;
         }
-<<<<<<< HEAD
-        return true;
-=======
         return false;
->>>>>>> e9430a082f2ace1113f1f16e85491395cc330673
     }
 
     private void atualizarProduto(String desig, double peso, double precoBase, int id) {
@@ -212,7 +208,7 @@ public class ProdutosDB extends DataHandler {
     
     /**
      * Remove os produtos da base de dadoa
-     * @param id 
+     * @param des
      */
     private void removerProdutosEncomenda(String des) {
         try {
