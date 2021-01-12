@@ -219,4 +219,15 @@ public class ScooterTest {
         instance.setDescricao(descricao);
         assertEquals(descricao,instance.getDescricao());
     }
+
+    /**
+     * Test of toString method, of class Scooter.
+     */
+    @org.junit.Test
+    public void testToString() {
+        System.out.println("toString");
+        Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
+        String expResult = "descricao"+85+50+30+40+50+1;
+        assertEquals(expResult, instance.toString());
+    }
 }

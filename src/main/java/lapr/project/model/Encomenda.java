@@ -69,7 +69,7 @@ public class Encomenda {
      * @return 
      */
     public List<Produto> getLst() {
-        return lst;
+        return new ArrayList<>(lst);
     }
     
     
@@ -110,7 +110,7 @@ public class Encomenda {
      * @param lst 
      */
     public void setLst(List<Produto> lst) {
-        this.lst = lst;
+        this.lst = new ArrayList<>(lst);
     }
 
     /**
