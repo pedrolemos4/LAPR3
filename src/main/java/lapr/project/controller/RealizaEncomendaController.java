@@ -45,14 +45,10 @@ public class RealizaEncomendaController {
         if (verificaProdutoEncomenda(prod, qntd)) {
             return produtoDB.addListaProdutos(prod, qntd);
         } else {
-            try {
-                String assunto = "Produto nao disponivel.";
-                String mensagem = "O produto nao disponivel foi retirado da lista de produtos da sua encomenda.";
-                String email = UserSession.getInstance().getUser().getEmail();
-                notificaCliente(email, assunto, mensagem);
-            } catch (MessagingException ex) {
-                Logger.getLogger(RealizaEncomendaController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            String assunto = "Produto nao disponivel.";
+            String mensagem = "O produto nao disponivel foi retirado da lista de produtos da sua encomenda.";
+            String email = UserSession.getInstance().getUser().getEmail();
+            notificaCliente(email, assunto, mensagem);
         }
         return false;
     }
@@ -111,7 +107,7 @@ public class RealizaEncomendaController {
         return getListStock().contains(prod) == true && contarNumeroProds(prod) >= qntd;
     }
 
-    public boolean notificaCliente(String email, String assunto, String mensagem) throws MessagingException {
+    public boolean notificaCliente(String email, String assunto, String mensagem) {
         return emailDB.sendEmail(email, assunto, mensagem);
     }
 

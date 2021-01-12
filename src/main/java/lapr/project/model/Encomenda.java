@@ -10,7 +10,7 @@ public class Encomenda {
     private double taxa;
     private int nifCliente;
     private List<Produto> lst;
-    private int estado;
+    private EstadoEncomenda estado;
     private int id;
 
     /**
@@ -29,7 +29,7 @@ public class Encomenda {
         this.preco = preco;
         this.pesoEncomenda = pesoEncomenda;
         this.taxa = taxa;
-        this.estado = estado;
+        this.estado = new EstadoEncomenda(estado);
     }
 
     /**
@@ -141,7 +141,7 @@ public class Encomenda {
      * Devolve o valor do estado da encomenda
      * @return estado da encomenda
      */
-    public int getEstado() {
+    public EstadoEncomenda getEstado() {
         return estado;
     }
 
@@ -149,7 +149,7 @@ public class Encomenda {
      * Modifica o valor do estado da encomenda pelo valor recebido por parâmetro
      * @param estado novo estado da encomenda
      */
-    public void setEstado(int estado) {
+    public void setEstado(EstadoEncomenda estado) {
         this.estado = estado;
     }
 }

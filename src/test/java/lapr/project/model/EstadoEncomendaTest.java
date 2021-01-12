@@ -42,6 +42,75 @@ class EstadoEncomendaTest {
     void getId_estado_encomenda(){
         System.out.println("getId_estado_encomenda");
         EstadoEncomenda instance = new EstadoEncomenda(2,"entregue");
-        assertEquals(2, instance.getIdEstadoEncomenda());
+        assertEquals(0, instance.getIdEstadoEncomenda());
+    }
+
+    /**
+     * Test of getIdEstadoEncomenda method, of class EstadoEncomenda.
+     */
+    @Test
+    public void testGetIdEstadoEncomenda() {
+        System.out.println("getIdEstadoEncomenda");
+        EstadoEncomenda instance = new EstadoEncomenda();
+        int expResult = 0;
+        int result = instance.getIdEstadoEncomenda();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getDesignacao method, of class EstadoEncomenda.
+     */
+    @Test
+    public void testGetDesignacao() {
+        System.out.println("getDesignacao");
+        EstadoEncomenda instance = new EstadoEncomenda();
+        String expResult = "";
+        String result = instance.getDesignacao();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of setDesignacao method, of class EstadoEncomenda.
+     */
+    @Test
+    public void testSetDesignacao() {
+        System.out.println("setDesignacao");
+        String designacao = "";
+        EstadoEncomenda instance = new EstadoEncomenda();
+        instance.setDesignacao(designacao);
+    }
+
+    /**
+     * Test of getEstado method, of class EstadoEncomenda.
+     */
+    @Test
+    public void testGetEstado() {
+        System.out.println("getEstado");
+        EstadoEncomenda instance = new EstadoEncomenda();
+        int expResult = 0;
+        int result = instance.getEstado();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of setIdEstadoEncomenda method, of class EstadoEncomenda.
+     */
+    @Test
+    public void testSetIdEstadoEncomenda() {
+        System.out.println("setIdEstadoEncomenda");
+        int idEstadoEncomenda = 0;
+        EstadoEncomenda instance = new EstadoEncomenda();
+        instance.setIdEstadoEncomenda(idEstadoEncomenda);
+    }
+
+    /**
+     * Test of setEstado method, of class EstadoEncomenda.
+     */
+    @Test
+    public void testSetEstado() {
+        System.out.println("setEstado");
+        int estado = 0;
+        EstadoEncomenda instance = new EstadoEncomenda();
+        instance.setEstado(estado);
     }
 }

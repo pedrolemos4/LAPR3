@@ -66,7 +66,7 @@ public class EncomendaDB extends DataHandler {
      * @return
      */
     public boolean validaEncomenda(Encomenda enc) {
-        return enc.getNif() != 0 && enc.getDataPedida() != null && enc.getEstado() != 0 && enc.getId() != 0 && enc.getLst() != null && enc.getPesoEncomenda() > 0 && enc.getPreco() > 0 && enc.getTaxa() > 0;
+        return enc.getNif() != 0 && enc.getDataPedida() != null && enc.getEstado().getEstado()<3 || enc.getEstado().getEstado()>0 && enc.getId() != 0 && enc.getLst() != null && enc.getPesoEncomenda() > 0 && enc.getPreco() > 0 && enc.getTaxa() > 0;
     }
 
     /**
@@ -88,7 +88,7 @@ public class EncomendaDB extends DataHandler {
      * @param enc
      */
     public int addEncomenda(Encomenda enc) throws SQLException {
-        return addEncomenda(enc.getNif(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado(), enc.getLst());
+        return addEncomenda(enc.getNif(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado().getIdEstadoEncomenda(), enc.getLst());
     }
 
     /**
