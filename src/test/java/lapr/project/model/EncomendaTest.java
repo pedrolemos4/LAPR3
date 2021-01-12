@@ -226,13 +226,12 @@ class EncomendaTest {
     @Test
     public void testSetLst() {
         System.out.println("setLst");
-        List<Produto> lst = null;
         List<Produto> lp = new ArrayList<>();
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
         Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
-        instance.setLst(lst);
+        instance.setLst(lp);
     }
 
     /**
