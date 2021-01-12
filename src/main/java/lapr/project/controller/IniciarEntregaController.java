@@ -24,15 +24,16 @@ public class IniciarEntregaController {
     private final EncomendaDB encomendaDB;
     private final EstafetaDB estafetaDB;
     private final EnderecoDB enderecoDB;
-    private ScooterDB scooterDB;
+    private final ScooterDB scooterDB;
 
-    public IniciarEntregaController() {
-        this.entregaDB = new EntregaDB();
-        this.encomendaDB = new EncomendaDB();
-        this.estafetaDB = new EstafetaDB();
-        this.enderecoDB = new EnderecoDB();
+    public IniciarEntregaController(EntregaDB entregaDB, EncomendaDB encomendaDB, EstafetaDB estafetaDB, EnderecoDB enderecoDB, ScooterDB scooterDB) {
+        this.entregaDB = entregaDB;
+        this.encomendaDB = encomendaDB;
+        this.estafetaDB = estafetaDB;
+        this.enderecoDB = enderecoDB;
+        this.scooterDB = scooterDB;
     }
-    
+   
     public List<Entrega> getListaEntregaByNifEstafeta(int nifEstafeta){
         return entregaDB.getListaEntregaByNifEstafeta(nifEstafeta);
     }
