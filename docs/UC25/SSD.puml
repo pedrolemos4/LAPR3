@@ -16,6 +16,13 @@ deactivate ":Sistema"
 
 UNR -> ":Sistema" : confirma
 activate ":Sistema"
+
+":Sistema" --> UNR : solicita se quer pagar em creditos
+deactivate ":Sistema"
+
+UNR -> ":Sistema" : Insere a informação pedida
+activate ":Sistema"
+
 ":Sistema" --> UNR : gera o recibo e informa que a operação foi bem sucedida
 deactivate ":Sistema"
 

@@ -49,7 +49,13 @@ class Cliente {
   -creditos
 }
 
+class EstadoEncomenda {
+  -id_estado_encomenda
+  -designacao
+}
 
+
+Encomenda "1" -- "1" EstadoEncomenda : tem >
 Cliente "1" -- "1" Utilizador: atua como >
 Cliente "1" -- "*" Encomenda: realiza e paga >
 Encomenda "1" -- "1..*" Produto: tem >
