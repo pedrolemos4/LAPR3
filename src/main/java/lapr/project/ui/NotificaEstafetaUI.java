@@ -5,10 +5,10 @@ import lapr.project.controller.NotificaEstafetaController;
 import java.io.IOException;
 
 public class NotificaEstafetaUI {
+
     NotificaEstafetaController controller;
 
     public NotificaEstafetaUI() throws IOException {
-        //controller = new NotificaEstafetaController();
-
+        //Dummy constructor to be called and have acess to the instance methods of NotificaEstafetaUI
     }
 }

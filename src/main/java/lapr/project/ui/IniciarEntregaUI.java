@@ -1,8 +1,5 @@
 package lapr.project.ui;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -26,7 +23,7 @@ public class IniciarEntregaUI {
     
     public static final Scanner LER = new Scanner(System.in);
     
-    public IniciarEntregaController controller;
+    public final IniciarEntregaController controller;
 
     public IniciarEntregaUI() {
         this.controller = new IniciarEntregaController(new EntregaDB(), new EncomendaDB(), new EstafetaDB(), new EnderecoDB(), new ScooterDB());

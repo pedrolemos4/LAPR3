@@ -22,7 +22,7 @@ import lapr.project.model.Scooter;
 public class RegistarEntregaUI {
     
     public static final Scanner LER = new Scanner(System.in);
-    public RegistarEntregaController controller;
+    public final RegistarEntregaController controller;
 
     public RegistarEntregaUI() {
         this.controller = new RegistarEntregaController(new EstafetaDB(),new EntregaDB(), new EncomendaDB(), new ScooterDB());
@@ -41,7 +41,7 @@ public class RegistarEntregaUI {
         Scooter scooter = controller.getScooter(idScooter);
         
         Estafeta est = controller.getEstafeta();
-        int NifEstafeta = est.getNIF();
+        int nifEstafeta = est.getNIF();
         
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
         Date date = new Date(System.currentTimeMillis());
@@ -61,7 +61,7 @@ public class RegistarEntregaUI {
         String confirm = LER.nextLine();
         
         if(confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")){
-            Entrega entr = new Entrega(dataInicio, dataFim, idScooter, NifEstafeta);
+            Entrega entr = new Entrega(dataInicio, dataFim, idScooter, nifEstafeta);
             controller.addEntrega(entr);
             
             System.out.println("Lista de encomendas por fazer entrega: ");

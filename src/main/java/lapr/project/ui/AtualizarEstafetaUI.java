@@ -25,9 +25,9 @@ public class AtualizarEstafetaUI {
         }
 
         System.out.println("Insira o email do estafeta a atualizar:");
-        String e_mail = LER.nextLine();
+        String email = LER.nextLine();
 
-        Estafeta est = controller.getEstafetaByEmail(e_mail);
+        Estafeta est = controller.getEstafetaByEmail(email);
 
         if (!controller.getListaEstafetas().contains(est)){
             System.out.println("O estafeta não existe!");
@@ -39,7 +39,7 @@ public class AtualizarEstafetaUI {
             System.out.println("Nome:");
             String nome = LER.nextLine();
             System.out.println("Email:");
-            String email = LER.nextLine();
+            String email1 = LER.nextLine();
             System.out.println("Peso:");
             double peso = LER.nextDouble();
             System.out.println("Número de Segurança Social:");
@@ -47,7 +47,7 @@ public class AtualizarEstafetaUI {
             System.out.println("Password:");
             String pwd = LER.nextLine();
 
-            Estafeta new_est = new Estafeta(nif,nome,email,peso,nss,pwd,1);
+            Estafeta new_est = new Estafeta(nif,nome,email1,peso,nss,pwd,1);
 
             System.out.println("--Novos Dados do Estafeta--");
             System.out.println(new_est.getNIF());
@@ -62,7 +62,7 @@ public class AtualizarEstafetaUI {
             if(confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")){
                 est.setNIF(nif);
                 est.setNome(nome);
-                est.setEmail(email);
+                est.setEmail(email1);
                 est.setPesoEstafeta(peso);
                 est.setNumeroSegurancaSocial(nss);
                 est.setPassword(pwd);

@@ -129,34 +129,13 @@ public class RegistarClienteUI {
                 case "1":
                     realizarEncomenda();
                     break;
-                /*case "2":
-                    getNearestParks();
-                    break;
-                case "3":
-                    getUserHistorical();
-                    break;
-                case "4":
-                    parkVehicleAtAGivenPark();
-                    break;
-                case "5":
-                    System.out.println("Not available at the moment.");
-                    break;
-                case "6":
-                    checkParkFeeSpotsForMyLoanedVehicle();
-                    break;
-                case "7":
-                    checkParkFreeScooterSpots();
-                    break;
-                case "8":
-                    checkParkFreeBicycleSpots();
-                    break;*/
                 case "0":
                     exit(0);
                     break;
                 default:
                     System.out.println("Insira uma opção válida");
             }
-        } while (!opt.equals("0"));// || isNumeric(opt));
+        } while (!opt.equals("0"));
     }
 
     public void realizarEncomenda() throws SQLException, ClassNotFoundException{

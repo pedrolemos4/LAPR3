@@ -17,11 +17,8 @@ import lapr.project.data.EncomendaDB;
 import lapr.project.data.ProdutosDB;
 import lapr.project.data.ReciboDB;
 import lapr.project.model.Encomenda;
-import lapr.project.model.Entrega;
-import lapr.project.model.Estafeta;
 import lapr.project.model.Produto;
 import lapr.project.model.Recibo;
-import static lapr.project.ui.RegistarEntregaUI.LER;
 
 /**
  *
@@ -66,8 +63,6 @@ public class RealizarEncomendaUI {
         String confirm = LER.nextLine();
 
         if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-            
             Date date = new Date(System.currentTimeMillis());
             
             Encomenda enc = new Encomenda(controller.getNifCliente(), date.toString(), controller.getPreco(), controller.getPeso(), 0.6, 1);

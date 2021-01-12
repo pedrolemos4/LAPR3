@@ -9,10 +9,6 @@ import static java.lang.System.exit;
 import java.sql.SQLException;
 import java.util.Scanner;
 import lapr.project.controller.RegistarClienteController;
-import lapr.project.data.CartaoDB;
-import lapr.project.data.ClienteDB;
-import lapr.project.data.EnderecoDB;
-import lapr.project.data.UtilizadorDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Utilizador;
 
@@ -27,6 +23,7 @@ public class LoginUI {
     private static final String ADMIN_ACESS = "adminpass";
 
     public LoginUI() {
+        //Dummy constructor to be called and have acess to the instance methods of LoginUI
     }
 
     public static void textoMenuLogin() {
@@ -82,7 +79,7 @@ public class LoginUI {
     public void registo() throws ClassNotFoundException, SQLException {
         RegistarClienteUI rcui = new RegistarClienteUI();
         boolean res = rcui.registaCliente();
-        if (res == true) {
+        if (res) {
             rcui.menuCliente();
         } else {
             menu();

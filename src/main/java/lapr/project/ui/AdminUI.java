@@ -55,18 +55,6 @@ public class AdminUI {
             opt = LER.nextLine();
 
             switch (opt) {
-                /* case "1":
-                    addPark();
-                    break;
-                case "2":
-                    addPOI();
-                    break;
-                case "3":
-                    removePark();
-                    break;
-                case "4":
-                    updatePark();
-                    break;*/
                 case "1":
                     addScooter();
                     break;
@@ -88,19 +76,13 @@ public class AdminUI {
                 case "7":
                     atualizarItem();
                     break;
-                /*case "8":
-                    getUnlockedvehicles();
-                    break;
-                case "9":
-                    addPath();
-                    break;*/
                 case "0":
                     exit(0);
                     break;
                 default:
                     System.out.println("Invalid option");
             }
-        } while (!opt.equals("0"));// || isNumeric(opt));
+        } while (!opt.equals("0"));
     }
 
     /**
@@ -126,8 +108,6 @@ public class AdminUI {
             estado = "Indisponível";
         }
 
-        /*System.out.println("Insert the scooter's description:");
-        String description = LER.nextLine();*/
         System.out.println("Insira o peso total da scooter:");
         double peso = LER.nextDouble();
 
@@ -139,12 +119,7 @@ public class AdminUI {
 
         System.out.println("Insira a área frontal da scooter:");
         double areaFrontal = LER.nextDouble();
-        /*System.out.println("Insert the scooter's aerodynamic coefficient:");
-        double aerodynamicCoefficient = LER.nextDouble();
         
-        System.out.println("Insert the scooter's motor:");
-        int motor = LER.nextInt();*/
-
         System.out.println("Descrição:\t" + descricao
                 + "\nEstado:\t" + estado
                 + "\nCapacidade de Bateria:\t" + percentagemBateria
@@ -247,14 +222,11 @@ public class AdminUI {
         System.out.println("\nA scooter vai estar disponível imediatamente após a sua atualização? (S/N)");
         resposta = LER.nextLine();
         int idestado;
-        String estado;
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("SIM")) {
             idestado = 1;
-            estado = "Disponível";
             scooter.setEstadoScooter(idestado);
         } else {
             idestado = 0;
-            estado = "Indisponível";
             scooter.setEstadoScooter(idestado);
         }
 

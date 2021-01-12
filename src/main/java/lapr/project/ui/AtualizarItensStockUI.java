@@ -41,12 +41,12 @@ public class AtualizarItensStockUI {
             System.out.println("Preço Base:");
             double preco = LER.nextDouble();
             
-            Produto new_prod = new Produto(desig,peso,preco);
+            Produto newProd = new Produto(desig,peso,preco);
             
             System.out.println("--Novos Dados do Produto--");
-            System.out.println(new_prod.getDesignacao());
-            System.out.println(new_prod.getPeso());
-            System.out.println(new_prod.getPrecoBase());
+            System.out.println(newProd.getDesignacao());
+            System.out.println(newProd.getPeso());
+            System.out.println(newProd.getPrecoBase());
             System.out.println("Deseja atualizar os dados do produto? (S/N)");
             String confirm = LER.next();
 

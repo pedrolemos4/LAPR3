@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.InserirEstacionamentosController;
-import lapr.project.data.EstacionamentosDB;
-import lapr.project.data.ParqueDB;
 import lapr.project.model.Estacionamento;
 
 public class InserirEstacionamentosUI {
@@ -24,7 +22,7 @@ public class InserirEstacionamentosUI {
     /**
      * Interface responsável por inserir estacionamentos
      */
-    public void InserirEstacionamento() {
+    public void inserirEstacionamento() {
         List<Estacionamento> lestac = new ArrayList<>();
         System.out.println("--Registo de Novo Estacionamento--");
         System.out.println("Introduza o NIF do parque/farmácia:");
