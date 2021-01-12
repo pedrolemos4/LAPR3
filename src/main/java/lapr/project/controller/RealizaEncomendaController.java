@@ -33,12 +33,12 @@ public class RealizaEncomendaController {
     private final ReciboDB reciboDB;
     private final EmailDB emailDB;
 
-    public RealizaEncomendaController() {
-        produtoDB = new ProdutosDB();
-        encDB = new EncomendaDB();
-        reciboDB = new ReciboDB();
-        cliDB = new ClienteDB();
-        emailDB = new EmailDB();
+    public RealizaEncomendaController(ProdutosDB prod, EncomendaDB enc, ReciboDB rec, ClienteDB cl, EmailDB em) {
+        this.produtoDB = prod;
+        this.encDB = enc;
+        this.reciboDB = rec;
+        this.cliDB = cl;
+        this.emailDB = em;
     }
 
     public void produtoEncomenda(Produto prod, int qntd) {
@@ -56,12 +56,12 @@ public class RealizaEncomendaController {
         }
     }
 
-    public void registaEncomenda(Encomenda enc1) throws SQLException {
-        encDB.registaEncomenda(enc1);
+    public boolean registaEncomenda(Encomenda enc1) throws SQLException {
+        return encDB.registaEncomenda(enc1);
     }
 
-    public void registaEncomendaProduto(Encomenda enc, Produto p) {
-        encDB.registaEncomendaProduto(enc, p);
+    public boolean registaEncomendaProduto(Encomenda enc, Produto p) {
+        return encDB.registaEncomendaProduto(enc, p);
     }
 
     public List<Produto> getListaProdutoEncomenda() {
@@ -94,12 +94,12 @@ public class RealizaEncomendaController {
         return cliente.getNIF();
     }
 
-    public void novoRecibo(Recibo rec) throws SQLException, MessagingException {
+    public boolean novoRecibo(Recibo rec) throws SQLException, MessagingException {
         reciboDB.registaRecibo(rec);
         String assunto = "Recibo.";
         String mensagem = rec.toString();
         String email = UserSession.getInstance().getUser().getEmail();
-        notificaCliente(email, assunto, mensagem);
+        return notificaCliente(email, assunto, mensagem);
     }
 
     public void novoRecibo(Recibo rec, Produto prod) {
@@ -113,8 +113,8 @@ public class RealizaEncomendaController {
         return false;
     }
 
-    public void notificaCliente(String email, String assunto, String mensagem) throws MessagingException {
-        emailDB.sendEmail(email, assunto, mensagem);
+    public boolean notificaCliente(String email, String assunto, String mensagem) throws MessagingException {
+        return emailDB.sendEmail(email, assunto, mensagem);
     }
 
     public double getPrecoTotal(double taxa) {

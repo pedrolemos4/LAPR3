@@ -11,6 +11,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.RealizaEncomendaController;
+import lapr.project.data.ClienteDB;
+import lapr.project.data.EmailDB;
+import lapr.project.data.EncomendaDB;
+import lapr.project.data.ProdutosDB;
+import lapr.project.data.ReciboDB;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
@@ -29,7 +34,7 @@ public class RealizarEncomendaUI {
     RealizaEncomendaController controller;
 
     public RealizarEncomendaUI() {
-        controller = new RealizaEncomendaController();
+        controller = new RealizaEncomendaController(new ProdutosDB(), new EncomendaDB(), new ReciboDB(), new ClienteDB(), new EmailDB());
     }
 
     public void introduzEncomenda() throws SQLException {

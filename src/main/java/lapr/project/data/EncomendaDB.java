@@ -91,8 +91,8 @@ public class EncomendaDB extends DataHandler {
      *
      * @param enc
      */
-    public void addEncomenda(Encomenda enc) throws SQLException {
-        addEncomenda(enc.getNif(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado(), enc.getLst());
+    public int addEncomenda(Encomenda enc) throws SQLException {
+        return addEncomenda(enc.getNif(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado(), enc.getLst());
     }
 
     /**
@@ -139,23 +139,33 @@ public class EncomendaDB extends DataHandler {
      * @param enc
      * @param p
      */
-    public void registaEncomendaProduto(Encomenda enc, Produto p) {
+    public boolean registaEncomendaProduto(Encomenda enc, Produto p) {
+        if (validaEncomenda(enc)) {
+            registaEncomendaProduto(enc.getId(), p.getId());
+        }
+        return false;
+    }
+
+    private int registaEncomendaProduto(int enc, int p) {
+        int id=0;
         try {
             openConnection();
 
             try (CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?) }")) {
-                
+
                 callStmt1.registerOutParameter(1, OracleTypes.INTEGER);
-                callStmt1.setInt(2, enc.getId());
-                callStmt1.setInt(3, p.getId());
+                callStmt1.setInt(2, enc);
+                callStmt1.setInt(3, p);
 
                 callStmt1.execute();
+                id = callStmt1.getInt(1);
             }
             closeAll();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return id;
     }
 
     /**
@@ -182,10 +192,10 @@ public class EncomendaDB extends DataHandler {
         return getFromDatabase(query);
     }
 
-    public List<Encomenda> getFromDatabase(String query){
+    public List<Encomenda> getFromDatabase(String query) {
         ArrayList<Encomenda> list = new ArrayList<>();
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int idEncomenda = rSet.getInt(1);
