@@ -40,11 +40,13 @@ public class ParqueDB extends DataHandler {
      * Regista o parque
      *
      * @param park parque
+     * @return
      */
-    public void registaParque(Parque park) {
+    public boolean registaParque(Parque park) {
         if (validaParque(park)) {
             addParque(park);
         }
+        return true;
     }
 
     /**
@@ -76,7 +78,7 @@ public class ParqueDB extends DataHandler {
     public void addParque(int nif, String morada, int numMax) {
         try {
             openConnection();
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addParque(?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addParque(?,?,?) }")) {
                 callStmt.setInt(1, nif);
                 callStmt.setString(2, morada);
                 callStmt.setInt(3, numMax);
@@ -97,8 +99,8 @@ public class ParqueDB extends DataHandler {
         ArrayList<Parque> list = new ArrayList<>();
         String query = "SELECT * FROM parque";
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
                     String morada = rSet.getString(2);
@@ -122,9 +124,9 @@ public class ParqueDB extends DataHandler {
      */
     public int getNumMaxParqueByNIF(int parqueNif) {
         int numMax = 0;
-        String query = "SELECT p.numeroMaximo FROM parque p INNER JOIN estacionamento e ON p.FaarmaciaNIF = e.ParqueFarmaciaNIF WHERE p.FaarmaciaNIF = " + parqueNif;
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        String query = "SELECT p.numeroMaximo FROM parque p INNER JOIN estacionamento e ON p.FarmaciaNIF = e.ParqueFarmaciaNIF WHERE p.FarmaciaNIF = " + parqueNif;
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
                 numMax = rSet.getInt(1);
             }
         } catch (SQLException e) {

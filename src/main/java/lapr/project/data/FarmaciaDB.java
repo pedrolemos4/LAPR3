@@ -38,11 +38,13 @@ public class FarmaciaDB extends DataHandler {
      * Regista a farmacia
      *
      * @param farm farmacia
+     * @return
      */
-    public void registaFarmacia(Farmacia farm) {
+    public boolean registaFarmacia(Farmacia farm) {
         if (validaFarmacia(farm)) {
             addFarmacia(farm);
         }
+        return true;
     }
 
     /**
@@ -59,9 +61,11 @@ public class FarmaciaDB extends DataHandler {
      * Adiciona a farmacia à base de dados
      *
      * @param farm farmacia
+     * @return
      */
-    public void addFarmacia(Farmacia farm) {
+    public boolean addFarmacia(Farmacia farm) {
         addFarmacia(farm.getNIF());
+        return true;
     }
 
     /**
@@ -72,7 +76,7 @@ public class FarmaciaDB extends DataHandler {
     public void addFarmacia(int nif) {
         try {
             openConnection();
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?) }")) {
                 callStmt.setInt(1, nif);
                 callStmt.execute();
             }
@@ -91,8 +95,8 @@ public class FarmaciaDB extends DataHandler {
         ArrayList<Farmacia> list = new ArrayList<>();
         String query = "SELECT * FROM farmacia";
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
                     list.add(new Farmacia(nif));

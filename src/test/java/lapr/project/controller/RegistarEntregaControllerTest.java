@@ -9,7 +9,6 @@ import lapr.project.data.EstafetaDB;
 import lapr.project.data.ScooterDB;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Entrega;
-import lapr.project.model.Estafeta;
 import lapr.project.model.Scooter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;

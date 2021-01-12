@@ -1,10 +1,6 @@
 package lapr.project.controller;
 
-import lapr.project.data.EntregaDB;
-import lapr.project.data.EstacionamentosDB;
-import lapr.project.data.EstafetaDB;
-import lapr.project.data.ScooterDB;
-import lapr.project.login.User;
+import lapr.project.data.*;
 import lapr.project.login.UserSession;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estacionamento;
@@ -37,25 +33,28 @@ class NotificaEstafetaControllerTest {
         estacionamentoDBMock = mock(EstacionamentosDB.class);
         estafetaDBMock = mock(EstafetaDB.class);
         entregaDBMock = mock(EntregaDB.class);
-        UserSession us = new UserSession(new User("123","1","123"));
-        UserSession.RefreshInstance(us);
+
         s = new Scooter(1,"", 23, 45, 3, 435, 34, 1);
         e = new Estafeta(1,"1","1",1,1,"1",1);
         et = new Entrega("",null,1,1);
-        est = new Estacionamento();
+        est = new Estacionamento(1,1,12);
+
+        UserSession.getInstance().setUser(e);
 
         scooterDBMock.addScooter(s);
         estafetaDBMock.addEstafeta(e);
         entregaDBMock.addEntrega(et);
         estacionamentoDBMock.addEstacionamento(est);
 
+        when(estafetaDBMock.getEstafetaByEmail(e.getEmail())).thenReturn(e);
         when(entregaDBMock.getEntregaAtiva(e.getEmail())).thenReturn(et);
+        when(scooterDBMock.getScooterById(s.getId())).thenReturn(s);
 
         instance = new NotificaEstafetaController(estafetaDBMock,scooterDBMock,entregaDBMock,estacionamentoDBMock);
     }
 
     @Test
-    public void NotificaEstafetaControllerConstructorTest() throws SQLException {
+    public void NotificaEstafetaControllerConstructorTest(){
         assertEquals(instance, instance);
     }
 }

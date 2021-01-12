@@ -45,11 +45,13 @@ public class EstacionamentosDB extends DataHandler {
      * Regista o estacionamento
      *
      * @param estac estacionamento
+     * @return
      */
-    public void registaEstacionamento(Estacionamento estac) {
+    public boolean registaEstacionamento(Estacionamento estac) {
         if (validaEstacionamento(estac)) {
             addEstacionamento(estac);
         }
+        return true;
     }
 
     /**
@@ -66,9 +68,11 @@ public class EstacionamentosDB extends DataHandler {
      * Adiciona o estacionamento à base de dados
      *
      * @param estac estacionamento
+     * @return
      */
-    public void addEstacionamento(Estacionamento estac) {
+    public boolean addEstacionamento(Estacionamento estac) {
         addEstacionamento(estac.getNumeroLote(), estac.getCarregador(), estac.getNIF());
+        return true;
     }
 
     /**
@@ -82,7 +86,7 @@ public class EstacionamentosDB extends DataHandler {
     public void addEstacionamento(int numeroLote, int carregador, int nif) {
         try {
             openConnection();
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamento(?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamento(?,?,?) }")) {
                 callStmt.setInt(1, numeroLote);
                 callStmt.setInt(2, carregador);
                 callStmt.setInt(3, nif);
@@ -103,8 +107,8 @@ public class EstacionamentosDB extends DataHandler {
         ArrayList<Estacionamento> list = new ArrayList<>();
         String query = "SELECT * FROM estacionamento";
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int numLote = rSet.getInt(1);
                     int carregador = rSet.getInt(2);
@@ -129,8 +133,8 @@ public class EstacionamentosDB extends DataHandler {
     public List<Estacionamento> getLstEstacionamentosByNif(int parqueNif) {
         ArrayList<Estacionamento> list = new ArrayList<>();
         String query = "SELECT e.numeroLote, e.carregador, e.ParqueFarmaciaNIF FROM estacionamento e INNER JOIN parque p ON p.FaarmaciaNIF = e.ParqueFarmaciaNIF WHERE p.FaarmaciaNIF = " + parqueNif;
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int numLote = rSet.getInt(1);
                     int carregador = rSet.getInt(2);
@@ -148,8 +152,8 @@ public class EstacionamentosDB extends DataHandler {
     public Estacionamento getEstacionamentoById(int loteEstacionameto) {
         String query = "SELECT * FROM estacionamento WHERE numerolote = " + loteEstacionameto;
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int lote = rSet.getInt(1);
@@ -168,7 +172,7 @@ public class EstacionamentosDB extends DataHandler {
     public void addEstacionamentoScooter(Estacionamento estacionamento, Scooter scooter) {
         try {
             openConnection();
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoScooter(?,?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoScooter(?,?,?,?) }")) {
                 callStmt.setInt(1, estacionamento.getNIF());
                 callStmt.setInt(2, scooter.getId());
                 callStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));

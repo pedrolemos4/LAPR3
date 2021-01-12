@@ -7,6 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.IniciarEntregaController;
+import lapr.project.data.EncomendaDB;
+import lapr.project.data.EnderecoDB;
+import lapr.project.data.EntregaDB;
+import lapr.project.data.EstafetaDB;
+import lapr.project.data.ScooterDB;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
@@ -21,10 +26,15 @@ public class IniciarEntregaUI {
     
     public static final Scanner LER = new Scanner(System.in);
     
-    IniciarEntregaController controller;
+    public IniciarEntregaController controller;
+    private EntregaDB entregaDB;
+    private EncomendaDB encomendaDB;
+    private EstafetaDB estafetaDB;
+    private EnderecoDB enderecoDB;
+    private ScooterDB scooterDB;
 
-    public IniciarEntregaUI(IniciarEntregaController controller) {
-        this.controller = controller;
+    public IniciarEntregaUI() {
+        this.controller = new IniciarEntregaController(entregaDB, encomendaDB, estafetaDB, enderecoDB, scooterDB);
     }
     
     public void iniciaEntrega() {
