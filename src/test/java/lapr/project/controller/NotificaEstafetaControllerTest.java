@@ -1,5 +1,6 @@
 package lapr.project.controller;
 
+import java.io.FileNotFoundException;
 import lapr.project.data.*;
 import lapr.project.login.UserSession;
 import lapr.project.model.Entrega;
@@ -22,6 +23,7 @@ class NotificaEstafetaControllerTest {
     private EstacionamentosDB estacionamentoDBMock;
     private EstafetaDB estafetaDBMock;
     private EntregaDB entregaDBMock;
+    private EmailDB emailDBMock;
     private Scooter s;
     private Estafeta e;
     private Entrega et;
@@ -32,10 +34,11 @@ class NotificaEstafetaControllerTest {
         scooterDBMock = mock(ScooterDB.class);
         estacionamentoDBMock = mock(EstacionamentosDB.class);
         estafetaDBMock = mock(EstafetaDB.class);
+        emailDBMock = mock(EmailDB.class);
         entregaDBMock = mock(EntregaDB.class);
 
         s = new Scooter(1,"", 23, 45, 3, 435, 34, 1);
-        e = new Estafeta(1,"1","1",1,1,"1",1);
+        e = new Estafeta(1,"1","abf@gmail.com",1,1,"1",1);
         et = new Entrega("",null,1,1);
         est = new Estacionamento(1,1,12);
 
@@ -57,4 +60,16 @@ class NotificaEstafetaControllerTest {
     public void NotificaEstafetaControllerConstructorTest(){
         assertEquals(instance, instance);
     }
+    
+    @Test
+    void simulateParkingScooter() throws FileNotFoundException  {
+        String email = "A";
+        String assunto = "Estacionamento Scooter";
+        String mensagem = "A Scooter foi estacionada com sucesso, com uma estimativa de " + 3 + " horas até estar completamente carregada.";
+        boolean expResult = true;
+        when(emailDBMock.sendEmail(email, assunto, mensagem)).thenReturn(expResult);
+        System.out.println("Test"+expResult);
+        assertEquals(expResult, instance.simulateParkingScooter(1));
+    }
+    
 }
