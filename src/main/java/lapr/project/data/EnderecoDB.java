@@ -154,7 +154,7 @@ public class EnderecoDB extends DataHandler {
      * @return endereço do parque
      */
     public Endereco getEnderecoParque() {
-        String query = "SELECT * FROM endereco e INNER JOIN parque c ON e.morada = c.Enderecomorada ";
+        String query = "SELECT * FROM endereco e INNER JOIN parque c ON e.morada = c.Enderecomorada";
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {

@@ -7,12 +7,14 @@ import lapr.project.data.EncomendaDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
 import lapr.project.data.ScooterDB;
+import lapr.project.login.UserSession;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Entrega;
+import lapr.project.model.Estafeta;
 import lapr.project.model.Scooter;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 /**
  *
@@ -52,20 +54,19 @@ public class RegistarEntregaControllerTest {
 
     }
 
-//    /**
-//     * Test of getEstafeta method, of class RegistarEntregaController.
-//     */
-//    @Test
-//    public void testGetEstafeta() throws SQLException {
-//        System.out.println("getEstafeta");
-//        String email = "assdd";
-//        Estafeta expResult = new Estafeta(123456789, "sdd", email, 85, 56, "sd", 2);
-//        
-//        when(estafetaDB.getEstafetaByEmail(email)).thenReturn(expResult);
-//        Estafeta result = instance.getEstafeta();
-//        assertEquals(expResult, result);
-//
-//    }
+    /**
+     * Test of getEstafeta method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetEstafeta() throws SQLException {
+        System.out.println("getEstafeta");
+        Estafeta est = new Estafeta(123456789, "sd", "vfdada", 15, 45, "rs", 62);
+        UserSession.getInstance().setUser(est);
+        when(estafetaDB.getEstafetaByEmail(est.getEmail())).thenReturn(est);
+        Estafeta result = instance.getEstafeta();
+        assertEquals(est, result);
+
+    }
 
     /**
      * Test of getScooter method, of class RegistarEntregaController.
