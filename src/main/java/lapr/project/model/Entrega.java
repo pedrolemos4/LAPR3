@@ -137,7 +137,7 @@ public class Entrega {
     
     /**
      * Modifica o estafeta associado à entrega
-     * @param estafeta o novo estafeta associado à entrega
+     * @param idEstafeta o novo estafeta associado à entrega
      */
     public void setEstafeta(int idEstafeta) {
         this.idEstafeta = idEstafeta;
