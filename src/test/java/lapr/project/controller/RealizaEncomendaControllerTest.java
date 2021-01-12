@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import lapr.project.data.ProdutosDB;
 import lapr.project.data.ReciboDB;
 import lapr.project.data.ScooterDB;
+import lapr.project.login.UserSession;
 import lapr.project.model.Produto;
 import lapr.project.model.Recibo;
 import lapr.project.model.Scooter;
@@ -29,6 +30,7 @@ class RealizaEncomendaControllerTest {
 
     private RealizaEncomendaController instance;
     private ProdutosDB produtoDB;
+    private ProdutosDB pDB;
     private EncomendaDB encDB;
     private ClienteDB cliDB;
     private ReciboDB reciboDB;
@@ -51,17 +53,15 @@ class RealizaEncomendaControllerTest {
         
     }
 
-//    /**
-//     * Test of produtoEncomenda method, of class RealizaEncomendaController.
-//     */
-//    @Test
-//    public void testProdutoEncomenda() {
-//        System.out.println("produtoEncomenda");
-//        Produto prod = new Produto();
-//        int qntd = 1;
-//        when(encDB.).thenReturn(1);
-//        instance.produtoEncomenda(prod, qntd);
-//    }
+    /**
+     * Test of produtoEncomenda method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testProdutoEncomenda() {
+        System.out.println("produtoEncomenda");
+        Produto prod = new Produto("a",1,1);
+        assertEquals(false, instance.produtoEncomenda(prod,1));
+    }
 
     /**
      * Test of registaEncomenda method, of class RealizaEncomendaController.
@@ -165,14 +165,15 @@ class RealizaEncomendaControllerTest {
 //    /**
 //     * Test of getNifCliente method, of class RealizaEncomendaController.
 //     */
-//    @Test
-//    public void testGetNifCliente() {
-//        System.out.println("getNifCliente");
-//        String email = "a";
-//        int expResult = 0;
-//        when(cliDB.getClienteByEmail(email).getNIF()).thenReturn(expResult);
-//        assertEquals(expResult, instance.getNifCliente());
-//    }
+    @Test
+    public void testGetNifCliente() {
+        System.out.println("getNifCliente");
+        Cliente c = new Cliente(1, "nome", "email", 1, 1, "morada", 1, "password");
+        UserSession.getInstance().setUser(c);
+        int expResult = 1;
+        when(cliDB.getClienteByEmail(c.getEmail())).thenReturn(c);
+        assertEquals(expResult, instance.getNifCliente());
+    }
 
 //    /**
 //     * Test of novoRecibo method, of class RealizaEncomendaController.
