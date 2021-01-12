@@ -71,16 +71,28 @@ public class ReciboDB extends DataHandler {
         }
         return id;
     }
-
-    public void registaRecibo(Recibo rec, Produto prod) {
+    
+    public boolean registaRecibo(Recibo rec, Produto prod){
+        if(validaRecibo(rec)==true){
+            registaRecibo(rec.getId(), prod.getId());
+            return true;
+        }
+        return false;
+    }
+    
+    private int registaRecibo(int rec, int prod) {
+        int id=0;
         try {
             openConnection();
 
             try (CallableStatement callStmt1 = getConnection().prepareCall("{ call addLinhaRecibo(?,?) }")) {
 
-                callStmt1.setInt(1, rec.getId());
-                callStmt1.setInt(2, prod.getId());
+                callStmt1.registerOutParameter(1, OracleTypes.INTEGER);
+                callStmt1.setInt(2, rec);
+                callStmt1.setInt(3, prod);
 
+                id = callStmt1.getInt(1);
+                
                 callStmt1.execute();
             }
             closeAll();
@@ -88,6 +100,7 @@ public class ReciboDB extends DataHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return id;
     }
 
 }

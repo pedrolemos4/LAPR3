@@ -104,8 +104,8 @@ public class RealizaEncomendaController {
         return notificaCliente(email, assunto, mensagem);
     }
 
-    public void novoRecibo(Recibo rec, Produto prod) {
-        reciboDB.registaRecibo(rec, prod);
+    public boolean novoRecibo(Recibo rec, Produto prod) {
+        return reciboDB.registaRecibo(rec, prod);
     }
 
     public boolean verificaProdutoEncomenda(Produto prod, int qntd) {

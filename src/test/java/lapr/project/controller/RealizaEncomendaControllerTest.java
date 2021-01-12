@@ -162,9 +162,9 @@ class RealizaEncomendaControllerTest {
         assertEquals(expResult, instance.getPeso());
     }
 
-//    /**
-//     * Test of getNifCliente method, of class RealizaEncomendaController.
-//     */
+    /**
+     * Test of getNifCliente method, of class RealizaEncomendaController.
+     */
     @Test
     public void testGetNifCliente() {
         System.out.println("getNifCliente");
@@ -175,31 +175,30 @@ class RealizaEncomendaControllerTest {
         assertEquals(expResult, instance.getNifCliente());
     }
 
-//    /**
-//     * Test of novoRecibo method, of class RealizaEncomendaController.
-//     */
-//    @Test
-//    public void testNovoRecibo_Recibo() throws Exception {
-//        System.out.println("novoRecibo");
-//        Recibo rec = new Recibo();
-//        boolean expResult = reciboDB.registaRecibo(rec);
-//        when(instance.notificaCliente("", "", "")).thenReturn(expResult);
-//        assertEquals(expResult, instance.novoRecibo(rec));
-//    }
+    /**
+     * Test of novoRecibo method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testNovoRecibo_Recibo() throws Exception {
+        System.out.println("novoRecibo");
+        Recibo rec = new Recibo();
+        boolean expResult = reciboDB.registaRecibo(rec);
+        when(instance.notificaCliente("", "", "")).thenReturn(expResult);
+        assertEquals(expResult, instance.novoRecibo(rec));
+    }
 
-//    /**
-//     * Test of novoRecibo method, of class RealizaEncomendaController.
-//     */
-//    @Test
-//    public void testNovoRecibo_Recibo_Produto() {
-//        System.out.println("novoRecibo");
-//        Recibo rec = null;
-//        Produto prod = null;
-//        RealizaEncomendaController instance = null;
-//        instance.novoRecibo(rec, prod);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    /**
+     * Test of novoRecibo method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testNovoRecibo_Recibo_Produto() {
+        System.out.println("novoRecibo");
+        Recibo rec = new Recibo();
+        Produto prod = new Produto();
+        boolean expResult = true;
+        when(reciboDB.registaRecibo(rec, prod)).thenReturn(expResult);
+        assertEquals(expResult, instance.novoRecibo(rec,prod));
+    }
 
     /**
      * Test of verificaProdutoEncomenda method, of class RealizaEncomendaController.
@@ -214,36 +213,22 @@ class RealizaEncomendaControllerTest {
         boolean result = instance.verificaProdutoEncomenda(prod, qntd);
         assertEquals(expResult, result);
     }
-
-//    /**
-//     * Test of notificaCliente method, of class RealizaEncomendaController.
-//     */
-//    @Test
-//    public void testNotificaCliente() throws Exception {
-//        System.out.println("notificaCliente");
-//        String email = "";
-//        String assunto = "";
-//        String mensagem = "";
-//        RealizaEncomendaController instance = null;
-//        instance.notificaCliente(email, assunto, mensagem);
-//    }
-//
-//    /**
-//     * Test of getPrecoTotal method, of class RealizaEncomendaController.
-//     */
-//    @Test
-//    public void testGetPrecoTotal() {
-//        System.out.println("getPrecoTotal");
-//        RealizaEncomendaController instance1 = null;
-//        double taxa = 0.3;
-//        List<Produto> lst = new ArrayList<>();
-//        Produto p = new Produto("sdf", 50, 58);
-//        p.setPrecoBase(5);
-//        lst.add(p);
-//        double expResult = p.getPrecoBase() + p.getPrecoBase()*taxa;
-//        double result = instance1.getPrecoTotal(taxa);
-//        assertEquals(expResult, result);
-//    }
+    
+    /**
+     * Test of getPrecoTotal method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testGetPrecoTotal() {
+        System.out.println("getPrecoTotal");
+        double taxa = 0.3;
+        List<Produto> lst = new ArrayList<>();
+        Produto p = new Produto("sdf", 50, 58);
+        p.setPrecoBase(5);
+        lst.add(p);
+        when(produtoDB.getListaProdutos()).thenReturn(lst);
+        double expResult = lst.get(0).getPrecoBase() + lst.get(0).getPrecoBase()*taxa;
+        assertEquals(expResult, instance.getPrecoTotal(taxa));
+    }
 
     /**
      * Test of removerProdutosEncomenda method, of class RealizaEncomendaController.
@@ -261,5 +246,19 @@ class RealizaEncomendaControllerTest {
         lst2.add(2);
         
         instance.removerProdutosEncomenda(lst, lst2);
+    }
+
+    /**
+     * Test of notificaCliente method, of class RealizaEncomendaController.
+     */
+    @org.junit.Test
+    public void testNotificaCliente() throws Exception {
+        System.out.println("notificaCliente");
+        String email = "a";
+        String assunto = "b";
+        String mensagem = "c";
+        boolean expResult = true;
+        when(emailDB.sendEmail(email, assunto, mensagem)).thenReturn(expResult);
+        assertEquals(expResult, instance.notificaCliente(email, assunto, mensagem));
     }
 }
