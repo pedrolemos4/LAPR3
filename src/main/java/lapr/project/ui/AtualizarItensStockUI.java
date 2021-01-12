@@ -11,9 +11,10 @@ public class AtualizarItensStockUI {
     public static final Scanner LER = new Scanner(System.in);
 
     AtualizarItensStockController controller;
+    ProdutosDB pdb = new ProdutosDB();
 
     public AtualizarItensStockUI() {
-        this.controller = new AtualizarItensStockController();
+        this.controller = new AtualizarItensStockController(pdb);
     }
 
     public void atualizarEstafeta() {

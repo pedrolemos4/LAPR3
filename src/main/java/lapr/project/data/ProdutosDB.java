@@ -208,7 +208,7 @@ public class ProdutosDB extends DataHandler {
     
     /**
      * Remove os produtos da base de dadoa
-     * @param id 
+     * @param des
      */
     private void removerProdutosEncomenda(String des) {
         try {
