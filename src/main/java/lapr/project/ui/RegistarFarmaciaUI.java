@@ -3,6 +3,9 @@ package lapr.project.ui;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.RegistarFarmaciaController;
+import lapr.project.data.EnderecoDB;
+import lapr.project.data.FarmaciaDB;
+import lapr.project.data.ParqueDB;
 import lapr.project.model.Endereco;
 import lapr.project.model.Farmacia;
 import lapr.project.model.Parque;
@@ -17,7 +20,7 @@ public class RegistarFarmaciaUI {
      * Criação do controlador responsável por registar farmácias
      */
     public RegistarFarmaciaUI() {
-        this.controller = new RegistarFarmaciaController();
+        this.controller = new RegistarFarmaciaController(new FarmaciaDB(), new ParqueDB(), new EnderecoDB());
     }
 
     /**

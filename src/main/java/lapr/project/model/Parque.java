@@ -84,4 +84,9 @@ public class Parque {
     public void setNumeroMaximo(int numeroMaximo) {
         this.numeroMaximo = numeroMaximo;
     }
+
+    @Override
+    public String toString() {
+        return "Parque{" + "nif=" + nif + ", morada=" + morada + ", numeroMaximo=" + numeroMaximo + '}';
+    }
 }
