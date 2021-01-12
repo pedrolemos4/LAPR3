@@ -48,7 +48,9 @@ public class ScooterControllerTest {
         int estado = 0;
         Scooter s = new Scooter(descricao, percentagemBateria, pesoMaximo, pesoScooter, potencia, areaFrontal, estado);
         when(scooterDBMock.addScooter(s)).thenReturn(1);
-        assertEquals(1, instance.addScooter(s.getDescricao(), s.getPercentagemBateria(), s.getPesoMaximo(), s.getPesoScooter(), s.getPotencia(), s.getAreaFrontal(), s.getEstadoScooter().getId()));
+        instance.addScooter(s.getDescricao(), s.getPercentagemBateria(), s.getPesoMaximo(), s.getPesoScooter(), s.getPotencia(), s.getAreaFrontal(), s.getEstadoScooter().getId());
+        s.setId(1);
+        assertEquals(1, s.getId());
 
     }
 
