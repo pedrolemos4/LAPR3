@@ -14,11 +14,13 @@ class RealizaEncomendaController {
     +novoRecibo(nifCliente, lista, precoTotal, dataRecibo)
     +verificaProdutoStock(prod)
     +getPrecoTotal()
+    +removeCreditos(nifCliente, precoTotal)
 }
 
 class ClienteDataHandler {
     +Cliente getClienteByEmail()
     +getEnderecoCliente(cliente)
+    +removeCreditos(nifCliente, precoTotal)
 }
 
 class EmailDB {

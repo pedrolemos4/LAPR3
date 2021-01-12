@@ -8,13 +8,13 @@ participant ":RealizaEncomendaController" as CTRL
 participant "AplicacaoPOT" as _APP
 participant "app\n:AplicacaoPOT" as APP
 participant "sessao\n:SessaoUtilizador" as SESSAO
-participant ":ClienteDataHandler" as DH
+participant ":ClienteDB" as DH
 participant ":Cliente" as CLIEN
-participant ":ProdutoDataHandler" as PDH
+participant ":ProdutoDB" as PDH
 participant ":Produto" as PRO
-participant ":EncomendaDataHandler" as EDH
+participant ":EncomendaDB" as EDH
 participant ":EnderecoDB" as END
-participant ":ReciboDataHandler" as RDH
+participant ":ReciboDB" as RDH
 participant "rec:Recibo" as REC
 participant ":EmailDB" as EMDB
 participant "lprodutos\n:ListaProdutosEncomenda" as LPROD
@@ -147,7 +147,22 @@ deactivate RDH
 
 deactivate CTRL
 
-UI --> CLI : informa o sucesso da operação
+UI --> CLI : solicita se quer pagar com creditos
+deactivate UI
+
+CLI --> UI : Insere os dados pedidos
+activate UI
+
+UI --> CTRL: removeCreditos(nifCliente, precoTotal)
+activate CTRL
+
+CTRL --> DH : removerCreditos(nifCliente, precoTotal)
+activate DH
+
+deactivate DH
+deactivate CTRL
+
+UI --> CLI : remove os creditos, gera o recibo e informa o sucesso da operação
 deactivate UI
 deactivate CLI
 
