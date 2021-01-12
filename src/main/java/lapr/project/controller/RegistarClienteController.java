@@ -42,7 +42,7 @@ public class RegistarClienteController {
         return clienteDB.getListaClientes();
     }
 
-    public Cliente novoCliente(int NIF, String nome, String email, int numeroSegurancaSocial, int creditos, String morada, int numCC, String password) {
+    public Cliente novoCliente(int NIF, String nome, String email, int numeroSegurancaSocial, double creditos, String morada, int numCC, String password) {
         return clienteDB.novoCliente(NIF, nome, email, numeroSegurancaSocial, creditos, morada, numCC, password);
     }
 
