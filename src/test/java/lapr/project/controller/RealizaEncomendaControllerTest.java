@@ -60,9 +60,9 @@ class RealizaEncomendaControllerTest {
     public void testProdutoEncomenda() {
         System.out.println("produtoEncomenda");
         Produto prod = new Produto("a",1,1);
-        boolean expResult = true;
-        when(encDB.registaEncomendaProduto(enc, prod)).thenReturn(expResult);
-        assertEquals(false, instance.produtoEncomenda(prod,1));
+        prod.setId(1);
+        boolean expResult = false;
+        assertEquals(expResult, instance.produtoEncomenda(prod,1));
     }
 
     /**
@@ -262,5 +262,19 @@ class RealizaEncomendaControllerTest {
         boolean expResult = true;
         when(emailDB.sendEmail(email, assunto, mensagem)).thenReturn(expResult);
         assertEquals(expResult, instance.notificaCliente(email, assunto, mensagem));
+    }
+
+    /**
+     * Test of contarNumeroProds method, of class RealizaEncomendaController.
+     */
+    @org.junit.Test
+    public void testContarNumeroProds() {
+        System.out.println("contarNumeroProds");
+        Produto prod = new Produto("sdf", 50, 58);
+        List<Produto> lst = new ArrayList<>();
+        lst.add(prod);
+        when(produtoDB.getLista()).thenReturn(lst);
+        int expResult = 1;
+        assertEquals(expResult, instance.contarNumeroProds(prod));
     }
 }

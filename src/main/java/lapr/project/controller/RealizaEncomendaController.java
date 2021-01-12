@@ -130,7 +130,7 @@ public class RealizaEncomendaController {
         produtoDB.removerProdutosEncomenda(lst, lst2);
     }
 
-    private int contarNumeroProds(Produto prod) {
+    public int contarNumeroProds(Produto prod) {
         List<Produto> listStock = getListStock();
         int i = 0;
         for (Produto p : listStock) {
