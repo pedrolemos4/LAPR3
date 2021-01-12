@@ -8,19 +8,19 @@ public class Cartao {
 
     private int numeroCartao;
     private String dataDeValidade;
-    private int CCV;
+    private int ccv;
     
     /**
      * Constrói uma instância de Cartao recebendo o numero de cartao, a
      * data de validade do cartao e o CCV do cartao
      * @param numeroCartao o numero de cartao
      * @param dataDeValidade a data de validade de cartao
-     * @param CCV o CCV de cartao
+     * @param ccv o CCV de cartao
      */
-    public Cartao(int numeroCartao, String dataDeValidade, int CCV) {
+    public Cartao(int numeroCartao, String dataDeValidade, int ccv) {
         this.numeroCartao = numeroCartao;
         this.dataDeValidade = dataDeValidade;
-        this.CCV = CCV;
+        this.ccv = ccv;
     }
     
     /**
@@ -29,7 +29,7 @@ public class Cartao {
     public Cartao() {
         this.numeroCartao = 0;
         this.dataDeValidade = null;
-        this.CCV = 0;
+        this.ccv = 0;
     }
     
     /**
@@ -70,15 +70,15 @@ public class Cartao {
      * @return CCV do cartao
      */
     public int getCCV() {
-        return CCV;
+        return ccv;
     }
     
     /**
      * Modifica o CCV do cartao
-     * @param CCV o novo CCV do cartao
+     * @param ccv o novo CCV do cartao
      */
-    public void setCCV(int CCV) {
-        this.CCV = CCV;
+    public void setCCV(int ccv) {
+        this.ccv = ccv;
     }
     
 }

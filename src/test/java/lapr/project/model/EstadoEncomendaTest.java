@@ -42,6 +42,6 @@ class EstadoEncomendaTest {
     void getId_estado_encomenda(){
         System.out.println("getId_estado_encomenda");
         EstadoEncomenda instance = new EstadoEncomenda(2,"entregue");
-        assertEquals(2, instance.getId_estado_encomenda());
+        assertEquals(2, instance.getIdEstadoEncomenda());
     }
 }

@@ -6,7 +6,7 @@ package lapr.project.model;
  */
 public class Utilizador {
     
-    private int NIF;
+    private int nif;
     private String nome;
     private String email;
     private int numeroSegurancaSocial;
@@ -16,14 +16,14 @@ public class Utilizador {
      * nome do utilizador, o email do utilizador, o numero de Seguranca Social do utilizador,
      * a password do utilizador.
      *
-     * @param NIF nif do utilizador
+     * @param nif nif do utilizador
      * @param nome nome do utilizador
      * @param email email do utilizador
      * @param numeroSegurancaSocial numero de seguranca social do utilizador
      * @param password password do utilizador
      */
-    public Utilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
-        this.NIF = NIF;
+    public Utilizador(int nif, String nome, String email, int numeroSegurancaSocial, String password) {
+        this.nif = nif;
         this.nome = nome;
         this.email = email;
         this.numeroSegurancaSocial = numeroSegurancaSocial;
@@ -34,7 +34,7 @@ public class Utilizador {
      * Constrói uma instância de Utilizador com o utilizador por omissão.
      */
     public Utilizador(){
-        this.NIF = 0;
+        this.nif = 0;
         this.nome = null;
         this.email = null;
         this.numeroSegurancaSocial = 0;
@@ -46,15 +46,15 @@ public class Utilizador {
      * @return nif do utilizador
      */
     public int getNIF() {
-        return NIF;
+        return nif;
     }
     
     /**
      * Modifica o nif do utilizador
-     * @param NIF o novo nif do utilizador
+     * @param nif o novo nif do utilizador
      */
-    public void setNIF(int NIF) {
-        this.NIF = NIF;
+    public void setNIF(int nif) {
+        this.nif = nif;
     }
     
     /**

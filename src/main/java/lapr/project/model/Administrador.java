@@ -9,14 +9,14 @@ public class Administrador extends Utilizador{
      * Constrói uma instância de Administrador recebendo o nif do administrador, o
      * nome do administrador, o email do administrador, o
      * o numero de Seguranca Social do administrador, a password do administrador.
-     * @param NIF
+     * @param nif
      * @param nome
      * @param email
      * @param numeroSegurancaSocial
      * @param password 
      */
-    public Administrador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
-        super(NIF, nome, email, numeroSegurancaSocial, password);
+    public Administrador(int nif, String nome, String email, int numeroSegurancaSocial, String password) {
+        super(nif, nome, email, numeroSegurancaSocial, password);
     }
     /**
      * Constrói uma instância de Administrador com o administrador por omissão.
