@@ -124,7 +124,7 @@ public class ParqueDB extends DataHandler {
      */
     public int getNumMaxParqueByNIF(int parqueNif) {
         int numMax = 0;
-        String query = "SELECT p.numeroMaximo FROM parque p INNER JOIN estacionamento e ON p.FaarmaciaNIF = e.ParqueFarmaciaNIF WHERE p.FaarmaciaNIF = " + parqueNif;
+        String query = "SELECT p.numeroMaximo FROM parque p INNER JOIN estacionamento e ON p.FarmaciaNIF = e.ParqueFarmaciaNIF WHERE p.FarmaciaNIF = " + parqueNif;
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
                 numMax = rSet.getInt(1);
