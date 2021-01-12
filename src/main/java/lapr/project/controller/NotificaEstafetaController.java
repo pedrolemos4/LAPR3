@@ -34,7 +34,7 @@ public class NotificaEstafetaController {
     }
 
     public boolean simulateParkingScooter(int estacionamentoLote) throws FileNotFoundException {
-        String path = "C:\\ARQCP\\partilha\\LAPR3\\estimate_2021_02_02_02_02_02.data";
+        String path = "src\\main\\java\\lapr\\project\\parking\\estimate_2021_02_02_02_02_02.data";
         File newFile = new File(path);
 
         try (Scanner scan = new Scanner(newFile)) {
@@ -48,8 +48,6 @@ public class NotificaEstafetaController {
             Estacionamento estac = estacionamentosDB.getEstacionamentoById(estacionamentoLote);
 
             estacionamentosDB.addEstacionamentoScooter(estac,scoot);
-
-            this.estafeta.getEmail();
 
             return emaildb.sendEmail(this.estafeta.getEmail(), "Estacionamento Scooter", "A Scooter foi estacionada com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.");
         }
