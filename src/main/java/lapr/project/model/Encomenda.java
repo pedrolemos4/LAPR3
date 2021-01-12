@@ -43,7 +43,7 @@ public class Encomenda {
     
     /**
      * Modifica o nif do cliente
-     * @return 
+     * @param nifCliente
      */
     public void setNif(int nifCliente) {
         this.nifCliente = nifCliente;
@@ -54,6 +54,14 @@ public class Encomenda {
      */
     public int getId() {
         return id;
+    }
+    
+    /**
+     * Modifica o id da encomenda
+     * @param id
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
