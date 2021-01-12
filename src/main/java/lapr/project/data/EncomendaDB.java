@@ -213,9 +213,9 @@ public class EncomendaDB extends DataHandler {
     }
 
     public double getCreditosData(Data date, double preco) {
-        String dataI = "01-01-2021";
-        String dataM = "01-07-2021";
-        String dataF = "31-12-2021";
+        String dataI = "01/01/2021";
+        String dataM = "01/07/2021";
+        String dataF = "31/12/2021";
         
         Data d2 = new Data(dataI);
         Data d3 = new Data(dataI);

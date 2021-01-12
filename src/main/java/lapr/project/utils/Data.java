@@ -139,14 +139,6 @@ public class Data implements Comparable<Data>{
         return Math.abs(totalDias - totalDias1);
     }
 
-    public int diferenca(int ano, Mes mes, int dia) {
-        int totalDias = contaDias();
-        Data outraData = new Data(ano, mes, dia);
-        int totalDias1 = outraData.contaDias();
-
-        return Math.abs(totalDias - totalDias1);
-    }
-
     public static boolean isAnoBissexto(int ano) {
         return ano % 4 == 0 && ano % 100 != 0 || ano % 400 == 0;
     }
