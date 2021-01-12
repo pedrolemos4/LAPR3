@@ -15,7 +15,7 @@ class EstadoEncomendaTest {
 
     @Test
     void EntadoEncomendaConstructorTest(){
-        EstadoEncomenda instance = new EstadoEncomenda(1,"entregue");
+        EstadoEncomenda instance = new EstadoEncomenda(1,"Entregue");
 
         assertEquals(instance,instance);
     }
@@ -23,8 +23,8 @@ class EstadoEncomendaTest {
     @Test
     void getDesignacao() {
         System.out.println("getDesignacao");
-        EstadoEncomenda instance = new EstadoEncomenda(1,"entregue");
-        String expResult = "entregue";
+        EstadoEncomenda instance = new EstadoEncomenda(1,"Entregue");
+        String expResult = "Entregue";
         String result = instance.getDesignacao();
         assertEquals(expResult, result);
     }
@@ -33,7 +33,7 @@ class EstadoEncomendaTest {
     void setDesignacao() {
         System.out.println("setDesignacao");
         String designacao = "em falta";
-        EstadoEncomenda instance = new EstadoEncomenda(2,"entregue");
+        EstadoEncomenda instance = new EstadoEncomenda(2,"Entregando");
         instance.setDesignacao("em falta");
         assertEquals(designacao, instance.getDesignacao());
     }
@@ -41,8 +41,11 @@ class EstadoEncomendaTest {
     @Test
     void getId_estado_encomenda(){
         System.out.println("getId_estado_encomenda");
-        EstadoEncomenda instance = new EstadoEncomenda(2,"entregue");
+        EstadoEncomenda instance = new EstadoEncomenda(2,"Entregando");
         assertEquals(0, instance.getIdEstadoEncomenda());
+        
+        EstadoEncomenda instance1 = new EstadoEncomenda(3,"Entregue");
+        assertEquals(0, instance1.getIdEstadoEncomenda());
     }
 
     /**
