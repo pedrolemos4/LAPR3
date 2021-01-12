@@ -227,7 +227,10 @@ public class ScooterTest {
     public void testToString() {
         System.out.println("toString");
         Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
-        String expResult = "descricao"+85+50+30+40+50+1;
+        String expResult = "Scooterid" + 0 + "\nDescrição=" + "descricao" + "\nPercentagem de Bateria=" 
+                + 85.0 + "\nPeso máximo=" + 50.0 + "\nPeso da Scooter="
+                + 30.0 + "\nPotência=" + 40.0 + "\nÁrea frontal=" + 50.0 +
+                "\nEstado=" + "Disponível";
         assertEquals(expResult, instance.toString());
     }
 }
