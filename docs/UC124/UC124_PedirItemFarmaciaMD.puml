@@ -1,0 +1,20 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide methods
+left to right direction
+
+class Produto {
+  -idProduto
+  -designacao
+  -peso
+  -precoBase
+}
+
+class Farmacia {
+  -NIF
+}
+
+Farmacia "1" -- "*" Farmacia: pede produto a >
+Farmacia "1" -- "*" Produto: tem >
+
+@enduml
