@@ -1,5 +1,9 @@
 package lapr.project.model;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -91,5 +95,17 @@ class EstacionamentoTest {
         instance.setNIF(nif);
         assertEquals(nif, instance.getNIF());
 
+    }
+
+    /**
+     * Test of toString method, of class Estacionamento.
+     */
+    @org.junit.Test
+    public void testToString() {
+        System.out.println("toString");
+        Estacionamento instance = new Estacionamento(1, 0, 546456);
+        String expResult = "Estacionamento{" + "numeroLote=" + 1 + ", carregador=" + 0 + ", nif=" + 546456 + '}';;
+        String result = instance.toString();
+        assertEquals(expResult, result);
     }
 }
