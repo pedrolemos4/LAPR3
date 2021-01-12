@@ -7,7 +7,7 @@ package lapr.project.model;
 public class Cliente extends Utilizador {
 
     private int nif;
-    private int creditos;
+    private double creditos;
     private String enderecomorada;
     private int numCartaoCredito;
 
@@ -23,7 +23,7 @@ public class Cliente extends Utilizador {
      * @param numCC número de cartão de cidadão do cliente
      * @param password password do cliente
      */
-    public Cliente(int nif, String nome, String email, int numeroSegurancaSocial, int creditos, String morada, int numCC, String password) {
+    public Cliente(int nif, String nome, String email, int numeroSegurancaSocial, double creditos, String morada, int numCC, String password) {
         super(nif, nome, email, numeroSegurancaSocial, password);
         this.creditos = creditos;
         this.enderecomorada = morada;
@@ -38,7 +38,7 @@ public class Cliente extends Utilizador {
      * @param morada morada do cliente
      * @param numCC número de cartão de cidadão do cliente
      */
-    public Cliente(int nif, int creditos, String morada, int numCC) {
+    public Cliente(int nif, double creditos, String morada, int numCC) {
         this.nif = nif;
         this.creditos = creditos;
         this.enderecomorada = morada;
@@ -78,7 +78,7 @@ public class Cliente extends Utilizador {
      *
      * @return creditos do cliente
      */
-    public int getCreditos() {
+    public double getCreditos() {
         return creditos;
     }
 
@@ -87,7 +87,7 @@ public class Cliente extends Utilizador {
      *
      * @param creditos os novos credito do cliente
      */
-    public void setCreditos(int creditos) {
+    public void setCreditos(double creditos) {
         this.creditos = creditos;
     }
 
@@ -125,5 +125,10 @@ public class Cliente extends Utilizador {
      */
     public void setNumCartaoCredito(int numCartaoCredito) {
         this.numCartaoCredito = numCartaoCredito;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" + "nif=" + nif + ", creditos=" + creditos + ", enderecomorada=" + enderecomorada + ", numCartaoCredito" + numCartaoCredito + '}';
     }
 }

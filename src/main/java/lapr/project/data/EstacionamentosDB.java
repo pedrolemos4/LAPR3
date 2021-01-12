@@ -44,12 +44,14 @@ public class EstacionamentosDB extends DataHandler {
     /**
      * Regista o estacionamento
      *
-     * @param estac estacionamento
+     * @param lestac
      * @return
      */
-    public boolean registaEstacionamento(Estacionamento estac) {
-        if (validaEstacionamento(estac)) {
-            addEstacionamento(estac);
+    public boolean registaEstacionamento(List<Estacionamento> lestac) {
+        for (Estacionamento estac : lestac) {
+            if (validaEstacionamento(estac)) {
+                addEstacionamento(estac);
+            }
         }
         return true;
     }

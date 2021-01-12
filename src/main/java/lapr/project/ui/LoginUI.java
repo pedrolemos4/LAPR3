@@ -9,6 +9,10 @@ import static java.lang.System.exit;
 import java.sql.SQLException;
 import java.util.Scanner;
 import lapr.project.controller.RegistarClienteController;
+import lapr.project.data.CartaoDB;
+import lapr.project.data.ClienteDB;
+import lapr.project.data.EnderecoDB;
+import lapr.project.data.UtilizadorDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Utilizador;
 
@@ -62,7 +66,7 @@ public class LoginUI {
         String pwd = LER.nextLine();
 
         Utilizador utilizador = null;
-        RegistarClienteController ctrl = new RegistarClienteController();
+        RegistarClienteController ctrl = new RegistarClienteController(new ClienteDB(), new UtilizadorDB(), new EnderecoDB(), new CartaoDB());
         if (email.equalsIgnoreCase(ADMIN_LOGIN) && pwd.equalsIgnoreCase(ADMIN_ACESS)) {
             AdminUI aui = new AdminUI();
             aui.menu();

@@ -76,7 +76,7 @@ public class CartaoDB extends DataHandler {
      *
      * @param numeroCartao número do cartão de cidadão
      * @param dataDeValidade data de validade do cartão de cidadão
-     * @param CCV código de segurança do cartão de cidadão
+     * @param ccv
      */
     public void addCartao(int numeroCartao, String dataDeValidade, int ccv) {
         try {
