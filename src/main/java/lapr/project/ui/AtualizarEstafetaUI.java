@@ -11,10 +11,9 @@ public class AtualizarEstafetaUI {
     public static final Scanner LER = new Scanner(System.in);
 
     AtualizarEstafetaController controller;
-    EstafetaDB estDB = new EstafetaDB();
 
     public AtualizarEstafetaUI() {
-        this.controller = new AtualizarEstafetaController(estDB);
+        this.controller = new AtualizarEstafetaController(new EstafetaDB());
     }
 
     public void atualizarEstafeta() {
