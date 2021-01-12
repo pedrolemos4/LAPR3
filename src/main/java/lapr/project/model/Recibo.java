@@ -18,7 +18,7 @@ public class Recibo {
     private int id;
     private double preco;
     private String data;
-    private int idEncomenda;
+    private final int idEncomenda;
     private List<Produto> lst;
     
     /**

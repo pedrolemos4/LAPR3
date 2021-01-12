@@ -8,7 +8,6 @@ public class Estafeta extends Utilizador{
     
     private double pesoEstafeta;
     private int idEstado;
-//    private String nome;
 
     /**
      * Constrói uma instância de Estafeta recebendo o peso do estafeta, o

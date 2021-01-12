@@ -57,7 +57,6 @@ public class Scooter {
      */
     public Scooter(String descricao, double percentagemBateria, double pesoMaximo,
             double pesoScooter, double potencia,double areaFrontal, int estado) {
-//        this.id = 0;
         this.descricao = descricao;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;

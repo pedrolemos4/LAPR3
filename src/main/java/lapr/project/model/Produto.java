@@ -5,7 +5,6 @@
  */
 package lapr.project.model;
 
-import lapr.project.data.ProdutosDB;
 
 /**
  *
