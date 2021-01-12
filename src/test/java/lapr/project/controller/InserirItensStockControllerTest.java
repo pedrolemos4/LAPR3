@@ -52,9 +52,10 @@ public class InserirItensStockControllerTest {
     @Test
     public void testNovoProduto() {
         System.out.println("novoProduto");
-        Produto produto = produtoMock.novoProduto("prod", 69, 71);
-        when(produtoMock.novoProduto("prod", 69, 71)).thenReturn(produto);
-        assertEquals(produto, produtoMock.novoProduto("prod", 69, 71));
+        Produto produto = new Produto("prod", 69, 71);
+        InserirItensStockController i = new InserirItensStockController(new ProdutosDB());
+        Produto p = i.novoProduto(produto.getDesignacao(), produto.getPeso(), produto.getPrecoBase());
+        assertEquals(produto.toString(), p.toString());
     }
 
     /**
@@ -65,7 +66,7 @@ public class InserirItensStockControllerTest {
         System.out.println("registaProduto");
         Produto prod1 = new Produto("prod1", 77, 88);
         when(produtoMock.registaProduto(prod1)).thenReturn(true);
-        assertEquals(true,produtoMock.registaProduto(prod1));
+        assertEquals(true, instance.registaProduto(prod1));
     }
 
 }

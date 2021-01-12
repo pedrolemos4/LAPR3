@@ -111,5 +111,10 @@ public class Produto {
     public void setPrecoBase(double precoBase) {
         this.precoBase = precoBase;
     }
+
+    @Override
+    public String toString() {
+        return "Produto{" + "id=" + id + ", designacao=" + designacao + ", peso=" + peso + ", precoBase=" + precoBase + '}';
+    }
     
 }

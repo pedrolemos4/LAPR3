@@ -119,4 +119,17 @@ public class ProdutoTest {
         assertEquals(newid, instance.getId());
 
     }
+
+    /**
+     * Test of toString method, of class Produto.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Produto instance = new Produto("sdf", 50, 58);
+        String expResult = "Produto{id=0, designacao=sdf, peso=50.0, precoBase=58.0}";
+        String result = instance.toString();
+        assertEquals(expResult, result);
+
+    }
 }
