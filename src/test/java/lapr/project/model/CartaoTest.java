@@ -1,5 +1,9 @@
 package lapr.project.model;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author beatr
  */
 public class CartaoTest {
-    
+
     @Test
     void CartaoEmptyConstructorTest(){
         Cartao instance = new Cartao();
@@ -96,6 +100,19 @@ public class CartaoTest {
         Cartao instance = new Cartao(5,"12-12-2001",6);
         instance.setCCV(CCV);
         assertEquals(CCV, instance.getCCV());
+    }
+
+    /**
+     * Test of toString method, of class Cartao.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Cartao instance = new Cartao(5,"12-12-2001",6);
+        String expResult = "Cartao{numeroCartao=5, dataDeValidade=12-12-2001, ccv=6}";
+        String result = instance.toString();
+        assertEquals(expResult, result);
+
     }
     
 }

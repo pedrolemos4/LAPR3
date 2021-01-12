@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
 public class RegistarFarmaciaControllerTest {
 
     private RegistarFarmaciaController instance;
+    private RegistarFarmaciaController instance1;
     private FarmaciaDB farmaciaMock;
     private EnderecoDB enderecoMock;
     private ParqueDB parqueMock;
@@ -35,10 +36,11 @@ public class RegistarFarmaciaControllerTest {
     @BeforeEach
     public void setUp() throws SQLException {
         farmaciaMock = mock(FarmaciaDB.class);
-        instance = new RegistarFarmaciaController();
+        instance = new RegistarFarmaciaController(new FarmaciaDB(), new ParqueDB(), new EnderecoDB());
         parqueMock = mock(ParqueDB.class);
         enderecoMock = mock(EnderecoDB.class);
         farm = new Farmacia(123456789);
+        instance1 = new RegistarFarmaciaController(farmaciaMock, parqueMock, enderecoMock);
         when(farmaciaMock.addFarmacia(farm)).thenReturn(true);
     }
 
@@ -52,6 +54,7 @@ public class RegistarFarmaciaControllerTest {
         List<Farmacia> expResult = new ArrayList<>();
         expResult.add(farmacia);
         when(farmaciaMock.getLstFarmacias()).thenReturn(expResult);
+        assertEquals(expResult, instance1.getListaFarmacias());
     }
 
     /**
@@ -64,7 +67,7 @@ public class RegistarFarmaciaControllerTest {
         System.out.println("novaFarmacia");
         Farmacia farmacia = new Farmacia(123456789);
         when(farmaciaMock.novaFarmacia(123456789)).thenReturn(farmacia);
-        assertEquals(farmacia, farmaciaMock.novaFarmacia(123456789));
+        assertEquals(farmacia.toString(), instance.novaFarmacia(farmacia.getNIF()).toString());
     }
 
     /**
@@ -77,7 +80,7 @@ public class RegistarFarmaciaControllerTest {
         System.out.println("novoParque");
         Parque parque = new Parque(111111111, "algures", 20);
         when(parqueMock.novoParque(111111111, "algures", 20)).thenReturn(parque);
-        assertEquals(parque, parqueMock.novoParque(111111111, "algures", 20));
+        assertEquals(parque.toString(), instance.novoParque(parque.getNIF(), parque.getMorada(), parque.getNumeroMaximo()).toString());
     }
 
     /**
@@ -90,7 +93,7 @@ public class RegistarFarmaciaControllerTest {
         System.out.println("novoEndereco");
         Endereco end = new Endereco("Rua do ISEP", 41.45, 30.58, 34.23);
         when(enderecoMock.novoEndereco("Rua do ISEP", 41.45, 30.58, 34.23)).thenReturn(end);
-        assertEquals(end, enderecoMock.novoEndereco("Rua do ISEP", 41.45, 30.58, 34.23));
+        assertEquals(end.toString(), enderecoMock.novoEndereco(end.getMorada(), end.getLatitude(), end.getLongitude(), end.getAltitude()).toString());
     }
 
     /**
@@ -103,7 +106,7 @@ public class RegistarFarmaciaControllerTest {
         System.out.println("registaFarmacia");
         Farmacia farmacia = new Farmacia(123456789);
         when(farmaciaMock.registaFarmacia(farmacia)).thenReturn(true);
-        assertEquals(true, farmaciaMock.registaFarmacia(farmacia));
+        assertEquals(true, instance1.registaFarmacia(farmacia));
     }
 
     /**
@@ -116,7 +119,7 @@ public class RegistarFarmaciaControllerTest {
         System.out.println("registaParque");
         Parque parque = new Parque(111111111, "algures", 20);
         when(parqueMock.registaParque(parque)).thenReturn(true);
-        assertEquals(true, parqueMock.registaParque(parque));
+        assertEquals(true, instance1.registaParque(parque));
     }
 
     /**
@@ -129,7 +132,7 @@ public class RegistarFarmaciaControllerTest {
         System.out.println("registaEndereco");
         Endereco end = new Endereco("Rua do ISEP", 41.45, 30.58, 34.23);
         when(enderecoMock.registaEndereco(end)).thenReturn(true);
-        assertEquals(true, enderecoMock.registaEndereco(end));
+        assertEquals(true, instance1.registaEndereco(end));
     }
 
 }

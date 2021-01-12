@@ -26,11 +26,14 @@ public class RegistarFarmaciaController {
     /**
      * Cria instância do controlador InserirEstacionamentosController
      *
+     * @param fdb
+     * @param pdb
+     * @param edb
      */
-    public RegistarFarmaciaController() {
-        this.farmaciaDB = new FarmaciaDB();
-        this.parqueDB = new ParqueDB();
-        this.enderecoDB = new EnderecoDB();
+    public RegistarFarmaciaController(FarmaciaDB fdb, ParqueDB pdb, EnderecoDB edb) {
+        this.farmaciaDB = fdb;
+        this.parqueDB = pdb;
+        this.enderecoDB = edb;
     }
 
     /**
@@ -81,7 +84,7 @@ public class RegistarFarmaciaController {
      * Regista a farmacia
      *
      * @param farm farmacia
-     * @return 
+     * @return
      */
     public boolean registaFarmacia(Farmacia farm) {
         return farmaciaDB.registaFarmacia(farm);
@@ -91,7 +94,7 @@ public class RegistarFarmaciaController {
      * Regista o parque
      *
      * @param park parque
-     * @return 
+     * @return
      */
     public boolean registaParque(Parque park) {
         return parqueDB.registaParque(park);
@@ -101,7 +104,7 @@ public class RegistarFarmaciaController {
      * Regista o endereço
      *
      * @param end endereço
-     * @return 
+     * @return
      */
     public boolean registaEndereco(Endereco end) {
         return enderecoDB.registaEndereco(end);

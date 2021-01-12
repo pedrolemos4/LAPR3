@@ -47,4 +47,8 @@ public class Farmacia {
         this.nif = nif;
     }
 
+    @Override
+    public String toString() {
+        return "Farmacia{" + "nif=" + nif + '}';
+    }
 }

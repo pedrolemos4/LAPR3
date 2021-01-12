@@ -8,9 +8,7 @@ import lapr.project.model.Estafeta;
 import lapr.project.model.Scooter;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.Scanner;
 
 public class NotificaEstafetaController {
