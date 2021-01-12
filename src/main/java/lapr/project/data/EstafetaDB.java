@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import lapr.project.model.Estafeta;
-import lapr.project.model.Produto;
 
 public class EstafetaDB extends DataHandler{
     Estafeta est;
@@ -55,10 +54,7 @@ public class EstafetaDB extends DataHandler{
     }
 
     public boolean validaEstafeta(Estafeta est) {
-        if(est.getPesoEstafeta() < 0 || est.getNome() == null || est.getPassword() == null || est.getEstado() == 0/*null*/){
-            return false;
-        }
-        return true;
+        return !(est.getPesoEstafeta() < 0 || est.getNome() == null || est.getPassword() == null || est.getEstado() == 0/*null*/);
     }
 
     public boolean addEstafeta(Estafeta est) {
@@ -88,11 +84,11 @@ public class EstafetaDB extends DataHandler{
         }
     }
 
-    private void addUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
+    private void addUtilizador(int nif, String nome, String email, int numeroSegurancaSocial, String password) {
         try {
             openConnection();
             try (CallableStatement callStmt = getConnection().prepareCall("{ call addUtilizador(?,?,?,?,?) }")) {
-                callStmt.setInt(1, NIF);
+                callStmt.setInt(1, nif);
                 callStmt.setString(2, nome);
                 callStmt.setString(3, email);
                 callStmt.setInt(4, numeroSegurancaSocial);
@@ -132,13 +128,13 @@ public class EstafetaDB extends DataHandler{
         }
     }
 
-    private void atualizarUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
+    private void atualizarUtilizador(int nif, String nome, String email, int numeroSegurancaSocial, String password) {
         try {
             openConnection();
 
             try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarUtilizador(?,?,?,?,?) }")) {
 
-                callStmt.setInt(1, NIF);
+                callStmt.setInt(1, nif);
                 callStmt.setString(2, nome);
                 callStmt.setString(3, email);
                 callStmt.setInt(4, numeroSegurancaSocial);
@@ -160,11 +156,11 @@ public class EstafetaDB extends DataHandler{
             try(ResultSet rSet  = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
-                    int NIF = rSet.getInt(1);
-                    int id_estado_estafeta = rSet.getInt(2);
+                    int nif = rSet.getInt(1);
+                    int idEstadoEstafeta = rSet.getInt(2);
                     double peso = rSet.getDouble(3);
 
-                    return new Estafeta(NIF, id_estado_estafeta, peso/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
+                    return new Estafeta(nif, idEstadoEstafeta, peso/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
                 }
             }
         } catch (SQLException e) {
