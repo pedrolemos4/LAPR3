@@ -89,4 +89,11 @@ class ParqueTest {
         instance.setNumeroMaximo(15);
         assertEquals(numeroMaximo, instance.getNumeroMaximo());
     }
+
+    @Test
+    public void testToString(){
+        Parque instance = new Parque(123, "algures", 20);
+        String expResult = instance.toString();
+        assertEquals(expResult,instance.toString());
+    }
 }

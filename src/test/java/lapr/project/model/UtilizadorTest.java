@@ -147,5 +147,11 @@ public class UtilizadorTest {
         instance.setPassword(password);
         assertEquals(password,instance.getPassword());
     }
-    
+
+    @Test
+    public void testToString(){
+        Utilizador instance = new Utilizador(444553212,"Casillas","email10",281910192,"password9");
+        String expResult = instance.toString();
+        assertEquals(expResult,instance.toString());
+    }
 }

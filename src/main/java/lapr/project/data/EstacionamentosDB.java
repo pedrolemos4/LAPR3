@@ -171,7 +171,7 @@ public class EstacionamentosDB extends DataHandler {
         return null;
     }
 
-    public void addEstacionamentoScooter(Estacionamento estacionamento, Scooter scooter) {
+    public boolean addEstacionamentoScooter(Estacionamento estacionamento, Scooter scooter) {
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoScooter(?,?,?,?) }")) {
@@ -181,8 +181,10 @@ public class EstacionamentosDB extends DataHandler {
                 callStmt.execute();
             }
             closeAll();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 }

@@ -76,5 +76,11 @@ class ClienteTest extends UtilizadorTest {
         novoCliente.setEnderecoMorada("sei");
         assertEquals("sei", novoCliente.getEnderecoMorada());
     }
-    
+
+    @Test
+    public void testToString(){
+        Cliente instance = new Cliente(123, 56, "não sei", 65746);
+        String expResult = instance.toString();
+        assertEquals(expResult,instance.toString());
+    }
 }
