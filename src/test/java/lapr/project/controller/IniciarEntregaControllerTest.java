@@ -45,6 +45,7 @@ public class IniciarEntregaControllerTest {
         entregaDB = mock(EntregaDB.class);
         encomendaDB = mock(EncomendaDB.class);
         scooterDB = mock(ScooterDB.class);
+        enderecoDB = mock(EnderecoDB.class);
         instance = new IniciarEntregaController(entregaDB, encomendaDB, estafetaDB, enderecoDB, scooterDB);
     }
     
@@ -120,42 +121,35 @@ public class IniciarEntregaControllerTest {
         assertEquals(est, result);
 
     }
-//
-//    /**
-//     * Test of getEnderecoByNifCliente method, of class IniciarEntregaController.
-//     */
-//    @Test
-//    public void testGetEnderecoByNifCliente(){
-//        System.out.println("getEnderecoByNifCliente");
-//        int nif = 123456789;
-//        Cliente c = new Cliente(nif, 15, "df", 12);
-//        System.out.println("vs");
-//        System.out.println(enderecoDB.getEnderecoByNifCliente(nif));
-//        System.out.println("sd");
-//        
-//        c.setEnderecoMorada("df");
-//        Endereco expResult = new Endereco("df", 56, 84, 12);
-//        
-//        when(enderecoDB.getEnderecoByNifCliente(c.getClienteNIF())).thenReturn(expResult);
-//        Endereco result = instance.getEnderecoByNifCliente(nif);
-//        assertEquals(expResult, result);
-//
-//    }
-//
-//    /**
-//     * Test of getEnderecoParque method, of class IniciarEntregaController.
-//     */
-//    @Test
-//    public void testGetEnderecoParque() {
-//        System.out.println("getEnderecoParque");
-//        Parque p = new Parque(123456789, "df", 15);
-//        Endereco expResult = new Endereco("df", 56, 84, 12);
-//        
-//        System.out.println(enderecoDB.getEnderecoParque());
-//        when(enderecoDB.getEnderecoParque()).thenReturn(expResult);
-//        assertEquals(expResult, instance.getEnderecoParque());
-//
-//    }
+
+    /**
+     * Test of getEnderecoByNifCliente method, of class IniciarEntregaController.
+     */
+    @Test
+    public void testGetEnderecoByNifCliente(){
+        System.out.println("getEnderecoByNifCliente");
+        int nif = 123456789;
+        Cliente c = new Cliente(nif, 15, "df", 12);
+        c.setEnderecoMorada("df");
+        Endereco expResult = new Endereco("df", 56, 84, 12);
+        when(enderecoDB.getEnderecoByNifCliente(c.getClienteNIF())).thenReturn(expResult);
+        Endereco result = instance.getEnderecoByNifCliente(nif);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of getEnderecoParque method, of class IniciarEntregaController.
+     */
+    @Test
+    public void testGetEnderecoParque() {
+        System.out.println("getEnderecoParque");
+        Parque p = new Parque(123456789, "df", 15);
+        Endereco expResult = new Endereco("df", 56, 84, 12);
+        when(enderecoDB.getEnderecoParque()).thenReturn(expResult);
+        assertEquals(expResult, instance.getEnderecoParque());
+
+    }
 
     /**
      * Test of generateGraph method, of class IniciarEntregaController.
