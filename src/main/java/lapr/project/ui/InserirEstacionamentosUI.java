@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.InserirEstacionamentosController;
+import lapr.project.data.EstacionamentosDB;
+import lapr.project.data.ParqueDB;
 import lapr.project.model.Estacionamento;
 
 public class InserirEstacionamentosUI {
@@ -16,7 +18,7 @@ public class InserirEstacionamentosUI {
      * Criação do controlador responsável por inserir estacionamentos
      */
     public InserirEstacionamentosUI() {
-        this.controller = new InserirEstacionamentosController();
+        this.controller = new InserirEstacionamentosController(new EstacionamentosDB(), new ParqueDB());
     }
 
     /**

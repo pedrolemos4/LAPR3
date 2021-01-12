@@ -23,9 +23,9 @@ public class InserirEstacionamentosController {
      * Cria instância do controlador InserirEstacionamentosController
      *
      */
-    public InserirEstacionamentosController() {
-        this.estacionamentoDB = new EstacionamentosDB();
-        this.parqueDB = new ParqueDB();
+    public InserirEstacionamentosController(EstacionamentosDB edb, ParqueDB pdb) {
+        this.estacionamentoDB = edb;
+        this.parqueDB = pdb;
     }
 
     /**

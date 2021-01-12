@@ -87,4 +87,14 @@ public class Estacionamento {
     public void setNIF(int nif) {
         this.nif = nif;
     }
+
+    /**
+     * Retorna a descrição do estacionamento
+     *
+     * @return descrição do estacionamento
+     */
+    @Override
+    public String toString() {
+        return "Estacionamento{" + "numeroLote=" + numeroLote + ", carregador=" + carregador + ", nif=" + nif + '}';
+    }
 }
