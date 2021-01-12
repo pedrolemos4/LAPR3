@@ -24,7 +24,6 @@ import oracle.jdbc.OracleTypes;
  */
 public class EncomendaDB extends DataHandler {
 
-    //  private Encomenda enc;
     private final ProdutosDB produtoDB;
     private final DataHandler dataHandler;
     private final List<Encomenda> lstEnc;
@@ -67,10 +66,6 @@ public class EncomendaDB extends DataHandler {
      * @return
      */
     public boolean validaEncomenda(Encomenda enc) {
-        /* if (enc.getNif() != 0 && enc.getDataPedida() != null && enc.getEstado() != 0 && enc.getId() != 0 && enc.getLst() != null && enc.getPesoEncomenda() > 0 && enc.getPreco() > 0 && enc.getTaxa() > 0) {
-            return true;
-        }
-        return false;*/
         return enc.getNif() != 0 && enc.getDataPedida() != null && enc.getEstado() != 0 && enc.getId() != 0 && enc.getLst() != null && enc.getPesoEncomenda() > 0 && enc.getPreco() > 0 && enc.getTaxa() > 0;
     }
 
@@ -176,7 +171,6 @@ public class EncomendaDB extends DataHandler {
      * @return
      */
     public List<Encomenda> getListaEncomenda() {
-       // ArrayList<Encomenda> list = new ArrayList<>();
         String query = "SELECT * FROM encomenda WHERE EstadoEncomendaidEstadoEncomenda = 1";
 
         return getFromDatabase(query);
@@ -189,7 +183,6 @@ public class EncomendaDB extends DataHandler {
      * @return
      */
     public List<Encomenda> getListaEncomendaById(int idEntrega) {
-        //ArrayList<Encomenda> list = new ArrayList<>();
         String query = "SELECT * FROM encomenda e INNER JOIN EncomendaEntrega ee ON ee.EntregaidEntrega = e.idEntrega WHERE e.idEntrega = " + idEntrega;
         return getFromDatabase(query);
     }

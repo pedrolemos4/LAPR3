@@ -27,14 +27,9 @@ public class IniciarEntregaUI {
     public static final Scanner LER = new Scanner(System.in);
     
     public IniciarEntregaController controller;
-    private EntregaDB entregaDB;
-    private EncomendaDB encomendaDB;
-    private EstafetaDB estafetaDB;
-    private EnderecoDB enderecoDB;
-    private ScooterDB scooterDB;
 
     public IniciarEntregaUI() {
-        this.controller = new IniciarEntregaController(entregaDB, encomendaDB, estafetaDB, enderecoDB, scooterDB);
+        this.controller = new IniciarEntregaController(new EntregaDB(), new EncomendaDB(), new EstafetaDB(), new EnderecoDB(), new ScooterDB());
     }
     
     public void iniciaEntrega() {

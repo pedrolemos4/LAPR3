@@ -8,7 +8,6 @@ public class Estafeta extends Utilizador{
     
     private double pesoEstafeta;
     private int idEstado;
-//    private int NIF;
 //    private String nome;
 
     /**
@@ -17,15 +16,15 @@ public class Estafeta extends Utilizador{
      * o numero de Seguranca Social do estafeta, a password do estafeta.
      * 
      * @param pesoEstafeta o peso do estafeta
-     * @param NIF o nif do estafeta
+     * @param nif o nif do estafeta
      * @param nome o nome do estafeta
      * @param email o email do estafeta
      * @param numeroSegurancaSocial o numero de Seguranca Social do estafeta
      * @param password a password do estafeta
      * @param idEstado o estado atual do estafeta
      */
-    public Estafeta(int NIF, String nome, String email, double pesoEstafeta, int numeroSegurancaSocial, String password, int idEstado) {
-        super(NIF, nome, email, numeroSegurancaSocial, password);
+    public Estafeta(int nif, String nome, String email, double pesoEstafeta, int numeroSegurancaSocial, String password, int idEstado) {
+        super(nif, nome, email, numeroSegurancaSocial, password);
         this.pesoEstafeta = pesoEstafeta;
         this.idEstado = idEstado;
     }
@@ -37,7 +36,6 @@ public class Estafeta extends Utilizador{
      * @param pesoEstafeta
      */
     public Estafeta(int nif, int idEstado, double pesoEstafeta) {
-        //this.NIF = NIF;
         super.setNIF(nif);
         this.pesoEstafeta = pesoEstafeta;
         this.idEstado = idEstado;

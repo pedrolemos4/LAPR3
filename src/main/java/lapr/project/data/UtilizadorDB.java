@@ -15,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import lapr.project.model.Cliente;
-import lapr.project.model.Produto;
 import lapr.project.model.Utilizador;
 import oracle.jdbc.OracleTypes;
 
@@ -30,8 +29,8 @@ public class UtilizadorDB extends DataHandler {
         this.dataHandler = DataHandler.getInstance();
     }
 
-    public Utilizador novoUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
-        return new Utilizador(NIF, nome, email, numeroSegurancaSocial, password);
+    public Utilizador novoUtilizador(int nif, String nome, String email, int numeroSegurancaSocial, String password) {
+        return new Utilizador(nif, nome, email, numeroSegurancaSocial, password);
     }
 
     public void registaUtilizador(Utilizador user) {
@@ -48,11 +47,11 @@ public class UtilizadorDB extends DataHandler {
         addUtilizador(user.getNIF(), user.getNome(), user.getEmail(), user.getNumeroSegurancaSocial(), user.getPassword());
     }
 
-    public void addUtilizador(int NIF, String nome, String email, int numeroSegurancaSocial, String password) {
+    public void addUtilizador(int nif, String nome, String email, int numeroSegurancaSocial, String password) {
         try {
             openConnection();
             try (CallableStatement callStmt = getConnection().prepareCall("{ call addUtilizador(?,?,?,?,?) }")) {
-                callStmt.setInt(1, NIF);
+                callStmt.setInt(1, nif);
                 callStmt.setString(2, nome);
                 callStmt.setString(3, email);
                 callStmt.setInt(4, numeroSegurancaSocial);
@@ -72,12 +71,12 @@ public class UtilizadorDB extends DataHandler {
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
-                    int NIF = rSet.getInt(1);
+                    int nif = rSet.getInt(1);
                     String nome = rSet.getString(2);
                     String email = rSet.getString(3);
                     int numeroSegurancaSocial = rSet.getInt(4);
                     String password = rSet.getString(5);
-                    list.add(new Utilizador(NIF, nome, email, numeroSegurancaSocial, password));
+                    list.add(new Utilizador(nif, nome, email, numeroSegurancaSocial, password));
                 }
                 return list;
             }

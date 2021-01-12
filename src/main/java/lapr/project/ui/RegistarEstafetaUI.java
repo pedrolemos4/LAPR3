@@ -12,10 +12,9 @@ public class RegistarEstafetaUI {
     public static final Scanner LER = new Scanner(System.in);
 
     RegistarEstafetaController controller;
-    EstafetaDB estDB = new EstafetaDB();
 
     public RegistarEstafetaUI() {
-        this.controller = new RegistarEstafetaController(estDB);
+        this.controller = new RegistarEstafetaController(new EstafetaDB());
     }
 
     public void registaEstafeta() {
