@@ -90,19 +90,6 @@ public class Data implements Comparable<Data>{
         return dia;
     }
 
-//    public final void setData(int ano, int mes, int dia) {
-//        if (mes < 1 || mes > 12) {
-//            throw new MesInvalidoException("Mês " + mes + " é inválido!!");
-//        }
-//        if (dia < 1 || dia > Mes.obterMes(mes).numeroDeDias(ano))  {
-//            throw new DiaInvalidoException("Dia " + ano + "/" + mes + "/" + dia
-//                    + " é inválido!!");
-//        }
-//        this.ano = ano;         
-//        this.mes = Mes.obterMes(mes);       
-//        this.dia = dia;
-//    }
-
     public String toAnoMesDiaString() {
         return String.format("%02d/%02d/%04d", dia, mes.ordinal()+1, ano);
     }
