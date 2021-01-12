@@ -20,7 +20,7 @@ public class AtualizarEstafetaController {
         return estafetaDB.getEstafetaByEmail(email);
     }
 
-    public void atualizarEstafeta(Estafeta est) {
-         estafetaDB.atualizarEstafeta(est);
+    public boolean atualizarEstafeta(Estafeta est) {
+        return estafetaDB.atualizarEstafeta(est);
     }
 }

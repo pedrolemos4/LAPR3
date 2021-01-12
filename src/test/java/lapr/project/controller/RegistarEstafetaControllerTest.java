@@ -2,17 +2,13 @@ package lapr.project.controller;
 
 import lapr.project.data.EstafetaDB;
 import lapr.project.model.Estafeta;
-import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import lapr.project.data.ScooterDB;
-import lapr.project.model.Scooter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class RegistarEstafetaControllerTest {
 
@@ -29,7 +25,7 @@ class RegistarEstafetaControllerTest {
     }
 
     @Test
-    void getListaEstafetas() {
+    public void getListaEstafetas() {
         System.out.println("getListaEstafetas");
         Estafeta estafeta = new Estafeta(1, "45", "56", 48, 486, "aaa", 1);
         List<Estafeta> expResult = new ArrayList<>();
@@ -39,18 +35,18 @@ class RegistarEstafetaControllerTest {
     }
 
     @Test
-    void novoEstafeta() {
+    public void novoEstafeta() {
         System.out.println("novoEstafeta");
-        Estafeta est = estafetaMock.novoEstafeta(1, "45", "56", 48, 486, "aaa");
-        when(estafetaMock.novoEstafeta(1, "45", "56", 48, 486, "aaa")).thenReturn(est);
-        assertEquals(est, estafetaMock.novoEstafeta(1, "45", "56", 48, 486, "aaa"));
+        Estafeta est = new Estafeta(1, "45", "56", 48, 486, "aaa", 1);
+        RegistarEstafetaController i = new RegistarEstafetaController(new EstafetaDB());
+        assertEquals(est.toString(), i.novoEstafeta(est.getNIF(), est.getNome(), est.getEmail(), est.getPesoEstafeta(), est.getNumeroSegurancaSocial(), est.getPassword()).toString());
     }
 
     @Test
-    void registaEstafeta() {
+    public void registaEstafeta() {
         System.out.println("registaEstafeta");
         Estafeta est = new Estafeta(1, "45", "56", 48, 486, "aaa", 1);
         when(estafetaMock.registaEstafeta(est)).thenReturn(true);
-        assertEquals(true, estafetaMock.registaEstafeta(est));
+        assertEquals(true, instance.registaEstafeta(est));
     }
 }

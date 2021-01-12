@@ -78,4 +78,10 @@ public class Estafeta extends Utilizador{
     public void setEstado(int idEstado) {
         this.idEstado = idEstado;
     }
+
+    @Override
+    public String toString() {
+        return "Estafeta{" + "pesoEstafeta=" + pesoEstafeta + ", idEstado=" + idEstado + '}';
+    }
+     
 }

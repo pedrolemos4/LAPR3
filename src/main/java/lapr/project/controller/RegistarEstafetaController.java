@@ -21,7 +21,7 @@ public class RegistarEstafetaController {
         return estafetaDB.novoEstafeta(nif,nome,email,peso,nss,pwd);
     }
 
-    public void registaEstafeta(Estafeta est) {
-        estafetaDB.registaEstafeta(est);
+    public boolean registaEstafeta(Estafeta est) {
+        return estafetaDB.registaEstafeta(est);
     }
 }
