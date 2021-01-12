@@ -43,7 +43,7 @@ class AtualizarEstafetaControllerTest {
 
     @Test
     void atualizarEstafeta() {
-        System.out.println("registaEstafeta");
+        System.out.println("atualizarEstafeta");
         Estafeta est = new Estafeta(1, "45", "56", 48, 486, "aaa", 1);
         when(estafetaMock.atualizarEstafeta(est)).thenReturn(true);
         assertEquals(true, estafetaMock.atualizarEstafeta(est));
