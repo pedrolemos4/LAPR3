@@ -49,29 +49,29 @@ public class RegistarClienteControllerTest {
     /**
      * Test of login method, of class RegistarClienteController.
      */
-    @Test
-    public void testLogin() throws SQLException {
-        System.out.println("login");
-        String email = "";
-        String password = "";
-        RegistarClienteController instance = new RegistarClienteController();
-        Utilizador expResult = null;
-        Utilizador result = instance.login(email, password);
-        assertEquals(expResult, result);
-    }
+//    @Test
+//    public void testLogin() throws SQLException {
+//        System.out.println("login");
+//        String email = "";
+//        String password = "";
+//        RegistarClienteController instance = new RegistarClienteController();
+//        Utilizador expResult = null;
+//        Utilizador result = instance.login(email, password);
+//        assertEquals(expResult, result);
+//    }
 
     /**
      * Test of getListaClientes method, of class RegistarClienteController.
      */
-    @Test
-    void testGetListaClientes() throws SQLException {
-        System.out.println("GetListaClientes");
-        Cliente cliente = new Cliente(123, 1234, "Ali", 123);
-        List<Cliente> expResult = new ArrayList<>();
-        expResult.add(cliente);
-        when(clienteMock.getLstClientes()).thenReturn(expResult);
-        assertEquals(expResult, instance.getListaClientes());
-    }
+//    @Test
+//    void testGetListaClientes() throws SQLException {
+//        System.out.println("GetListaClientes");
+//        Cliente cliente = new Cliente(123, 1234, "Ali", 123);
+//        List<Cliente> expResult = new ArrayList<>();
+//        expResult.add(cliente);
+//        when(clienteMock.getLstClientes()).thenReturn(expResult);
+//        assertEquals(expResult, instance.getListaClientes());
+//    }
 
     /**
      * Test of novoCliente method, of class RegistarClienteController.
