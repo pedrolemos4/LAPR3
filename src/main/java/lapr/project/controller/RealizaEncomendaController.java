@@ -41,9 +41,10 @@ public class RealizaEncomendaController {
         this.emailDB = em;
     }
 
-    public void produtoEncomenda(Produto prod, int qntd) {
+    public boolean produtoEncomenda(Produto prod, int qntd) {
         if (verificaProdutoEncomenda(prod, qntd) == true) {
             produtoDB.addListaProdutos(prod, qntd);
+            return true;
         } else {
             try {
                 String assunto = "Produto nao disponivel.";
@@ -54,6 +55,7 @@ public class RealizaEncomendaController {
                 Logger.getLogger(RealizaEncomendaController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        return false;
     }
 
     public boolean registaEncomenda(Encomenda enc1) throws SQLException {

@@ -165,11 +165,12 @@ public class ProdutosDB extends DataHandler {
      * Adiciona a lista de produtos da encomenda
      * @param prod 
      */
-    public void addListaProdutos(Produto prod, int qntd) {
+    public boolean addListaProdutos(Produto prod, int qntd) {
         peso = peso + prod.getPeso();
         preco = preco + prod.getPrecoBase();
         listEnc.add(prod);
         listQuant.add(qntd);
+        return true;
     }
     
     public List<Integer> getListaQuantidade(){
