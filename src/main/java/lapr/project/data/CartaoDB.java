@@ -30,11 +30,11 @@ public class CartaoDB extends DataHandler {
      *
      * @param numeroCartao número do cartão de cidadão
      * @param dataDeValidade data de validade do cartão de cidadão
-     * @param CCV código de segurança do cartão de cidadão
+     * @param ccv código de segurança do cartão de cidadão
      * @return o novo cartão de cidadão criado
      */
-    public Cartao novoCartao(int numeroCartao, String dataDeValidade, int CCV) {
-        return new Cartao(numeroCartao, dataDeValidade, CCV);
+    public Cartao novoCartao(int numeroCartao, String dataDeValidade, int ccv) {
+        return new Cartao(numeroCartao, dataDeValidade, ccv);
     }
 
     /**
@@ -78,14 +78,14 @@ public class CartaoDB extends DataHandler {
      * @param dataDeValidade data de validade do cartão de cidadão
      * @param CCV código de segurança do cartão de cidadão
      */
-    public void addCartao(int numeroCartao, String dataDeValidade, int CCV) {
+    public void addCartao(int numeroCartao, String dataDeValidade, int ccv) {
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }")) {
                 callStmt.setInt(1, numeroCartao);
                 Timestamp dValidade = Timestamp.valueOf(dataDeValidade);
                 callStmt.setTimestamp(2, dValidade);
-                callStmt.setInt(3, CCV);
+                callStmt.setInt(3, ccv);
                 callStmt.execute();
             }
             closeAll();
@@ -108,8 +108,8 @@ public class CartaoDB extends DataHandler {
                 while (rSet.next()) {
                     int numeroCartao = rSet.getInt(1);
                     String dataDeValidade = rSet.getTimestamp(2).toString();
-                    int CCV = rSet.getInt(3);
-                    list.add(new Cartao(numeroCartao, dataDeValidade, CCV));
+                    int ccv = rSet.getInt(3);
+                    list.add(new Cartao(numeroCartao, dataDeValidade, ccv));
                 }
                 return list;
             }

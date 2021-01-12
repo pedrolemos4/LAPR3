@@ -24,10 +24,10 @@ import oracle.jdbc.OracleTypes;
  */
 public class EncomendaDB extends DataHandler {
 
-    private Encomenda enc;
+    //  private Encomenda enc;
     private final ProdutosDB produtoDB;
     private final DataHandler dataHandler;
-    private List<Encomenda> lstEnc;
+    private final List<Encomenda> lstEnc;
 
     public EncomendaDB() {
         this.dataHandler = DataHandler.getInstance();
@@ -67,10 +67,11 @@ public class EncomendaDB extends DataHandler {
      * @return
      */
     public boolean validaEncomenda(Encomenda enc) {
-        if (enc.getNif() != 0 && enc.getDataPedida() != null && enc.getEstado() != 0 && enc.getId() != 0 && enc.getLst() != null && enc.getPesoEncomenda() > 0 && enc.getPreco() > 0 && enc.getTaxa() > 0) {
+        /* if (enc.getNif() != 0 && enc.getDataPedida() != null && enc.getEstado() != 0 && enc.getId() != 0 && enc.getLst() != null && enc.getPesoEncomenda() > 0 && enc.getPreco() > 0 && enc.getTaxa() > 0) {
             return true;
         }
-        return false;
+        return false;*/
+        return enc.getNif() != 0 && enc.getDataPedida() != null && enc.getEstado() != 0 && enc.getId() != 0 && enc.getLst() != null && enc.getPesoEncomenda() > 0 && enc.getPreco() > 0 && enc.getTaxa() > 0;
     }
 
     /**
@@ -109,7 +110,7 @@ public class EncomendaDB extends DataHandler {
         int id = 0;
         openConnection();
 
-        try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addEncomenda(?,?,?,?,?,?) }")) {
+        try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addEncomenda(?,?,?,?,?,?) }")) {
 
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
             callStmt.setInt(2, nif);
@@ -138,6 +139,7 @@ public class EncomendaDB extends DataHandler {
      *
      * @param enc
      * @param p
+     * @return 
      */
     public boolean registaEncomendaProduto(Encomenda enc, Produto p) {
         if (validaEncomenda(enc)) {
@@ -147,11 +149,11 @@ public class EncomendaDB extends DataHandler {
     }
 
     private int registaEncomendaProduto(int enc, int p) {
-        int id=0;
+        int id = 0;
         try {
             openConnection();
 
-            try (CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?) }")) {
+            try ( CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?) }")) {
 
                 callStmt1.registerOutParameter(1, OracleTypes.INTEGER);
                 callStmt1.setInt(2, enc);
@@ -174,7 +176,7 @@ public class EncomendaDB extends DataHandler {
      * @return
      */
     public List<Encomenda> getListaEncomenda() {
-        ArrayList<Encomenda> list = new ArrayList<>();
+       // ArrayList<Encomenda> list = new ArrayList<>();
         String query = "SELECT * FROM encomenda WHERE EstadoEncomendaidEstadoEncomenda = 1";
 
         return getFromDatabase(query);
@@ -187,15 +189,15 @@ public class EncomendaDB extends DataHandler {
      * @return
      */
     public List<Encomenda> getListaEncomendaById(int idEntrega) {
-        ArrayList<Encomenda> list = new ArrayList<>();
+        //ArrayList<Encomenda> list = new ArrayList<>();
         String query = "SELECT * FROM encomenda e INNER JOIN EncomendaEntrega ee ON ee.EntregaidEntrega = e.idEntrega WHERE e.idEntrega = " + idEntrega;
         return getFromDatabase(query);
     }
 
     public List<Encomenda> getFromDatabase(String query) {
         ArrayList<Encomenda> list = new ArrayList<>();
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int idEncomenda = rSet.getInt(1);
