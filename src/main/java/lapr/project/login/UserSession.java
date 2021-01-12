@@ -5,11 +5,10 @@ import lapr.project.model.Utilizador;
 public class UserSession {
 
     private static UserSession instance;
-    private User m_oUser;
     private Utilizador user;
 
     public UserSession() {
-        this.m_oUser = null;
+        this.user = null;
     }
 
     public static UserSession getInstance() {
@@ -23,22 +22,11 @@ public class UserSession {
         this.user = user;
     }
 
-    public UserSession(User oUser) {
-        if (oUser == null) {
-            throw new IllegalArgumentException("The argument can't be null or empty.");
-        }
-        this.m_oUser = oUser;
-    }
-
-    public static void RefreshInstance(UserSession us){
-        instance = us;
-    }
-
     public void doLogout() {
-        this.m_oUser = null;
+        this.user = null;
     }
 
-    public User getUser() {
-        return this.m_oUser;
+    public Utilizador getUser() {
+        return this.user;
     }
 }
