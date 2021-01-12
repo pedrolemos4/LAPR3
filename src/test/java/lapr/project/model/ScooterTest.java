@@ -223,7 +223,7 @@ public class ScooterTest {
     /**
      * Test of toString method, of class Scooter.
      */
-    @org.junit.Test
+    @Test
     public void testToString() {
         System.out.println("toString");
         Scooter instance = new Scooter("descricao", 85, 50, 30, 40, 50, 1);
