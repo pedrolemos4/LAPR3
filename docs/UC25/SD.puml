@@ -5,8 +5,6 @@ actor "Cliente" as CLI
 
 participant ":RealizaEncomendaUI" as UI
 participant ":RealizaEncomendaController" as CTRL
-participant "AplicacaoPOT" as _APP
-participant "app\n:AplicacaoPOT" as APP
 participant "sessao\n:SessaoUtilizador" as SESSAO
 participant ":ClienteDB" as DH
 participant ":Cliente" as CLIEN
@@ -28,19 +26,11 @@ activate UI
 UI --> CTRL : getListClients()
 activate CTRL
 
-CTRL -> _APP: app = getInstance()
-activate _APP
-|||
-deactivate _APP
 
-CTRL -> APP: sessao = getSessaoAtual()
-activate APP
-|||
-deactivate APP
+CTRL -> SESSAO: sessao = getSessaoAtual()
+activate SESSAO
 
 CTRL --> SESSAO : email = getEmail()
-activate SESSAO
-|||
 deactivate SESSAO
 
 
@@ -153,10 +143,18 @@ deactivate UI
 CLI --> UI : Insere os dados pedidos
 activate UI
 
-UI --> CTRL: removeCreditos(nifCliente, precoTotal)
+UI --> CTRL : getCreditosData(dataPedida, precoTotal)
 activate CTRL
 
-CTRL --> DH : removerCreditos(nifCliente, precoTotal)
+CTRL --> EDH : creds = getCreditosData(dataPedida, precoTotal)
+activate EDH
+deactivate EDH
+
+deactivate CTRL
+UI --> CTRL: removeCreditos(nifCliente, creds)
+activate CTRL
+
+CTRL --> DH : removerCreditos(nifCliente, creds)
 activate DH
 
 deactivate DH

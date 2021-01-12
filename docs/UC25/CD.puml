@@ -15,6 +15,7 @@ class RealizaEncomendaController {
     +verificaProdutoStock(prod)
     +getPrecoTotal()
     +removeCreditos(nifCliente, precoTotal)
+    +getCreditosData(dataPedida, precoTotal)
 }
 
 class ClienteDataHandler {
@@ -45,18 +46,12 @@ class EncomendaDataHandler {
     +validaEncomenda(enc)
     +addEncomenda(enc)
     +getData()
-}
-
-class AplicacaoPOT{
-  +static getInstance()
-  +getSessaoAtual()
+    +getCreditosData(dataPedida, precoTotal)
 }
 
 class SessaoUtilizador{
   +getEmail()
 }
-
-
 
 class Entrega {
   -idEntrega
