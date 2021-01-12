@@ -1,0 +1,47 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Produto {
+  -Integer id
+  -String desig
+  -Double peso
+  -Double preco_base
+  +Produto(desig,peso,preco_base)
+}
+
+class ProdutosDB {
+  +getListaProdutos()
+}
+
+class Farmacia {
+  -Integer nif
+  +Farmacia(nif)
+}
+
+class FarmaciaDB {
+  +getFarmacia(desig,peso,precoBase,quantidade)
+  +validaFarmacia(farm)
+  +realizaPedido(farm)
+  +validaPedido(farm)
+  +enviaPeiddo(farm)
+}
+
+class PedirItemFarmaciaController {
+    +realizaPedido(farm)
+    +getFarmacia(desig,peso,preco_base,quantidade)
+    +getListaProdutos()
+}
+
+class PedirItemFarmaciaUI {
+}
+
+PedirItemFarmaciaUI ..> PedirItemFarmaciaController
+PedirItemFarmaciaController ..> ProdutosDB
+PedirItemFarmaciaController ..> Produto
+PedirItemFarmaciaController ..> FarmaciaDB
+PedirItemFarmaciaController ..> Farmacia
+
+ProdutosDB "1" --> "*" Produto : tem registados
+FarmaciaDB "1" --> "*" Farmacia : tem registadas
+
+@enduml

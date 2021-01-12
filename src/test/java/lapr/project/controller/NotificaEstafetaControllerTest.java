@@ -71,5 +71,4 @@ class NotificaEstafetaControllerTest {
         System.out.println("Test"+expResult);
         assertEquals(expResult, instance.simulateParkingScooter(1));
     }
-    
 }

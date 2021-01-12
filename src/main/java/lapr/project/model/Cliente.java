@@ -126,4 +126,9 @@ public class Cliente extends Utilizador {
     public void setNumCartaoCredito(int numCartaoCredito) {
         this.numCartaoCredito = numCartaoCredito;
     }
+
+    @Override
+    public String toString() {
+        return "Cliente{" + "nif=" + nif + ", creditos=" + creditos + ", enderecomorada=" + enderecomorada + ", numCartaoCredito" + numCartaoCredito + '}';
+    }
 }

@@ -110,4 +110,8 @@ public class Endereco {
         this.altitude = altitude;
     }
 
+    @Override
+    public String toString() {
+        return "Endereco{" + "morada=" + morada + ", latitude=" + latitude + ", longitude=" + longitude + ", altitude=" + altitude + '}';
+    }
 }

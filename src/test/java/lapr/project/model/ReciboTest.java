@@ -159,6 +159,17 @@ class ReciboTest {
         assertEquals(expResult, result);
     }
 
+    @Test
+    public void testGetLst1() {
+        System.out.println("getLst1");
+        Recibo instance = new Recibo(123,10.2,"data",321);
+        Produto product = new Produto();
+        instance.getLst().add(product);
+        List<Produto> expResult = new ArrayList<>();
+        expResult.add(product);
+        assertEquals(expResult, instance.getLst());
+    }
+
     /**
      * Test of setNif method, of class Recibo.
      */

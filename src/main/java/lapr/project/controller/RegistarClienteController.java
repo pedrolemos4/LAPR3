@@ -26,11 +26,11 @@ public class RegistarClienteController {
     private final EnderecoDB enderecoDB;
     private final CartaoDB cartaoDB;
 
-    public RegistarClienteController() {
-        this.clienteDB = new ClienteDB();
-        this.utilizadorDB = new UtilizadorDB();
-        this.enderecoDB = new EnderecoDB();
-        this.cartaoDB = new CartaoDB();
+    public RegistarClienteController(ClienteDB cldb, UtilizadorDB udb, EnderecoDB edb, CartaoDB cdb) {
+        this.clienteDB = cldb;
+        this.utilizadorDB = udb;
+        this.enderecoDB = edb;
+        this.cartaoDB = cdb;
     }
 
     public Utilizador login(String email, String password) {
@@ -39,11 +39,11 @@ public class RegistarClienteController {
     }
 
     public List<Cliente> getListaClientes() {
-        return clienteDB.getLstClientes();
+        return clienteDB.getListaClientes();
     }
 
-    public Cliente novoCliente(int NIF, String nome, String email, int numeroSegurancaSocial,int creditos, String morada, int numCC, String password) {
-        return clienteDB.novoCliente(NIF, nome, email, numeroSegurancaSocial,creditos, morada, numCC, password);
+    public Cliente novoCliente(int NIF, String nome, String email, int numeroSegurancaSocial, int creditos, String morada, int numCC, String password) {
+        return clienteDB.novoCliente(NIF, nome, email, numeroSegurancaSocial, creditos, morada, numCC, password);
     }
 
     public Cartao novoCartao(int numCC, String dataValidade, int ccv) {
@@ -54,17 +54,16 @@ public class RegistarClienteController {
         return enderecoDB.novoEndereco(morada, latitude, longitude, altitude);
     }
 
-    public void registaCliente(Cliente cl) {
-        clienteDB.registaCliente(cl);
-        utilizadorDB.registaUtilizador(cl);
+    public boolean registaCliente(Cliente cl) {
+        return clienteDB.registaCliente(cl);
     }
 
-    public void registaEndereco(Endereco end) {
-        enderecoDB.registaEndereco(end);
+    public boolean registaEndereco(Endereco end) {
+        return enderecoDB.registaEndereco(end);
     }
 
-    public void registaCartao(Cartao cc) {
-        cartaoDB.registaCartao(cc);
+    public boolean registaCartao(Cartao cc) {
+        return cartaoDB.registaCartao(cc);
     }
 
 }

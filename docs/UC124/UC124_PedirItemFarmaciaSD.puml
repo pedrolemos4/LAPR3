@@ -1,0 +1,59 @@
+@startuml
+autonumber
+
+actor "Administrador" as ADM
+participant ":PedirItemFarmaciaUI" as UI
+participant ":PedirItemFarmaciaController" as CTL
+participant ":ProdutosDB" as PDB
+participant ":FarmaciaDB" as FDB
+
+activate ADM
+ADM -> UI : novo pedido de produto
+activate UI
+UI -> CTL : getListaProdutos()
+activate CTL
+
+CTL -> PDB : lp = getListaProdutos()
+activate PDB
+deactivate PDB
+
+deactivate CTL
+
+UI --> ADM : solicita dados do item (designacao,peso,preco base,quantidade)
+deactivate UI
+
+ADM -> UI : introduz os dados solicitados
+activate UI
+UI -> CTL : getFarmacia(desig,peso,preco_base,quantidade)
+activate CTL
+
+CTL -> FDB: farm = getFarmacia(desig,peso,preco_base,quantidade)
+activate FDB
+
+deactivate FDB
+
+CTL -> FDB : validaFarmacia(farm)
+activate FDB
+deactivate FDB
+
+deactivate CTL
+
+UI --> ADM : apresenta farmácia mais próxima com o item e solitica confirmação
+deactivate UI
+ADM -> UI : confirma
+activate UI
+UI -> CTL : realizaPedido(farm)
+
+activate CTL
+CTL -> FDB :realizaPedido(farm)
+
+activate FDB
+FDB -> FDB : validaPedido(farm)
+
+FDB -> FDB : enviaPedido(farm)
+deactivate FDB
+deactivate CTL
+UI --> ADM: informa sucesso da operação
+
+deactivate ADM
+@enduml

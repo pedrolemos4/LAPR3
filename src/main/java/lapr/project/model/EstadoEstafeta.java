@@ -37,10 +37,7 @@ public class EstadoEstafeta {
         return idEstadoEstafeta;
     }
     
-    /**
-     * Modifica o id de estado do estafeta
-     * @param id_estado_estafeta o novo id de estado do estafeta
-     */
+
     public void setId_estado_estafeta(int idEstadoEstafeta) {
         this.idEstadoEstafeta = idEstadoEstafeta;
     }

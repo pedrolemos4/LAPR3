@@ -5,6 +5,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.RegistarClienteController;
+import lapr.project.data.CartaoDB;
+import lapr.project.data.ClienteDB;
+import lapr.project.data.EnderecoDB;
+import lapr.project.data.UtilizadorDB;
 import lapr.project.model.Cartao;
 import lapr.project.model.Cliente;
 import lapr.project.model.Endereco;
@@ -19,7 +23,7 @@ public class RegistarClienteUI {
      * Criação do controlador responsável por registar clientes
      */
     public RegistarClienteUI() {
-        this.controller = new RegistarClienteController();
+        this.controller = new RegistarClienteController(new ClienteDB(), new UtilizadorDB(),new EnderecoDB(),new CartaoDB());
     }
 
     /**
