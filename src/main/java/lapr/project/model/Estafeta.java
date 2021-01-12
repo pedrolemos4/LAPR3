@@ -35,7 +35,7 @@ public class Estafeta extends Utilizador{
      * @param pesoEstafeta
      */
     public Estafeta(int nif, int idEstado, double pesoEstafeta) {
-        super.setNIF(nif);
+        super(nif, null, null, 0, null);
         this.pesoEstafeta = pesoEstafeta;
         this.idEstado = idEstado;
     }

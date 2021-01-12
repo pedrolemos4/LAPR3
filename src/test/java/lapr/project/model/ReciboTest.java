@@ -198,7 +198,8 @@ class ReciboTest {
     @Test
     public void testSetLst() {
         System.out.println("setLst");
-        List<Produto> lst = null;
+        List<Produto> lst = new ArrayList<>();
+        lst.add(new Produto("df", 32, 23));
         Recibo instance = new Recibo(123,10.2,"data",321);
         instance.setLst(lst);
     }

@@ -100,7 +100,7 @@ public class Recibo {
      * @return 
      */
     public List<Produto> getLst() {
-        return lst;
+        return new ArrayList<>(lst);
     }
 
     /**
@@ -132,7 +132,7 @@ public class Recibo {
      * @param lst 
      */
     public void setLst(List<Produto> lst) {
-        this.lst = lst;
+        this.lst = new ArrayList<>(lst);
     }
 
     @Override

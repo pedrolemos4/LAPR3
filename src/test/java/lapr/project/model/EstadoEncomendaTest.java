@@ -21,7 +21,7 @@ class EstadoEncomendaTest {
     }
 
     @Test
-    void getDesignacao() {
+    public void testGetDesignacao() {
         System.out.println("getDesignacao");
         EstadoEncomenda instance = new EstadoEncomenda(1,"Entregue");
         String expResult = "Entregue";
@@ -38,8 +38,11 @@ class EstadoEncomendaTest {
         assertEquals(designacao, instance.getDesignacao());
     }
 
+    /**
+     * Test of getIdEstadoEncomenda method, of class EstadoEncomenda.
+     */
     @Test
-    void getId_estado_encomenda(){
+    public void testGetIdEstadoEncomenda() {
         System.out.println("getId_estado_encomenda");
         EstadoEncomenda instance = new EstadoEncomenda(2,"Entregando");
         assertEquals(0, instance.getIdEstadoEncomenda());
@@ -48,29 +51,6 @@ class EstadoEncomendaTest {
         assertEquals(0, instance1.getIdEstadoEncomenda());
     }
 
-    /**
-     * Test of getIdEstadoEncomenda method, of class EstadoEncomenda.
-     */
-    @Test
-    public void testGetIdEstadoEncomenda() {
-        System.out.println("getIdEstadoEncomenda");
-        EstadoEncomenda instance = new EstadoEncomenda();
-        int expResult = 0;
-        int result = instance.getIdEstadoEncomenda();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of getDesignacao method, of class EstadoEncomenda.
-     */
-    @Test
-    public void testGetDesignacao() {
-        System.out.println("getDesignacao");
-        EstadoEncomenda instance = new EstadoEncomenda();
-        String expResult = "";
-        String result = instance.getDesignacao();
-        assertEquals(expResult, result);
-    }
 
     /**
      * Test of setDesignacao method, of class EstadoEncomenda.

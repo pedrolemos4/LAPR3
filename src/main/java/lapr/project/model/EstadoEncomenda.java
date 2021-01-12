@@ -10,7 +10,7 @@ public class EstadoEncomenda {
      * Constrói uma instância de estado da encomenda com o id e a designação do
      * estado
      *
-     * @param idEstadoEncomenda id do estado da encomenda
+     * @param estado id do estado da encomenda
      * @param designacao designação do estado da encomenda
      */
     public EstadoEncomenda(int estado, String designacao) {
