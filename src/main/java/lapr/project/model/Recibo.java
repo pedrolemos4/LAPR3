@@ -100,7 +100,7 @@ public class Recibo {
      * @return 
      */
     public List<Produto> getLst() {
-        return new ArrayList<>(lst);
+        return lst;
     }
 
     /**
