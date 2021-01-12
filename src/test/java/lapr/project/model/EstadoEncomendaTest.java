@@ -70,6 +70,10 @@ class EstadoEncomendaTest {
         
         EstadoEncomenda instance1 = new EstadoEncomenda(3,"Entregue");
         assertEquals(0, instance1.getIdEstadoEncomenda());
+
+        EstadoEncomenda instance2 = new EstadoEncomenda(3,"Entregue");
+        instance2.setIdEstadoEncomenda(2);
+        assertEquals(2, instance2.getIdEstadoEncomenda());
     }
 
 
