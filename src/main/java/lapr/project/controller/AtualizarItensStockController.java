@@ -20,7 +20,7 @@ public class AtualizarItensStockController {
         return produtosDB.getProdutoByID(idProd);
     }
 
-    public void atualizarProduto(Produto prod) {
-        produtosDB.atualizarProduto(prod);
+    public boolean atualizarProduto(Produto prod) {
+        return produtosDB.atualizarProduto(prod);
     }
 }

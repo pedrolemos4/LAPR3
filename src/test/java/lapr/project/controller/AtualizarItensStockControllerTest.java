@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr.project.controller;
 
 import java.sql.SQLException;
@@ -63,7 +58,7 @@ public class AtualizarItensStockControllerTest {
         System.out.println("atualizarProduto");
         Produto prod2  = new Produto("teste",50.0,70);
         when(produtoMock.atualizarProduto(prod2)).thenReturn(true);
-        assertEquals(true,produtoMock.atualizarProduto(prod2));
+        assertEquals(true,instance.atualizarProduto(prod2));
     }
 
 }
