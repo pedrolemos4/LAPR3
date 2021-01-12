@@ -37,10 +37,7 @@ public class ReciboDB extends DataHandler {
     }
 
     private boolean validaRecibo(Recibo rec) {
-        if (rec.getData() == null || rec.getId() < 0 || rec.getNif() < 0 || rec.getIdEncomenda() < 0) {
-            return false;
-        }
-        return true;
+        return !(rec.getData() == null || rec.getId() < 0 || rec.getNif() < 0 || rec.getIdEncomenda() < 0);
     }
 
 

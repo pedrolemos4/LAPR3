@@ -103,18 +103,18 @@ public class EntregaDB extends DataHandler {
         try {
             openConnection();
 
-            int v_res;
+            int vRes;
             try (CallableStatement callStmt = getConnection().prepareCall("{ call getEntregaAtiva(?) }")) {
                 callStmt.setString(1, email);
 
                 callStmt.execute();
 
-                v_res = callStmt.getInt(1);
+                vRes = callStmt.getInt(1);
             }
 
             closeAll();
 
-            return getEntregaById(v_res);
+            return getEntregaById(vRes);
         } catch (SQLException e) {
             e.printStackTrace();
         }

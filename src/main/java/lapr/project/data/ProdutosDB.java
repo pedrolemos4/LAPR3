@@ -12,7 +12,6 @@ import lapr.project.model.Produto;
 
 public class ProdutosDB extends DataHandler {
 
-    //private Produto prod;
     private final DataHandler dataHandler;
     private final List<Produto> listEnc;
     private final List<Integer> listQuant;
@@ -29,15 +28,10 @@ public class ProdutosDB extends DataHandler {
         preco = 0;
     }
     public Produto novoProduto(String desig, double peso, double preco_base) {
-        //Produto prod = new Produto(desig, peso, preco_base);
         return new Produto(desig,peso,preco_base);
     }
 
     public boolean validaProduto(Produto prod) {
-       /* if (prod.getDesignacao() == null || prod.getPeso() < 0 || prod.getPrecoBase() < 0) {
-            return false;
-        }
-        return true;*/
         return !(prod.getDesignacao() == null || prod.getPeso() < 0 || prod.getPrecoBase() < 0);
     }
 

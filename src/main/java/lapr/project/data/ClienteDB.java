@@ -27,7 +27,7 @@ public class ClienteDB extends DataHandler {
     /**
      * Cria um novo cliente
      *
-     * @param NIF nif do cliente
+     * @param nif nif do cliente
      * @param nome nome do cliente
      * @param email email do cliente
      * @param numeroSegurancaSocial número de segurança social do cliente
@@ -37,8 +37,8 @@ public class ClienteDB extends DataHandler {
      * @param numCC número do cartão de cidadão do cliente
      * @return o novo cliente criado
      */
-    public Cliente novoCliente(int NIF, String nome, String email, int numeroSegurancaSocial, int creditos, String morada, int numCC, String password) {
-        return new Cliente(NIF, nome, email, numeroSegurancaSocial, creditos, morada, numCC, password);
+    public Cliente novoCliente(int nif, String nome, String email, int numeroSegurancaSocial, int creditos, String morada, int numCC, String password) {
+        return new Cliente(nif, nome, email, numeroSegurancaSocial, creditos, morada, numCC, password);
     }
 
     /**
