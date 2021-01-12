@@ -46,8 +46,8 @@ public class RegistarClienteController {
         return clienteDB.novoCliente(NIF, nome, email, numeroSegurancaSocial,creditos, morada, numCC, password);
     }
 
-    public Cartao novoCartao(int numCC, String dataValidade, int CCV) {
-        return cartaoDB.novoCartao(numCC, dataValidade, numCC);
+    public Cartao novoCartao(int numCC, String dataValidade, int ccv) {
+        return cartaoDB.novoCartao(numCC, dataValidade, ccv);
     }
 
     public Endereco novoEndereco(String morada, double latitude, double longitude, double altitude) {

@@ -3,7 +3,6 @@ package lapr.project.controller;
 import lapr.project.data.EstafetaDB;
 import lapr.project.model.Estafeta;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RegistarEstafetaController {
@@ -19,8 +18,7 @@ public class RegistarEstafetaController {
     }
 
     public Estafeta novoEstafeta(int nif, String nome, String email, double peso, int nss, String pwd) {
-        Estafeta est = estafetaDB.novoEstafeta(nif,nome,email,peso,nss,pwd);
-        return est;
+        return estafetaDB.novoEstafeta(nif,nome,email,peso,nss,pwd);
     }
 
     public void registaEstafeta(Estafeta est) {

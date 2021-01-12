@@ -42,9 +42,8 @@ public class RealizaEncomendaController {
     }
 
     public boolean produtoEncomenda(Produto prod, int qntd) {
-        if (verificaProdutoEncomenda(prod, qntd) == true) {
-            produtoDB.addListaProdutos(prod, qntd);
-            return true;
+        if (verificaProdutoEncomenda(prod, qntd)) {
+            return produtoDB.addListaProdutos(prod, qntd);
         } else {
             try {
                 String assunto = "Produto nao disponivel.";
@@ -73,8 +72,8 @@ public class RealizaEncomendaController {
     public List<Produto> getListStock() {
         return produtoDB.getLista();
     }
-    
-    public List<Integer> getListQuantidade(){
+
+    public List<Integer> getListQuantidade() {
         return produtoDB.getListaQuantidade();
     }
 
@@ -109,10 +108,7 @@ public class RealizaEncomendaController {
     }
 
     public boolean verificaProdutoEncomenda(Produto prod, int qntd) {
-        if (getListStock().contains(prod) == true && contarNumeroProds(prod) >= qntd) {
-            return true;
-        }
-        return false;
+        return getListStock().contains(prod) == true && contarNumeroProds(prod) >= qntd;
     }
 
     public boolean notificaCliente(String email, String assunto, String mensagem) throws MessagingException {
@@ -137,8 +133,8 @@ public class RealizaEncomendaController {
     private int contarNumeroProds(Produto prod) {
         List<Produto> listStock = getListStock();
         int i = 0;
-        for(Produto p : listStock){
-            if(p.getDesignacao()==prod.getDesignacao() && p.getPeso()==prod.getPeso() && p.getPrecoBase()==prod.getPrecoBase()){
+        for (Produto p : listStock) {
+            if (p.getDesignacao() == prod.getDesignacao() && p.getPeso() == prod.getPeso() && p.getPrecoBase() == prod.getPrecoBase()) {
                 i++;
             }
         }

@@ -18,10 +18,10 @@ import lapr.project.model.Scooter;
  */
 public class RegistarEntregaController {
     
-    private EstafetaDB estafetaDB;
-    private EntregaDB entregaDB;
-    private EncomendaDB encomendaDB;
-    private ScooterDB scooterDB;
+    private final EstafetaDB estafetaDB;
+    private final EntregaDB entregaDB;
+    private final EncomendaDB encomendaDB;
+    private final ScooterDB scooterDB;
 
     public RegistarEntregaController(EstafetaDB estafetaDB, EntregaDB entregaDB, EncomendaDB encomendaDB, ScooterDB scooterDB) {
         this.estafetaDB = estafetaDB;
@@ -31,23 +31,19 @@ public class RegistarEntregaController {
     }
     
     public List<Scooter> getListScooter(){
-        List<Scooter> listScooter = scooterDB.getListaScooter();
-        return listScooter;
+        return scooterDB.getListaScooter();
     }
     public Estafeta getEstafeta(){
         String email = UserSession.getInstance().getUser().getEmail();
-        Estafeta est = estafetaDB.getEstafetaByEmail(email);
-        return est;
+        return estafetaDB.getEstafetaByEmail(email);
     }
     
     public Scooter getScooter(int idScooter){
-        Scooter s = scooterDB.getScooterById(idScooter);
-        return s;
+        return scooterDB.getScooterById(idScooter);
     }
       
     public List<Encomenda> getListaEncomenda(){
-        List<Encomenda> list = encomendaDB.getListaEncomenda();
-        return list;
+        return encomendaDB.getListaEncomenda();
     }
     
     public void addEntrega(Entrega en) throws SQLException{
