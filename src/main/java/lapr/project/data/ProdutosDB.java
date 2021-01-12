@@ -8,16 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import lapr.project.model.Estafeta;
 import lapr.project.model.Produto;
 
 public class ProdutosDB extends DataHandler {
 
-    private Produto prod;
+    //private Produto prod;
     private final DataHandler dataHandler;
-    private List<Produto> listEnc;
-    private List<Integer> listQuant;
+    private final List<Produto> listEnc;
+    private final List<Integer> listQuant;
     private EncomendaDB encDB;
 
     private double peso;
@@ -31,19 +29,20 @@ public class ProdutosDB extends DataHandler {
         preco = 0;
     }
     public Produto novoProduto(String desig, double peso, double preco_base) {
-        Produto prod = new Produto(desig, peso, preco_base);
-        return prod;
+        //Produto prod = new Produto(desig, peso, preco_base);
+        return new Produto(desig,peso,preco_base);
     }
 
     public boolean validaProduto(Produto prod) {
-        if (prod.getDesignacao() == null || prod.getPeso() < 0 || prod.getPrecoBase() < 0) {
+       /* if (prod.getDesignacao() == null || prod.getPeso() < 0 || prod.getPrecoBase() < 0) {
             return false;
         }
-        return true;
+        return true;*/
+        return !(prod.getDesignacao() == null || prod.getPeso() < 0 || prod.getPrecoBase() < 0);
     }
 
     public boolean registaProduto(Produto prod) {
-        if (validaProduto(prod) == true) {
+        if (validaProduto(prod)) {
             addProduto(prod);
             return true;
         }
@@ -73,10 +72,12 @@ public class ProdutosDB extends DataHandler {
         }
     }
 
-    public void atualizarProduto(Produto prod) {
+    public boolean atualizarProduto(Produto prod) {
         if (validaProduto(prod)){
             atualizarProduto(prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase(), prod.getId());
+            return true;
         }
+        return false;
     }
 
     private void atualizarProduto(String desig, double peso, double precoBase, int id) {
@@ -101,8 +102,8 @@ public class ProdutosDB extends DataHandler {
 
     public boolean validaListaProdutos(List<Produto> lprods) {
         boolean check = true;
-        for (Produto prod : lprods) {
-            if (prod.getDesignacao() == null || prod.getPeso() < 0 || prod.getPrecoBase() < 0) {
+        for (Produto prod1 : lprods) {
+            if (prod1.getDesignacao() == null || prod1.getPeso() < 0 || prod1.getPrecoBase() < 0) {
                 check = false;
             } else {
                 check = true;
@@ -120,10 +121,10 @@ public class ProdutosDB extends DataHandler {
                 if (rSet.next()) {
                     int id1 = rSet.getInt(1);
                     String desig = rSet.getString(2);
-                    double peso = rSet.getDouble(3);
+                    double peso1 = rSet.getDouble(3);
                     double precoBase = rSet.getDouble(4);
 
-                    return new Produto(id1, desig, peso, precoBase);
+                    return new Produto(id1, desig, peso1, precoBase);
                 }
             }
         } catch (SQLException e) {
@@ -147,10 +148,10 @@ public class ProdutosDB extends DataHandler {
                 while (rSet.next()) {
                     int id = rSet.getInt(1);
                     String designacao = rSet.getString(2);
-                    double peso = rSet.getDouble(3);
+                    double peso2 = rSet.getDouble(3);
                     double precoBase = rSet.getDouble(4);
 
-                    list.add(new Produto(id, designacao, peso, precoBase));
+                    list.add(new Produto(id, designacao, peso2, precoBase));
                 }
                 return list;
             }
