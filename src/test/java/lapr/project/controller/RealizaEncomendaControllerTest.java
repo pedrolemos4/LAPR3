@@ -3,11 +3,9 @@ package lapr.project.controller;
 import java.sql.SQLException;
 import lapr.project.data.ProdutosDB;
 import lapr.project.data.ReciboDB;
-import lapr.project.data.ScooterDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Produto;
 import lapr.project.model.Recibo;
-import lapr.project.model.Scooter;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,13 +16,10 @@ import lapr.project.data.EncomendaDB;
 import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.mockito.stubbing.OngoingStubbing;
 
 class RealizaEncomendaControllerTest {
 
@@ -253,7 +248,7 @@ class RealizaEncomendaControllerTest {
     /**
      * Test of notificaCliente method, of class RealizaEncomendaController.
      */
-    @org.junit.Test
+    @Test
     public void testNotificaCliente() throws Exception {
         System.out.println("notificaCliente");
         String email = "a";
@@ -267,7 +262,7 @@ class RealizaEncomendaControllerTest {
     /**
      * Test of contarNumeroProds method, of class RealizaEncomendaController.
      */
-    @org.junit.Test
+    @Test
     public void testContarNumeroProds() {
         System.out.println("contarNumeroProds");
         Produto prod = new Produto("sdf", 50, 58);
