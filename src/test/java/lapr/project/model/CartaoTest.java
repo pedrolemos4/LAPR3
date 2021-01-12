@@ -9,7 +9,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author beatr
  */
 public class CartaoTest {
+    
+    @Test
+    void CartaoEmptyConstructorTest(){
+        Cartao instance = new Cartao();
 
+        assertEquals(instance,instance);
+    }
+    
+    @Test
+    void CartaoConstructorTest(){
+        Cartao instance = new Cartao(1, "14-02-2013", 45);
+        
+        assertEquals(instance,instance);
+    }
+    
     /**
      * Test of getNumeroCartao method, of class Cartao.
      */

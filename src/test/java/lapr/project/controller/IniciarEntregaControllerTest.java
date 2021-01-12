@@ -9,11 +9,15 @@ import lapr.project.data.EnderecoDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
 import lapr.project.data.ScooterDB;
+import lapr.project.login.UserSession;
+import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
+import lapr.project.model.Parque;
 import lapr.project.model.Scooter;
+import lapr.project.model.Utilizador;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -104,42 +108,50 @@ public class IniciarEntregaControllerTest {
 
     }
 
-//    /**
-//     * Test of getEstafeta method, of class IniciarEntregaController.
-//     */
-//    @Test
-//    public void testGetEstafeta() {
-//        System.out.println("getEstafeta");
-//        Estafeta result = instance.getEstafeta();
-//        assertEquals(expResult, result);
-//
-//    }
-//
+    /**
+     * Test of getEstafeta method, of class IniciarEntregaController.
+     */
+    @Test
+    public void testGetEstafeta() {
+        System.out.println("getEstafeta");
+        Estafeta est = new Estafeta(123456789, "sd", "vfdada", 15, 45, "rs", 62);
+        UserSession.getInstance().setUser(est);
+        when(estafetaDB.getEstafetaByEmail(est.getEmail())).thenReturn(est);
+        Estafeta result = instance.getEstafeta();
+        assertEquals(est, result);
+
+    }
+
 //    /**
 //     * Test of getEnderecoByNifCliente method, of class IniciarEntregaController.
+//     * @throws java.sql.SQLException
 //     */
 //    @Test
 //    public void testGetEnderecoByNifCliente() throws SQLException{
 //        System.out.println("getEnderecoByNifCliente");
 //        int nif = 123456789;
 //        Cliente c = new Cliente(nif, 15, "df", 12);
-//        Endereco expResult = new Endereco("df", 56, 84, 12);
-//        when(enderecoDB.getEnderecoByNifCliente(nif)).thenReturn(expResult);
+//        c.setEnderecoMorada("df");
+//        Endereco expResult = new Endereco(c.getEnderecoMorada(), 56, 84, 12);
+//        when(enderecoDB.getEnderecoByNifCliente(c.getClienteNIF())).thenReturn(expResult);
 //        Endereco result = instance.getEnderecoByNifCliente(nif);
-//        assertEquals(expResult, result);
+//        assertEquals(expResult.getMorada(), result.getMorada());
 //
 //    }
 //
 //    /**
 //     * Test of getEnderecoParque method, of class IniciarEntregaController.
+//     * @throws java.sql.SQLException
 //     */
 //    @Test
-//    public void testGetEnderecoParque() {
+//    public void testGetEnderecoParque() throws SQLException{
 //        System.out.println("getEnderecoParque");
+//        Parque p = new Parque(123456789, "df", 15);
 //        Endereco expResult = new Endereco("df", 56, 84, 12);
+//        
+//        System.out.println(enderecoDB.getEnderecoParque());
 //        when(enderecoDB.getEnderecoParque()).thenReturn(expResult);
-//        Endereco result = instance.getEnderecoParque();
-//        assertEquals(expResult, result);
+//        assertEquals(expResult, instance.getEnderecoParque());
 //
 //    }
 

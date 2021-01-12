@@ -96,22 +96,22 @@ class EncomendaTest {
         double result = instance.getTaxa();
         assertEquals(expResult, result);
     }
-
+    
     @Test
-    void setTaxa() {
-        System.out.println("setTaxa");
-        double taxa = 11;
+    public void setTaxa() {
+        System.out.println("getTaxa");
         List<Produto> lp = new ArrayList<>();
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
-        instance.setTaxa(11);
-        assertEquals(taxa, instance.getTaxa());
+        Encomenda instance = new Encomenda( c.getNIF(),"01-01-2000",10,10,10, 1);
+        double expResult = 10;
+        double result = instance.getTaxa();
+        assertEquals(expResult, result);
     }
 
     @Test
-    void getEstado() {
+    public void getEstado() {
         System.out.println("getEstado");
         List<Produto> lp = new ArrayList<>();
         Produto p = new Produto();
@@ -123,18 +123,6 @@ class EncomendaTest {
         assertEquals(expResult, result);
     }
 
-    @Test
-    void setEstado() {
-        System.out.println("setEstado");
-        int estado = 2;
-        List<Produto> lp = new ArrayList<>();
-        Produto p = new Produto();
-        Cliente c = new Cliente();
-        lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
-        instance.setEstado(estado);
-        assertEquals(estado, instance.getEstado());
-    }
 
     /**
      * Test of getCliente method, of class Encomenda.
@@ -304,4 +292,31 @@ class EncomendaTest {
         Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
         instance.setNif(nif);
     }
+
+    /**
+     * Test of getId method, of class Encomenda.
+     */
+    @Test
+    public void testGetId() {
+        System.out.println("getId");
+        Encomenda instance = new Encomenda(123456789,"01-01-2000",10,10,10, 1);
+        int expResult = 1;
+        instance.setId(expResult);
+        int result = instance.getId();
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of setId method, of class Encomenda.
+     */
+    @Test
+    public void testSetId() {
+        System.out.println("setId");
+        int id = 2;
+        Encomenda instance = new Encomenda(123456789,"01-01-2000",10,10,10, 1);
+        instance.setId(id);
+        assertEquals(id, instance.getId());
+    }
+
 }
