@@ -45,7 +45,7 @@ public class ClienteDB extends DataHandler {
      * Regista o cliente
      *
      * @param cl o cliente
-     * @return 
+     * @return
      */
     public boolean registaCliente(Cliente cl) {
         if (validaCliente(cl)) {
@@ -68,10 +68,12 @@ public class ClienteDB extends DataHandler {
      * Adiciona o cliente à base de dados
      *
      * @param cl o cliente
-     * @return 
+     * @return
      */
     public boolean addCliente(Cliente cl) {
         addCliente(cl.getNIF(), cl.getCreditos(), cl.getEnderecoMorada(), cl.getNumCartaoCredito());
+        UtilizadorDB userDB = new UtilizadorDB();
+        userDB.addUtilizador(cl.getNIF(), cl.getNome(), cl.getEmail(), cl.getNumeroSegurancaSocial(), cl.getPassword());
         return true;
     }
 
@@ -104,7 +106,7 @@ public class ClienteDB extends DataHandler {
      *
      * @return lista de todos os clientes registados
      */
-    public List<Cliente> getLstClientes() {
+    public List<Cliente> getListaClientes() {
         ArrayList<Cliente> list = new ArrayList<>();
         String query = "SELECT * FROM cliente";
 

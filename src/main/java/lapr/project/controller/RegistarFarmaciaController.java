@@ -81,26 +81,29 @@ public class RegistarFarmaciaController {
      * Regista a farmacia
      *
      * @param farm farmacia
+     * @return 
      */
-    public void registaFarmacia(Farmacia farm) {
-        farmaciaDB.registaFarmacia(farm);
+    public boolean registaFarmacia(Farmacia farm) {
+        return farmaciaDB.registaFarmacia(farm);
     }
 
     /**
      * Regista o parque
      *
      * @param park parque
+     * @return 
      */
-    public void registaParque(Parque park) {
-        parqueDB.registaParque(park);
+    public boolean registaParque(Parque park) {
+        return parqueDB.registaParque(park);
     }
 
     /**
      * Regista o endereço
      *
      * @param end endereço
+     * @return 
      */
-    public void registaEndereco(Endereco end) {
-        enderecoDB.registaEndereco(end);
+    public boolean registaEndereco(Endereco end) {
+        return enderecoDB.registaEndereco(end);
     }
 }

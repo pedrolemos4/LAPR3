@@ -65,11 +65,10 @@ public class InserirEstacionamentosController {
      * Regista estacionamentos recebendo a lista com os estacionamentos
      *
      * @param lestac lista de estacionamentos
+     * @return
      */
-    public void registaEstacionamentos(List<Estacionamento> lestac) {
-        for (Estacionamento estac : lestac) {
-            estacionamentoDB.registaEstacionamento(estac);
-        }
+    public boolean registaEstacionamentos(List<Estacionamento> lestac) {
+        return estacionamentoDB.registaEstacionamento(lestac);
     }
 
     /**
