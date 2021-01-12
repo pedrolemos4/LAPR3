@@ -3,7 +3,7 @@ package lapr.project.login;
 import lapr.project.model.Utilizador;
 import org.junit.jupiter.api.Test;
 
-import javax.jws.soap.SOAPBinding;
+//import javax.jws.soap.SOAPBinding;
 
 import static org.junit.jupiter.api.Assertions.*;
 
