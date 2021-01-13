@@ -40,8 +40,6 @@ public class NotificaEstafetaController {
             String line = scan.nextLine();
             int estimativa = Integer.parseInt(line);
 
-            this.scoot.setEstadoVeiculo(2);
-
             EmailDB emaildb = new EmailDB();
 
             Estacionamento estac = estacionamentosDB.getEstacionamentoById(estacionamentoLote);
@@ -49,6 +47,8 @@ public class NotificaEstafetaController {
             estacionamentosDB.addEstacionamentoVeiculo(estac,scoot);
 
             return emaildb.sendEmail(this.estafeta.getEmail(), "Estacionamento Veiculo", "O veiculo foi estacionada com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.");
+        }catch(Exception e){
+            return false;
         }
     }
 }
