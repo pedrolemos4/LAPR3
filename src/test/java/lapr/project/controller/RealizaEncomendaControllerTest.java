@@ -56,17 +56,6 @@ class RealizaEncomendaControllerTest {
         assertEquals(expResult, instance.produtoEncomenda(prod,1));
     }
     
-    /**
-     * Test of produtoEncomenda method, of class RealizaEncomendaController.
-     */
-    @Test
-    public void testProdutoEncomenda1() {
-        System.out.println("produtoEncomenda1");
-        Produto prod = new Produto("a",1,1);
-        prod.setId(1);
-        boolean expResult = true;
-        assertEquals(expResult, instance.produtoEncomenda(prod,1));
-    }
 
     /**
      * Test of registaEncomenda method, of class RealizaEncomendaController.
@@ -257,19 +246,6 @@ class RealizaEncomendaControllerTest {
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of verificaProdutoEncomenda method, of class RealizaEncomendaController.
-     */
-    @Test
-    public void testVerificaProdutoEncomenda1() {
-        System.out.println("verificaProdutoEncomenda1");
-        Produto prod = new Produto("sdf", 50, 58);
-        prod.setId(1);
-        int qntd = 1;
-        boolean expResult = true;
-        boolean result = instance.verificaProdutoEncomenda(prod, qntd);
-        assertEquals(expResult, result);
-    }
     
     /**
      * Test of getPrecoTotal method, of class RealizaEncomendaController.
