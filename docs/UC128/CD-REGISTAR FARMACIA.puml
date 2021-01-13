@@ -3,7 +3,8 @@ skinparam classAttributeIconSize 0
 
 class Farmacia {
   -Integer NIF
-  +Farmacia(Integer NIF)
+  -String morada
+  +Farmacia(Integer NIF, morada)
 }
 
 class Endereco {
@@ -23,7 +24,7 @@ class Parque {
 }
 
 class FarmaciaDB {
-  +Farmacia novaFarmacia(NIF)
+  +Farmacia novaFarmacia(NIF, morada)
   +registaFarmacia(Farmacia farm)
   +validaFarmacia(Farmacia farm)
   -addFarmacia(Farmacia farm)
@@ -44,7 +45,7 @@ class ParqueDB {
 }
 
 class RegistarFarmaciaController {
-  +novaFarmacia(NIF)
+  +novaFarmacia(NIF, morada)
   +novoEndereco(morada, latitude, longitude, altitude)
   +novoParque(Integer NIF, String morada, Integer numeroMaximo, String tipo)
   +registaFarmacia(farm)
