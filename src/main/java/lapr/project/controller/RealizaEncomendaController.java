@@ -41,7 +41,7 @@ public class RealizaEncomendaController {
 
     public boolean produtoEncomenda(Produto prod, int qntd) {
         if (verificaProdutoEncomenda(prod, qntd)) {
-            return produtoDB.addListaProdutos(prod, qntd);
+            return (produtoDB.addListaProdutos(prod, qntd)? true : false);
         } else {
             String assunto = "Produto nao disponivel.";
             String mensagem = "O produto nao disponivel foi retirado da lista de produtos da sua encomenda.";
