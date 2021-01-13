@@ -20,7 +20,7 @@ public class Data implements Comparable<Data>{
 
     private int dia;
     
-    private static enum Mes {
+    private enum Mes {
 
         /**
          * Os meses do ano.
@@ -139,7 +139,7 @@ public class Data implements Comparable<Data>{
         return new Data(ano, mes, dia);
     }
 
-    private int contaDias() {
+    public int contaDias() {
         int totalDias = 0;
 
         for (int i = 1; i < ano; i++) {

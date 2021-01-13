@@ -153,5 +153,18 @@ public class DataTest {
         int result = instance.diferenca(outraData);
         assertEquals(expResult, result);
     }
+
+    /**
+     * Test of numeroDeDias method, of class Data.
+     */
+    @Test
+    public void testContaDias() {
+        System.out.println("contaDias");
+        Data instance = new Data("01/01/2021");
+        int expResult = 737791;
+        int result = instance.contaDias();
+        System.out.println(instance.contaDias());
+        assertEquals(expResult, result);
+    }
     
 }
