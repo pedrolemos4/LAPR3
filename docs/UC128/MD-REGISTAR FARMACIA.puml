@@ -5,6 +5,7 @@ left to right direction
 
 class Farmacia {
   -NIF
+  -morada
 }
 
 class Utilizador {
