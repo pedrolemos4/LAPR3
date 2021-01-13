@@ -27,7 +27,7 @@ public class VeiculoController {
     }
 
     public boolean updateVeiculo(Veiculo veiculo) throws SQLException {
-        return veiculoDB.updateVeiculo(veiculo);
+        return (veiculoDB.updateVeiculo(veiculo) ? true : false) ;
     }
 
     public List<Veiculo> getListaVeiculo() {
