@@ -15,7 +15,6 @@ public class NotificaEstafetaController {
 
     private final Veiculo scoot;
     private final Estafeta estafeta;
-    private final Entrega entrega;
 
     private final EstacionamentosDB estacionamentosDB;
 
@@ -26,29 +25,23 @@ public class NotificaEstafetaController {
 
         this.estafeta = estafetaDB.getEstafetaByEmail(email);
 
-        this.entrega = entregaDB.getEntregaAtiva(email);
+        Entrega entrega = entregaDB.getEntregaAtiva(email);
 
-        int scootId = this.entrega.getIdVeiculo();
+        int scootId = entrega.getIdVeiculo();
 
         this.scoot = veiculoDB.getVeiculoById(scootId);
     }
 
-    public boolean simulateParkingVeiculo(int estacionamentoLote, EmailDB emailDB, String path){
+    public boolean simulateParkingVeiculo(int estacionamentoLote, EmailDB emailDB, String path) throws FileNotFoundException {
         File newFile = new File(path);
-        try (Scanner scan = new Scanner(newFile)) {
-            String line = scan.nextLine();
-            int estimativa = Integer.parseInt(line);
+        Scanner scan = new Scanner(newFile);
+        String line = scan.nextLine();
+        int estimativa = Integer.parseInt(line);
 
-            Estacionamento estac = estacionamentosDB.getEstacionamentoById(estacionamentoLote);
+        Estacionamento estac = estacionamentosDB.getEstacionamentoById(estacionamentoLote);
 
-            estacionamentosDB.addEstacionamentoVeiculo(estac,scoot);
+        estacionamentosDB.addEstacionamentoVeiculo(estac, scoot);
 
-            scan.close();
-
-            return emailDB.sendEmail(this.estafeta.getEmail(), "Estacionamento Veiculo", "O veiculo foi estacionado com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return emailDB.sendEmail(this.estafeta.getEmail(), "Estacionamento Veiculo", "O veiculo foi estacionado com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.");
     }
 }
