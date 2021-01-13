@@ -66,6 +66,18 @@ public class VeiculoControllerTest {
         assertEquals(false, instance.updateVeiculo(s));
 
     }
+    
+    /**
+     * Test of updateScooter method, of class VeiculoController.
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testUpdateVeiculo1() throws SQLException {
+        System.out.println("updateVeiculo1");
+        when(veiculoDBMock.updateVeiculo(s)).thenReturn(true);
+        assertEquals(true, instance.updateVeiculo(s));
+
+    }
 
     /**
      * Test of getListaVeiculo method, of class VeiculoController.
@@ -116,6 +128,21 @@ public class VeiculoControllerTest {
         veiculo.setId(idVeiculo);
         when(veiculoDBMock.removeVeiculo(idVeiculo)).thenReturn(false);
         assertEquals(false, instance.removeVeiculo(idVeiculo));
+
+    }
+    
+    /**
+     * Test of removeVeiculo method, of class VeiculoController.
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testRemoveVeiculo1() throws SQLException {
+        System.out.println("removeVeiculo1");
+        int idVeiculo = 1;
+        Veiculo veiculo = new Veiculo("","scooter", 45, 56, 48, 486, 45, 1);
+        veiculo.setId(idVeiculo);
+        when(veiculoDBMock.removeVeiculo(idVeiculo)).thenReturn(true);
+        assertEquals(true, instance.removeVeiculo(idVeiculo));
 
     }
     
