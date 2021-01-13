@@ -21,8 +21,6 @@ import lapr.project.model.Farmacia;
  */
 public class FarmaciaDB extends DataHandler {
 
-    public FarmaciaDB() {
-    }
 
     /**
      * Cria uma nova farmácia

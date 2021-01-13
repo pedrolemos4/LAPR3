@@ -47,7 +47,7 @@ public class EntregaDB extends DataHandler {
 
             } catch (SQLException | NullPointerException ex) {
 
-                Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
+                Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
         }
 
@@ -146,7 +146,7 @@ public class EntregaDB extends DataHandler {
         return list;
     }
 
-    public LinkedList<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Scooter scooter, double pesoTotalEntrega) {
+    public List<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Scooter scooter, double pesoTotalEntrega) {
         Graph<Endereco, Double> graph = new Graph<>(true);
 
         for (Endereco e : listEnderecos) {

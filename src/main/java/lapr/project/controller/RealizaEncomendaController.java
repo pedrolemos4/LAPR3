@@ -90,7 +90,7 @@ public class RealizaEncomendaController {
         return cliente.getNIF();
     }
 
-    public boolean novoRecibo(Recibo rec) throws SQLException, MessagingException {
+    public boolean novoRecibo(Recibo rec) throws SQLException/*, MessagingException */{
         reciboDB.registaRecibo(rec);
         String assunto = "Recibo.";
         String mensagem = rec.toString();

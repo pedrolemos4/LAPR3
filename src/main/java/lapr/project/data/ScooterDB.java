@@ -19,8 +19,6 @@ import oracle.jdbc.OracleTypes;
  */
 public class ScooterDB extends DataHandler {
 
-    public ScooterDB() {
-    }
 
     public int addScooter(Scooter scooter) throws SQLException {
         int id = 0;

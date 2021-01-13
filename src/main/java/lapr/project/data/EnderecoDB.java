@@ -21,9 +21,6 @@ import lapr.project.model.Endereco;
  */
 public class EnderecoDB extends DataHandler {
 
-    public EnderecoDB() {
-    }
-
     /**
      * Cria um novo endereço
      *

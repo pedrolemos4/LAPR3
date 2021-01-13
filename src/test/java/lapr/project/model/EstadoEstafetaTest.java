@@ -21,18 +21,18 @@ class EstadoEstafetaTest {
     }
 
     @Test
-    void getId_estado_estafeta() {
+    void getIdEstadoEstafeta() {
         EstadoEstafeta estado = new EstadoEstafeta();
 
-        assertEquals(0,estado.getId_estado_estafeta());
+        assertEquals(0,estado.getIdEstadoEstafeta());
     }
 
     @Test
-    void setId_estado_estafeta() {
+    void setIdEstadoEstafeta() {
         EstadoEstafeta estado = new EstadoEstafeta();
-        estado.setId_estado_estafeta(2);
+        estado.setIdEstadoEstafeta(2);
 
-        assertEquals(2,estado.getId_estado_estafeta());
+        assertEquals(2,estado.getIdEstadoEstafeta());
     }
 
     @Test

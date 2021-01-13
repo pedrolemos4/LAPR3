@@ -26,13 +26,10 @@ import oracle.jdbc.OracleTypes;
 public class EncomendaDB extends DataHandler {
 
     private final ProdutosDB produtoDB;
-    private final DataHandler dataHandler;
-    private final List<Encomenda> lstEnc;
+
 
     public EncomendaDB() {
-        this.dataHandler = DataHandler.getInstance();
         produtoDB = new ProdutosDB();
-        lstEnc = new ArrayList<>();
     }
 
     /**
@@ -87,9 +84,11 @@ public class EncomendaDB extends DataHandler {
      * Adiciona a encomenda à base de dados
      *
      * @param enc
+     * @return 
+     * @throws java.sql.SQLException
      */
     public int addEncomenda(Encomenda enc) throws SQLException {
-        return addEncomenda(enc.getNif(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado().getIdEstadoEncomenda(), enc.getLst());
+        return addEncomenda(enc.getNif(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado().getIdEstadoEncomenda());
     }
 
     /**
@@ -102,7 +101,7 @@ public class EncomendaDB extends DataHandler {
      * @param estado
      * @param lst
      */
-    private int addEncomenda(int nif, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado, List<Produto> lst) throws SQLException {
+    private int addEncomenda(int nif, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) throws SQLException {
         int id = 0;
         openConnection();
 
@@ -218,8 +217,8 @@ public class EncomendaDB extends DataHandler {
         String dataF = "31/12/2021";
         
         Data d2 = new Data(dataI);
-        Data d3 = new Data(dataI);
-        Data d4 = new Data(dataI);
+        Data d3 = new Data(dataM);
+        Data d4 = new Data(dataF);
         
         if(date.isMaior(d2) && d3.isMaior(date) || date.compareTo(d2)==0 || d3.compareTo(date)==0){
             return preco/2;

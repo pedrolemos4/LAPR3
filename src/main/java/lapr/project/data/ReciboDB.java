@@ -7,8 +7,6 @@ package lapr.project.data;
 
 import java.sql.CallableStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr.project.model.Produto;
@@ -20,14 +18,6 @@ import oracle.jdbc.OracleTypes;
  * @author pedro
  */
 public class ReciboDB extends DataHandler {
-
-    private final DataHandler dataHandler;
-    private List<Recibo> lst;
-
-    public ReciboDB() {
-        this.dataHandler = DataHandler.getInstance();
-        lst = new ArrayList<>();
-    }
 
     public boolean registaRecibo(Recibo rec) throws SQLException {
         if (validaRecibo(rec)) {
@@ -73,7 +63,7 @@ public class ReciboDB extends DataHandler {
     }
     
     public boolean registaRecibo(Recibo rec, Produto prod){
-        if(validaRecibo(rec)==true){
+        if(validaRecibo(rec)){
             registaRecibo(rec.getId(), prod.getId());
             return true;
         }

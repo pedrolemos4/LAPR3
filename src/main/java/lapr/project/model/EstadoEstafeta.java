@@ -33,12 +33,12 @@ public class EstadoEstafeta {
      * Devolve o id de estado do estafeta
      * @return id de estado do estafeta
      */
-    public int getId_estado_estafeta() {
+    public int getIdEstadoEstafeta() {
         return idEstadoEstafeta;
     }
     
 
-    public void setId_estado_estafeta(int idEstadoEstafeta) {
+    public void setIdEstadoEstafeta(int idEstadoEstafeta) {
         this.idEstadoEstafeta = idEstadoEstafeta;
     }
     
