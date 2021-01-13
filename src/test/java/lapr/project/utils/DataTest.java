@@ -91,6 +91,32 @@ public class DataTest {
         int result = instance.compareTo(outraData);
         assertEquals(expResult, result);
     }
+    
+    /**
+     * Test of compareTo method, of class Data.
+     */
+    @Test
+    public void testCompareTo1() {
+        System.out.println("compareTo1");
+        Data outraData = new Data("01/01/2021");
+        Data instance = new Data("02/01/2021");
+        int expResult = 1;
+        int result = instance.compareTo(outraData);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of compareTo method, of class Data.
+     */
+    @Test
+    public void testCompareTo2() {
+        System.out.println("compareTo2");
+        Data outraData = new Data("02/01/2021");
+        Data instance = new Data("01/01/2021");
+        int expResult = -1;
+        int result = instance.compareTo(outraData);
+        assertEquals(expResult, result);
+    }
 
     /**
      * Test of isMaior method, of class Data.
