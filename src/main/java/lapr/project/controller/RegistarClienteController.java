@@ -55,15 +55,15 @@ public class RegistarClienteController {
     }
 
     public boolean registaCliente(Cliente cl) {
-        return clienteDB.registaCliente(cl);
+        return (clienteDB.registaCliente(cl) ? true : false);
     }
 
     public boolean registaEndereco(Endereco end) {
-        return enderecoDB.registaEndereco(end);
+        return (enderecoDB.registaEndereco(end) ? true : false);
     }
 
     public boolean registaCartao(Cartao cc) {
-        return cartaoDB.registaCartao(cc);
+        return (cartaoDB.registaCartao(cc) ? true : false);
     }
 
 }

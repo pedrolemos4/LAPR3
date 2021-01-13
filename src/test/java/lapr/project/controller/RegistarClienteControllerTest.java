@@ -97,6 +97,17 @@ public class RegistarClienteControllerTest {
         when(clienteMock.registaCliente(cliente)).thenReturn(true);
         assertEquals(true, instance1.registaCliente(cliente));
     }
+    
+    /**
+     * Test of registaCliente method, of class RegistarClienteController.
+     */
+    @Test
+    public void testRegistaCliente1() throws SQLException {
+        System.out.println("registaCliente1");
+        Cliente cliente = new Cliente(123, "Teste", "@", 1234, 12, "Ali", 123, "pass");
+        when(clienteMock.registaCliente(cliente)).thenReturn(false);
+        assertEquals(false, instance1.registaCliente(cliente));
+    }
 
     /**
      * Test of novoCartao method, of class RegistarClienteController.
@@ -132,6 +143,18 @@ public class RegistarClienteControllerTest {
         when(enderecoMock.registaEndereco(end)).thenReturn(true);
         assertEquals(true, instance1.registaEndereco(end));
     }
+    
+    /**
+     * Test of registaEndereco method, of class RegistarClienteController.
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testRegistaEndereco1() throws SQLException {
+        System.out.println("registaEndereco1");
+        Endereco end = new Endereco("Rua do ISEP", 41.45, 30.58, 34.23);
+        when(enderecoMock.registaEndereco(end)).thenReturn(false);
+        assertEquals(false, instance1.registaEndereco(end));
+    }
 
     /**
      * Test of registaCartao method, of class RegistarClienteController.
@@ -143,5 +166,17 @@ public class RegistarClienteControllerTest {
         Cartao cart = new Cartao(5, "sdd", 5);
         when(cartaoMock.registaCartao(cart)).thenReturn(true);
         assertEquals(true, instance1.registaCartao(cart));
+    }
+    
+    /**
+     * Test of registaCartao method, of class RegistarClienteController.
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testRegistaCartao1() throws SQLException {
+        System.out.println("registaCartao1");
+        Cartao cart = new Cartao(5, "sdd", 5);
+        when(cartaoMock.registaCartao(cart)).thenReturn(false);
+        assertEquals(false, instance1.registaCartao(cart));
     }
 }

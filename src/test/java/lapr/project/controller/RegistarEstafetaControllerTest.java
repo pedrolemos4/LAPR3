@@ -49,4 +49,12 @@ class RegistarEstafetaControllerTest {
         when(estafetaMock.registaEstafeta(est)).thenReturn(true);
         assertEquals(true, instance.registaEstafeta(est));
     }
+    
+    @Test
+    public void registaEstafeta1() {
+        System.out.println("registaEstafeta1");
+        Estafeta est = new Estafeta(1, "45", "56", 48, 486, "aaa", 1);
+        when(estafetaMock.registaEstafeta(est)).thenReturn(false);
+        assertEquals(false, instance.registaEstafeta(est));
+    }
 }

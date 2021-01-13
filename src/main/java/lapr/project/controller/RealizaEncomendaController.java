@@ -52,11 +52,11 @@ public class RealizaEncomendaController {
     }
 
     public boolean registaEncomenda(Encomenda enc1) throws SQLException {
-        return encDB.registaEncomenda(enc1);
+        return (encDB.registaEncomenda(enc1) ? true : false);
     }
 
     public boolean registaEncomendaProduto(Encomenda enc, Produto p) {
-        return encDB.registaEncomendaProduto(enc, p);
+        return (encDB.registaEncomendaProduto(enc, p) ? true : false);
     }
 
     public List<Produto> getListaProdutoEncomenda() {
@@ -97,15 +97,15 @@ public class RealizaEncomendaController {
     }
 
     public boolean novoRecibo(Recibo rec, Produto prod) {
-        return reciboDB.registaRecibo(rec, prod);
+        return (reciboDB.registaRecibo(rec, prod) ? true : false);
     }
 
     public boolean verificaProdutoEncomenda(Produto prod, int qntd) {
-        return getListStock().contains(prod) && contarNumeroProds(prod) >= qntd;
+        return ((getListStock().contains(prod) && contarNumeroProds(prod) >= qntd) ? true : false);
     }
 
     public boolean notificaCliente(String email, String assunto, String mensagem) {
-        return emailDB.sendEmail(email, assunto, mensagem);
+        return (emailDB.sendEmail(email, assunto, mensagem) ? true : false);
     }
 
     public double getPrecoTotal(double taxa) {
@@ -139,7 +139,7 @@ public class RealizaEncomendaController {
     }
 
     public boolean removerCreditos(String email, double creditosData) throws SQLException {
-        return cliDB.removerCreditos(email, creditosData);
+        return (cliDB.removerCreditos(email, creditosData) ? true : false);
     }
 
 }
