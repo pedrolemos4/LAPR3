@@ -33,7 +33,7 @@ public class NotificaEstafetaController {
         this.scoot = veiculoDB.getVeiculoById(scootId);
     }
 
-    public boolean simulateParkingVeiculo(int estacionamentoLote, EmailDB emailDB) throws FileNotFoundException {
+    public boolean simulateParkingVeiculo(int estacionamentoLote, EmailDB emailDB){
         String path = "src/main/java/lapr/project/parking/estimate_2021_02_02_02_02_02.data";
         File newFile = new File(path);
         try (Scanner scan = new Scanner(newFile)) {
@@ -45,6 +45,9 @@ public class NotificaEstafetaController {
             estacionamentosDB.addEstacionamentoVeiculo(estac,scoot);
 
             return emailDB.sendEmail(this.estafeta.getEmail(), "Estacionamento Veiculo", "O veiculo foi estacionado com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
+        return false;
     }
 }
