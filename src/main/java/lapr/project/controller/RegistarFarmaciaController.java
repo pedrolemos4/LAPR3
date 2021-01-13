@@ -60,7 +60,7 @@ public class RegistarFarmaciaController {
      *
      * @param nif nif do parque/farmácia
      * @param morada morada do parque
-     * @param numMax limite máximo de scooters do parque
+     * @param numMax limite máximo de veiculos do parque
      * @return novo parque criado
      */
     public Parque novoParque(int nif, String morada, int numMax) {

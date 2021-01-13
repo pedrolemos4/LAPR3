@@ -18,16 +18,16 @@ public class CalculosFisica {
     /**
      * Devolve o calculo da energia gasta no percurso
      * @param pesoEstafeta peso do estafeta
-     * @param pesoScooter peso do scooter
+     * @param pesoVeiculo peso do scooter
      * @param areaFrontal a area frontal da scooter
      * @param pesoEncomenda o peso da encomenda
      * @param end1 o endereco de origem
      * @param end2 o endereco de destino
      * @return calculo da energia gasta no percurso
      */
-    public static double calculoEnergia(double pesoEstafeta, double pesoScooter, double areaFrontal,
+    public static double calculoEnergia(double pesoEstafeta, double pesoVeiculo, double areaFrontal,
             double pesoEncomenda, Endereco end1, Endereco end2) {
-        double pesoTotal = pesoEncomenda + pesoEstafeta + pesoScooter;
+        double pesoTotal = pesoEncomenda + pesoEstafeta + pesoVeiculo;
         double forcaTotalExercida = calculoForcaTotal(pesoTotal, areaFrontal);
         double distancia = calculoDistancia(end1, end2);
         double tempo = distancia/SPEED;

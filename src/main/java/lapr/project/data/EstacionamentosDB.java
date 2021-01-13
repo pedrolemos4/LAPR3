@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import lapr.project.model.Estacionamento;
-import lapr.project.model.Scooter;
+import lapr.project.model.Veiculo;
 
 /**
  *
@@ -168,12 +168,12 @@ public class EstacionamentosDB extends DataHandler {
         return null;
     }
 
-    public boolean addEstacionamentoScooter(Estacionamento estacionamento, Scooter scooter) {
+    public boolean addEstacionamentoVeiculo(Estacionamento estacionamento, Veiculo veiculo) {
         try {
             openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoScooter(?,?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoVeiculo(?,?,?,?) }")) {
                 callStmt.setInt(1, estacionamento.getNIF());
-                callStmt.setInt(2, scooter.getId());
+                callStmt.setInt(2, veiculo.getId());
                 callStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
                 callStmt.execute();
             }

@@ -50,7 +50,6 @@ public class RegistarClienteControllerTest {
 
     /**
      * Test of login method, of class RegistarClienteController.
-     *
      * @throws java.sql.SQLException
      */
     @Test
@@ -68,7 +67,7 @@ public class RegistarClienteControllerTest {
      * Test of getListaClientes method, of class RegistarClienteController.
      */
     @Test
-    void testGetListaClientes() throws SQLException {
+    public void testGetListaClientes() throws SQLException {
         System.out.println("GetListaClientes");
         Cliente cliente = new Cliente(123, "Teste", "@", 1234, 12, "Ali", 123, "pass");
         List<Cliente> expResult = new ArrayList<>();
@@ -79,21 +78,20 @@ public class RegistarClienteControllerTest {
 
     /**
      * Test of novoCliente method, of class RegistarClienteController.
-     *
      * @throws java.sql.SQLException
      */
     @Test
-    void testNovoCliente() throws SQLException {
+    public void testNovoCliente() throws SQLException {
         System.out.println("NovoCliente");
         Cliente cliente = new Cliente(123, "Teste", "@", 1234, 12, "Ali", 123, "pass");
-       //assertEquals(cliente.toString(), instance.novoCliente(cliente.getClienteNIF(), cliente.getNome(), cliente.getEmail(), cliente.getNumeroSegurancaSocial(), cliente.getCreditos(), cliente.getEnderecoMorada(), cliente.getNumCartaoCredito(), cliente.getPassword()).toString());
+        assertEquals(cliente.toString(), instance.novoCliente(cliente.getClienteNIF(), cliente.getNome(), cliente.getEmail(), cliente.getNumeroSegurancaSocial(), cliente.getCreditos(), cliente.getEnderecoMorada(), cliente.getNumCartaoCredito(), cliente.getPassword()).toString());
     }
 
     /**
      * Test of registaCliente method, of class RegistarClienteController.
      */
     @Test
-    void testRegistaCliente() throws SQLException {
+    public void testRegistaCliente() throws SQLException {
         System.out.println("registaCliente");
         Cliente cliente = new Cliente(123, "Teste", "@", 1234, 12, "Ali", 123, "pass");
         when(clienteMock.registaCliente(cliente)).thenReturn(true);
@@ -102,11 +100,10 @@ public class RegistarClienteControllerTest {
 
     /**
      * Test of novoCartao method, of class RegistarClienteController.
-     *
      * @throws java.sql.SQLException
      */
     @Test
-    void testNovoCartao() throws SQLException {
+    public void testNovoCartao() throws SQLException {
         System.out.println("novoCartao");
         Cartao cart = new Cartao(5, "sdd", 5);
         assertEquals(cart.toString(), instance.novoCartao(cart.getNumeroCartao(), cart.getDataDeValidade(), cart.getCCV()).toString());
@@ -114,11 +111,10 @@ public class RegistarClienteControllerTest {
 
     /**
      * Test of novoEndereco method, of class RegistarClienteController.
-     *
      * @throws java.sql.SQLException
      */
     @Test
-    void testNovoEndereco() throws SQLException {
+    public void testNovoEndereco() throws SQLException {
         System.out.println("novoEndereco");
         Endereco end = new Endereco("Rua do ISEP", 41.45, 30.58, 34.23);
         when(enderecoMock.novoEndereco("Rua do ISEP", 41.45, 30.58, 34.23)).thenReturn(end);
@@ -127,11 +123,10 @@ public class RegistarClienteControllerTest {
 
     /**
      * Test of registaEndereco method, of class RegistarClienteController.
-     *
      * @throws java.sql.SQLException
      */
     @Test
-    void testRegistaEndereco() throws SQLException {
+    public void testRegistaEndereco() throws SQLException {
         System.out.println("registaEndereco");
         Endereco end = new Endereco("Rua do ISEP", 41.45, 30.58, 34.23);
         when(enderecoMock.registaEndereco(end)).thenReturn(true);
@@ -140,11 +135,10 @@ public class RegistarClienteControllerTest {
 
     /**
      * Test of registaCartao method, of class RegistarClienteController.
-     *
      * @throws java.sql.SQLException
      */
     @Test
-    void testRegistaCartao() throws SQLException {
+    public void testRegistaCartao() throws SQLException {
         System.out.println("registaCartao");
         Cartao cart = new Cartao(5, "sdd", 5);
         when(cartaoMock.registaCartao(cart)).thenReturn(true);

@@ -8,12 +8,12 @@ import lapr.project.data.EncomendaDB;
 import lapr.project.data.EnderecoDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
-import lapr.project.data.ScooterDB;
+import lapr.project.data.VeiculoDB;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
-import lapr.project.model.Scooter;
+import lapr.project.model.Veiculo;
 
 /**
  *
@@ -26,7 +26,7 @@ public class IniciarEntregaUI {
     public final IniciarEntregaController controller;
 
     public IniciarEntregaUI() {
-        this.controller = new IniciarEntregaController(new EntregaDB(), new EncomendaDB(), new EstafetaDB(), new EnderecoDB(), new ScooterDB());
+        this.controller = new IniciarEntregaController(new EntregaDB(), new EncomendaDB(), new EstafetaDB(), new EnderecoDB(), new VeiculoDB());
     }
     
     public void iniciaEntrega() {
@@ -44,12 +44,12 @@ public class IniciarEntregaUI {
         List<Encomenda> listEnc = controller.getListaEncomendaById(idEntrega);
         
         Entrega entr = controller.getEntregaById(idEntrega);
-        Scooter scooter = controller.getScooterById(entr.getIdScooter());
+        Veiculo veiculo = controller.getVeiculoById(entr.getIdVeiculo());
         
         System.out.println("IdEntrega:\t" + idEntrega
                 + "\nLista de Encomendas associadas à entrega:\t" + listEnc
                 + "\nEstafeta:\t" + est
-                + "\nScooter associada à entrega:\t" + scooter);
+                + "\nScooter associada à entrega:\t" + veiculo);
         
         System.out.println("Confirme os dados introduzidos: (S/N)");
         LER.nextLine();
@@ -67,7 +67,7 @@ public class IniciarEntregaUI {
                 listEnderecos.add(end);
             }
             
-            List<Endereco> lEn = controller.generateGraph(listEnderecos, est, scooter, pesoTotal);
+            List<Endereco> lEn = controller.generateGraph(listEnderecos, est, veiculo, pesoTotal);
             
             System.out.println("\n\nCaminho com menor energia gasta: '" + lEn);
         }

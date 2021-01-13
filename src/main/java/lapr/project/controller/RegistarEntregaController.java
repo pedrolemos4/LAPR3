@@ -5,12 +5,12 @@ import java.util.List;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
-import lapr.project.data.ScooterDB;
+import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
-import lapr.project.model.Scooter;
+import lapr.project.model.Veiculo;
 
 /**
  *
@@ -21,25 +21,25 @@ public class RegistarEntregaController {
     private final EstafetaDB estafetaDB;
     private final EntregaDB entregaDB;
     private final EncomendaDB encomendaDB;
-    private final ScooterDB scooterDB;
+    private final VeiculoDB veiculoDB;
 
-    public RegistarEntregaController(EstafetaDB estafetaDB, EntregaDB entregaDB, EncomendaDB encomendaDB, ScooterDB scooterDB) {
+    public RegistarEntregaController(EstafetaDB estafetaDB, EntregaDB entregaDB, EncomendaDB encomendaDB, VeiculoDB veiculoDB) {
         this.estafetaDB = estafetaDB;
         this.entregaDB = entregaDB;
         this.encomendaDB = encomendaDB;
-        this.scooterDB = scooterDB;
+        this.veiculoDB = veiculoDB;
     }
     
-    public List<Scooter> getListScooter(){
-        return scooterDB.getListaScooter();
+    public List<Veiculo> getListVeiculo(){
+        return veiculoDB.getListaVeiculo();
     }
     public Estafeta getEstafeta(){
         String email = UserSession.getInstance().getUser().getEmail();
         return estafetaDB.getEstafetaByEmail(email);
     }
     
-    public Scooter getScooter(int idScooter){
-        return scooterDB.getScooterById(idScooter);
+    public Veiculo getVeiculo(int idVeiculo){
+        return veiculoDB.getVeiculoById(idVeiculo);
     }
       
     public List<Encomenda> getListaEncomenda(){

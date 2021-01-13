@@ -13,42 +13,42 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Tiago
  */
-public class EstadoScooterTest {
+public class EstadoVeiculoTest {
 
     @Test
-    public void EstadoScooterEmptyConstructorTest() {
-        EstadoScooter estado = new EstadoScooter();
+    public void EstadoVeiculoEmptyConstructorTest() {
+        EstadoVeiculo estado = new EstadoVeiculo();
         
         assertEquals(estado, estado);
     }
 
     @Test
-    public void EstadoScooterConstructorTest() {
-        EstadoScooter estado = new EstadoScooter(1, "Disponível");
+    public void EstadoVeiculoConstructorTest() {
+        EstadoVeiculo estado = new EstadoVeiculo(1, "Disponível");
 
         assertEquals(estado,estado);
     }
 
     /**
-     * Test of getDesignacao method, of class EstadoScooter.
+     * Test of getDesignacao method, of class EstadoVeiculo.
      */
     @Test
     public void testGetDesignacao() {
         System.out.println("getDesignacao");
-        EstadoScooter instance = new EstadoScooter(1);
+        EstadoVeiculo instance = new EstadoVeiculo(1);
         String expResult = "Disponível";
         String result = instance.getDesignacao();
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of setDesignacao method, of class EstadoScooter.
+     * Test of setDesignacao method, of class EstadoVeiculo.
      */
     @Test
     public void testSetDesignacao() {
         System.out.println("setDesignacao");
         String designacao = "Indisponível";
-        EstadoScooter instance = new EstadoScooter(1);
+        EstadoVeiculo instance = new EstadoVeiculo(1);
         instance.setDesignacao(designacao);
         assertEquals(designacao,instance.getDesignacao());
     }
@@ -56,7 +56,7 @@ public class EstadoScooterTest {
     @Test
     public void testgetId() {
         System.out.println("getId");
-        EstadoScooter instance = new EstadoScooter(1);
+        EstadoVeiculo instance = new EstadoVeiculo(1);
         assertEquals(1,instance.getId());
     }
 

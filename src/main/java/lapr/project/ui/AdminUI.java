@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lapr.project.controller.ScooterController;
-import lapr.project.data.ScooterDB;
-import lapr.project.model.Scooter;
+import lapr.project.controller.VeiculoController;
+import lapr.project.data.VeiculoDB;
+import lapr.project.model.Veiculo;
 
 /**
  *
@@ -35,9 +35,9 @@ public class AdminUI {
                 //+ "\n 2 - Add point of interest"
                 //+ "\n 3 - Remove park"
                 //+ "\n 4 - Update park"
-                + "\n 1 - Adicionar scooter"
-                + "\n 2 - Remover scooter"
-                + "\n 3 - Atualizar scooter"
+                + "\n 1 - Adicionar veiculo"
+                + "\n 2 - Remover veiculo"
+                + "\n 3 - Atualizar veiculo"
                 + "\n 4 - Registar estafeta"
                 + "\n 5 - Atualizar estafeta"
                 + "\n 6 - Adicionar item ao stock"
@@ -56,13 +56,13 @@ public class AdminUI {
 
             switch (opt) {
                 case "1":
-                    addScooter();
+                    addVeiculo();
                     break;
                 case "2":
-                    removeScooter();
+                    removeVeiculo();
                     break;
                 case "3":
-                    updateScooter();
+                    updateVeiculo();
                     break;
                 case "4":
                     registarEstafeta();
@@ -86,12 +86,13 @@ public class AdminUI {
     }
 
     /**
-     * Interface that allows the addition of a scooter into the system
+     * Interface that allows the addition of a veiculo into the system
      */
-    public void addScooter() {
+    public void addVeiculo() {
 
         System.out.println("Insira uma descrição única da scooter:");
         String descricao = LER.nextLine();
+        String tipo = LER.nextLine();
         System.out.println("Insira a capacidade máxima da bateria:");
         double percentagemBateria = LER.nextInt();
 
@@ -134,9 +135,9 @@ public class AdminUI {
 
         if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
 
-            ScooterController sc = new ScooterController(new ScooterDB());
+            VeiculoController sc = new VeiculoController(new VeiculoDB());
             try {
-                sc.addScooter(descricao, percentagemBateria, peso, pesoMaximo, potencia, areaFrontal, idestado);
+                sc.addVeiculo(descricao, tipo,percentagemBateria, peso, pesoMaximo, potencia, areaFrontal, idestado);
                 System.out.println("\n\nScooter adicionada com sucesso'");
             } catch (SQLException ex) {
                 Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -149,18 +150,18 @@ public class AdminUI {
         }
     }
 
-    public void removeScooter() {
+    public void removeVeiculo() {
         System.out.println("Insira o id da scooter a remover:");
-        int idScooter = LER.nextInt();
-        ScooterController sc = new ScooterController(new ScooterDB());
+        int idVeiculo = LER.nextInt();
+        VeiculoController sc = new VeiculoController(new VeiculoDB());
 
-        System.out.println("Confirma a remoção da scooter com o id " + idScooter + "?(S/N)");
+        System.out.println("Confirma a remoção da scooter com o id " + idVeiculo + "?(S/N)");
         LER.nextLine();
         String resposta = LER.nextLine();
 
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("N")) {
             try {
-                sc.removeScooter(idScooter);
+                sc.removeVeiculo(idVeiculo);
                 System.out.println("Scooter removida com sucesso.");
             } catch (SQLException ex) {
                 Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -171,52 +172,52 @@ public class AdminUI {
         }
     }
 
-    public void updateScooter() {
-        ScooterController sc = new ScooterController(new ScooterDB());
-        List<Scooter> lista = sc.getListaScooter();
+    public void updateVeiculo() {
+        VeiculoController sc = new VeiculoController(new VeiculoDB());
+        List<Veiculo> lista = sc.getListaVeiculo();
 
         System.out.println("Insira o id da scooter que pretende atualizar");
-        for (Scooter s : lista) {
+        for (Veiculo s : lista) {
             System.out.println();
             System.out.println(s.toString());
         }
         int id = LER.nextInt();
-        Scooter scooter = sc.getScooterById(id);
+        Veiculo veiculo = sc.getVeiculoById(id);
         System.out.println("Pretende atualizar a descrição da scooter? (S/N)");
         LER.nextLine();
         String resposta = LER.nextLine();
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
             System.out.println("Insira a descrição atualizada da scooter:");
             String descricao = LER.nextLine();
-            scooter.setDescricao(descricao);
+            veiculo.setDescricao(descricao);
         }
         System.out.println("Pretende atualizar a capacidade máxima da bateria da scooter? (S/N)");
         resposta = LER.nextLine();
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
             System.out.println("Insira a nova capacidade máxima da bateria da scooter:");
             double cap = LER.nextDouble();
-            scooter.setPercentagemBateria(cap);
+            veiculo.setPercentagemBateria(cap);
         }
         System.out.println("Pretende atualizar o valor do peso máximo que a scooter suporta? (S/N)");
         resposta = LER.nextLine();
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
             System.out.println("Insira a nova capacidade máxima da bateria da scooter:");
             double pesoMaximo = LER.nextDouble();
-            scooter.setPesoMaximo(pesoMaximo);
+            veiculo.setPesoMaximo(pesoMaximo);
         }
         System.out.println("Pretende atualizar o valor do peso da scooter? (S/N)");
         resposta = LER.nextLine();
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
             System.out.println("Insira o peso atualizado da scooter:");
             double peso = LER.nextDouble();
-            scooter.setPesoScooter(peso);
+            veiculo.setPesoVeiculo(peso);
         }
         System.out.println("Pretende atualizar o valor da área frontal da scooter? (S/N)");
         resposta = LER.nextLine();
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
             System.out.println("Insira o valor da área frontal atualizado da scooter:");
             double area = LER.nextDouble();
-            scooter.setPesoScooter(area);
+            veiculo.setPesoVeiculo(area);
         }
 
         System.out.println("\nA scooter vai estar disponível imediatamente após a sua atualização? (S/N)");
@@ -224,19 +225,19 @@ public class AdminUI {
         int idestado;
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("SIM")) {
             idestado = 1;
-            scooter.setEstadoScooter(idestado);
+            veiculo.setEstadoVeiculo(idestado);
         } else {
             idestado = 0;
-            scooter.setEstadoScooter(idestado);
+            veiculo.setEstadoVeiculo(idestado);
         }
 
-        System.out.println("Descrição:\t" + scooter.getDescricao()
-                + "Estado:\t" + scooter.getEstadoScooter().getDesignacao()
-                + "\nCapacidade de Bateria:\t" + scooter.getPercentagemBateria()
-                + "\nPeso:\t" + scooter.getPesoScooter()
-                + "\nPeso máximo:\t" + scooter.getPesoMaximo()
-                + "\nPotencia:\t" + scooter.getPotencia()
-                + "\nÁrea Frontal:\t" + scooter.getAreaFrontal());
+        System.out.println("Descrição:\t" + veiculo.getDescricao()
+                + "Estado:\t" + veiculo.getEstadoVeiculo().getDesignacao()
+                + "\nCapacidade de Bateria:\t" + veiculo.getPercentagemBateria()
+                + "\nPeso:\t" + veiculo.getPesoVeiculo()
+                + "\nPeso máximo:\t" + veiculo.getPesoMaximo()
+                + "\nPotencia:\t" + veiculo.getPotencia()
+                + "\nÁrea Frontal:\t" + veiculo.getAreaFrontal());
 
         System.out.println("\nConfirme a informação relativa à scooter(S/N)");
         LER.nextLine();
@@ -244,7 +245,7 @@ public class AdminUI {
 
         if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
             try {
-                sc.updateScooter(scooter);
+                sc.updateVeiculo(veiculo);
                 System.out.println("Scooter atualizada com sucesso.");
             } catch (SQLException ex) {
                 Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);

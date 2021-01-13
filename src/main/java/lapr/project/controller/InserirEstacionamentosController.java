@@ -72,11 +72,11 @@ public class InserirEstacionamentosController {
     }
 
     /**
-     * Retorna o limite máximo de scooters do parque recebendo o nif da farmácia
+     * Retorna o limite máximo de veiculos do parque recebendo o nif da farmácia
      * referente ao parque
      *
      * @param nif nif do parque/farmácia
-     * @return limite máximo de scooters do parque
+     * @return limite máximo de veiculos do parque
      */
     public int getNumMaxParqueByNIF(int nif) {
         return parqueDB.getNumMaxParqueByNIF(nif);

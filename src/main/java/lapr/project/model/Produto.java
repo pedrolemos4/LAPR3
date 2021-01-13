@@ -47,7 +47,7 @@ public class Produto {
     }
 
     /**
-     * Devolve o id da scooter
+     * Devolve o id do veiculo
      *
      * @return
      */

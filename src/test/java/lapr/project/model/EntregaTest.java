@@ -153,31 +153,31 @@ public class EntregaTest {
     }
 
     /**
-     * Test of getScooter method, of class Entrega.
+     * Test of getVeiculo method, of class Entrega.
      */
     @Test
-    public void testGetIdScooter() {
-        System.out.println("getIdScooter");
+    public void testGetIdVeiculo() {
+        System.out.println("getIdVeiculo");
         int expResult = 1;
         Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
         
         
-        int result = instance.getIdScooter();
+        int result = instance.getIdVeiculo();
         assertEquals(expResult, result);
 
     }
 
     /**
-     * Test of setScooter method, of class Entrega.
+     * Test of setVeiculo method, of class Entrega.
      */
     @Test
-    public void testSetIdScooter() {
-        System.out.println("setIdScooter");
-        int scooter = 2;
+    public void testSetIdVeiculo() {
+        System.out.println("setIdVeiculo");
+        int veiculo = 2;
         Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
         
-        instance.setScooter(scooter);
-        assertEquals(scooter, instance.getIdScooter());
+        instance.setVeiculo(veiculo);
+        assertEquals(veiculo, instance.getIdVeiculo());
     }
 
     /**
