@@ -1,0 +1,37 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide methods
+left to right direction
+
+class Parque {
+  -numeroMaximo
+}
+
+class Farmacia {
+  -NIF
+}
+
+class Utilizador {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+class Drone {
+  -idDrone
+  -descricao
+  -percentagemBateria
+  -pesoDrone
+  -pesoMaximo
+}
+
+Administrador "1" -- "1" Utilizador: atua como >
+Administrador "1" -- "1..*" Drone: remove >
+Farmacia "1" -- "1" Parque: tem >
+Farmacia "1" -- "1" Administrador: tem >
+Parque "1" -- "0..*" Drone: tem > 
+
+@enduml
+
