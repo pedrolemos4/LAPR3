@@ -21,8 +21,6 @@ import lapr.project.model.Cliente;
  */
 public class ClienteDB extends DataHandler {
 
-    public ClienteDB() {
-    }
 
     /**
      * Cria um novo cliente
@@ -165,9 +163,8 @@ public class ClienteDB extends DataHandler {
             callV.execute();
 
             removed = true;
-            callV.close();
         } catch (SQLException | NullPointerException ex) {
-            Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, ex.getMessage());
 
         }
 

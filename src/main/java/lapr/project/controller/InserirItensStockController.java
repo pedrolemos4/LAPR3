@@ -16,8 +16,8 @@ public class InserirItensStockController {
         return produtosDB.getListaProdutos();
     }
 
-    public Produto novoProduto(String desig, double peso, double preco_base) {
-        return produtosDB.novoProduto(desig,peso,preco_base);
+    public Produto novoProduto(String desig, double peso, double precoBase) {
+        return produtosDB.novoProduto(desig,peso,precoBase);
     }
 
     public boolean registaProduto(Produto prod) {

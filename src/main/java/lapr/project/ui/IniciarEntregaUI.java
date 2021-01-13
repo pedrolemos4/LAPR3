@@ -67,7 +67,7 @@ public class IniciarEntregaUI {
                 listEnderecos.add(end);
             }
             
-            LinkedList<Endereco> lEn = controller.generateGraph(listEnderecos, est, scooter, pesoTotal);
+            List<Endereco> lEn = controller.generateGraph(listEnderecos, est, scooter, pesoTotal);
             
             System.out.println("\n\nCaminho com menor energia gasta: '" + lEn);
         }

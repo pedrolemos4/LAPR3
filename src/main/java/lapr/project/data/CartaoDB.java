@@ -22,8 +22,6 @@ import lapr.project.model.Cartao;
  */
 public class CartaoDB extends DataHandler {
 
-    public CartaoDB() {
-    }
 
     /**
      * Cria um novo cartão de cidadão

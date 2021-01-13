@@ -63,7 +63,7 @@ public class IniciarEntregaController {
         return enderecoDB.getEnderecoParque();
     }
     
-    public LinkedList<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Scooter scooter, double pesoTotal){
+    public List<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Scooter scooter, double pesoTotal){
         return entregaDB.generateGraph(listEnderecos, est, scooter, pesoTotal);
     }
 }

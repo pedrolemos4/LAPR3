@@ -16,9 +16,6 @@ import javax.mail.internet.MimeMessage;
  */
 public class EmailDB {
     
-    public EmailDB(){
-
-    }
 
     public boolean sendEmail(String email, String assunto, String mensagem){
         Properties props = new Properties();

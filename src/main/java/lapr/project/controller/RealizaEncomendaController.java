@@ -103,7 +103,7 @@ public class RealizaEncomendaController {
     }
 
     public boolean verificaProdutoEncomenda(Produto prod, int qntd) {
-        return getListStock().contains(prod) == true && contarNumeroProds(prod) >= qntd;
+        return getListStock().contains(prod) && contarNumeroProds(prod) >= qntd;
     }
 
     public boolean notificaCliente(String email, String assunto, String mensagem) {

@@ -163,8 +163,8 @@ public class IniciarEntregaControllerTest {
         Estafeta est = new Estafeta(123456789, 1, 56);
         Scooter scooter = new Scooter("fr", 15, 15, 85, 78, 45, 1);
         double pesoTotal = 12.0;
-        LinkedList<Endereco> expResult = new LinkedList<>();
-        LinkedList<Endereco> result = instance.generateGraph(listEnderecos, est, scooter, pesoTotal);
+        List<Endereco> expResult = new LinkedList<>();
+        List<Endereco> result = instance.generateGraph(listEnderecos, est, scooter, pesoTotal);
         assertEquals(expResult, result);
 
     }

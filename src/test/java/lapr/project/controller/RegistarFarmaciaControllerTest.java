@@ -93,7 +93,7 @@ public class RegistarFarmaciaControllerTest {
         System.out.println("novoEndereco");
         Endereco end = new Endereco("Rua do ISEP", 41.45, 30.58, 34.23);
         when(enderecoMock.novoEndereco("Rua do ISEP", 41.45, 30.58, 34.23)).thenReturn(end);
-        assertEquals(end.toString(), enderecoMock.novoEndereco(end.getMorada(), end.getLatitude(), end.getLongitude(), end.getAltitude()).toString());
+        assertEquals(end.toString(), instance.novoEndereco(end.getMorada(), end.getLatitude(), end.getLongitude(), end.getAltitude()).toString());
     }
 
     /**
