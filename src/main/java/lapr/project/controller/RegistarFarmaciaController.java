@@ -52,7 +52,7 @@ public class RegistarFarmaciaController {
      * @return nova farmacia criada
      */
     public Farmacia novaFarmacia(int nif, String morada) {
-        return farmaciaDB.novaFarmacia(nif,morada);
+        return farmaciaDB.novaFarmacia(nif, morada);
     }
 
     /**
@@ -61,10 +61,11 @@ public class RegistarFarmaciaController {
      * @param nif nif do parque/farmácia
      * @param morada morada do parque
      * @param numMax limite máximo de veiculos do parque
+     * @param tipo tipo de veículos do parque
      * @return novo parque criado
      */
-    public Parque novoParque(int nif, String morada, int numMax) {
-        return parqueDB.novoParque(nif, morada, numMax);
+    public Parque novoParque(int nif, String morada, int numMax, String tipo) {
+        return parqueDB.novoParque(nif, morada, numMax, tipo);
     }
 
     /**

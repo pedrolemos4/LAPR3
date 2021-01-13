@@ -22,6 +22,7 @@ public class Farmacia {
      * Constrói uma instância de farmácia com o nif da mesma e o seu parque
      *
      * @param nif nif da farmácia
+     * @param morada da farmácia
      */
     public Farmacia(int nif, String morada) {
         this.nif = nif;

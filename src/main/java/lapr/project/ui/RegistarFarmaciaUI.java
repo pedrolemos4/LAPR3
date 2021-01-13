@@ -38,7 +38,7 @@ public class RegistarFarmaciaUI {
         System.out.println("Introduza os dados relativos à nova Farmácia");
         System.out.println("NIF:");
         int nif = LER.nextInt();
-        System.out.println("Endereço do parque:");
+        System.out.println("Morada da farmácia:");
         String morada = LER.nextLine();
         System.out.println("Latitude:");
         double lat = LER.nextDouble();
@@ -46,19 +46,22 @@ public class RegistarFarmaciaUI {
         double lon = LER.nextDouble();
         System.out.println("Altitude:");
         double alt = LER.nextDouble();
-        System.out.println("Limite máximo de scooters do parque:");
+        System.out.println("Limite máximo do parque:");
         int numMax = LER.nextInt();
-        Farmacia farm = controller.novaFarmacia(nif,morada);
+        System.out.println("Qual o tipo do parque, drones ou scooters?");
+        String tipo = LER.nextLine();
+        Farmacia farm = controller.novaFarmacia(nif, morada);
         Endereco end = controller.novoEndereco(morada, lat, lon, alt);
-        Parque park = controller.novoParque(nif, morada, numMax);
+        Parque park = controller.novoParque(nif, morada, numMax, tipo.toLowerCase());
 
         System.out.println("--Farmácia Criada--");
         System.out.println(farm.getNIF());
-        System.out.println(end.getMorada());
+        System.out.println(farm.getMorada());
         System.out.println(end.getLatitude());
         System.out.println(end.getLongitude());
         System.out.println(end.getAltitude());
         System.out.println(park.getNumeroMaximo());
+        System.out.println(park.getTipo());
         System.out.println("Deseja registar a farmácia criada? (S/N)");
         String confirm = LER.next();
 
