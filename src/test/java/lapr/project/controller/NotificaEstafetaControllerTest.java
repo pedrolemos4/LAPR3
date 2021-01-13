@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -64,22 +65,27 @@ class NotificaEstafetaControllerTest {
     }
     
     @Test
-    void simulateParkingVeiculo() throws FileNotFoundException  {
+    void simulateParkingVeiculo(){
         String email = "abf@gmail.com";
         String assunto = "Estacionamento Veiculo";
         int estimativa = 3;
         String mensagem = "O veiculo foi estacionado com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.";
         when(emailDBMock.sendEmail(email, assunto, mensagem)).thenReturn(true);
-        assertTrue(instance.simulateParkingVeiculo(1,emailDBMock));
+        assertTrue(instance.simulateParkingVeiculo(1,emailDBMock,"src/main/java/lapr/project/parking/estimate_2021_02_02_02_02_02.data"));
     }
 
     @Test
-    void simulateParkingVeiculo1() throws FileNotFoundException  {
+    void simulateParkingVeiculo1(){
         String email = "abf@gmail.com";
         String assunto = "Estacionamento Veiculo";
         int estimativa = 3;
         String mensagem = "O veiculo foi estacionado com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.";
         when(emailDBMock.sendEmail(email, assunto, mensagem)).thenReturn(false);
-        assertFalse(instance.simulateParkingVeiculo(1,emailDBMock));
+        assertFalse(instance.simulateParkingVeiculo(1,emailDBMock,"src/main/java/lapr/project/parking/estimate_2021_02_02_02_02_02.data"));
+    }
+
+    @Test
+    void simulateParkingVeiculo2(){
+        assertFalse(instance.simulateParkingVeiculo(1,emailDBMock,"src/main/java/lapr/project/parking/estimate_2022_02_02_02_02_02.data"));
     }
 }

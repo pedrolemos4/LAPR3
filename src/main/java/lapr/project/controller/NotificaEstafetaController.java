@@ -33,8 +33,7 @@ public class NotificaEstafetaController {
         this.scoot = veiculoDB.getVeiculoById(scootId);
     }
 
-    public boolean simulateParkingVeiculo(int estacionamentoLote, EmailDB emailDB){
-        String path = "src/main/java/lapr/project/parking/estimate_2021_02_02_02_02_02.data";
+    public boolean simulateParkingVeiculo(int estacionamentoLote, EmailDB emailDB, String path){
         File newFile = new File(path);
         try (Scanner scan = new Scanner(newFile)) {
             String line = scan.nextLine();
