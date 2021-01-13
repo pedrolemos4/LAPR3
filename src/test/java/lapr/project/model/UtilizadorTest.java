@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr.project.model;
 
 import org.junit.jupiter.api.Test;
@@ -150,8 +145,9 @@ public class UtilizadorTest {
 
     @Test
     public void testToString(){
+        System.out.println("toString");
         Utilizador instance = new Utilizador(444553212,"Casillas","email10",281910192,"password9");
-        String expResult = instance.toString();
+        String expResult = "Utilizador{nif=444553212, nome=Casillas, email=email10, numeroSegurancaSocial=281910192, password=password9}";
         assertEquals(expResult,instance.toString());
     }
 }

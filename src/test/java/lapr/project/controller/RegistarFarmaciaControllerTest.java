@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr.project.controller;
 
 import java.sql.SQLException;
@@ -108,6 +103,19 @@ public class RegistarFarmaciaControllerTest {
         when(farmaciaMock.registaFarmacia(farmacia)).thenReturn(true);
         assertEquals(true, instance1.registaFarmacia(farmacia));
     }
+    
+    /**
+     * Test of registaFarmacia method, of class RegistarFarmaciaController.
+     *
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testRegistaFarmacia1() throws SQLException {
+        System.out.println("registaFarmacia1");
+        Farmacia farmacia = new Farmacia(123456789);
+        when(farmaciaMock.registaFarmacia(farmacia)).thenReturn(false);
+        assertEquals(false, instance1.registaFarmacia(farmacia));
+    }
 
     /**
      * Test of registaParque method, of class RegistarFarmaciaController.
@@ -121,6 +129,19 @@ public class RegistarFarmaciaControllerTest {
         when(parqueMock.registaParque(parque)).thenReturn(true);
         assertEquals(true, instance1.registaParque(parque));
     }
+    
+     /**
+     * Test of registaParque method, of class RegistarFarmaciaController.
+     *
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testRegistaParque1() throws SQLException {
+        System.out.println("registaParque1");
+        Parque parque = new Parque(111111111, "algures", 20);
+        when(parqueMock.registaParque(parque)).thenReturn(false);
+        assertEquals(false, instance1.registaParque(parque));
+    }
 
     /**
      * Test of registaEndereco method, of class RegistarFarmaciaController.
@@ -133,6 +154,19 @@ public class RegistarFarmaciaControllerTest {
         Endereco end = new Endereco("Rua do ISEP", 41.45, 30.58, 34.23);
         when(enderecoMock.registaEndereco(end)).thenReturn(true);
         assertEquals(true, instance1.registaEndereco(end));
+    }
+    
+    /**
+     * Test of registaEndereco method, of class RegistarFarmaciaController.
+     *
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testRegistaEndereco1() throws SQLException {
+        System.out.println("registaEndereco1");
+        Endereco end = new Endereco("Rua do ISEP", 41.45, 30.58, 34.23);
+        when(enderecoMock.registaEndereco(end)).thenReturn(false);
+        assertEquals(false, instance1.registaEndereco(end));
     }
 
 }

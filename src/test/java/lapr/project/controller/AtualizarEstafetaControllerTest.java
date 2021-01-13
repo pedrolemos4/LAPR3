@@ -19,14 +19,14 @@ class AtualizarEstafetaControllerTest {
     private Estafeta est;
 
     @BeforeEach
-    void setUp() throws SQLException {
+    public void setUp() throws SQLException {
         estafetaMock = mock(EstafetaDB.class);
         instance = new AtualizarEstafetaController(estafetaMock);
         est = new Estafeta(1, "23", "45", 3, 435, "aaa", 1);
         when(estafetaMock.addEstafeta(est)).thenReturn(true);
     }
     @Test
-    void getListaEstafetas() {
+    public void getListaEstafetas() {
         Estafeta estafeta = new Estafeta(1, "45", "56", 48, 486, "aaa", 1);
         List<Estafeta> expResult = new ArrayList<>();
         expResult.add(estafeta);
@@ -35,17 +35,25 @@ class AtualizarEstafetaControllerTest {
     }
 
     @Test
-    void getEstafetaByEmail() {
+    public void getEstafetaByEmail() {
         Estafeta expResult = new Estafeta(1, "45", "56", 48, 486, "aaa", 1);
         when(estafetaMock.getEstafetaByEmail("56")).thenReturn(expResult);
         assertEquals(expResult, instance.getEstafetaByEmail("56"));
     }
 
     @Test
-    void atualizarEstafeta() {
+    public void atualizarEstafeta() {
         System.out.println("atualizarEstafeta");
         Estafeta est = new Estafeta(1, "45", "56", 48, 486, "aaa", 1);
         when(estafetaMock.atualizarEstafeta(est)).thenReturn(true);
         assertEquals(true, instance.atualizarEstafeta(est));
+    }
+    
+    @Test
+    public void atualizarEstafeta1() {
+        System.out.println("atualizarEstafeta1");
+        Estafeta est = new Estafeta(1, "45", "56", 48, 486, "aaa", 1);
+        when(estafetaMock.atualizarEstafeta(est)).thenReturn(false);
+        assertEquals(false, instance.atualizarEstafeta(est));
     }
 }

@@ -108,6 +108,16 @@ public class Veiculo {
     public String getTipo(){
         return tipo;
     }
+    
+    /**
+     * Modifica o tipo do veiculo
+     * @param tipo o novo tipo do veiculo
+     */
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+    
+    
     /**
      * Devolve a percentagem da bateria
      *

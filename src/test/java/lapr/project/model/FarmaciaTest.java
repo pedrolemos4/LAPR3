@@ -35,4 +35,17 @@ public class FarmaciaTest {
         assertEquals(nif, instance.getNIF());
 
     }
+
+    /**
+     * Test of toString method, of class Farmacia.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Farmacia instance = new Farmacia(123456789);
+        String expResult = "Farmacia{nif=123456789}";
+        String result = instance.toString();
+        assertEquals(expResult, result);
+
+    }
 }

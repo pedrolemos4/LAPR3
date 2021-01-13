@@ -100,7 +100,7 @@ class EstacionamentoTest {
     /**
      * Test of toString method, of class Estacionamento.
      */
-    @org.junit.Test
+    @Test
     public void testToString() {
         System.out.println("toString");
         Estacionamento instance = new Estacionamento(1, 0, 546456);

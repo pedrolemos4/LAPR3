@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -63,12 +65,21 @@ class NotificaEstafetaControllerTest {
     
     @Test
     void simulateParkingVeiculo() throws FileNotFoundException  {
-        String email = "A";
-        String assunto = "Estacionamento Scooter";
-        String mensagem = "A Scooter foi estacionada com sucesso, com uma estimativa de " + 3 + " horas até estar completamente carregada.";
-        boolean expResult = true;
-        when(emailDBMock.sendEmail(email, assunto, mensagem)).thenReturn(expResult);
-        System.out.println("Test"+expResult);
-        assertEquals(expResult, instance.simulateParkingVeiculo(1));
+        String email = "abf@gmail.com";
+        String assunto = "Estacionamento Veiculo";
+        int estimativa = 3;
+        String mensagem = "O veiculo foi estacionado com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.";
+        when(emailDBMock.sendEmail(email, assunto, mensagem)).thenReturn(true);
+        assertTrue(instance.simulateParkingVeiculo(1,emailDBMock));
+    }
+
+    @Test
+    void simulateParkingVeiculo1() throws FileNotFoundException  {
+        String email = "abf@gmail.com";
+        String assunto = "Estacionamento Veiculo";
+        int estimativa = 3;
+        String mensagem = "O veiculo foi estacionado com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.";
+        when(emailDBMock.sendEmail(email, assunto, mensagem)).thenReturn(false);
+        assertFalse(instance.simulateParkingVeiculo(1,emailDBMock));
     }
 }
