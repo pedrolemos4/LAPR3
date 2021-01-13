@@ -16,7 +16,7 @@ import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Graph;
 import lapr.project.model.GraphAlgorithms;
-import lapr.project.model.Scooter;
+import lapr.project.model.Veiculo;
 import lapr.project.utils.CalculosFisica;
 import oracle.jdbc.OracleTypes;
 
@@ -36,7 +36,7 @@ public class EntregaDB extends DataHandler {
             callStmt.setTimestamp(4, dInicio);
             Timestamp dFim = Timestamp.valueOf(entrega.getDataFim());
             callStmt.setTimestamp(5, dFim);
-            callStmt.setInt(3, entrega.getIdScooter());
+            callStmt.setInt(3, entrega.getIdVeiculo());
             callStmt.setInt(2, entrega.getidEstafeta());
 
             callStmt.execute();
@@ -47,7 +47,7 @@ public class EntregaDB extends DataHandler {
 
             } catch (SQLException | NullPointerException ex) {
 
-                Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
+                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
         }
 
@@ -85,11 +85,11 @@ public class EntregaDB extends DataHandler {
                 if (rSet.next()) {
                     int id = rSet.getInt(1);
                     int nif = rSet.getInt(2);
-                    int idscooter = rSet.getInt(3);
+                    int idVeiculo = rSet.getInt(3);
                     Timestamp dataInicio = rSet.getTimestamp(4);
                     Timestamp dataFim = rSet.getTimestamp(5);
 
-                    return new Entrega(dataInicio.toString(), dataFim.toString(), idscooter, nif);
+                    return new Entrega(dataInicio.toString(), dataFim.toString(), idVeiculo, nif);
                 }
             }
         } catch (SQLException e) {
@@ -132,11 +132,11 @@ public class EntregaDB extends DataHandler {
                 while (rSet.next()) {
                     int idEntrega = rSet.getInt(1);
                     int nif = rSet.getInt(2);
-                    int idscooter = rSet.getInt(3);
+                    int idVeiculo = rSet.getInt(3);
                     Timestamp dataInicio = rSet.getTimestamp(4);
                     Timestamp dataFim = rSet.getTimestamp(5);
 
-                    list.add(new Entrega(dataInicio.toString(), dataFim.toString(), idscooter, nif));
+                    list.add(new Entrega(dataInicio.toString(), dataFim.toString(), idVeiculo, nif));
                 }
                 return list;
             }
@@ -146,7 +146,7 @@ public class EntregaDB extends DataHandler {
         return list;
     }
 
-    public LinkedList<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Scooter scooter, double pesoTotalEntrega) {
+    public LinkedList<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
         Graph<Endereco, Double> graph = new Graph<>(true);
 
         for (Endereco e : listEnderecos) {
@@ -154,7 +154,7 @@ public class EntregaDB extends DataHandler {
         }
 
         int i = listEnderecos.size() - 1;
-        double energiaGasta = CalculosFisica.calculoEnergia(est.getPesoEstafeta(), scooter.getPesoScooter(), scooter.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
+        double energiaGasta = CalculosFisica.calculoEnergia(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
         graph.insertEdge(listEnderecos.get(0), listEnderecos.get(i), 1.0, energiaGasta);
 
 
@@ -162,7 +162,7 @@ public class EntregaDB extends DataHandler {
         for (Endereco end : listEnderecos) {
             if (aux < i && listEnderecos.size() > 2) {
                 Encomenda enc1 = getEncomendaByMorada(listEnderecos.get(aux).getMorada());
-                energiaGasta = CalculosFisica.calculoEnergia(est.getPesoEstafeta(), scooter.getPesoScooter(), scooter.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
+                energiaGasta = CalculosFisica.calculoEnergia(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
                 graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
                 aux = aux + 1;
                 pesoTotalEntrega = pesoTotalEntrega - enc1.getPesoEncomenda();

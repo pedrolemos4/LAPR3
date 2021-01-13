@@ -6,13 +6,13 @@ import lapr.project.data.EncomendaDB;
 import lapr.project.data.EnderecoDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
-import lapr.project.data.ScooterDB;
+import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
-import lapr.project.model.Scooter;
+import lapr.project.model.Veiculo;
 
 /**
  *
@@ -24,14 +24,14 @@ public class IniciarEntregaController {
     private final EncomendaDB encomendaDB;
     private final EstafetaDB estafetaDB;
     private final EnderecoDB enderecoDB;
-    private final ScooterDB scooterDB;
+    private final VeiculoDB veiculoDB;
 
-    public IniciarEntregaController(EntregaDB entregaDB, EncomendaDB encomendaDB, EstafetaDB estafetaDB, EnderecoDB enderecoDB, ScooterDB scooterDB) {
+    public IniciarEntregaController(EntregaDB entregaDB, EncomendaDB encomendaDB, EstafetaDB estafetaDB, EnderecoDB enderecoDB, VeiculoDB veiculoDB) {
         this.entregaDB = entregaDB;
         this.encomendaDB = encomendaDB;
         this.estafetaDB = estafetaDB;
         this.enderecoDB = enderecoDB;
-        this.scooterDB = scooterDB;
+        this.veiculoDB = veiculoDB;
     }
    
     public List<Entrega> getListaEntregaByNifEstafeta(int nifEstafeta){
@@ -46,8 +46,8 @@ public class IniciarEntregaController {
         return entregaDB.getEntregaById(idEntrega);
     }
     
-    public Scooter getScooterById(int idScooter){
-        return scooterDB.getScooterById(idScooter);
+    public Veiculo getVeiculoById(int idVeiculo){
+        return veiculoDB.getVeiculoById(idVeiculo);
     }
     
     public Estafeta getEstafeta(){
@@ -63,7 +63,7 @@ public class IniciarEntregaController {
         return enderecoDB.getEnderecoParque();
     }
     
-    public LinkedList<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Scooter scooter, double pesoTotal){
-        return entregaDB.generateGraph(listEnderecos, est, scooter, pesoTotal);
+    public LinkedList<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotal){
+        return entregaDB.generateGraph(listEnderecos, est, veiculo, pesoTotal);
     }
 }

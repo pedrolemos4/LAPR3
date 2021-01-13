@@ -124,7 +124,7 @@ public class EncomendaDB extends DataHandler {
 
         } catch (NullPointerException ex) {
 
-            Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
         }
         return id;
     }

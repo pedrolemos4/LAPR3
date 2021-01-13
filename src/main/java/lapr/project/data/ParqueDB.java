@@ -29,7 +29,7 @@ public class ParqueDB extends DataHandler {
      *
      * @param nif nif do parque/farmácia
      * @param morada morada do parque
-     * @param numMax limite máximo de scooters do parque
+     * @param numMax limite máximo de veiculos do parque
      * @return novo parque criado
      */
     public Parque novoParque(int nif, String morada, int numMax) {
@@ -73,7 +73,7 @@ public class ParqueDB extends DataHandler {
      *
      * @param nif nif do parque/farmácia
      * @param morada morada do parque
-     * @param numMax limite máximo de scooters do parque
+     * @param numMax limite máximo de veiculos do parque
      */
     public void addParque(int nif, String morada, int numMax) {
         try {
@@ -116,11 +116,11 @@ public class ParqueDB extends DataHandler {
     }
 
     /**
-     * Retorna o limite máximo de scooters do parque recebendo o nif da farmácia
+     * Retorna o limite máximo de veiculos do parque recebendo o nif da farmácia
      * referente ao parque
      *
      * @param parqueNif nif do parque
-     * @return limite máximo de scooters
+     * @return limite máximo de veiculos
      */
     public int getNumMaxParqueByNIF(int parqueNif) {
         int numMax = 0;

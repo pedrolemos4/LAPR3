@@ -9,77 +9,82 @@ package lapr.project.model;
  *
  * @author pedro
  */
-public class Scooter {
+public class Veiculo {
 
     private int id;
     private String descricao;
+    private String tipo;
     private double percentagemBateria;
     private double pesoMaximo;
-    private double pesoScooter;
+    private double pesoVeiculo;
     private double potencia;
     private double areaFrontal;
-    private EstadoScooter estado;
+    private EstadoVeiculo estado;
 
     /**
      * Constrói uma instância recebendo o id, a descrição,a percentagem da bateria, o
-     * peso máximo o peso da scooter,a potência da scooter e o estado da scooter
+     * peso máximo o peso da veículo,a potência do veículo e o estado do veículo
      * 
      * @param id
      * @param descricao
+     * @param tipo
      * @param percentagemBateria
      * @param pesoMaximo
-     * @param pesoScooter
+     * @param pesoVeiculo
      * @param potencia
+     * @param areaFrontal
      * @param estado 
      */
-    public Scooter(int id, String descricao, double percentagemBateria, 
-            double pesoMaximo, double pesoScooter, double potencia, double areaFrontal,int estado) {
+    public Veiculo(int id, String descricao,String tipo, double percentagemBateria, 
+            double pesoMaximo, double pesoVeiculo, double potencia, double areaFrontal,int estado) {
         this.id = id;
         this.descricao = descricao;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
-        this.pesoScooter = pesoScooter;
+        this.pesoVeiculo = pesoVeiculo;
         this.potencia = potencia;
         this.areaFrontal=areaFrontal;
-        this.estado = new EstadoScooter(estado);
+        this.estado = new EstadoVeiculo(estado);
     }
 
     /**
      * Constrói uma instância recebendo a descrição,a percentagem da bateria, o
-     * peso máximo o peso da scooter,a potência da scooter e o estado da scooter
+     * peso máximo o peso da veículo,a potência do veículo e o estado do veículo
      *
      * @param descricao
+     * @param tipo
      * @param percentagemBateria
      * @param pesoMaximo
-     * @param pesoScooter
+     * @param pesoVeiculo
      * @param potencia
+     * @param areaFrontal
      * @param estado
      */
-    public Scooter(String descricao, double percentagemBateria, double pesoMaximo,
-            double pesoScooter, double potencia,double areaFrontal, int estado) {
+    public Veiculo(String descricao, String tipo,double percentagemBateria, double pesoMaximo,
+            double pesoVeiculo, double potencia,double areaFrontal, int estado) {
         this.descricao = descricao;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
-        this.pesoScooter = pesoScooter;
+        this.pesoVeiculo = pesoVeiculo;
         this.potencia = potencia;
         this.areaFrontal=areaFrontal;
-        this.estado = new EstadoScooter(estado);
+        this.estado = new EstadoVeiculo(estado);
     }
 
     /**
-     * Constrói uma instância vazia da scooter
+     * Constrói uma instância vazia do veículo
      */
-    public Scooter() {
+    public Veiculo() {
         this.id = 0;
         this.percentagemBateria = 0;
         this.pesoMaximo = 0;
-        this.pesoScooter = 0;
+        this.pesoVeiculo = 0;
         this.potencia = 0;
-        this.estado = new EstadoScooter(0);
+        this.estado = new EstadoVeiculo(0);
     }
 
     /**
-     * Devolve o id da scooter
+     * Devolve o id do veículo
      *
      * @return
      */
@@ -88,14 +93,21 @@ public class Scooter {
     }
 
     /**
-     * Devolve a descrição da scooter.
+     * Devolve a descrição do veículo.
      *
      * @return
      */
     public String getDescricao() {
         return descricao;
     }
-
+    
+    /**
+     * Devolve o tipo do veículo
+     * @return 
+     */
+    public String getTipo(){
+        return tipo;
+    }
     /**
      * Devolve a percentagem da bateria
      *
@@ -115,16 +127,16 @@ public class Scooter {
     }
 
     /**
-     * Devolve o peso da scooter
+     * Devolve o peso do veiculo
      *
      * @return
      */
-    public double getPesoScooter() {
-        return pesoScooter;
+    public double getPesoVeiculo() {
+        return pesoVeiculo;
     }
 
     /**
-     * Devolve a potência da scooter
+     * Devolve a potência do veiculo
      *
      * @return
      */
@@ -133,7 +145,7 @@ public class Scooter {
     }
     
     /**
-     * Devolve a área frontal da scooter
+     * Devolve a área frontal do veiculo
      * @return 
      */
     public double getAreaFrontal(){
@@ -141,11 +153,11 @@ public class Scooter {
     }
 
     /**
-     * Devolve o estado da scooter
+     * Devolve o estado do veiculo
      *
      * @return
      */
-    public EstadoScooter getEstadoScooter() {
+    public EstadoVeiculo getEstadoVeiculo(){
         return estado;
     }
 
@@ -159,7 +171,7 @@ public class Scooter {
     }
 
     /**
-     * Modifica a descrição da scooter.
+     * Modifica a descrição do veículo.
      * @param descricao 
      */
     public void setDescricao (String descricao){
@@ -185,16 +197,16 @@ public class Scooter {
     }
 
     /**
-     * Modifica o peso da scooter
+     * Modifica o peso da veículo
      *
-     * @param pesoScooter
+     * @param pesoVeiculo
      */
-    public void setPesoScooter(double pesoScooter) {
-        this.pesoScooter = pesoScooter;
+    public void setPesoVeiculo(double pesoVeiculo) {
+        this.pesoVeiculo= pesoVeiculo;
     }
 
     /**
-     * Modifica a potencia da scooter
+     * Modifica a potencia do veículo
      *
      * @param potencia
      */
@@ -203,7 +215,7 @@ public class Scooter {
     }
 
     /**
-     * Modifica a área frontal da scooter
+     * Modifica a área frontal do veículo
      * @param areaFrontal 
      */
     public void setAreaFrontal(double areaFrontal){
@@ -211,19 +223,19 @@ public class Scooter {
     }
     
     /**
-     * Modifica o estado da scooter
+     * Modifica o estado do veículo
      *
      * @param estado
      */
-    public void setEstadoScooter(int estado) {
-        this.estado = new EstadoScooter(estado);
+    public void setEstadoVeiculo(int estado) {
+        this.estado = new EstadoVeiculo(estado);
     }
 
     @Override
     public String toString() {
-        return "Scooterid" + id + "\nDescrição=" + descricao + "\nPercentagem de Bateria=" 
-                + percentagemBateria + "\nPeso máximo=" + pesoMaximo + "\nPeso da Scooter="
-                + pesoScooter + "\nPotência=" + potencia + "\nÁrea frontal=" + areaFrontal +
+        return "Veiculoid" + id + "\nDescrição=" + descricao + "\nPercentagem de Bateria=" 
+                + percentagemBateria + "\nPeso máximo=" + pesoMaximo + "\nPeso do Veiculo="
+                + pesoVeiculo + "\nPotência=" + potencia + "\nÁrea frontal=" + areaFrontal +
                 "\nEstado=" + estado.getDesignacao();
     }
     

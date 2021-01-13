@@ -8,7 +8,7 @@ import lapr.project.data.EncomendaDB;
 import lapr.project.data.EnderecoDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
-import lapr.project.data.ScooterDB;
+import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
@@ -16,7 +16,7 @@ import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Parque;
-import lapr.project.model.Scooter;
+import lapr.project.model.Veiculo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,7 +32,7 @@ public class IniciarEntregaControllerTest {
     private EntregaDB entregaDB;
     private EncomendaDB encomendaDB;
     private EnderecoDB enderecoDB;
-    private ScooterDB scooterDB;
+    private VeiculoDB veiculoDB;
     private IniciarEntregaController instance;
     
     public IniciarEntregaControllerTest() {
@@ -44,9 +44,9 @@ public class IniciarEntregaControllerTest {
         estafetaDB = mock(EstafetaDB.class);
         entregaDB = mock(EntregaDB.class);
         encomendaDB = mock(EncomendaDB.class);
-        scooterDB = mock(ScooterDB.class);
+        veiculoDB = mock(VeiculoDB.class);
         enderecoDB = mock(EnderecoDB.class);
-        instance = new IniciarEntregaController(entregaDB, encomendaDB, estafetaDB, enderecoDB, scooterDB);
+        instance = new IniciarEntregaController(entregaDB, encomendaDB, estafetaDB, enderecoDB, veiculoDB);
     }
     
     /**
@@ -95,15 +95,15 @@ public class IniciarEntregaControllerTest {
     }
 
     /**
-     * Test of getScooterById method, of class IniciarEntregaController.
+     * Test of getVeiculoById method, of class IniciarEntregaController.
      */
     @Test
-    public void testGetScooterById() {
-        System.out.println("getScooterById");
-        int idScooter = 1;
-        Scooter expResult = new Scooter("de", 74, 15, 47, 47, 85, 86);
-        when(scooterDB.getScooterById(idScooter)).thenReturn(expResult);
-        Scooter result = instance.getScooterById(idScooter);
+    public void testGetVeiculoById() {
+        System.out.println("getVeiculoById");
+        int idVeiculo = 1;
+        Veiculo expResult = new Veiculo(1,"descricao","drone", 74, 15, 47, 47, 85, 86);
+        when(veiculoDB.getVeiculoById(idVeiculo)).thenReturn(expResult);
+        Veiculo result = instance.getVeiculoById(idVeiculo);
         assertEquals(expResult, result);
 
     }
@@ -161,10 +161,10 @@ public class IniciarEntregaControllerTest {
         listEnderecos.add(new Endereco("df", 56, 84, 12));
         listEnderecos.add(new Endereco("de", 4, 23, 43));
         Estafeta est = new Estafeta(123456789, 1, 56);
-        Scooter scooter = new Scooter("fr", 15, 15, 85, 78, 45, 1);
+        Veiculo veiculo = new Veiculo("fr","veiculo", 15, 15, 85, 78, 45, 1);
         double pesoTotal = 12.0;
         LinkedList<Endereco> expResult = new LinkedList<>();
-        LinkedList<Endereco> result = instance.generateGraph(listEnderecos, est, scooter, pesoTotal);
+        LinkedList<Endereco> result = instance.generateGraph(listEnderecos, est, veiculo, pesoTotal);
         assertEquals(expResult, result);
 
     }

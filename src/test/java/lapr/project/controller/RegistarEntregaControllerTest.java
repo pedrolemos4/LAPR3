@@ -6,12 +6,12 @@ import java.util.List;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
-import lapr.project.data.ScooterDB;
+import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
-import lapr.project.model.Scooter;
+import lapr.project.model.Veiculo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +25,7 @@ public class RegistarEntregaControllerTest {
     private EstafetaDB estafetaDB;
     private EntregaDB entregaDB;
     private EncomendaDB encomendaDB;
-    private ScooterDB scooterDB;
+    private VeiculoDB veiculoDB;
     private RegistarEntregaController instance;
     
     public RegistarEntregaControllerTest() {
@@ -36,21 +36,21 @@ public class RegistarEntregaControllerTest {
         estafetaDB = mock(EstafetaDB.class);
         entregaDB = mock(EntregaDB.class);
         encomendaDB = mock(EncomendaDB.class);
-        scooterDB = mock(ScooterDB.class);
-        instance = new RegistarEntregaController(estafetaDB, entregaDB, encomendaDB, scooterDB);
+        veiculoDB = mock(VeiculoDB.class);
+        instance = new RegistarEntregaController(estafetaDB, entregaDB, encomendaDB, veiculoDB);
         
     }
 
     /**
-     * Test of getListScooter method, of class RegistarEntregaController.
+     * Test of getListVeiculo method, of class RegistarEntregaController.
      */
     @Test
-    public void testGetListScooter() throws SQLException {
-        System.out.println("getListScooter");
-        List<Scooter> expResult = new ArrayList<>();
-        expResult.add(new Scooter("sddd", 45, 89, 7, 52, 78, 85));
-        when(scooterDB.getListaScooter()).thenReturn(expResult);
-        assertEquals(expResult, instance.getListScooter());
+    public void testGetListVeiculo() throws SQLException {
+        System.out.println("getListVeiculo");
+        List<Veiculo> expResult = new ArrayList<>();
+        expResult.add(new Veiculo("sddd","drone", 45, 89, 7, 52, 78, 85));
+        when(veiculoDB.getListaVeiculo()).thenReturn(expResult);
+        assertEquals(expResult, instance.getListVeiculo());
 
     }
 
@@ -69,15 +69,15 @@ public class RegistarEntregaControllerTest {
     }
 
     /**
-     * Test of getScooter method, of class RegistarEntregaController.
+     * Test of getVeiculo method, of class RegistarEntregaController.
      */
     @Test
-    public void testGetScooter() throws SQLException {
-        System.out.println("getScooter");
-        int idScooter = 1;
-        Scooter expResult = new Scooter(idScooter, "", 12, 45, 48, 56, 48, 89);
-        when(scooterDB.getScooterById(idScooter)).thenReturn(expResult);
-        Scooter result = instance.getScooter(idScooter);
+    public void testGetVeiculo() throws SQLException {
+        System.out.println("getVeiculo");
+        int idVeiculo = 1;
+        Veiculo expResult = new Veiculo(idVeiculo, "descricao","scooter", 12, 45, 48, 56, 48, 89);
+        when(veiculoDB.getVeiculoById(idVeiculo)).thenReturn(expResult);
+        Veiculo result = instance.getVeiculo(idVeiculo);
         assertEquals(expResult, result);
 
     }

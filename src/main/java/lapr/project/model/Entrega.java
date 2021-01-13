@@ -13,25 +13,25 @@ public class Entrega {
     private String dataInicio;
     private String dataFim;
     private List<Encomenda> listEncomendas = new ArrayList<>();
-    private int idScooter;
+    private int idVeiculo;
     private int idEstafeta;
     
     /**
      * Constrói uma instância de Entrega recebendo a data de inicio da entrega, a
-     * data final da entrega, a scooter associada à entrega,
+     * data final da entrega, o veiculo associado à entrega,
      * o estafeta asscociado à entrega.
      * 
      * @param dataInicio data de incio da entrega
      * @param dataFim data de fim da entrega
-     * @param idScooter scooter associada à entrega
+     * @param idVeiculo veiculo associado à entrega
      * @param idEstafeta estafeta associado à entrega
      */
-    public Entrega(String dataInicio, String dataFim, int idScooter, int idEstafeta) {
+    public Entrega(String dataInicio, String dataFim, int idVeiculo, int idEstafeta) {
         this.idEntrega = 0;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.listEncomendas = new ArrayList<>();
-        this.idScooter = idScooter;
+        this.idVeiculo = idVeiculo;
         this.idEstafeta = idEstafeta;
     }
     
@@ -43,7 +43,7 @@ public class Entrega {
         this.dataInicio = null;
         this.dataFim = null;
         this.listEncomendas = null;
-        this.idScooter = 0;
+        this.idVeiculo = 0;
         this.idEstafeta = 0;
     }
     
@@ -112,19 +112,19 @@ public class Entrega {
     }
     
     /**
-     * Devolve a scooter associada à entrega
-     * @return scooter asscoiada à entrega
+     * Devolve a veículo associada à entrega
+     * @return veículo asscoiada à entrega
      */
-    public int getIdScooter() {
-        return idScooter;
+    public int getIdVeiculo() {
+        return idVeiculo;
     }
     
     /**
-     * Modifica a scooter associada à entrega
-     * @param idScooter a nova scooter associada à entrega
+     * Modifica a veiculo associada à entrega
+     * @param idVeiculo a nova veiculo associada à entrega
      */
-    public void setScooter(int idScooter) {
-        this.idScooter = idScooter;
+    public void setVeiculo(int idVeiculo) {
+        this.idVeiculo = idVeiculo;
     }
     
     /**
