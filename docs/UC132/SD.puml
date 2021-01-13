@@ -1,0 +1,33 @@
+@startuml
+autonumber
+
+actor "Farmácia" as FARM
+participant ":RealizaEncomendaUI" as UI
+participant ":RealizaEncomendaController" as CTL
+participant ":ProdutosDB" as PDB
+participant ":FarmaciaDB" as FDB
+
+activate FARM
+FARM -> UI : envia uma nota de entrega quando \n receber os itens de outra farmácia
+activate UI
+UI -> CTL : enviarNotaEntrega()
+activate CTL
+
+CTL -> FDB : farm = getFarmacia(nif)
+activate FDB
+deactivate FDB
+
+CTL -> FDB : enviarNotaEntrega(farm, assunto, mensagem)
+activate FDB
+
+FDB -> FDB : enviarNotaEntrega(prods,nif)
+
+deactivate FDB
+
+deactivate CTL
+
+UI --> FARM : operação bem sucedida
+deactivate UI
+
+deactivate FARM
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+
+class Farmacia {
+  -Integer nif
+  +Farmacia(nif)
+}
+
+class FarmaciaDB {
+  +getFarmacia(nif)
+  +enviarNotaEntrega(farm, assunto, mensagem)
+}
+
+class RealizaEncomendaController {
+    +enviarNotaEntrega()
+}
+
+class RealizaEncomendaUI {
+}
+
+RealizaEncomendaUI ..> RealizaEncomendaController
+RealizaEncomendaController ..> FarmaciaDB
+RealizaEncomendaController ..> Farmacia
+
+FarmaciaDB "1" --> "*" Farmacia : tem registadas
+
+@enduml
