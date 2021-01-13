@@ -32,9 +32,15 @@ public class NotificaEstafetaController {
         this.scoot = veiculoDB.getVeiculoById(scootId);
     }
 
-    public boolean simulateParkingVeiculo(int estacionamentoLote, EmailDB emailDB, String path) throws FileNotFoundException {
+    public boolean simulateParkingVeiculo(int estacionamentoLote, EmailDB emailDB, String path){
         File newFile = new File(path);
-        Scanner scan = new Scanner(newFile);
+        Scanner scan = null;
+        try {
+            scan = new Scanner(newFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
         String line = scan.nextLine();
         int estimativa = Integer.parseInt(line);
 
