@@ -60,8 +60,8 @@ public class InserirItensStockControllerTest {
     public void testRegistaProduto() {
         System.out.println("registaProduto");
         Produto prod1 = new Produto("prod1", 77, 88);
-        when(produtoMock.registaProduto(prod1)).thenReturn(true);
-        assertEquals(true, instance.registaProduto(prod1));
+        when(produtoMock.registaProduto(prod1,1)).thenReturn(true);
+        assertEquals(true, instance.registaProduto(prod1,1));
     }
     
     /**
@@ -71,8 +71,8 @@ public class InserirItensStockControllerTest {
     public void testRegistaProduto1() {
         System.out.println("registaProduto1");
         Produto prod1 = new Produto("prod1", 77, 88);
-        when(produtoMock.registaProduto(prod1)).thenReturn(false);
-        assertEquals(false, instance.registaProduto(prod1));
+        when(produtoMock.registaProduto(prod1,1)).thenReturn(false);
+        assertEquals(false, instance.registaProduto(prod1,1));
     }
 
 }

@@ -2,6 +2,9 @@ package lapr.project.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -33,6 +36,37 @@ public class FarmaciaTest {
         Farmacia instance = new Farmacia();
         instance.setNIF(nif);
         assertEquals(nif, instance.getNIF());
+
+    }
+
+    /**
+     * Test of getStock method, of class Farmacia.
+     */
+    @Test
+    public void testGetStock() {
+        System.out.println("getStock");
+        Farmacia instance = new Farmacia(123456789);
+        List<Produto> expResult = instance.getStock();
+        List<Produto> result = instance.getStock();
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of addStock method, of class Farmacia.
+     */
+    @Test
+    public void testAddStock() {
+        System.out.println("addStock");
+        Farmacia instance = new Farmacia(123456789);
+        Produto p = new Produto("sdf", 50, 58);
+
+        List<Produto> expResult = new ArrayList<>();
+        expResult.add(p);
+        instance.addStock(p);
+        List<Produto> result = instance.getStock();
+
+        assertEquals(expResult, result);
 
     }
 

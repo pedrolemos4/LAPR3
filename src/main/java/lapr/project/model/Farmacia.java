@@ -5,6 +5,9 @@
  */
 package lapr.project.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author pedro
@@ -12,6 +15,7 @@ package lapr.project.model;
 public class Farmacia {
 
     private int nif;
+    private List<Produto> stock = new ArrayList<>();
 
     /**
      * Constrói uma instância de farmácia com o nif da mesma e o seu parque
@@ -45,6 +49,24 @@ public class Farmacia {
      */
     public void setNIF(int nif) {
         this.nif = nif;
+    }
+
+    /**
+     * Devolve o stock da farmácia
+     *
+     * @return stock da farmácia
+     */
+    public List<Produto> getStock() {
+        return stock;
+    }
+
+    /**
+     * Adiciona o produto recebido por parametro ao stock da farmácia
+     *
+     * @param prod novo produto da farmácia
+     */
+    public void addStock(Produto prod) {
+        this.stock.add(prod);
     }
 
     @Override

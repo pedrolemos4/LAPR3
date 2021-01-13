@@ -11,13 +11,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.RealizaEncomendaController;
-import lapr.project.data.ClienteDB;
-import lapr.project.data.EmailDB;
-import lapr.project.data.EncomendaDB;
-import lapr.project.data.ProdutosDB;
-import lapr.project.data.ReciboDB;
+import lapr.project.data.*;
 import lapr.project.login.UserSession;
 import lapr.project.model.Encomenda;
+import lapr.project.model.Farmacia;
 import lapr.project.model.Produto;
 import lapr.project.model.Recibo;
 import lapr.project.utils.Data;
@@ -31,6 +28,7 @@ public class RealizarEncomendaUI {
     public static final Scanner LER = new Scanner(System.in);
 
     RealizaEncomendaController controller;
+    FarmaciaDB fdb = new FarmaciaDB();
 
     public RealizarEncomendaUI() {
         controller = new RealizaEncomendaController(new ProdutosDB(), new EncomendaDB(), new ReciboDB(), new ClienteDB(), new EmailDB());
@@ -51,7 +49,16 @@ public class RealizarEncomendaUI {
             System.out.println("Introduza a quantidade que pretende: ");
             int qntd = LER.nextInt();
             Produto prod = controller.getProdutoByID(id);
-            controller.produtoEncomenda(prod, qntd);
+
+            if(controller.produtoEncomenda(prod, qntd) == false){
+                for (Farmacia f : fdb.getLstFarmacias()){
+                    if (f.getStock().contains(prod)){
+                        System.out.println(f.getNIF());//MÉTODO fazerPedido(farmacia)
+                        break;
+                    }
+                }
+            }
+
         }
 
         System.out.println("Lista de Produtos: ");

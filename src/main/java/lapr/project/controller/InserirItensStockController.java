@@ -20,7 +20,7 @@ public class InserirItensStockController {
         return produtosDB.novoProduto(desig,peso,precoBase);
     }
 
-    public boolean registaProduto(Produto prod) {
-        return (produtosDB.registaProduto(prod)? true : false);
+    public boolean registaProduto(Produto prod, int farm) {
+        return (produtosDB.registaProduto(prod, farm)? true : false);
     }
 }

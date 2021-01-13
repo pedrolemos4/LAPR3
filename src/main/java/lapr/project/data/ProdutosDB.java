@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import lapr.project.model.Farmacia;
 import lapr.project.model.Produto;
 
 public class ProdutosDB extends DataHandler {
@@ -16,6 +18,7 @@ public class ProdutosDB extends DataHandler {
     private final List<Integer> listQuant;
     private double peso;
     private double preco;
+    private FarmaciaDB fdb;
 
     public ProdutosDB() {
         listEnc = new ArrayList<>();
@@ -31,8 +34,13 @@ public class ProdutosDB extends DataHandler {
         return !(prod.getDesignacao() == null || prod.getPeso() < 0 || prod.getPrecoBase() < 0);
     }
 
-    public boolean registaProduto(Produto prod) {
+    public boolean registaProduto(Produto prod, int farm) {
         if (validaProduto(prod)) {
+            for (Farmacia f : fdb.getLstFarmacias()) {
+                if (f.getNIF() == farm) {
+                    f.addStock(prod);
+                }
+            }
             addProduto(prod);
             return true;
         }
