@@ -48,7 +48,7 @@ public class RegistarFarmaciaUI {
         double alt = LER.nextDouble();
         System.out.println("Limite máximo de scooters do parque:");
         int numMax = LER.nextInt();
-        Farmacia farm = controller.novaFarmacia(nif);
+        Farmacia farm = controller.novaFarmacia(nif,morada);
         Endereco end = controller.novoEndereco(morada, lat, lon, alt);
         Parque park = controller.novoParque(nif, morada, numMax);
 
