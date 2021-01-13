@@ -42,10 +42,10 @@ public class CalculosFisica {
      * @return calculo de todas as forças
      */
     public static double calculoForcaTotal(double pesoTotal, double areaFrontal) {
-        double road_slope = calculoRoad_slope(pesoTotal);
-        double road_load = calculoRoad_load(pesoTotal);
-        double aerodynamic_drag_force = calculoAerodynamic_drag_force(areaFrontal);
-        return road_slope + road_load + aerodynamic_drag_force;
+        double roadSlope = calculoRoadSlope(pesoTotal);
+        double roadLoad = calculoRoadLoad(pesoTotal);
+        double aerodynamicDragForce = calculoAerodynamicDragForce(areaFrontal);
+        return roadSlope + roadLoad + aerodynamicDragForce;
     }
     
     /**
@@ -53,7 +53,7 @@ public class CalculosFisica {
      * @param pesoTotal o peso total
      * @return calculo da força associada ao movimento
      */
-    public static double calculoRoad_slope(double pesoTotal) {
+    public static double calculoRoadSlope(double pesoTotal) {
         return pesoTotal * GRAVITATIONAL_ACCELERATION;
     }
     
@@ -62,7 +62,7 @@ public class CalculosFisica {
      * @param pesoTotal o peso total
      * @return calculo da força associada ao atrito de rolamento
      */
-    public static double calculoRoad_load(double pesoTotal) {
+    public static double calculoRoadLoad(double pesoTotal) {
         return pesoTotal * GRAVITATIONAL_ACCELERATION * ROAD_ROOLING_RESISTANCE_COEFFICIENT;
     }
     
@@ -71,7 +71,7 @@ public class CalculosFisica {
      * @param areaFrontal a area Frontal da scooter
      * @return calculo da força de arrasto aerodinâmica
      */
-    public static double calculoAerodynamic_drag_force(double areaFrontal) {
+    public static double calculoAerodynamicDragForce(double areaFrontal) {
         return 0.5 * AIR_DENSITY_20DEGREES * AIR_DRAG_COEFFICIENT * areaFrontal * Math.pow(SPEED, 2);
     }
     
@@ -82,9 +82,8 @@ public class CalculosFisica {
      * @return distancia percorrida
      */
     public static double calculoDistancia(Endereco end1, Endereco end2) {
-        double distance = Math.acos(Math.sin(end2.getLatitude() * Math.PI / 180.0) * Math.sin(end1.getLatitude() * Math.PI / 180.0)
+        return Math.acos(Math.sin(end2.getLatitude() * Math.PI / 180.0) * Math.sin(end1.getLatitude() * Math.PI / 180.0)
                 + Math.cos(end2.getLatitude() * Math.PI / 180.0) * Math.cos(end1.getLatitude() * Math.PI / 180.0)
                 * Math.cos((end1.getLongitude() - end2.getLongitude()) * Math.PI / 180.0)) * EARTHRADIUS;
-        return distance;
     }
 }

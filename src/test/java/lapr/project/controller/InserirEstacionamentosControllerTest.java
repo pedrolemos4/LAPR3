@@ -115,7 +115,7 @@ public class InserirEstacionamentosControllerTest {
         parqueMock.addParque(parque);
         int expResult = parque.getNumeroMaximo();
         when(parqueMock.getNumMaxParqueByNIF(111111111)).thenReturn(20);
-        int result = parqueMock.getNumMaxParqueByNIF(111111111);
+        int result = instance1.getNumMaxParqueByNIF(111111111);
         assertEquals(expResult, result);
     }
 }

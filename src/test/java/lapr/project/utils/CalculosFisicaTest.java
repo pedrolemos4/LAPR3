@@ -57,7 +57,7 @@ public class CalculosFisicaTest {
         System.out.println("calculoRoad_slope");
         double pesoTotal = 5.0;
         double expResult = 49.0;
-        double result = CalculosFisica.calculoRoad_slope(pesoTotal);
+        double result = CalculosFisica.calculoRoadSlope(pesoTotal);
         assertEquals(expResult, result, 0.0);
 
     }
@@ -70,7 +70,7 @@ public class CalculosFisicaTest {
         System.out.println("calculoRoad_load");
         double pesoTotal = 10.0;
         double expResult = 0.5389999999999999;
-        double result = CalculosFisica.calculoRoad_load(pesoTotal);
+        double result = CalculosFisica.calculoRoadLoad(pesoTotal);
         assertEquals(expResult, result, 0.0);
 
     }
@@ -83,7 +83,7 @@ public class CalculosFisicaTest {
         System.out.println("calculoAerodynamic_drag_force");
         double areaFrontal = 10.0;
         double expResult = 132.841321056;
-        double result = CalculosFisica.calculoAerodynamic_drag_force(areaFrontal);
+        double result = CalculosFisica.calculoAerodynamicDragForce(areaFrontal);
         assertEquals(expResult, result, 0.0);
 
     }

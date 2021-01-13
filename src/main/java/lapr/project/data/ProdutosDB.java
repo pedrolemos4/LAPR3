@@ -12,23 +12,19 @@ import lapr.project.model.Produto;
 
 public class ProdutosDB extends DataHandler {
 
-    private final DataHandler dataHandler;
     private final List<Produto> listEnc;
     private final List<Integer> listQuant;
-    private EncomendaDB encDB;
-
     private double peso;
     private double preco;
 
     public ProdutosDB() {
-        this.dataHandler = DataHandler.getInstance();
         listEnc = new ArrayList<>();
         listQuant = new ArrayList<>();
         peso = 0;
         preco = 0;
     }
-    public Produto novoProduto(String desig, double peso, double preco_base) {
-        return new Produto(desig,peso,preco_base);
+    public Produto novoProduto(String desig, double peso, double precoBase) {
+        return new Produto(desig,peso,precoBase);
     }
 
     public boolean validaProduto(Produto prod) {

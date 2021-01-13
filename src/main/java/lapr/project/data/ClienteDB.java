@@ -21,8 +21,6 @@ import lapr.project.model.Cliente;
  */
 public class ClienteDB extends DataHandler {
 
-    public ClienteDB() {
-    }
 
     /**
      * Cria um novo cliente
@@ -152,5 +150,24 @@ public class ClienteDB extends DataHandler {
             Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
         return null;
+    }
+
+    public boolean removerCreditos(String email, double creditosData) throws SQLException {
+
+        boolean removed = false;
+
+        try (CallableStatement callV = getConnection().prepareCall("{ call removeCreditos(?,?) }")) {
+
+            callV.setString(1, email);
+            callV.setDouble(2, creditosData);
+            callV.execute();
+
+            removed = true;
+        } catch (SQLException | NullPointerException ex) {
+            Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, ex.getMessage());
+
+        }
+
+        return removed;
     }
 }

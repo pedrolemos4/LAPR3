@@ -20,6 +20,7 @@ import oracle.jdbc.OracleTypes;
 public class VeiculoDB extends DataHandler {
 
     public VeiculoDB() {
+        //dummy constructor
     }
 
     public int addVeiculo(Veiculo veiculo) throws SQLException {

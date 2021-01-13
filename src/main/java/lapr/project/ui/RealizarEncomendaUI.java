@@ -16,9 +16,11 @@ import lapr.project.data.EmailDB;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.ProdutosDB;
 import lapr.project.data.ReciboDB;
+import lapr.project.login.UserSession;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Produto;
 import lapr.project.model.Recibo;
+import lapr.project.utils.Data;
 
 /**
  *
@@ -54,8 +56,8 @@ public class RealizarEncomendaUI {
 
         System.out.println("Lista de Produtos: ");
 
-        for(int i=0;i<controller.getListaProdutoEncomenda().size();i++){
-            System.out.println(controller.getListaProdutoEncomenda().get(i)+" "+controller.getListQuantidade().get(i));
+        for (int i = 0; i < controller.getListaProdutoEncomenda().size(); i++) {
+            System.out.println(controller.getListaProdutoEncomenda().get(i) + " " + controller.getListQuantidade().get(i));
         }
 
         System.out.println("Confirme os dados introduzidos: (S/N)");
@@ -63,40 +65,58 @@ public class RealizarEncomendaUI {
         String confirm = LER.nextLine();
 
         if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
-            Date date = new Date(System.currentTimeMillis());
 
-            Encomenda enc = new Encomenda(controller.getNifCliente(), date.toString(), controller.getPreco(), controller.getPeso(), 0.6, 1);
+            Data date = Data.dataAtual();
 
-            List<Produto> lst = controller.getListaProdutoEncomenda();
-            List<Integer> listQuantidade = controller.getListQuantidade();
+            System.out.println("Deseja pagar com creditos? (S/N)");
+            LER.nextLine();
+            String credsC = LER.nextLine();
 
-            controller.registaEncomenda(enc);
+            if (credsC.equalsIgnoreCase("S") || credsC.equalsIgnoreCase("SIM")) {
 
-            for(Produto p : lst){
-                controller.registaEncomendaProduto(enc, p);
+                double creditosData = controller.getCreditosData(date, controller.getPreco());
+                String email = UserSession.getInstance().getUser().getEmail();
+                
+                if (controller.verificaCreditos(email) < creditosData) {
+                    System.out.println("Creditos insuficientes.");
+                }else{
+                    controller.removerCreditos(email, creditosData);
+                }
+
+                Encomenda enc = new Encomenda(controller.getNifCliente(), date.toString(), controller.getPreco(), controller.getPeso(), 0.6, 1);
+
+                List<Produto> lst = controller.getListaProdutoEncomenda();
+                List<Integer> listQuantidade = controller.getListQuantidade();
+
+                controller.registaEncomenda(enc);
+
+                for (Produto p : lst) {
+                    controller.registaEncomendaProduto(enc, p);
+                }
+
+                controller.removerProdutosEncomenda(lst, listQuantidade);
+
+                double precoTotal = controller.getPrecoTotal(enc.getTaxa());
+
+                Recibo rec = new Recibo(controller.getNifCliente(), precoTotal, date.toString(), enc.getId());
+                rec.setLst(lst);
+
+                for (Produto p : lst) {
+                    controller.novoRecibo(rec, p);
+                }
+
+                System.out.println("Data do Recibo:");
+                System.out.println(rec.getData());
+                System.out.println("Preco Total:");
+                System.out.println(precoTotal);
+                System.out.println("Lista de Produtos:");
+                for (int i = 0; i < lst.size(); i++) {
+                    System.out.println(lst.get(i).getDesignacao() + " " + lst.get(i).getPrecoBase());
+                }
+
+                System.out.println("\n\nEncomenda adicionada com sucesso'");
+
             }
-
-            controller.removerProdutosEncomenda(lst, listQuantidade);
-
-            double precoTotal = controller.getPrecoTotal(enc.getTaxa());
-
-            Recibo rec = new Recibo(controller.getNifCliente(), precoTotal, date.toString(), enc.getId());
-            rec.setLst(lst);
-
-            for(Produto p : lst){
-                controller.novoRecibo(rec, p);
-            }
-
-            System.out.println("Data do Recibo:");
-            System.out.println(rec.getData());
-            System.out.println("Preco Total:");
-            System.out.println(precoTotal);
-            System.out.println("Lista de Produtos:");
-            for(int i=0; i<lst.size(); i++){
-                System.out.println(lst.get(i).getDesignacao() + " " + lst.get(i).getPrecoBase());
-            }
-
-            System.out.println("\n\nEncomenda adicionada com sucesso'");
         }
     }
 

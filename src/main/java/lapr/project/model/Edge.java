@@ -56,7 +56,9 @@ public class Edge<V,E> implements Comparable {
     public V[] getEndpoints() {
         //retorna os vértices na extremidade do ramo
 
-        V oElem=null, dElem=null, typeElem=null;
+        V oElem=null;
+        V dElem=null;
+        V typeElem=null;
 
         if (this.vOrig != null)
             oElem = vOrig.getElement();

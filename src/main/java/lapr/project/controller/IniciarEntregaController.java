@@ -1,6 +1,5 @@
 package lapr.project.controller;
 
-import java.util.LinkedList;
 import java.util.List;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.EnderecoDB;
@@ -63,7 +62,7 @@ public class IniciarEntregaController {
         return enderecoDB.getEnderecoParque();
     }
     
-    public LinkedList<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotal){
+    public List<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotal){
         return entregaDB.generateGraph(listEnderecos, est, veiculo, pesoTotal);
     }
 }

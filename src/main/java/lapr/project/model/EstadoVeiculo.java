@@ -11,7 +11,7 @@ package lapr.project.model;
  */
 public class EstadoVeiculo {
     
-    private int idEstadoVeiculo;
+    private final int idEstadoVeiculo;
     private String designacao;
 
     /**

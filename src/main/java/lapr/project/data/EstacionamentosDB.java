@@ -25,9 +25,6 @@ import lapr.project.model.Veiculo;
  */
 public class EstacionamentosDB extends DataHandler {
 
-    public EstacionamentosDB() {
-    }
-
     /**
      * Cria um novo estacionamento
      *

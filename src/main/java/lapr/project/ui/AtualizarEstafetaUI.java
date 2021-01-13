@@ -47,15 +47,15 @@ public class AtualizarEstafetaUI {
             System.out.println("Password:");
             String pwd = LER.nextLine();
 
-            Estafeta new_est = new Estafeta(nif,nome,email1,peso,nss,pwd,1);
+            Estafeta newEst = new Estafeta(nif,nome,email1,peso,nss,pwd,1);
 
             System.out.println("--Novos Dados do Estafeta--");
-            System.out.println(new_est.getNIF());
-            System.out.println(new_est.getNome());
-            System.out.println(new_est.getEmail());
-            System.out.println(new_est.getPesoEstafeta());
-            System.out.println(new_est.getNumeroSegurancaSocial());
-            System.out.println(new_est.getPassword());
+            System.out.println(newEst.getNIF());
+            System.out.println(newEst.getNome());
+            System.out.println(newEst.getEmail());
+            System.out.println(newEst.getPesoEstafeta());
+            System.out.println(newEst.getNumeroSegurancaSocial());
+            System.out.println(newEst.getPassword());
             System.out.println("Deseja atualizar os dados do estafeta? (S/N)");
             String confirm = LER.next();
 

@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Produto;
+import lapr.project.utils.Data;
 import oracle.jdbc.OracleTypes;
 
 /**
@@ -25,13 +26,10 @@ import oracle.jdbc.OracleTypes;
 public class EncomendaDB extends DataHandler {
 
     private final ProdutosDB produtoDB;
-    private final DataHandler dataHandler;
-    private final List<Encomenda> lstEnc;
+
 
     public EncomendaDB() {
-        this.dataHandler = DataHandler.getInstance();
         produtoDB = new ProdutosDB();
-        lstEnc = new ArrayList<>();
     }
 
     /**
@@ -66,7 +64,7 @@ public class EncomendaDB extends DataHandler {
      * @return
      */
     public boolean validaEncomenda(Encomenda enc) {
-        return enc.getNif() != 0 && enc.getDataPedida() != null && enc.getEstado().getEstado()<3 || enc.getEstado().getEstado()>0 && enc.getId() != 0 && enc.getLst() != null && enc.getPesoEncomenda() > 0 && enc.getPreco() > 0 && enc.getTaxa() > 0;
+        return enc.getNif() != 0 && enc.getDataPedida() != null && enc.getEstado().getEstado() < 3 || enc.getEstado().getEstado() > 0 && enc.getId() != 0 && enc.getLst() != null && enc.getPesoEncomenda() > 0 && enc.getPreco() > 0 && enc.getTaxa() > 0;
     }
 
     /**
@@ -86,9 +84,11 @@ public class EncomendaDB extends DataHandler {
      * Adiciona a encomenda à base de dados
      *
      * @param enc
+     * @return 
+     * @throws java.sql.SQLException
      */
     public int addEncomenda(Encomenda enc) throws SQLException {
-        return addEncomenda(enc.getNif(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado().getIdEstadoEncomenda(), enc.getLst());
+        return addEncomenda(enc.getNif(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado().getIdEstadoEncomenda());
     }
 
     /**
@@ -101,11 +101,11 @@ public class EncomendaDB extends DataHandler {
      * @param estado
      * @param lst
      */
-    private int addEncomenda(int nif, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado, List<Produto> lst) throws SQLException {
+    private int addEncomenda(int nif, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) throws SQLException {
         int id = 0;
         openConnection();
 
-        try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addEncomenda(?,?,?,?,?,?) }")) {
+        try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addEncomenda(?,?,?,?,?,?) }")) {
 
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
             callStmt.setInt(2, nif);
@@ -148,7 +148,7 @@ public class EncomendaDB extends DataHandler {
         try {
             openConnection();
 
-            try ( CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?) }")) {
+            try (CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?) }")) {
 
                 callStmt1.registerOutParameter(1, OracleTypes.INTEGER);
                 callStmt1.setInt(2, enc);
@@ -189,8 +189,8 @@ public class EncomendaDB extends DataHandler {
 
     public List<Encomenda> getFromDatabase(String query) {
         ArrayList<Encomenda> list = new ArrayList<>();
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int idEncomenda = rSet.getInt(1);
@@ -209,6 +209,24 @@ public class EncomendaDB extends DataHandler {
             Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
         return list;
+    }
+
+    public double getCreditosData(Data date, double preco) {
+        String dataI = "01/01/2021";
+        String dataM = "01/07/2021";
+        String dataF = "31/12/2021";
+        
+        Data d2 = new Data(dataI);
+        Data d3 = new Data(dataM);
+        Data d4 = new Data(dataF);
+        
+        if(date.isMaior(d2) && d3.isMaior(date) || date.compareTo(d2)==0 || d3.compareTo(date)==0){
+            return preco/2;
+        }
+        if(date.isMaior(d3) && d4.isMaior(date) || date.compareTo(d3)==0 || d4.compareTo(date)==0){
+            return preco/3;
+        }
+        return -1;
     }
 
 }
