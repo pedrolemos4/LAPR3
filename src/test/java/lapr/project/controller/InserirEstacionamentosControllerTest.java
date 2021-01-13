@@ -101,6 +101,22 @@ public class InserirEstacionamentosControllerTest {
         when(estacionamentoMock.registaEstacionamento(lestac)).thenReturn(true);
         assertEquals(true, instance1.registaEstacionamentos(lestac));
     }
+    
+    /**
+     * Test of registaEstacionamentos method, of class
+     * InserirEstacionamentosController.
+     *
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testRegistaEstacionamentos1() throws SQLException {
+        System.out.println("registaEstacionamentos1");
+        Estacionamento estacionamento = new Estacionamento(1, 0, 0);
+        List<Estacionamento> lestac = new ArrayList<>();
+        lestac.add(estacionamento);
+        when(estacionamentoMock.registaEstacionamento(lestac)).thenReturn(false);
+        assertEquals(false, instance1.registaEstacionamentos(lestac));
+    }
 
     /**
      * Test of getNumMaxParqueByNIF method, of class

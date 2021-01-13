@@ -60,5 +60,16 @@ public class AtualizarItensStockControllerTest {
         when(produtoMock.atualizarProduto(prod2)).thenReturn(true);
         assertEquals(true,instance.atualizarProduto(prod2));
     }
+    
+    /**
+     * Test of atualizarProduto method, of class AtualizarItensStockController.
+     */
+    @Test
+    public void testAtualizarProduto1() {
+        System.out.println("atualizarProduto1");
+        Produto prod2  = new Produto("teste",50.0,70);
+        when(produtoMock.atualizarProduto(prod2)).thenReturn(false);
+        assertEquals(false,instance.atualizarProduto(prod2));
+    }
 
 }

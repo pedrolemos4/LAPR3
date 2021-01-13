@@ -63,5 +63,16 @@ public class InserirItensStockControllerTest {
         when(produtoMock.registaProduto(prod1)).thenReturn(true);
         assertEquals(true, instance.registaProduto(prod1));
     }
+    
+    /**
+     * Test of registaProduto method, of class InserirItensStockController.
+     */
+    @Test
+    public void testRegistaProduto1() {
+        System.out.println("registaProduto1");
+        Produto prod1 = new Produto("prod1", 77, 88);
+        when(produtoMock.registaProduto(prod1)).thenReturn(false);
+        assertEquals(false, instance.registaProduto(prod1));
+    }
 
 }

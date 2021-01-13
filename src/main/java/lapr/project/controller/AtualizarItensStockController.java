@@ -21,6 +21,6 @@ public class AtualizarItensStockController {
     }
 
     public boolean atualizarProduto(Produto prod) {
-        return produtosDB.atualizarProduto(prod);
+        return (produtosDB.atualizarProduto(prod)? true : false);
     }
 }
