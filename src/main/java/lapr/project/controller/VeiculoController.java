@@ -39,6 +39,6 @@ public class VeiculoController {
     }
 
     public boolean removeVeiculo(int idVeiculo) throws SQLException {
-        return veiculoDB.removeVeiculo(idVeiculo);
+        return (veiculoDB.removeVeiculo(idVeiculo) ? true : false);
     }
 }
