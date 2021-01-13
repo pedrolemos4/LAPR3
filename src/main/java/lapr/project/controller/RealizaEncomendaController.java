@@ -84,13 +84,12 @@ public class RealizaEncomendaController {
         return produtoDB.getPeso();
     }
 
-    public int getNifCliente() {
+    public Cliente getCliente() {
         String email = UserSession.getInstance().getUser().getEmail();
-        Cliente cliente = cliDB.getClienteByEmail(email);
-        return cliente.getNIF();
+        return cliDB.getClienteByEmail(email);
     }
 
-    public boolean novoRecibo(Recibo rec) throws SQLException/*, MessagingException */{
+    public boolean novoRecibo(Recibo rec) throws SQLException {
         reciboDB.registaRecibo(rec);
         String assunto = "Recibo.";
         String mensagem = rec.toString();
@@ -138,10 +137,6 @@ public class RealizaEncomendaController {
 
     public double getCreditosData(Data date, double preco) {
         return encDB.getCreditosData(date, preco);
-    }
-
-    public double verificaCreditos(String email) {
-        return cliDB.getClienteByEmail(email).getCreditos();
     }
 
     public boolean removerCreditos(String email, double creditosData) throws SQLException {

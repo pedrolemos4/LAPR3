@@ -77,13 +77,14 @@ public class RealizarEncomendaUI {
                 double creditosData = controller.getCreditosData(date, controller.getPreco());
                 String email = UserSession.getInstance().getUser().getEmail();
                 
-                if (controller.verificaCreditos(email) < creditosData) {
+                if (controller.getCliente().getCreditos() < creditosData) {
                     System.out.println("Creditos insuficientes.");
                 }else{
                     controller.removerCreditos(email, creditosData);
+                    System.out.println("Foram retirados: "+creditosData+" creditos.");
                 }
 
-                Encomenda enc = new Encomenda(controller.getNifCliente(), date.toString(), controller.getPreco(), controller.getPeso(), 0.6, 1);
+                Encomenda enc = new Encomenda(controller.getCliente().getNIF(), date.toString(), controller.getPreco(), controller.getPeso(), 0.6, 1);
 
                 List<Produto> lst = controller.getListaProdutoEncomenda();
                 List<Integer> listQuantidade = controller.getListQuantidade();
@@ -98,7 +99,7 @@ public class RealizarEncomendaUI {
 
                 double precoTotal = controller.getPrecoTotal(enc.getTaxa());
 
-                Recibo rec = new Recibo(controller.getNifCliente(), precoTotal, date.toString(), enc.getId());
+                Recibo rec = new Recibo(controller.getCliente().getNIF(), precoTotal, date.toString(), enc.getId());
                 rec.setLst(lst);
 
                 for (Produto p : lst) {

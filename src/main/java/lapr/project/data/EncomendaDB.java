@@ -213,17 +213,17 @@ public class EncomendaDB extends DataHandler {
 
     public double getCreditosData(Data date, double preco) {
         String dataI = "01/01/2021";
-        String dataM = "01/07/2021";
+        String dataM = "31/07/2021";
         String dataF = "31/12/2021";
         
         Data d2 = new Data(dataI);
         Data d3 = new Data(dataM);
         Data d4 = new Data(dataF);
         
-        if(date.isMaior(d2) && d3.isMaior(date) || date.compareTo(d2)==0 || d3.compareTo(date)==0){
+        if(date.getMes()>=d2.getMes() && d3.getMes()>=date.getMes()){
             return preco/2;
         }
-        if(date.isMaior(d3) && d4.isMaior(date) || date.compareTo(d3)==0 || d4.compareTo(date)==0){
+        if(date.getMes()>d3.getMes() && d4.getMes()>=date.getMes()){
             return preco/3;
         }
         return -1;
