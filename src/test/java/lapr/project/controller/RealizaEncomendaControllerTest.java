@@ -15,6 +15,7 @@ import lapr.project.data.EmailDB;
 import lapr.project.data.EncomendaDB;
 import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
+import lapr.project.utils.Data;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,10 +32,10 @@ class RealizaEncomendaControllerTest {
     private ReciboDB reciboDB;
     private EmailDB emailDB;
     private Encomenda enc;
-
+    
     public RealizaEncomendaControllerTest() {
     }
-
+    
     @BeforeEach
     void setUp() throws SQLException {
         produtoDB = mock(ProdutosDB.class);
@@ -45,7 +46,7 @@ class RealizaEncomendaControllerTest {
         instance = new RealizaEncomendaController(produtoDB, encDB, reciboDB, cliDB,emailDB);
         enc = new Encomenda(123,"01-01-2000",10,10,10, 1);
         when(encDB.addEncomenda(enc)).thenReturn(1);
-
+        
     }
 
     /**
@@ -119,7 +120,7 @@ class RealizaEncomendaControllerTest {
         System.out.println("getListQuantidade");
         List<Integer> expResult = new ArrayList<>();
         expResult.add(1);
-
+        
         when(produtoDB.getListaQuantidade()).thenReturn(expResult);
         assertEquals(expResult, instance.getListQuantidade());
     }
@@ -210,7 +211,7 @@ class RealizaEncomendaControllerTest {
         boolean result = instance.verificaProdutoEncomenda(prod, qntd);
         assertEquals(expResult, result);
     }
-
+    
     /**
      * Test of getPrecoTotal method, of class RealizaEncomendaController.
      */
@@ -241,7 +242,7 @@ class RealizaEncomendaControllerTest {
         lst.add(p1);
         lst2.add(1);
         lst2.add(2);
-
+        
         instance.removerProdutosEncomenda(lst, lst2);
     }
 
@@ -271,5 +272,45 @@ class RealizaEncomendaControllerTest {
         when(produtoDB.getLista()).thenReturn(lst);
         int expResult = 1;
         assertEquals(expResult, instance.contarNumeroProds(prod));
+    }
+
+    /**
+     * Test of getCreditosData method, of class RealizaEncomendaController.
+     */
+    @org.junit.Test
+    public void testGetCreditosData() {
+        System.out.println("getCreditosData");
+        Data date = new Data("01-01-2021");
+        double preco = 10.0;
+        double expResult = 5.0;
+        double result = instance.getCreditosData(date, preco);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of verificaCreditos method, of class RealizaEncomendaController.
+     */
+    @org.junit.Test
+    public void testVerificaCreditos() {
+        System.out.println("verificaCreditos");
+        String email = "as";
+        double expResult = 0.0;
+        double result = instance.verificaCreditos(email);
+        when(cliDB.getClienteByEmail(email).getCreditos()).thenReturn(expResult);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of removerCreditos method, of class RealizaEncomendaController.
+     */
+    @org.junit.Test
+    public void testRemoverCreditos() throws Exception {
+        System.out.println("removerCreditos");
+        String email = "01-01-2021";
+        double creditosData = 0.0;
+        boolean expResult = true;
+        boolean result = instance.removerCreditos(email, creditosData);
+        when(cliDB.removerCreditos(email, creditosData)).thenReturn(expResult);
+        assertEquals(expResult, result);
     }
 }

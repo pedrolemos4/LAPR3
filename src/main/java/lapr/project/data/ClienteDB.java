@@ -153,4 +153,24 @@ public class ClienteDB extends DataHandler {
         }
         return null;
     }
+
+    public boolean removerCreditos(String email, double creditosData) throws SQLException {
+
+        boolean removed = false;
+
+        try (CallableStatement callV = getConnection().prepareCall("{ call removeCreditos(?,?) }")) {
+
+            callV.setString(1, email);
+            callV.setDouble(2, creditosData);
+            callV.execute();
+
+            removed = true;
+            callV.close();
+        } catch (SQLException | NullPointerException ex) {
+            Logger.getLogger(ScooterDB.class.getName()).log(Level.WARNING, ex.getMessage());
+
+        }
+
+        return removed;
+    }
 }
