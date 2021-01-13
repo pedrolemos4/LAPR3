@@ -14,7 +14,7 @@ class ParqueTest {
 
     @Test
     void ParqueConstructorTest() {
-        Parque instance = new Parque(123, "algures", 20);
+        Parque instance = new Parque(123, "algures", 20, "drones");
         assertEquals(instance, instance);
     }
 
@@ -24,7 +24,7 @@ class ParqueTest {
     @Test
     public void testGetNIF() {
         System.out.println("getNIF");
-        Parque instance = new Parque(111111111, "algures", 20);
+        Parque instance = new Parque(111111111, "algures", 20, "drones");
         int expResult = 111111111;
         int result = instance.getNIF();
         assertEquals(expResult, result);
@@ -37,7 +37,7 @@ class ParqueTest {
     public void testSetNIF() {
         System.out.println("setNIF");
         int NIF = 112221112;
-        Parque instance = new Parque(112221112, "algures", 20);
+        Parque instance = new Parque(112221112, "algures", 20, "drones");
         instance.setNIF(NIF);
         assertEquals(NIF, instance.getNIF());
     }
@@ -48,7 +48,7 @@ class ParqueTest {
     @Test
     public void testGetMorada() {
         System.out.println("getMorada");
-        Parque instance = new Parque(123, "algures", 20);
+        Parque instance = new Parque(123, "algures", 20, "drones");
         String expResult = "algures";
         String result = instance.getMorada();
         assertEquals(expResult, result);
@@ -61,7 +61,7 @@ class ParqueTest {
     public void testSetMorada() {
         System.out.println("setMorada");
         String morada = "Rua do Estádio";
-        Parque instance = new Parque(123, "algures", 20);
+        Parque instance = new Parque(123, "algures", 20, "drones");
         instance.setMorada(morada);
         assertEquals(morada, instance.getMorada());
     }
@@ -72,7 +72,7 @@ class ParqueTest {
     @Test
     void getNumeroMaximo() {
         System.out.println("getNumeroMaximo");
-        Parque instance = new Parque(123, "algures", 20);
+        Parque instance = new Parque(123, "algures", 20, "drones");
         int expResult = 20;
         int result = instance.getNumeroMaximo();
         assertEquals(expResult, result);
@@ -85,15 +85,15 @@ class ParqueTest {
     void setNumeroMaximo() {
         System.out.println("setNumeroMaximo");
         int numeroMaximo = 15;
-        Parque instance = new Parque(123, "algures", 20);
+        Parque instance = new Parque(123, "algures", 20, "drones");
         instance.setNumeroMaximo(15);
         assertEquals(numeroMaximo, instance.getNumeroMaximo());
     }
 
     @Test
-    public void testToString(){
-        Parque instance = new Parque(123, "algures", 20);
-        String expResult = "Parque{nif=123, morada=algures, numeroMaximo=20}";
-        assertEquals(expResult,instance.toString());
+    public void testToString() {
+        Parque instance = new Parque(123, "algures", 20, "drones");
+        String expResult = "Parque{nif=123, morada=algures, numeroMaximo=20, tipo=drones}";
+        assertEquals(expResult, instance.toString());
     }
 }

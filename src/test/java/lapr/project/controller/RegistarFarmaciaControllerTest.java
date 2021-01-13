@@ -34,7 +34,7 @@ public class RegistarFarmaciaControllerTest {
         instance = new RegistarFarmaciaController(new FarmaciaDB(), new ParqueDB(), new EnderecoDB());
         parqueMock = mock(ParqueDB.class);
         enderecoMock = mock(EnderecoDB.class);
-        farm = new Farmacia(123456789,"rua1");
+        farm = new Farmacia(123456789, "rua1");
         instance1 = new RegistarFarmaciaController(farmaciaMock, parqueMock, enderecoMock);
         when(farmaciaMock.addFarmacia(farm)).thenReturn(true);
     }
@@ -45,7 +45,7 @@ public class RegistarFarmaciaControllerTest {
     @Test
     public void testGetListaFarmacias() {
         System.out.println("getListaFarmacias");
-        Farmacia farmacia = new Farmacia(123456789,"rua1");
+        Farmacia farmacia = new Farmacia(123456789, "rua1");
         List<Farmacia> expResult = new ArrayList<>();
         expResult.add(farmacia);
         when(farmaciaMock.getLstFarmacias()).thenReturn(expResult);
@@ -60,9 +60,9 @@ public class RegistarFarmaciaControllerTest {
     @Test
     public void testNovaFarmacia() throws SQLException {
         System.out.println("novaFarmacia");
-        Farmacia farmacia = new Farmacia(123456789,"rua1");
-        when(farmaciaMock.novaFarmacia(123456789,"rua1")).thenReturn(farmacia);
-        assertEquals(farmacia.toString(), instance.novaFarmacia(farmacia.getNIF(),farmacia.getMorada()).toString());
+        Farmacia farmacia = new Farmacia(123456789, "rua1");
+        when(farmaciaMock.novaFarmacia(123456789, "rua1")).thenReturn(farmacia);
+        assertEquals(farmacia.toString(), instance.novaFarmacia(farmacia.getNIF(), farmacia.getMorada()).toString());
     }
 
     /**
@@ -73,9 +73,9 @@ public class RegistarFarmaciaControllerTest {
     @Test
     public void testNovoParque() throws SQLException {
         System.out.println("novoParque");
-        Parque parque = new Parque(111111111, "algures", 20);
-        when(parqueMock.novoParque(111111111, "algures", 20)).thenReturn(parque);
-        assertEquals(parque.toString(), instance.novoParque(parque.getNIF(), parque.getMorada(), parque.getNumeroMaximo()).toString());
+        Parque parque = new Parque(111111111, "algures", 20, "drones");
+        when(parqueMock.novoParque(111111111, "algures", 20, "drones")).thenReturn(parque);
+        assertEquals(parque.toString(), instance.novoParque(parque.getNIF(), parque.getMorada(), parque.getNumeroMaximo(), parque.getTipo()).toString());
     }
 
     /**
@@ -99,11 +99,11 @@ public class RegistarFarmaciaControllerTest {
     @Test
     public void testRegistaFarmacia() throws SQLException {
         System.out.println("registaFarmacia");
-        Farmacia farmacia = new Farmacia(123456789,"rua1");
+        Farmacia farmacia = new Farmacia(123456789, "rua1");
         when(farmaciaMock.registaFarmacia(farmacia)).thenReturn(true);
         assertEquals(true, instance1.registaFarmacia(farmacia));
     }
-    
+
     /**
      * Test of registaFarmacia method, of class RegistarFarmaciaController.
      *
@@ -112,7 +112,7 @@ public class RegistarFarmaciaControllerTest {
     @Test
     public void testRegistaFarmacia1() throws SQLException {
         System.out.println("registaFarmacia1");
-        Farmacia farmacia = new Farmacia(123456789,"rua1");
+        Farmacia farmacia = new Farmacia(123456789, "rua1");
         when(farmaciaMock.registaFarmacia(farmacia)).thenReturn(false);
         assertEquals(false, instance1.registaFarmacia(farmacia));
     }
@@ -125,12 +125,12 @@ public class RegistarFarmaciaControllerTest {
     @Test
     public void testRegistaParque() throws SQLException {
         System.out.println("registaParque");
-        Parque parque = new Parque(111111111, "algures", 20);
+        Parque parque = new Parque(111111111, "algures", 20, "drones");
         when(parqueMock.registaParque(parque)).thenReturn(true);
         assertEquals(true, instance1.registaParque(parque));
     }
-    
-     /**
+
+    /**
      * Test of registaParque method, of class RegistarFarmaciaController.
      *
      * @throws java.sql.SQLException
@@ -138,7 +138,7 @@ public class RegistarFarmaciaControllerTest {
     @Test
     public void testRegistaParque1() throws SQLException {
         System.out.println("registaParque1");
-        Parque parque = new Parque(111111111, "algures", 20);
+        Parque parque = new Parque(111111111, "algures", 20, "drones");
         when(parqueMock.registaParque(parque)).thenReturn(false);
         assertEquals(false, instance1.registaParque(parque));
     }
@@ -155,7 +155,7 @@ public class RegistarFarmaciaControllerTest {
         when(enderecoMock.registaEndereco(end)).thenReturn(true);
         assertEquals(true, instance1.registaEndereco(end));
     }
-    
+
     /**
      * Test of registaEndereco method, of class RegistarFarmaciaController.
      *

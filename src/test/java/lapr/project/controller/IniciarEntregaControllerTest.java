@@ -27,18 +27,18 @@ import static org.mockito.Mockito.*;
  * @author beatr
  */
 public class IniciarEntregaControllerTest {
-    
+
     private EstafetaDB estafetaDB;
     private EntregaDB entregaDB;
     private EncomendaDB encomendaDB;
     private EnderecoDB enderecoDB;
     private VeiculoDB veiculoDB;
     private IniciarEntregaController instance;
-    
+
     public IniciarEntregaControllerTest() {
-        
+
     }
-    
+
     @BeforeEach
     void setUp() throws SQLException {
         estafetaDB = mock(EstafetaDB.class);
@@ -48,9 +48,10 @@ public class IniciarEntregaControllerTest {
         enderecoDB = mock(EnderecoDB.class);
         instance = new IniciarEntregaController(entregaDB, encomendaDB, estafetaDB, enderecoDB, veiculoDB);
     }
-    
+
     /**
-     * Test of getListaEntregaByNifEstafeta method, of class IniciarEntregaController.
+     * Test of getListaEntregaByNifEstafeta method, of class
+     * IniciarEntregaController.
      */
     @Test
     public void testGetListaEntregaByNifEstafeta() {
@@ -60,7 +61,7 @@ public class IniciarEntregaControllerTest {
         expResult.add(new Entrega("12-12-1004", "23-11-2001", nifEstafeta, 1));
         when(entregaDB.getListaEntregaByNifEstafeta(nifEstafeta)).thenReturn(expResult);
         List<Entrega> result = instance.getListaEntregaByNifEstafeta(nifEstafeta);
-        
+
         assertEquals(expResult, result);
 
     }
@@ -101,7 +102,7 @@ public class IniciarEntregaControllerTest {
     public void testGetVeiculoById() {
         System.out.println("getVeiculoById");
         int idVeiculo = 1;
-        Veiculo expResult = new Veiculo(1,"descricao","drone", 74, 15, 47, 47, 85, 86);
+        Veiculo expResult = new Veiculo(1, "descricao", "drone", 74, 15, 47, 47, 85, 86);
         when(veiculoDB.getVeiculoById(idVeiculo)).thenReturn(expResult);
         Veiculo result = instance.getVeiculoById(idVeiculo);
         assertEquals(expResult, result);
@@ -123,10 +124,11 @@ public class IniciarEntregaControllerTest {
     }
 
     /**
-     * Test of getEnderecoByNifCliente method, of class IniciarEntregaController.
+     * Test of getEnderecoByNifCliente method, of class
+     * IniciarEntregaController.
      */
     @Test
-    public void testGetEnderecoByNifCliente(){
+    public void testGetEnderecoByNifCliente() {
         System.out.println("getEnderecoByNifCliente");
         int nif = 123456789;
         Cliente c = new Cliente(nif, 15, "df", 12);
@@ -144,7 +146,7 @@ public class IniciarEntregaControllerTest {
     @Test
     public void testGetEnderecoParque() {
         System.out.println("getEnderecoParque");
-        Parque p = new Parque(123456789, "df", 15);
+        Parque p = new Parque(123456789, "df", 15, "drones");
         Endereco expResult = new Endereco("df", 56, 84, 12);
         when(enderecoDB.getEnderecoParque()).thenReturn(expResult);
         assertEquals(expResult, instance.getEnderecoParque());
@@ -161,12 +163,12 @@ public class IniciarEntregaControllerTest {
         listEnderecos.add(new Endereco("df", 56, 84, 12));
         listEnderecos.add(new Endereco("de", 4, 23, 43));
         Estafeta est = new Estafeta(123456789, 1, 56);
-        Veiculo veiculo = new Veiculo("fr","veiculo", 15, 15, 85, 78, 45, 1);
+        Veiculo veiculo = new Veiculo("fr", "veiculo", 15, 15, 85, 78, 45, 1);
         double pesoTotal = 12.0;
         List<Endereco> expResult = new LinkedList<>();
         List<Endereco> result = instance.generateGraph(listEnderecos, est, veiculo, pesoTotal);
         assertEquals(expResult, result);
 
     }
-    
+
 }
