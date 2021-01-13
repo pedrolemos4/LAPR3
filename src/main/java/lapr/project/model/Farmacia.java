@@ -16,14 +16,16 @@ public class Farmacia {
 
     private int nif;
     private List<Produto> stock = new ArrayList<>();
+    private String morada;
 
     /**
      * Constrói uma instância de farmácia com o nif da mesma e o seu parque
      *
      * @param nif nif da farmácia
      */
-    public Farmacia(int nif) {
+    public Farmacia(int nif, String morada) {
         this.nif = nif;
+        this.morada = morada;
     }
 
     /**
@@ -31,6 +33,7 @@ public class Farmacia {
      */
     public Farmacia() {
         this.nif = 0;
+        this.morada = "sem morada";
     }
 
     /**
@@ -58,6 +61,15 @@ public class Farmacia {
      */
     public List<Produto> getStock() {
         return stock;
+    }
+
+    /**
+     * Devolve a morada da farmácia
+     *
+     * @return morada da farmácia
+     */
+    public String getMorada() {
+        return morada;
     }
 
     /**

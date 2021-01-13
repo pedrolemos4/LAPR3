@@ -28,8 +28,8 @@ public class FarmaciaDB extends DataHandler {
      * @param nif nif da farmácia
      * @return nova farmacia criada
      */
-    public Farmacia novaFarmacia(int nif) {
-        return new Farmacia(nif);
+    public Farmacia novaFarmacia(int nif, String morada) {
+        return new Farmacia(nif,morada);
     }
 
     /**
@@ -62,7 +62,7 @@ public class FarmaciaDB extends DataHandler {
      * @return
      */
     public boolean addFarmacia(Farmacia farm) {
-        addFarmacia(farm.getNIF());
+        addFarmacia(farm.getNIF(), farm.getMorada());
         return true;
     }
 
@@ -71,11 +71,12 @@ public class FarmaciaDB extends DataHandler {
      *
      * @param nif nif da farmácia
      */
-    public void addFarmacia(int nif) {
+    public void addFarmacia(int nif, String morada) {
         try {
             openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?,?) }")) {
                 callStmt.setInt(1, nif);
+                callStmt.setString(2, morada);
                 callStmt.execute();
             }
             closeAll();
@@ -97,7 +98,8 @@ public class FarmaciaDB extends DataHandler {
             try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
-                    list.add(new Farmacia(nif));
+                    String morada = rSet.getString(2);
+                    list.add(new Farmacia(nif,morada));
                 }
                 return list;
             }
