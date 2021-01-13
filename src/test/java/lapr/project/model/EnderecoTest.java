@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr.project.model;
 
 
@@ -123,6 +118,19 @@ public class EnderecoTest {
         Endereco instance = new Endereco("Rua do ISEP",41.45,30.58,34.23);
         instance.setAltitude(altitude);
         assertEquals(altitude,instance.getAltitude());
+    }
+
+    /**
+     * Test of toString method, of class Endereco.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Endereco instance = new Endereco("Rua do ISEP",41.45,30.58,34.23);
+        String expResult = "Endereco{morada=Rua do ISEP, latitude=41.45, longitude=30.58, altitude=34.23}";
+        String result = instance.toString();
+        assertEquals(expResult, result);
+
     }
     
 }

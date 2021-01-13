@@ -1,5 +1,9 @@
 package lapr.project.model;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,6 +13,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author beatr
  */
 public class VeiculoTest {
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
 
     @Test
     void VeiculoEmptyConstructorTest() {
@@ -237,12 +257,25 @@ public class VeiculoTest {
     /**
      * Test of getTipo method, of class Veiculo.
      */
-    @org.junit.Test
+    @Test
     public void testGetTipo() {
         System.out.println("getTipo");
          Veiculo instance = new Veiculo("descricao","drone", 85, 50, 30, 40, 50, 1);
         String expResult = "drone";
+        instance.setTipo(expResult);
         String result = instance.getTipo();
         assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of setTipo method, of class Veiculo.
+     */
+    @Test
+    public void testSetTipo() {
+        System.out.println("setTipo");
+        String tipo = "scooter";
+        Veiculo instance = new Veiculo("descricao","drone", 85, 50, 30, 40, 50, 1);
+        instance.setTipo(tipo);
+
     }
 }
