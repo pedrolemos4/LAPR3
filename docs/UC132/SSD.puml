@@ -1,0 +1,13 @@
+@startuml
+autonumber
+
+actor "Farmácia" as FARM
+
+activate FARM
+FARM -> ":Sistema": envia uma nota de entrega quando receber os itens de outra farmácia
+activate ":Sistema"
+":Sistema" --> FARM: operação bem sucedida
+deactivate ":Sistema"
+deactivate FARM
+
+@enduml
