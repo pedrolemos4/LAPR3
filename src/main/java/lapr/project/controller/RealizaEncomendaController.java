@@ -7,7 +7,6 @@ package lapr.project.controller;
 
 import java.sql.SQLException;
 import java.util.List;
-import javax.mail.MessagingException;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
 import lapr.project.data.EncomendaDB;
