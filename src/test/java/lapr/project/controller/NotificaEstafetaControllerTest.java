@@ -71,4 +71,15 @@ class NotificaEstafetaControllerTest {
         System.out.println("Test"+expResult);
         assertEquals(expResult, instance.simulateParkingVeiculo(1));
     }
+
+    @Test
+    void simulateParkingVeiculo1() throws FileNotFoundException  {
+        String email = "A";
+        String assunto = "Estacionamento Scooter";
+        String mensagem = "A Scooter foi estacionada com sucesso, com uma estimativa de " + 3 + " horas até estar completamente carregada.";
+        boolean expResult = false;
+        when(emailDBMock.sendEmail(email, assunto, mensagem)).thenReturn(expResult);
+        System.out.println("Test"+expResult);
+        assertEquals(expResult, instance.simulateParkingVeiculo(1));
+    }
 }
