@@ -1,0 +1,57 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class VeiculoDB {
+  +setDrone(tipo, percentagemBateria, pesoMaximo, pesoVeiculo, potencia, areaFrontal)
+  +updateDrone(drone)
+  +validaDrone(drone)
+  +addDrone(drone)
+}
+
+class AtualizarDroneController {
+    +setDrone(tipo, percentagemBateria, pesoMaximo, pesoVeiculo, potencia, areaFrontal)
+    +updateDrone()
+}
+
+class AtualizarDroneUI {
+}
+
+class Veiculo {
+   -idVeiculo
+   -tipo
+   -percentagemBateria
+   -pesoMaximo
+   -pesoVeiculo
+   -potencia
+   -areaFrontal
+   +setDrone(tipo, percentagemBateria, pesoMaximo, pesoVeiculo, potencia, areaFrontal)
+}
+
+class Parque {
+  -numeroMaximo
+  -tipo
+}
+
+class Farmacia {
+  -NIF
+}
+
+class Utilizador {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+Administrador "1" -- "1" Utilizador: atua como >
+Administrador "1" -- "1..*" Parque: remove >
+Farmacia "1" -- "1" Parque: tem >
+Farmacia "1" -- "1" Administrador: tem >
+Parque "1" -- "0..*" Veiculo: tem > 
+
+AtualizarDroneUI ..> AtualizarDroneController 
+
+AtualizarDroneController ..> VeiculoDB
+VeiculoDB "1" -- "*" Veiculo: tem registadas >
+@enduml
