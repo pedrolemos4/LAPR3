@@ -19,7 +19,7 @@ public class FarmaciaTest {
     @Test
     public void testGetNif() {
         System.out.println("getNif");
-        Farmacia instance = new Farmacia(123456789,"rua1");
+        Farmacia instance = new Farmacia(123456789, "rua1");
         int expResult = 123456789;
         int result = instance.getNIF();
         assertEquals(expResult, result);
@@ -43,7 +43,7 @@ public class FarmaciaTest {
     @Test
     public void testGetStock() {
         System.out.println("getStock");
-        Farmacia instance = new Farmacia(123456789,"rua2");
+        Farmacia instance = new Farmacia(123456789, "rua2");
         List<Produto> expResult = instance.getStock();
         List<Produto> result = instance.getStock();
         assertEquals(expResult, result);
@@ -55,7 +55,7 @@ public class FarmaciaTest {
     @Test
     public void testAddStock() {
         System.out.println("addStock");
-        Farmacia instance = new Farmacia(123456789,"rua3");
+        Farmacia instance = new Farmacia(123456789, "rua3");
         Produto p = new Produto("sdf", 50, 58);
 
         List<Produto> expResult = new ArrayList<>();
@@ -72,10 +72,22 @@ public class FarmaciaTest {
     @Test
     void getMorada() {
         System.out.println("getNif");
-        Farmacia instance = new Farmacia(123456789,"rua1");
+        Farmacia instance = new Farmacia(123456789, "rua1");
         String expResult = "rua1";
         String result = instance.getMorada();
         assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of setMorada method, of class Farmacia.
+     */
+    @Test
+    public void testSetMorada() {
+        System.out.println("setMorada");
+        String morada = "rua32";
+        Farmacia instance = new Farmacia();
+        instance.setMorada(morada);
+        assertEquals(morada, instance.getMorada());
     }
 
     /**
@@ -84,8 +96,8 @@ public class FarmaciaTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Farmacia instance = new Farmacia(123456789,"rua4");
-        String expResult = "Farmacia{nif=123456789}";
+        Farmacia instance = new Farmacia(123456789, "rua4");
+        String expResult = "Farmacia{nif=123456789, morada=rua4}";
         String result = instance.toString();
         assertEquals(expResult, result);
     }
