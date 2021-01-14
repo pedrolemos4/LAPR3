@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+
+import lapr.project.controller.PedirItemFarmaciaController;
 import lapr.project.controller.RealizaEncomendaController;
 import lapr.project.data.*;
 import lapr.project.login.UserSession;
@@ -28,10 +30,13 @@ public class RealizarEncomendaUI {
     public static final Scanner LER = new Scanner(System.in);
 
     RealizaEncomendaController controller;
+    PedirItemFarmaciaController controller2;
     FarmaciaDB fdb = new FarmaciaDB();
+    TransferenciaDB tdb = new TransferenciaDB();
 
     public RealizarEncomendaUI() {
         controller = new RealizaEncomendaController(new ProdutosDB(), new EncomendaDB(), new ReciboDB(), new ClienteDB(), new EmailDB());
+        controller2 = new PedirItemFarmaciaController(fdb,tdb);
     }
 
     public void introduzEncomenda() throws SQLException {
@@ -51,9 +56,11 @@ public class RealizarEncomendaUI {
             Produto prod = controller.getProdutoByID(id);
 
             if(controller.produtoEncomenda(prod, qntd) == false){
-                for (Farmacia f : fdb.getLstFarmacias()){
-                    if (f.getStock().contains(prod)){
-                        System.out.println(f.getNIF());//MÉTODO fazerPedido(farmacia)
+                while (true){
+                    System.out.println("A farmácia não tem o produto que deseja na quantidade pretendida! Por favor selecione outra farmácia para fazer o pedido:");
+                    int nif = LER.nextInt();
+                    if (controller2.getFarmaciaByNIF(nif).getStock().contains(prod)){
+                        controller2.realizaPedido(controller2.getFarmaciaByNIF(nif), controller2.getFarmaciaByNIF(nif), prod);
                         break;
                     }
                 }

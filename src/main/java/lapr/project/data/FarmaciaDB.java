@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import lapr.project.model.Endereco;
 import lapr.project.model.Farmacia;
 
 /**
@@ -107,5 +109,24 @@ public class FarmaciaDB extends DataHandler {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
         return list;
+    }
+
+    public Farmacia getFarmaciaByNIF(int nif) {
+        String query = "SELECT * FROM farmacia f INNER JOIN endereco e ON f.morada = e.morada WHERE f.nif = nif";
+
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
+
+                if (rSet.next()) {
+                    nif = rSet.getInt(1);
+                    String morada = rSet.getString(2);
+
+                    return new Farmacia(nif, morada);
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return null;
     }
 }
