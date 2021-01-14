@@ -41,6 +41,7 @@ public class Veiculo {
             double pesoMaximo, double pesoVeiculo, double potencia, double areaFrontal,int estado) {
         this.id = id;
         this.descricao = descricao;
+        this.tipo = tipo;
         this.capacidade= capacidade;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
@@ -67,13 +68,13 @@ public class Veiculo {
     public Veiculo(String descricao, String tipo, int capacidade,double percentagemBateria, 
             double pesoMaximo,double pesoVeiculo, double potencia,double areaFrontal, int estado) {
         this.descricao = descricao;
-        this.tipo=tipo;
+        this.tipo = tipo;
         this.capacidade = capacidade;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
         this.pesoVeiculo = pesoVeiculo;
         this.potencia = potencia;
-        this.areaFrontal=areaFrontal;
+        this.areaFrontal = areaFrontal;
         this.estado = new EstadoVeiculo(estado);
     }
 
@@ -82,10 +83,14 @@ public class Veiculo {
      */
     public Veiculo() {
         this.id = 0;
+        this.descricao = null;
+        this.tipo = null;
+        this.capacidade = 0;
         this.percentagemBateria = 0;
         this.pesoMaximo = 0;
         this.pesoVeiculo = 0;
         this.potencia = 0;
+        this.areaFrontal = 0;
         this.estado = new EstadoVeiculo(0);
     }
 

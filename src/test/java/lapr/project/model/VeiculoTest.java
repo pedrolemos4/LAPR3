@@ -1,11 +1,6 @@
 package lapr.project.model;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -13,22 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author beatr
  */
 public class VeiculoTest {
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
 
     @Test
     void VeiculoEmptyConstructorTest() {
@@ -283,6 +262,31 @@ public class VeiculoTest {
         String tipo = "scooter";
         Veiculo instance = new Veiculo("descricao", "drone", 100, 85, 50, 30, 40, 50, 1);
         instance.setTipo(tipo);
+
+    }
+
+    /**
+     * Test of getCapacidade method, of class Veiculo.
+     */
+    @Test
+    public void testGetCapacidade() {
+        System.out.println("getCapacidade");
+        Veiculo instance = new Veiculo("descricao", "drone", 100, 85, 50, 30, 40, 50, 1);
+        int expResult = 100;
+        int result = instance.getCapacidade();
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of setCapacidade method, of class Veiculo.
+     */
+    @Test
+    public void testSetCapacidade() {
+        System.out.println("setCapacidade");
+        int capacidade = 10;
+        Veiculo instance = new Veiculo("descricao", "drone", 100, 85, 50, 30, 40, 50, 1);
+        instance.setCapacidade(capacidade);
 
     }
 }
