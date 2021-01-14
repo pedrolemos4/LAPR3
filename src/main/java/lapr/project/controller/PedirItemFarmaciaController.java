@@ -18,8 +18,8 @@ public class PedirItemFarmaciaController {
         return fdb.getFarmaciaByNIF(nif);
     }
 
-    public boolean realizaPedido(Farmacia fOri, Farmacia fDest, Produto prod) {
-        return tdb.realizaPedido(fOri,fDest,prod);
+    public boolean realizaPedido(Farmacia fOri, Farmacia fDest, Produto prod, int quantidade) {
+        return tdb.realizaPedido(fOri,fDest,prod,quantidade);
     }
 
 }

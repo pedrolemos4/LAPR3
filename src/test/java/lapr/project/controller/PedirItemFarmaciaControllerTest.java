@@ -3,10 +3,7 @@ package lapr.project.controller;
 import lapr.project.data.EstafetaDB;
 import lapr.project.data.FarmaciaDB;
 import lapr.project.data.TransferenciaDB;
-import lapr.project.model.Entrega;
-import lapr.project.model.Estafeta;
-import lapr.project.model.Farmacia;
-import lapr.project.model.TransferenciaProduto;
+import lapr.project.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,8 +24,11 @@ class PedirItemFarmaciaControllerTest {
         tdb = mock(TransferenciaDB.class);
         fdb = mock(FarmaciaDB.class);
         instance = new PedirItemFarmaciaController(fdb,tdb);
+        Farmacia farm = new Farmacia(1,"rua1");
+        Farmacia farm2 = new Farmacia(1,"rua2");
+        Produto prod = new Produto("prod",1,1);
         trans = new TransferenciaProduto(1, 1,2,1,1,1);
-        when(tdb.addTransferencia(trans)).thenReturn(true);
+        when(tdb.realizaPedido(farm,farm2,prod,1)).thenReturn(true);
     }
 
     @Test
