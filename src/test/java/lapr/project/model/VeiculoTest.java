@@ -247,10 +247,15 @@ public class VeiculoTest {
     public void testToString() {
         System.out.println("toString");
         Veiculo instance = new Veiculo("descricao", "drone",85, 50, 30, 40, 50, 1);
-        String expResult = "Veiculoid" + 0 + "\nDescrição=" + "descricao" + "\nPercentagem de Bateria=" 
-                + 85.0 + "\nPeso máximo=" + 50.0 + "\nPeso do Veiculo="
-                + 30.0 + "\nPotência=" + 40.0 + "\nÁrea frontal=" + 50.0 +
-                "\nEstado=" + "Disponível";
+        String expResult = "Veiculo: \tid" + 0  
+                + "\nTipo: \t" + "drone" 
+                + "\nDescrição: \t" + "descricao" 
+                + "\nPercentagem de Bateria= \t" + 85.0
+                + "\nPeso máximo= \t" + 50.0 
+                + "\nPeso do Veiculo= \t"+ 30.0 
+                + "\nPotência= \t" + 40.0 
+                + "\nÁrea frontal= \t" + 50.0 
+                +"\nEstado: \t" + "Disponível";
         assertEquals(expResult, instance.toString());
     }
 
