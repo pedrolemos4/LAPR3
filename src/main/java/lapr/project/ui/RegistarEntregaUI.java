@@ -61,8 +61,7 @@ public class RegistarEntregaUI {
         String confirm = LER.nextLine();
         
         if(confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")){
-            Entrega entr = new Entrega(dataInicio, dataFim, idVeiculo, nifEstafeta);
-            controller.addEntrega(entr);
+            Entrega entr = controller.addEntrega(dataInicio, dataFim, idVeiculo, nifEstafeta);
             
             System.out.println("Lista de encomendas por fazer entrega: ");
             List<Encomenda> listEntrega = controller.getListaEncomenda();

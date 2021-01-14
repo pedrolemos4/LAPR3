@@ -101,10 +101,17 @@ public class RegistarEntregaControllerTest {
      * Test of addEntrega method, of class RegistarEntregaController.
      */
     @Test
-    public void testAddEntrega() throws SQLException  {
+    public void testAddEntrega() throws SQLException {
         System.out.println("addEntrega");
-        Entrega en = new Entrega("12-10-2001", "12-10-2001", 45, 41);
-        instance.addEntrega(en);
+        String dataInicio = "12/11/2015";
+        String dataFim = null;
+        int idVeiculo = 1;
+        int idEstafeta = 3;
+        Entrega expResult = new Entrega(dataInicio, dataFim, idVeiculo, idEstafeta);
+        when(entregaDB.addEntrega(expResult)).thenReturn(1);
+        instance.addEntrega(expResult.getDataInicio(),expResult.getDataFim(), expResult.getIdVeiculo(), expResult.getidEstafeta());
+        expResult.setIdEntrega(1);
+        assertEquals(1, expResult.getIdEntrega());
 
     }
 
