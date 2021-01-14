@@ -49,7 +49,9 @@ CREATE TABLE "LAPR3_G23".Administrador
 
 CREATE TABLE "LAPR3_G23".veiculo 
 (           idveiculo number(10) GENERATED AS IDENTITY, 
-            descricao varchar(255) NOT NULL UNIQUE, 
+            descricao varchar(255) NOT NULL UNIQUE,
+            tipo varchar(255) NOT NULL,
+            capacidade number(6,2) NOT NULL,
             percentagemBateria number(5,2) NOT NULL,
             pesoMaximo number(5,2) NOT NULL, 
             pesoveiculo number(5,2) NOT NULL,
@@ -283,21 +285,23 @@ INSERT INTO "LAPR3_G23".EstadoTransferencia VALUES(1,'Pendente');
 INSERT INTO "LAPR3_G23".EstadoTransferencia VALUES(2,'A transferir');
 INSERT INTO "LAPR3_G23".EstadoTransferencia VALUES(3,'Transferido');
 
-CREATE OR REPLACE PROCEDURE addFarmacia(NIF NUMBER, morada VARCHAR) 
+CREATE OR REPLACE PROCEDURE addFarmacia(p_NIF "LAPR3_G23".farmacia.nif%type, morada "LAPR3_G23".farmacia.morada%type) 
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".farmacia VALUES(NIF, morada);   
-END;
+  INSERT INTO "LAPR3_G23".farmacia VALUES(p_NIF, morada);   
+END;    
 /
 
-CREATE OR REPLACE PROCEDURE addCliente(utilizadorNif NUMBER, creditos NUMBER, enderecoMorada VARCHAR, numeroCartaoCredito NUMBER) 
+CREATE OR REPLACE PROCEDURE addCliente(utilizadorNif "LAPR3_G23".cliente.utilizadorNif%type, creditos "LAPR3_G23".cliente.creditos%type,
+enderecoMorada "LAPR3_G23".cliente.enderecoMorada%type, numeroCartaoCredito "LAPR3_G23".cliente.cartaonumeroCartaoCredito%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".cliente VALUES(utilizadorNif, creditos, enderecoMorada, numeroCartaoCredito);   
 END;
 /
 
-CREATE OR REPLACE PROCEDURE atualizarCliente(utilizadorNif NUMBER, creditos NUMBER, enderecoMorada VARCHAR, numeroCartaoCredito NUMBER) 
+CREATE OR REPLACE PROCEDURE atualizarCliente(utilizadorNif "LAPR3_G23".cliente.utilizadorNif%type, creditos "LAPR3_G23".cliente.creditos%type,
+enderecoMorada "LAPR3_G23".cliente.enderecoMorada%type, numeroCartaoCredito "LAPR3_G23".cliente.cartaonumeroCartaoCredito%type) 
 AS
 BEGIN
   UPDATE "LAPR3_G23".cliente SET "LAPR3_G23".cliente.UtilizadorNIF = utilizadorNif, "LAPR3_G23".cliente.creditos = creditos, 
@@ -306,21 +310,23 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addAdministrador(utilizadorNif NUMBER) 
+CREATE OR REPLACE PROCEDURE addAdministrador(utilizadorNif "LAPR3_G23".administrador.utilizadorNif%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".administrador VALUES(utilizadorNif);
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addEstafeta(UtilizadorNIF NUMBER, EstadoEstafetaid NUMBER, pesoEstafeta NUMBER) 
+CREATE OR REPLACE PROCEDURE addEstafeta(UtilizadorNIF "LAPR3_G23".estafeta.utilizadorNif%type, EstadoEstafetaid "LAPR3_G23".estafeta.estadoestafetaid%type,
+pesoEstafeta "LAPR3_G23".estafeta.pesoestafeta%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".estafeta VALUES(UtilizadorNIF, EstadoEstafetaid, pesoEstafeta);
 END;
 /
 
-CREATE OR REPLACE PROCEDURE atualizarEstafeta(UtilizadorNIF NUMBER, EstadoEstafetaid NUMBER, pesoEstafeta NUMBER) 
+CREATE OR REPLACE PROCEDURE atualizarEstafeta(UtilizadorNIF "LAPR3_G23".estafeta.utilizadorNif%type, EstadoEstafetaid "LAPR3_G23".estafeta.estadoestafetaid%type,
+pesoEstafeta "LAPR3_G23".estafeta.pesoestafeta%type) 
 AS
 BEGIN
   UPDATE "LAPR3_G23".estafeta SET "LAPR3_G23".estafeta.EstadoEstafetaid = EstadoEstafetaid, "LAPR3_G23".estafeta.pesoEstafeta = pesoEstafeta
@@ -328,24 +334,32 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addProduto(designacao VARCHAR, peso NUMBER, pesoBase NUMBER) 
+CREATE OR REPLACE PROCEDURE addProduto(designacao "LAPR3_G23".produto.designacao%type, peso "LAPR3_G23".produto.peso%type, 
+precoBase "LAPR3_G23".produto.precoBase%type) 
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".produto(designacao,peso,precobase) VALUES(designacao, peso, pesoBase);
+  INSERT INTO "LAPR3_G23".produto(designacao,peso,precobase) VALUES(designacao, peso, precoBase);
 END;
 /
 
-CREATE OR REPLACE PROCEDURE atualizaProduto(designacao VARCHAR, peso NUMBER, precoBase NUMBER, idProd NUMBER) 
+CREATE OR REPLACE PROCEDURE atualizaProduto(idProd "LAPR3_G23".produto.idProduto%type,designacao "LAPR3_G23".produto.designacao%type,
+peso "LAPR3_G23".produto.peso%type, precoBase "LAPR3_G23".produto.precoBase%type)
 AS
 BEGIN
-  UPDATE "LAPR3_G23".produto SET "LAPR3_G23".produto.designacao = designacao, "LAPR3_G23".produto.peso = peso, "LAPR3_G23".produto.precoBase = precoBase WHERE "LAPR3_G23".produto.idProduto = idProd;
+  UPDATE "LAPR3_G23".produto SET "LAPR3_G23".produto.designacao = designacao, "LAPR3_G23".produto.peso = peso, 
+  "LAPR3_G23".produto.precoBase = precoBase 
+  WHERE "LAPR3_G23".produto.idProduto = idProd;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addEncomenda(idEncomenda NUMBER, dataPedida TIMESTAMP, preco NUMBER, peso NUMBER, pesoEncomenda NUMBER, taxa NUMBER, EstadoEncomendaidEstadoEncomenda NUMBER, ClienteUtilizadorNIF NUMBER) 
+CREATE OR REPLACE PROCEDURE addEncomenda(idEncomenda "LAPR3_G23".encomenda.idEncomenda%type, dataPedida "LAPR3_G23".encomenda.dataPedida%type,
+preco "LAPR3_G23".encomenda.preco%type, pesoEncomenda "LAPR3_G23".encomenda.pesoEncomenda%type,taxa "LAPR3_G23".encomenda.taxa%type, 
+EstadoEncomendaidEstadoEncomenda "LAPR3_G23".encomenda.estadoEncomendaIdEstadoEncomenda%type, Entregaid_entrega "LAPR3_G23".encomenda.entregaid_entrega%type,
+ClienteUtilizadorNIF "LAPR3_G23".encomenda.clienteutilizadornif%type) 
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".encomenda VALUES(idEncomenda, dataPedida , preco, peso, pesoEncomenda, taxa, EstadoEncomendaidEstadoEncomenda, ClienteUtilizadorNIF);
+  INSERT INTO "LAPR3_G23".encomenda 
+  VALUES(idEncomenda, dataPedida , preco,pesoEncomenda, taxa, EstadoEncomendaidEstadoEncomenda,entregaid_entrega, ClienteUtilizadorNIF);
 END;
 /
 
@@ -364,28 +378,34 @@ RETURN v_idEntrega;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addParque(FarmaciaNIF NUMBER, numeroMaximo NUMBER, tipo VARCHAR) 
+CREATE OR REPLACE PROCEDURE addParque(FarmaciaNIF "LAPR3_G23".parque.farmacianif%type, numeroMaximo "LAPR3_G23".parque.numeromaximo%type,
+tipo "LAPR3_G23".parque.tipo%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".parque VALUES(FarmaciaNIF, numeroMaximo, tipo);
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addEndereco(morada VARCHAR, latitude NUMBER, longitude NUMBER, altitude NUMBER) 
+CREATE OR REPLACE PROCEDURE addEndereco(morada "LAPR3_G23".endereco.morada%type, latitude "LAPR3_G23".endereco.latitude%type, 
+longitude "LAPR3_G23".endereco.longitude%type, altitude "LAPR3_G23".endereco.altitude%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".endereco VALUES(morada, latitude, longitude , altitude);
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addUtilizador(NIF NUMBER, nome VARCHAR, email VARCHAR, numeroSegurancaSocial NUMBER, password VARCHAR) 
+CREATE OR REPLACE PROCEDURE addUtilizador(NIF "LAPR3_G23".utilizador.nif%type, nome "LAPR3_G23".utilizador.nome%type, 
+email "LAPR3_G23".utilizador.email%type, numeroSegurancaSocial "LAPR3_G23".utilizador.numeroSegurancaSocial%type,
+password "LAPR3_G23".utilizador.password%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".utilizador VALUES(NIF, nome , email, numeroSegurancaSocial, password);
 END;
 /
 
-CREATE OR REPLACE PROCEDURE atualizarUtilizador(NIF NUMBER, nome VARCHAR, email VARCHAR, numeroSegurancaSocial NUMBER, password VARCHAR) 
+CREATE OR REPLACE PROCEDURE atualizarUtilizador(NIF "LAPR3_G23".utilizador.nif%type, nome "LAPR3_G23".utilizador.nome%type, 
+email "LAPR3_G23".utilizador.email%type, numeroSegurancaSocial "LAPR3_G23".utilizador.numeroSegurancaSocial%type,
+password "LAPR3_G23".utilizador.password%type) 
 AS
 BEGIN
   UPDATE "LAPR3_G23".utilizador SET "LAPR3_G23".utilizador.nome = nome, "LAPR3_G23".utilizador.email = email, 
@@ -395,92 +415,104 @@ END;
 /
 ------------------------------------------------------------------------------------
 
-CREATE OR REPLACE PROCEDURE addEstadoveiculo(idEstadoveiculo NUMBER, designacao VARCHAR) 
+CREATE OR REPLACE PROCEDURE addEstadoveiculo(idEstadoveiculo "LAPR3_G23".estadoveiculo.idestadoveiculo%type, 
+designacao "LAPR3_G23".estadoveiculo.designacao%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".estadoveiculo VALUES(idEstadoveiculo,designacao);   
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addEstadoEncomenda(idEstadoEncomenda NUMBER, designacao VARCHAR) 
+CREATE OR REPLACE PROCEDURE addEstadoEncomenda(idEstadoEncomenda "LAPR3_G23".estadoencomenda.idEstadoEncomenda%type,
+designacao "LAPR3_G23".estadoEncomenda.designacao%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".estadoencomenda VALUES(idEstadoEncomenda,designacao);   
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addEstadoEstafeta(id NUMBER, designacao VARCHAR) 
+CREATE OR REPLACE PROCEDURE addEstadoEstafeta(id "LAPR3_G23".estadoestafeta.id%type, designacao "LAPR3_G23".estadoestafeta.designacao%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".estadoestafeta VALUES(id,designacao);   
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addStockFarmacia(FarmaciaNIF NUMBER, ProdutoidProduto NUMBER, stock NUMBER) 
+CREATE OR REPLACE PROCEDURE addStockFarmacia(FarmaciaNIF "LAPR3_G23".stockfarmacia.farmacianif%type, ProdutoidProduto "LAPR3_G23".stockfarmacia.produtoidproduto%type, 
+stock "LAPR3_G23".stockfarmacia.stock%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".stockfarmacia VALUES(FarmaciaNIF,ProdutoidProduto,stock);   
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addEncomendaProduto(EncomendaidEncomenda NUMBER, ProdutoidProduto NUMBER, stock NUMBER) 
+CREATE OR REPLACE PROCEDURE addEncomendaProduto(EncomendaidEncomenda "LAPR3_G23".encomendaproduto.encomendaidencomenda%type, 
+ProdutoidProduto "LAPR3_G23".encomendaproduto.produtoidproduto%type, stock "LAPR3_G23".encomendaproduto.stock%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".encomendaproduto VALUES(EncomendaidEncomenda,ProdutoidProduto,stock);   
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addEstacionamento(numeroLote NUMBER, carregador NUMBER, ParqueFarmaciaNIF NUMBER) 
+CREATE OR REPLACE PROCEDURE addEstacionamento(numeroLote "LAPR3_G23".estacionamento.numerolote%type, carregador "LAPR3_G23".estacionamento.carregador%type,
+ParqueFarmaciaNIF "LAPR3_G23".estacionamento.parquefarmacianif%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".estacionamento VALUES(numeroLote,carregador,ParqueFarmaciaNIF);   
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addEstacionamentoveiculo(veiculoidveiculo NUMBER, EstacionamentonumeroLote NUMBER, datainicio TIMESTAMP, datafim TIMESTAMP) 
+CREATE OR REPLACE PROCEDURE addEstacionamentoveiculo(veiculoidveiculo "LAPR3_G23".estacionamentoveiculo.veiculoidveiculo%type, 
+EstacionamentonumeroLote "LAPR3_G23".estacionamentoveiculo.estacionamentonumerolote%type, datainicio "LAPR3_G23".estacionamentoveiculo.dataInicio%type,
+datafim "LAPR3_G23".estacionamentoveiculo.dataFim%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".estacionamentoveiculo(veiculoidveiculo,estacionamentonumerolote,datainicio,datafim) VALUES(veiculoidveiculo,EstacionamentonumeroLote, datainicio, datafim);   
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addRecibo(idRecibo NUMBER, dataRecibo TIMESTAMP, ClienteUtilizadorNIF NUMBER, EncomendaidEncomenda NUMBER) 
+CREATE OR REPLACE PROCEDURE addRecibo(idRecibo "LAPR3_G23".recibo.idrecibo%type, dataRecibo "LAPR3_G23".recibo.datarecibo%type, 
+ClienteUtilizadorNIF "LAPR3_G23".recibo.clienteutilizadornif%type, EncomendaidEncomenda "LAPR3_G23".recibo.encomendaidencomenda%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".recibo VALUES(idRecibo,dataRecibo,ClienteUtilizadorNIF, EncomendaidEncomenda);   
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addLinhaRecibo(linha NUMBER, ReciboidRecibo NUMBER, ProdutoidProduto NUMBER) 
+CREATE OR REPLACE PROCEDURE addLinhaRecibo(linha "LAPR3_G23".linharecibo.linha%type, ReciboidRecibo "LAPR3_G23".linharecibo.reciboidrecibo%type,
+ProdutoidProduto "LAPR3_G23".linharecibo.produtoidproduto%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".linharecibo VALUES(linha,ReciboidRecibo,ProdutoidProduto);   
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addPagamento(idPagamento NUMBER, precoTotal NUMBER, EncomendaidEncomenda NUMBER) 
+CREATE OR REPLACE PROCEDURE addPagamento(idPagamento "LAPR3_G23".pagamento.idpagamento%type, precoTotal "LAPR3_G23".pagamento.precoTotal%type,
+EncomendaidEncomenda "LAPR3_G23".pagamento.encomendaidencomenda%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".pagamento VALUES(idPagamento,precoTotal,EncomendaidEncomenda);   
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addCartao(numeroCartaoCredito NUMBER, dataDeValidade TIMESTAMP, CCV NUMBER) 
+CREATE OR REPLACE PROCEDURE addCartao(numeroCartaoCredito "LAPR3_G23".cartao.numerocartaocredito%type, dataDeValidade "LAPR3_G23".cartao.datadevalidade%type,
+CCV "LAPR3_G23".cartao.ccv%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".cartao VALUES(numeroCartaoCredito,dataDeValidade,CCV);   
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addEncomendaEntrega(EntregaidEntrega NUMBER, EncomendaidEncomenda NUMBER)
+CREATE OR REPLACE PROCEDURE addEncomendaEntrega(EntregaidEntrega "LAPR3_G23".encomendaEntrega.entregaidentrega%type,
+EncomendaidEncomenda "LAPR3_G23".encomendaEntrega.encomendaidencomenda%type)
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".encomendaEntrega VALUES(EntregaidEntrega,EncomendaidEncomenda);
 END;
 /
 
-CREATE OR REPLACE Function addveiculo(p_descricao "LAPR3_G23".veiculo.descricao%type,
-percentagemBateria "LAPR3_G23".veiculo.percentagemBateria%type, 
+CREATE OR REPLACE Function addveiculo(p_descricao "LAPR3_G23".veiculo.descricao%type, p_tipo "LAPR3_G23".veiculo.tipo%type,
+p_capacidade "LAPR3_G23".veiculo.capacidade%type,percentagemBateria "LAPR3_G23".veiculo.percentagemBateria%type, 
 pesoMaximo "LAPR3_G23".veiculo.pesoMaximo%type, pesoveiculo "LAPR3_G23".veiculo.pesoveiculo%type,
 potencia "LAPR3_G23".veiculo.potencia%type, areaFrontal "LAPR3_G23".veiculo.areaFrontal%type,
 estadoveiculoId "LAPR3_G23".veiculo.estadoveiculoId%type)
@@ -488,8 +520,9 @@ RETURN INTEGER
 IS
 v_idveiculo INTEGER;
     BEGIN
-        INSERT INTO "LAPR3_G23".veiculo(descricao,percentagemBateria,pesoMaximo,pesoveiculo,potencia,areaFrontal,Estadoveiculoid)
-        VALUES(p_descricao,percentagemBateria, pesoMaximo, pesoveiculo, potencia, areaFrontal, estadoveiculoId);
+        INSERT INTO "LAPR3_G23".veiculo(descricao,tipo, capacidade,percentagemBateria,pesoMaximo,pesoveiculo,potencia,
+        areaFrontal,Estadoveiculoid)
+        VALUES(p_descricao,p_tipo,p_capacidade,percentagemBateria, pesoMaximo, pesoveiculo, potencia, areaFrontal, estadoveiculoId);
         SELECT "LAPR3_G23".veiculo.idveiculo INTO v_idveiculo
         FROM "LAPR3_G23".veiculo
         WHERE "LAPR3_G23".veiculo.descricao = p_descricao;
@@ -556,13 +589,15 @@ END;
 /
 
 CREATE OR REPLACE PROCEDURE updateveiculo(p_id "LAPR3_G23".veiculo.idveiculo%type,p_descricao "LAPR3_G23".veiculo.descricao%type,
-p_pb "LAPR3_G23".veiculo.percentagemBateria%type,p_pm "LAPR3_G23".veiculo.pesoMaximo%type, p_ps "LAPR3_G23".veiculo.pesoveiculo%type,
-p_pot "LAPR3_G23".veiculo.potencia%type,p_af "LAPR3_G23".veiculo.areafrontal%type,p_eS "LAPR3_G23".veiculo.estadoveiculoid%type) 
+p_tipo "LAPR3_G23".veiculo.tipo%type,p_capacidade "LAPR3_G23".veiculo.capacidade%type,p_pb "LAPR3_G23".veiculo.percentagemBateria%type,
+p_pm "LAPR3_G23".veiculo.pesoMaximo%type, p_ps "LAPR3_G23".veiculo.pesoveiculo%type,p_pot "LAPR3_G23".veiculo.potencia%type,
+p_af "LAPR3_G23".veiculo.areafrontal%type,p_eS "LAPR3_G23".veiculo.estadoveiculoid%type) 
 AS
 BEGIN
-  UPDATE "LAPR3_G23".veiculo SET "LAPR3_G23".veiculo.descricao = p_descricao, "LAPR3_G23".veiculo.percentagemBateria=p_pm,
-  "LAPR3_G23".veiculo.pesoMaximo = p_pm,"LAPR3_G23".veiculo.pesoveiculo = p_ps, "LAPR3_G23".veiculo.potencia = p_pot,
-  "LAPR3_G23".veiculo.areafrontal = p_af, "LAPR3_G23".veiculo.estadoveiculoId = p_eS
+  UPDATE "LAPR3_G23".veiculo SET "LAPR3_G23".veiculo.descricao = p_descricao,"LAPR3_G23".veiculo.tipo = p_tipo,
+  "LAPR3_G23".veiculo.capacidade = p_capacidade, "LAPR3_G23".veiculo.percentagemBateria=p_pm,"LAPR3_G23".veiculo.pesoMaximo = p_pm,
+  "LAPR3_G23".veiculo.pesoveiculo = p_ps, "LAPR3_G23".veiculo.potencia = p_pot,"LAPR3_G23".veiculo.areafrontal = p_af, 
+  "LAPR3_G23".veiculo.estadoveiculoId = p_eS
     WHERE "LAPR3_G23".veiculo.idveiculo = p_id;
 END;
 /
