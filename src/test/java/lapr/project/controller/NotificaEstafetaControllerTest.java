@@ -1,5 +1,6 @@
 package lapr.project.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import lapr.project.data.*;
 import lapr.project.login.UserSession;
@@ -7,9 +8,11 @@ import lapr.project.model.Entrega;
 import lapr.project.model.Estacionamento;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Veiculo;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.PrintStream;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -88,5 +91,13 @@ class NotificaEstafetaControllerTest {
     @Test
     void simulateParkingVeiculo2(){
         assertFalse(instance.simulateParkingVeiculo(1,emailDBMock,"src/main/java/lapr/project/parking/scooter/estimate_2022_02_02_02_02_02.data"));
+    }
+
+    @Test
+    void simulateParkingVeiculo3(){
+        ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStreamCaptor));
+        instance.simulateParkingVeiculo(1,emailDBMock,"src/main/java/lapr/project/parking/scooter/estimate_2022_02_02_02_02_02.data");
+        assertEquals("Ficheiro não encontrado", outputStreamCaptor.toString().trim());
     }
 }
