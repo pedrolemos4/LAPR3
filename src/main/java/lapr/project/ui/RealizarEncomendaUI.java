@@ -60,7 +60,7 @@ public class RealizarEncomendaUI {
                     System.out.println("A farmácia não tem o produto que deseja na quantidade pretendida! Por favor selecione outra farmácia para fazer o pedido:");
                     int nif = LER.nextInt();
                     if (controller2.getFarmaciaByNIF(nif).getStock().contains(prod)){
-                        controller2.realizaPedido(controller2.getFarmaciaByNIF(nif), controller2.getFarmaciaByNIF(nif), prod);
+                        controller2.realizaPedido(controller2.getFarmaciaByNIF(nif), controller2.getFarmaciaByNIF(nif), prod, qntd);
                         break;
                     }
                 }
