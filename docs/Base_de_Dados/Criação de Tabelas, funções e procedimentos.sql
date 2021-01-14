@@ -570,13 +570,6 @@ END;
 /
 
 
-create or replace PROCEDURE procRemoverProduto(p_des_produto "LAPR3_G23".produto.designacao%type) IS
-BEGIN
-    delete from "LAPR3_G23".Produto where "LAPR3_G23".Produto.designacao = p_des_produto;
-END;
-/
-
-
 create or replace PROCEDURE procRemoverCreditos(p_email "LAPR3_G23".utilizador.email%type, p_creditos "LAPR3_G23".cliente.creditos%type) IS
 BEGIN
     
@@ -587,6 +580,16 @@ BEGIN
 										WHERE u.email = p_email);
 END;
 /
+
+
+create or replace PROCEDURE procAtualizarStock(p_nif "LAPR3_G23".stockfarmacia.farmacianif%type, p_idProduto "LAPR3_G23".stockfarmacia.ProdutoidProduto%type, p_quantidade "LAPR3_G23".stockfarmacia.stock%type) IS
+BEGIN
+    
+    UPDATE "LAPR3_G23".stockfarmacia SET  "LAPR3_G23".stockfarmacia.stock = p_quantidade
+    WHERE "LAPR3_G23".stockfarmacia.farmacianif = p_nif AND "LAPR3_G23".stockfarmacia.ProdutoidProduto  = p_idProduto;
+END;
+/
+
 
 CREATE OR REPLACE PROCEDURE updateveiculo(p_id "LAPR3_G23".veiculo.idveiculo%type,p_descricao "LAPR3_G23".veiculo.descricao%type,
 p_tipo "LAPR3_G23".veiculo.tipo%type,p_capacidade "LAPR3_G23".veiculo.capacidade%type,p_pb "LAPR3_G23".veiculo.percentagemBateria%type,
