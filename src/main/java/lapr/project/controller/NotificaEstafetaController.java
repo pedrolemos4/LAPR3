@@ -38,7 +38,7 @@ public class NotificaEstafetaController {
         try {
             scan = new Scanner(newFile);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Ficheiro não encontrado");
             return false;
         }
         String line = scan.nextLine();
