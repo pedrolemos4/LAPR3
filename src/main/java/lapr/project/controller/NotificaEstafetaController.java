@@ -34,16 +34,14 @@ public class NotificaEstafetaController {
 
     public boolean simulateParkingVeiculo(int estacionamentoLote, EmailDB emailDB, String path){
         File newFile = new File(path);
-        Scanner scan = null;
-        try {
-            scan = new Scanner(newFile);
+        String line;
+        try (Scanner scan = new Scanner(newFile)) {
+            line = scan.nextLine();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return false;
-        }finally {
-            scan.close();
         }
-        String line = scan.nextLine();
+
         int estimativa = Integer.parseInt(line);
 
         Estacionamento estac = estacionamentosDB.getEstacionamentoById(estacionamentoLote);

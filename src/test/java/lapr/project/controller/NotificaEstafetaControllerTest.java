@@ -71,7 +71,7 @@ class NotificaEstafetaControllerTest {
         int estimativa = 3;
         String mensagem = "O veiculo foi estacionado com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.";
         when(emailDBMock.sendEmail(email, assunto, mensagem)).thenReturn(true);
-        assertTrue(instance.simulateParkingVeiculo(1,emailDBMock,"src/main/java/lapr/project/parking/estimate_2021_02_02_02_02_02.data"));
+        assertTrue(instance.simulateParkingVeiculo(1,emailDBMock,"src/main/java/lapr/project/parking/scooter/estimate_2021_02_02_02_02_02.data"));
     }
 
     @Test
@@ -81,11 +81,11 @@ class NotificaEstafetaControllerTest {
         int estimativa = 3;
         String mensagem = "O veiculo foi estacionado com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.";
         when(emailDBMock.sendEmail(email, assunto, mensagem)).thenReturn(false);
-        assertFalse(instance.simulateParkingVeiculo(1,emailDBMock,"src/main/java/lapr/project/parking/estimate_2021_02_02_02_02_02.data"));
+        assertFalse(instance.simulateParkingVeiculo(1,emailDBMock,"src/main/java/lapr/project/parking/scooter/estimate_2021_02_02_02_02_02.data"));
     }
 
     @Test
     void simulateParkingVeiculo2(){
-        assertFalse(instance.simulateParkingVeiculo(1,emailDBMock,"src/main/java/lapr/project/parking/estimate_2022_02_02_02_02_02.data"));
+        assertFalse(instance.simulateParkingVeiculo(1,emailDBMock,"src/main/java/lapr/project/parking/scooter/estimate_2022_02_02_02_02_02.data"));
     }
 }
