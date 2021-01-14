@@ -221,9 +221,68 @@ class RealizaEncomendaControllerTest {
         System.out.println("verificaProdutoEncomenda");
         Produto prod = new Produto("sdf", 50, 58);
         prod.setId(1);
-        int qntd = 1;
+        int qntd = 2;
         int nif =12;
         boolean expResult = false;
+        Map<Produto, Integer> expResult1 = new HashMap<>();
+        expResult1.put(prod, 1);
+        when(produtoDB.getLista(123)).thenReturn(expResult1);
+        boolean result = instance.verificaProdutoEncomenda(nif, prod, qntd);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of verificaProdutoEncomenda method, of class
+     * RealizaEncomendaController.
+     */
+    @Test
+    public void testVerificaProdutoEncomenda1() {
+        System.out.println("verificaProdutoEncomenda1");
+        Produto prod = new Produto("sdfa", 58, 50);
+        prod.setId(2);
+        int qntd = 2;
+        boolean expResult = true;
+        Map<Produto, Integer> expResult1 = new HashMap<>();
+        expResult1.put(prod, 4);
+        when(produtoDB.getLista(1234)).thenReturn(expResult1);
+        boolean result = instance.verificaProdutoEncomenda(1234, prod, qntd);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of verificaProdutoEncomenda method, of class
+     * RealizaEncomendaController.
+     */
+    @Test
+    public void testVerificaProdutoEncomenda2() {
+        System.out.println("verificaProdutoEncomenda2");
+        Produto prod = new Produto("sdfas", 23, 41);
+        prod.setId(2);
+        int qntd = 2;
+        int nif =12;
+        boolean expResult = false;
+        Map<Produto, Integer> expResult1 = new HashMap<>();
+        when(produtoDB.getLista(123)).thenReturn(expResult1);
+        boolean result = instance.verificaProdutoEncomenda(nif, prod, qntd);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of verificaProdutoEncomenda method, of class
+     * RealizaEncomendaController.
+     */
+    @Test
+    public void testVerificaProdutoEncomenda3() {
+        System.out.println("verificaProdutoEncomenda3");
+        Produto prod = new Produto("sdfas", 23, 41);
+        prod.setId(2);
+        int qntd = 2;
+        int nif =12;
+        boolean expResult = false;
+        Map<Produto, Integer> expResult1 = new HashMap<>();
+        Produto p2 = new Produto("sdfs", 231, 413);
+        expResult1.put(p2, 3);
+        when(produtoDB.getLista(123)).thenReturn(expResult1);
         boolean result = instance.verificaProdutoEncomenda(nif, prod, qntd);
         assertEquals(expResult, result);
     }
