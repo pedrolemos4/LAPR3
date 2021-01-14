@@ -40,6 +40,8 @@ public class NotificaEstafetaController {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return false;
+        }finally {
+            scan.close();
         }
         String line = scan.nextLine();
         int estimativa = Integer.parseInt(line);
