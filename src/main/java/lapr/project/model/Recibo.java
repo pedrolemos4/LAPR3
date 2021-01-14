@@ -7,6 +7,8 @@ package lapr.project.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -19,7 +21,7 @@ public class Recibo {
     private double preco;
     private String data;
     private final int idEncomenda;
-    private List<Produto> lst;
+    private Map<Produto, Integer> map;
     
     /**
      * Cria instancia receibo com nif do cliente, a data gerada e o preco total
@@ -32,7 +34,7 @@ public class Recibo {
         this.nif=nif;
         this.data=data;
         this.idEncomenda=idEncomenda;
-        lst = new ArrayList<>();
+        map = new TreeMap<>();
     }
     
     /**
@@ -44,7 +46,7 @@ public class Recibo {
         this.preco=0;
         this.idEncomenda=0;
         this.data="";
-        lst = new ArrayList<>();
+        map = new TreeMap<>();
     }
 
     /**
@@ -99,8 +101,8 @@ public class Recibo {
      * Devolve a lista
      * @return 
      */
-    public List<Produto> getLst() {
-        return lst;
+    public Map<Produto, Integer> getMap() {
+        return map;
     }
 
     /**
@@ -131,13 +133,13 @@ public class Recibo {
      * Modifica a lista
      * @param lst 
      */
-    public void setLst(List<Produto> lst) {
-        this.lst = new ArrayList<>(lst);
+    public void setLst(Map<Produto, Integer> mapa) {
+        this.map = new TreeMap<>(mapa);
     }
 
     @Override
     public String toString() {
-        return "Recibo{" + "nif=" + nif + ", id=" + id + ", preco=" + preco + ", data=" + data + ", idEncomenda=" + idEncomenda + ", lst=" + lst + '}';
+        return "Recibo{" + "nif=" + nif + ", id=" + id + ", preco=" + preco + ", data=" + data + ", idEncomenda=" + idEncomenda + ", lst=" + map + '}';
     }
     
     

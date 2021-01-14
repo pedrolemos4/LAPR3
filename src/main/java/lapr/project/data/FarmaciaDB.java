@@ -112,7 +112,7 @@ public class FarmaciaDB extends DataHandler {
     }
 
     public Farmacia getFarmaciaByNIF(int nif) {
-        String query = "SELECT * FROM farmacia f INNER JOIN endereco e ON f.morada = e.morada WHERE f.nif = nif";
+        String query = "SELECT * FROM farmacia f INNER JOIN endereco e ON f.morada = e.morada WHERE f.nif ="+ nif;
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {

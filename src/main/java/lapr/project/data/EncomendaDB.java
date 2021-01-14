@@ -33,15 +33,6 @@ public class EncomendaDB extends DataHandler {
     }
 
     /**
-     * Devolve a lista de produtos da encomenda
-     *
-     * @return
-     */
-    public List<Produto> getListaProdutos() {
-        return produtoDB.getListaProdutos();
-    }
-
-    /**
      * Devolve a encomenda com base no nif do cliente
      *
      * @param nif

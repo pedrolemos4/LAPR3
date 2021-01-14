@@ -7,6 +7,7 @@ package lapr.project.controller;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
 import lapr.project.data.EncomendaDB;
@@ -39,8 +40,8 @@ public class RealizaEncomendaController {
         this.emailDB = em;
     }
 
-    public boolean produtoEncomenda(Produto prod, int qntd) {
-        if (verificaProdutoEncomenda(prod, qntd)) {
+    public boolean produtoEncomenda(int nif, Produto prod, int qntd) {
+        if (verificaProdutoEncomenda(nif, prod, qntd)) {
             return (produtoDB.addListaProdutos(prod, qntd)? true : false);
         } else {
             String assunto = "Produto nao disponivel.";
@@ -59,28 +60,16 @@ public class RealizaEncomendaController {
         return (encDB.registaEncomendaProduto(enc, p) ? true : false);
     }
 
-    public List<Produto> getListaProdutoEncomenda() {
-        return produtoDB.getListaProdutos();
+    public Map<Produto, Integer> getListStock(int nif) {
+        return produtoDB.getLista(nif);
     }
 
-    public List<Produto> getListStock() {
-        return produtoDB.getLista();
-    }
-
-    public List<Integer> getListQuantidade() {
-        return produtoDB.getListaQuantidade();
+    public Map<Produto, Integer> getMapaEncomenda() {
+        return produtoDB.getMapaEncomenda();
     }
 
     public Produto getProdutoByID(int id) {
         return produtoDB.getProdutoByID(id);
-    }
-
-    public double getPreco() {
-        return produtoDB.getPreco();
-    }
-
-    public double getPeso() {
-        return produtoDB.getPeso();
     }
 
     public Cliente getCliente() {
@@ -100,38 +89,16 @@ public class RealizaEncomendaController {
         return (reciboDB.registaRecibo(rec, prod) ? true : false);
     }
 
-    public boolean verificaProdutoEncomenda(Produto prod, int qntd) {
-        return ((getListStock().contains(prod) && contarNumeroProds(prod) >= qntd) ? true : false);
+    public boolean verificaProdutoEncomenda(int nif, Produto prod, int qntd) {
+        return ((getListStock(nif).containsKey(prod) && getListStock(nif).get(prod)>=qntd) ? true : false);
     }
 
     public boolean notificaCliente(String email, String assunto, String mensagem) {
         return (emailDB.sendEmail(email, assunto, mensagem) ? true : false);
     }
 
-    public double getPrecoTotal(double taxa) {
-        List<Produto> lst = getListaProdutoEncomenda();
-        double preco = 0.0;
-
-        for (int i = 0; i < lst.size(); i++) {
-            preco = preco + lst.get(i).getPrecoBase();
-        }
-
-        return preco + preco * taxa;
-    }
-
-    public void removerProdutosEncomenda(List<Produto> lst, List<Integer> lst2) {
-        produtoDB.removerProdutosEncomenda(lst, lst2);
-    }
-
-    public int contarNumeroProds(Produto prod) {
-        List<Produto> listStock = getListStock();
-        int i = 0;
-        for (Produto p : listStock) {
-            if (p.getDesignacao() == prod.getDesignacao() && p.getPeso() == prod.getPeso() && p.getPrecoBase() == prod.getPrecoBase()) {
-                i++;
-            }
-        }
-        return i;
+    public boolean removerProdutosEncomenda(Map<Produto,Integer> map) {
+        return produtoDB.removerProdutosEncomenda(map);
     }
 
     public double getCreditosData(Data date, double preco) {
@@ -142,4 +109,16 @@ public class RealizaEncomendaController {
         return (cliDB.removerCreditos(email, creditosData) ? true : false);
     }
 
+    public double getPreco() {
+        return produtoDB.getPreco();
+    }
+
+    public double getPeso() {
+        return produtoDB.getPeso();
+    }
+
+    public double getPrecoTotal(double taxa) {
+        return produtoDB.getPrecoTotal(taxa);
+    }
+    
 }
