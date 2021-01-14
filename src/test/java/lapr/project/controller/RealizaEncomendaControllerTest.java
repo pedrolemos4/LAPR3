@@ -9,7 +9,10 @@ import lapr.project.model.Recibo;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
 import lapr.project.data.EncomendaDB;
@@ -30,10 +33,10 @@ class RealizaEncomendaControllerTest {
     private ClienteDB cliDB;
     private ReciboDB reciboDB;
     private EmailDB emailDB;
-    
+
     public RealizaEncomendaControllerTest() {
     }
-    
+
     @BeforeEach
     void setUp() throws SQLException {
         produtoDB = mock(ProdutosDB.class);
@@ -41,7 +44,7 @@ class RealizaEncomendaControllerTest {
         emailDB = mock(EmailDB.class);
         cliDB = mock(ClienteDB.class);
         reciboDB = mock(ReciboDB.class);
-        instance = new RealizaEncomendaController(produtoDB, encDB, reciboDB, cliDB,emailDB);
+        instance = new RealizaEncomendaController(produtoDB, encDB, reciboDB, cliDB, emailDB);
     }
 
     /**
@@ -50,12 +53,12 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testProdutoEncomenda() {
         System.out.println("produtoEncomenda");
-        Produto prod = new Produto("a",1,1);
+        Produto prod = new Produto("a", 1, 1);
         prod.setId(1);
+        int nif =12;
         boolean expResult = false;
-        assertEquals(expResult, instance.produtoEncomenda(prod,1));
+        assertEquals(expResult, instance.produtoEncomenda(nif, prod, 1));
     }
-    
 
     /**
      * Test of registaEncomenda method, of class RealizaEncomendaController.
@@ -64,11 +67,11 @@ class RealizaEncomendaControllerTest {
     public void testRegistaEncomenda() throws Exception {
         System.out.println("registaEncomenda");
         boolean expResult = true;
-        Encomenda enc = new Encomenda(1234,"02-01-2000",10,20,10, 1);
+        Encomenda enc = new Encomenda(1234, "02-01-2000", 10, 20, 10, 1);
         when(encDB.registaEncomenda(enc)).thenReturn(expResult);
         assertEquals(expResult, instance.registaEncomenda(enc));
     }
-    
+
     /**
      * Test of registaEncomenda method, of class RealizaEncomendaController.
      */
@@ -76,48 +79,37 @@ class RealizaEncomendaControllerTest {
     public void testRegistaEncomenda1() throws Exception {
         System.out.println("registaEncomenda1");
         boolean expResult = false;
-        Encomenda enc = new Encomenda(1234,"02-01-2000",10,20,10, 1);
+        Encomenda enc = new Encomenda(1234, "02-01-2000", 10, 20, 10, 1);
         when(encDB.registaEncomenda(enc)).thenReturn(expResult);
         assertEquals(expResult, instance.registaEncomenda(enc));
     }
 
     /**
-     * Test of registaEncomendaProduto method, of class RealizaEncomendaController.
+     * Test of registaEncomendaProduto method, of class
+     * RealizaEncomendaController.
      */
     @Test
     public void testRegistaEncomendaProduto() {
         System.out.println("registaEncomendaProduto");
-        Encomenda enc = new Encomenda(1234,"02-01-2000",10,20,10, 1);
+        Encomenda enc = new Encomenda(1234, "02-01-2000", 10, 20, 10, 1);
         Produto p = new Produto();
         boolean expResult = true;
         when(encDB.registaEncomendaProduto(enc, p)).thenReturn(expResult);
         assertEquals(expResult, instance.registaEncomendaProduto(enc, p));
     }
-    
+
     /**
-     * Test of registaEncomendaProduto method, of class RealizaEncomendaController.
+     * Test of registaEncomendaProduto method, of class
+     * RealizaEncomendaController.
      */
     @Test
     public void testRegistaEncomendaProduto1() {
         System.out.println("registaEncomendaProduto1");
-        Encomenda enc = new Encomenda(1234,"02-01-2000",10,20,10, 1);
+        Encomenda enc = new Encomenda(1234, "02-01-2000", 10, 20, 10, 1);
         Produto p = new Produto();
         boolean expResult = false;
         when(encDB.registaEncomendaProduto(enc, p)).thenReturn(expResult);
         assertEquals(expResult, instance.registaEncomendaProduto(enc, p));
-    }
-
-    /**
-     * Test of getListaProdutoEncomenda method, of class RealizaEncomendaController.
-     */
-    @Test
-    public void testGetListaProdutoEncomenda() {
-        System.out.println("getListaProdutoEncomenda");
-        List<Produto> expResult = new ArrayList<>();
-        Produto p = new Produto();
-        expResult.add(p);
-        when(produtoDB.getListaProdutos()).thenReturn(expResult);
-        assertEquals(expResult, instance.getListaProdutoEncomenda());
     }
 
     /**
@@ -127,23 +119,11 @@ class RealizaEncomendaControllerTest {
     public void testGetListStock() {
         System.out.println("getListStock");
         Produto p = new Produto();
-        List<Produto> expResult = new ArrayList<>();
-        expResult.add(p);
-        when(produtoDB.getLista()).thenReturn(expResult);
-        assertEquals(expResult, instance.getListStock());
-    }
-
-    /**
-     * Test of getListQuantidade method, of class RealizaEncomendaController.
-     */
-    @Test
-    public void testGetListQuantidade() {
-        System.out.println("getListQuantidade");
-        List<Integer> expResult = new ArrayList<>();
-        expResult.add(1);
-        
-        when(produtoDB.getListaQuantidade()).thenReturn(expResult);
-        assertEquals(expResult, instance.getListQuantidade());
+        Map<Produto,Integer> expResult = new HashMap<>();
+        int nif=12;
+        expResult.put(p,1);
+        when(produtoDB.getLista(nif)).thenReturn(expResult);
+        assertEquals(expResult, instance.getListStock(nif));
     }
 
     /**
@@ -153,7 +133,7 @@ class RealizaEncomendaControllerTest {
     public void testGetProdutoByID() {
         System.out.println("getProdutoByID");
         Produto expResult = new Produto("sdf", 50, 58);
-        int id=2;
+        int id = 2;
         expResult.setId(id);
         when(produtoDB.getProdutoByID(id)).thenReturn(expResult);
         assertEquals(expResult, instance.getProdutoByID(id));
@@ -216,9 +196,9 @@ class RealizaEncomendaControllerTest {
         Produto prod = new Produto();
         boolean expResult = true;
         when(reciboDB.registaRecibo(rec, prod)).thenReturn(expResult);
-        assertEquals(expResult, instance.novoRecibo(rec,prod));
+        assertEquals(expResult, instance.novoRecibo(rec, prod));
     }
-    
+
     /**
      * Test of novoRecibo method, of class RealizaEncomendaController.
      */
@@ -229,11 +209,12 @@ class RealizaEncomendaControllerTest {
         Produto prod = new Produto();
         boolean expResult = false;
         when(reciboDB.registaRecibo(rec, prod)).thenReturn(expResult);
-        assertEquals(expResult, instance.novoRecibo(rec,prod));
+        assertEquals(expResult, instance.novoRecibo(rec, prod));
     }
 
     /**
-     * Test of verificaProdutoEncomenda method, of class RealizaEncomendaController.
+     * Test of verificaProdutoEncomenda method, of class
+     * RealizaEncomendaController.
      */
     @Test
     public void testVerificaProdutoEncomenda() {
@@ -241,44 +222,10 @@ class RealizaEncomendaControllerTest {
         Produto prod = new Produto("sdf", 50, 58);
         prod.setId(1);
         int qntd = 1;
+        int nif =12;
         boolean expResult = false;
-        boolean result = instance.verificaProdutoEncomenda(prod, qntd);
+        boolean result = instance.verificaProdutoEncomenda(nif, prod, qntd);
         assertEquals(expResult, result);
-    }
-    
-    
-    /**
-     * Test of getPrecoTotal method, of class RealizaEncomendaController.
-     */
-    @Test
-    public void testGetPrecoTotal() {
-        System.out.println("getPrecoTotal");
-        double taxa = 0.3;
-        List<Produto> lst = new ArrayList<>();
-        Produto p = new Produto("sdf", 50, 58);
-        p.setPrecoBase(5);
-        lst.add(p);
-        when(produtoDB.getListaProdutos()).thenReturn(lst);
-        double expResult = lst.get(0).getPrecoBase() + lst.get(0).getPrecoBase()*taxa;
-        assertEquals(expResult, instance.getPrecoTotal(taxa));
-    }
-
-    /**
-     * Test of removerProdutosEncomenda method, of class RealizaEncomendaController.
-     */
-    @Test
-    public void testRemoverProdutosEncomenda() {
-        System.out.println("removerProdutosEncomenda");
-        List<Produto> lst = new ArrayList<>();
-        List<Integer> lst2 = new ArrayList<>();
-        Produto p = new Produto();
-        Produto p1 = new Produto();
-        lst.add(p);
-        lst.add(p1);
-        lst2.add(1);
-        lst2.add(2);
-        
-        instance.removerProdutosEncomenda(lst, lst2);
     }
 
     /**
@@ -294,7 +241,7 @@ class RealizaEncomendaControllerTest {
         when(emailDB.sendEmail(email, assunto, mensagem)).thenReturn(expResult);
         assertEquals(expResult, instance.notificaCliente(email, assunto, mensagem));
     }
-    
+
     /**
      * Test of notificaCliente method, of class RealizaEncomendaController.
      */
@@ -308,21 +255,7 @@ class RealizaEncomendaControllerTest {
         when(emailDB.sendEmail(email, assunto, mensagem)).thenReturn(expResult);
         assertEquals(expResult, instance.notificaCliente(email, assunto, mensagem));
     }
-
-    /**
-     * Test of contarNumeroProds method, of class RealizaEncomendaController.
-     */
-    @Test
-    public void testContarNumeroProds() {
-        System.out.println("contarNumeroProds");
-        Produto prod = new Produto("sdf", 50, 58);
-        List<Produto> lst = new ArrayList<>();
-        lst.add(prod);
-        when(produtoDB.getLista()).thenReturn(lst);
-        int expResult = 1;
-        assertEquals(expResult, instance.contarNumeroProds(prod));
-    }
-
+    
     /**
      * Test of getCreditosData method, of class RealizaEncomendaController.
      */
@@ -350,7 +283,7 @@ class RealizaEncomendaControllerTest {
         when(cliDB.removerCreditos(c1.getEmail(), creditosData)).thenReturn(expResult);
         assertEquals(expResult, instance.removerCreditos(c1.getEmail(), creditosData));
     }
-    
+
     /**
      * Test of removerCreditos method, of class RealizaEncomendaController.
      */
@@ -364,5 +297,39 @@ class RealizaEncomendaControllerTest {
         when(cliDB.addCliente(c1)).thenReturn(expResult1);
         when(cliDB.removerCreditos(c1.getEmail(), creditosData)).thenReturn(expResult);
         assertEquals(expResult, instance.removerCreditos(c1.getEmail(), creditosData));
+    }
+
+    /**
+     * Test of getMapaEncomenda method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testGetMapaEncomenda() {
+        System.out.println("getMapaEncomenda");
+        Map<Produto, Integer> expResult = new TreeMap<>();
+        when(produtoDB.getMapaEncomenda()).thenReturn(expResult);
+        assertEquals(expResult, instance.getMapaEncomenda());
+    }
+
+    /**
+     * Test of removerProdutosEncomenda method, of class
+     * RealizaEncomendaController.
+     */
+    @Test
+    public void testRemoverProdutosEncomenda() {
+        System.out.println("removerProdutosEncomenda");
+        Map<Produto, Integer> map = new TreeMap<>();
+        instance.removerProdutosEncomenda(map);
+    }
+
+    /**
+     * Test of getPrecoTotal method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testGetPrecoTotal() {
+        System.out.println("getPrecoTotal");
+        double taxa = 0.0;
+        double expResult = 0.0;
+        double result = instance.getPrecoTotal(taxa);
+        assertEquals(expResult, result, 0.0);
     }
 }

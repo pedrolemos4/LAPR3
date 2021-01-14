@@ -2,7 +2,9 @@ package lapr.project.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lapr.project.data.ProdutosDB;
 import lapr.project.model.Produto;
 import org.junit.jupiter.api.Test;
@@ -33,10 +35,11 @@ public class AtualizarItensStockControllerTest {
     public void testGetListaProdutos() {
         System.out.println("getListaProdutos");
         Produto produto = new Produto("teste1", 60, 70);
-        List<Produto> expResult = new ArrayList<>();
-        expResult.add(produto);
-        when(produtoMock.getLista()).thenReturn(expResult);
-        assertEquals(expResult, instance.getListaProdutos());
+        Map<Produto,Integer> expResult = new HashMap<>();
+        int nif =123;
+        expResult.put(produto, 1);
+        when(produtoMock.getLista(nif)).thenReturn(expResult);
+        assertEquals(expResult, instance.getListaProdutos(nif));
     }
 
     /**

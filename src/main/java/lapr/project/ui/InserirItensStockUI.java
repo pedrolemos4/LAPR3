@@ -6,6 +6,7 @@ import lapr.project.model.Farmacia;
 import lapr.project.model.Produto;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class InserirItensStockUI {
@@ -18,11 +19,14 @@ public class InserirItensStockUI {
     }
 
     public void registaProduto() {
+        System.out.println("NIF da farmácia onde enviar:");
+        int farm = LER.nextInt();
+        
         System.out.println("Stock da farmácia: ");
-        List<Produto> lp = controller.getListaProdutos();
+        Map<Produto, Integer> map = controller.getListaProdutos(farm);
 
-        for(Produto prod : lp){
-            System.out.println(prod);
+        for(Produto prod : map.keySet()){
+            System.out.println(prod.getDesignacao()+" "+map.get(prod));
         }
 
         System.out.println("--Registo de Novo Produto--");
@@ -34,8 +38,6 @@ public class InserirItensStockUI {
         double peso = LER.nextDouble();
         System.out.println("Preço Base:");
         double preco = LER.nextDouble();
-        System.out.println("NIF da farmácia onde enviar:");
-        int farm = LER.nextInt();
 
         Produto prod = controller.novoProduto(desig,peso,preco);
 
@@ -43,7 +45,6 @@ public class InserirItensStockUI {
         System.out.println(prod.getDesignacao());
         System.out.println(prod.getPeso());
         System.out.println(prod.getPrecoBase());
-        System.out.println("Farmácia onde enviar: " + farm);
 
         System.out.println("Deseja adicionar ao stock da farmácia o produto criado? (S/N)");
         String confirm = LER.next();

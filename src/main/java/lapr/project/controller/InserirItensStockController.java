@@ -4,6 +4,7 @@ import lapr.project.data.ProdutosDB;
 import lapr.project.model.Produto;
 
 import java.util.List;
+import java.util.Map;
 
 public class InserirItensStockController {
     private final ProdutosDB produtosDB;
@@ -12,8 +13,8 @@ public class InserirItensStockController {
         this.produtosDB = produtosDB;
     }
 
-    public List<Produto> getListaProdutos() {
-        return produtosDB.getListaProdutos();
+    public Map<Produto, Integer> getListaProdutos(int nif) {
+        return produtosDB.getLista(nif);
     }
 
     public Produto novoProduto(String desig, double peso, double precoBase) {

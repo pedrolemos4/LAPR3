@@ -5,6 +5,7 @@ import lapr.project.data.ProdutosDB;
 import lapr.project.model.Produto;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AtualizarItensStockUI {
@@ -17,18 +18,21 @@ public class AtualizarItensStockUI {
     }
 
     public void atualizarEstafeta() {
+        System.out.println("NIF da farmácia onde enviar:");
+        int farm = LER.nextInt();
+        
         System.out.println("Stock da farmácia:");
-        List<Produto> lp = controller.getListaProdutos();
+        Map<Produto, Integer> map = controller.getListaProdutos(farm);
 
-        for(Produto prod : lp){
-            System.out.println(prod);
+        for(Produto prod : map.keySet()){
+            System.out.println(prod.getDesignacao()+" "+map.get(prod));
         }
 
         System.out.println("Insira o id do produto a atualizar:");
         int id = LER.nextInt();
 
         Produto produto = controller.getProdutoByID(id);
-        if (!controller.getListaProdutos().contains(produto)){
+        if (!controller.getListaProdutos(farm).containsKey(produto)){
             System.out.println("O produto não existe!");
         } else {
             System.out.println("--Atualização do Produto--");
