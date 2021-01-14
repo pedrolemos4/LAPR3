@@ -14,6 +14,7 @@ public class Veiculo {
     private int id;
     private String descricao;
     private String tipo;
+    private int capacidade;
     private double percentagemBateria;
     private double pesoMaximo;
     private double pesoVeiculo;
@@ -28,6 +29,7 @@ public class Veiculo {
      * @param id
      * @param descricao
      * @param tipo
+     * @param capacidade
      * @param percentagemBateria
      * @param pesoMaximo
      * @param pesoVeiculo
@@ -35,10 +37,11 @@ public class Veiculo {
      * @param areaFrontal
      * @param estado 
      */
-    public Veiculo(int id, String descricao,String tipo, double percentagemBateria, 
+    public Veiculo(int id, String descricao,String tipo,int capacidade, double percentagemBateria, 
             double pesoMaximo, double pesoVeiculo, double potencia, double areaFrontal,int estado) {
         this.id = id;
         this.descricao = descricao;
+        this.capacidade= capacidade;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
         this.pesoVeiculo = pesoVeiculo;
@@ -53,6 +56,7 @@ public class Veiculo {
      *
      * @param descricao
      * @param tipo
+     * @param capacidade
      * @param percentagemBateria
      * @param pesoMaximo
      * @param pesoVeiculo
@@ -60,10 +64,11 @@ public class Veiculo {
      * @param areaFrontal
      * @param estado
      */
-    public Veiculo(String descricao, String tipo,double percentagemBateria, double pesoMaximo,
-            double pesoVeiculo, double potencia,double areaFrontal, int estado) {
+    public Veiculo(String descricao, String tipo, int capacidade,double percentagemBateria, 
+            double pesoMaximo,double pesoVeiculo, double potencia,double areaFrontal, int estado) {
         this.descricao = descricao;
         this.tipo=tipo;
+        this.capacidade = capacidade;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
         this.pesoVeiculo = pesoVeiculo;
@@ -173,6 +178,14 @@ public class Veiculo {
     }
 
     /**
+     * Devolve a capacidade da bateria do veículo
+     * @return 
+     */
+    public int getCapacidade(){
+        return capacidade;
+    }
+    
+    /**
      * Modifica o id
      *
      * @param id
@@ -242,11 +255,16 @@ public class Veiculo {
         this.estado = new EstadoVeiculo(estado);
     }
 
+    public void setCapacidade(int capacidade){
+        this.capacidade=capacidade;
+    }
+    
     @Override
     public String toString() {
         return "Veiculo: \tid" + id 
                 + "\nTipo: \t" + tipo 
                 + "\nDescrição: \t" + descricao 
+                + "\nCapacidade: \t" + capacidade
                 + "\nPercentagem de Bateria= \t" + percentagemBateria 
                 + "\nPeso máximo= \t" + pesoMaximo 
                 + "\nPeso do Veiculo= \t"+ pesoVeiculo 

@@ -21,6 +21,7 @@ import lapr.project.model.Veiculo;
  */
 public class AdminUI {
 
+    private static final int PERCENTAGEM= 100;
     /**
      * Scanner para leitura de teclado
      */
@@ -106,7 +107,9 @@ public class AdminUI {
         System.out.println("Insira uma descrição única do veículo:");
         String descricao = LER.nextLine();
         System.out.println("Insira a capacidade máxima da bateria:");
-        double percentagemBateria = LER.nextInt();
+        int capacidade = LER.nextInt();
+        
+        int percentagemBateria = PERCENTAGEM;
 
         System.out.println("\nO veículo vai estar disponível imediatamente após a sua criação? (S/N)");
         LER.nextLine();
@@ -136,7 +139,8 @@ public class AdminUI {
         System.out.println("Tipo:\t" + tipo
                 + "\nDescrição:\t" + descricao
                 + "\nEstado:\t" + estado
-                + "\nCapacidade de Bateria:\t" + percentagemBateria
+                + "\nCapacidade de Bateria:\t" + capacidade
+                + "\nPercentagem de bateria:\t" + percentagemBateria
                 + "\nPeso:\t" + peso
                 + "\nPeso máximo:\t" + pesoMaximo
                 + "\nPotencia:\t" + potencia
@@ -150,7 +154,7 @@ public class AdminUI {
 
             VeiculoController sc = new VeiculoController(new VeiculoDB());
             try {
-                sc.addVeiculo(descricao, tipo, percentagemBateria, peso, pesoMaximo, potencia, areaFrontal, idestado);
+                sc.addVeiculo(descricao, tipo,capacidade, percentagemBateria, peso, pesoMaximo, potencia, areaFrontal, idestado);
                 System.out.println("\n\nVeículo adicionado com sucesso'");
             } catch (SQLException ex) {
                 Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
