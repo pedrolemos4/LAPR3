@@ -33,7 +33,6 @@ public class RegistarFarmaciaUI {
         for (Farmacia farm : lf) {
             System.out.println(farm);
         }
-
         System.out.println("--Registo de Nova Farmácia--");
         System.out.println("Introduza os dados relativos à nova Farmácia");
         System.out.println("NIF:");

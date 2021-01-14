@@ -73,6 +73,10 @@ public class Farmacia {
         return morada;
     }
 
+    public void setMorada(String morada) {
+        this.morada = morada;
+    }
+
     /**
      * Adiciona o produto recebido por parametro ao stock da farmácia
      *
@@ -84,6 +88,6 @@ public class Farmacia {
 
     @Override
     public String toString() {
-        return "Farmacia{" + "nif=" + nif + '}';
+        return "Farmacia{" + "nif=" + nif + ", morada=" + morada + '}';
     }
 }

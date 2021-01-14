@@ -49,6 +49,7 @@ public class RegistarFarmaciaController {
      * Cria uma nova farmácia
      *
      * @param nif nif da farmácia
+     * @param morada morada da farmácia
      * @return nova farmacia criada
      */
     public Farmacia novaFarmacia(int nif, String morada) {
