@@ -63,6 +63,7 @@ public class Veiculo {
     public Veiculo(String descricao, String tipo,double percentagemBateria, double pesoMaximo,
             double pesoVeiculo, double potencia,double areaFrontal, int estado) {
         this.descricao = descricao;
+        this.tipo=tipo;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
         this.pesoVeiculo = pesoVeiculo;
