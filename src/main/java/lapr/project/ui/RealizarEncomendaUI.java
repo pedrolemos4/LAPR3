@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import lapr.project.controller.PedirItemFarmaciaController;
@@ -36,18 +37,23 @@ public class RealizarEncomendaUI {
 
     public RealizarEncomendaUI() {
         controller = new RealizaEncomendaController(new ProdutosDB(), new EncomendaDB(), new ReciboDB(), new ClienteDB(), new EmailDB());
-        controller2 = new PedirItemFarmaciaController(fdb,tdb);
+        controller2 = new PedirItemFarmaciaController(fdb, tdb);
     }
 
     public void introduzEncomenda() throws SQLException {
+
+        System.out.println("Insira o NIF da fármácia que pretende encomendar os produtos: ");
+
+        int nif = LER.nextInt();
+        List<Produto> stock = controller2.getFarmaciaByNIF(nif).getStock();
+        
         System.out.println("Lista de produtos disponível: ");
-
-        List<Produto> list = controller.getListStock();
-
-        for (Produto s : list) {
-            System.out.println(s);
+        
+        for (Produto p : stock) {
+            System.out.println(p);
         }
-
+        
+        int nif1=-1;
         while (LER.hasNextLine()) {
             System.out.println("Introduza o id de um produto apresentado: ");
             int id = LER.nextInt();
@@ -55,23 +61,24 @@ public class RealizarEncomendaUI {
             int qntd = LER.nextInt();
             Produto prod = controller.getProdutoByID(id);
 
-            if(controller.produtoEncomenda(prod, qntd) == false){
-                while (true){
+            if (controller.produtoEncomenda(nif, prod, qntd) == false) {
+                while (true) {
                     System.out.println("A farmácia não tem o produto que deseja na quantidade pretendida! Por favor selecione outra farmácia para fazer o pedido:");
-                    int nif = LER.nextInt();
-                    if (controller2.getFarmaciaByNIF(nif).getStock().contains(prod)){
-                        controller2.realizaPedido(controller2.getFarmaciaByNIF(nif), controller2.getFarmaciaByNIF(nif), prod, qntd);
+                    // TEM QUE SER PELO grafo 
+                    if (controller2.getFarmaciaByNIF(nif1).getStock().contains(prod)) {
+                        controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif1), prod, qntd);
+                        //falta adicionar a lista de produtos da encomenda da 2 farmacia
                         break;
                     }
                 }
             }
-
+            
         }
 
-        System.out.println("Lista de Produtos: ");
+        System.out.println("Lista de Produtos selecionados: ");
 
-        for (int i = 0; i < controller.getListaProdutoEncomenda().size(); i++) {
-            System.out.println(controller.getListaProdutoEncomenda().get(i) + " " + controller.getListQuantidade().get(i));
+        for (Produto p : controller.getMapaEncomenda().keySet()) {
+            System.out.println("Produto: "+p.getDesignacao()+" Quantidade: "+controller.getMapaEncomenda().get(p));
         }
 
         System.out.println("Confirme os dados introduzidos: (S/N)");
@@ -90,33 +97,36 @@ public class RealizarEncomendaUI {
 
                 double creditosData = controller.getCreditosData(date, controller.getPreco());
                 String email = UserSession.getInstance().getUser().getEmail();
-                
+
                 if (controller.getCliente().getCreditos() < creditosData) {
                     System.out.println("Creditos insuficientes.");
-                }else{
+                } else {
                     controller.removerCreditos(email, creditosData);
-                    System.out.println("Foram retirados: "+creditosData+" creditos.");
+                    System.out.println("Foram retirados: " + creditosData + " creditos.");
                 }
 
                 Encomenda enc = new Encomenda(controller.getCliente().getNIF(), date.toString(), controller.getPreco(), controller.getPeso(), 0.6, 1);
 
-                List<Produto> lst = controller.getListaProdutoEncomenda();
-                List<Integer> listQuantidade = controller.getListQuantidade();
+                Map<Produto, Integer> mapaEncomenda = controller.getMapaEncomenda();
 
                 controller.registaEncomenda(enc);
 
-                for (Produto p : lst) {
+                for (Produto p : mapaEncomenda.keySet()) {
                     controller.registaEncomendaProduto(enc, p);
                 }
-
-                controller.removerProdutosEncomenda(lst, listQuantidade);
-
+                
+                if(nif1==-1){
+                    controller.removerProdutosEncomenda(/*mandar o nif da 1 farmacia que o cliente insere*/mapaEncomenda); //remover por farmacia
+                }else{
+                    controller.removerProdutosEncomenda(/*mandar o nif das 2 farmacias que o cliente insere*/mapaEncomenda); //remover por farmacia
+                }
+                
                 double precoTotal = controller.getPrecoTotal(enc.getTaxa());
 
                 Recibo rec = new Recibo(controller.getCliente().getNIF(), precoTotal, date.toString(), enc.getId());
-                rec.setLst(lst);
+                rec.setLst(mapaEncomenda);
 
-                for (Produto p : lst) {
+                for (Produto p : mapaEncomenda.keySet()) {
                     controller.novoRecibo(rec, p);
                 }
 
@@ -125,8 +135,8 @@ public class RealizarEncomendaUI {
                 System.out.println("Preco Total:");
                 System.out.println(precoTotal);
                 System.out.println("Lista de Produtos:");
-                for (int i = 0; i < lst.size(); i++) {
-                    System.out.println(lst.get(i).getDesignacao() + " " + lst.get(i).getPrecoBase());
+                for (Produto p : mapaEncomenda.keySet()) {
+                    System.out.println(p.getDesignacao() + " " + mapaEncomenda.get(p));
                 }
 
                 System.out.println("\n\nEncomenda adicionada com sucesso'");
