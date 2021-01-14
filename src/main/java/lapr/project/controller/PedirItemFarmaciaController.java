@@ -19,7 +19,7 @@ public class PedirItemFarmaciaController {
     }
 
     public boolean realizaPedido(Farmacia fOri, Farmacia fDest, Produto prod, int quantidade) {
-        return tdb.realizaPedido(fOri,fDest,prod,quantidade);
+        return (tdb.realizaPedido(fOri,fDest,prod,quantidade)? true : false);
     }
 
 }

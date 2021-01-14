@@ -21,9 +21,6 @@ import lapr.project.model.Parque;
  */
 public class ParqueDB extends DataHandler {
 
-    public ParqueDB() {
-    }
-
     /**
      * Cria um novo parque
      *
