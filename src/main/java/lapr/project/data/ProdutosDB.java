@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,20 +16,19 @@ import lapr.project.model.Produto;
 
 public class ProdutosDB extends DataHandler {
 
-    private final List<Produto> listEnc;
-    private final List<Integer> listQuant;
+    private final Map<Produto, Integer> mapEnc;
     private double peso;
     private double preco;
     private FarmaciaDB fdb;
 
     public ProdutosDB() {
-        listEnc = new ArrayList<>();
-        listQuant = new ArrayList<>();
+        mapEnc = new HashMap<>();
         peso = 0;
         preco = 0;
     }
+
     public Produto novoProduto(String desig, double peso, double precoBase) {
-        return new Produto(desig,peso,precoBase);
+        return new Produto(desig, peso, precoBase);
     }
 
     public boolean validaProduto(Produto prod) {
@@ -71,7 +72,7 @@ public class ProdutosDB extends DataHandler {
     }
 
     public boolean atualizarProduto(Produto prod) {
-        if (validaProduto(prod)){
+        if (validaProduto(prod)) {
             atualizarProduto(prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase(), prod.getId());
             return true;
         }
@@ -113,8 +114,8 @@ public class ProdutosDB extends DataHandler {
     public Produto getProdutoByID(int id) {
         String query = "SELECT * FROM produto p WHERE p.idProduto= " + id;
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int id1 = rSet.getInt(1);
@@ -132,91 +133,94 @@ public class ProdutosDB extends DataHandler {
     }
 
     /**
-     * Lista do stock
+     * Lista do stock da farmacia recebida por parametro
      *
      * @return
      */
-    public List<Produto> getLista() {
-        ArrayList<Produto> list = new ArrayList<>();
-        String query = "SELECT * FROM produto";
+    public Map<Produto, Integer> getLista(int nif) {
+        Map<Produto, Integer> map = new HashMap<>();
+        String query = "SELECT * FROM produto p INNER JOIN StockFarmacia s ON s.ProdutoidProduto = p.idProduto AND s.FarmaciaNIF = " + nif;
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int id = rSet.getInt(1);
                     String designacao = rSet.getString(2);
                     double peso2 = rSet.getDouble(3);
                     double precoBase = rSet.getDouble(4);
-
-                    list.add(new Produto(id, designacao, peso2, precoBase));
+                    Produto p = new Produto(id, designacao, peso2, precoBase);
+                    if (map.containsKey(p)) {
+                        Integer get = map.get(p);
+                        map.replace(p, get + 1);
+                    } else {
+                        map.put(p, 1);
+                    }
                 }
-                return list;
+                return map;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return list;
+        return map;
     }
 
     /**
-     * Adiciona a lista de produtos da encomenda
-     * @param prod 
+     * Adiciona ao mapa os produtos e quantidade da encomenda
+     *
+     * @param prod
      */
     public boolean addListaProdutos(Produto prod, int qntd) {
-        peso = peso + prod.getPeso();
-        preco = preco + prod.getPrecoBase();
-        listEnc.add(prod);
-        listQuant.add(qntd);
+
+        if (mapEnc.containsKey(prod) == true) {
+            Integer get = mapEnc.get(prod);
+            mapEnc.replace(prod, get + qntd);
+        }
+        mapEnc.put(prod, qntd);
         return true;
     }
-    
-    public List<Integer> getListaQuantidade(){
-        return listQuant;
-    }
-    
-    public double getPreco(){
-        return preco;
-    }
-    
-    public double getPeso(){
-        return peso;
+
+    /**
+     * Devolve o mapa de encomendas
+     *
+     * @return
+     */
+    public Map<Produto, Integer> getMapaEncomenda() {
+        return mapEnc;
     }
 
     /**
-     * Retorna a lista de produtos da encomenda
-     * @return 
+     * Remove os produtos da base de dados
+     *
+     * @param lst
      */
-    public List<Produto> getListaProdutos() {
-        return listEnc;
-    }
-
-    /**
-     * Remove os produtos da base de dadoa
-     * @param lst 
-     */
-    public void removerProdutosEncomenda(List<Produto> lst, List<Integer> lst2) {
-        for(int i=0;i<lst.size();i++){
-            Integer y = lst2.get(i);
-            while(y>0){
-                y--;
-                removerProdutosEncomenda(lst.get(i).getDesignacao());
+    public boolean removerProdutosEncomenda(Map<Produto, Integer> map) {
+        boolean bo = false;
+        for (Produto p : map.keySet()) {
+            Integer get = map.get(p);
+            while (get > 0) {
+                bo = removerProdutosEncomenda(p.getDesignacao());
+                get--;
             }
         }
+        return bo;
     }
-    
+
     /**
-     * Remove os produtos da base de dadoa
+     * Remove os produtos da base de dados
+     *
      * @param des
      */
-    private void removerProdutosEncomenda(String des) {
+    private boolean removerProdutosEncomenda(String des) {
+        boolean removed = false;
+
         try {
             openConnection();
 
             try (CallableStatement callStmt = getConnection().prepareCall("{ call procRemoverProduto(?) }")) {
 
                 callStmt.setString(1, des);
-
+                removed = true;
                 callStmt.execute();
             }
             closeAll();
@@ -224,6 +228,54 @@ public class ProdutosDB extends DataHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return removed;
     }
-    
+
+    /**
+     * Devolve o preco total tendo em conta a taxa
+     *
+     * @param taxa
+     * @return
+     */
+    public double getPrecoTotal(double taxa) {
+        Map<Produto, Integer> mapaEncomenda = getMapaEncomenda();
+        double preco = 0.0;
+
+        for (Produto prod : mapaEncomenda.keySet()) {
+            preco = preco + prod.getPrecoBase();
+        }
+
+        return preco + preco * taxa;
+    }
+
+    /**
+     * Devolve o preco
+     *
+     * @return
+     */
+    public double getPreco() {
+        Map<Produto, Integer> mapaEncomenda = getMapaEncomenda();
+        double preco = 0;
+
+        for (Produto p : mapaEncomenda.keySet()) {
+            preco = preco + p.getPrecoBase();
+        }
+        return preco;
+    }
+
+    /**
+     * Devolve o peso
+     *
+     * @return
+     */
+    public double getPeso() {
+        Map<Produto, Integer> mapaEncomenda = getMapaEncomenda();
+        double peso = 0;
+
+        for (Produto p : mapaEncomenda.keySet()) {
+            peso = peso + p.getPrecoBase();
+        }
+        return peso;
+    }
+
 }

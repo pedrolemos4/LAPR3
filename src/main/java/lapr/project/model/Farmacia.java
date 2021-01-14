@@ -79,7 +79,7 @@ public class Farmacia {
      * @param prod novo produto da farmácia
      */
     public void addStock(Produto prod) {
-        this.stock.add(prod);
+        this.stock.add(prod); //adicionar à base de dados?
     }
 
     @Override

@@ -46,8 +46,10 @@ public class RegistarEntregaController {
         return encomendaDB.getListaEncomenda();
     }
     
-    public void addEntrega(Entrega en) throws SQLException{
-        entregaDB.addEntrega(en);
+    public Entrega addEntrega(String dataInicio, String dataFim, int idVeiculo, int idEstafeta) throws SQLException{
+        Entrega en = new Entrega(dataInicio, dataFim, idVeiculo, idEstafeta);
+        en.setIdEntrega(entregaDB.addEntrega(en));
+        return en;
     }
     
     public void addEncomendaEntrega(Entrega e, Encomenda enc){        

@@ -102,6 +102,7 @@ public class AdminUI {
             } else {
                 System.out.println("Insira um tipo de veículo válido. (Drone/Scooter)");
                 tipo = null;
+                veiculo = LER.nextLine();
             }
         }
         System.out.println("Insira uma descrição única do veículo:");

@@ -2,7 +2,9 @@ package lapr.project.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lapr.project.data.ProdutosDB;
 import lapr.project.model.Produto;
 import org.junit.jupiter.api.Test;
@@ -26,19 +28,6 @@ public class InserirItensStockControllerTest {
         produtoMock = mock(ProdutosDB.class);
         instance = new InserirItensStockController(produtoMock);
         prod = new Produto("teste", 50.0, 70);
-    }
-
-    /**
-     * Test of getListaProdutos method, of class InserirItensStockController.
-     */
-    @Test
-    public void testGetListaProdutos() {
-        System.out.println("getListaProdutos");
-        Produto produto = new Produto("teste1", 60, 70);
-        List<Produto> expResult = new ArrayList<>();
-        expResult.add(produto);
-        when(produtoMock.getListaProdutos()).thenReturn(expResult);
-        assertEquals(expResult, instance.getListaProdutos());
     }
 
     /**
@@ -73,6 +62,20 @@ public class InserirItensStockControllerTest {
         Produto prod1 = new Produto("prod1", 77, 88);
         when(produtoMock.registaProduto(prod1,1)).thenReturn(false);
         assertEquals(false, instance.registaProduto(prod1,1));
+    }
+
+    /**
+     * Test of getListaProdutos method, of class InserirItensStockController.
+     */
+    @Test
+    public void testGetListaProdutos() {
+        System.out.println("getListaProdutos");
+        int nif = 12;
+        Produto p = new Produto();
+        Map<Produto, Integer> expResult = new HashMap<>();
+        expResult.put(p,1);
+        when(produtoMock.getLista(nif)).thenReturn(expResult);
+        assertEquals(expResult, instance.getListaProdutos(nif));
     }
 
 }

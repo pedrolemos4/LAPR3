@@ -3,7 +3,9 @@ package lapr.project.model;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,12 +44,6 @@ class ReciboTest {
     }
 
     @Test
-    void getLst() {
-        Recibo instance = new Recibo(123,10.2,"data",321);
-        assertEquals(new ArrayList<>(),instance.getLst());
-    }
-
-    @Test
     void setNif() {
         Recibo instance = new Recibo(123,10.2,"data",321);
         instance.setNif(2);
@@ -66,14 +62,6 @@ class ReciboTest {
         Recibo instance = new Recibo(123,10.2,"data",321);
         instance.setData("dataExpec");
         assertEquals("dataExpec",instance.getData());
-    }
-
-    @Test
-    void setLst() {
-        Recibo instance = new Recibo(123,10.2,"data",321);
-        List<Produto> expcLst = new ArrayList<>();
-        instance.setLst(expcLst);
-        assertEquals(expcLst,instance.getLst());
     }
 
     /**
@@ -148,29 +136,6 @@ class ReciboTest {
     }
 
     /**
-     * Test of getLst method, of class Recibo.
-     */
-    @Test
-    public void testGetLst() {
-        System.out.println("getLst");
-        Recibo instance = new Recibo(123,10.2,"data",321);
-        List<Produto> expResult = new ArrayList<>();
-        List<Produto> result = instance.getLst();
-        assertEquals(expResult, result);
-    }
-
-    @Test
-    public void testGetLst1() {
-        System.out.println("getLst1");
-        Recibo instance = new Recibo(123,10.2,"data",321);
-        Produto product = new Produto();
-        instance.getLst().add(product);
-        List<Produto> expResult = new ArrayList<>();
-        expResult.add(product);
-        assertEquals(expResult, instance.getLst());
-    }
-
-    /**
      * Test of setNif method, of class Recibo.
      */
     @Test
@@ -204,14 +169,36 @@ class ReciboTest {
     }
 
     /**
+     * Test of getMap method, of class Recibo.
+     */
+    @Test
+    public void testGetMap() {
+        System.out.println("getMap");
+        Recibo instance = new Recibo();
+        Map<Produto, Integer> expResult = new HashMap<>();
+        assertEquals(expResult, instance.getMap());
+    }
+
+    /**
      * Test of setLst method, of class Recibo.
      */
     @Test
     public void testSetLst() {
         System.out.println("setLst");
-        List<Produto> lst = new ArrayList<>();
-        lst.add(new Produto("df", 32, 23));
-        Recibo instance = new Recibo(123,10.2,"data",321);
-        instance.setLst(lst);
+        Map<Produto, Integer> mapa = new HashMap<>();
+        Recibo instance = new Recibo();
+        instance.setLst(mapa);
+    }
+
+    /**
+     * Test of toString method, of class Recibo.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Recibo instance = new Recibo();
+        String expResult = "Recibo{" + "nif=" + instance.getNif() + ", id=" + 0 + ", preco=" + instance.getPreco() + ", data=" + instance.getData() + ", idEncomenda=" + instance.getIdEncomenda() + ", lst=" + instance.getMap() + '}';
+        String result = instance.toString();
+        assertEquals(expResult, result);
     }
 }

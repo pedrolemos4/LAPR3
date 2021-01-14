@@ -4,6 +4,7 @@ import lapr.project.data.ProdutosDB;
 import lapr.project.model.Produto;
 
 import java.util.List;
+import java.util.Map;
 
 public class AtualizarItensStockController {
     private final ProdutosDB produtosDB;
@@ -12,8 +13,8 @@ public class AtualizarItensStockController {
         this.produtosDB = produtosDB;
     }
 
-    public List<Produto> getListaProdutos() {
-        return produtosDB.getLista();
+    public Map<Produto, Integer> getListaProdutos(int nif) {
+        return produtosDB.getLista(nif);
     }
 
     public Produto getProdutoByID(int idProd) {
