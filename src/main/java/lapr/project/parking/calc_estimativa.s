@@ -8,26 +8,39 @@ calc_estimativa:
 	pushl %ebp
 	movl %esp, %ebp
 	
-	movl 8(%ebp),%ecx
+	pushl %ebx
+	pushl %esi
 	
-	movl $100, %eax
+	movl $0, %edx # limpa %edx
 	
-	movl $1, %esi
-loop:
-	cmpl %eax, %ecx
-	jnle end
+	movl 8(%ebp),%eax # percentagem atual (%)
+	movl 12(%ebp), %ecx # capacidade bateria (ah)
 	
-	addl $30, %ecx
-	incl %esi
+	movl $100, %ebx # percentagem total (100)
 	
-end:
-	incl %esi
+	subl %eax, %ebx # percentagem necessaria para os 100
 	
-	movl %esi, %eax
+	movl %ebx, %eax # percentagem necessaria para os 100
+	
+	movl $0, %ebx # limpa ebx
+	movl $0, %edx # limpa edx
+	
+	imull %ecx, %eax # capacidade * (percentagem necessaria)
+	
+	movl $100, %ecx
+	
+	cdq
+	
+	idivl %ecx
+	
+	movl $13, %ecx
+	
+	idivl %ecx # corrente debitada pelo aparelho de carregamento
 	
 	#epilogo
 
 	popl %esi
+	popl %ebx
 	
 	movl %ebp, %esp
 	popl %ebp

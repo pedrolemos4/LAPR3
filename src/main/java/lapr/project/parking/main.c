@@ -4,87 +4,72 @@
 #include "calc_estimativa.h"
 
 int main(void){
+	DIR *folder;
+	FILE * lockPointer;
 	
-    DIR *folder;
-    FILE * filePointer; 
-    FILE * newFilePointer;
-    FILE * newFlagFilePointer;
+	
+	struct dirent *entry;
+	
+	folder = opendir("./scooter");
 
-    struct dirent *entry;
-	char nome[30];
-	char currentdir[] = "./";
-	char currentdir2[] = "./";
-	char cd[30];
-
-    folder = opendir(".");
-
-	int i;
-	for(i = 0; i < 6; i++){
-		entry = readdir(folder);
+	char lock_nome[] = ".data";
+	char lock_flag_nome[] = ".flag";
+	char file_lock[100];
+	char file_flag[100];
+	
+	while((entry = readdir(folder))!= NULL){
+		char *nome1 = strrchr(entry->d_name, '.');
+		if(strcmp(nome1,lock_nome) == 0){
+			strcpy(file_lock,entry->d_name);
+		}
+		
+		char *nome2 = strrchr(entry->d_name, '.');
+		if(strcmp(nome2,lock_flag_nome) == 0){
+			strcpy(file_flag,entry->d_name);
+		}
 	}
 	
-	strcpy(nome,entry->d_name);
-	char nomelock[30];
-	strcpy(nomelock,nome);
+	//printf("%s - a\n",file_lock);
+	//printf("%s - b\n",file_flag);
 	
-	entry = readdir(folder);
+	char dirlock[100] = "./scooter/";
+	char dirflag[100] = "./scooter/";
+	char direstimate[100] = "./scooter/";
+	//char string[100];
 	
-	strcpy(nome,entry->d_name);
+	int percentagem;
+	int potencia;
+	int estimativa;
 	
-	char *nome1 = strrchr(nome, '.');
-	
-	char flag[] = ".flag";
-	
-	if(strcmp(nome1,flag) == 0){
-		strcat(currentdir,nomelock);
+	if(file_flag != NULL){
+		strcat(dirlock, file_lock);
 		
-		filePointer = fopen(currentdir,"r");
+		strcat(dirflag, file_flag);
 		
-		int percentagem;
+		//printf("%s - a1\n", dirlock);
+		//printf("%s - b2\n", dirflag);
 		
-		fscanf(filePointer, "%d", &percentagem);
+		lockPointer = fopen(dirlock,"r");
 		
-		int res = calc_estimativa(percentagem);
+		fscanf(lockPointer, "%d,%d", &percentagem, &potencia);
 		
-		//printf("%s\n", nomelock);
-		//printf("%d\n", res);
+		fclose(lockPointer);
 		
-		char *datetime = nomelock;
+		estimativa = calc_estimativa(percentagem, potencia);
+		
+		char *datetime = file_lock;
+		int i;
 		for(i = 0; i < 4; i++){
 			datetime++;
 		}
 		
-		char estimate[] = "estimate";
-		
+		char estimate[100] = "estimate";
 		strcat(estimate,datetime);
 		
-		strcat(currentdir2,estimate);
+		strcat(direstimate, estimate);
 		
-		//printf("%s\n", currentdir2);
-		
-		newFilePointer = fopen(estimate,"w");
-		
-		char flag[] = ".flag";
-		
-		//printf("%s\n", flag);
-		
-		strcat(estimate, flag);
-		
-		//printf("%s\n", estimate);
-		
-		newFlagFilePointer = fopen(estimate,"w");
-		
-		sprintf(cd, "%d", res);
-		
-		fputs(cd, newFilePointer);
-		
-		fclose(filePointer);
-		fclose(newFilePointer);
-		fclose(newFlagFilePointer);
+		printf("%s,%d\n",estimate,estimativa);
 	}
 
-    closedir(folder);
-
-    return 0;
-    
+	return 0;
 }
