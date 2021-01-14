@@ -243,10 +243,15 @@ public class Veiculo {
 
     @Override
     public String toString() {
-        return "Veiculoid" + id + "\nDescrição=" + descricao + "\nPercentagem de Bateria=" 
-                + percentagemBateria + "\nPeso máximo=" + pesoMaximo + "\nPeso do Veiculo="
-                + pesoVeiculo + "\nPotência=" + potencia + "\nÁrea frontal=" + areaFrontal +
-                "\nEstado=" + estado.getDesignacao();
+        return "Veiculo: \tid" + id 
+                + "\nTipo: \t" + tipo 
+                + "\nDescrição: \t" + descricao 
+                + "\nPercentagem de Bateria= \t" + percentagemBateria 
+                + "\nPeso máximo= \t" + pesoMaximo 
+                + "\nPeso do Veiculo= \t"+ pesoVeiculo 
+                + "\nPotência= \t" + potencia 
+                + "\nÁrea frontal= \t" + areaFrontal 
+                +"\nEstado: \t" + estado.getDesignacao();
     }
     
     

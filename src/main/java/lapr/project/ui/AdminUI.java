@@ -90,13 +90,25 @@ public class AdminUI {
      */
     public void addVeiculo() {
 
-        System.out.println("Insira uma descrição única da scooter:");
+        System.out.println("Pretende adicionar uma scooter ou um drone:");
+        String veiculo = LER.nextLine();
+        String tipo = null;
+        while (tipo == null) {
+            if (veiculo.equalsIgnoreCase("drone")) {
+                tipo = "drone";
+            } else if (veiculo.equalsIgnoreCase("scooter")) {
+                tipo = "scooter";
+            } else {
+                System.out.println("Insira um tipo de veículo válido. (Drone/Scooter)");
+                tipo = null;
+            }
+        }
+        System.out.println("Insira uma descrição única do veículo:");
         String descricao = LER.nextLine();
-        String tipo = LER.nextLine();
         System.out.println("Insira a capacidade máxima da bateria:");
         double percentagemBateria = LER.nextInt();
 
-        System.out.println("\nA scooter vai estar disponível imediatamente após a sua criação? (S/N)");
+        System.out.println("\nO veículo vai estar disponível imediatamente após a sua criação? (S/N)");
         LER.nextLine();
         String resposta = LER.nextLine();
         int idestado;
@@ -109,19 +121,20 @@ public class AdminUI {
             estado = "Indisponível";
         }
 
-        System.out.println("Insira o peso total da scooter:");
+        System.out.println("Insira o peso total do veículo:");
         double peso = LER.nextDouble();
 
-        System.out.println("Insira o peso máximo que a scooter suporta:");
+        System.out.println("Insira o peso máximo que o veículo suporta:");
         double pesoMaximo = LER.nextDouble();
 
-        System.out.println("Insira a potência da scooter:");
+        System.out.println("Insira a potência do veículo:");
         double potencia = LER.nextDouble();
 
-        System.out.println("Insira a área frontal da scooter:");
+        System.out.println("Insira a área frontal do veículo:");
         double areaFrontal = LER.nextDouble();
-        
-        System.out.println("Descrição:\t" + descricao
+
+        System.out.println("Tipo:\t" + tipo
+                + "\nDescrição:\t" + descricao
                 + "\nEstado:\t" + estado
                 + "\nCapacidade de Bateria:\t" + percentagemBateria
                 + "\nPeso:\t" + peso
@@ -129,7 +142,7 @@ public class AdminUI {
                 + "\nPotencia:\t" + potencia
                 + "\nÁrea Frontal:\t" + areaFrontal);
 
-        System.out.println("\nConfirme a informação relativa à scooter(S/N)");
+        System.out.println("\nConfirme a informação relativa ao veículo(S/N)");
         LER.nextLine();
         String confirmacao = LER.nextLine();
 
@@ -137,7 +150,7 @@ public class AdminUI {
 
             VeiculoController sc = new VeiculoController(new VeiculoDB());
             try {
-                sc.addVeiculo(descricao, tipo,percentagemBateria, peso, pesoMaximo, potencia, areaFrontal, idestado);
+                sc.addVeiculo(descricao, tipo, percentagemBateria, peso, pesoMaximo, potencia, areaFrontal, idestado);
                 System.out.println("\n\nScooter adicionada com sucesso'");
             } catch (SQLException ex) {
                 Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -261,20 +274,20 @@ public class AdminUI {
         regEstUI.registaEstafeta();
         menu();
     }
-    
-    public void atualizarEstafeta(){
+
+    public void atualizarEstafeta() {
         AtualizarEstafetaUI atEstUI = new AtualizarEstafetaUI();
         atEstUI.atualizarEstafeta();
         menu();
     }
-    
-    public void adicionarItem(){
+
+    public void adicionarItem() {
         InserirItensStockUI itStoUI = new InserirItensStockUI();
         itStoUI.registaProduto();
         menu();
     }
-    
-    public void atualizarItem(){
+
+    public void atualizarItem() {
         AtualizarItensStockUI atStoUI = new AtualizarItensStockUI();
         atStoUI.atualizarEstafeta();
         menu();
