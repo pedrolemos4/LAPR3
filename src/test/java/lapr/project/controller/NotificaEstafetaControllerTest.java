@@ -40,7 +40,7 @@ class NotificaEstafetaControllerTest {
         emailDBMock = mock(EmailDB.class);
         entregaDBMock = mock(EntregaDB.class);
 
-        s = new Veiculo(1,"","Scooter", 23, 45, 3, 435, 34, 1);
+        s = new Veiculo(1,"","Scooter",100, 23, 45, 3, 435, 34, 1);
         e = new Estafeta(1,"1","abf@gmail.com",1,1,"1",1);
         et = new Entrega("",null,1,1);
         est = new Estacionamento(1,1,12);

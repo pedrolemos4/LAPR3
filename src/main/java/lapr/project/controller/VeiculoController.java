@@ -17,9 +17,10 @@ public class VeiculoController {
         this.veiculoDB = veiculoDB;
     }
 
-    public Veiculo addVeiculo(String descricao,String  tipo, double percentagemBateria, double pesoMaximo,
-            double pesoVeiculo, double potencia, double areaFrontal, int estado) throws SQLException {
-        Veiculo veiculo = new Veiculo(descricao,tipo, percentagemBateria, pesoMaximo,
+    public Veiculo addVeiculo(String descricao,String  tipo,int capacidade, 
+            double percentagemBateria, double pesoMaximo,double pesoVeiculo, 
+            double potencia, double areaFrontal,int estado) throws SQLException {
+        Veiculo veiculo = new Veiculo(descricao,tipo, capacidade, percentagemBateria, pesoMaximo,
                 pesoVeiculo, potencia, areaFrontal, estado);
 
         veiculo.setId(veiculoDB.addVeiculo(veiculo));

@@ -48,7 +48,7 @@ public class RegistarEntregaControllerTest {
     public void testGetListVeiculo() throws SQLException {
         System.out.println("getListVeiculo");
         List<Veiculo> expResult = new ArrayList<>();
-        expResult.add(new Veiculo("sddd","drone", 45, 89, 7, 52, 78, 85));
+        expResult.add(new Veiculo("sddd","drone",100, 45, 89, 7, 52, 78, 85));
         when(veiculoDB.getListaVeiculo()).thenReturn(expResult);
         assertEquals(expResult, instance.getListVeiculo());
 
@@ -75,7 +75,7 @@ public class RegistarEntregaControllerTest {
     public void testGetVeiculo() throws SQLException {
         System.out.println("getVeiculo");
         int idVeiculo = 1;
-        Veiculo expResult = new Veiculo(idVeiculo, "descricao","scooter", 12, 45, 48, 56, 48, 89);
+        Veiculo expResult = new Veiculo(idVeiculo, "descricao","scooter",100, 12, 45, 48, 56, 48, 89);
         when(veiculoDB.getVeiculoById(idVeiculo)).thenReturn(expResult);
         Veiculo result = instance.getVeiculo(idVeiculo);
         assertEquals(expResult, result);

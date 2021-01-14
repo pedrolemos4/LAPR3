@@ -39,14 +39,14 @@ public class VeiculoTest {
 
     @Test
     void VeiculoConstructorTest() {
-        Veiculo instance = new Veiculo("descricao","scooter", 85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "scooter",100, 85, 50, 30, 40, 50, 1);
 
         assertEquals(instance, instance);
     }
 
     @Test
     void VeiculoCompleteConstructorTest() {
-        Veiculo instance = new Veiculo(1, "descricao", "scooter",85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo(1, "descricao", "scooter",100, 85, 50, 30, 40, 50, 1);
 
         assertEquals(instance, instance);
     }
@@ -54,7 +54,7 @@ public class VeiculoTest {
     @Test
     public void testGetDescricao() {
         System.out.println("getDescrição");
-        Veiculo instance = new Veiculo("descricao","drone", 85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone",100, 85, 50, 30, 40, 50, 1);
         String expResult = "descricao";
         String result = instance.getDescricao();
         assertEquals(expResult, result);
@@ -66,7 +66,7 @@ public class VeiculoTest {
     @Test
     public void testGetPercentagemBateria() {
         System.out.println("getPercentagemBateria");
-        Veiculo instance = new Veiculo("descricao", "drone",85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone",100, 85, 50, 30, 40, 50, 1);
         double expResult = 85;
         double result = instance.getPercentagemBateria();
         assertEquals(expResult, result);
@@ -79,7 +79,7 @@ public class VeiculoTest {
     @Test
     public void testGetPesoMaximo() {
         System.out.println("getPesoMaximo");
-        Veiculo instance = new Veiculo("descricao","drone", 85, 50, 30, 40, 50, 2);
+        Veiculo instance = new Veiculo("descricao", "drone",100, 85, 50, 30, 40, 50, 2);
         double expResult = 50.0;
         double result = instance.getPesoMaximo();
         assertEquals(expResult, result, 0.0);
@@ -92,7 +92,7 @@ public class VeiculoTest {
     @Test
     public void testGetPesoVeiculo() {
         System.out.println("getPesoVeiculo");
-        Veiculo instance = new Veiculo("descricao","veiculo", 85, 50, 30, 40, 50, 2);
+        Veiculo instance = new Veiculo("descricao", "veiculo",100, 85, 50, 30, 40, 50, 2);
         double expResult = 30.0;
         double result = instance.getPesoVeiculo();
         assertEquals(expResult, result, 0.0);
@@ -105,7 +105,7 @@ public class VeiculoTest {
     @Test
     public void testGetPotencia() {
         System.out.println("getPotencia");
-        Veiculo instance = new Veiculo("descricao","drone", 85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone", 100,85, 50, 30, 40, 50, 1);
         double expResult = 40.0;
         double result = instance.getPotencia();
         assertEquals(expResult, result, 0.0);
@@ -118,7 +118,7 @@ public class VeiculoTest {
     @Test
     public void testGetAreaFrontal() {
         System.out.println("getAreaFrontal");
-        Veiculo instance = new Veiculo("descricao", "drone",85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone",100, 85, 50, 30, 40, 50, 1);
         double expResult = 50.0;
         double result = instance.getAreaFrontal();
         assertEquals(expResult, result, 0.0);
@@ -128,13 +128,14 @@ public class VeiculoTest {
      * Test of setAreaFrontal method, of class Veiculo.
      */
     @Test
-    public void testSetAreaFrontal(){
+    public void testSetAreaFrontal() {
         System.out.println("setAreaFrontal");
-        Veiculo instance = new Veiculo("descricao", "drone",85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone",100,85, 50, 30, 40, 50, 1);
         double expResult = 30.0;
         instance.setAreaFrontal(expResult);
-        assertEquals(expResult,instance.getAreaFrontal(),0.0);
+        assertEquals(expResult, instance.getAreaFrontal(), 0.0);
     }
+
     /**
      * Test of setPercentagemBateria method, of class Veiculo.
      */
@@ -142,7 +143,7 @@ public class VeiculoTest {
     public void testSetPercentagemBateria() {
         System.out.println("setPercentagemBateria");
         double percentagemBateria = 75;
-        Veiculo instance = new Veiculo("descricao", "drone",85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone",100, 85, 50, 30, 40, 50, 1);
         instance.setPercentagemBateria(percentagemBateria);
         assertEquals(percentagemBateria, instance.getPercentagemBateria(), 0.0);
     }
@@ -154,7 +155,7 @@ public class VeiculoTest {
     public void testSetPesoMaximo() {
         System.out.println("setPesoMaximo");
         double pesoMaximo = 36.0;
-        Veiculo instance = new Veiculo("descricao","scooter", 85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "scooter",100, 85, 50, 30, 40, 50, 1);
         instance.setPesoMaximo(pesoMaximo);
         assertEquals(pesoMaximo, instance.getPesoMaximo(), 0.0);
     }
@@ -166,7 +167,7 @@ public class VeiculoTest {
     public void testSetPesoVeiculo() {
         System.out.println("setPesoVeiculo");
         double pesoVeiculo = 20.0;
-        Veiculo instance = new Veiculo("descricao","drone", 85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone",100, 85, 50, 30, 40, 50, 1);
         instance.setPesoVeiculo(pesoVeiculo);
         assertEquals(pesoVeiculo, instance.getPesoVeiculo(), 0.0);
     }
@@ -178,7 +179,7 @@ public class VeiculoTest {
     public void testSetPotencia() {
         System.out.println("setPotencia");
         double potencia = 29.0;
-        Veiculo instance = new Veiculo("descricao","drone", 85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone",100, 85, 50, 30, 40, 50, 1);
         instance.setPotencia(potencia);
         assertEquals(potencia, instance.getPotencia(), 0.0);
     }
@@ -189,7 +190,7 @@ public class VeiculoTest {
     @Test
     public void testGetEstadoVeiculo() {
         System.out.println("getEstadoVeiculo");
-        Veiculo instance = new Veiculo("descricao","drone", 85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone",100, 85, 50, 30, 40, 50, 1);
         int expResult = 1;
         int result = instance.getEstadoVeiculo().getId();
         assertEquals(expResult, result);
@@ -202,7 +203,7 @@ public class VeiculoTest {
     public void testSetEstadoVeiculo() {
         System.out.println("setEstadoVeiculo");
         int estado = 2;
-        Veiculo instance = new Veiculo("descricao","drone", 85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone",100, 85, 50, 30, 40, 50, 1);
         instance.setEstadoVeiculo(estado);
         assertEquals(estado, instance.getEstadoVeiculo().getId());
     }
@@ -213,7 +214,7 @@ public class VeiculoTest {
     @Test
     public void testGetId() {
         System.out.println("getId");
-        Veiculo instance = new Veiculo("descricao","drone", 85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone",100, 85, 50, 30, 40, 50, 1);
         int expResult = 1;
         instance.setId(1);
         assertEquals(expResult, instance.getId());
@@ -226,18 +227,18 @@ public class VeiculoTest {
     public void testSetId() {
         System.out.println("setId");
         int id = 1;
-        Veiculo instance = new Veiculo("descricao","drone", 85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone", 100,85, 50, 30, 40, 50, 1);
         instance.setId(1);
         assertEquals(id, instance.getId());
     }
 
     @Test
-    public void testSetDescricao(){
+    public void testSetDescricao() {
         System.out.println("setDescrição");
         String descricao = "teste";
-        Veiculo instance = new Veiculo("descricao",  "drone",85,50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone",100, 85, 50, 30, 40, 50, 1);
         instance.setDescricao(descricao);
-        assertEquals(descricao,instance.getDescricao());
+        assertEquals(descricao, instance.getDescricao());
     }
 
     /**
@@ -246,16 +247,17 @@ public class VeiculoTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Veiculo instance = new Veiculo("descricao", "drone",85, 50, 30, 40, 50, 1);
-        String expResult = "Veiculo: \tid" + 0  
-                + "\nTipo: \t" + "drone" 
-                + "\nDescrição: \t" + "descricao" 
+        Veiculo instance = new Veiculo("descricao", "drone", 100, 85, 50, 30, 40, 50, 1);
+        String expResult = "Veiculo: \tid" + 0
+                + "\nTipo: \t" + "drone"
+                + "\nDescrição: \t" + "descricao"
+                + "\nCapacidade: \t" + 100
                 + "\nPercentagem de Bateria= \t" + 85.0
-                + "\nPeso máximo= \t" + 50.0 
-                + "\nPeso do Veiculo= \t"+ 30.0 
-                + "\nPotência= \t" + 40.0 
-                + "\nÁrea frontal= \t" + 50.0 
-                +"\nEstado: \t" + "Disponível";
+                + "\nPeso máximo= \t" + 50.0
+                + "\nPeso do Veiculo= \t" + 30.0
+                + "\nPotência= \t" + 40.0
+                + "\nÁrea frontal= \t" + 50.0
+                + "\nEstado: \t" + "Disponível";
         assertEquals(expResult, instance.toString());
     }
 
@@ -265,7 +267,7 @@ public class VeiculoTest {
     @Test
     public void testGetTipo() {
         System.out.println("getTipo");
-         Veiculo instance = new Veiculo("descricao","drone", 85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone", 100, 85, 50, 30, 40, 50, 1);
         String expResult = "drone";
         instance.setTipo(expResult);
         String result = instance.getTipo();
@@ -279,7 +281,7 @@ public class VeiculoTest {
     public void testSetTipo() {
         System.out.println("setTipo");
         String tipo = "scooter";
-        Veiculo instance = new Veiculo("descricao","drone", 85, 50, 30, 40, 50, 1);
+        Veiculo instance = new Veiculo("descricao", "drone", 100, 85, 50, 30, 40, 50, 1);
         instance.setTipo(tipo);
 
     }

@@ -102,7 +102,7 @@ public class IniciarEntregaControllerTest {
     public void testGetVeiculoById() {
         System.out.println("getVeiculoById");
         int idVeiculo = 1;
-        Veiculo expResult = new Veiculo(1, "descricao", "drone", 74, 15, 47, 47, 85, 86);
+        Veiculo expResult = new Veiculo(1, "descricao", "drone", 100,74, 15, 47, 47, 85, 86);
         when(veiculoDB.getVeiculoById(idVeiculo)).thenReturn(expResult);
         Veiculo result = instance.getVeiculoById(idVeiculo);
         assertEquals(expResult, result);
@@ -163,7 +163,7 @@ public class IniciarEntregaControllerTest {
         listEnderecos.add(new Endereco("df", 56, 84, 12));
         listEnderecos.add(new Endereco("de", 4, 23, 43));
         Estafeta est = new Estafeta(123456789, 1, 56);
-        Veiculo veiculo = new Veiculo("fr", "veiculo", 15, 15, 85, 78, 45, 1);
+        Veiculo veiculo = new Veiculo("fr", "veiculo", 100,15, 15, 85, 78, 45, 1);
         double pesoTotal = 12.0;
         List<Endereco> expResult = new LinkedList<>();
         List<Endereco> result = instance.generateGraph(listEnderecos, est, veiculo, pesoTotal);
