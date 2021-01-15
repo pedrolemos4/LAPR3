@@ -60,7 +60,7 @@ public class FarmaciaDB extends DataHandler {
      * @return true se a farmacia é valida
      */
     public boolean validaFarmacia(Farmacia farm) {
-        return !(farm == null || farm.getNIF() <= 0);
+        return !(farm == null || farm.getNIF() <= 0 || farm.getEmail().isEmpty());
     }
 
     /**
@@ -70,7 +70,7 @@ public class FarmaciaDB extends DataHandler {
      * @return
      */
     public boolean addFarmacia(Farmacia farm) {
-        addFarmacia(farm.getNIF(), farm.getMorada());
+        addFarmacia(farm.getNIF(), farm.getEmail(), farm.getMorada());
         return true;
     }
 
@@ -78,12 +78,15 @@ public class FarmaciaDB extends DataHandler {
      * Adiciona a farmacia à base de dados
      *
      * @param nif nif da farmácia
+     * @param email email da farmácia
+     * @param morada morada da farmácia
      */
-    public void addFarmacia(int nif, String morada) {
+    public void addFarmacia(int nif, String email, String morada) {
         try {
             openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?,?,?) }")) {
                 callStmt.setInt(1, nif);
+                callStmt.setString(2, email);
                 callStmt.setString(2, morada);
                 callStmt.execute();
             }
@@ -145,8 +148,8 @@ public class FarmaciaDB extends DataHandler {
      */
     public List<Farmacia> getLstFarmaciasByProdutos(Produto p, int quant) {
         ArrayList<Farmacia> list = new ArrayList<>();
-        String query = "SELECT * FROM farmacia f INNER JOIN stockfarmacia s ON s.farmacianif = f.nif AND s.stock = "+quant
-                + "INNER JOIN produto p ON s.produtoidproduto = p.idProduto AND p.idProduto ="+p.getId();
+        String query = "SELECT * FROM farmacia f INNER JOIN stockfarmacia s ON s.farmacianif = f.nif AND s.stock = " + quant
+                + "INNER JOIN produto p ON s.produtoidproduto = p.idProduto AND p.idProduto =" + p.getId();
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
@@ -154,7 +157,7 @@ public class FarmaciaDB extends DataHandler {
                     int nif = rSet.getInt(1);
                     String email = rSet.getString(2);
                     String morada = rSet.getString(3);
-                    list.add(new Farmacia(nif,email,morada));
+                    list.add(new Farmacia(nif, email, morada));
                 }
                 return list;
             }
@@ -166,14 +169,14 @@ public class FarmaciaDB extends DataHandler {
 
     public Graph<Farmacia, Double> generateGrafo(List<Farmacia> farms) {
         Graph<Farmacia, Double> graph = new Graph<>(false);
-        
-        for(Farmacia f : farms){
+
+        for (Farmacia f : farms) {
             graph.insertVertex(f);
         }
-        
-        for(Farmacia f : graph.vertices()){
-            for(Farmacia f2 : farms){
-                if(!f.equals(f2)){
+
+        for (Farmacia f : graph.vertices()) {
+            for (Farmacia f2 : farms) {
+                if (!f.equals(f2)) {
                     EnderecoDB endDB = new EnderecoDB();
                     Endereco en1 = endDB.getEnderecoByNifFarmacia(f.getNIF());
                     Endereco en2 = endDB.getEnderecoByNifFarmacia(f2.getNIF());
@@ -188,16 +191,16 @@ public class FarmaciaDB extends DataHandler {
     public int getFarmaciaProxima(Graph<Farmacia, Double> graph, int nif) {
         LinkedList<Farmacia> shortPath = new LinkedList<>();
         double min = 999999999;
-        int nif1=0;
-        
-        for(Farmacia f1 : graph.vertices()){
-            double valor = shortestPath(graph,getFarmaciaByNIF(nif),f1,shortPath);
-            if(valor<min){
-                min=valor;
+        int nif1 = 0;
+
+        for (Farmacia f1 : graph.vertices()) {
+            double valor = shortestPath(graph, getFarmaciaByNIF(nif), f1, shortPath);
+            if (valor < min) {
+                min = valor;
                 nif1 = f1.getNIF();
             }
         }
         return nif1;
     }
-    
+
 }
