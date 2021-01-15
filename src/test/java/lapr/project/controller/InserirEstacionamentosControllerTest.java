@@ -127,7 +127,7 @@ public class InserirEstacionamentosControllerTest {
     @Test
     public void testGetNumMaxParqueByNIF() throws SQLException {
         System.out.println("getNumMaxParqueByNIF");
-        Parque parque = new Parque(111111111, "algures", 20, "drones");
+        Parque parque = new Parque(111111111, 20, "drones");
         parqueMock.addParque(parque);
         int expResult = parque.getNumeroMaximo();
         when(parqueMock.getNumMaxParqueByNIF(111111111)).thenReturn(20);
