@@ -7,6 +7,7 @@ package lapr.project.utils;
 
 import org.junit.jupiter.api.Test;
 
+import static lapr.project.utils.Data.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -152,7 +153,7 @@ public class DataTest {
         System.out.println("isAnoBissexto");
         int ano = 2020;
         boolean expResult = true;
-        boolean result = Data.isAnoBissexto(ano);
+        boolean result = isAnoBissexto(ano);
         assertEquals(expResult, result);
     }
 
@@ -162,8 +163,8 @@ public class DataTest {
     @Test
     public void testDataAtual() {
         System.out.println("dataAtual");
-        Data expResult = Data.dataAtual();
-        Data result = Data.dataAtual();
+        Data expResult = dataAtual();
+        Data result = dataAtual();
         assertEquals(expResult, result);
     }
 
@@ -192,5 +193,37 @@ public class DataTest {
         System.out.println(instance.contaDias());
         assertEquals(expResult, result);
     }
-    
+
+    @Test
+    public void testConstructorOutraData(){
+        Data outraData = new Data(2020, Mes.JANEIRO,12);
+        Data instance = new Data(outraData);
+        assertEquals(outraData,instance);
+    }
+
+
+    @Test
+    void numeroDeDiasJaneiro() {
+        assertEquals(31,Mes.JANEIRO.numeroDeDias(2019));
+    }
+
+    @Test
+    void numeroDeDiasFevereiroBissexto() {
+        assertEquals(29,Mes.FEVEREIRO.numeroDeDias(2020));
+    }
+
+    @Test
+    void numeroDeDiasFevereiroNaoBissexto() {
+        assertEquals(28,Mes.FEVEREIRO.numeroDeDias(2019));
+    }
+
+    @Test
+    void obterMes() {
+        assertEquals(Mes.MARCO,Mes.obterMes(3));
+    }
+
+    @Test
+    void valueOf() {
+        assertEquals(Mes.JANEIRO,Mes.valueOf("JANEIRO"));
+    }
 }
