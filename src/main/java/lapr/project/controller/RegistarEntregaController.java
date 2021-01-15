@@ -14,6 +14,7 @@ import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Farmacia;
+import lapr.project.model.Graph;
 import lapr.project.model.Veiculo;
 
 /**
@@ -76,8 +77,12 @@ public class RegistarEntregaController {
         return enderecoDB.getEnderecoByNifCliente(nif);
     }
     
-    public List<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotal){
+    public Graph<Endereco,Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotal){
         return entregaDB.generateGraph(listEnderecos, est, veiculo, pesoTotal);
     }
-       
+    
+    public double getPath(Graph<Endereco, Double> graph, List<Endereco> listEnderecos, List<Endereco> finalShortPath, Endereco origem, double energia){
+        return entregaDB.getPath(graph, listEnderecos, finalShortPath, origem, energia);
+    }
+    
 }

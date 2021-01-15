@@ -19,6 +19,7 @@ import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Farmacia;
+import lapr.project.model.Graph;
 import lapr.project.model.Veiculo;
 
 /**
@@ -98,10 +99,13 @@ public class RegistarEntregaUI {
                 listEnderecos.add(end);
             }
             
-            List<Endereco> lEn = controller.generateGraph(listEnderecos, est, veiculo, pesoTotal);
+            Graph<Endereco,Double> graph = controller.generateGraph(listEnderecos, est, veiculo, pesoTotal);
+            LinkedList<Endereco> finalShortPath = new LinkedList<>();
             
+            double energiaTotalGasta = controller.getPath(graph, listEnderecos, finalShortPath, listEnderecos.get(0), 0);
             System.out.println("\n\nEntrega adicionada com sucesso'");
-            System.out.println("\n\nCaminho com menor energia gasta: '" + lEn);
+            System.out.println("\n\nCaminho com menor energia gasta: '" + finalShortPath);
+            System.out.println("\n\nEnergia gasta: '" + energiaTotalGasta);
             
             
         }

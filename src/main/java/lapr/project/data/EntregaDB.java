@@ -144,7 +144,7 @@ public class EntregaDB extends DataHandler {
         return list;
     }
 
-    public List<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
+    public Graph<Endereco,Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
 
         Graph<Endereco, Double> graph = new Graph<>(true);
         double energiaGasta = 0;
@@ -178,10 +178,7 @@ public class EntregaDB extends DataHandler {
                 pesoTotalEntrega = pesoTotalEntrega - enc1.getPesoEncomenda();
             }
         }
-
-        LinkedList<Endereco> finalShortPath = new LinkedList<>();
-        getPath(graph, listEnderecos, finalShortPath, listEnderecos.get(0), 0);
-        return finalShortPath;
+        return graph;
     }
 
     public double getPath(Graph<Endereco, Double> graph, List<Endereco> listEnderecos, List<Endereco> finalShortPath, Endereco origem, double energia) {
