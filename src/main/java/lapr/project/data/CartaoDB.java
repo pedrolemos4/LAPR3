@@ -55,7 +55,7 @@ public class CartaoDB extends DataHandler {
      * @return true se os dados do cartão de cidadão são válidos
      */
     public boolean validaCartao(Cartao cc) {
-        return !(cc == null || cc.getNumeroCartao() < 0 || cc.getCCV() < 0 || !cc.getDataDeValidade().isEmpty());
+        return !(cc == null || cc.getNumeroCartao() < 0 || cc.getCCV() < 0 || cc.getDataDeValidade().isEmpty());
     }
 
     /**
@@ -81,8 +81,9 @@ public class CartaoDB extends DataHandler {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }")) {
                 callStmt.setInt(1, numeroCartao);
-                Timestamp dValidade = Timestamp.valueOf(dataDeValidade);
-                callStmt.setTimestamp(2, dValidade);
+                /*Timestamp dValidade = Timestamp.valueOf(dataDeValidade);
+                callStmt.setTimestamp(2, dValidade);*/
+                callStmt.setInt(2,Integer.parseInt(dataDeValidade));
                 callStmt.setInt(3, ccv);
                 callStmt.execute();
             }

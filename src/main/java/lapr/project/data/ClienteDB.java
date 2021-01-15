@@ -21,7 +21,6 @@ import lapr.project.model.Cliente;
  */
 public class ClienteDB extends DataHandler {
 
-
     /**
      * Cria um novo cliente
      *
@@ -69,9 +68,9 @@ public class ClienteDB extends DataHandler {
      * @return
      */
     public boolean addCliente(Cliente cl) {
-        addCliente(cl.getNIF(), cl.getCreditos(), cl.getEnderecoMorada(), cl.getNumCartaoCredito());
         UtilizadorDB userDB = new UtilizadorDB();
         userDB.addUtilizador(cl.getNIF(), cl.getNome(), cl.getEmail(), cl.getNumeroSegurancaSocial(), cl.getPassword());
+        addCliente(cl.getNIF(), cl.getCreditos(), cl.getEnderecoMorada(), cl.getNumCartaoCredito());
         return true;
     }
 
@@ -86,7 +85,7 @@ public class ClienteDB extends DataHandler {
     public void addCliente(int nif, double creditos, String enderecoMorada, int numCC) {
         try {
             openConnection();
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addCliente(?,?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCliente(?,?,?,?) }")) {
                 callStmt.setInt(1, nif);
                 callStmt.setDouble(2, creditos);
                 callStmt.setString(3, enderecoMorada);
@@ -108,8 +107,8 @@ public class ClienteDB extends DataHandler {
         ArrayList<Cliente> list = new ArrayList<>();
         String query = "SELECT * FROM cliente";
 
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
                     int creditos = rSet.getInt(2);
@@ -135,8 +134,8 @@ public class ClienteDB extends DataHandler {
     public Cliente getClienteByEmail(String email) {
         String query = "SELECT * FROM cliente e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.email= " + email;
 
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int aInt = rSet.getInt(1);
@@ -156,7 +155,7 @@ public class ClienteDB extends DataHandler {
 
         boolean removed = false;
 
-        try (CallableStatement callV = getConnection().prepareCall("{ call removeCreditos(?,?) }")) {
+        try ( CallableStatement callV = getConnection().prepareCall("{ call removeCreditos(?,?) }")) {
 
             callV.setString(1, email);
             callV.setDouble(2, creditosData);

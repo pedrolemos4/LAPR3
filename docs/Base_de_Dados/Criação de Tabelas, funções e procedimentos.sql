@@ -119,10 +119,10 @@ CREATE TABLE "LAPR3_G23".Endereco
 
 
 CREATE TABLE "LAPR3_G23".Utilizador 
-(           NIF number(10) GENERATED AS IDENTITY, 
+(           NIF number(10), 
             nome varchar(255) NOT NULL, 
             email varchar(255) NOT NULL UNIQUE, 
-            numeroSegurancaSocial number(10) NOT NULL, 
+            numeroSegurancaSocial number(10) NOT NULL UNIQUE, 
             password varchar(255) NOT NULL, 
             PRIMARY KEY (NIF)
  );
@@ -209,8 +209,8 @@ CREATE TABLE "LAPR3_G23".Pagamento
 
 
 CREATE TABLE "LAPR3_G23".Cartao 
-(           numeroCartaoCredito number(10) GENERATED AS IDENTITY,
-            dataDeValidade timestamp NOT NULL, 
+(           numeroCartaoCredito number(10),
+            dataDeValidade number(10) NOT NULL, 
             CCV number(10) NOT NULL, 
             PRIMARY KEY (numeroCartaoCredito)
 );
@@ -604,3 +604,8 @@ BEGIN
     WHERE "LAPR3_G23".veiculo.idveiculo = p_id;
 END;
 /
+
+select * from endereco;
+INSERT INTO "LAPR3_G23".cartao VALUES(123123456,3,3);   
+select * from cartao;
+select * from cliente;

@@ -23,7 +23,7 @@ public class RegistarClienteUI {
      * Criação do controlador responsável por registar clientes
      */
     public RegistarClienteUI() {
-        this.controller = new RegistarClienteController(new ClienteDB(), new UtilizadorDB(),new EnderecoDB(),new CartaoDB());
+        this.controller = new RegistarClienteController(new ClienteDB(), new UtilizadorDB(), new EnderecoDB(), new CartaoDB());
     }
 
     /**
@@ -46,12 +46,14 @@ public class RegistarClienteUI {
         System.out.println("NIF:");
         int nif = LER.nextInt();
         System.out.println("Nome:");
+        LER.nextLine();
         String nome = LER.nextLine();
         System.out.println("Email:");
         String email = LER.nextLine();
         System.out.println("Número de Segurança Social:");
         int nss = LER.nextInt();
         System.out.println("Endereço residencial:");
+        LER.nextLine();
         String morada = LER.nextLine();
         System.out.println("Latitude:");
         double lat = LER.nextDouble();
@@ -59,16 +61,18 @@ public class RegistarClienteUI {
         double lon = LER.nextDouble();
         System.out.println("Altitude:");
         double alt = LER.nextDouble();
-        System.out.println("Número de Cartão de Cidadão:");
+        System.out.println("Número de Cartão de Crédito:");
         int ncc = LER.nextInt();
         System.out.println("Data de Validade do CC:");
+        LER.nextLine();
         String dvcc = LER.nextLine();
         System.out.println("CCV:");
         int ccv = LER.nextInt();
         System.out.println("Password:");
+        LER.nextLine();
         String pwd = LER.nextLine();
-        int creditos=0;
-        Cliente cl = controller.novoCliente(nif, nome, email, nss,creditos, morada, ncc, pwd);
+        int creditos = 0;
+        Cliente cl = controller.novoCliente(nif, nome, email, nss, creditos, morada, ncc, pwd);
         Endereco end = controller.novoEndereco(morada, lat, lon, alt);
         Cartao cc = controller.novoCartao(ncc, dvcc, ccv);
 
@@ -89,9 +93,9 @@ public class RegistarClienteUI {
         String confirm = LER.next();
 
         if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
-            controller.registaCliente(cl);
-            controller.registaCartao(cc);
             controller.registaEndereco(end);
+            System.out.println(controller.registaCartao(cc));
+            controller.registaCliente(cl);
             System.out.println("\n\nCliente registado com sucesso!");
             aux = true;
         } else {
@@ -142,7 +146,7 @@ public class RegistarClienteUI {
         } while (!opt.equals("0"));
     }
 
-    public void realizarEncomenda() throws SQLException, ClassNotFoundException{
+    public void realizarEncomenda() throws SQLException, ClassNotFoundException {
         RealizarEncomendaUI regEncUI = new RealizarEncomendaUI();
         regEncUI.introduzEncomenda();
         menuCliente();
