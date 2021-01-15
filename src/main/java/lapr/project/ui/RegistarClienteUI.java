@@ -2,6 +2,7 @@ package lapr.project.ui;
 
 import static java.lang.System.exit;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.RegistarClienteController;
@@ -16,6 +17,7 @@ import lapr.project.model.Endereco;
 public class RegistarClienteUI {
 
     public static final Scanner LER = new Scanner(System.in);
+    public static final LoginUI loginUI = new LoginUI();
 
     RegistarClienteController controller;
 
@@ -31,7 +33,7 @@ public class RegistarClienteUI {
      *
      * @return
      */
-    public boolean registaCliente() {
+    public boolean registaCliente() throws ParseException, ClassNotFoundException, SQLException {
         boolean aux = false;
         System.out.println("Lista de Clientes: ");
         List<Cliente> lc = controller.getListaClientes();
@@ -94,12 +96,14 @@ public class RegistarClienteUI {
 
         if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
             controller.registaEndereco(end);
-            System.out.println(controller.registaCartao(cc));
+            controller.registaCartao(cc);
             controller.registaCliente(cl);
             System.out.println("\n\nCliente registado com sucesso!");
+            menuCliente();
             aux = true;
         } else {
             System.out.println("\n\nRegisto do Cliente cancelado!");
+            loginUI.menu();
         }
         return aux;
     }
@@ -118,7 +122,8 @@ public class RegistarClienteUI {
                 + "\n 7 - Check Spots in a Park for Scooters"
                 + "\n 8 - Check Spots in a Park for Bicycles"*/
                 + "\n 0 - Exit"
-                + "\n Choose one of the options above.");
+                + "\n Escolha uma opção válida.");
+       // LER.nextLine();
     }
 
     /**
@@ -127,26 +132,27 @@ public class RegistarClienteUI {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public void menuCliente() throws ClassNotFoundException, SQLException {
+    public void menuCliente() throws ClassNotFoundException, SQLException, ParseException {
         String opt;
         do {
             textoMenuCliente();
+            LER.nextLine();
             opt = LER.nextLine();
-
             switch (opt) {
                 case "1":
                     realizarEncomenda();
                     break;
                 case "0":
-                    exit(0);
+                    loginUI.menu();
                     break;
                 default:
+                    System.out.println("");
                     System.out.println("Insira uma opção válida");
             }
         } while (!opt.equals("0"));
     }
 
-    public void realizarEncomenda() throws SQLException, ClassNotFoundException {
+    public void realizarEncomenda() throws SQLException, ClassNotFoundException, ParseException {
         RealizarEncomendaUI regEncUI = new RealizarEncomendaUI();
         regEncUI.introduzEncomenda();
         menuCliente();

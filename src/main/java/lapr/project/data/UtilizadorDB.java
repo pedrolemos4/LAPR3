@@ -111,19 +111,21 @@ public class UtilizadorDB extends DataHandler {
     }
 
     public Cliente getByID(int nif) {
-        String query = "SELECT * FROM cliente p WHERE p.nif= " + nif;
+        String query = "SELECT * FROM cliente p,utilizador s "
+                + "WHERE p.Utilizadornif= " + nif 
+                + " AND s.nif = " + nif;
 
         try (Statement stm = getConnection().createStatement()){
             try(ResultSet rSet  = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
-                    String nome = rSet.getString(2);
-                    String email = rSet.getString(3);
-                    int nSegSocial = rSet.getInt(4);
-                    int creditos = rSet.getInt(5);
-                    String morada = rSet.getString(6);
-                    int numCC = rSet.getInt(7);
-                    String password = rSet.getString(8);
+                    int creditos = rSet.getInt(2);
+                    String morada = rSet.getString(3);
+                    int numCC = rSet.getInt(4);
+                    String nome = rSet.getString(6);
+                    String email = rSet.getString(7);
+                    int nSegSocial = rSet.getInt(8);
+                    String password = rSet.getString(9);
 
                     return new Cliente(nif, nome, email, nSegSocial, creditos, morada, numCC, password);
                 }

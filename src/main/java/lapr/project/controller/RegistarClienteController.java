@@ -5,6 +5,7 @@
  */
 package lapr.project.controller;
 
+import java.text.ParseException;
 import java.util.List;
 import lapr.project.data.CartaoDB;
 import lapr.project.data.ClienteDB;
@@ -62,7 +63,7 @@ public class RegistarClienteController {
         return (enderecoDB.registaEndereco(end) ? true : false);
     }
 
-    public boolean registaCartao(Cartao cc) {
+    public boolean registaCartao(Cartao cc) throws ParseException {
         return (cartaoDB.registaCartao(cc) ? true : false);
     }
 

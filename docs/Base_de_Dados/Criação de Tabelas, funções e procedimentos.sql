@@ -27,6 +27,7 @@ drop table "LAPR3_G23".estadoTransferencia CASCADE CONSTRAINTS PURGE;
 
 CREATE TABLE "LAPR3_G23".Farmacia 
 (           NIF number(10) GENERATED AS IDENTITY,
+            email varchar(255) NOT NULL,
             Morada varchar(255) NOT NULL,
             PRIMARY KEY (NIF)
 );
@@ -210,7 +211,7 @@ CREATE TABLE "LAPR3_G23".Pagamento
 
 CREATE TABLE "LAPR3_G23".Cartao 
 (           numeroCartaoCredito number(10),
-            dataDeValidade number(10) NOT NULL, 
+            dataDeValidade date NOT NULL, 
             CCV number(10) NOT NULL, 
             PRIMARY KEY (numeroCartaoCredito)
 );
@@ -285,10 +286,11 @@ INSERT INTO "LAPR3_G23".EstadoTransferencia VALUES(1,'Pendente');
 INSERT INTO "LAPR3_G23".EstadoTransferencia VALUES(2,'A transferir');
 INSERT INTO "LAPR3_G23".EstadoTransferencia VALUES(3,'Transferido');
 
-CREATE OR REPLACE PROCEDURE addFarmacia(p_NIF "LAPR3_G23".farmacia.nif%type, morada "LAPR3_G23".farmacia.morada%type) 
+CREATE OR REPLACE PROCEDURE addFarmacia(p_NIF "LAPR3_G23".farmacia.nif%type,p_email "LAPR3_G23".farmacia.email%type,
+morada "LAPR3_G23".farmacia.morada%type) 
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".farmacia VALUES(p_NIF, morada);   
+  INSERT INTO "LAPR3_G23".farmacia VALUES(p_NIF,p_email, morada);   
 END;    
 /
 
@@ -609,3 +611,7 @@ select * from endereco;
 INSERT INTO "LAPR3_G23".cartao VALUES(123123456,3,3);   
 select * from cartao;
 select * from cliente;
+
+SELECT * 
+FROM cliente p, utilizador s 
+WHERE p.UtilizadorNIF= 123456777 and s.nif = 123456777;

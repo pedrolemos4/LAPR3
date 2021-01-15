@@ -7,6 +7,7 @@ package lapr.project.ui;
 
 import static java.lang.System.exit;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -26,6 +27,7 @@ public class AdminUI {
      * Scanner para leitura de teclado
      */
     public static final Scanner LER = new Scanner(System.in);
+    public static final LoginUI loginUI = new LoginUI();
 
     /**
      *
@@ -49,7 +51,7 @@ public class AdminUI {
                 + "\n Escolha uma das opções.");
     }
 
-    public void menu() {
+    public void menu() throws ClassNotFoundException, SQLException, ParseException {
         String opt;
         do {
             showMenu();
@@ -78,7 +80,7 @@ public class AdminUI {
                     atualizarItem();
                     break;
                 case "0":
-                    exit(0);
+                    loginUI.menu();
                     break;
                 default:
                     System.out.println("Invalid option");
@@ -89,7 +91,7 @@ public class AdminUI {
     /**
      * Interface that allows the addition of a veiculo into the system
      */
-    public void addVeiculo() {
+    public void addVeiculo() throws ClassNotFoundException, SQLException, ParseException {
 
         System.out.println("Pretende adicionar uma scooter ou um drone?");
         String veiculo = LER.nextLine();
@@ -166,7 +168,7 @@ public class AdminUI {
         }
     }
 
-    public void removeVeiculo() {
+    public void removeVeiculo() throws ClassNotFoundException, SQLException, ParseException {
         System.out.println("Insira o id do veículo a remover:");
         int idVeiculo = LER.nextInt();
         VeiculoController sc = new VeiculoController(new VeiculoDB());
@@ -188,7 +190,7 @@ public class AdminUI {
         }
     }
 
-    public void updateVeiculo() {
+    public void updateVeiculo() throws ClassNotFoundException, SQLException, ParseException {
         VeiculoController sc = new VeiculoController(new VeiculoDB());
         List<Veiculo> lista = sc.getListaVeiculo();
 
@@ -266,25 +268,25 @@ public class AdminUI {
         }
     }
 
-    public void registarEstafeta() {
+    public void registarEstafeta() throws ClassNotFoundException, SQLException, ParseException {
         RegistarEstafetaUI regEstUI = new RegistarEstafetaUI();
         regEstUI.registaEstafeta();
         menu();
     }
 
-    public void atualizarEstafeta() {
+    public void atualizarEstafeta() throws ClassNotFoundException, SQLException, ParseException {
         AtualizarEstafetaUI atEstUI = new AtualizarEstafetaUI();
         atEstUI.atualizarEstafeta();
         menu();
     }
 
-    public void adicionarItem() {
+    public void adicionarItem() throws ClassNotFoundException, SQLException, ParseException {
         InserirItensStockUI itStoUI = new InserirItensStockUI();
         itStoUI.registaProduto();
         menu();
     }
 
-    public void atualizarItem() {
+    public void atualizarItem() throws ClassNotFoundException, SQLException, ParseException {
         AtualizarItensStockUI atStoUI = new AtualizarItensStockUI();
         atStoUI.atualizarEstafeta();
         menu();

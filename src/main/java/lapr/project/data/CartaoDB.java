@@ -6,10 +6,13 @@
 package lapr.project.data;
 
 import java.sql.CallableStatement;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,7 +24,6 @@ import lapr.project.model.Cartao;
  * @author josep
  */
 public class CartaoDB extends DataHandler {
-
 
     /**
      * Cria um novo cartão de cidadão
@@ -41,7 +43,7 @@ public class CartaoDB extends DataHandler {
      * @param cc cartão de cidadão
      * @return
      */
-    public boolean registaCartao(Cartao cc) {
+    public boolean registaCartao(Cartao cc) throws ParseException {
         if (validaCartao(cc)) {
             addCartao(cc);
         }
@@ -64,7 +66,7 @@ public class CartaoDB extends DataHandler {
      * @param cc cartão de cidadão
      * @return
      */
-    public boolean addCartao(Cartao cc) {
+    public boolean addCartao(Cartao cc) throws ParseException {
         addCartao(cc.getNumeroCartao(), cc.getDataDeValidade(), cc.getCCV());
         return true;
     }
@@ -76,14 +78,17 @@ public class CartaoDB extends DataHandler {
      * @param dataDeValidade data de validade do cartão de cidadão
      * @param ccv
      */
-    public void addCartao(int numeroCartao, String dataDeValidade, int ccv) {
+    public void addCartao(int numeroCartao, String dataDeValidade, int ccv) throws ParseException {
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }")) {
                 callStmt.setInt(1, numeroCartao);
-                /*Timestamp dValidade = Timestamp.valueOf(dataDeValidade);
-                callStmt.setTimestamp(2, dValidade);*/
-                callStmt.setInt(2,Integer.parseInt(dataDeValidade));
+                //Date dValidade = Date.valueOf(dataDeValidade);
+                //String startDate = "01-02-2013";
+                SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                java.util.Date date = sdf1.parse(dataDeValidade);
+                java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+                callStmt.setDate(2, sqlStartDate);
                 callStmt.setInt(3, ccv);
                 callStmt.execute();
             }

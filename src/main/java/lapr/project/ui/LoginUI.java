@@ -7,6 +7,7 @@ package lapr.project.ui;
 
 import static java.lang.System.exit;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Scanner;
 import lapr.project.controller.RegistarClienteController;
 import lapr.project.data.CartaoDB;
@@ -37,7 +38,7 @@ public class LoginUI {
                 + "0- Sair");
     }
 
-    public void menu() throws ClassNotFoundException, SQLException {
+    public void menu() throws ClassNotFoundException, SQLException, ParseException {
         String opcao;
         do {
             textoMenuLogin();
@@ -58,7 +59,7 @@ public class LoginUI {
         } while (!opcao.equals("0"));
     }
 
-    public void login() throws ClassNotFoundException, SQLException {
+    public void login() throws ClassNotFoundException, SQLException, ParseException {
         System.out.println("\nEmail:");
         String email = LER.nextLine();
 
@@ -80,13 +81,14 @@ public class LoginUI {
         }
     }
 
-    public void registo() throws ClassNotFoundException, SQLException {
+    public void registo() throws ClassNotFoundException, SQLException, ParseException  {
         RegistarClienteUI rcui = new RegistarClienteUI();
-        boolean res = rcui.registaCliente();
+        rcui.registaCliente();
+        /*boolean res = rcui.registaCliente();
         if (res) {
             rcui.menuCliente();
         } else {
             menu();
-        }
+        }*/
     }
 }
