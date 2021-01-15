@@ -2,6 +2,8 @@ package lapr.project.controller;
 
 import java.sql.SQLException;
 import java.util.List;
+import lapr.project.data.ClienteDB;
+import lapr.project.data.EmailDB;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.EnderecoDB;
 import lapr.project.data.EntregaDB;
@@ -9,6 +11,7 @@ import lapr.project.data.EstafetaDB;
 import lapr.project.data.FarmaciaDB;
 import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
+import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
@@ -29,18 +32,26 @@ public class RegistarEntregaController {
     private final EncomendaDB encomendaDB;
     private final VeiculoDB veiculoDB;
     private final EnderecoDB enderecoDB;
+    private final EmailDB emailDB;
+    private final ClienteDB clienteDB;
 
-    public RegistarEntregaController(FarmaciaDB farmaciaDB, EstafetaDB estafetaDB, EntregaDB entregaDB, EncomendaDB encomendaDB, VeiculoDB veiculoDB, EnderecoDB enderecoDB) {
+    public RegistarEntregaController(FarmaciaDB farmaciaDB, EstafetaDB estafetaDB, EntregaDB entregaDB, EncomendaDB encomendaDB, VeiculoDB veiculoDB, EnderecoDB enderecoDB, EmailDB emailDB, ClienteDB clienteDB) {
         this.farmaciaDB = farmaciaDB;
         this.estafetaDB = estafetaDB;
         this.entregaDB = entregaDB;
         this.encomendaDB = encomendaDB;
         this.veiculoDB = veiculoDB;
         this.enderecoDB = enderecoDB;
+        this.emailDB = emailDB;
+        this.clienteDB = clienteDB;
     }
     
     public List<Farmacia> getLstFarmacias(){
         return farmaciaDB.getLstFarmacias();
+    }
+    
+    public Farmacia getFarmaciaByNif(int nifFarmacia){
+        return farmaciaDB.getFarmaciaByNIF(nifFarmacia);
     }
     
     public List<Veiculo> getListVeiculo(){
@@ -83,6 +94,14 @@ public class RegistarEntregaController {
     
     public double getPath(Graph<Endereco, Double> graph, List<Endereco> listEnderecos, List<Endereco> finalShortPath, Endereco origem, double energia){
         return entregaDB.getPath(graph, listEnderecos, finalShortPath, origem, energia);
+    }
+    
+    public boolean enviarNotaCliente(Farmacia farmacia, Cliente c){
+        return (emailDB.sendEmail(farmacia.getEmail(), c.getEmail(), "Entrega", "A sua entrega está a caminho")? true : false);
+    }
+    
+    public Cliente getClienteByEndereco(Endereco end){
+        return clienteDB.getClienteByMorada(end);
     }
     
 }

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr.project.model.Cliente;
+import lapr.project.model.Endereco;
 
 /**
  *
@@ -133,6 +134,32 @@ public class ClienteDB extends DataHandler {
      */
     public Cliente getClienteByEmail(String email) {
         String query = "SELECT * FROM cliente e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.email= " + email;
+
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
+
+                if (rSet.next()) {
+                    int aInt = rSet.getInt(1);
+                    int aInt1 = rSet.getInt(2);
+                    String string = rSet.getString(3);
+                    int aInt2 = rSet.getInt(4);
+                    return new Cliente(aInt, aInt1, string, aInt2);
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return null;
+    }
+    
+    /**
+     * Procura cliente pelo endereco do cliente
+     *
+     * @param end endereco do cliente
+     * @return cliente
+     */
+    public Cliente getClienteByMorada(Endereco end) {
+        String query = "SELECT * FROM cliente c INNER JOIN endereco e ON c.EnderecoMorada = e.morada WHERE e.morada= " + end.getMorada();
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {

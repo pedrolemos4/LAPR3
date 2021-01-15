@@ -10,10 +10,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
+import lapr.project.model.Farmacia;
 import lapr.project.model.Graph;
 import lapr.project.model.GraphAlgorithms;
 import lapr.project.model.Veiculo;
@@ -233,5 +235,5 @@ public class EntregaDB extends DataHandler {
             Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
         return null;
-    }
+    } 
 }

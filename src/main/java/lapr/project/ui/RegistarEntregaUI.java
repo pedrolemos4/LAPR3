@@ -8,12 +8,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.RegistarEntregaController;
+import lapr.project.data.ClienteDB;
+import lapr.project.data.EmailDB;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.EnderecoDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
 import lapr.project.data.FarmaciaDB;
 import lapr.project.data.VeiculoDB;
+import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
@@ -32,7 +35,7 @@ public class RegistarEntregaUI {
     public final RegistarEntregaController controller;
 
     public RegistarEntregaUI() {
-        this.controller = new RegistarEntregaController(new FarmaciaDB(), new EstafetaDB(),new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB());
+        this.controller = new RegistarEntregaController(new FarmaciaDB(), new EstafetaDB(),new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
     }
     
     public void introduzEntrega() throws SQLException {
@@ -44,6 +47,7 @@ public class RegistarEntregaUI {
         }
         System.out.println("Escolha a farmacia para a qual irá fazer uma entrega");
         int nifFarmacia = LER.nextInt();
+        Farmacia farmacia = controller.getFarmaciaByNif(nifFarmacia);
                 
         System.out.println("Lista de veiculos: ");
         List<Veiculo> list = controller.getListVeiculo();
@@ -96,7 +100,9 @@ public class RegistarEntregaUI {
             for(Encomenda e : listEncomendaByEntrega){
                 pesoTotal = pesoTotal + e.getPesoEncomenda();
                 Endereco end = controller.getEnderecoByNifCliente(e.getNif());
+                Cliente c = controller.getClienteByEndereco(end);
                 listEnderecos.add(end);
+                controller.enviarNotaCliente(farmacia, c);
             }
             
             Graph<Endereco,Double> graph = controller.generateGraph(listEnderecos, est, veiculo, pesoTotal);

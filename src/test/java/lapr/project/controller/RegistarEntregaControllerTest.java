@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import lapr.project.data.ClienteDB;
+import lapr.project.data.EmailDB;
 import lapr.project.data.EncomendaDB;
 import lapr.project.data.EnderecoDB;
 import lapr.project.data.EntregaDB;
@@ -11,6 +13,7 @@ import lapr.project.data.EstafetaDB;
 import lapr.project.data.FarmaciaDB;
 import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
+import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
@@ -34,6 +37,8 @@ public class RegistarEntregaControllerTest {
     private EncomendaDB encomendaDB;
     private VeiculoDB veiculoDB;
     private EnderecoDB enderecoDB;
+    private EmailDB emailDB;
+    private ClienteDB clienteDB;
     private RegistarEntregaController instance;
     
     public RegistarEntregaControllerTest() {
@@ -47,7 +52,9 @@ public class RegistarEntregaControllerTest {
         encomendaDB = mock(EncomendaDB.class);
         veiculoDB = mock(VeiculoDB.class);
         enderecoDB = mock(EnderecoDB.class);
-        instance = new RegistarEntregaController(farmaciaDB, estafetaDB, entregaDB, encomendaDB, veiculoDB, enderecoDB);
+        emailDB = mock(EmailDB.class);
+        clienteDB = mock(ClienteDB.class);
+        instance = new RegistarEntregaController(farmaciaDB, estafetaDB, entregaDB, encomendaDB, veiculoDB, enderecoDB, emailDB, clienteDB);
         
     }
 
@@ -242,9 +249,52 @@ public class RegistarEntregaControllerTest {
         Endereco origem = e1;
         double energia = 0.0;
         double expResult = 0.0;
-        RegistarEntregaController teste = new RegistarEntregaController(new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB());
+        RegistarEntregaController teste = new RegistarEntregaController(new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
         double result = teste.getPath(graph, listEnderecos, finalShortPath, origem, energia);
         assertEquals(expResult, result, 0.0);
+
+    }
+
+    /**
+     * Test of getFarmaciaByNif method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetFarmaciaByNif() {
+        System.out.println("getFarmaciaByNif");
+        int nifFarmacia = 123456789;
+        Farmacia expResult = new Farmacia(123456789, "rhb", "evfg");
+        when(farmaciaDB.getFarmaciaByNIF(nifFarmacia)).thenReturn(expResult);
+        Farmacia result = instance.getFarmaciaByNif(nifFarmacia);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of enviarNotaCliente method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testEnviarNotaCliente() {
+        System.out.println("enviarNotaCliente");
+        Farmacia farmacia = new Farmacia(123456789, "sert", "vfd");
+        Cliente c = new Cliente(123456789, "bf", "fbh", 47, 85, "fhg", 34, "dfbg");
+        boolean expResult = false;
+        when(emailDB.sendEmail(farmacia.getEmail(), c.getEmail(), "dv", "dbg")).thenReturn(expResult);
+        boolean result = instance.enviarNotaCliente(farmacia, c);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of getClienteByEndereco method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetClienteByEndereco() {
+        System.out.println("getClienteByEndereco");
+        Endereco end = new Endereco("vnrj", 34, 32, 12);
+        Cliente expResult = new Cliente(123456789, "bf", "fbh", 47, 85, "fhg", 34, "dfbg");
+        when(clienteDB.getClienteByMorada(end)).thenReturn(expResult);
+        Cliente result = instance.getClienteByEndereco(end);
+        assertEquals(expResult, result);
 
     }
     
