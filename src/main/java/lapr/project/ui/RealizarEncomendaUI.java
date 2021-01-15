@@ -45,11 +45,11 @@ public class RealizarEncomendaUI {
         System.out.println("Insira o NIF da fármácia que pretende encomendar os produtos: ");
 
         int nif = LER.nextInt();
-        List<Produto> stock = controller2.getFarmaciaByNIF(nif).getStock();
+        Map<Produto,Integer> stock =  controller.getListStock(nif);
         
         System.out.println("Lista de produtos disponível: ");
         
-        for (Produto p : stock) {
+        for (Produto p : stock.keySet()) {
             System.out.println(p);
         }
         
@@ -64,9 +64,11 @@ public class RealizarEncomendaUI {
             if (controller.produtoEncomenda(nif, prod, qntd) == false) {
                 while (true) {
                     System.out.println("A farmácia não tem o produto que deseja na quantidade pretendida! Por favor selecione outra farmácia para fazer o pedido:");
-                    // TEM QUE SER PELO grafo 
-                    if (controller2.getFarmaciaByNIF(nif1).getStock().contains(prod)) {
+                    // TEM QUE SER PELO grafo
+
+                    if (controller.getListStock(nif1).containsKey(prod)) {
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif1), prod, qntd);
+                        controller.produtoEncomenda(nif,prod,qntd);
                         //falta adicionar a lista de produtos da encomenda da 2 farmacia
                         break;
                     }
@@ -116,9 +118,7 @@ public class RealizarEncomendaUI {
                 }
                 
                 if(nif1==-1){
-                    controller.removerProdutosEncomenda(/*mandar o nif da 1 farmacia que o cliente insere*/mapaEncomenda); //remover por farmacia
-                }else{
-                    controller.removerProdutosEncomenda(/*mandar o nif das 2 farmacias que o cliente insere*/mapaEncomenda); //remover por farmacia
+                    controller.removerProdutosEncomenda(/*mandar o nif da 1 farmacia que o cliente insere*/mapaEncomenda,nif1); //remover por farmacia
                 }
                 
                 double precoTotal = controller.getPrecoTotal(enc.getTaxa());

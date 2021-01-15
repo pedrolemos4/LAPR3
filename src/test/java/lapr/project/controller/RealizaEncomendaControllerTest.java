@@ -377,7 +377,7 @@ class RealizaEncomendaControllerTest {
     public void testRemoverProdutosEncomenda() {
         System.out.println("removerProdutosEncomenda");
         Map<Produto, Integer> map = new TreeMap<>();
-        instance.removerProdutosEncomenda(map);
+        instance.removerProdutosEncomenda(map,123);
     }
 
     /**
