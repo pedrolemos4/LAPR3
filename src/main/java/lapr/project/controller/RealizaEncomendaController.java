@@ -93,7 +93,7 @@ public class RealizaEncomendaController {
     }
 
     public boolean notificaCliente(String email, String assunto, String mensagem) {
-        return (emailDB.sendEmail(email, assunto, mensagem) ? true : false);
+        return (emailDB.sendEmail("admlapr123@gmail.com",email, assunto, mensagem) ? true : false);
     }
 
     public boolean removerProdutosEncomenda(Map<Produto,Integer> map, int nif) {

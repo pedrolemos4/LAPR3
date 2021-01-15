@@ -17,7 +17,7 @@ import javax.mail.internet.MimeMessage;
 public class EmailDB {
     
 
-    public boolean sendEmail(String email, String assunto, String mensagem){
+    public boolean sendEmail(String emailOrig, String emailDest, String assunto, String mensagem){
         Properties props = new Properties();
         // Parâmetros de conexão com servidor Gmail */
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -32,7 +32,7 @@ public class EmailDB {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication()
                     {
-                        return new PasswordAuthentication("admlapr123@gmail.com",
+                        return new PasswordAuthentication(emailOrig,
                                 "LAPR12345678");
                     }
                 });
@@ -43,10 +43,10 @@ public class EmailDB {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(email));
+            message.setFrom(new InternetAddress(emailDest));
             //Remetente
 
-            Address[] toUser = InternetAddress.parse(email);
+            Address[] toUser = InternetAddress.parse(emailDest);
 
             message.setRecipients(Message.RecipientType.TO, toUser);
             message.setSubject(assunto);
