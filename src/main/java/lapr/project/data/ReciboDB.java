@@ -22,6 +22,7 @@ public class ReciboDB extends DataHandler {
     public boolean registaRecibo(Recibo rec) throws SQLException {
         if (validaRecibo(rec)) {
             addRecibo(rec);
+            return true;
         }
         return false;
     }

@@ -134,7 +134,10 @@ public class RealizarEncomendaUI {
                 Recibo rec = new Recibo(controller.getCliente().getNIF(), precoTotal, date.toString(), enc.getId());
                 rec.setLst(mapaEncomenda);
 
-                controller.emailRecibo(rec); 
+                controller.registaRecibo(rec);
+                String assunto = "Recibo.";
+                String mensagem = rec.toString();
+                controller.notificaCliente(email,assunto,mensagem);
 
                 for (Produto p : mapaEncomenda.keySet()) {
                     controller.novoRecibo(rec, p, mapaEncomenda.get(p));

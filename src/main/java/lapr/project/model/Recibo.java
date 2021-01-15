@@ -5,8 +5,7 @@
  */
 package lapr.project.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -134,7 +133,7 @@ public class Recibo {
      * @param lst 
      */
     public void setLst(Map<Produto, Integer> mapa) {
-        this.map = new TreeMap<>(mapa);
+        this.map = new HashMap<>(mapa);
     }
 
     @Override

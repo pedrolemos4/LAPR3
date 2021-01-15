@@ -176,18 +176,6 @@ class RealizaEncomendaControllerTest {
      * Test of novoRecibo method, of class RealizaEncomendaController.
      */
     @Test
-    public void testNovoRecibo_Recibo() throws Exception {
-        System.out.println("novoRecibo");
-        Recibo rec = new Recibo();
-        boolean expResult = reciboDB.registaRecibo(rec);
-        when(instance.notificaCliente("", "", "")).thenReturn(expResult);
-        assertEquals(expResult, instance.emailRecibo(rec));
-    }
-
-    /**
-     * Test of novoRecibo method, of class RealizaEncomendaController.
-     */
-    @Test
     public void testNovoRecibo_Recibo_Produto() {
         System.out.println("novoRecibo");
         Recibo rec = new Recibo();
@@ -286,34 +274,6 @@ class RealizaEncomendaControllerTest {
         boolean result = instance.verificaProdutoEncomenda(nif, prod, qntd);
         assertEquals(expResult, result);
     }
-
-    /**
-     * Test of notificaCliente method, of class RealizaEncomendaController.
-     */
-    @Test
-    public void testNotificaCliente() throws Exception {
-        System.out.println("notificaCliente");
-        String email = "a";
-        String assunto = "b";
-        String mensagem = "c";
-        boolean expResult = true;
-        when(emailDB.sendEmail("admlapr123@gmail.com",email, assunto, mensagem)).thenReturn(expResult);
-        assertEquals(expResult, instance.notificaCliente(email, assunto, mensagem));
-    }
-
-    /**
-     * Test of notificaCliente method, of class RealizaEncomendaController.
-     */
-    @Test
-    public void testNotificaCliente1() throws Exception {
-        System.out.println("notificaCliente1");
-        String email = "a";
-        String assunto = "b";
-        String mensagem = "c";
-        boolean expResult = false;
-        when(emailDB.sendEmail("admlapr123@gmail.com",email, assunto, mensagem)).thenReturn(expResult);
-        assertEquals(expResult, instance.notificaCliente(email, assunto, mensagem));
-    }
     
     /**
      * Test of getCreditosData method, of class RealizaEncomendaController.
@@ -390,5 +350,33 @@ class RealizaEncomendaControllerTest {
         double expResult = 0.0;
         double result = instance.getPrecoTotal(taxa);
         assertEquals(expResult, result, 0.0);
+    }
+
+    /**
+     * Test of notificaCliente method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testNotificaCliente() {
+        System.out.println("notificaCliente");
+        String email = "";
+        String assunto = "";
+        String mensagem = "";
+        boolean expResult = true;
+        when(emailDB.sendEmail("admlapr123@gmail.com",email, assunto, mensagem)).thenReturn(expResult);
+        boolean result = instance.notificaCliente(email, assunto, mensagem);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of registaRecibo method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testRegistaRecibo() throws Exception {
+        System.out.println("registaRecibo");
+        Recibo rec = new Recibo();
+        boolean expResult = true;
+        when(reciboDB.registaRecibo(rec)).thenReturn(expResult);
+        boolean result = instance.registaRecibo(rec);
+        assertEquals(expResult, result);
     }
 }

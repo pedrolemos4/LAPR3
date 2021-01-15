@@ -71,14 +71,6 @@ public class RealizaEncomendaController {
         return cliDB.getClienteByEmail(email);
     }
 
-    public boolean emailRecibo(Recibo rec) throws SQLException {
-        reciboDB.registaRecibo(rec);
-        String assunto = "Recibo.";
-        String mensagem = rec.toString();
-        String email = UserSession.getInstance().getUser().getEmail();
-        return notificaCliente(email, assunto, mensagem);
-    }
-
     public boolean novoRecibo(Recibo rec, Produto prod, int quant) {
         return (reciboDB.registaRecibo(rec, prod, quant) ? true : false);
     }
@@ -92,7 +84,7 @@ public class RealizaEncomendaController {
     }
 
     public boolean removerProdutosEncomenda(Map<Produto,Integer> map, int nif) {
-        return produtoDB.removerProdutosEncomenda(map,nif);
+        return (produtoDB.removerProdutosEncomenda(map,nif) ? true : false);
     }
 
     public double getCreditosData(Data date, double preco) {
@@ -113,6 +105,10 @@ public class RealizaEncomendaController {
 
     public double getPrecoTotal(double taxa) {
         return produtoDB.getPrecoTotal(taxa);
+    }
+
+    public boolean registaRecibo(Recibo rec) throws SQLException {
+        return (reciboDB.registaRecibo(rec) ? true : false);
     }
     
 }
