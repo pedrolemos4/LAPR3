@@ -39,7 +39,7 @@ public class PedirItemFarmaciaController {
         return fdb.getFarmaciaProxima(generateGrafo,nif);
     }
 
-    public boolean enviaNotaEntrega(String email, String email1) {
+    public boolean enviaNotaEntrega(String email, String email1) { 
         return (emDB.sendEmail(email, email1, "Adicionar Stock.", "Confirmamos que os produtos enviados foram recebidos.")? true : false);
     }
 

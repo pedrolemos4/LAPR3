@@ -82,7 +82,7 @@ public class RealizarEncomendaUI {
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif), controller2.getFarmaciaByNIF(nif1), prod, controller.getListStock(nif1).get(prod));
                         controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(nif).getEmail(), controller2.getFarmaciaByNIF(nif1).getEmail());
                         qntd = qntd - controller.getListStock(nif1).get(prod);
-                        controller.produtoEncomenda(nif1, prod, qntd);
+                        controller.produtoEncomenda(nif1, prod, qntd); 
                         farms.remove(controller2.getFarmaciaByNIF(nif1));
                     }
                 }
