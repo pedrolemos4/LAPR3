@@ -6,7 +6,6 @@
 package lapr.project.ui;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import lapr.project.controller.PedirItemFarmaciaController;
@@ -15,6 +14,7 @@ import lapr.project.data.*;
 import lapr.project.login.UserSession;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Farmacia;
+import lapr.project.model.Graph;
 import lapr.project.model.Produto;
 import lapr.project.model.Recibo;
 import lapr.project.utils.Data;
@@ -42,45 +42,55 @@ public class RealizarEncomendaUI {
         System.out.println("Insira o NIF da fármácia que pretende encomendar os produtos: ");
 
         int nif = LER.nextInt();
-        Map<Produto,Integer> stock =  controller.getListStock(nif);
-        
+        Map<Produto, Integer> stock = controller.getListStock(nif);
+
         System.out.println("Lista de produtos disponível: ");
-        
+
         for (Produto p : stock.keySet()) {
             System.out.println(p);
         }
-        
-        int nif1=-1;
+
+        int nif1;
         while (LER.hasNextLine()) {
             System.out.println("Introduza o id de um produto apresentado: ");
             int id = LER.nextInt();
-            System.out.println("Introduza a quantidade que pretende: ");
+            System.out.println("Introduza a quantidade que pretende mesmo não tendo a quantidade que pretende: ");
             int qntd = LER.nextInt();
             Produto prod = controller.getProdutoByID(id);
 
             if (controller.produtoEncomenda(nif, prod, qntd) == false) {
+                List<Farmacia> farms = controller2.getListaFarmaciaByProduto(prod, qntd);
                 while (true) {
-                    System.out.println("A farmácia não tem o produto que deseja na quantidade pretendida! Por favor selecione outra farmácia para fazer o pedido:");
-                    List<Farmacia> farms = new ArrayList<>();
-                    // TEM QUE SER PELO grafo
-
-                    if (controller.getListStock(nif1).containsKey(prod)) {
-                        controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif1), prod, qntd);
-
-
-                        controller.produtoEncomenda(nif,prod,qntd);
-                        //falta adicionar a lista de produtos da encomenda da 2 farmacia
+                    Graph<Farmacia, Double> generateGrafo = controller2.generateGrafo(farms);
+                    nif1 = controller2.getFarmaciaProxima(generateGrafo, nif);
+                    if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).containsValue(qntd)) {
+                        controller2.realizaPedido(controller2.getFarmaciaByNIF(nif), controller2.getFarmaciaByNIF(nif1), prod, qntd);
+                        controller.produtoEncomenda(nif1, prod, qntd);
+                        qntd = 0;
                         break;
+
+                    }
+                    if (controller.getListStock(nif1).containsKey(prod) && !controller.getListStock(nif1).containsValue(qntd)) {
+                        controller2.realizaPedido(controller2.getFarmaciaByNIF(nif), controller2.getFarmaciaByNIF(nif1), prod, controller.getListStock(nif1).get(prod));
+                        qntd = qntd - controller.getListStock(nif1).get(prod);
+                        controller.produtoEncomenda(nif1, prod, qntd);
+                        farms.remove(controller2.getFarmaciaByNIF(nif1));
                     }
                 }
             }
-            
+            if (qntd > 0) {
+                System.out.println("Não havia a quantidade que pretende.");
+                String assunto = "Produto não disponível.";
+                String mensagem = "O produto não estava disponível na quantidade pretendida logo foi inserido a quantidade existente em stock.";
+                String email = UserSession.getInstance().getUser().getEmail();
+                controller.notificaCliente(email, assunto, mensagem);
+            }
         }
 
         System.out.println("Lista de Produtos selecionados: ");
 
         for (Produto p : controller.getMapaEncomenda().keySet()) {
-            System.out.println("Produto: "+p.getDesignacao()+" Quantidade: "+controller.getMapaEncomenda().get(p));
+            System.out.println("Produto: " + p.getDesignacao() + " Quantidade: " + controller.getMapaEncomenda().get(p));
         }
 
         System.out.println("Confirme os dados introduzidos: (S/N)");
@@ -116,22 +126,20 @@ public class RealizarEncomendaUI {
                 for (Produto p : mapaEncomenda.keySet()) {
                     controller.registaEncomendaProduto(enc, p);
                 }
-                
-                if(nif1==-1){
-                    controller.removerProdutosEncomenda(/*mandar o nif da 1 farmacia que o cliente insere*/mapaEncomenda,nif1); //remover por farmacia
-                }
-                
+
+                controller.removerProdutosEncomenda(mapaEncomenda, nif);
+
                 double precoTotal = controller.getPrecoTotal(enc.getTaxa());
 
                 Recibo rec = new Recibo(controller.getCliente().getNIF(), precoTotal, date.toString(), enc.getId());
                 rec.setLst(mapaEncomenda);
 
-                controller.emailRecibo(rec); //envia email com o recibo e regista o recibo sem lista, so da entidade recibo
-                
+                controller.emailRecibo(rec); 
+
                 for (Produto p : mapaEncomenda.keySet()) {
                     controller.novoRecibo(rec, p, mapaEncomenda.get(p));
                 }
-                
+
                 System.out.println("Data do Recibo:");
                 System.out.println(rec.getData());
                 System.out.println("Preco Total:");

@@ -10,12 +10,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import lapr.project.model.Endereco;
 import lapr.project.model.Farmacia;
+import lapr.project.model.Graph;
+import static lapr.project.model.GraphAlgorithms.shortestPath;
+import lapr.project.model.Produto;
+import lapr.project.utils.CalculosFisica;
 
 /**
  *
@@ -132,5 +137,66 @@ public class FarmaciaDB extends DataHandler {
         return null;
     }
 
+    /**
+     * Retorna lista com todas as farmácias
+     *
+     * @return lista das farmácias
+     */
+    public List<Farmacia> getLstFarmaciasByProdutos(Produto p, int quant) {
+        ArrayList<Farmacia> list = new ArrayList<>();
+        String query = "SELECT * FROM farmacia f INNER JOIN stockfarmacia s ON s.farmacianif = f.nif AND s.stock = "+quant
+                + "INNER JOIN produto p ON s.produtoidproduto = p.idProduto AND p.idProduto ="+p.getId();
 
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
+                while (rSet.next()) {
+                    int nif = rSet.getInt(1);
+                    String email = rSet.getString(2);
+                    String morada = rSet.getString(3);
+                    list.add(new Farmacia(nif,email,morada));
+                }
+                return list;
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return list;
+    }
+
+    public Graph<Farmacia, Double> generateGrafo(List<Farmacia> farms) {
+        Graph<Farmacia, Double> graph = new Graph<>(false);
+        
+        for(Farmacia f : farms){
+            graph.insertVertex(f);
+        }
+        
+        for(Farmacia f : graph.vertices()){
+            for(Farmacia f2 : farms){
+                if(!f.equals(f2)){
+                    EnderecoDB endDB = new EnderecoDB();
+                    Endereco en1 = endDB.getEnderecoByNifFarmacia(f.getNIF());
+                    Endereco en2 = endDB.getEnderecoByNifFarmacia(f2.getNIF());
+                    graph.insertEdge(f, f2, null, CalculosFisica.calculoDistancia(en1.getLatitude(), en1.getLongitude(), en1.getAltitude(),
+                            en2.getLatitude(), en2.getLongitude(), en2.getAltitude()));
+                }
+            }
+        }
+        return graph;
+    }
+
+    public int getFarmaciaProxima(Graph<Farmacia, Double> graph, int nif) {
+        LinkedList<Farmacia> shortPath = new LinkedList<>();
+        double min = 999999999;
+        int nif1=0;
+        
+        for(Farmacia f1 : graph.vertices()){
+            double valor = shortestPath(graph,getFarmaciaByNIF(nif),f1,shortPath);
+            if(valor<min){
+                min=valor;
+                nif1 = f1.getNIF();
+            }
+        }
+        return nif1;
+    }
+    
 }
