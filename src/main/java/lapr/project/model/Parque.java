@@ -3,7 +3,6 @@ package lapr.project.model;
 public class Parque {
 
     private int nif;
-    private String morada;
     private int numeroMaximo;
     private String tipo;
 
@@ -12,13 +11,11 @@ public class Parque {
      * farmácia), morada do parque e número máximo de lugares
      *
      * @param nif nif do parque
-     * @param morada morada do parque
      * @param numeroMaximo número máximo de lugares do parque
      * @param tipo
      */
-    public Parque(int nif, String morada, int numeroMaximo, String tipo) {
+    public Parque(int nif, int numeroMaximo, String tipo) {
         this.nif = nif;
-        this.morada = morada;
         this.numeroMaximo = numeroMaximo;
         this.tipo = tipo;
     }
@@ -29,9 +26,8 @@ public class Parque {
      */
     public Parque() {
         this.nif = 0;
-        this.morada = "";
         this.numeroMaximo = 0;
-        this.tipo = "";
+        this.tipo = "sem tipo";
     }
 
     /**
@@ -50,24 +46,6 @@ public class Parque {
      */
     public void setNIF(int nif) {
         this.nif = nif;
-    }
-
-    /**
-     * Devolve a morada do parque
-     *
-     * @return endereço do parque
-     */
-    public String getMorada() {
-        return morada;
-    }
-
-    /**
-     * Modifica a morada do parque com o valor recebido por parâmetro
-     *
-     * @param morada nova morada do parque
-     */
-    public void setMorada(String morada) {
-        this.morada = morada;
     }
 
     /**
@@ -100,6 +78,6 @@ public class Parque {
 
     @Override
     public String toString() {
-        return "Parque{" + "nif=" + nif + ", morada=" + morada + ", numeroMaximo=" + numeroMaximo + ", tipo=" + tipo + '}';
+        return "Parque{" + "nif=" + nif + ", numeroMaximo=" + numeroMaximo + ", tipo=" + tipo + '}';
     }
 }

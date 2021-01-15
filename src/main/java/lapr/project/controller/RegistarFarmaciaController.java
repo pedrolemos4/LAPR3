@@ -61,13 +61,12 @@ public class RegistarFarmaciaController {
      * Cria um novo parque
      *
      * @param nif nif do parque/farmácia
-     * @param morada morada do parque
      * @param numMax limite máximo de veiculos do parque
      * @param tipo tipo de veículos do parque
      * @return novo parque criado
      */
-    public Parque novoParque(int nif, String morada, int numMax, String tipo) {
-        return parqueDB.novoParque(nif, morada, numMax, tipo);
+    public Parque novoParque(int nif,int numMax, String tipo) {
+        return parqueDB.novoParque(nif, numMax, tipo);
     }
 
     /**

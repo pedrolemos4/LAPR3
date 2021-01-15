@@ -30,8 +30,8 @@ public class ParqueDB extends DataHandler {
      * @param tipo tipo de veículos do parque
      * @return novo parque criado
      */
-    public Parque novoParque(int nif, String morada, int numMax, String tipo) {
-        return new Parque(nif, morada, numMax, tipo);
+    public Parque novoParque(int nif, int numMax, String tipo) {
+        return new Parque(nif, numMax, tipo);
     }
 
     /**
@@ -54,7 +54,7 @@ public class ParqueDB extends DataHandler {
      * @return true se o parque é valido
      */
     public boolean validaParque(Parque park) {
-        return !(park.getNIF() < 0 || park.getNumeroMaximo() < 0 || park.getMorada().isEmpty() || park.getTipo().isEmpty() || !"drones".equals(park.getTipo()) || !"scooters".equals(park.getTipo()));
+        return !(park.getNIF() < 0 || park.getNumeroMaximo() < 0 || park.getTipo().isEmpty() || !"drones".equals(park.getTipo()) || !"scooters".equals(park.getTipo()));
     }
 
     /**
@@ -63,7 +63,7 @@ public class ParqueDB extends DataHandler {
      * @param park parque
      */
     public void addParque(Parque park) {
-        addParque(park.getNIF(), park.getMorada(), park.getNumeroMaximo(), park.getTipo());
+        addParque(park.getNIF(), park.getNumeroMaximo(), park.getTipo());
     }
 
     /**
@@ -73,14 +73,13 @@ public class ParqueDB extends DataHandler {
      * @param morada morada do parque
      * @param numMax limite máximo de veiculos do parque
      */
-    public void addParque(int nif, String morada, int numMax, String tipo) {
+    public void addParque(int nif, int numMax, String tipo) {
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addParque(?,?,?,?) }")) {
                 callStmt.setInt(1, nif);
-                callStmt.setString(2, morada);
-                callStmt.setInt(3, numMax);
-                callStmt.setString(4, tipo);
+                callStmt.setInt(2, numMax);
+                callStmt.setString(3, tipo);
                 callStmt.execute();
             }
             closeAll();
@@ -102,10 +101,9 @@ public class ParqueDB extends DataHandler {
             try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
-                    String morada = rSet.getString(2);
-                    int numMax = rSet.getInt(3);
-                    String tipo = rSet.getString(4);
-                    list.add(new Parque(nif, morada, numMax, tipo));
+                    int numMax = rSet.getInt(2);
+                    String tipo = rSet.getString(3);
+                    list.add(new Parque(nif, numMax, tipo));
                 }
                 return list;
             }

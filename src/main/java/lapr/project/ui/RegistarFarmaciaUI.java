@@ -53,7 +53,7 @@ public class RegistarFarmaciaUI {
         String tipo = LER.nextLine();
         Farmacia farm = controller.novaFarmacia(nif, email, morada);
         Endereco end = controller.novoEndereco(morada, lat, lon, alt);
-        Parque park = controller.novoParque(nif, morada, numMax, tipo.toLowerCase());
+        Parque park = controller.novoParque(nif, numMax, tipo.toLowerCase());
 
         System.out.println("--Farmácia Criada--");
         System.out.println(farm.getNIF());
