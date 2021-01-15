@@ -3,8 +3,9 @@ skinparam classAttributeIconSize 0
 
 class Farmacia {
   -Integer NIF
+  -String email
   -String morada
-  +Farmacia(Integer NIF, morada)
+  +Farmacia(Integer NIF, email, morada)
 }
 
 class Endereco {
@@ -17,14 +18,13 @@ class Endereco {
 
 class Parque {
   -Integer NIF
-  -String morada
   -Integer numeroMaximo
   -String tipo
-  +Endereco(Integer NIF, String morada, Integer numeroMaximo, String tipo)
+  +Endereco(Integer NIF, Integer numeroMaximo, String tipo)
 }
 
 class FarmaciaDB {
-  +Farmacia novaFarmacia(NIF, morada)
+  +Farmacia novaFarmacia(NIF, email, morada)
   +registaFarmacia(Farmacia farm)
   +validaFarmacia(Farmacia farm)
   -addFarmacia(Farmacia farm)
@@ -38,16 +38,16 @@ class EnderecoDB {
 }
 
 class ParqueDB {
-  +Parque novoParque(Integer NIF, String morada, Integer numeroMaximo, String tipo)
+  +Parque novoParque(Integer NIF, Integer numeroMaximo, String tipo)
   +registaParque(Parque parque)
   +validaParque(Parque parque)
   -addParque(Parque parque)
 }
 
 class RegistarFarmaciaController {
-  +novaFarmacia(NIF, morada)
+  +novaFarmacia(NIF, email, morada)
   +novoEndereco(morada, latitude, longitude, altitude)
-  +novoParque(Integer NIF, String morada, Integer numeroMaximo, String tipo)
+  +novoParque(Integer NIF, Integer numeroMaximo, String tipo)
   +registaFarmacia(farm)
   +registaEndereco(end)
   +registaParque(parque)

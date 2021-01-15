@@ -14,17 +14,17 @@ participant "end:Endereco" as END
 activate ADM
 ADM -> UI : inicia a criação de uma nova farmácia
 activate UI
-UI --> ADM : solicita dados da farmácia (NIF, morada), dados do parque (número máximo e tipo) \ne endereço do parque (morada, latitude, longitude e altitude)
+UI --> ADM : solicita dados da farmácia (NIF, email, morada), endereço do farmácia \n(morada, latitude, longitude e altitude) e dados do parque (número máximo e tipo)
 deactivate UI
 
 ADM -> UI : introduz os dados solicitados
 activate UI
-UI -> CTRL : novaFarmacia(NIF, morada)
+UI -> CTRL : novaFarmacia(NIF, email, morada)
 activate CTRL
 
-CTRL -> DB: farm=novaFarmacia(NIF, morada)
+CTRL -> DB: farm=novaFarmacia(NIF, email, morada)
 activate DB
-DB --> FARMACIA ** : create(NIF, morada)
+DB --> FARMACIA ** : create(NIF, email, morada)
 deactivate DB
 deactivate CTRL
 
@@ -36,11 +36,11 @@ EDB --> END ** : create(morada, latitude, logitude, altitude)
 deactivate EDB
 deactivate CTRL
 
-UI -> CTRL : novoParque(NIF, morada, numeroMaximo, tipo)
+UI -> CTRL : novoParque(NIF, numeroMaximo, tipo)
 activate CTRL
-CTRL -> PDB: parque=novoParque(NIF, morada, numeroMaximo, tipo)
+CTRL -> PDB: parque=novoParque(NIF, numeroMaximo, tipo)
 activate PDB
-PDB --> PQ ** : create(NIF, morada, numeroMaximo, tipo)
+PDB --> PQ ** : create(NIF, numeroMaximo, tipo)
 deactivate PDB
 
 deactivate CTRL
