@@ -1,0 +1,31 @@
+@startuml
+autonumber
+
+actor "Estafeta" as EST
+participant ":RegistarEntregaUI" as UI
+participant ":RegistarEntregaController" as CTL
+participant ":EntregaDB" as PDB
+
+activate EST
+EST -> UI : envia uma nota a um cliente quando a sua entrega começar
+activate UI
+UI -> CTL : enviarNotaCliente(cliente)
+activate CTL
+
+
+CTL -> PDB : enviarNotaCliente(cliente)
+activate PDB
+
+PDB -> PDB : validaNota(cliente)
+
+PDB -> PDB : enviarNotaCliente(cliente)
+
+deactivate PDB
+
+deactivate CTL
+
+UI --> EST : operação bem sucedida
+deactivate UI
+
+deactivate EST
+@enduml
