@@ -70,13 +70,13 @@ public class ParqueDB extends DataHandler {
      * Adiciona o parque à base de dados
      *
      * @param nif nif do parque/farmácia
-     * @param morada morada do parque
      * @param numMax limite máximo de veiculos do parque
+     * @param tipo tipo do parque
      */
     public void addParque(int nif, int numMax, String tipo) {
         try {
             openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addParque(?,?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addParque(?,?,?) }")) {
                 callStmt.setInt(1, nif);
                 callStmt.setInt(2, numMax);
                 callStmt.setString(3, tipo);
