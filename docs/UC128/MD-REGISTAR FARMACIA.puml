@@ -5,7 +5,7 @@ left to right direction
 
 class Farmacia {
   -NIF
-  -morada
+  -email
 }
 
 class Utilizador {
@@ -39,7 +39,7 @@ class Parque {
 Administrador "1" -- "1" Utilizador: atua como >
 Administrador "1" -- "1" Parque: define numeroMaximo >
 Farmacia "1" -- "1" Parque: possui >
-Parque "1" -- "1" Endereco: tem >
+Farmacia "1" -- "1" Endereco: tem >
 Farmacia "1" -- "1" Administrador: tem >
 
 @enduml
