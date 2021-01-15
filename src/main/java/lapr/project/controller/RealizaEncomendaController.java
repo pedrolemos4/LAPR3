@@ -6,7 +6,6 @@
 package lapr.project.controller;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
@@ -77,7 +76,7 @@ public class RealizaEncomendaController {
         return cliDB.getClienteByEmail(email);
     }
 
-    public boolean novoRecibo(Recibo rec) throws SQLException {
+    public boolean emailRecibo(Recibo rec) throws SQLException {
         reciboDB.registaRecibo(rec);
         String assunto = "Recibo.";
         String mensagem = rec.toString();
@@ -85,8 +84,8 @@ public class RealizaEncomendaController {
         return notificaCliente(email, assunto, mensagem);
     }
 
-    public boolean novoRecibo(Recibo rec, Produto prod) {
-        return (reciboDB.registaRecibo(rec, prod) ? true : false);
+    public boolean novoRecibo(Recibo rec, Produto prod, int quant) {
+        return (reciboDB.registaRecibo(rec, prod, quant) ? true : false);
     }
 
     public boolean verificaProdutoEncomenda(int nif, Produto prod, int qntd) {

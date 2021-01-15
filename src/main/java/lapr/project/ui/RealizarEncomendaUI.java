@@ -126,10 +126,12 @@ public class RealizarEncomendaUI {
                 Recibo rec = new Recibo(controller.getCliente().getNIF(), precoTotal, date.toString(), enc.getId());
                 rec.setLst(mapaEncomenda);
 
+                controller.emailRecibo(rec); //envia email com o recibo e regista o recibo sem lista, so da entidade recibo
+                
                 for (Produto p : mapaEncomenda.keySet()) {
-                    controller.novoRecibo(rec, p);
+                    controller.novoRecibo(rec, p, mapaEncomenda.get(p));
                 }
-
+                
                 System.out.println("Data do Recibo:");
                 System.out.println(rec.getData());
                 System.out.println("Preco Total:");

@@ -40,12 +40,12 @@ public class ReciboDB extends DataHandler {
         
         openConnection();
 
-        try (CallableStatement callStmt = getConnection().prepareCall("{ call addEncomenda(?,?,?,?) }")) {
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call addRecibo(?,?,?,?) }")) {
 
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
-            callStmt.setInt(2, nif);
+            callStmt.setString(2, data);
             callStmt.setDouble(3, preco);
-            callStmt.setString(4, data);
+            callStmt.setInt(4, nif);
             callStmt.setInt(5, idEncomenda);
 
             id = callStmt.getInt(1);
@@ -62,24 +62,25 @@ public class ReciboDB extends DataHandler {
         return id;
     }
     
-    public boolean registaRecibo(Recibo rec, Produto prod){
+    public boolean registaRecibo(Recibo rec, Produto prod, int quant){
         if(validaRecibo(rec)){
-            registaRecibo(rec.getId(), prod.getId());
+            registaRecibo(rec.getId(), prod.getId(), quant);
             return true;
         }
         return false;
     }
     
-    private int registaRecibo(int rec, int prod) {
+    private int registaRecibo(int rec, int prod, int quant) {
         int id=0;
         try {
             openConnection();
 
-            try (CallableStatement callStmt1 = getConnection().prepareCall("{ call addLinhaRecibo(?,?) }")) {
+            try (CallableStatement callStmt1 = getConnection().prepareCall("{ call addLinhaRecibo(?,?,?) }")) {
 
                 callStmt1.registerOutParameter(1, OracleTypes.INTEGER);
                 callStmt1.setInt(2, rec);
                 callStmt1.setInt(3, prod);
+                callStmt1.setInt(4, quant);
 
                 id = callStmt1.getInt(1);
                 

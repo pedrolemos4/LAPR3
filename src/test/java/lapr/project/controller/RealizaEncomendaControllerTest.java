@@ -8,9 +8,7 @@ import lapr.project.model.Produto;
 import lapr.project.model.Recibo;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import lapr.project.data.ClienteDB;
@@ -183,7 +181,7 @@ class RealizaEncomendaControllerTest {
         Recibo rec = new Recibo();
         boolean expResult = reciboDB.registaRecibo(rec);
         when(instance.notificaCliente("", "", "")).thenReturn(expResult);
-        assertEquals(expResult, instance.novoRecibo(rec));
+        assertEquals(expResult, instance.emailRecibo(rec));
     }
 
     /**
@@ -195,8 +193,9 @@ class RealizaEncomendaControllerTest {
         Recibo rec = new Recibo();
         Produto prod = new Produto();
         boolean expResult = true;
-        when(reciboDB.registaRecibo(rec, prod)).thenReturn(expResult);
-        assertEquals(expResult, instance.novoRecibo(rec, prod));
+        int quant=0;
+        when(reciboDB.registaRecibo(rec, prod,quant)).thenReturn(expResult);
+        assertEquals(expResult, instance.novoRecibo(rec, prod,quant));
     }
 
     /**
@@ -208,8 +207,9 @@ class RealizaEncomendaControllerTest {
         Recibo rec = new Recibo();
         Produto prod = new Produto();
         boolean expResult = false;
-        when(reciboDB.registaRecibo(rec, prod)).thenReturn(expResult);
-        assertEquals(expResult, instance.novoRecibo(rec, prod));
+        int quant=0;
+        when(reciboDB.registaRecibo(rec, prod,quant)).thenReturn(expResult);
+        assertEquals(expResult, instance.novoRecibo(rec, prod,quant));
     }
 
     /**
