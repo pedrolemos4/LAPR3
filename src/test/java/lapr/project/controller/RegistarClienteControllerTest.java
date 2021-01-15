@@ -15,6 +15,7 @@ import lapr.project.model.Endereco;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import lapr.project.model.Utilizador;
@@ -161,7 +162,7 @@ public class RegistarClienteControllerTest {
      * @throws java.sql.SQLException
      */
     @Test
-    public void testRegistaCartao() throws SQLException {
+    public void testRegistaCartao() throws SQLException, ParseException {
         System.out.println("registaCartao");
         Cartao cart = new Cartao(5, "sdd", 5);
         when(cartaoMock.registaCartao(cart)).thenReturn(true);
@@ -173,7 +174,7 @@ public class RegistarClienteControllerTest {
      * @throws java.sql.SQLException
      */
     @Test
-    public void testRegistaCartao1() throws SQLException {
+    public void testRegistaCartao1() throws SQLException, ParseException, ParseException {
         System.out.println("registaCartao1");
         Cartao cart = new Cartao(5, "sdd", 5);
         when(cartaoMock.registaCartao(cart)).thenReturn(false);
