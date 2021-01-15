@@ -29,18 +29,16 @@ public class RealizarEncomendaUI {
 
     RealizaEncomendaController controller;
     PedirItemFarmaciaController controller2;
-    FarmaciaDB fdb = new FarmaciaDB();
-    TransferenciaDB tdb = new TransferenciaDB();
 
     public RealizarEncomendaUI() {
         controller = new RealizaEncomendaController(new ProdutosDB(), new EncomendaDB(), new ReciboDB(), new ClienteDB(), new EmailDB());
-        controller2 = new PedirItemFarmaciaController(fdb, tdb);
+        controller2 = new PedirItemFarmaciaController(new FarmaciaDB(),  new TransferenciaDB(), new EmailDB());
     }
 
     public void introduzEncomenda() throws SQLException {
 
         System.out.println("Insira o NIF da fármácia que pretende encomendar os produtos: ");
-        List<Farmacia> lstFarmacias = fdb.getLstFarmacias();
+        List<Farmacia> lstFarmacias = controller2.getLstFarmacias();
         for(Farmacia f : lstFarmacias){
             System.out.println(f.toString());
         }
@@ -82,6 +80,7 @@ public class RealizarEncomendaUI {
                     }
                     if (controller.getListStock(nif1).containsKey(prod) && !controller.getListStock(nif1).containsValue(qntd)) {
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif), controller2.getFarmaciaByNIF(nif1), prod, controller.getListStock(nif1).get(prod));
+                        controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(nif).getEmail(), controller2.getFarmaciaByNIF(nif1).getEmail());
                         qntd = qntd - controller.getListStock(nif1).get(prod);
                         controller.produtoEncomenda(nif1, prod, qntd);
                         farms.remove(controller2.getFarmaciaByNIF(nif1));
