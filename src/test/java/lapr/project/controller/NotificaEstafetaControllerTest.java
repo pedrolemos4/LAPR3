@@ -74,7 +74,7 @@ class NotificaEstafetaControllerTest {
         String assunto = "Estacionamento Veiculo";
         int estimativa = 3;
         String mensagem = "O veiculo foi estacionado com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.";
-        when(emailDBMock.sendEmail(email, assunto, mensagem)).thenReturn(true);
+        when(emailDBMock.sendEmail("admlapr123@gmail.com",email, assunto, mensagem)).thenReturn(true);
         assertTrue(instance.simulateParkingVeiculo(1,emailDBMock,"src/main/java/lapr/project/parking/scooter/estimate_2021_02_02_02_02_02.data"));
     }
 
@@ -84,7 +84,7 @@ class NotificaEstafetaControllerTest {
         String assunto = "Estacionamento Veiculo";
         int estimativa = 3;
         String mensagem = "O veiculo foi estacionado com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.";
-        when(emailDBMock.sendEmail(email, assunto, mensagem)).thenReturn(false);
+        when(emailDBMock.sendEmail("admlapr123@gmail.com",email, assunto, mensagem)).thenReturn(false);
         assertFalse(instance.simulateParkingVeiculo(1,emailDBMock,"src/main/java/lapr/project/parking/scooter/estimate_2021_02_02_02_02_02.data"));
     }
 

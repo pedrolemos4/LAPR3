@@ -54,26 +54,24 @@ public class EntregaDB extends DataHandler {
         return id;
     }
 
-    public void addEncomendaEntrega(Entrega e, Encomenda enc) {
-        addEncomendaEntrega(e.getIdEntrega(), enc.getId());
-    }
+    public boolean addEncomendaEntrega(Entrega e, Encomenda enc) throws SQLException {
+        boolean flag = false;
+        
+        try ( CallableStatement callSmt = getConnection().prepareCall("{ call AddEncomendaEntrega(?,?) }")) {
 
-    private void addEncomendaEntrega(int idEntrega, int idEncomenda) {
+                callSmt.setInt(1, e.getIdEntrega());
+                callSmt.setInt(2, enc.getId());
 
-        try {
-            openConnection();
-
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call AddEncomendaEntrega(?,?) }")) {
-                callStmt.setInt(1, idEntrega);
-                callStmt.setInt(2, idEncomenda);
-
-                callStmt.execute();
+                callSmt.execute();
+                flag = true;
+            try {
+                callSmt.close();
+            } catch (SQLException | NullPointerException ex) {
+                Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
-
-            closeAll();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+        return flag;
+
     }
 
     public Entrega getEntregaById(int idEntrega) {

@@ -297,7 +297,7 @@ class RealizaEncomendaControllerTest {
         String assunto = "b";
         String mensagem = "c";
         boolean expResult = true;
-        when(emailDB.sendEmail(email, assunto, mensagem)).thenReturn(expResult);
+        when(emailDB.sendEmail("admlapr123@gmail.com",email, assunto, mensagem)).thenReturn(expResult);
         assertEquals(expResult, instance.notificaCliente(email, assunto, mensagem));
     }
 
@@ -311,7 +311,7 @@ class RealizaEncomendaControllerTest {
         String assunto = "b";
         String mensagem = "c";
         boolean expResult = false;
-        when(emailDB.sendEmail(email, assunto, mensagem)).thenReturn(expResult);
+        when(emailDB.sendEmail("admlapr123@gmail.com",email, assunto, mensagem)).thenReturn(expResult);
         assertEquals(expResult, instance.notificaCliente(email, assunto, mensagem));
     }
     

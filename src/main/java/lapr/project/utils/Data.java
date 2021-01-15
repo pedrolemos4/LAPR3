@@ -20,7 +20,7 @@ public class Data implements Comparable<Data>{
 
     private int dia;
     
-    private enum Mes {
+    protected enum Mes {
 
         /**
          * Os meses do ano.

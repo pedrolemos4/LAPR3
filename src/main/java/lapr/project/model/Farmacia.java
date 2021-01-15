@@ -23,6 +23,7 @@ public class Farmacia {
      * Constrói uma instância de farmácia com o nif da mesma e o seu parque
      *
      * @param nif nif da farmácia
+     * @param email email da farmácia
      * @param morada da farmácia
      */
     public Farmacia(int nif, String email, String morada) {
@@ -104,6 +105,6 @@ public class Farmacia {
 
     @Override
     public String toString() {
-        return "Farmacia{" + "nif=" + nif + ", morada=" + morada + '}';
+        return "Farmacia{" + "nif=" + nif + ", email=" + email + ", morada=" + morada + '}';
     }
 }

@@ -48,6 +48,6 @@ public class NotificaEstafetaController {
 
         estacionamentosDB.addEstacionamentoVeiculo(estac, scoot);
 
-        return emailDB.sendEmail(this.estafeta.getEmail(), "Estacionamento Veiculo", "O veiculo foi estacionado com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.");
+        return emailDB.sendEmail("admlapr123@gmail.com",this.estafeta.getEmail(), "Estacionamento Veiculo", "O veiculo foi estacionado com sucesso, com uma estimativa de " + estimativa + " horas até estar completamente carregada.");
     }
 }

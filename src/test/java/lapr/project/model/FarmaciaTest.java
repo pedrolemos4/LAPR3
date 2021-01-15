@@ -19,7 +19,7 @@ public class FarmaciaTest {
     @Test
     public void testGetNif() {
         System.out.println("getNif");
-        Farmacia instance = new Farmacia(123456789,"email1", "rua1");
+        Farmacia instance = new Farmacia(123456789, "email1", "rua1");
         int expResult = 123456789;
         int result = instance.getNIF();
         assertEquals(expResult, result);
@@ -43,7 +43,7 @@ public class FarmaciaTest {
     @Test
     public void testGetStock() {
         System.out.println("getStock");
-        Farmacia instance = new Farmacia(123456789,"email","rua2");
+        Farmacia instance = new Farmacia(123456789, "email", "rua2");
         List<Produto> expResult = instance.getStock();
         List<Produto> result = instance.getStock();
         assertEquals(expResult, result);
@@ -55,7 +55,7 @@ public class FarmaciaTest {
     @Test
     public void testAddStock() {
         System.out.println("addStock");
-        Farmacia instance = new Farmacia(123456789,"email1","rua3");
+        Farmacia instance = new Farmacia(123456789, "email1", "rua3");
         Produto p = new Produto("sdf", 50, 58);
 
         List<Produto> expResult = new ArrayList<>();
@@ -72,7 +72,7 @@ public class FarmaciaTest {
     @Test
     void getEmail() {
         System.out.println("getEmail");
-        Farmacia instance = new Farmacia(123456789, "email1","rua1");
+        Farmacia instance = new Farmacia(123456789, "email1", "rua1");
         String expResult = "email1";
         String result = instance.getEmail();
         assertEquals(expResult, result);
@@ -96,7 +96,7 @@ public class FarmaciaTest {
     @Test
     void getMorada() {
         System.out.println("getNif");
-        Farmacia instance = new Farmacia(123456789, "email","rua1");
+        Farmacia instance = new Farmacia(123456789, "email", "rua1");
         String expResult = "rua1";
         String result = instance.getMorada();
         assertEquals(expResult, result);
@@ -120,8 +120,8 @@ public class FarmaciaTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Farmacia instance = new Farmacia(123456789,"email" ,"rua4");
-        String expResult = "Farmacia{nif=123456789, morada=rua4}";
+        Farmacia instance = new Farmacia(123456789, "email", "rua4");
+        String expResult = "Farmacia{nif=123456789, email=email, morada=rua4}";
         String result = instance.toString();
         assertEquals(expResult, result);
     }
