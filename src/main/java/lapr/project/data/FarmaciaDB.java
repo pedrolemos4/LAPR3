@@ -30,8 +30,8 @@ public class FarmaciaDB extends DataHandler {
      * @param nif nif da farmácia
      * @return nova farmacia criada
      */
-    public Farmacia novaFarmacia(int nif, String morada) {
-        return new Farmacia(nif,morada);
+    public Farmacia novaFarmacia(int nif, String email, String morada) {
+        return new Farmacia(nif,email,morada);
     }
 
     /**
@@ -100,8 +100,9 @@ public class FarmaciaDB extends DataHandler {
             try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
-                    String morada = rSet.getString(2);
-                    list.add(new Farmacia(nif,morada));
+                    String email = rSet.getString(2);
+                    String morada = rSet.getString(3);
+                    list.add(new Farmacia(nif,email,morada));
                 }
                 return list;
             }
@@ -119,9 +120,10 @@ public class FarmaciaDB extends DataHandler {
 
                 if (rSet.next()) {
                     nif = rSet.getInt(1);
-                    String morada = rSet.getString(2);
+                    String email = rSet.getString(2);
+                    String morada = rSet.getString(3);
 
-                    return new Farmacia(nif, morada);
+                    return new Farmacia(nif,email,morada);
                 }
             }
         } catch (SQLException e) {
@@ -129,4 +131,6 @@ public class FarmaciaDB extends DataHandler {
         }
         return null;
     }
+
+
 }

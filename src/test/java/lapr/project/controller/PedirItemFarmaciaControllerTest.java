@@ -24,8 +24,8 @@ class PedirItemFarmaciaControllerTest {
         tdb = mock(TransferenciaDB.class);
         fdb = mock(FarmaciaDB.class);
         instance = new PedirItemFarmaciaController(fdb,tdb);
-        Farmacia farm = new Farmacia(1,"rua1");
-        Farmacia farm2 = new Farmacia(1,"rua2");
+        Farmacia farm = new Farmacia(1,"email","rua1");
+        Farmacia farm2 = new Farmacia(1,"email","rua2");
         Produto prod = new Produto("prod",1,1);
         trans = new TransferenciaProduto(1, 1,2,1,1);
         when(tdb.realizaPedido(farm,farm2,prod,1)).thenReturn(true);
@@ -35,7 +35,7 @@ class PedirItemFarmaciaControllerTest {
     void getFarmaciaByNIF() {
         System.out.println("getFarmaciaByNIF");
         int idFarm = 1;
-        Farmacia expResult = new Farmacia(1,"rua1");
+        Farmacia expResult = new Farmacia(1,"email","rua1");
         when(fdb.getFarmaciaByNIF(idFarm)).thenReturn(expResult);
         Farmacia result = instance.getFarmaciaByNIF(idFarm);
         assertEquals(expResult, result);

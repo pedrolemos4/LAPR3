@@ -49,11 +49,12 @@ public class RegistarFarmaciaController {
      * Cria uma nova farmácia
      *
      * @param nif nif da farmácia
+     * @param email nif da farmácia
      * @param morada morada da farmácia
      * @return nova farmacia criada
      */
-    public Farmacia novaFarmacia(int nif, String morada) {
-        return farmaciaDB.novaFarmacia(nif, morada);
+    public Farmacia novaFarmacia(int nif, String email, String morada) {
+        return farmaciaDB.novaFarmacia(nif,email,morada);
     }
 
     /**
