@@ -155,7 +155,7 @@ public class EntregaDB extends DataHandler {
         }
 
         int i = listEnderecos.size() - 1;
-        double energiaGasta = CalculosFisica.calculoEnergia(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
+        double energiaGasta = CalculosFisica.calculoEnergiaDrone(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
         graph.insertEdge(listEnderecos.get(0), listEnderecos.get(i), 1.0, energiaGasta);
 
 
@@ -163,7 +163,7 @@ public class EntregaDB extends DataHandler {
         for (Endereco end : listEnderecos) {
             if (aux < i && listEnderecos.size() > 2) {
                 Encomenda enc1 = getEncomendaByMorada(listEnderecos.get(aux).getMorada());
-                energiaGasta = CalculosFisica.calculoEnergia(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
+                energiaGasta = CalculosFisica.calculoEnergiaDrone(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
                 graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
                 aux = aux + 1;
                 pesoTotalEntrega = pesoTotalEntrega - enc1.getPesoEncomenda();
