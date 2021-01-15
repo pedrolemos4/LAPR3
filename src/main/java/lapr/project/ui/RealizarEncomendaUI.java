@@ -7,10 +7,7 @@ package lapr.project.ui;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import lapr.project.controller.PedirItemFarmaciaController;
 import lapr.project.controller.RealizaEncomendaController;
@@ -64,10 +61,13 @@ public class RealizarEncomendaUI {
             if (controller.produtoEncomenda(nif, prod, qntd) == false) {
                 while (true) {
                     System.out.println("A farmácia não tem o produto que deseja na quantidade pretendida! Por favor selecione outra farmácia para fazer o pedido:");
+                    List<Farmacia> farms = new ArrayList<>();
                     // TEM QUE SER PELO grafo
 
                     if (controller.getListStock(nif1).containsKey(prod)) {
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif1), prod, qntd);
+
+
                         controller.produtoEncomenda(nif,prod,qntd);
                         //falta adicionar a lista de produtos da encomenda da 2 farmacia
                         break;

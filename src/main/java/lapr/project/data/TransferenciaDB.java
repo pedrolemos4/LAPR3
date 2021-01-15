@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class TransferenciaDB extends DataHandler{
     ProdutosDB pdb = new ProdutosDB();
+    EmailDB edb = new EmailDB();
 
     public boolean realizaPedido(Farmacia fOrig, Farmacia fDest, Produto produto, int quantidade) {
         addTransferencia(fOrig.getNIF(), fDest.getNIF(), produto.getId(), quantidade, 1);
@@ -53,5 +54,10 @@ public class TransferenciaDB extends DataHandler{
         pdb.atualizarStock(fOrig.getNIF(),produto.getId(),stockFarmOrig.get(produto));
 
         return true;
+    }
+
+    public boolean enviarNotaTransferencia(Farmacia fOrig, Farmacia fDest, Produto prod, int qtd) {
+        String mensagem = "Será lhe enviado o item " + prod.getDesignacao() + " na quantidade necessária (" + qtd +")";
+        return edb.sendEmail(fDest.getEmail(), "Envio de item", mensagem);
     }
 }

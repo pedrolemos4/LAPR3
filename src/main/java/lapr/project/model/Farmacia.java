@@ -17,6 +17,7 @@ public class Farmacia {
     private int nif;
     private List<Produto> stock = new ArrayList<>();
     private String morada;
+    private String email;
 
     /**
      * Constrói uma instância de farmácia com o nif da mesma e o seu parque
@@ -24,8 +25,9 @@ public class Farmacia {
      * @param nif nif da farmácia
      * @param morada da farmácia
      */
-    public Farmacia(int nif, String morada) {
+    public Farmacia(int nif, String email, String morada) {
         this.nif = nif;
+        this.email = email;
         this.morada = morada;
     }
 
@@ -34,6 +36,7 @@ public class Farmacia {
      */
     public Farmacia() {
         this.nif = 0;
+        this.email = "sem email";
         this.morada = "sem morada";
     }
 
@@ -75,6 +78,19 @@ public class Farmacia {
 
     public void setMorada(String morada) {
         this.morada = morada;
+    }
+
+    /**
+     * Devolve o email da farmácia
+     *
+     * @return email da farmácia
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**

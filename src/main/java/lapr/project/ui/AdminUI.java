@@ -230,6 +230,13 @@ public class AdminUI {
             double peso = LER.nextDouble();
             veiculo.setPesoVeiculo(peso);
         }
+        System.out.println("Pretende atualizar a potencia do veículo? (S/N)");
+        resposta = LER.nextLine();
+        if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
+            System.out.println("Insira o novo valor da potencia do veículo:");
+            double potencia = LER.nextDouble();
+            veiculo.setPotencia(potencia);
+        }
         System.out.println("Pretende atualizar o valor da área frontal do veículo? (S/N)");
         resposta = LER.nextLine();
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
