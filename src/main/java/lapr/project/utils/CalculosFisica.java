@@ -48,9 +48,9 @@ public class CalculosFisica {
      * @param end2 o endereco de destino
      * @return calculo da energia gasta no percurso
      */
-    public static double calculoEnergiaDrone(double pesoEstafeta, double pesoVeiculo, double areaFrontal,
+    public static double calculoEnergiaDrone(double pesoVeiculo, double areaFrontal,
             double pesoEncomenda, Endereco end1, Endereco end2) {
-        double pesoTotal = pesoEncomenda + pesoEstafeta + pesoVeiculo;
+        double pesoTotal = pesoEncomenda + pesoVeiculo;
         
         double forcaTotalExercida = calculoForcaTotal(pesoTotal, areaFrontal,
                 end1.getLatitude(), end1.getLongitude(), 0,

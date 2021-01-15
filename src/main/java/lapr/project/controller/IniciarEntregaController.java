@@ -58,9 +58,9 @@ public class IniciarEntregaController {
         return enderecoDB.getEnderecoByNifCliente(nif);
     }
     
-    public Endereco getEnderecoParque(){
-        return enderecoDB.getEnderecoParque();
-    }
+//    public Endereco getEnderecoParque(){
+//        return enderecoDB.getEnderecoParque();
+//    }
     
     public List<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotal){
         return entregaDB.generateGraph(listEnderecos, est, veiculo, pesoTotal);

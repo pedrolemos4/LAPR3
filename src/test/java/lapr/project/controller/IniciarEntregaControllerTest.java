@@ -140,18 +140,18 @@ public class IniciarEntregaControllerTest {
 
     }
 
-    /**
-     * Test of getEnderecoParque method, of class IniciarEntregaController.
-     */
-    @Test
-    public void testGetEnderecoParque() {
-        System.out.println("getEnderecoParque");
-        Parque p = new Parque(123456789, "df", 15, "drones");
-        Endereco expResult = new Endereco("df", 56, 84, 12);
-        when(enderecoDB.getEnderecoParque()).thenReturn(expResult);
-        assertEquals(expResult, instance.getEnderecoParque());
-
-    }
+//    /**
+//     * Test of getEnderecoParque method, of class IniciarEntregaController.
+//     */
+//    @Test
+//    public void testGetEnderecoParque() {
+//        System.out.println("getEnderecoParque");
+//        Parque p = new Parque(123456789, "df", 15, "drones");
+//        Endereco expResult = new Endereco("df", 56, 84, 12);
+//        when(enderecoDB.getEnderecoParque()).thenReturn(expResult);
+//        assertEquals(expResult, instance.getEnderecoParque());
+//
+//    }
 
     /**
      * Test of generateGraph method, of class IniciarEntregaController.

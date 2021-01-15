@@ -56,9 +56,9 @@ public class IniciarEntregaUI {
         String confirm = LER.nextLine();
         
         if(confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")){
-            Endereco endOrigem = controller.getEnderecoParque();
+            //Endereco endOrigem = controller.getEnderecoParque();
             List<Endereco> listEnderecos = new LinkedList<>();
-            listEnderecos.add(endOrigem);
+            //listEnderecos.add(endOrigem);
             double pesoTotal = 0;
             
             for(Encomenda e : listEnc){

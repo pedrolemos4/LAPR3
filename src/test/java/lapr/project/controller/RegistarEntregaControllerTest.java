@@ -2,15 +2,20 @@ package lapr.project.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import lapr.project.data.EncomendaDB;
+import lapr.project.data.EnderecoDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
+import lapr.project.data.FarmaciaDB;
 import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Encomenda;
+import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
+import lapr.project.model.Farmacia;
 import lapr.project.model.Veiculo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
@@ -22,10 +27,12 @@ import static org.mockito.Mockito.*;
  */
 public class RegistarEntregaControllerTest {
     
+    private FarmaciaDB farmaciaDB;
     private EstafetaDB estafetaDB;
     private EntregaDB entregaDB;
     private EncomendaDB encomendaDB;
     private VeiculoDB veiculoDB;
+    private EnderecoDB enderecoDB;
     private RegistarEntregaController instance;
     
     public RegistarEntregaControllerTest() {
@@ -33,11 +40,13 @@ public class RegistarEntregaControllerTest {
     
     @BeforeEach
     void setUp() throws SQLException {
+        farmaciaDB = mock(FarmaciaDB.class);
         estafetaDB = mock(EstafetaDB.class);
         entregaDB = mock(EntregaDB.class);
         encomendaDB = mock(EncomendaDB.class);
         veiculoDB = mock(VeiculoDB.class);
-        instance = new RegistarEntregaController(estafetaDB, entregaDB, encomendaDB, veiculoDB);
+        enderecoDB = mock(EnderecoDB.class);
+        instance = new RegistarEntregaController(farmaciaDB, estafetaDB, entregaDB, encomendaDB, veiculoDB, enderecoDB);
         
     }
 
@@ -124,6 +133,66 @@ public class RegistarEntregaControllerTest {
         Entrega en = new Entrega("12-10-2001", "12-10-2001", 45, 41);
         Encomenda enc = new Encomenda(123456789, "", 45, 96, 85, 47);
         instance.addEncomendaEntrega(en, enc);
+    }
+
+    /**
+     * Test of getLstFarmacias method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetLstFarmacias() {
+        System.out.println("getLstFarmacias");
+        List<Farmacia> expResult = new ArrayList<>();
+        expResult.add(new Farmacia(123456789, "dvas", "dfs"));
+        when(farmaciaDB.getLstFarmacias()).thenReturn(expResult);
+        List<Farmacia> result = instance.getLstFarmacias();
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of getEnderecoOrigem method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetEnderecoOrigem() {
+        System.out.println("getEnderecoOrigem");
+        int nifFarmacia = 123456789;
+        Endereco expResult = new Endereco("sxdc", 45, 47, 58);
+        when(enderecoDB.getEnderecoByNifFarmacia(nifFarmacia)).thenReturn(expResult);
+        Endereco result = instance.getEnderecoOrigem(nifFarmacia);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of getEnderecoByNifCliente method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetEnderecoByNifCliente() {
+        System.out.println("getEnderecoByNifCliente");
+        int nif = 123456789;
+        Endereco expResult = new Endereco("sxdc", 45, 47, 58);
+        when(enderecoDB.getEnderecoByNifFarmacia(nif)).thenReturn(expResult);
+        Endereco result = instance.getEnderecoOrigem(nif);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of generateGraph method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGenerateGraph() {
+        System.out.println("generateGraph");
+        List<Endereco> listEnderecos = new ArrayList<>();
+        listEnderecos.add(new Endereco("df", 56, 84, 12));
+        listEnderecos.add(new Endereco("de", 4, 23, 43));
+        Estafeta est = new Estafeta(123456789, 1, 56);
+        Veiculo veiculo = new Veiculo("fr", "veiculo", 100,15, 15, 85, 78, 45, 1);
+        double pesoTotal = 12.0;
+        List<Endereco> expResult = new LinkedList<>();
+        List<Endereco> result = instance.generateGraph(listEnderecos, est, veiculo, pesoTotal);
+        assertEquals(expResult, result);
+
     }
     
 }

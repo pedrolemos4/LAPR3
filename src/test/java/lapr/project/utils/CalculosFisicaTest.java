@@ -41,8 +41,8 @@ public class CalculosFisicaTest {
         double pesoEncomenda = 89.0;
         Endereco end1 = new Endereco("vfve", 56, 78, 132);
         Endereco end2 = new Endereco("tg", 89, 52, 321);
-        double expResult = 2.0610664723944008E16;
-        double result = CalculosFisica.calculoEnergiaDrone(pesoEstafeta, pesoVeiculo, areaFrontal, pesoEncomenda, end1, end2);
+        double expResult = 1.8576717573282668E16;
+        double result = CalculosFisica.calculoEnergiaDrone(pesoVeiculo, areaFrontal, pesoEncomenda, end1, end2);
         assertEquals(expResult, result, 0.0);
 
     }

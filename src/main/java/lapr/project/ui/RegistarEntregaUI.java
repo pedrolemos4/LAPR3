@@ -2,17 +2,23 @@ package lapr.project.ui;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.controller.RegistarEntregaController;
 import lapr.project.data.EncomendaDB;
+import lapr.project.data.EnderecoDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
+import lapr.project.data.FarmaciaDB;
 import lapr.project.data.VeiculoDB;
 import lapr.project.model.Encomenda;
+import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
+import lapr.project.model.Farmacia;
 import lapr.project.model.Veiculo;
 
 /**
@@ -25,18 +31,26 @@ public class RegistarEntregaUI {
     public final RegistarEntregaController controller;
 
     public RegistarEntregaUI() {
-        this.controller = new RegistarEntregaController(new EstafetaDB(),new EntregaDB(), new EncomendaDB(), new VeiculoDB());
+        this.controller = new RegistarEntregaController(new FarmaciaDB(), new EstafetaDB(),new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB());
     }
     
     public void introduzEntrega() throws SQLException {
         
-        System.out.println("Lista de scooters: ");
+        System.out.println("Lista de farmacias: ");
+        List<Farmacia> listFarmacia = controller.getLstFarmacias();
+        for(Farmacia f : listFarmacia){
+            System.out.println(f);
+        }
+        System.out.println("Escolha a farmacia para a qual irá fazer uma entrega");
+        int nifFarmacia = LER.nextInt();
+                
+        System.out.println("Lista de veiculos: ");
         List<Veiculo> list = controller.getListVeiculo();
         for(Veiculo s : list){
             System.out.println(s);
         }
         
-        System.out.println("Introduza o id de uma scooter apresentada: ");
+        System.out.println("Introduza o id de um veiculo apresentado: ");
         int idVeiculo = LER.nextInt();
         Veiculo veiculo = controller.getVeiculo(idVeiculo);
         
@@ -62,17 +76,34 @@ public class RegistarEntregaUI {
         
         if(confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")){
             Entrega entr = controller.addEntrega(dataInicio, dataFim, idVeiculo, nifEstafeta);
+            Endereco endOrigem = controller.getEnderecoOrigem(nifFarmacia);
+            List<Endereco> listEnderecos = new LinkedList<>();
+            listEnderecos.add(endOrigem);
             
             System.out.println("Lista de encomendas por fazer entrega: ");
-            List<Encomenda> listEntrega = controller.getListaEncomenda();
+            List<Encomenda> listAllEncomenda = controller.getListaEncomenda();
+            List<Encomenda> listEncomendaByEntrega = new ArrayList<>();
             
-            for(Encomenda e : listEntrega){
+            for(Encomenda e : listAllEncomenda){
                 if(e.getPesoEncomenda() + pesoEntrega < pesoMaximoPorEntrega){
                     controller.addEncomendaEntrega(entr, e);
+                    listEncomendaByEntrega.add(e);
                 }
             }
+            double pesoTotal = 0;
+            
+            for(Encomenda e : listEncomendaByEntrega){
+                pesoTotal = pesoTotal + e.getPesoEncomenda();
+                Endereco end = controller.getEnderecoByNifCliente(e.getNif());
+                listEnderecos.add(end);
+            }
+            
+            List<Endereco> lEn = controller.generateGraph(listEnderecos, est, veiculo, pesoTotal);
             
             System.out.println("\n\nEntrega adicionada com sucesso'");
+            System.out.println("\n\nCaminho com menor energia gasta: '" + lEn);
+            
+            
         }
     }
     

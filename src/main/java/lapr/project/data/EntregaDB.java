@@ -149,13 +149,18 @@ public class EntregaDB extends DataHandler {
     public List<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
 
         Graph<Endereco, Double> graph = new Graph<>(true);
-
+        double energiaGasta = 0;
         for (Endereco e : listEnderecos) {
             graph.insertVertex(e);
         }
 
         int i = listEnderecos.size() - 1;
-        double energiaGasta = CalculosFisica.calculoEnergiaDrone(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
+        if((veiculo.getTipo()).equals("scooter")){
+            energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
+        }
+        if((veiculo.getTipo()).equals("drone")){
+            energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
+        }
         graph.insertEdge(listEnderecos.get(0), listEnderecos.get(i), 1.0, energiaGasta);
 
 
@@ -163,8 +168,14 @@ public class EntregaDB extends DataHandler {
         for (Endereco end : listEnderecos) {
             if (aux < i && listEnderecos.size() > 2) {
                 Encomenda enc1 = getEncomendaByMorada(listEnderecos.get(aux).getMorada());
-                energiaGasta = CalculosFisica.calculoEnergiaDrone(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
-                graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
+                if((veiculo.getTipo()).equals("scooter")){
+                    energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
+                    graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
+                }
+                if((veiculo.getTipo()).equals("drone")){
+                    energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
+                    graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
+                }
                 aux = aux + 1;
                 pesoTotalEntrega = pesoTotalEntrega - enc1.getPesoEncomenda();
             }

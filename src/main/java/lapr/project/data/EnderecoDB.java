@@ -144,14 +144,15 @@ public class EnderecoDB extends DataHandler {
         }
         return null;
     }
-
+    
     /**
-     * Retorna endereço do parque
+     * Retorna endereço da farmacia recebendo o nif por parãmetro
      *
-     * @return endereço do parque
+     * @param nifFarmacia nif da farmacia
+     * @return endereço da farmacia
      */
-    public Endereco getEnderecoParque() {
-        String query = "SELECT * FROM endereco e INNER JOIN parque c ON e.morada = c.Enderecomorada";
+    public Endereco getEnderecoByNifFarmacia(int nifFarmacia) {
+        String query = "SELECT * FROM endereco e INNER JOIN farmacia f ON e.morada = f.Enderecomorada WHERE f.NIF = " + nifFarmacia;
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
@@ -170,4 +171,6 @@ public class EnderecoDB extends DataHandler {
         }
         return null;
     }
+
+
 }
