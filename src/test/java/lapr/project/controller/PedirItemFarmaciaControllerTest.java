@@ -43,5 +43,11 @@ class PedirItemFarmaciaControllerTest {
 
     @Test
     void realizaPedido() {
+        boolean expResult = true;
+        Farmacia f1 = new Farmacia(1,"email","rua");
+        Farmacia f2 = new Farmacia(1,"email","rua");
+        Produto prod = new Produto("prod",1,1);
+        when(tdb.realizaPedido(f1,f2,prod,1)).thenReturn(expResult);
+        assertEquals(expResult, instance.realizaPedido(f1,f2,prod,1));
     }
 }
