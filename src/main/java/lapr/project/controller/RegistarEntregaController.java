@@ -68,8 +68,8 @@ public class RegistarEntregaController {
         return en;
     }
     
-    public void addEncomendaEntrega(Entrega e, Encomenda enc){        
-        entregaDB.addEncomendaEntrega(e,enc);
+    public boolean addEncomendaEntrega(Entrega e, Encomenda enc) throws SQLException{        
+        return (entregaDB.addEncomendaEntrega(e,enc)? true : false);
     }
     
     public Endereco getEnderecoByNifCliente(int nif){

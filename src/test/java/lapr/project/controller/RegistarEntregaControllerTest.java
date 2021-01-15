@@ -37,7 +37,7 @@ public class RegistarEntregaControllerTest {
     
     public RegistarEntregaControllerTest() {
     }
-    
+
     @BeforeEach
     void setUp() throws SQLException {
         farmaciaDB = mock(FarmaciaDB.class);
@@ -125,17 +125,6 @@ public class RegistarEntregaControllerTest {
     }
 
     /**
-     * Test of addEncomendaEntrega method, of class RegistarEntregaController.
-     */
-    @Test
-    public void testAddEncomendaEntrega() throws SQLException {
-        System.out.println("addEncomendaEntrega");
-        Entrega en = new Entrega("12-10-2001", "12-10-2001", 45, 41);
-        Encomenda enc = new Encomenda(123456789, "", 45, 96, 85, 47);
-        instance.addEncomendaEntrega(en, enc);
-    }
-
-    /**
      * Test of getLstFarmacias method, of class RegistarEntregaController.
      */
     @Test
@@ -171,8 +160,8 @@ public class RegistarEntregaControllerTest {
         System.out.println("getEnderecoByNifCliente");
         int nif = 123456789;
         Endereco expResult = new Endereco("sxdc", 45, 47, 58);
-        when(enderecoDB.getEnderecoByNifFarmacia(nif)).thenReturn(expResult);
-        Endereco result = instance.getEnderecoOrigem(nif);
+        when(enderecoDB.getEnderecoByNifCliente(nif)).thenReturn(expResult);
+        Endereco result = instance.getEnderecoByNifCliente(nif);
         assertEquals(expResult, result);
 
     }
@@ -191,6 +180,36 @@ public class RegistarEntregaControllerTest {
         double pesoTotal = 12.0;
         List<Endereco> expResult = new LinkedList<>();
         List<Endereco> result = instance.generateGraph(listEnderecos, est, veiculo, pesoTotal);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of addEncomendaEntrega method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testAddEncomendaEntrega() throws Exception {
+        System.out.println("addEncomendaEntrega");
+        Entrega e = new Entrega("15/02/2001", "15/02/2001", 2, 34);
+        Encomenda enc = new Encomenda(123456789, "15/02/2001", 2, 3, 3, 2);
+        boolean expResult = false;
+        when(entregaDB.addEncomendaEntrega(e, enc)).thenReturn(expResult);
+        boolean result = instance.addEncomendaEntrega(e, enc);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
+     * Test of addEncomendaEntrega method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testAddEncomendaEntrega1() throws Exception {
+        System.out.println("addEncomendaEntrega1");
+        Entrega e = new Entrega("15/02/2001", "15/02/2001", 2, 34);
+        Encomenda enc = new Encomenda(123456789, "15/02/2001", 2, 3, 3, 2);
+        boolean expResult = true;
+        when(entregaDB.addEncomendaEntrega(e, enc)).thenReturn(expResult);
+        boolean result = instance.addEncomendaEntrega(e, enc);
         assertEquals(expResult, result);
 
     }
