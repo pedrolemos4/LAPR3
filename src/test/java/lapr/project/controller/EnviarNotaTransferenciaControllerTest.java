@@ -28,9 +28,9 @@ class EnviarNotaTransferenciaControllerTest {
 
     @Test
     void enviarNotaTransferencia() {
-        boolean expResult = true;
-        Farmacia f1 = new Farmacia(1,"email","rua");
-        Farmacia f2 = new Farmacia(1,"email","rua");
+        boolean expResult = false;
+        Farmacia f1 = new Farmacia(1,"email@gmail.com","rua");
+        Farmacia f2 = new Farmacia(1,"email2@gmail.com","rua");
         Produto prod = new Produto("prod",1,1);
         when(eMock.sendEmail(f1.getEmail(),f2.getEmail(),prod.getDesignacao(),"msg")).thenReturn(expResult);
         assertEquals(expResult, instance.enviarNotaTransferencia(f1,f2,prod,1));
