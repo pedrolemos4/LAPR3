@@ -40,10 +40,20 @@ public class RealizarEncomendaUI {
     public void introduzEncomenda() throws SQLException {
 
         System.out.println("Insira o NIF da fármácia que pretende encomendar os produtos: ");
-
+        List<Farmacia> lstFarmacias = fdb.getLstFarmacias();
+        for(Farmacia f : lstFarmacias){
+            System.out.println(f.toString());
+        }
+        
         int nif = LER.nextInt();
+        
         Map<Produto, Integer> stock = controller.getListStock(nif);
-
+        while(stock.keySet().isEmpty()){
+            System.out.println("Insira o nif de outra farmácia.");
+            nif = LER.nextInt();
+            stock = controller.getListStock(nif);
+        }
+        
         System.out.println("Lista de produtos disponível: ");
 
         for (Produto p : stock.keySet()) {

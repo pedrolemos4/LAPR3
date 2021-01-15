@@ -616,3 +616,5 @@ select * from cliente;
 SELECT * 
 FROM cliente p, utilizador s 
 WHERE p.UtilizadorNIF= 123456777 and s.nif = 123456777;
+
+select * from farmacia;

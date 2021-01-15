@@ -45,6 +45,7 @@ public class AdminUI {
                 + "\n 5 - Atualizar estafeta"
                 + "\n 6 - Adicionar item ao stock"
                 + "\n 7 - Atualizar item"
+                + "\n 8 - Registar farmácia"
                 //+ "\n 8 - Report about unlocked vehicles"
                 //+ "\n 9 - Add path"
                 + "\n 0 - Exit"
@@ -79,6 +80,8 @@ public class AdminUI {
                 case "7":
                     atualizarItem();
                     break;
+                case "8":
+                    registarFarmacia();
                 case "0":
                     loginUI.menu();
                     break;
@@ -296,6 +299,12 @@ public class AdminUI {
     public void atualizarItem() throws ClassNotFoundException, SQLException, ParseException {
         AtualizarItensStockUI atStoUI = new AtualizarItensStockUI();
         atStoUI.atualizarEstafeta();
+        menu();
+    }
+    
+    public void registarFarmacia() throws ClassNotFoundException, SQLException, ParseException{
+        RegistarFarmaciaUI regFarUI = new RegistarFarmaciaUI();
+        regFarUI.registaFarmacia();
         menu();
     }
 }

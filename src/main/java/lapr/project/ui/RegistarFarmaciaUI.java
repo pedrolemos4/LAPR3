@@ -38,6 +38,7 @@ public class RegistarFarmaciaUI {
         System.out.println("NIF:");
         int nif = LER.nextInt();
         System.out.println("Email da farmácia:");
+        LER.nextLine();
         String email = LER.nextLine();
         System.out.println("Morada da farmácia:");
         String morada = LER.nextLine();
@@ -67,9 +68,9 @@ public class RegistarFarmaciaUI {
         String confirm = LER.next();
 
         if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
-            controller.registaFarmacia(farm);
             controller.registaEndereco(end);
             controller.registaParque(park);
+            controller.registaFarmacia(farm);
             System.out.println("\n\nFarmácia registada com sucesso!");
         } else {
             System.out.println("\n\nRegisto da Farmácia cancelado!");
