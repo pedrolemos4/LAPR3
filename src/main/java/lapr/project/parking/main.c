@@ -6,7 +6,7 @@
 int main(void){
 	DIR *folder;
 	FILE * lockPointer;
-	
+	FILE * estimatePointer;
 	
 	struct dirent *entry;
 	
@@ -16,6 +16,7 @@ int main(void){
 	char lock_flag_nome[] = ".flag";
 	char file_lock[100];
 	char file_flag[100];
+	int flag = 0;
 	
 	while((entry = readdir(folder))!= NULL){
 		char *nome1 = strrchr(entry->d_name, '.');
@@ -26,6 +27,7 @@ int main(void){
 		char *nome2 = strrchr(entry->d_name, '.');
 		if(strcmp(nome2,lock_flag_nome) == 0){
 			strcpy(file_flag,entry->d_name);
+			flag = 1;
 		}
 	}
 	
@@ -41,7 +43,9 @@ int main(void){
 	int potencia;
 	int estimativa;
 	
-	if(file_flag != NULL){
+	printf("%s\n",file_flag);
+	
+	if(flag == 1){
 		strcat(dirlock, file_lock);
 		
 		strcat(dirflag, file_flag);
@@ -68,7 +72,57 @@ int main(void){
 		
 		strcat(direstimate, estimate);
 		
-		printf("%s,%d\n",estimate,estimativa);
+		//printf("%s,%d\n",direstimate,estimativa);
+		
+		estimatePointer = fopen(direstimate,"w");
+		
+		char fileContent[5];
+		
+		sprintf(fileContent,"%d",estimativa);
+		
+		fputs(fileContent, estimatePointer);
+		
+		fclose(estimatePointer);
+		
+		strcat(direstimate, lock_flag_nome);
+		
+		estimatePointer = fopen(direstimate,"w");
+		
+		fclose(estimatePointer);
+		
+		remove(dirlock);
+		remove(dirflag);
+	}else{
+		strcat(dirlock, file_lock);
+		
+		char *datetime = file_lock;
+		int i;
+		for(i = 0; i < 4; i++){
+			datetime++;
+		}
+		
+		char estimate[100] = "estimate";
+		strcat(estimate,datetime);
+		
+		strcat(direstimate, estimate);
+		
+		estimatePointer = fopen(direstimate,"w");
+		
+		char fileContent[5];
+		
+		sprintf(fileContent,"%d",(-1));
+		
+		fputs(fileContent, estimatePointer);
+		
+		fclose(estimatePointer);
+		
+		strcat(direstimate, lock_flag_nome);
+		
+		estimatePointer = fopen(direstimate,"w");
+		
+		fclose(estimatePointer);
+		
+		remove(dirlock);
 	}
 
 	return 0;
