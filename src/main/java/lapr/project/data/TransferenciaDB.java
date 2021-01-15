@@ -55,9 +55,4 @@ public class TransferenciaDB extends DataHandler{
 
         return true;
     }
-
-    public boolean enviarNotaTransferencia(Farmacia fOrig, Farmacia fDest, Produto prod, int qtd) {
-        String mensagem = "Será lhe enviado o item " + prod.getDesignacao() + " na quantidade necessária (" + qtd +")";
-        return edb.sendEmail(fOrig.getEmail(),fDest.getEmail(), "Envio de item", mensagem);
-    }
 }

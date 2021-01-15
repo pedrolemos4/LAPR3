@@ -1,5 +1,6 @@
 package lapr.project.controller;
 
+import lapr.project.data.EmailDB;
 import lapr.project.data.FarmaciaDB;
 import lapr.project.data.ProdutosDB;
 import lapr.project.data.TransferenciaDB;
@@ -17,12 +18,12 @@ import static org.mockito.Mockito.when;
 
 class EnviarNotaTransferenciaControllerTest {
     EnviarNotaTransferenciaController instance;
-    TransferenciaDB tMock;
+    EmailDB eMock;
 
     @BeforeEach
     void setUp() throws SQLException {
-        tMock = mock(TransferenciaDB.class);
-        instance = new EnviarNotaTransferenciaController(tMock);
+        eMock = mock(EmailDB.class);
+        instance = new EnviarNotaTransferenciaController(eMock);
     }
 
     @Test
@@ -31,7 +32,7 @@ class EnviarNotaTransferenciaControllerTest {
         Farmacia f1 = new Farmacia(1,"email","rua");
         Farmacia f2 = new Farmacia(1,"email","rua");
         Produto prod = new Produto("prod",1,1);
-        when(tMock.enviarNotaTransferencia(f1,f2,prod,1)).thenReturn(expResult);
+        when(eMock.sendEmail(f1.getEmail(),f2.getEmail(),prod.getDesignacao(),"msg")).thenReturn(expResult);
         assertEquals(expResult, instance.enviarNotaTransferencia(f1,f2,prod,1));
     }
 }
