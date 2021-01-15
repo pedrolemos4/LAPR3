@@ -187,6 +187,7 @@ CREATE TABLE "LAPR3_G23".Estacionamentoveiculo
 CREATE TABLE "LAPR3_G23".Recibo 
 (           idRecibo number(10) GENERATED AS IDENTITY, 
             dataRecibo timestamp NOT NULL, 
+			preco number(10) NOT NULL,
             ClienteUtilizadorNIF number(10) NOT NULL, 
             EncomendaidEncomenda number(10) NOT NULL,
             PRIMARY KEY (idRecibo)
@@ -194,10 +195,10 @@ CREATE TABLE "LAPR3_G23".Recibo
 
 
 CREATE TABLE "LAPR3_G23".LinhaRecibo 
-(           linha number(10) NOT NULL, 
-            ReciboidRecibo number(10) NOT NULL, 
+(           ReciboidRecibo number(10) NOT NULL, 
             ProdutoidProduto number(10) NOT NULL, 
-            PRIMARY KEY (Linha, ReciboidRecibo)
+			quantidade number (10) NOT NULL,
+            PRIMARY KEY (ReciboidRecibo)
 );
 
 
@@ -473,19 +474,19 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addRecibo(idRecibo "LAPR3_G23".recibo.idrecibo%type, dataRecibo "LAPR3_G23".recibo.datarecibo%type, 
+CREATE OR REPLACE PROCEDURE addRecibo(dataRecibo "LAPR3_G23".recibo.datarecibo%type, preco "LAPR3_G23".recibo.preco%type,
 ClienteUtilizadorNIF "LAPR3_G23".recibo.clienteutilizadornif%type, EncomendaidEncomenda "LAPR3_G23".recibo.encomendaidencomenda%type) 
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".recibo VALUES(idRecibo,dataRecibo,ClienteUtilizadorNIF, EncomendaidEncomenda);   
+  INSERT INTO "LAPR3_G23".recibo VALUES(dataRecibo,preco,ClienteUtilizadorNIF, EncomendaidEncomenda);   
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addLinhaRecibo(linha "LAPR3_G23".linharecibo.linha%type, ReciboidRecibo "LAPR3_G23".linharecibo.reciboidrecibo%type,
-ProdutoidProduto "LAPR3_G23".linharecibo.produtoidproduto%type) 
+CREATE OR REPLACE PROCEDURE addLinhaRecibo(ReciboidRecibo "LAPR3_G23".linharecibo.reciboidrecibo%type,
+ProdutoidProduto "LAPR3_G23".linharecibo.produtoidproduto%type, quantidade "LAPR3_G23".linharecibo.quantidade%type) 
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".linharecibo VALUES(linha,ReciboidRecibo,ProdutoidProduto);   
+  INSERT INTO "LAPR3_G23".linharecibo VALUES(ReciboidRecibo,ProdutoidProduto,quantidade);   
 END;
 /
 
