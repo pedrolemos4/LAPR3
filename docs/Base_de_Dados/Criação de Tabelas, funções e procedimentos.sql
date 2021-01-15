@@ -26,7 +26,7 @@ drop table "LAPR3_G23".transferenciaproduto CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".estadoTransferencia CASCADE CONSTRAINTS PURGE;
 
 CREATE TABLE "LAPR3_G23".Farmacia 
-(           NIF number(10) GENERATED AS IDENTITY,
+(           NIF number(10),
             email varchar(255) NOT NULL,
             Morada varchar(255) NOT NULL,
             PRIMARY KEY (NIF)
@@ -613,8 +613,5 @@ INSERT INTO "LAPR3_G23".cartao VALUES(123123456,3,3);
 select * from cartao;
 select * from cliente;
 
-SELECT * 
-FROM cliente p, utilizador s 
-WHERE p.UtilizadorNIF= 123456777 and s.nif = 123456777;
 
 select * from farmacia;

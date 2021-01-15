@@ -87,7 +87,7 @@ public class FarmaciaDB extends DataHandler {
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?,?,?) }")) {
                 callStmt.setInt(1, nif);
                 callStmt.setString(2, email);
-                callStmt.setString(2, morada);
+                callStmt.setString(3, morada);
                 callStmt.execute();
             }
             closeAll();
