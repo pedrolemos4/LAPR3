@@ -10,7 +10,7 @@ int main(void){
 	
 	struct dirent *entry;
 	
-	folder = opendir("./scooter");
+	folder = opendir("./estacionamento");
 
 	char lock_nome[] = ".data";
 	char lock_flag_nome[] = ".flag";
@@ -34,9 +34,9 @@ int main(void){
 	//printf("%s - a\n",file_lock);
 	//printf("%s - b\n",file_flag);
 	
-	char dirlock[100] = "./scooter/";
-	char dirflag[100] = "./scooter/";
-	char direstimate[100] = "./scooter/";
+	char dirlock[100] = "./estacionamento/";
+	char dirflag[100] = "./estacionamento/";
+	char direstimate[100] = "./estacionamento/";
 	//char string[100];
 	
 	int percentagem;
@@ -55,7 +55,11 @@ int main(void){
 		
 		lockPointer = fopen(dirlock,"r");
 		
-		fscanf(lockPointer, "%d,%d", &percentagem, &potencia);
+		char content[100];
+		
+		fscanf(lockPointer, "%d,%d,%s", &percentagem, &potencia, content);
+		
+		printf("%d\n%d\n%s\n",percentagem, potencia, content);
 		
 		fclose(lockPointer);
 		
@@ -76,9 +80,9 @@ int main(void){
 		
 		estimatePointer = fopen(direstimate,"w");
 		
-		char fileContent[5];
+		char fileContent[100];
 		
-		sprintf(fileContent,"%d",estimativa);
+		sprintf(fileContent,"%d,%s",estimativa,content);
 		
 		fputs(fileContent, estimatePointer);
 		
@@ -108,7 +112,7 @@ int main(void){
 		
 		estimatePointer = fopen(direstimate,"w");
 		
-		char fileContent[5];
+		char fileContent[100];
 		
 		sprintf(fileContent,"%d",(-1));
 		
