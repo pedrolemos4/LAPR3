@@ -11,6 +11,7 @@ import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
+import lapr.project.model.Graph;
 import lapr.project.model.Veiculo;
 
 /**
@@ -62,7 +63,7 @@ public class IniciarEntregaController {
 //        return enderecoDB.getEnderecoParque();
 //    }
     
-    public List<Endereco> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotal){
+    public Graph<Endereco, Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotal){
         return entregaDB.generateGraph(listEnderecos, est, veiculo, pesoTotal);
     }
 }

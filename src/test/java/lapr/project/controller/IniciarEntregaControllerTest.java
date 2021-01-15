@@ -15,11 +15,12 @@ import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
+import lapr.project.model.Graph;
 import lapr.project.model.Parque;
 import lapr.project.model.Veiculo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 /**
@@ -159,14 +160,23 @@ public class IniciarEntregaControllerTest {
     @Test
     public void testGenerateGraph() {
         System.out.println("generateGraph");
-        List<Endereco> listEnderecos = new ArrayList<>();
-        listEnderecos.add(new Endereco("df", 56, 84, 12));
-        listEnderecos.add(new Endereco("de", 4, 23, 43));
-        Estafeta est = new Estafeta(123456789, 1, 56);
-        Veiculo veiculo = new Veiculo("fr", "veiculo", 100,15, 15, 85, 78, 45, 1);
-        double pesoTotal = 12.0;
-        List<Endereco> expResult = new LinkedList<>();
-        List<Endereco> result = instance.generateGraph(listEnderecos, est, veiculo, pesoTotal);
+        List<Endereco> listEnderecos = new LinkedList<>();
+        Endereco e1 = new Endereco("dfad", 23, 34, 1);
+        listEnderecos.add(e1);
+        Endereco e2 = new Endereco("hte", 3, 5, 2);
+        listEnderecos.add(e2);
+        Endereco e3 = new Endereco("rrs", 34, 111, 34);
+        listEnderecos.add(e3);
+        Estafeta est = new Estafeta(123456789, 1, 15);
+        Veiculo veiculo = new Veiculo(1, "fsss", "scooter", 34, 12, 34, 45, 75, 12, 54);
+        double pesoTotal = 24.0;
+        Graph<Endereco, Double> expResult = new Graph<>(true) ;
+        expResult.insertVertex(e1);
+        expResult.insertVertex(e2);
+        expResult.insertVertex(e3);
+        when(entregaDB.generateGraph(listEnderecos, est, veiculo, pesoTotal)).thenReturn(expResult);
+        Graph<Endereco, Double> result = instance.generateGraph(listEnderecos, est, veiculo, pesoTotal);
+
         assertEquals(expResult, result);
 
     }

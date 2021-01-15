@@ -16,6 +16,7 @@ import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Farmacia;
+import lapr.project.model.Graph;
 import lapr.project.model.Veiculo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
@@ -167,24 +168,6 @@ public class RegistarEntregaControllerTest {
     }
 
     /**
-     * Test of generateGraph method, of class RegistarEntregaController.
-     */
-    @Test
-    public void testGenerateGraph() {
-        System.out.println("generateGraph");
-        List<Endereco> listEnderecos = new ArrayList<>();
-        listEnderecos.add(new Endereco("df", 56, 84, 12));
-        listEnderecos.add(new Endereco("de", 4, 23, 43));
-        Estafeta est = new Estafeta(123456789, 1, 56);
-        Veiculo veiculo = new Veiculo("fr", "veiculo", 100,15, 15, 85, 78, 45, 1);
-        double pesoTotal = 12.0;
-        List<Endereco> expResult = new LinkedList<>();
-        List<Endereco> result = instance.generateGraph(listEnderecos, est, veiculo, pesoTotal);
-        assertEquals(expResult, result);
-
-    }
-
-    /**
      * Test of addEncomendaEntrega method, of class RegistarEntregaController.
      */
     @Test
@@ -211,6 +194,57 @@ public class RegistarEntregaControllerTest {
         when(entregaDB.addEncomendaEntrega(e, enc)).thenReturn(expResult);
         boolean result = instance.addEncomendaEntrega(e, enc);
         assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of generateGraph method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGenerateGraph() {
+        System.out.println("generateGraph");
+        List<Endereco> listEnderecos = new LinkedList<>();
+        Endereco e1 = new Endereco("dfad", 23, 34, 1);
+        listEnderecos.add(e1);
+        Endereco e2 = new Endereco("hte", 3, 5, 2);
+        listEnderecos.add(e2);
+        Endereco e3 = new Endereco("rrs", 34, 111, 34);
+        listEnderecos.add(e3);
+        Estafeta est = new Estafeta(123456789, 1, 15);
+        Veiculo veiculo = new Veiculo(1, "fsss", "scooter", 34, 12, 34, 45, 75, 12, 54);
+        double pesoTotal = 24.0;
+        Graph<Endereco, Double> expResult = new Graph<>(true) ;
+        expResult.insertVertex(e1);
+        expResult.insertVertex(e2);
+        expResult.insertVertex(e3);
+        when(entregaDB.generateGraph(listEnderecos, est, veiculo, pesoTotal)).thenReturn(expResult);
+        Graph<Endereco, Double> result = instance.generateGraph(listEnderecos, est, veiculo, pesoTotal);
+
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of getPath method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetPath() {
+        System.out.println("getPath");
+        Graph<Endereco, Double> graph = new Graph<>(true) ;
+        List<Endereco> listEnderecos = new LinkedList<>();
+        Endereco e1 = new Endereco("dfad", 23, 34, 1);
+        listEnderecos.add(e1);
+        Endereco e2 = new Endereco("hte", 3, 5, 2);
+        listEnderecos.add(e2);
+        Endereco e3 = new Endereco("rrs", 34, 111, 34);
+        listEnderecos.add(e3);
+        List<Endereco> finalShortPath = new LinkedList<>();
+        Endereco origem = e1;
+        double energia = 0.0;
+        double expResult = 0.0;
+        RegistarEntregaController teste = new RegistarEntregaController(new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB());
+        double result = teste.getPath(graph, listEnderecos, finalShortPath, origem, energia);
+        assertEquals(expResult, result, 0.0);
 
     }
     

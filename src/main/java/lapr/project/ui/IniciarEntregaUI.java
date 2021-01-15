@@ -13,6 +13,7 @@ import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
+import lapr.project.model.Graph;
 import lapr.project.model.Veiculo;
 
 /**
@@ -67,7 +68,7 @@ public class IniciarEntregaUI {
                 listEnderecos.add(end);
             }
             
-            List<Endereco> lEn = controller.generateGraph(listEnderecos, est, veiculo, pesoTotal);
+            Graph<Endereco,Double> lEn = controller.generateGraph(listEnderecos, est, veiculo, pesoTotal);
             
             System.out.println("\n\nCaminho com menor energia gasta: '" + lEn);
         }
