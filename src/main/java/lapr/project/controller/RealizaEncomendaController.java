@@ -97,8 +97,8 @@ public class RealizaEncomendaController {
         return (emailDB.sendEmail(email, assunto, mensagem) ? true : false);
     }
 
-    public boolean removerProdutosEncomenda(Map<Produto,Integer> map) {
-        return produtoDB.removerProdutosEncomenda(map);
+    public boolean removerProdutosEncomenda(Map<Produto,Integer> map, int nif) {
+        return produtoDB.removerProdutosEncomenda(map,nif);
     }
 
     public double getCreditosData(Data date, double preco) {

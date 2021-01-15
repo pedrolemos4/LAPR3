@@ -27,7 +27,7 @@ class PedirItemFarmaciaControllerTest {
         Farmacia farm = new Farmacia(1,"rua1");
         Farmacia farm2 = new Farmacia(1,"rua2");
         Produto prod = new Produto("prod",1,1);
-        trans = new TransferenciaProduto(1, 1,2,1,1,1);
+        trans = new TransferenciaProduto(1, 1,2,1,1);
         when(tdb.realizaPedido(farm,farm2,prod,1)).thenReturn(true);
     }
 

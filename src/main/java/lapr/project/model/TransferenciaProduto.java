@@ -6,15 +6,13 @@ public class TransferenciaProduto {
     private int idDestinatario;
     private int idProduto;
     private int quantidade;
-    private int idEstadoTransferencia;
 
-    public TransferenciaProduto(int idTrans, int idRemetente, int idDestinatario, int idProduto, int quantidade, int idEstadoTransferencia){
+    public TransferenciaProduto(int idTrans, int idRemetente, int idDestinatario, int idProduto, int quantidade){
         this.idTrans = idTrans;
         this.idRemetente = idRemetente;
         this.idDestinatario = idDestinatario;
         this.idProduto = idProduto;
         this.quantidade = quantidade;
-        this.idEstadoTransferencia = idEstadoTransferencia;
     }
 
     public TransferenciaProduto(){
@@ -23,7 +21,6 @@ public class TransferenciaProduto {
         this.idDestinatario = 0;
         this.idProduto = 0;
         this.quantidade = 0;
-        this.idEstadoTransferencia = 0;
     }
 
     public int getIdTrans() {
@@ -44,9 +41,5 @@ public class TransferenciaProduto {
 
     public int getQuantidade() {
         return quantidade;
-    }
-
-    public int getIdEstadoTransferencia() {
-        return idEstadoTransferencia;
     }
 }

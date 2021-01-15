@@ -71,6 +71,25 @@ public class ProdutosDB extends DataHandler {
         }
     }
 
+    public void addProdutoStock(int nif, String prod, int qtd) {
+        try {
+            openConnection();
+
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addProdutoStock(?,?,?) }")) {
+
+                callStmt.setInt(1, nif);
+                callStmt.setString(2, prod);
+                callStmt.setInt(3, qtd);
+
+                callStmt.execute();
+            }
+            closeAll();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean atualizarProduto(Produto prod) {
         if (validaProduto(prod)) {
             atualizarProduto(prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase(), prod.getId());
@@ -97,6 +116,27 @@ public class ProdutosDB extends DataHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean atualizarStock(int nif, int idProduto, int quantidade) {
+        boolean removed = false;
+        try {
+            openConnection();
+
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call procAtualizarStock(?,?,?) }")) {
+
+                callStmt.setInt(1, nif);
+                callStmt.setInt(2, idProduto);
+                callStmt.setInt(3, quantidade);
+                removed = true;
+                callStmt.execute();
+            }
+            closeAll();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return removed;
     }
 
     public boolean validaListaProdutos(List<Produto> lprods) {
@@ -192,43 +232,18 @@ public class ProdutosDB extends DataHandler {
     /**
      * Remove os produtos da base de dados
      *
-     * @param lst
+     * @param
      */
-    public boolean removerProdutosEncomenda(Map<Produto, Integer> map) {
+    public boolean removerProdutosEncomenda(Map<Produto, Integer> map, int nif) {
         boolean bo = false;
         for (Produto p : map.keySet()) {
             Integer get = map.get(p);
             while (get > 0) {
-                bo = removerProdutosEncomenda(p.getDesignacao());
+                bo = atualizarStock(p.getId(),nif,1);
                 get--;
             }
         }
         return bo;
-    }
-
-    /**
-     * Remove os produtos da base de dados
-     *
-     * @param des
-     */
-    private boolean removerProdutosEncomenda(String des) {
-        boolean removed = false;
-
-        try {
-            openConnection();
-
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call procRemoverProduto(?) }")) {
-
-                callStmt.setString(1, des);
-                removed = true;
-                callStmt.execute();
-            }
-            closeAll();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return removed;
     }
 
     /**
