@@ -23,15 +23,16 @@ import lapr.project.model.Farmacia;
  */
 public class FarmaciaDB extends DataHandler {
 
-
     /**
      * Cria uma nova farmácia
      *
      * @param nif nif da farmácia
+     * @param email email da farmácia
+     * @param morada morada da farmácia
      * @return nova farmacia criada
      */
     public Farmacia novaFarmacia(int nif, String email, String morada) {
-        return new Farmacia(nif,email,morada);
+        return new Farmacia(nif, email, morada);
     }
 
     /**
@@ -102,7 +103,7 @@ public class FarmaciaDB extends DataHandler {
                     int nif = rSet.getInt(1);
                     String email = rSet.getString(2);
                     String morada = rSet.getString(3);
-                    list.add(new Farmacia(nif,email,morada));
+                    list.add(new Farmacia(nif, email, morada));
                 }
                 return list;
             }
@@ -113,7 +114,7 @@ public class FarmaciaDB extends DataHandler {
     }
 
     public Farmacia getFarmaciaByNIF(int nif) {
-        String query = "SELECT * FROM farmacia f INNER JOIN endereco e ON f.morada = e.morada WHERE f.nif ="+ nif;
+        String query = "SELECT * FROM farmacia f INNER JOIN endereco e ON f.morada = e.morada WHERE f.nif =" + nif;
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
@@ -123,7 +124,7 @@ public class FarmaciaDB extends DataHandler {
                     String email = rSet.getString(2);
                     String morada = rSet.getString(3);
 
-                    return new Farmacia(nif,email,morada);
+                    return new Farmacia(nif, email, morada);
                 }
             }
         } catch (SQLException e) {
@@ -131,6 +132,5 @@ public class FarmaciaDB extends DataHandler {
         }
         return null;
     }
-
 
 }

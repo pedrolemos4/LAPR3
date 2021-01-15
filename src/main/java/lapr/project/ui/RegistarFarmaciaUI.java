@@ -51,7 +51,7 @@ public class RegistarFarmaciaUI {
         int numMax = LER.nextInt();
         System.out.println("Qual o tipo do parque, drones ou scooters?");
         String tipo = LER.nextLine();
-        Farmacia farm = controller.novaFarmacia(nif,email,morada);
+        Farmacia farm = controller.novaFarmacia(nif, email, morada);
         Endereco end = controller.novoEndereco(morada, lat, lon, alt);
         Parque park = controller.novoParque(nif, morada, numMax, tipo.toLowerCase());
 
