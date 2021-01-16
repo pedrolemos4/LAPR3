@@ -153,7 +153,7 @@ CREATE TABLE "LAPR3_G23".StockFarmacia
 (           FarmaciaNIF number(10) NOT NULL, 
             ProdutoidProduto number(10) NOT NULL,
             stock number(10) NOT NULL,
-            PRIMARY KEY (FarmaciaNIF)
+            PRIMARY KEY (FarmaciaNIF,ProdutoidProduto)
 );
 
 
@@ -339,8 +339,16 @@ CREATE OR REPLACE FUNCTION addProduto(p_designacao "LAPR3_G23".produto.designaca
 p_precoBase "LAPR3_G23".produto.precoBase%type) RETURN INTEGER
 IS
 v_idproduto INTEGER;
+contador int;
+
 BEGIN
-  INSERT INTO "LAPR3_G23".produto(designacao,peso,precobase) VALUES(p_designacao, p_peso, p_precoBase);
+    select count(*) into contador 
+    from "LAPR3_G23".produto 
+    where designacao = p_designacao;
+    
+    if(contador=0)then
+        INSERT INTO "LAPR3_G23".produto(designacao,peso,precobase) VALUES(p_designacao, p_peso, p_precoBase);
+    END IF;
   SELECT "LAPR3_G23".produto.idproduto INTO v_idProduto
   FROM "LAPR3_G23".produto
   WHERE "LAPR3_G23".produto.designacao = p_designacao 
@@ -350,11 +358,24 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addProdutoStock(p_nif "LAPR3_G23".stockfarmacia.farmacianif%type,
+create or replace PROCEDURE addProdutoStock(p_nif "LAPR3_G23".stockfarmacia.farmacianif%type,
 p_idproduto "LAPR3_G23".stockFarmacia.produtoIdproduto%type, p_stock "LAPR3_G23".stockFarmacia.stock%type)
 AS
+
+contador int;
+
 BEGIN
-  INSERT INTO "LAPR3_G23".stockFarmacia VALUES(p_nif,p_idproduto,p_stock);
+    select count(*) into contador 
+    from "LAPR3_G23".stockfarmacia 
+    where produtoIdproduto = p_idproduto AND farmacianif = p_nif;
+
+    if(contador > 0) then
+    UPDATE "LAPR3_G23".stockFarmacia SET "LAPR3_G23".stockFarmacia.stock = p_stock
+        WHERE "LAPR3_G23".stockFarmacia.produtoIdproduto = p_idProduto AND "LAPR3_G23".stockfarmacia.farmacianif = p_nif;
+    else
+        INSERT INTO "LAPR3_G23".stockFarmacia VALUES(p_nif,p_idproduto,p_stock);
+    end if;
+
 END;
 /
 
@@ -646,6 +667,29 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE PROCEDURE updateEntrega(p_idEntrega "LAPR3_G23".entrega.idEntrega%type, p_EstafetaUtilizadorNIF "LAPR3_G23".entrega.EstafetaUtilizadorNIF%type,
+p_veiculoid "LAPR3_G23".entrega.veiculoid%type, p_dataInicio "LAPR3_G23".entrega.dataInicio%type, p_datafim "LAPR3_G23".entrega.dataFim%type)
+AS
+BEGIN
+  UPDATE "LAPR3_G23".entrega SET "LAPR3_G23".entrega.idEntrega = p_idEntrega,"LAPR3_G23".entrega.EstafetaUtilizadorNIF = p_EstafetaUtilizadorNIF,
+  "LAPR3_G23".entrega.veiculoid = p_veiculoid, "LAPR3_G23".entrega.dataInicio= p_dataInicio,"LAPR3_G23".entrega.dataFim = p_datafim
+    WHERE "LAPR3_G23".entrega.idEntrega = p_idEntrega;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE updateEncomenda(p_idEncomenda "LAPR3_G23".encomenda.idEncomenda%type, p_dataPedida "LAPR3_G23".encomenda.dataPedida%type,
+p_preco "LAPR3_G23".encomenda.preco%type, p_pesoEncomenda "LAPR3_G23".encomenda.pesoEncomenda%type,p_taxa "LAPR3_G23".encomenda.taxa%type, 
+p_EstadoEncomendaidEstadoEncomenda "LAPR3_G23".encomenda.estadoEncomendaIdEstadoEncomenda%type,
+p_ClienteUtilizadorNIF "LAPR3_G23".encomenda.clienteutilizadornif%type)
+AS
+BEGIN
+  UPDATE "LAPR3_G23".encomenda SET "LAPR3_G23".encomenda.idEncomenda = p_idEncomenda,"LAPR3_G23".encomenda.dataPedida = p_dataPedida,
+  "LAPR3_G23".encomenda.preco = p_preco, "LAPR3_G23".encomenda.pesoEncomenda = p_pesoEncomenda,"LAPR3_G23".encomenda.taxa = p_taxa,
+  "LAPR3_G23".encomenda.estadoEncomendaIdEstadoEncomenda = p_EstadoEncomendaidEstadoEncomenda, "LAPR3_G23".encomenda.clienteutilizadornif = p_ClienteUtilizadorNIF
+    WHERE "LAPR3_G23".encomenda.idEncomenda = p_idEncomenda;
+END;
+/
+
 --------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -697,7 +741,7 @@ SELECT "LAPR3_G23".encomenda.idEncomenda --INTO v_idEncomenda
   
 rollback;
   
-  SELECT * FROM RECIBO;
+  SELECT * FROM cliente;
   
   select * from utilizador;
   
