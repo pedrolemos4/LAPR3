@@ -76,16 +76,12 @@ public class RealizarEncomendaUI {
             System.out.println("Introduza a quantidade que pretende mesmo não tendo a quantidade que pretende: ");
             int qntd = LER.nextInt();
             Produto prod = controller.getProdutoByID(id);
-            System.out.println("Morreste?");
             if (controller.produtoEncomenda(nif, prod, qntd) == false) {
-                System.out.println("Morreste na linha 77?");
                 List<Farmacia> farms = controller2.getListaFarmaciaByProduto(prod, qntd);
                 while (qntd != 0) {
-                    System.out.println("Morreste na linha 80?");
                     Graph<Farmacia, Double> generateGrafo = controller2.generateGrafo(farms);
                     nif1 = controller2.getFarmaciaProxima(generateGrafo, nif);
                     if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).containsValue(qntd)) {
-                        System.out.println("Morreste na linha 84?");
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif), controller2.getFarmaciaByNIF(nif1), prod, qntd);
                         controller.produtoEncomenda(nif1, prod, qntd);
                         qntd = 0;
@@ -93,7 +89,6 @@ public class RealizarEncomendaUI {
 
                     }
                     if (controller.getListStock(nif1).containsKey(prod) && !controller.getListStock(nif1).containsValue(qntd)) {
-                        System.out.println("Morreste na linha 92?");
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif), controller2.getFarmaciaByNIF(nif1), prod, controller.getListStock(nif1).get(prod));
                         controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(nif).getEmail(), controller2.getFarmaciaByNIF(nif1).getEmail());
                         qntd = qntd - controller.getListStock(nif1).get(prod);

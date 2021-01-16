@@ -68,8 +68,8 @@ public class RealizaEncomendaController {
     }
 
     public Cliente getCliente() {
-        String email = UserSession.getInstance().getUser().getEmail();
-        return cliDB.getClienteByEmail(email);
+        int nif = UserSession.getInstance().getUser().getNIF();
+        return cliDB.getClienteByNIF(nif);
     }
 
     public boolean novoRecibo(Recibo rec, Produto prod, int quant) {

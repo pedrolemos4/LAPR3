@@ -133,41 +133,27 @@ public class ClienteDB extends DataHandler {
      * @param email email do cliente
      * @return cliente
      */
-    public Cliente getClienteByEmail(String email) {
+    public Cliente getClienteByNIF(int nif) {
         String query = "SELECT c.utilizadornif, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito "
                 + "FROM cliente c "
                 + "INNER JOIN utilizador u ON c.UtilizadorNIF = u.NIF "
-                + "WHERE u.email= ?"; //+ email;
-        Statement stm = null;
-        ResultSet rst = null;
-        Cliente cl = null;
-        try {
-            Connection con = DataHandler.getInstance().getConnection();
-            stm = con.createStatement();
-            rst = stm.executeQuery(query);
-            if (rst.next()) {
-                int aInt = rst.getInt(1);
-                int aInt1 = rst.getInt(2);
-                String string = rst.getString(3);
-                int aInt2 = rst.getInt(4);
-                cl = new Cliente(aInt, aInt1, string, aInt2);
-            }
+                + "WHERE u.NIF = " + nif;
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
-        } catch (SQLException ex) {
-            Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, ex.getMessage());
-        } finally {
-            try {
-                if (rst != null) {
-                    rst.close();
+                if (rSet.next()) {
+                    int id1 = rSet.getInt(1);
+                    double creds = rSet.getDouble(2);
+                    String morada = rSet.getString(3);
+                    int num = rSet.getInt(4);
+
+                    return new Cliente(id1,creds,morada,num);
                 }
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
+        } catch (SQLException e) {
+            Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
-        return cl;
+        return null;
     }
 
 //        try ( CallableStatement stm = getConnection().prepareCall(query)) {

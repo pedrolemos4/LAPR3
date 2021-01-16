@@ -168,7 +168,7 @@ class RealizaEncomendaControllerTest {
         Cliente c = new Cliente(1, "nome", "email", 1, 1, "morada", 1, "password");
         UserSession.getInstance().setUser(c);
         Cliente expResult = c;
-        when(cliDB.getClienteByEmail(c.getEmail())).thenReturn(c);
+        when(cliDB.getClienteByNIF(c.getNIF())).thenReturn(c);
         assertEquals(expResult, instance.getCliente());
     }
 
