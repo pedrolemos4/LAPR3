@@ -91,6 +91,9 @@ public class RealizarEncomendaUI {
             if (controller.produtoEncomenda(nif, prod, qntd) == false) {
                 List<Farmacia> farms = controller2.getListaFarmaciaByProduto(prod, qntd);
                 while (qntd > 0) {
+                    if(farms.isEmpty()){
+                        break;
+                    }
                     Graph<Farmacia, Double> generateGrafo = controller2.generateGrafo(farms);
                     nif1 = controller2.getFarmaciaProxima(generateGrafo, nif);
                     if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).containsValue(qntd)) {
