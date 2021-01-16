@@ -130,10 +130,6 @@ public class EstacionamentoController {
 
         pathnames = f.list();
 
-        for(int i = 0; i < pathnames.length; i++){
-            System.out.println(pathnames[i]);
-        }
-
         try{
             return pathnames[0];
         }catch(Exception c){
