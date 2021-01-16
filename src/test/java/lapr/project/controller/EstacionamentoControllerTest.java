@@ -180,7 +180,7 @@ class EstacionamentoControllerTest {
 
     @Test
     void getDiretory() {
-        String expected = "estimate_2021_02_02_02_02_02.data";
-        assertEquals(expected,instance.getDiretory("src/main/java/lapr/project/parking/estacionamento/"));
+        String expected = "estimate_2021_02_02_02_02_01.data";
+        assertEquals(expected,instance.getDiretory("src/main/java/lapr/project/parking/teste/"));
     }
 }
