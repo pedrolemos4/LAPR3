@@ -125,9 +125,11 @@ public class RegistarFarmaciaControllerTest {
     @Test
     public void testRegistaParque() throws SQLException {
         System.out.println("registaParque");
+        List<Parque> expResult = new ArrayList<>();
         Parque parque = new Parque(111111111, 20, "drones");
-        when(parqueMock.registaParque(parque)).thenReturn(true);
-        assertEquals(true, instance1.registaParque(parque));
+        expResult.add(parque);
+        when(parqueMock.registaParques(expResult)).thenReturn(true);
+        assertEquals(true, instance1.registaParques(expResult));
     }
 
     /**
@@ -138,9 +140,11 @@ public class RegistarFarmaciaControllerTest {
     @Test
     public void testRegistaParque1() throws SQLException {
         System.out.println("registaParque1");
+        List<Parque> expResult = new ArrayList<>();
         Parque parque = new Parque(111111111, 20, "drones");
-        when(parqueMock.registaParque(parque)).thenReturn(false);
-        assertEquals(false, instance1.registaParque(parque));
+        expResult.add(parque);
+        when(parqueMock.registaParques(expResult)).thenReturn(false);
+        assertEquals(false, instance1.registaParques(expResult));
     }
 
     /**

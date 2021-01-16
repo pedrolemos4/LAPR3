@@ -8,7 +8,11 @@ import lapr.project.model.Veiculo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -179,6 +183,31 @@ class EstacionamentoControllerTest {
         when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
 
         assertTrue(instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2021_02_02_02_02_02.data"));
+    }
+
+    @Test
+    void simulateParkingVeiculo5() {
+        System.out.println("simulateParkingVeiculo5()");
+        Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
+        Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
+        Veiculo veiculo = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
+        Estacionamento estacionamento = new Estacionamento(0, 0, 0);
+        estacionamento.setNumeroLote(0);
+
+        when(entregaDB.getEntregaAtiva(estafeta.getEmail())).thenReturn(entrega);
+
+        when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
+
+        when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
+
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+
+        ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStreamCaptor));
+
+        instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2022_02_02_02_02_02.data");
+
+        assertEquals("Ficheiro não encontrado", outputStreamCaptor.toString().trim());
     }
 
     @Test

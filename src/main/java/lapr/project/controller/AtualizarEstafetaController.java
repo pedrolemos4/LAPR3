@@ -21,6 +21,6 @@ public class AtualizarEstafetaController {
     }
 
     public boolean atualizarEstafeta(Estafeta est) {
-        return (estafetaDB.atualizarEstafeta(est)? true : false);
+        return (estafetaDB.atualizarEstafeta(est)? (true) : (false));
     }
 }

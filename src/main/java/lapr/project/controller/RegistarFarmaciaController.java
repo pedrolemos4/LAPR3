@@ -46,6 +46,24 @@ public class RegistarFarmaciaController {
     }
 
     /**
+     * Retorna lista com todas os parques de uma determinada farmácia
+     *
+     * @param nif da farmacia
+     * @return lista dos parques da farmácia
+     */
+    public List<Parque> getListaParquesByFarmaciaNif(int nif) {
+        return parqueDB.getLstParquesByFarmaciaNif(nif);
+    }
+
+    public Farmacia getFarmaciaByNIF(int nif) {
+        return farmaciaDB.getFarmaciaByNIF(nif);
+    }
+
+    public Endereco getEnderecoByFarmaciaMorada(String farmMorada) {
+        return enderecoDB.getEnderecoByFarmaciaMorada(farmMorada);
+    }
+
+    /**
      * Cria uma nova farmácia
      *
      * @param nif nif da farmácia
@@ -54,7 +72,7 @@ public class RegistarFarmaciaController {
      * @return nova farmacia criada
      */
     public Farmacia novaFarmacia(int nif, String email, String morada) {
-        return farmaciaDB.novaFarmacia(nif,email,morada);
+        return farmaciaDB.novaFarmacia(nif, email, morada);
     }
 
     /**
@@ -65,7 +83,7 @@ public class RegistarFarmaciaController {
      * @param tipo tipo de veículos do parque
      * @return novo parque criado
      */
-    public Parque novoParque(int nif,int numMax, String tipo) {
+    public Parque novoParque(int nif, int numMax, String tipo) {
         return parqueDB.novoParque(nif, numMax, tipo);
     }
 
@@ -89,17 +107,17 @@ public class RegistarFarmaciaController {
      * @return
      */
     public boolean registaFarmacia(Farmacia farm) {
-        return (farmaciaDB.registaFarmacia(farm) ? true : false);
+        return (farmaciaDB.registaFarmacia(farm) ? (true) : (false));
     }
 
     /**
      * Regista o parque
      *
-     * @param park parque
-     * @return
+     * @param lparks lista dos parques a serem registados
+     * @return true se os parques forem todos adicionados
      */
-    public boolean registaParque(Parque park) {
-        return (parqueDB.registaParque(park) ? true : false);
+    public boolean registaParques(List<Parque> lparks) {
+        return (parqueDB.registaParques(lparks) ? (true) : (false));
     }
 
     /**
@@ -109,6 +127,6 @@ public class RegistarFarmaciaController {
      * @return
      */
     public boolean registaEndereco(Endereco end) {
-        return (enderecoDB.registaEndereco(end) ? true : false);
+        return (enderecoDB.registaEndereco(end) ? (true) : (false));
     }
 }

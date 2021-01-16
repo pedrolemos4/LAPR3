@@ -37,12 +37,15 @@ public class ParqueDB extends DataHandler {
     /**
      * Regista o parque
      *
-     * @param park parque
+     * @param lparks lista dos parques a serem registados
      * @return
      */
-    public boolean registaParque(Parque park) {
-        if (validaParque(park)) {
-            addParque(park);
+    public boolean registaParques(List<Parque> lparks) {
+        for (Parque park : lparks) {
+            if (validaParque(park)) {
+                System.out.println("VALIDOU PARQUE");
+                addParque(park);
+            }
         }
         return true;
     }
@@ -54,7 +57,7 @@ public class ParqueDB extends DataHandler {
      * @return true se o parque é valido
      */
     public boolean validaParque(Parque park) {
-        return !(park.getNIF() < 0 || park.getNumeroMaximo() < 0 || park.getTipo().isEmpty() || !"drones".equals(park.getTipo()) || !"scooters".equals(park.getTipo()));
+        return !(park.getNIF() < 0 || park.getNumeroMaximo() < 0);
     }
 
     /**
@@ -86,6 +89,32 @@ public class ParqueDB extends DataHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Lista com todos os parques de uma determinada farmácia
+     *
+     * @param NIF nif da farmácia
+     * @return lista dos parques da farmácia
+     */
+    public List<Parque> getLstParquesByFarmaciaNif(int NIF) {
+        ArrayList<Parque> list = new ArrayList<>();
+        String query = "SELECT * FROM parque p WHERE p.FarmaciaNIF =" + NIF;
+
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
+                while (rSet.next()) {
+                    int nif = rSet.getInt(1);
+                    int numMax = rSet.getInt(2);
+                    String tipo = rSet.getString(3);
+                    list.add(new Parque(nif, numMax, tipo));
+                }
+                return list;
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return list;
     }
 
     /**

@@ -21,6 +21,6 @@ public class InserirItensStockController {
     }
 
     public boolean registaProduto(Produto prod, int farm, int qtd) {
-        return (produtosDB.registaProduto(prod, farm, qtd)? true : false);
+        return (produtosDB.registaProduto(prod, farm, qtd)? (true) : (false));
     }
 }

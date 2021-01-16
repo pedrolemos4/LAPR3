@@ -102,10 +102,11 @@ CREATE TABLE "LAPR3_G23".Entrega
 );
 
 CREATE TABLE "LAPR3_G23".Parque 
-(           FarmaciaNIF number(10) NOT NULL,
+(           idParque number(10) GENERATED AS IDENTITY, 
+            FarmaciaNIF number(10) NOT NULL,
             numeroMaximo number(10) NOT NULL,
             tipo varchar(255) NOT NULL, 
-            PRIMARY KEY (FarmaciaNIF)
+            PRIMARY KEY (idParque)
 );
 
 
@@ -426,11 +427,12 @@ RETURN v_idEntrega;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addParque(FarmaciaNIF "LAPR3_G23".parque.farmacianif%type, numeroMaximo "LAPR3_G23".parque.numeromaximo%type,
-tipo "LAPR3_G23".parque.tipo%type) 
+CREATE OR REPLACE PROCEDURE addParque(p_FarmaciaNIF "LAPR3_G23".parque.farmacianif%type, p_numeroMaximo "LAPR3_G23".parque.numeromaximo%type,
+p_tipo "LAPR3_G23".parque.tipo%type) 
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".parque VALUES(FarmaciaNIF, numeroMaximo, tipo);
+  INSERT INTO "LAPR3_G23".parque (FarmaciaNIF,numeroMaximo,tipo)
+  VALUES(p_FarmaciaNIF, p_numeroMaximo, p_tipo);
 END;
 /
 

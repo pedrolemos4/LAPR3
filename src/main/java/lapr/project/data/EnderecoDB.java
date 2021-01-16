@@ -144,7 +144,7 @@ public class EnderecoDB extends DataHandler {
         }
         return null;
     }
-    
+
     /**
      * Retorna endereço da farmacia recebendo o nif por parãmetro
      *
@@ -172,5 +172,25 @@ public class EnderecoDB extends DataHandler {
         return null;
     }
 
+    public Endereco getEnderecoByFarmaciaMorada(String farmMorada) {
+        String query = "SELECT * FROM endereco e WHERE e.morada = " + farmMorada;
+
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
+
+                if (rSet.next()) {
+                    String morada = rSet.getString(1);
+                    double latitude = rSet.getDouble(2);
+                    double longitude = rSet.getDouble(3);
+                    double altitude = rSet.getDouble(4);
+
+                    return new Endereco(morada, latitude, longitude, altitude);
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return null;
+    }
 
 }
