@@ -110,11 +110,11 @@ public class RegistarEntregaController {
     }
     
     public boolean updateEncomenda(Encomenda encomenda) throws SQLException, ParseException{
-        return (encomendaDB.updateEncomenda(encomenda)? true : false);
+        return (encomendaDB.updateEncomenda(encomenda) ? (true) : false);
     }
     
     public boolean updateEntrega(Entrega entrega) throws SQLException, ParseException{
-        return (entregaDB.updateEntrega(entrega)? true : false);
+        return (entregaDB.updateEntrega(entrega) ? (true) : false);
     }
     
 }

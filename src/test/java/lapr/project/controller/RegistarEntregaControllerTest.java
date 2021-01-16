@@ -347,5 +347,33 @@ public class RegistarEntregaControllerTest {
         assertEquals(expResult, result);
 
     }
+
+    /**
+     * Test of updateEncomenda method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testUpdateEncomenda1() throws Exception {
+        System.out.println("updateEncomenda1");
+        Encomenda encomenda = new Encomenda(123456789, "12/01/2015", 51, 74, 85, 7);
+        boolean expResult = false;
+        when(encomendaDB.updateEncomenda(encomenda)).thenReturn(expResult);
+        boolean result = instance.updateEncomenda(encomenda);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
+     * Test of updateEncomenda method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testUpdateEncomenda2() throws Exception {
+        System.out.println("updateEncomenda2");
+        Encomenda encomenda = new Encomenda(123456789, "12/01/2015", 51, 74, 85, 7);
+        boolean expResult = true;
+        when(encomendaDB.updateEncomenda(encomenda)).thenReturn(expResult);
+        boolean result = instance.updateEncomenda(encomenda);
+        assertEquals(expResult, result);
+
+    }
     
 }
