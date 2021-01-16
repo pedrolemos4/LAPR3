@@ -122,6 +122,7 @@ class EstacionamentoControllerTest {
 
     @Test
     void notificaEstafeta1() {
+        System.out.println("notificaEstafeta1()");
         String email = "admlapr123@gmail.com";
         String assunto = "Estacionamento Veiculo";
         String mensagem = "O veiculo foi estacionado com sucesso, com uma estimativa de " + 3 + " horas até estar completamente carregada.";
@@ -133,6 +134,7 @@ class EstacionamentoControllerTest {
 
     @Test
     void notificaEstafeta2() {
+        System.out.println("notificaEstafeta2()");
         String email = "admlapr123@gmail.com";
         String assunto = "Estacionamento Veiculo";
         String mensagem = "O veiculo foi estacionado sem sucesso, tente novamente.";
@@ -144,6 +146,7 @@ class EstacionamentoControllerTest {
 
     @Test
     void notificaEstafeta3() {
+        System.out.println("notificaEstafeta3()");
         String email = "admlapr123@gmail.com";
         String assunto = "Estacionamento Veiculo";
         String mensagem = "O veiculo foi estacionado sem sucesso, tente novamente.";
@@ -155,6 +158,7 @@ class EstacionamentoControllerTest {
 
     @Test
     void carregamentoCompleto() {
+        System.out.println("carregamentoCompleto()");
         Veiculo veiculo = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
         veiculo.setPercentagemBateria(100);
         Veiculo veiculo1 = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
@@ -164,6 +168,7 @@ class EstacionamentoControllerTest {
 
     @Test
     void timerCarregamento() {
+        System.out.println("timerCarregamento()");
         Veiculo veiculo = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
 
         assertEquals(true,instance.TimerCarregamento(1,veiculo));
@@ -171,6 +176,7 @@ class EstacionamentoControllerTest {
 
     @Test
     void getDiretory() {
+        System.out.println("getDiretory()");
         String expected = "estimate_2021_02_02_02_02_01.data";
         assertEquals(expected,instance.getDiretory("src\\main\\java\\lapr\\project\\parking\\teste"));
     }

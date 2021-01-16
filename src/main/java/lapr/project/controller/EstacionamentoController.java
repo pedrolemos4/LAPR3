@@ -41,6 +41,8 @@ public class EstacionamentoController {
 
     public boolean simulateParkingVeiculo(String path){
         File newFile = new File(path);
+        System.out.println(path);
+        System.out.println(newFile.exists());
         Scanner scan = null;
         try {
             scan = new Scanner(newFile);
