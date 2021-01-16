@@ -17,7 +17,7 @@ public class AtualizarItensStockUI {
         this.controller = new AtualizarItensStockController(new ProdutosDB());
     }
 
-    public void atualizarEstafeta() {
+    public void atualizarProduto() {
         System.out.println("NIF da farmácia onde enviar:");
         int farm = LER.nextInt();
         

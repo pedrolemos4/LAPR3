@@ -345,6 +345,14 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE PROCEDURE addProdutoStock(p_nif "LAPR3_G23".stockfarmacia.farmacianif%type,
+p_idproduto "LAPR3_G23".stockFarmacia.produtoIdproduto%type, p_stock "LAPR3_G23".stockFarmacia.stock%type)
+AS
+BEGIN
+  INSERT INTO "LAPR3_G23".stockFarmacia VALUES(p_nif,p_idproduto,p_stock);
+END;
+/
+
 CREATE OR REPLACE PROCEDURE atualizaProduto(idProd "LAPR3_G23".produto.idProduto%type,designacao "LAPR3_G23".produto.designacao%type,
 peso "LAPR3_G23".produto.peso%type, precoBase "LAPR3_G23".produto.precoBase%type)
 AS
@@ -478,7 +486,8 @@ CREATE OR REPLACE PROCEDURE addRecibo(dataRecibo "LAPR3_G23".recibo.datarecibo%t
 ClienteUtilizadorNIF "LAPR3_G23".recibo.clienteutilizadornif%type, EncomendaidEncomenda "LAPR3_G23".recibo.encomendaidencomenda%type) 
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".recibo VALUES(dataRecibo,preco,ClienteUtilizadorNIF, EncomendaidEncomenda);   
+  INSERT INTO "LAPR3_G23".recibo(dataRecibo,preco,ClienteUtilizadorNif,EncomendaidEncomenda)
+  VALUES(dataRecibo,preco,ClienteUtilizadorNIF, EncomendaidEncomenda);   
 END;
 /
 
@@ -613,5 +622,10 @@ INSERT INTO "LAPR3_G23".cartao VALUES(123123456,3,3);
 select * from cartao;
 select * from cliente;
 
+select * 
+from stockFarmacia s
+where s.farmacianif = 555666555;
 
+select * 
+from produto;
 select * from farmacia;

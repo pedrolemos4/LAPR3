@@ -298,7 +298,7 @@ public class AdminUI {
 
     public void atualizarItem() throws ClassNotFoundException, SQLException, ParseException {
         AtualizarItensStockUI atStoUI = new AtualizarItensStockUI();
-        atStoUI.atualizarEstafeta();
+        atStoUI.atualizarProduto();
         menu();
     }
     

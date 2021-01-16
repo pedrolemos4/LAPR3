@@ -6,6 +6,7 @@
 package lapr.project.data;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -133,25 +134,60 @@ public class ClienteDB extends DataHandler {
      * @return cliente
      */
     public Cliente getClienteByEmail(String email) {
-        String query = "SELECT * FROM cliente e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.email= " + email;
-
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
-
-                if (rSet.next()) {
-                    int aInt = rSet.getInt(1);
-                    int aInt1 = rSet.getInt(2);
-                    String string = rSet.getString(3);
-                    int aInt2 = rSet.getInt(4);
-                    return new Cliente(aInt, aInt1, string, aInt2);
-                }
+        String query = "SELECT c.utilizadornif, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito "
+                + "FROM cliente c "
+                + "INNER JOIN utilizador u ON c.UtilizadorNIF = u.NIF "
+                + "WHERE u.email= ?"; //+ email;
+        Statement stm = null;
+        ResultSet rst = null;
+        Cliente cl = null;
+        try {
+            Connection con = DataHandler.getInstance().getConnection();
+            stm = con.createStatement();
+            rst = stm.executeQuery(query);
+            if (rst.next()) {
+                int aInt = rst.getInt(1);
+                int aInt1 = rst.getInt(2);
+                String string = rst.getString(3);
+                int aInt2 = rst.getInt(4);
+                cl = new Cliente(aInt, aInt1, string, aInt2);
             }
-        } catch (SQLException e) {
-            Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, ex.getMessage());
+        } finally {
+            try {
+                if (rst != null) {
+                    rst.close();
+                }
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            }
         }
-        return null;
+        return cl;
     }
-    
+
+//        try ( CallableStatement stm = getConnection().prepareCall(query)) {
+//            stm.setString(1, email);
+//            //try ( Statement stm1 = getConnection().createStatement()) {
+//            try ( ResultSet rSet = stm.executeQuery(query)) {//).executeQuery(query)) {
+//
+//                if (rSet.next()) {
+//                    int aInt = rSet.getInt(1);
+//                    int aInt1 = rSet.getInt(2);
+//                    String string = rSet.getString(3);
+//                    int aInt2 = rSet.getInt(4);
+//                    return new Cliente(aInt, aInt1, string, aInt2);
+//                }
+//            }
+//            //}
+//        } catch (SQLException e) {
+//            Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
+//        }
+//        return null;
     /**
      * Procura cliente pelo endereco do cliente
      *
