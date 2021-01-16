@@ -64,24 +64,14 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testRegistaEncomenda() throws Exception {
         System.out.println("registaEncomenda");
-        boolean expResult = true;
-        Encomenda enc = new Encomenda(1234, "02-01-2000", 10, 20, 10, 1);
-        when(encDB.registaEncomenda(enc)).thenReturn(expResult);
-        assertEquals(expResult, instance.registaEncomenda(enc));
+        int id = 1;
+        Encomenda expResult = new Encomenda(1234, "02-01-2000", 10, 20, 10, 1);
+        when(encDB.registaEncomenda(expResult)).thenReturn(id);
+        instance.registaEncomenda(expResult);
+        expResult.setId(id);
+        assertEquals(id, expResult.getId());
     }
-
-    /**
-     * Test of registaEncomenda method, of class RealizaEncomendaController.
-     */
-    @Test
-    public void testRegistaEncomenda1() throws Exception {
-        System.out.println("registaEncomenda1");
-        boolean expResult = false;
-        Encomenda enc = new Encomenda(1234, "02-01-2000", 10, 20, 10, 1);
-        when(encDB.registaEncomenda(enc)).thenReturn(expResult);
-        assertEquals(expResult, instance.registaEncomenda(enc));
-    }
-
+    
     /**
      * Test of registaEncomendaProduto method, of class
      * RealizaEncomendaController.
@@ -91,9 +81,10 @@ class RealizaEncomendaControllerTest {
         System.out.println("registaEncomendaProduto");
         Encomenda enc = new Encomenda(1234, "02-01-2000", 10, 20, 10, 1);
         Produto p = new Produto();
+        int stock = 9;
         boolean expResult = true;
-        when(encDB.registaEncomendaProduto(enc, p)).thenReturn(expResult);
-        assertEquals(expResult, instance.registaEncomendaProduto(enc, p));
+        when(encDB.registaEncomendaProduto(enc, p, stock)).thenReturn(expResult);
+        assertEquals(expResult, instance.registaEncomendaProduto(enc, p, stock));
     }
 
     /**
@@ -105,9 +96,10 @@ class RealizaEncomendaControllerTest {
         System.out.println("registaEncomendaProduto1");
         Encomenda enc = new Encomenda(1234, "02-01-2000", 10, 20, 10, 1);
         Produto p = new Produto();
+        int stock = 9;
         boolean expResult = false;
-        when(encDB.registaEncomendaProduto(enc, p)).thenReturn(expResult);
-        assertEquals(expResult, instance.registaEncomendaProduto(enc, p));
+        when(encDB.registaEncomendaProduto(enc, p, 0)).thenReturn(expResult);
+        assertEquals(expResult, instance.registaEncomendaProduto(enc, p, stock));
     }
 
     /**
@@ -379,4 +371,20 @@ class RealizaEncomendaControllerTest {
         boolean result = instance.registaRecibo(rec);
         assertEquals(expResult, result);
     }
+
+    /**
+     * Test of novoRecibo method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testNovoRecibo() {
+        System.out.println("novoRecibo");
+        Recibo rec = new Recibo();
+        Produto prod = new Produto();
+        int quant = 3;
+        boolean expResult = false;
+        when(reciboDB.registaRecibo(rec, prod, quant)).thenReturn(expResult);
+        boolean result = instance.novoRecibo(rec, prod, quant);
+        assertEquals(expResult, result);
+    }
+    
 }
