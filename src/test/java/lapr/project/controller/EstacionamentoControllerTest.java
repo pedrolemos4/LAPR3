@@ -33,6 +33,8 @@ class EstacionamentoControllerTest {
 
     @Test
     void checkParkings() {
+        System.out.println("checkParkings()");
+
         instance = mock(EstacionamentoController.class);
         when(instance.checkParkings()).thenReturn(true);
         assertEquals(true,instance.checkParkings());
@@ -40,6 +42,8 @@ class EstacionamentoControllerTest {
 
     @Test
     void simulateParkingVeiculo1() {
+        System.out.println("simulateParkingVeiculo1()");
+
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
         Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
@@ -59,11 +63,13 @@ class EstacionamentoControllerTest {
 
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
 
-        assertEquals(true,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2021_02_02_02_02_02.data"));
+        assertEquals(true,instance.simulateParkingVeiculo("src\\main\\java\\lapr\\project\\parking\\teste\\estimate_2021_02_02_02_02_02.data"));
     }
 
     @Test
     void simulateParkingVeiculo2() {
+        System.out.println("simulateParkingVeiculo2()");
+
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
         Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
@@ -83,11 +89,15 @@ class EstacionamentoControllerTest {
 
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
 
-        assertEquals(false,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/"));
+        assertEquals(false,instance.simulateParkingVeiculo("src\\main\\java\\lapr\\project\\parking\\teste"));
+
+
     }
 
     @Test
     void simulateParkingVeiculo3() {
+        System.out.println("simulateParkingVeiculo3()");
+
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
         Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
@@ -107,7 +117,7 @@ class EstacionamentoControllerTest {
 
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
 
-        assertEquals(true,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2021_02_02_02_02_01.data"));
+        assertEquals(true,instance.simulateParkingVeiculo("src\\main\\java\\lapr\\project\\parking\\teste\\estimate_2021_02_02_02_02_01.data"));
     }
 
     @Test
@@ -162,6 +172,6 @@ class EstacionamentoControllerTest {
     @Test
     void getDiretory() {
         String expected = "estimate_2021_02_02_02_02_01.data";
-        assertEquals(expected,instance.getDiretory("src/main/java/lapr/project/parking/teste/"));
+        assertEquals(expected,instance.getDiretory("src\\main\\java\\lapr\\project\\parking\\teste\\"));
     }
 }

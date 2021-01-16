@@ -30,7 +30,7 @@ public class EstacionamentoController {
 
     public boolean checkParkings(){
         try{
-            String path = "src/main/java/lapr/project/parking/estacionamento/";
+            String path = "src\\main\\java\\lapr\\project\\parking\\estacionamento\\";
             String estimatePath = getDiretory(path);
             path = path + estimatePath;
             return simulateParkingVeiculo(path);
