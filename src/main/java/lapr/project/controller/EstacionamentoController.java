@@ -30,8 +30,10 @@ public class EstacionamentoController {
 
     public boolean checkParkings(){
         try{
-            String estimatePath = getDiretory("src/main/java/lapr/project/parking/estacionamento/");
-            return simulateParkingVeiculo(estimatePath);
+            String path = "src/main/java/lapr/project/parking/estacionamento/";
+            String estimatePath = getDiretory(path);
+            path = path + estimatePath;
+            return simulateParkingVeiculo(path);
         }catch(Exception e){
             return false;
         }
@@ -127,6 +129,10 @@ public class EstacionamentoController {
         File f = new File(path);
 
         pathnames = f.list();
+
+        for(int i = 0; i < pathnames.length; i++){
+            System.out.println(pathnames[i]);
+        }
 
         try{
             return pathnames[0];
