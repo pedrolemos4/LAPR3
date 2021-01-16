@@ -105,25 +105,17 @@ public class EstacionamentoController {
             }
         };
 
-        try{
-            timer.schedule(timerTask,(estimativa*3600));
-            return true;
-        }catch(Exception e){
-            return false;
-        }
+        timer.schedule(timerTask, (estimativa * 3600));
+
+        return true;
     }
 
     public String getDiretory(String path) {
         String[] pathnames;
 
         File f = new File(path);
-        System.out.println(path);
 
         pathnames = f.list();
-
-        for(int i = 0; i < pathnames.length; i++){
-            System.out.println(pathnames[i]);
-        }
 
         return pathnames[0];
     }
