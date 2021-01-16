@@ -63,8 +63,8 @@ public class RegistarEntregaController {
         return enderecoDB.getEnderecoByNifFarmacia(nifFarmacia);
     }
     public Estafeta getEstafeta(){
-        String email = UserSession.getInstance().getUser().getEmail();
-        return estafetaDB.getEstafetaByEmail(email);
+        int nif = UserSession.getInstance().getUser().getNIF();
+        return estafetaDB.getEstafetaByNIF(nif);
     }
     
     public Veiculo getVeiculo(int idVeiculo){

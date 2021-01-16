@@ -4,7 +4,6 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,13 +36,13 @@ public class ProdutosDB extends DataHandler {
         return !(prod.getDesignacao() == null || prod.getPeso() < 0 || prod.getPrecoBase() < 0);
     }
 
-    public boolean registaProduto(Produto prod, int farm) {
+    public boolean registaProduto(Produto prod, int farm, int qtd) {
         if (validaProduto(prod)) {
             prod.setId(addProduto(prod));
             for (Farmacia f : fdb.getLstFarmacias()) {
                 if (f.getNIF() == farm) {
                     //f.addStock(prod);
-                    addProdutoStock(f.getNIF(), prod.getId(), 3);
+                    addProdutoStock(f.getNIF(), prod.getId(), qtd);
                 }
             }
             return true;

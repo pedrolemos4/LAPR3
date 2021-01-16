@@ -2,10 +2,8 @@ package lapr.project.ui;
 
 import lapr.project.controller.InserirItensStockController;
 import lapr.project.data.ProdutosDB;
-import lapr.project.model.Farmacia;
 import lapr.project.model.Produto;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import lapr.project.controller.PedirItemFarmaciaController;
@@ -50,6 +48,8 @@ public class InserirItensStockUI {
         double peso = LER.nextDouble();
         System.out.println("Preço Base:");
         double preco = LER.nextDouble();
+        System.out.println("Nº de produtos a criar:");
+        int qtd = LER.nextInt();
 
         Produto prod = controller.novoProduto(desig, peso, preco);
 
@@ -57,12 +57,13 @@ public class InserirItensStockUI {
         System.out.println(prod.getDesignacao());
         System.out.println(prod.getPeso());
         System.out.println(prod.getPrecoBase());
+        System.out.println("Nº de produtos a adicionar" + qtd);
 
         System.out.println("Deseja adicionar ao stock da farmácia o produto criado? (S/N)");
         String confirm = LER.next();
 
         if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
-            controller.registaProduto(prod, nif);
+            controller.registaProduto(prod, nif, qtd);
             System.out.println("\n\nProduto adicionado ao stock com sucesso!");
         } else {
             System.out.println("\n\nRegisto do produto cancelado!");

@@ -118,7 +118,7 @@ public class IniciarEntregaControllerTest {
         System.out.println("getEstafeta");
         Estafeta est = new Estafeta(123456789, "sd", "vfdada", 15, 45, "rs", 62);
         UserSession.getInstance().setUser(est);
-        when(estafetaDB.getEstafetaByEmail(est.getEmail())).thenReturn(est);
+        when(estafetaDB.getEstafetaByNIF(est.getNIF())).thenReturn(est);
         Estafeta result = instance.getEstafeta();
         assertEquals(est, result);
 

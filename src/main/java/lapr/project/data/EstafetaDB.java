@@ -149,14 +149,14 @@ public class EstafetaDB extends DataHandler{
         }
     }
 
-    public Estafeta getEstafetaByEmail(String email) {
-        String query = "SELECT * FROM estafeta e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.email= " + email;
+    public Estafeta getEstafetaByNIF(int nif) {
+        String query = "SELECT * FROM estafeta e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.NIF= " + nif;
 
         try (Statement stm = getConnection().createStatement()){
             try(ResultSet rSet  = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
-                    int nif = rSet.getInt(1);
+                    nif = rSet.getInt(1);
                     int idEstadoEstafeta = rSet.getInt(2);
                     double peso = rSet.getDouble(3);
 

@@ -3,7 +3,6 @@ package lapr.project.controller;
 import lapr.project.data.ProdutosDB;
 import lapr.project.model.Produto;
 
-import java.util.List;
 import java.util.Map;
 
 public class InserirItensStockController {
@@ -21,7 +20,7 @@ public class InserirItensStockController {
         return produtosDB.novoProduto(desig,peso,precoBase);
     }
 
-    public boolean registaProduto(Produto prod, int farm) {
-        return (produtosDB.registaProduto(prod, farm)? true : false);
+    public boolean registaProduto(Produto prod, int farm, int qtd) {
+        return (produtosDB.registaProduto(prod, farm, qtd)? true : false);
     }
 }
