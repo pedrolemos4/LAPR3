@@ -28,7 +28,7 @@ public class VeiculoController {
     }
 
     public boolean updateVeiculo(Veiculo veiculo) throws SQLException {
-        return (veiculoDB.updateVeiculo(veiculo) ? true : false) ;
+        return (veiculoDB.updateVeiculo(veiculo) ? (true) : (false)) ;
     }
 
     public List<Veiculo> getListaVeiculo() {
@@ -40,6 +40,6 @@ public class VeiculoController {
     }
 
     public boolean removeVeiculo(int idVeiculo) throws SQLException {
-        return (veiculoDB.removeVeiculo(idVeiculo) ? true : false);
+        return (veiculoDB.removeVeiculo(idVeiculo) ? (true) : (false));
     }
 }

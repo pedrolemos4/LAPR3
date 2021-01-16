@@ -508,9 +508,7 @@ BEGIN
   VALUES(v_dataRecibo,v_preco,v_ClienteUtilizadorNIF, v_EncomendaidEncomenda);   
   SELECT "LAPR3_G23".recibo.idrecibo into v_idrecibo
   FROM "LAPR3_G23".recibo
-  WHERE "LAPR3_G23".recibo.dataRecibo = v_dataRecibo
-  AND "LAPR3_G23".recibo.preco = v_preco
-  AND "LAPR3_G23".recibo.clienteutilizadornif = v_ClienteUtilizadorNIF
+  WHERE "LAPR3_G23".recibo.clienteutilizadornif = v_ClienteUtilizadorNIF
   AND "LAPR3_G23".recibo.encomendaidencomenda = v_EncomendaidEncomenda;
   return v_idrecibo;
 END;
@@ -607,14 +605,11 @@ END;
 /
 
 
-create or replace PROCEDURE procRemoverCreditos(p_email "LAPR3_G23".utilizador.email%type, p_creditos "LAPR3_G23".cliente.creditos%type) IS
+create or replace PROCEDURE procRemoverCreditos(p_nif "LAPR3_G23".cliente.utilizadornif%type, p_creditos "LAPR3_G23".cliente.creditos%type) IS
 BEGIN
     
     UPDATE "LAPR3_G23".cliente SET "LAPR3_G23".cliente.creditos = "LAPR3_G23".cliente.creditos - p_creditos 
-    WHERE "LAPR3_G23".cliente.Utilizadornif in (SELECT "LAPR3_G23".cliente.Utilizadornif 
-                                        FROM "LAPR3_G23".cliente e 
-										INNER JOIN "LAPR3_G23".utilizador u ON e.UtilizadorNIF = u.NIF 
-										WHERE u.email = p_email);
+    WHERE "LAPR3_G23".cliente.Utilizadornif = p_nif;
 END;
 /
 
@@ -643,6 +638,17 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE PROCEDURE addCreditosCliente(p_nif "LAPR3_G23".cliente.UtilizadorNIF%type, p_creds "LAPR3_G23".cliente.creditos%type) 
+AS
+BEGIN
+  UPDATE "LAPR3_G23".cliente SET "LAPR3_G23".cliente.creditos = "LAPR3_G23".cliente.creditos + p_creds 
+  WHERE "LAPR3_G23".cliente.UtilizadorNIF = p_nif;
+END;
+/
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+
 select * from endereco;
 INSERT INTO "LAPR3_G23".cartao VALUES(123123456,3,3);   
 select * from cartao;
@@ -650,14 +656,6 @@ select c.utilizadornif, c.creditos, c.enderecomorada, c.cartaonumerocartaocredit
 from cliente c, utilizador u
 where c.utilizadornif = u.nif;
 
-select * 
-from stockFarmacia s
-where s.farmacianif = 555666555;
-
-select * 
-from produto;
-select * from farmacia;
-select *from farmacia;
 SELECT * 
 FROM produto p 
 INNER JOIN StockFarmacia s ON s.ProdutoidProduto = p.idProduto 
@@ -687,10 +685,23 @@ SELECT "LAPR3_G23".encomenda.idEncomenda --INTO v_idEncomenda
   AND "LAPR3_G23".encomenda.clienteUtilizadorNif=123456789;
   
   
-  SELECT * --into v_idrecibo
-  FROM "LAPR3_G23".recibo
-  WHERE --"LAPR3_G23".recibo.dataRecibo = v_dataRecibo
-   --"LAPR3_G23".recibo.preco = 105.6
-  -- "LAPR3_G23".recibo.clienteutilizadornif = 111222333
- "LAPR3_G23".recibo.encomendaidencomenda = 101;
-  return v_idrecibo;
+  
+  INSERT INTO "LAPR3_G23".recibo(dataRecibo,preco,ClienteUtilizadorNif,EncomendaidEncomenda)
+  VALUES(LOCALTIMESTAMP,10,111222333, 181);   
+  
+  SELECT *--"LAPR3_G23".recibo.idrecibo
+  FROM recibo
+  WHERE --"LAPR3_G23".Recibo.dataRecibo=localTIMESTAMP AND
+   "LAPR3_G23".recibo.clienteutilizadornif = 111222333
+  AND "LAPR3_G23".recibo.encomendaidencomenda = 181;
+  
+rollback;
+  
+  SELECT * FROM RECIBO;
+  
+  select * from utilizador;
+  
+  select * from stockfarmacia;
+  
+  UPDATE "LAPR3_G23".stockfarmacia SET  "LAPR3_G23".stockfarmacia.stock = 2
+    WHERE "LAPR3_G23".stockfarmacia.farmacianif = 555666555 AND "LAPR3_G23".stockfarmacia.ProdutoidProduto  = 1;

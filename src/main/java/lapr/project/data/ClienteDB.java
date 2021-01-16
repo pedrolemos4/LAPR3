@@ -156,24 +156,6 @@ public class ClienteDB extends DataHandler {
         return null;
     }
 
-//        try ( CallableStatement stm = getConnection().prepareCall(query)) {
-//            stm.setString(1, email);
-//            //try ( Statement stm1 = getConnection().createStatement()) {
-//            try ( ResultSet rSet = stm.executeQuery(query)) {//).executeQuery(query)) {
-//
-//                if (rSet.next()) {
-//                    int aInt = rSet.getInt(1);
-//                    int aInt1 = rSet.getInt(2);
-//                    String string = rSet.getString(3);
-//                    int aInt2 = rSet.getInt(4);
-//                    return new Cliente(aInt, aInt1, string, aInt2);
-//                }
-//            }
-//            //}
-//        } catch (SQLException e) {
-//            Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
-//        }
-//        return null;
     /**
      * Procura cliente pelo endereco do cliente
      *
@@ -200,13 +182,13 @@ public class ClienteDB extends DataHandler {
         return null;
     }
 
-    public boolean removerCreditos(String email, double creditosData) throws SQLException {
+    public boolean removerCreditos(int nif, double creditosData) throws SQLException {
 
         boolean removed = false;
 
-        try ( CallableStatement callV = getConnection().prepareCall("{ call removeCreditos(?,?) }")) {
+        try ( CallableStatement callV = getConnection().prepareCall("{ call procRemoverCreditos(?,?) }")) {
 
-            callV.setString(1, email);
+            callV.setInt(1, nif);
             callV.setDouble(2, creditosData);
             callV.execute();
 
@@ -217,5 +199,26 @@ public class ClienteDB extends DataHandler {
         }
 
         return removed;
+    }
+
+    public boolean addCreditos(Cliente c, double d) {
+        boolean bool = false;
+        
+        try {
+            openConnection();
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCreditosCliente(?,?) }")) {
+                callStmt.setInt(1, c.getClienteNIF());
+                callStmt.setDouble(2, d);
+                
+                callStmt.execute();
+                
+                bool=true;
+            }
+            closeAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return bool;
     }
 }

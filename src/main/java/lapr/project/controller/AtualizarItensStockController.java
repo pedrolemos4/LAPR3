@@ -3,7 +3,6 @@ package lapr.project.controller;
 import lapr.project.data.ProdutosDB;
 import lapr.project.model.Produto;
 
-import java.util.List;
 import java.util.Map;
 
 public class AtualizarItensStockController {
@@ -22,6 +21,6 @@ public class AtualizarItensStockController {
     }
 
     public boolean atualizarProduto(Produto prod) {
-        return (produtosDB.atualizarProduto(prod)? true : false);
+        return (produtosDB.atualizarProduto(prod)? (true) : (false));
     }
 }

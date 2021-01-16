@@ -316,7 +316,62 @@ public class RegistarEntregaControllerTest {
         String expResult = "17:06:00";
         RegistarEntregaController teste = new RegistarEntregaController(new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
         String result = teste.getDuracaoPercurso(finalShortPath, veiculo);
-        System.out.println(result);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of updateEntrega method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testUpdateEntrega() throws Exception {
+        System.out.println("updateEntrega");
+        Entrega entrega = new Entrega("15/02/2001", "15/02/2001", 2, 34);
+        boolean expResult = true;
+        when(entregaDB.updateEntrega(entrega)).thenReturn(expResult);
+        boolean result = instance.updateEntrega(entrega);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
+     * Test of updateEntrega method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testUpdateEntrega1() throws Exception {
+        System.out.println("updateEntrega1");
+        Entrega entrega = new Entrega("15/02/2001", "15/02/2001", 2, 34);
+        boolean expResult = false;
+        when(entregaDB.updateEntrega(entrega)).thenReturn(expResult);
+        boolean result = instance.updateEntrega(entrega);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of updateEncomenda method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testUpdateEncomenda1() throws Exception {
+        System.out.println("updateEncomenda1");
+        Encomenda encomenda = new Encomenda(123456789, "12/01/2015", 51, 74, 85, 7);
+        boolean expResult = false;
+        when(encomendaDB.updateEncomenda(encomenda)).thenReturn(expResult);
+        boolean result = instance.updateEncomenda(encomenda);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
+     * Test of updateEncomenda method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testUpdateEncomenda2() throws Exception {
+        System.out.println("updateEncomenda2");
+        Encomenda encomenda = new Encomenda(123456789, "12/01/2015", 51, 74, 85, 7);
+        boolean expResult = true;
+        when(encomendaDB.updateEncomenda(encomenda)).thenReturn(expResult);
+        boolean result = instance.updateEncomenda(encomenda);
         assertEquals(expResult, result);
 
     }

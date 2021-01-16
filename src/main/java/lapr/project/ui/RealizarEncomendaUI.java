@@ -29,6 +29,7 @@ import lapr.project.utils.Data;
 public class RealizarEncomendaUI {
 
     public static final Scanner LER = new Scanner(System.in);
+    public static final RegistarClienteUI rcUI = new RegistarClienteUI();
 
     RealizaEncomendaController controller;
     PedirItemFarmaciaController controller2;
@@ -38,21 +39,29 @@ public class RealizarEncomendaUI {
         controller2 = new PedirItemFarmaciaController(new FarmaciaDB(), new TransferenciaDB(), new EmailDB());
     }
 
-    public void introduzEncomenda() throws SQLException, ParseException {
+    public void introduzEncomenda() throws SQLException, ParseException, ClassNotFoundException {
 
         System.out.println("Insira o NIF da farmácia que pretende encomendar os produtos: ");
         List<Farmacia> lstFarmacias = controller2.getLstFarmacias();
+        
+        if(lstFarmacias.isEmpty()){
+            System.out.println("Não existem farmácias");
+            rcUI.menuCliente();
+        }
+        
         boolean aux = false;
         for (Farmacia f : lstFarmacias) {
             System.out.println(f.toString());
         }
 
         int nif = LER.nextInt();
-        while (controller2.getFarmaciaByNIF(nif) == null) {
+        if(controller2.getFarmaciaByNIF(nif) == null){
+            while (controller2.getFarmaciaByNIF(nif) == null) {
             System.out.println("Não existe farmácia com este nif. Por favor insira "
                     + "novamente.");
             nif = LER.nextInt();
-        };
+            }
+        }
 
         Map<Produto, Integer> stock = controller.getListStock(nif);
         while (stock.keySet().isEmpty()) {
@@ -81,7 +90,7 @@ public class RealizarEncomendaUI {
             Produto prod = controller.getProdutoByID(id);
             if (controller.produtoEncomenda(nif, prod, qntd) == false) {
                 List<Farmacia> farms = controller2.getListaFarmaciaByProduto(prod, qntd);
-                while (qntd != 0) {
+                while (qntd > 0) {
                     Graph<Farmacia, Double> generateGrafo = controller2.generateGrafo(farms);
                     nif1 = controller2.getFarmaciaProxima(generateGrafo, nif);
                     if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).containsValue(qntd)) {
@@ -122,9 +131,7 @@ public class RealizarEncomendaUI {
 
         if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
 
-            //Data date = Data.dataAtual();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-          //  SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
             Date date1 = new Date(System.currentTimeMillis());
             String dataInicio = formatter.format(date1);
@@ -132,7 +139,7 @@ public class RealizarEncomendaUI {
             System.out.println("Deseja pagar com creditos? (S/N)");
             LER.nextLine();
             String credsC = LER.nextLine();
-            String email = UserSession.getInstance().getUser().getEmail();
+            
             if (credsC.equalsIgnoreCase("S") || credsC.equalsIgnoreCase("SIM")) {
                 Data date = Data.dataAtual();
                 double creditosData = controller.getCreditosData(date, controller.getPreco());
@@ -140,43 +147,43 @@ public class RealizarEncomendaUI {
                 if (controller.getCliente().getCreditos() < creditosData) {
                     System.out.println("Creditos insuficientes.");
                 } else {
-                    controller.removerCreditos(email, creditosData);
+                    controller.removerCreditos(controller.getCliente().getClienteNIF(), creditosData);
                     System.out.println("Foram retirados: " + creditosData + " creditos.");
                 }
             }
 
             System.out.println("Peso: " + controller.getPeso());
             System.out.println("Preço: " + controller.getPreco());
-            System.out.println("");
-            Cliente boomerVaz = controller.getCliente();
-            System.out.println("Qualquer tum ta tum ta tum ta ta "
-                    + "na na na ");
-            System.out.println(boomerVaz.getClienteNIF());
-            int aux1 = controller.getCliente().getNIF();
-            System.out.println("Qualquer coisa antes a dizer o que é que é" + aux1);
+            
             Encomenda enc = new Encomenda(controller.getCliente().getClienteNIF(), dataInicio,
                     controller.getPreco(), controller.getPeso(), 0.6, 1);
 
             Map<Produto, Integer> mapaEncomenda = controller.getMapaEncomenda();
-            System.out.println("Linha 153");
+            
             controller.registaEncomenda(enc);
-            System.out.println("LInha 155");
+            
             for (Produto p : mapaEncomenda.keySet()) {
-                controller.registaEncomendaProduto(enc, p,mapaEncomenda.get(p));
+                controller.registaEncomendaProduto(enc, p, mapaEncomenda.get(p));
             }
-
-            controller.removerProdutosEncomenda(mapaEncomenda, nif);
-
-            double precoTotal = controller.getPrecoTotal(enc.getTaxa());
+            
+            for(Produto p1 : mapaEncomenda.keySet()){
+                controller.removerProdutosEncomenda(p1, nif, mapaEncomenda.get(p1), stock.get(p1));
+            }
+            
+            double precoTotal = controller.getPrecoTotal(mapaEncomenda,enc.getTaxa());
 
             Recibo rec = new Recibo(controller.getCliente().getClienteNIF(), precoTotal,
                     dataInicio, enc.getId());
             rec.setLst(mapaEncomenda);
 
+            controller.geraCreditos(controller.getCliente(),precoTotal);
+            
             controller.registaRecibo(rec);
+            
             String assunto = "Recibo.";
             String mensagem = rec.toString();
-            controller.notificaCliente(email, assunto, mensagem);
+            System.out.println("EMAIL NOTIFICA: "+UserSession.getInstance().getUser().getEmail());
+            controller.notificaCliente(UserSession.getInstance().getUser().getEmail(), assunto, mensagem);
 
             for (Produto p : mapaEncomenda.keySet()) {
                 controller.novoRecibo(rec, p, mapaEncomenda.get(p));
@@ -192,7 +199,7 @@ public class RealizarEncomendaUI {
             }
 
             System.out.println("\n\nEncomenda adicionada com sucesso'");
-
+            rcUI.menuCliente();
         }
     }
 

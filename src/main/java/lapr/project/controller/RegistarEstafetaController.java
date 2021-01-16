@@ -22,6 +22,6 @@ public class RegistarEstafetaController {
     }
 
     public boolean registaEstafeta(Estafeta est) {
-        return (estafetaDB.registaEstafeta(est) ? true : false);
+        return (estafetaDB.registaEstafeta(est) ? (true) : (false));
     }
 }

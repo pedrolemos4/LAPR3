@@ -262,4 +262,38 @@ public class EntregaDB extends DataHandler {
        
         return format1.format(date2);
     }
+    
+    public boolean updateEntrega(Entrega entrega) throws SQLException, ParseException {
+        boolean updated = false;
+
+        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateEntrega(?,?,?,?,?) }")) {
+                        
+            callSmt.setInt(1, entrega.getIdEntrega());
+            callSmt.setInt(2, entrega.getidEstafeta());
+            callSmt.setInt(3, entrega.getIdVeiculo());
+            
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            java.util.Date date = sdf1.parse(entrega.getDataInicio());
+            java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
+            callSmt.setTimestamp(4, sqlStartDate);
+            
+            java.util.Date date1 = sdf1.parse(entrega.getDataFim());
+            java.sql.Timestamp sqlEndDate = new java.sql.Timestamp(date1.getTime());
+            callSmt.setTimestamp(5, sqlEndDate);
+
+            callSmt.execute();
+
+            updated = true;
+            try {
+
+                callSmt.close();
+
+            } catch (SQLException | NullPointerException ex) {
+                Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            }
+        }
+
+        return updated;
+
+    }
 }
