@@ -37,46 +37,47 @@ public class EstacionamentoController {
 
     public boolean simulateParkingVeiculo(String path){
         File newFile = new File(path);
-        try (Scanner scan = new Scanner(newFile)){
-            String fileName = newFile.getName();
-            String date = fileName.substring(8,18);
-
-            String line = scan.nextLine();
-
-            String[] itens = line.split(",");
-
-            int estimativa = Integer.parseInt(itens[0]);
-
-            String emailEstafeta = itens[1];
-
-            int idVeiculo = Integer.parseInt(itens[2]);
-
-            int numeroLote = Integer.parseInt(itens[3]);
-
-            Entrega entregaAtiva = entregaDB.getEntregaAtiva(emailEstafeta);
-
-            entregaAtiva.setDataFim(date);
-
-            Veiculo veiculo = veiculoDB.getVeiculoById(idVeiculo);
-
-            Estacionamento estac = estacionamentosDB.getEstacionamentoById(numeroLote);
-
-            estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo);
-
-            if(estimativa == -1){
-                return notificaEstafeta(false,estimativa,emailEstafeta);
-            }else {
-                timerCarregamento(estimativa, veiculo);
-
-                if (veiculo.getTipo().equalsIgnoreCase("scooter")) {
-                    return notificaEstafeta(true, estimativa, emailEstafeta);
-                } else {
-                    return true;
-                }
-            }
+        Scanner scan = null;
+        try {
+            scan = new Scanner(newFile);
         } catch (FileNotFoundException e) {
             System.out.println("Ficheiro não encontrado");
             return false;
+        }
+        String fileName = newFile.getName();
+        String date = fileName.substring(8,18);
+
+        String line = scan.nextLine();
+        String[] itens = line.split(",");
+
+        int estimativa = Integer.parseInt(itens[0]);
+
+        String emailEstafeta = itens[1];
+
+        int idVeiculo = Integer.parseInt(itens[2]);
+
+        int numeroLote= Integer.parseInt(itens[3]);
+
+        Entrega entregaAtiva = entregaDB.getEntregaAtiva(emailEstafeta);
+
+        entregaAtiva.setDataFim(date);
+
+        Veiculo veiculo = veiculoDB.getVeiculoById(idVeiculo);
+
+        Estacionamento estac = estacionamentosDB.getEstacionamentoById(numeroLote);
+
+        estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo);
+
+        if(estimativa == -1){
+            return notificaEstafeta(false,estimativa,emailEstafeta);
+        }else {
+            timerCarregamento(estimativa, veiculo);
+
+            if (veiculo.getTipo().equalsIgnoreCase("scooter")) {
+                return notificaEstafeta(true, estimativa, emailEstafeta);
+            } else {
+                return true;
+            }
         }
     }
 
