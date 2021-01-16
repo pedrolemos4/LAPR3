@@ -42,7 +42,6 @@ public class RealizaEncomendaController {
 
     public boolean produtoEncomenda(int nif, Produto prod, int qntd) {
         if (verificaProdutoEncomenda(nif, prod, qntd)) {
-            System.out.println("Produto Encomenda linha44");
             return (produtoDB.addListaProdutos(prod, qntd) ? true : false);
         }
         return false;
@@ -86,23 +85,23 @@ public class RealizaEncomendaController {
             System.out.println(p.toString());
             System.out.println(map.get(p));
         }
-        return ((getListStock(nif).containsKey(prod) /*&& getListStock(nif).get(prod)>=qntd*/) ? true : false);
+        return ((getListStock(nif).containsKey(prod) && getListStock(nif).get(prod)>=qntd) ? true : false);
     }
 
     public boolean notificaCliente(String email, String assunto, String mensagem) {
         return (emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem) ? true : false);
     }
 
-    public boolean removerProdutosEncomenda(Map<Produto, Integer> map, int nif) {
-        return (produtoDB.removerProdutosEncomenda(map, nif) ? true : false);
+    public boolean removerProdutosEncomenda(Produto prod, int nif, int map, int mapStock) {
+        return (produtoDB.removerProdutosEncomenda(prod, nif, map, mapStock) ? true : false);
     }
 
     public double getCreditosData(Data date, double preco) {
         return encDB.getCreditosData(date, preco);
     }
 
-    public boolean removerCreditos(String email, double creditosData) throws SQLException {
-        return (cliDB.removerCreditos(email, creditosData) ? true : false);
+    public boolean removerCreditos(int nif, double creditosData) throws SQLException {
+        return (cliDB.removerCreditos(nif, creditosData) ? true : false);
     }
 
     public double getPreco() {
@@ -113,12 +112,16 @@ public class RealizaEncomendaController {
         return produtoDB.getPeso();
     }
 
-    public double getPrecoTotal(double taxa) {
-        return produtoDB.getPrecoTotal(taxa);
+    public double getPrecoTotal(Map<Produto,Integer>map,double taxa) {
+        return produtoDB.getPrecoTotal(map,taxa);
     }
 
     public boolean registaRecibo(Recibo rec) throws SQLException, ParseException {
         return (reciboDB.registaRecibo(rec) ? true : false);
+    }
+
+    public boolean geraCreditos(Cliente c, double precoTotal) {
+        return (encDB.geraCreditos(c,precoTotal) ? true : false);
     }
 
 }

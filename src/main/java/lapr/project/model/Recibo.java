@@ -14,43 +14,45 @@ import java.util.TreeMap;
  * @author pedro
  */
 public class Recibo {
-    
+
     private int nif;
     private int id;
     private double preco;
     private String data;
     private final int idEncomenda;
     private Map<Produto, Integer> map;
-    
+
     /**
      * Cria instancia receibo com nif do cliente, a data gerada e o preco total
+     *
      * @param nif
-     * @param data 
+     * @param data
      */
-    public Recibo(int nif, double preco, String data, int idEncomenda){
-        this.id=0;
-        this.preco=preco;
-        this.nif=nif;
-        this.data=data;
-        this.idEncomenda=idEncomenda;
-        map = new TreeMap<>();
-    }
-    
-    /**
-     * Cria construtor vazio
-     */
-    public Recibo (){
-        this.id=0;
-        this.nif=0;
-        this.preco=0;
-        this.idEncomenda=0;
-        this.data="";
+    public Recibo(int nif, double preco, String data, int idEncomenda) {
+        this.id = 0;
+        this.preco = preco;
+        this.nif = nif;
+        this.data = data;
+        this.idEncomenda = idEncomenda;
         map = new TreeMap<>();
     }
 
     /**
-     * Devolve o preco 
-     * @return 
+     * Cria construtor vazio
+     */
+    public Recibo() {
+        this.id = 0;
+        this.nif = 0;
+        this.preco = 0;
+        this.idEncomenda = 0;
+        this.data = "";
+        map = new TreeMap<>();
+    }
+
+    /**
+     * Devolve o preco
+     *
+     * @return
      */
     public double getPreco() {
         return preco;
@@ -58,7 +60,8 @@ public class Recibo {
 
     /**
      * Modifica o preco
-     * @param preco 
+     *
+     * @param preco
      */
     public void setPreco(double preco) {
         this.preco = preco;
@@ -66,15 +69,17 @@ public class Recibo {
 
     /**
      * Devolve o id da encomenda presente no recibo
-     * @return 
+     *
+     * @return
      */
     public int getIdEncomenda() {
         return idEncomenda;
     }
-    
+
     /**
      * Devolve nif
-     * @return 
+     *
+     * @return
      */
     public int getNif() {
         return nif;
@@ -82,7 +87,8 @@ public class Recibo {
 
     /**
      * Devolve id
-     * @return 
+     *
+     * @return
      */
     public int getId() {
         return id;
@@ -90,7 +96,8 @@ public class Recibo {
 
     /**
      * Devolve data
-     * @return 
+     *
+     * @return
      */
     public String getData() {
         return data;
@@ -98,7 +105,8 @@ public class Recibo {
 
     /**
      * Devolve a lista
-     * @return 
+     *
+     * @return
      */
     public Map<Produto, Integer> getMap() {
         return map;
@@ -106,7 +114,8 @@ public class Recibo {
 
     /**
      * Modifica o nif
-     * @param nif 
+     *
+     * @param nif
      */
     public void setNif(int nif) {
         this.nif = nif;
@@ -114,7 +123,8 @@ public class Recibo {
 
     /**
      * Modifica id
-     * @param id 
+     *
+     * @param id
      */
     public void setId(int id) {
         this.id = id;
@@ -122,7 +132,8 @@ public class Recibo {
 
     /**
      * Modifica data
-     * @param data 
+     *
+     * @param data
      */
     public void setData(String data) {
         this.data = data;
@@ -130,7 +141,8 @@ public class Recibo {
 
     /**
      * Modifica a lista
-     * @param lst 
+     *
+     * @param lst
      */
     public void setLst(Map<Produto, Integer> mapa) {
         this.map = new HashMap<>(mapa);
@@ -138,9 +150,12 @@ public class Recibo {
 
     @Override
     public String toString() {
-        return "Recibo{" + "nif=" + nif + ", id=" + id + ", preco=" + preco + ", data=" + data + ", idEncomenda=" + idEncomenda + ", lst=" + map + '}';
+        System.out.println("Recibo{" + "nif=" + nif + ", id=" + id + ", preco=" + preco + ", data=" + data + ", idEncomenda="
+                    + idEncomenda );
+        for (Produto p : map.keySet()) {
+            return String.format(", produtos=" + map +"quantidade=" + map.get(p) + '}');
+        }
+        return "";
     }
-    
-    
-    
+
 }

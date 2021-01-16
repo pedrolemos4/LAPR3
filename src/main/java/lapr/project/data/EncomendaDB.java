@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Produto;
 import lapr.project.utils.Data;
@@ -28,9 +29,11 @@ import oracle.jdbc.OracleTypes;
 public class EncomendaDB extends DataHandler {
 
     private final ProdutosDB produtoDB;
+    private final ClienteDB cliDB;
 
     public EncomendaDB() {
         produtoDB = new ProdutosDB();
+        cliDB = new ClienteDB();
     }
 
     /**
@@ -231,12 +234,23 @@ public class EncomendaDB extends DataHandler {
         Data d4 = new Data(dataF);
 
         if (date.getMes() >= d2.getMes() && d3.getMes() >= date.getMes()) {
-            return preco / 2;
+            return preco * 3;
         }
         if (date.getMes() > d3.getMes() && d4.getMes() >= date.getMes()) {
-            return preco / 3;
+            return preco * 5;
         }
         return -1;
+    }
+
+    public boolean geraCreditos(Cliente c, double precoTotal) {
+        
+        if(precoTotal>50 && precoTotal<100){
+            return cliDB.addCreditos(c,precoTotal/5);
+        }
+        if(precoTotal>100){
+            return cliDB.addCreditos(c,precoTotal/3);
+        }
+        return false;
     }
 
 }

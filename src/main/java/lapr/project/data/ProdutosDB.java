@@ -59,7 +59,7 @@ public class ProdutosDB extends DataHandler {
         try {
             openConnection();
 
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addProduto(?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addProduto(?,?,?) }")) {
                 callStmt.registerOutParameter(1, OracleTypes.INTEGER);
                 callStmt.setString(2, desig);
                 callStmt.setDouble(3, peso);
@@ -80,7 +80,7 @@ public class ProdutosDB extends DataHandler {
         try {
             openConnection();
 
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addProdutoStock(?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addProdutoStock(?,?,?) }")) {
 
                 callStmt.setInt(1, nif);
                 callStmt.setInt(2, prod);
@@ -107,7 +107,7 @@ public class ProdutosDB extends DataHandler {
         try {
             openConnection();
 
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?,?) }")) {
 
                 callStmt.setString(1, desig);
                 callStmt.setDouble(2, peso);
@@ -128,7 +128,7 @@ public class ProdutosDB extends DataHandler {
         try {
             openConnection();
 
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call procAtualizarStock(?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call procAtualizarStock(?,?,?) }")) {
 
                 callStmt.setInt(1, nif);
                 callStmt.setInt(2, idProduto);
@@ -159,8 +159,8 @@ public class ProdutosDB extends DataHandler {
     public Produto getProdutoByID(int id) {
         String query = "SELECT * FROM produto p WHERE p.idProduto= " + id;
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int id1 = rSet.getInt(1);
@@ -186,8 +186,8 @@ public class ProdutosDB extends DataHandler {
         Map<Produto, Integer> map = new HashMap<>();
         String query = "SELECT * FROM produto p INNER JOIN StockFarmacia s ON s.ProdutoidProduto = p.idProduto AND s.FarmaciaNIF = " + nif;
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int id = rSet.getInt(1);
@@ -240,17 +240,8 @@ public class ProdutosDB extends DataHandler {
      *
      * @param
      */
-    public boolean removerProdutosEncomenda(Map<Produto, Integer> map, int nif) {
-        boolean bo = false;
-        for (Produto p : map.keySet()) {
-            Integer get = map.get(p);
-            //get - stock
-            while (get > 0) {
-                bo = atualizarStock(p.getId(), nif, 1);
-                get--;
-            }
-        }
-        return bo;
+    public boolean removerProdutosEncomenda(Produto prod, int nif, int map, int mapStock) {
+        return atualizarStock(nif, prod.getId(), mapStock-map);
     }
 
     /**
@@ -259,8 +250,8 @@ public class ProdutosDB extends DataHandler {
      * @param taxa
      * @return
      */
-    public double getPrecoTotal(double taxa) {
-        Map<Produto, Integer> mapaEncomenda = getMapaEncomenda();
+    public double getPrecoTotal(Map<Produto, Integer> mapaEncomenda, double taxa) {
+
         double preco = 0.0;
 
         for (Produto prod : mapaEncomenda.keySet()) {
@@ -280,7 +271,9 @@ public class ProdutosDB extends DataHandler {
         double preco = 0;
 
         for (Produto p : mapaEncomenda.keySet()) {
-            preco = preco + p.getPrecoBase();
+            for (int i = 0; i < mapaEncomenda.get(p); i++) {
+                preco = preco + p.getPrecoBase();
+            }
         }
         return preco;
     }
@@ -295,7 +288,9 @@ public class ProdutosDB extends DataHandler {
         double peso = 0;
 
         for (Produto p : mapaEncomenda.keySet()) {
-            peso = peso + p.getPeso();
+            for (int i = 0; i < mapaEncomenda.get(p); i++) {
+                peso = peso + p.getPeso();
+            }
         }
         return peso;
     }
