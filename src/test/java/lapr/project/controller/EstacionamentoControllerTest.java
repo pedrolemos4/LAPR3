@@ -240,7 +240,6 @@ class EstacionamentoControllerTest {
         instance = new EstacionamentoController(new EntregaDB(), new EmailDB(), new EstacionamentosDB(), new VeiculoDB());
         System.out.println("getDiretory()");
         String expected = "estimate_2021_02_02_02_02_01.data";
-        System.out.println(instance.getDiretory("src/main/java/lapr/project/parking/teste"));
         assertEquals(expected,instance.getDiretory("src/main/java/lapr/project/parking/teste"));
     }
 }
