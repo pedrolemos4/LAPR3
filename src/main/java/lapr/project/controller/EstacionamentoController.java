@@ -56,7 +56,7 @@ public class EstacionamentoController {
 
         int idVeiculo = Integer.parseInt(itens[2]);
 
-        int numeroLote= Integer.parseInt(itens[3]);
+        int numeroLote = Integer.parseInt(itens[3]);
 
         Entrega entregaAtiva = entregaDB.getEntregaAtiva(emailEstafeta);
 

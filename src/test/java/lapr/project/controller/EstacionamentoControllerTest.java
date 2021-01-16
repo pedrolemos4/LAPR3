@@ -1,6 +1,9 @@
 package lapr.project.controller;
 
-import lapr.project.data.*;
+import lapr.project.data.EmailDB;
+import lapr.project.data.EntregaDB;
+import lapr.project.data.EstacionamentosDB;
+import lapr.project.data.VeiculoDB;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estacionamento;
 import lapr.project.model.Estafeta;
@@ -19,7 +22,6 @@ import static org.mockito.Mockito.when;
 class EstacionamentoControllerTest {
 
     private EntregaDB entregaDB;
-    private EstafetaDB estafetaDB;
     private EmailDB emailDB;
     private EstacionamentosDB estacionamentosDB;
     private VeiculoDB veiculoDB;
@@ -27,7 +29,6 @@ class EstacionamentoControllerTest {
 
     @BeforeEach
     void setUp(){
-        estafetaDB = mock(EstafetaDB.class);
         entregaDB = mock(EntregaDB.class);
         estacionamentosDB = mock(EstacionamentosDB.class);
         veiculoDB = mock(VeiculoDB.class);
@@ -89,7 +90,7 @@ class EstacionamentoControllerTest {
     void simulateParkingVeiculo1() {
         System.out.println("simulateParkingVeiculo1()");
 
-        Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
+        Estafeta estafeta = new Estafeta(0, "nome", "rodrikcraft@gmail.com", 0, 0, "password", 0);
         Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
@@ -168,7 +169,7 @@ class EstacionamentoControllerTest {
     @Test
     void simulateParkingVeiculo4() {
         System.out.println("simulateParkingVeiculo4()");
-        Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
+        Estafeta estafeta = new Estafeta(0, "nome", "rodrikcraft@gmail.com", 0, 0, "password", 0);
         Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
         Veiculo veiculo = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
@@ -208,6 +209,29 @@ class EstacionamentoControllerTest {
         instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2022_02_02_02_02_02.data");
 
         assertEquals("Ficheiro não encontrado", outputStreamCaptor.toString().trim());
+    }
+
+    @Test
+    void simulateParkingVeiculo6() {
+        System.out.println("simulateParkingVeiculo6()");
+
+        Estafeta estafeta = new Estafeta(0, "nome", "rodrikcraft@gmail.com", 0, 0, "password", 0);
+        Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
+        Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
+        Estacionamento estacionamento = new Estacionamento(0, 0, 0);
+        estacionamento.setNumeroLote(0);
+
+        instance = new EstacionamentoController(entregaDB,new EmailDB(),estacionamentosDB,veiculoDB);
+
+        when(entregaDB.getEntregaAtiva(estafeta.getEmail())).thenReturn(entrega);
+
+        when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
+
+        when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
+
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+
+        assertEquals(true,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2021_02_02_02_02_02.data"));
     }
 
     @Test
@@ -265,10 +289,25 @@ class EstacionamentoControllerTest {
     }
 
     @Test
+    void timerCarregamentoRun() {
+        System.out.println("timerCarregamento()");
+        Veiculo veiculo = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
+
+        assertEquals(true,instance.timerCarregamento(1,veiculo));
+    }
+
+    @Test
     void getDiretory() {
         instance = new EstacionamentoController(new EntregaDB(), new EmailDB(), new EstacionamentosDB(), new VeiculoDB());
         System.out.println("getDiretory()");
         String expected = "estimate_2021_02_02_02_02_01.data";
         assertEquals(expected,instance.getDiretory("src/main/java/lapr/project/parking/teste"));
+    }
+
+    @Test
+    void setDataFim(){
+        Entrega entregaAtiva = new Entrega();
+        entregaAtiva.setDataFim("2020");
+        assertEquals("2020",entregaAtiva.getDataFim());
     }
 }
