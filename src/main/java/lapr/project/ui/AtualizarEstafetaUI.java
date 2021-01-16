@@ -35,7 +35,7 @@ public class AtualizarEstafetaUI {
             System.out.println("--Atualização do Estafeta--");
             System.out.println("Introduza os novos dados relativos ao estafeta");
             System.out.println("NIF:");
-            int new_nif = LER.nextInt();
+            int newNif = LER.nextInt();
             System.out.println("Nome:");
             String nome = LER.nextLine();
             System.out.println("Email:");
@@ -47,7 +47,7 @@ public class AtualizarEstafetaUI {
             System.out.println("Password:");
             String pwd = LER.nextLine();
 
-            Estafeta newEst = new Estafeta(new_nif,nome,email1,peso,nss,pwd,1);
+            Estafeta newEst = new Estafeta(newNif,nome,email1,peso,nss,pwd,1);
 
             System.out.println("--Novos Dados do Estafeta--");
             System.out.println(newEst.getNIF());
@@ -60,7 +60,7 @@ public class AtualizarEstafetaUI {
             String confirm = LER.next();
 
             if(confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")){
-                est.setNIF(new_nif);
+                est.setNIF(newNif);
                 est.setNome(nome);
                 est.setEmail(email1);
                 est.setPesoEstafeta(peso);

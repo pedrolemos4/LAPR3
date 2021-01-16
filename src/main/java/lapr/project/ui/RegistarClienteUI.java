@@ -123,7 +123,6 @@ public class RegistarClienteUI {
                 + "\n 8 - Check Spots in a Park for Bicycles"*/
                 + "\n 0 - Exit"
                 + "\n Escolha uma opção válida.");
-       // LER.nextLine();
     }
 
     /**

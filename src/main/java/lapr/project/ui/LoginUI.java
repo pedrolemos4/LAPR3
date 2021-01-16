@@ -84,11 +84,5 @@ public class LoginUI {
     public void registo() throws ClassNotFoundException, SQLException, ParseException  {
         RegistarClienteUI rcui = new RegistarClienteUI();
         rcui.registaCliente();
-        /*boolean res = rcui.registaCliente();
-        if (res) {
-            rcui.menuCliente();
-        } else {
-            menu();
-        }*/
     }
 }

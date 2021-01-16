@@ -118,10 +118,8 @@ public class EncomendaDB extends DataHandler {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             java.util.Date date = sdf1.parse(dataPedida);
             java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
-            //java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
             callStmt.setTimestamp(2, sqlStartDate);
 
-            //callStmt.setString(2, dataPedida);
             callStmt.setDouble(3, preco);
             callStmt.setDouble(4, pesoEncomenda);
             callStmt.setDouble(5, taxa);

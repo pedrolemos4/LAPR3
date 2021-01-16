@@ -4,7 +4,6 @@ import lapr.project.controller.AtualizarItensStockController;
 import lapr.project.data.ProdutosDB;
 import lapr.project.model.Produto;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 

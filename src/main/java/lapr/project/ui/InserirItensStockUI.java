@@ -36,7 +36,7 @@ public class InserirItensStockUI {
             System.out.println("Não existe farmácia com este nif. Por favor insira "
                     + "novamente.");
             nif = LER.nextInt();
-        };
+        }
 
         Map<Produto, Integer> map = controller.getListaProdutos(nif);
         System.out.println("Stock da farmácia: ");

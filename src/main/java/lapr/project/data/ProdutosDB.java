@@ -17,14 +17,10 @@ import oracle.jdbc.OracleTypes;
 public class ProdutosDB extends DataHandler {
 
     private final Map<Produto, Integer> mapEnc;
-    private double peso;
-    private double preco;
-    private FarmaciaDB fdb;
+    private final FarmaciaDB fdb;
 
     public ProdutosDB() {
         mapEnc = new HashMap<>();
-        peso = 0;
-        preco = 0;
         fdb = new FarmaciaDB();
     }
 
@@ -41,7 +37,6 @@ public class ProdutosDB extends DataHandler {
             prod.setId(addProduto(prod));
             for (Farmacia f : fdb.getLstFarmacias()) {
                 if (f.getNIF() == farm) {
-                    //f.addStock(prod);
                     addProdutoStock(f.getNIF(), prod.getId(), qtd);
                 }
             }

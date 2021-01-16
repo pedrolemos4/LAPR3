@@ -83,6 +83,7 @@ public class AdminUI {
                     break;
                 case "8":
                     registarFarmacia();
+                    break;
                 case "0":
                     UserSession.getInstance().doLogout();
                     loginUI.menu();

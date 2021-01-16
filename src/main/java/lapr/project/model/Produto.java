@@ -135,10 +135,7 @@ public class Produto {
             return false;
         }
         final Produto other = (Produto) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+        return this.id == other.id;
     }
     
 }

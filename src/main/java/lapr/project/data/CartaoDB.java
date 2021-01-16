@@ -6,11 +6,9 @@
 package lapr.project.data;
 
 import java.sql.CallableStatement;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,8 +81,6 @@ public class CartaoDB extends DataHandler {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }")) {
                 callStmt.setInt(1, numeroCartao);
-                //Date dValidade = Date.valueOf(dataDeValidade);
-                //String startDate = "01-02-2013";
                 SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
                 java.util.Date date = sdf1.parse(dataDeValidade);
                 java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());

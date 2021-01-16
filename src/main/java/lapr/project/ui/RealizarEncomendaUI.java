@@ -14,7 +14,6 @@ import lapr.project.controller.PedirItemFarmaciaController;
 import lapr.project.controller.RealizaEncomendaController;
 import lapr.project.data.*;
 import lapr.project.login.UserSession;
-import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Farmacia;
 import lapr.project.model.Graph;
@@ -49,7 +48,6 @@ public class RealizarEncomendaUI {
             rcUI.menuCliente();
         }
         
-        boolean aux = false;
         for (Farmacia f : lstFarmacias) {
             System.out.println(f.toString());
         }
