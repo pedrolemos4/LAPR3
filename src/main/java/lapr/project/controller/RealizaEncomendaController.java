@@ -6,6 +6,7 @@
 package lapr.project.controller;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Map;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
@@ -41,17 +42,19 @@ public class RealizaEncomendaController {
 
     public boolean produtoEncomenda(int nif, Produto prod, int qntd) {
         if (verificaProdutoEncomenda(nif, prod, qntd)) {
-            return (produtoDB.addListaProdutos(prod, qntd)? true : false);
-        } 
+            System.out.println("Produto Encomenda linha44");
+            return (produtoDB.addListaProdutos(prod, qntd) ? true : false);
+        }
         return false;
     }
 
-    public boolean registaEncomenda(Encomenda enc1) throws SQLException {
-        return (encDB.registaEncomenda(enc1) ? true : false);
+    public int registaEncomenda(Encomenda enc1) throws SQLException, ParseException {
+        System.out.println("Regista Encomenda Linha 52");
+        return (encDB.registaEncomenda(enc1));
     }
 
-    public boolean registaEncomendaProduto(Encomenda enc, Produto p) {
-        return (encDB.registaEncomendaProduto(enc, p) ? true : false);
+    public boolean registaEncomendaProduto(Encomenda enc, Produto p,int stock) {
+        return (encDB.registaEncomendaProduto(enc, p,stock) ? true : false);
     }
 
     public Map<Produto, Integer> getListStock(int nif) {
@@ -67,8 +70,10 @@ public class RealizaEncomendaController {
     }
 
     public Cliente getCliente() {
-        String email = UserSession.getInstance().getUser().getEmail();
-        return cliDB.getClienteByEmail(email);
+        int nif = UserSession.getInstance().getUser().getNIF();
+        System.out.println("get cliente");
+        System.out.println(nif);
+        return cliDB.getClienteByNIF(nif);
     }
 
     public boolean novoRecibo(Recibo rec, Produto prod, int quant) {
@@ -76,15 +81,20 @@ public class RealizaEncomendaController {
     }
 
     public boolean verificaProdutoEncomenda(int nif, Produto prod, int qntd) {
-        return ((getListStock(nif).containsKey(prod) && getListStock(nif).get(prod)>=qntd) ? true : false);
+        Map<Produto, Integer> map = getListStock(nif);
+        for(Produto p : map.keySet()){
+            System.out.println(p.toString());
+            System.out.println(map.get(p));
+        }
+        return ((getListStock(nif).containsKey(prod) /*&& getListStock(nif).get(prod)>=qntd*/) ? true : false);
     }
 
     public boolean notificaCliente(String email, String assunto, String mensagem) {
-        return (emailDB.sendEmail("admlapr123@gmail.com",email, assunto, mensagem) ? true : false);
+        return (emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem) ? true : false);
     }
 
-    public boolean removerProdutosEncomenda(Map<Produto,Integer> map, int nif) {
-        return (produtoDB.removerProdutosEncomenda(map,nif) ? true : false);
+    public boolean removerProdutosEncomenda(Map<Produto, Integer> map, int nif) {
+        return (produtoDB.removerProdutosEncomenda(map, nif) ? true : false);
     }
 
     public double getCreditosData(Data date, double preco) {
@@ -107,8 +117,8 @@ public class RealizaEncomendaController {
         return produtoDB.getPrecoTotal(taxa);
     }
 
-    public boolean registaRecibo(Recibo rec) throws SQLException {
+    public boolean registaRecibo(Recibo rec) throws SQLException, ParseException {
         return (reciboDB.registaRecibo(rec) ? true : false);
     }
-    
+
 }

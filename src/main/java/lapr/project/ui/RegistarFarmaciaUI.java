@@ -51,9 +51,13 @@ public class RegistarFarmaciaUI {
         System.out.println("Limite máximo do parque:");
         int numMax = LER.nextInt();
         System.out.println("Qual o tipo do parque, drones ou scooters?");
+        //verificar  se escreveu drone ou scooter
+        //a bea diz que uma farmácia pode ter vários parque, verificar esta situation
+        //porque convém sempre desconfiar
+        LER.nextLine();
         String tipo = LER.nextLine();
-        Farmacia farm = controller.novaFarmacia(nif, email, morada);
         Endereco end = controller.novoEndereco(morada, lat, lon, alt);
+        Farmacia farm = controller.novaFarmacia(nif, email, morada);
         Parque park = controller.novoParque(nif, numMax, tipo.toLowerCase());
 
         System.out.println("--Farmácia Criada--");

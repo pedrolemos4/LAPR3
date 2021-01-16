@@ -16,8 +16,8 @@ public class AtualizarEstafetaController {
         return estafetaDB.getListaEstafetas();
     }
 
-    public Estafeta getEstafetaByEmail(String email) {
-        return estafetaDB.getEstafetaByEmail(email);
+    public Estafeta getEstafetaByNIF(int nif) {
+        return estafetaDB.getEstafetaByNIF(nif);
     }
 
     public boolean atualizarEstafeta(Estafeta est) {

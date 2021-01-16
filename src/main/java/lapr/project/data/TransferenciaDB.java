@@ -48,7 +48,7 @@ public class TransferenciaDB extends DataHandler{
             pdb.atualizarStock(fDest.getNIF(),produto.getId(),stockFarmDest.get(produto));
         } else {
             stockFarmDest.put(produto,quantidade);
-            pdb.addProdutoStock(fDest.getNIF(),produto.getDesignacao(),quantidade);
+            pdb.addProdutoStock(fDest.getNIF(),produto.getId(),quantidade);
         }
         stockFarmOrig.replace(produto, stockFarmOrig.get(produto) - quantidade);
         pdb.atualizarStock(fOrig.getNIF(),produto.getId(),stockFarmOrig.get(produto));

@@ -6,6 +6,7 @@
 package lapr.project.data;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -132,18 +133,21 @@ public class ClienteDB extends DataHandler {
      * @param email email do cliente
      * @return cliente
      */
-    public Cliente getClienteByEmail(String email) {
-        String query = "SELECT * FROM cliente e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.email= " + email;
-
+    public Cliente getClienteByNIF(int nif) {
+        String query = "SELECT c.utilizadornif, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito "
+                + "FROM cliente c "
+                + "INNER JOIN utilizador u ON c.UtilizadorNIF = u.NIF "
+                + "WHERE u.NIF = " + nif;
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
-                    int aInt = rSet.getInt(1);
-                    int aInt1 = rSet.getInt(2);
-                    String string = rSet.getString(3);
-                    int aInt2 = rSet.getInt(4);
-                    return new Cliente(aInt, aInt1, string, aInt2);
+                    int id1 = rSet.getInt(1);
+                    double creds = rSet.getDouble(2);
+                    String morada = rSet.getString(3);
+                    int num = rSet.getInt(4);
+
+                    return new Cliente(id1,creds,morada,num);
                 }
             }
         } catch (SQLException e) {
@@ -151,7 +155,25 @@ public class ClienteDB extends DataHandler {
         }
         return null;
     }
-    
+
+//        try ( CallableStatement stm = getConnection().prepareCall(query)) {
+//            stm.setString(1, email);
+//            //try ( Statement stm1 = getConnection().createStatement()) {
+//            try ( ResultSet rSet = stm.executeQuery(query)) {//).executeQuery(query)) {
+//
+//                if (rSet.next()) {
+//                    int aInt = rSet.getInt(1);
+//                    int aInt1 = rSet.getInt(2);
+//                    String string = rSet.getString(3);
+//                    int aInt2 = rSet.getInt(4);
+//                    return new Cliente(aInt, aInt1, string, aInt2);
+//                }
+//            }
+//            //}
+//        } catch (SQLException e) {
+//            Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
+//        }
+//        return null;
     /**
      * Procura cliente pelo endereco do cliente
      *

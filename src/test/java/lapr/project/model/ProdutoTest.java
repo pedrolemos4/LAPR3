@@ -111,7 +111,7 @@ public class ProdutoTest {
     }
 
     @Test
-    public void testsetId() {
+    public void testSetId() {
         System.out.println("setsetId");
         int newid = 56;
         Produto instance = new Produto("sdf", 50, 58);
@@ -129,6 +129,75 @@ public class ProdutoTest {
         Produto instance = new Produto("sdf", 50, 58);
         String expResult = "Produto{id=0, designacao=sdf, peso=50.0, precoBase=58.0}";
         String result = instance.toString();
+        assertEquals(expResult, result);
+
+    }
+
+
+    /**
+     * Test of hashCode method, of class Produto.
+     */
+    @Test
+    public void testHashCode() {
+        System.out.println("hashCode");
+        Produto instance = new Produto();
+        int expResult = 7;
+        int result = instance.hashCode();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Produto.
+     */
+    @Test
+    public void testEquals() {
+        System.out.println("equals");
+        Object obj = new Produto(1, "df", 32, 32);
+        Produto instance = new Produto(4, "dfv", 32, 65);
+        boolean expResult = false;
+        boolean result = instance.equals(obj);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
+     * Test of equals method, of class Produto.
+     */
+    @Test
+    public void testEquals1() {
+        System.out.println("equals1");
+        Object obj = new Produto(1, "df", 32, 32);
+        Produto instance = new Produto(1, "df", 32, 32);
+        boolean expResult = true;
+        boolean result = instance.equals(obj);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
+     * Test of equals method, of class Produto.
+     */
+    @Test
+    public void testEquals2() {
+        System.out.println("equals2");
+        Object obj = new Administrador();
+        Produto instance = new Produto(1, "df", 32, 32);
+        boolean expResult = false;
+        boolean result = instance.equals(obj);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
+     * Test of equals method, of class Produto.
+     */
+    @Test
+    public void testEquals3() {
+        System.out.println("equals2");
+        Object obj = null;
+        Produto instance = new Produto(1, "df", 32, 32);
+        boolean expResult = false;
+        boolean result = instance.equals(obj);
         assertEquals(expResult, result);
 
     }

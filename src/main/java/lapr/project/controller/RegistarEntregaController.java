@@ -1,6 +1,7 @@
 package lapr.project.controller;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
@@ -62,8 +63,8 @@ public class RegistarEntregaController {
         return enderecoDB.getEnderecoByNifFarmacia(nifFarmacia);
     }
     public Estafeta getEstafeta(){
-        String email = UserSession.getInstance().getUser().getEmail();
-        return estafetaDB.getEstafetaByEmail(email);
+        int nif = UserSession.getInstance().getUser().getNIF();
+        return estafetaDB.getEstafetaByNIF(nif);
     }
     
     public Veiculo getVeiculo(int idVeiculo){
@@ -102,6 +103,10 @@ public class RegistarEntregaController {
     
     public Cliente getClienteByEndereco(Endereco end){
         return clienteDB.getClienteByMorada(end);
+    }
+    
+    public String getDuracaoPercurso(List<Endereco> finalShortPath, Veiculo veiculo) throws ParseException{
+        return entregaDB.getDuracaoPercurso(finalShortPath, veiculo);
     }
     
 }

@@ -85,8 +85,7 @@ CREATE TABLE "LAPR3_G23".Encomenda
             dataPedida timestamp NOT NULL,
             preco number(10,2) NOT NULL, 
             pesoEncomenda number(10) NOT NULL, 
-            taxa number(10,2) NOT NULL, 
-            Entregaid_entrega number(10) NOT NULL, 
+            taxa number(10,2) NOT NULL,
             EstadoEncomendaidEstadoEncomenda number(10) NOT NULL, 
             ClienteUtilizadorNIF number(10) NOT NULL, 
             PRIMARY KEY (idEncomenda)
@@ -247,7 +246,6 @@ ALTER TABLE "LAPR3_G23".Farmacia ADD CONSTRAINT FKFarmacia_Endereco FOREIGN KEY 
 ALTER TABLE "LAPR3_G23".veiculo ADD CONSTRAINT FKveiculo_Estadoveiculo FOREIGN KEY (Estadoveiculoid) REFERENCES "LAPR3_G23".Estadoveiculo (idEstadoveiculo);
 ALTER TABLE "LAPR3_G23".Entrega ADD CONSTRAINT FKEntrega_Estafeta FOREIGN KEY (EstafetaUtilizadorNIF) REFERENCES "LAPR3_G23".Estafeta (UtilizadorNIF);
 ALTER TABLE "LAPR3_G23".Entrega ADD CONSTRAINT FKEntrega_veiculo FOREIGN KEY (veiculoid) REFERENCES "LAPR3_G23".veiculo (idveiculo);
-ALTER TABLE "LAPR3_G23".Encomenda ADD CONSTRAINT FKEncomenda_Entrega FOREIGN KEY (Entregaid_entrega) REFERENCES "LAPR3_G23".Entrega (idEntrega);
 ALTER TABLE "LAPR3_G23".Encomenda ADD CONSTRAINT FKEncomenda_EstadoEncomenda FOREIGN KEY (EstadoEncomendaidEstadoEncomenda) REFERENCES "LAPR3_G23".EstadoEncomenda (idEstadoEncomenda);
 ALTER TABLE "LAPR3_G23".Estafeta ADD CONSTRAINT FKEstafeta_EstadoEstafeta FOREIGN KEY (EstadoEstafetaid) REFERENCES "LAPR3_G23".EstadoEstafeta (id);
 ALTER TABLE "LAPR3_G23".StockFarmacia ADD CONSTRAINT FKStock_Farmacia FOREIGN KEY (FarmaciaNIF) REFERENCES "LAPR3_G23".Farmacia (NIF);
@@ -337,11 +335,26 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addProduto(designacao "LAPR3_G23".produto.designacao%type, peso "LAPR3_G23".produto.peso%type, 
-precoBase "LAPR3_G23".produto.precoBase%type) 
+CREATE OR REPLACE FUNCTION addProduto(p_designacao "LAPR3_G23".produto.designacao%type, p_peso "LAPR3_G23".produto.peso%type, 
+p_precoBase "LAPR3_G23".produto.precoBase%type) RETURN INTEGER
+IS
+v_idproduto INTEGER;
+BEGIN
+  INSERT INTO "LAPR3_G23".produto(designacao,peso,precobase) VALUES(p_designacao, p_peso, p_precoBase);
+  SELECT "LAPR3_G23".produto.idproduto INTO v_idProduto
+  FROM "LAPR3_G23".produto
+  WHERE "LAPR3_G23".produto.designacao = p_designacao 
+  AND "LAPR3_G23".produto.peso = p_peso
+  AND "LAPR3_G23".produto.precobase = p_precoBase;
+  return v_idProduto;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE addProdutoStock(p_nif "LAPR3_G23".stockfarmacia.farmacianif%type,
+p_idproduto "LAPR3_G23".stockFarmacia.produtoIdproduto%type, p_stock "LAPR3_G23".stockFarmacia.stock%type)
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".produto(designacao,peso,precobase) VALUES(designacao, peso, precoBase);
+  INSERT INTO "LAPR3_G23".stockFarmacia VALUES(p_nif,p_idproduto,p_stock);
 END;
 /
 
@@ -355,14 +368,25 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addEncomenda(idEncomenda "LAPR3_G23".encomenda.idEncomenda%type, dataPedida "LAPR3_G23".encomenda.dataPedida%type,
-preco "LAPR3_G23".encomenda.preco%type, pesoEncomenda "LAPR3_G23".encomenda.pesoEncomenda%type,taxa "LAPR3_G23".encomenda.taxa%type, 
-EstadoEncomendaidEstadoEncomenda "LAPR3_G23".encomenda.estadoEncomendaIdEstadoEncomenda%type, Entregaid_entrega "LAPR3_G23".encomenda.entregaid_entrega%type,
-ClienteUtilizadorNIF "LAPR3_G23".encomenda.clienteutilizadornif%type) 
-AS
+CREATE OR REPLACE FUNCTION addEncomenda(p_dataPedida "LAPR3_G23".encomenda.dataPedida%type,
+p_preco "LAPR3_G23".encomenda.preco%type, p_pesoEncomenda "LAPR3_G23".encomenda.pesoEncomenda%type,p_taxa "LAPR3_G23".encomenda.taxa%type, 
+p_EstadoEncomendaidEstadoEncomenda "LAPR3_G23".encomenda.estadoEncomendaIdEstadoEncomenda%type,
+p_ClienteUtilizadorNIF "LAPR3_G23".encomenda.clienteutilizadornif%type) 
+RETURN INTEGER
+IS
+v_idEncomenda INTEGER;
 BEGIN
-  INSERT INTO "LAPR3_G23".encomenda 
-  VALUES(idEncomenda, dataPedida , preco,pesoEncomenda, taxa, EstadoEncomendaidEstadoEncomenda,entregaid_entrega, ClienteUtilizadorNIF);
+  INSERT INTO "LAPR3_G23".encomenda(dataPedida,preco,pesoEncomenda,taxa,EstadoEncomendaidEstadoEncomenda,ClienteUtilizadorNIF)
+  VALUES(p_dataPedida ,p_preco,p_pesoEncomenda,p_taxa,p_EstadoEncomendaidEstadoEncomenda,p_ClienteUtilizadorNIF);
+  SELECT "LAPR3_G23".encomenda.idEncomenda INTO v_idEncomenda
+  FROM "LAPR3_G23".encomenda
+  WHERE "LAPR3_G23".encomenda.dataPedida = p_dataPedida
+  AND "LAPR3_G23".encomenda.preco = p_preco
+  AND "LAPR3_G23".encomenda.pesoEncomenda = p_pesoEncomenda
+  AND "LAPR3_G23".encomenda.taxa = p_taxa
+  AND "LAPR3_G23".encomenda.EstadoEncomendaidEstadoEncomenda = p_EstadoEncomendaidEstadoEncomenda
+  AND "LAPR3_G23".encomenda.clienteUtilizadorNif=p_clienteUtilizadorNIF;
+  return v_idEncomenda;
 END;
 /
 
@@ -474,11 +498,21 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addRecibo(dataRecibo "LAPR3_G23".recibo.datarecibo%type, preco "LAPR3_G23".recibo.preco%type,
-ClienteUtilizadorNIF "LAPR3_G23".recibo.clienteutilizadornif%type, EncomendaidEncomenda "LAPR3_G23".recibo.encomendaidencomenda%type) 
-AS
+CREATE OR REPLACE FUNCTION addRecibo(v_dataRecibo "LAPR3_G23".recibo.datarecibo%type, v_preco "LAPR3_G23".recibo.preco%type,
+v_ClienteUtilizadorNIF "LAPR3_G23".recibo.clienteutilizadornif%type, v_EncomendaidEncomenda "LAPR3_G23".recibo.encomendaidencomenda%type) 
+RETURN INTEGER
+IS
+v_idrecibo INTEGER;
 BEGIN
-  INSERT INTO "LAPR3_G23".recibo VALUES(dataRecibo,preco,ClienteUtilizadorNIF, EncomendaidEncomenda);   
+  INSERT INTO "LAPR3_G23".recibo(dataRecibo,preco,ClienteUtilizadorNif,EncomendaidEncomenda)
+  VALUES(v_dataRecibo,v_preco,v_ClienteUtilizadorNIF, v_EncomendaidEncomenda);   
+  SELECT "LAPR3_G23".recibo.idrecibo into v_idrecibo
+  FROM "LAPR3_G23".recibo
+  WHERE "LAPR3_G23".recibo.dataRecibo = v_dataRecibo
+  AND "LAPR3_G23".recibo.preco = v_preco
+  AND "LAPR3_G23".recibo.clienteutilizadornif = v_ClienteUtilizadorNIF
+  AND "LAPR3_G23".recibo.encomendaidencomenda = v_EncomendaidEncomenda;
+  return v_idrecibo;
 END;
 /
 
@@ -585,7 +619,8 @@ END;
 /
 
 
-create or replace PROCEDURE procAtualizarStock(p_nif "LAPR3_G23".stockfarmacia.farmacianif%type, p_idProduto "LAPR3_G23".stockfarmacia.ProdutoidProduto%type, p_quantidade "LAPR3_G23".stockfarmacia.stock%type) IS
+create or replace PROCEDURE procAtualizarStock(p_nif "LAPR3_G23".stockfarmacia.farmacianif%type,
+p_idProduto "LAPR3_G23".stockfarmacia.ProdutoidProduto%type, p_quantidade "LAPR3_G23".stockfarmacia.stock%type) IS
 BEGIN
     
     UPDATE "LAPR3_G23".stockfarmacia SET  "LAPR3_G23".stockfarmacia.stock = p_quantidade
@@ -611,7 +646,51 @@ END;
 select * from endereco;
 INSERT INTO "LAPR3_G23".cartao VALUES(123123456,3,3);   
 select * from cartao;
-select * from cliente;
+select c.utilizadornif, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito
+from cliente c, utilizador u
+where c.utilizadornif = u.nif;
 
+select * 
+from stockFarmacia s
+where s.farmacianif = 555666555;
+
+select * 
+from produto;
+select * from farmacia;
+select *from farmacia;
+SELECT * 
+FROM produto p 
+INNER JOIN StockFarmacia s ON s.ProdutoidProduto = p.idProduto 
+AND s.FarmaciaNIF = 555666555;
 
 select * from farmacia;
+select * from utilizador;
+select * from encomenda;
+SELECT * FROM cliente e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.email= 'boomer@gmail.com';
+
+SELECT c.utilizadornif, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito 
+FROM cliente c 
+INNER JOIN utilizador u ON c.UtilizadorNIF = u.NIF 
+WHERE u.NIF =123455678;
+
+SELECT * from encomenda;
+INSERT INTO  "LAPR3_G23".encomenda(dataPedida,preco,pesoEncomenda,taxa,EstadoEncomendaidEstadoEncomenda,ClienteUtilizadorNIF)
+  VALUES(TO_TIMESTAMP(sysdate) ,66,44,0.6,1,123456789);
+
+SELECT "LAPR3_G23".encomenda.idEncomenda --INTO v_idEncomenda
+  FROM "LAPR3_G23".encomenda
+  WHERE --"LAPR3_G23".encomenda.dataPedida = p_dataPedida
+ "LAPR3_G23".encomenda.preco = 66
+  AND "LAPR3_G23".encomenda.pesoEncomenda = 44
+  AND "LAPR3_G23".encomenda.taxa = 0.6
+  AND "LAPR3_G23".encomenda.EstadoEncomendaidEstadoEncomenda = 1
+  AND "LAPR3_G23".encomenda.clienteUtilizadorNif=123456789;
+  
+  
+  SELECT * --into v_idrecibo
+  FROM "LAPR3_G23".recibo
+  WHERE --"LAPR3_G23".recibo.dataRecibo = v_dataRecibo
+   --"LAPR3_G23".recibo.preco = 105.6
+  -- "LAPR3_G23".recibo.clienteutilizadornif = 111222333
+ "LAPR3_G23".recibo.encomendaidencomenda = 101;
+  return v_idrecibo;

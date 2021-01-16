@@ -51,8 +51,8 @@ public class IniciarEntregaController {
     }
     
     public Estafeta getEstafeta(){
-        String email = UserSession.getInstance().getUser().getEmail();
-        return estafetaDB.getEstafetaByEmail(email);
+        int nif = UserSession.getInstance().getUser().getNIF();
+        return estafetaDB.getEstafetaByNIF(nif);
     }
     
     public Endereco getEnderecoByNifCliente(int nif){

@@ -1,6 +1,7 @@
 package lapr.project.controller;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -79,7 +80,7 @@ public class RegistarEntregaControllerTest {
         System.out.println("getEstafeta");
         Estafeta est = new Estafeta(123456789, "sd", "vfdada", 15, 45, "rs", 62);
         UserSession.getInstance().setUser(est);
-        when(estafetaDB.getEstafetaByEmail(est.getEmail())).thenReturn(est);
+        when(estafetaDB.getEstafetaByNIF(est.getNIF())).thenReturn(est);
         Estafeta result = instance.getEstafeta();
         assertEquals(est, result);
 
@@ -294,6 +295,28 @@ public class RegistarEntregaControllerTest {
         Cliente expResult = new Cliente(123456789, "bf", "fbh", 47, 85, "fhg", 34, "dfbg");
         when(clienteDB.getClienteByMorada(end)).thenReturn(expResult);
         Cliente result = instance.getClienteByEndereco(end);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of getDuracaoPercurso method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetDuracaoPercurso() throws ParseException {
+        System.out.println("getDuracaoPercurso");        
+        List<Endereco> finalShortPath = new LinkedList<>();
+        Endereco e1 = new Endereco("dfad", 23, 34, 1);
+        finalShortPath.add(e1);
+        Endereco e2 = new Endereco("hte", 3, 5, 2);
+        finalShortPath.add(e2);
+        Endereco e3 = new Endereco("rrs", 34, 111, 34);
+        finalShortPath.add(e3);
+        Veiculo veiculo = new Veiculo(1, "fsss", "scooter", 34, 12, 34, 45, 75, 12, 54);
+        String expResult = "17:06:00";
+        RegistarEntregaController teste = new RegistarEntregaController(new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
+        String result = teste.getDuracaoPercurso(finalShortPath, veiculo);
+        System.out.println(result);
         assertEquals(expResult, result);
 
     }
