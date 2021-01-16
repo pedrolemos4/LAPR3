@@ -82,7 +82,7 @@ public class RegistarEntregaController {
     }
     
     public boolean addEncomendaEntrega(Entrega e, Encomenda enc) throws SQLException{        
-        return (entregaDB.addEncomendaEntrega(e,enc)? true : false);
+        return (entregaDB.addEncomendaEntrega(e,enc)? (true) : (false));
     }
     
     public Endereco getEnderecoByNifCliente(int nif){
@@ -98,7 +98,7 @@ public class RegistarEntregaController {
     }
     
     public boolean enviarNotaCliente(Farmacia farmacia, Cliente c){
-        return (emailDB.sendEmail(farmacia.getEmail(), c.getEmail(), "Entrega", "A sua entrega está a caminho")? true : false);
+        return (emailDB.sendEmail(farmacia.getEmail(), c.getEmail(), "Entrega", "A sua entrega está a caminho")? (true) : (false));
     }
     
     public Cliente getClienteByEndereco(Endereco end){
@@ -110,11 +110,11 @@ public class RegistarEntregaController {
     }
     
     public boolean updateEncomenda(Encomenda encomenda) throws SQLException, ParseException{
-        return (encomendaDB.updateEncomenda(encomenda) ? (true) : false);
+        return (encomendaDB.updateEncomenda(encomenda) ? (true) : (false));
     }
     
     public boolean updateEntrega(Entrega entrega) throws SQLException, ParseException{
-        return (entregaDB.updateEntrega(entrega) ? (true) : false);
+        return (entregaDB.updateEntrega(entrega) ? (true) : (false));
     }
     
 }

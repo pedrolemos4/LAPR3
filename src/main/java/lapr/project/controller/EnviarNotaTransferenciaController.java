@@ -13,6 +13,6 @@ public class EnviarNotaTransferenciaController {
 
     public boolean enviarNotaTransferencia(Farmacia fOrig, Farmacia fDest, Produto prod, int qtd){
         String mensagem = "Ser-lhe-á enviado o produto " + prod.getDesignacao() + " na quantidade necessária (" + qtd +")";
-        return edb.sendEmail(fOrig.getEmail(),fDest.getEmail(), "Transferência de produto", mensagem);
+        return (edb.sendEmail(fOrig.getEmail(),fDest.getEmail(), "Transferência de produto", mensagem)? (true) : (false));
     }
 }

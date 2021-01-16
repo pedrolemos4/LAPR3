@@ -54,6 +54,16 @@ class PedirItemFarmaciaControllerTest {
         when(tdb.realizaPedido(f1,f2,prod,1)).thenReturn(expResult);
         assertEquals(expResult, instance.realizaPedido(f1,f2,prod,1));
     }
+    
+    @Test
+    void realizaPedido1() {
+        boolean expResult = false;
+        Farmacia f1 = new Farmacia(1,"email","rua");
+        Farmacia f2 = new Farmacia(1,"email","rua");
+        Produto prod = new Produto("prod",1,1);
+        when(tdb.realizaPedido(f1,f2,prod,1)).thenReturn(expResult);
+        assertEquals(expResult, instance.realizaPedido(f1,f2,prod,1));
+    }
 
     /**
      * Test of getListaFarmaciaByProduto method, of class PedirItemFarmaciaController.

@@ -24,7 +24,7 @@ public class PedirItemFarmaciaController {
     }
 
     public boolean realizaPedido(Farmacia fOri, Farmacia fDest, Produto prod, int quantidade) {
-        return (tdb.realizaPedido(fOri,fDest,prod,quantidade)? true : false);
+        return (tdb.realizaPedido(fOri,fDest,prod,quantidade)? (true) : (false));
     }
     
     public List<Farmacia> getListaFarmaciaByProduto(Produto p, int quant){
@@ -40,7 +40,7 @@ public class PedirItemFarmaciaController {
     }
 
     public boolean enviaNotaEntrega(String email, String email1) { 
-        return (emDB.sendEmail(email, email1, "Adicionar Stock.", "Confirmamos que os produtos enviados foram recebidos.")? true : false);
+        return (emDB.sendEmail(email, email1, "Adicionar Stock.", "Confirmamos que os produtos enviados foram recebidos.")? (true) : (false));
     }
 
     public List<Farmacia> getLstFarmacias() {
