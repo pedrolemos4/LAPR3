@@ -1,6 +1,8 @@
 package lapr.project.ui;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +22,7 @@ import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
+import lapr.project.model.EstadoEncomenda;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Farmacia;
 import lapr.project.model.Graph;
@@ -38,7 +41,7 @@ public class RegistarEntregaUI {
         this.controller = new RegistarEntregaController(new FarmaciaDB(), new EstafetaDB(),new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
     }
     
-    public void introduzEntrega() throws SQLException {
+    public void introduzEntrega() throws SQLException, ParseException {
         
         System.out.println("Lista de farmacias: ");
         List<Farmacia> listFarmacia = controller.getLstFarmacias();
@@ -62,7 +65,7 @@ public class RegistarEntregaUI {
         Estafeta est = controller.getEstafeta();
         int nifEstafeta = est.getNIF();
         
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+        SimpleDateFormat formatter= new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
         Date date = new Date(System.currentTimeMillis());
         String dataInicio = formatter.format(date);
         String dataFim = null;
@@ -103,12 +106,20 @@ public class RegistarEntregaUI {
                 Cliente c = controller.getClienteByEndereco(end);
                 listEnderecos.add(end);
                 controller.enviarNotaCliente(farmacia, c);
+                e.setEstado(new EstadoEncomenda(3));
             }
             
             Graph<Endereco,Double> graph = controller.generateGraph(listEnderecos, est, veiculo, pesoTotal);
             LinkedList<Endereco> finalShortPath = new LinkedList<>();
             
             double energiaTotalGasta = controller.getPath(graph, listEnderecos, finalShortPath, listEnderecos.get(0), 0);
+            
+            String data = controller.getDuracaoPercurso(finalShortPath, veiculo);
+            DateFormat format1 = new SimpleDateFormat("HH:mm:ss");
+            Date date2 = format1.parse(data);
+            long soma = date.getTime() + date2.getTime();
+            entr.setDataFim(formatter.format(soma));
+            
             System.out.println("\n\nEntrega adicionada com sucesso'");
             System.out.println("\n\nCaminho com menor energia gasta: '" + finalShortPath);
             System.out.println("\n\nEnergia gasta: '" + energiaTotalGasta);

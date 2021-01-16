@@ -1,6 +1,8 @@
 package lapr.project.controller;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
@@ -102,6 +104,10 @@ public class RegistarEntregaController {
     
     public Cliente getClienteByEndereco(Endereco end){
         return clienteDB.getClienteByMorada(end);
+    }
+    
+    public String getDuracaoPercurso(List<Endereco> finalShortPath, Veiculo veiculo) throws ParseException{
+        return entregaDB.getDuracaoPercurso(finalShortPath, veiculo);
     }
     
 }

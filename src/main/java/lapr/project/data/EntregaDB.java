@@ -5,17 +5,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
-import lapr.project.model.Farmacia;
 import lapr.project.model.Graph;
 import lapr.project.model.GraphAlgorithms;
 import lapr.project.model.Veiculo;
@@ -168,11 +170,11 @@ public class EntregaDB extends DataHandler {
         for (Endereco end : listEnderecos) {
             if (aux < i && listEnderecos.size() > 2) {
                 Encomenda enc1 = getEncomendaByMorada(listEnderecos.get(aux).getMorada());
-                if((veiculo.getTipo()).equals("scooter")){
+                if((veiculo.getTipo()).equalsIgnoreCase("scooter")){
                     energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
                     graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
                 }
-                if((veiculo.getTipo()).equals("drone")){
+                if((veiculo.getTipo()).equalsIgnoreCase("drone")){
                     energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
                     graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
                 }
@@ -236,4 +238,28 @@ public class EntregaDB extends DataHandler {
         }
         return null;
     } 
+    
+    public String getDuracaoPercurso(List<Endereco> finalShortPath, Veiculo veiculo) throws ParseException{
+        double distancia = 0;
+        int aux = 0;
+        int i = finalShortPath.size() - 1;
+        for (Endereco end : finalShortPath) {
+            if (aux < i && finalShortPath.size() > 2) {
+                if((veiculo.getTipo()).equalsIgnoreCase("scooter")){
+                    distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
+                }
+                if((veiculo.getTipo()).equalsIgnoreCase("drone")){
+                    distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
+                }
+                aux = aux + 1;
+            }
+        }
+        double tempo = CalculosFisica.calculoTempo(distancia);
+        String s = String.format("%06d", (int)tempo);
+        DateFormat format = new SimpleDateFormat("HHmmss");
+        DateFormat format1 = new SimpleDateFormat("HH:mm:ss");
+        Date date2 = format.parse(s);
+       
+        return format1.format(date2);
+    }
 }
