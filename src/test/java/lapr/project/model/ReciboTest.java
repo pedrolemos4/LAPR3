@@ -11,57 +11,59 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ReciboTest {
 
-    @Test
-    void ReciboEmptyConstructorTest(){
-        Recibo instance = new Recibo();
+    private Recibo instance;
 
-        assertEquals(instance,instance);
+    @Test
+    public void ReciboEmptyConstructorTest() {
+        instance = new Recibo();
+
+        assertEquals(instance, instance);
     }
 
     @Test
-    void ProdutoConstructorTest(){
-        Recibo instance = new Recibo(123,10.2,"data",321);
+    void ProdutoConstructorTest() {
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
 
-        assertEquals(instance,instance);
+        assertEquals(instance, instance);
     }
 
     @Test
     void getNif() {
-        Recibo instance = new Recibo(123,10.2,"data",321);
-        assertEquals(123,instance.getNif());
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
+        assertEquals(123, instance.getNif());
     }
 
     @Test
     void getId() {
-        Recibo instance = new Recibo(123,10.2,"data",321);
-        assertEquals(0,instance.getId());
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
+        assertEquals(0, instance.getId());
     }
 
     @Test
     void getData() {
-        Recibo instance = new Recibo(123,10.2,"data",321);
-        assertEquals("data",instance.getData());
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
+        assertEquals("data", instance.getData());
     }
 
     @Test
     void setNif() {
-        Recibo instance = new Recibo(123,10.2,"data",321);
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
         instance.setNif(2);
-        assertEquals(2,instance.getNif());
+        assertEquals(2, instance.getNif());
     }
 
     @Test
     void setId() {
-        Recibo instance = new Recibo(123,10.2,"data",321);
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
         instance.setId(2);
-        assertEquals(2,instance.getId());
+        assertEquals(2, instance.getId());
     }
 
     @Test
     void setData() {
-        Recibo instance = new Recibo(123,10.2,"data",321);
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
         instance.setData("dataExpec");
-        assertEquals("dataExpec",instance.getData());
+        assertEquals("dataExpec", instance.getData());
     }
 
     /**
@@ -70,7 +72,7 @@ class ReciboTest {
     @Test
     public void testGetPreco() {
         System.out.println("getPreco");
-        Recibo instance = new Recibo(123,10.2,"data",321);
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
         double expResult = 10.2;
         double result = instance.getPreco();
         assertEquals(expResult, result, 0.0);
@@ -83,7 +85,7 @@ class ReciboTest {
     public void testSetPreco() {
         System.out.println("setPreco");
         double preco = 0.0;
-        Recibo instance = new Recibo(123,10.2,"data",321);
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
         instance.setPreco(preco);
     }
 
@@ -93,7 +95,7 @@ class ReciboTest {
     @Test
     public void testGetIdEncomenda() {
         System.out.println("getIdEncomenda");
-        Recibo instance = new Recibo(123,10.2,"data",321);
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
         int expResult = 321;
         int result = instance.getIdEncomenda();
         assertEquals(expResult, result);
@@ -105,7 +107,7 @@ class ReciboTest {
     @Test
     public void testGetNif() {
         System.out.println("getNif");
-        Recibo instance = new Recibo(123,10.2,"data",321);
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
         int expResult = 123;
         int result = instance.getNif();
         assertEquals(expResult, result);
@@ -117,7 +119,7 @@ class ReciboTest {
     @Test
     public void testGetId() {
         System.out.println("getId");
-        Recibo instance = new Recibo(123,10.2,"data",321);
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
         int expResult = 0;
         int result = instance.getId();
         assertEquals(expResult, result);
@@ -129,7 +131,7 @@ class ReciboTest {
     @Test
     public void testGetData() {
         System.out.println("getData");
-        Recibo instance = new Recibo(123,10.2,"data",321);
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
         String expResult = "data";
         String result = instance.getData();
         assertEquals(expResult, result);
@@ -142,7 +144,7 @@ class ReciboTest {
     public void testSetNif() {
         System.out.println("setNif");
         int nif = 0;
-        Recibo instance = new Recibo(123,10.2,"data",321);
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
         instance.setNif(nif);
     }
 
@@ -153,7 +155,7 @@ class ReciboTest {
     public void testSetId() {
         System.out.println("setId");
         int id = 0;
-        Recibo instance = new Recibo(123,10.2,"data",321);
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
         instance.setId(id);
     }
 
@@ -164,7 +166,7 @@ class ReciboTest {
     public void testSetData() {
         System.out.println("setData");
         String data = "";
-        Recibo instance = new Recibo(123,10.2,"data",321);
+        Recibo instance = new Recibo(123, 10.2, "data", 321);
         instance.setData(data);
     }
 
@@ -196,9 +198,10 @@ class ReciboTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Recibo instance = new Recibo();
-        String expResult = "Recibo{" + "nif=" + instance.getNif() + ", id=" + 0 + ", preco=" + instance.getPreco() + ", data=" + instance.getData() + ", idEncomenda=" + instance.getIdEncomenda() + ", lst=" + instance.getMap() + '}';
-        String result = instance.toString();
+        Recibo instance1 = new Recibo();
+        String expResult = instance1.toString();
+        Recibo instance2 = new Recibo();
+        String result = instance2.toString();
         assertEquals(expResult, result);
     }
 }
