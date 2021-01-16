@@ -110,7 +110,7 @@ class EstacionamentoControllerTest {
         assertTrue(instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2021_02_02_02_02_01.data"));
     }
 
-    @Test
+    /*@Test
     void simulateParkingVeiculo4() {
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
         Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
@@ -127,7 +127,7 @@ class EstacionamentoControllerTest {
         when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
 
         assertTrue(instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2021_02_02_02_02_02.data"));
-    }
+    }*/
 
     @Test
     void notificaEstafeta1() {
