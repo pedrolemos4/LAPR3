@@ -74,8 +74,6 @@ public class EstacionamentoController {
 
         estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo);
 
-        newFile.delete();
-
         if(estimativa == -1){
             return notificaEstafeta(false,estimativa,emailEstafeta);
         }else {
@@ -129,6 +127,7 @@ public class EstacionamentoController {
         String[] pathnames;
 
         File f = new File(path);
+        System.out.println(path);
 
         pathnames = f.list();
 

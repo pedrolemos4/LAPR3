@@ -63,7 +63,7 @@ class EstacionamentoControllerTest {
 
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
 
-        assertEquals(true,instance.simulateParkingVeiculo("src\\main\\java\\lapr\\project\\parking\\teste\\estimate_2021_02_02_02_02_02.data"));
+        assertEquals(true,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2021_02_02_02_02_02.data"));
     }
 
     @Test
@@ -89,7 +89,7 @@ class EstacionamentoControllerTest {
 
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
 
-        assertEquals(false,instance.simulateParkingVeiculo("src\\main\\java\\lapr\\project\\parking\\teste"));
+        assertEquals(false,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste"));
 
 
     }
@@ -117,7 +117,7 @@ class EstacionamentoControllerTest {
 
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
 
-        assertEquals(true,instance.simulateParkingVeiculo("src\\main\\java\\lapr\\project\\parking\\teste\\estimate_2021_02_02_02_02_01.data"));
+        assertEquals(true,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2021_02_02_02_02_01.data"));
     }
 
     @Test
