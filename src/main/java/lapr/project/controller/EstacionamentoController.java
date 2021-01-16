@@ -1,6 +1,9 @@
 package lapr.project.controller;
 
-import lapr.project.data.*;
+import lapr.project.data.EmailDB;
+import lapr.project.data.EntregaDB;
+import lapr.project.data.EstacionamentosDB;
+import lapr.project.data.VeiculoDB;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estacionamento;
 import lapr.project.model.Veiculo;
@@ -15,34 +18,25 @@ import java.util.TimerTask;
 public class EstacionamentoController {
 
     private final EntregaDB entregaDB;
-    private final EstafetaDB estafetaDB;
     private final EmailDB emailDB;
     private final EstacionamentosDB estacionamentosDB;
     private final VeiculoDB veiculoDB;
 
-    public EstacionamentoController(EntregaDB entregaDB,EstafetaDB estafetaDB,EmailDB emailDB,EstacionamentosDB estacionamentosDB,VeiculoDB veiculoDB) {
+    public EstacionamentoController(EntregaDB entregaDB,EmailDB emailDB,EstacionamentosDB estacionamentosDB,VeiculoDB veiculoDB) {
         this.entregaDB = entregaDB;
-        this.estafetaDB = estafetaDB;
         this.emailDB = emailDB;
         this.estacionamentosDB = estacionamentosDB;
         this.veiculoDB = veiculoDB;
     }
 
-    public boolean checkParkings(){
-        try{
-            String path = "src/main/java/lapr/project/parking/estacionamento";
-            String estimatePath = getDiretory(path);
-            path = path + "/" + estimatePath;
-            return simulateParkingVeiculo(path);
-        }catch(Exception e){
-            return false;
-        }
+    public boolean checkParkings(String path) {
+        String estimatePath = getDiretory(path);
+        path = path + "/" + estimatePath;
+        return simulateParkingVeiculo(path);
     }
 
     public boolean simulateParkingVeiculo(String path){
         File newFile = new File(path);
-        System.out.println(path);
-        System.out.println(newFile.exists());
         Scanner scan = null;
         try {
             scan = new Scanner(newFile);
@@ -77,7 +71,7 @@ public class EstacionamentoController {
         if(estimativa == -1){
             return notificaEstafeta(false,estimativa,emailEstafeta);
         }else {
-            TimerCarregamento(estimativa, veiculo);
+            timerCarregamento(estimativa, veiculo);
 
             if (veiculo.getTipo().equalsIgnoreCase("scooter")) {
                 return notificaEstafeta(true, estimativa, emailEstafeta);
@@ -99,14 +93,10 @@ public class EstacionamentoController {
     }
 
     public void carregamentoCompleto(Veiculo veiculo){
-        try{
-            veiculo.setPercentagemBateria(100);
-        }catch(Exception e){
-            System.out.println("Erro no carregamento.");
-        }
+        veiculo.setPercentagemBateria(100);
     }
 
-    public boolean TimerCarregamento(int estimativa, Veiculo veiculo){
+    public boolean timerCarregamento(int estimativa, Veiculo veiculo){
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -135,11 +125,6 @@ public class EstacionamentoController {
             System.out.println(pathnames[i]);
         }
 
-        try{
-            return pathnames[0];
-        }catch(Exception c){
-            System.err.println(c);
-            return null;
-        }
+        return pathnames[0];
     }
 }
