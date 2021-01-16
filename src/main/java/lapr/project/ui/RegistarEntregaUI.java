@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lapr.project.controller.RegistarEntregaController;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
@@ -106,7 +108,8 @@ public class RegistarEntregaUI {
                 Cliente c = controller.getClienteByEndereco(end);
                 listEnderecos.add(end);
                 controller.enviarNotaCliente(farmacia, c);
-                e.setEstado(new EstadoEncomenda(3));
+                Encomenda encomenda = new Encomenda(e.getNif(), e.getDataPedida(),e.getPreco(),e.getPesoEncomenda(),e.getTaxa(),3);
+                controller.updateEncomenda(encomenda);
             }
             
             Graph<Endereco,Double> graph = controller.generateGraph(listEnderecos, est, veiculo, pesoTotal);
@@ -118,8 +121,12 @@ public class RegistarEntregaUI {
             DateFormat format1 = new SimpleDateFormat("HH:mm:ss");
             Date date2 = format1.parse(data);
             long soma = date.getTime() + date2.getTime();
-            entr.setDataFim(formatter.format(soma));
             
+            Entrega entrega = new Entrega(dataInicio, formatter.format(soma), idVeiculo, nifEstafeta);
+            
+            controller.updateEntrega(entrega);
+            
+            System.out.println("Veículo atualizado com sucesso.");
             System.out.println("\n\nEntrega adicionada com sucesso'");
             System.out.println("\n\nCaminho com menor energia gasta: '" + finalShortPath);
             System.out.println("\n\nEnergia gasta: '" + energiaTotalGasta);
