@@ -21,9 +21,10 @@ public class NotificaEstafetaController {
     public NotificaEstafetaController(EstafetaDB estafetaDB, VeiculoDB veiculoDB, EntregaDB entregaDB, EstacionamentosDB estacionamentosDB) {
         this.estacionamentosDB = estacionamentosDB;
 
+        int nif = UserSession.getInstance().getUser().getNIF();
         String email = UserSession.getInstance().getUser().getEmail();
 
-        this.estafeta = estafetaDB.getEstafetaByEmail(email);
+        this.estafeta = estafetaDB.getEstafetaByNIF(nif);
 
         Entrega entrega = entregaDB.getEntregaAtiva(email);
 

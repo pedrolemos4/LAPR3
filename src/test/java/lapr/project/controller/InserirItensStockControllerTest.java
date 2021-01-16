@@ -1,9 +1,7 @@
 package lapr.project.controller;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import lapr.project.data.ProdutosDB;
 import lapr.project.model.Produto;
@@ -49,8 +47,8 @@ public class InserirItensStockControllerTest {
     public void testRegistaProduto() {
         System.out.println("registaProduto");
         Produto prod1 = new Produto("prod1", 77, 88);
-        when(produtoMock.registaProduto(prod1,1)).thenReturn(true);
-        assertEquals(true, instance.registaProduto(prod1,1));
+        when(produtoMock.registaProduto(prod1,1,1)).thenReturn(true);
+        assertEquals(true, instance.registaProduto(prod1,1,1));
     }
     
     /**
@@ -60,8 +58,8 @@ public class InserirItensStockControllerTest {
     public void testRegistaProduto1() {
         System.out.println("registaProduto1");
         Produto prod1 = new Produto("prod1", 77, 88);
-        when(produtoMock.registaProduto(prod1,1)).thenReturn(false);
-        assertEquals(false, instance.registaProduto(prod1,1));
+        when(produtoMock.registaProduto(prod1,1,1)).thenReturn(false);
+        assertEquals(false, instance.registaProduto(prod1,1,1));
     }
 
     /**

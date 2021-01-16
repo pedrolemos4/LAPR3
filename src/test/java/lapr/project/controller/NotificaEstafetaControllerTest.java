@@ -56,7 +56,7 @@ class NotificaEstafetaControllerTest {
         entregaDBMock.addEntrega(et);
         estacionamentoDBMock.addEstacionamento(est);
 
-        when(estafetaDBMock.getEstafetaByEmail(e.getEmail())).thenReturn(e);
+        when(estafetaDBMock.getEstafetaByNIF(e.getNIF())).thenReturn(e);
         when(entregaDBMock.getEntregaAtiva(e.getEmail())).thenReturn(et);
         when(veiculoDBMock.getVeiculoById(s.getId())).thenReturn(s);
 

@@ -37,8 +37,8 @@ class AtualizarEstafetaControllerTest {
     @Test
     public void getEstafetaByEmail() {
         Estafeta expResult = new Estafeta(1, "45", "56", 48, 486, "aaa", 1);
-        when(estafetaMock.getEstafetaByEmail("56")).thenReturn(expResult);
-        assertEquals(expResult, instance.getEstafetaByEmail("56"));
+        when(estafetaMock.getEstafetaByNIF(1)).thenReturn(expResult);
+        assertEquals(expResult, instance.getEstafetaByNIF(1));
     }
 
     @Test
