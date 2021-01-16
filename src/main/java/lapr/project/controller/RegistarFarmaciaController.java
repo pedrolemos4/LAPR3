@@ -89,7 +89,7 @@ public class RegistarFarmaciaController {
      * @return
      */
     public boolean registaFarmacia(Farmacia farm) {
-        return (farmaciaDB.registaFarmacia(farm) ? true : false);
+        return (farmaciaDB.registaFarmacia(farm) ? (true) : (false));
     }
 
     /**
@@ -99,7 +99,7 @@ public class RegistarFarmaciaController {
      * @return
      */
     public boolean registaParque(Parque park) {
-        return (parqueDB.registaParque(park) ? true : false);
+        return (parqueDB.registaParque(park) ? (true) : (false));
     }
 
     /**
@@ -109,6 +109,6 @@ public class RegistarFarmaciaController {
      * @return
      */
     public boolean registaEndereco(Endereco end) {
-        return (enderecoDB.registaEndereco(end) ? true : false);
+        return (enderecoDB.registaEndereco(end) ? (true) : (false));
     }
 }

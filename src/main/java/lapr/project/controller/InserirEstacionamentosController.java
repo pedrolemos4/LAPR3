@@ -68,7 +68,7 @@ public class InserirEstacionamentosController {
      * @return
      */
     public boolean registaEstacionamentos(List<Estacionamento> lestac) {
-        return (estacionamentoDB.registaEstacionamento(lestac) ? true : false);
+        return (estacionamentoDB.registaEstacionamento(lestac) ? (true) : (false));
     }
 
     /**
