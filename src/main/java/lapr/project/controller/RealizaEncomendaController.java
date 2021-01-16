@@ -6,6 +6,7 @@
 package lapr.project.controller;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Map;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
@@ -47,12 +48,13 @@ public class RealizaEncomendaController {
         return false;
     }
 
-    public boolean registaEncomenda(Encomenda enc1) throws SQLException {
-        return (encDB.registaEncomenda(enc1) ? true : false);
+    public int registaEncomenda(Encomenda enc1) throws SQLException, ParseException {
+        System.out.println("Regista Encomenda Linha 52");
+        return (encDB.registaEncomenda(enc1));
     }
 
-    public boolean registaEncomendaProduto(Encomenda enc, Produto p) {
-        return (encDB.registaEncomendaProduto(enc, p) ? true : false);
+    public boolean registaEncomendaProduto(Encomenda enc, Produto p,int stock) {
+        return (encDB.registaEncomendaProduto(enc, p,stock) ? true : false);
     }
 
     public Map<Produto, Integer> getListStock(int nif) {
@@ -69,6 +71,8 @@ public class RealizaEncomendaController {
 
     public Cliente getCliente() {
         int nif = UserSession.getInstance().getUser().getNIF();
+        System.out.println("get cliente");
+        System.out.println(nif);
         return cliDB.getClienteByNIF(nif);
     }
 
@@ -113,7 +117,7 @@ public class RealizaEncomendaController {
         return produtoDB.getPrecoTotal(taxa);
     }
 
-    public boolean registaRecibo(Recibo rec) throws SQLException {
+    public boolean registaRecibo(Recibo rec) throws SQLException, ParseException {
         return (reciboDB.registaRecibo(rec) ? true : false);
     }
 

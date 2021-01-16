@@ -151,7 +151,7 @@ public class ClienteDB extends DataHandler {
                 }
             }
         } catch (SQLException e) {
-            Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
         return null;
     }

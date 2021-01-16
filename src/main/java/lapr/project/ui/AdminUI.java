@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr.project.controller.VeiculoController;
 import lapr.project.data.VeiculoDB;
+import lapr.project.login.UserSession;
 import lapr.project.model.Veiculo;
 
 /**
@@ -83,6 +84,7 @@ public class AdminUI {
                 case "8":
                     registarFarmacia();
                 case "0":
+                    UserSession.getInstance().doLogout();
                     loginUI.menu();
                     break;
                 default:

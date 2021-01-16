@@ -245,6 +245,7 @@ public class ProdutosDB extends DataHandler {
         boolean bo = false;
         for (Produto p : map.keySet()) {
             Integer get = map.get(p);
+            //get - stock
             while (get > 0) {
                 bo = atualizarStock(p.getId(), nif, 1);
                 get--;
@@ -295,7 +296,7 @@ public class ProdutosDB extends DataHandler {
         double peso = 0;
 
         for (Produto p : mapaEncomenda.keySet()) {
-            peso = peso + p.getPrecoBase();
+            peso = peso + p.getPeso();
         }
         return peso;
     }

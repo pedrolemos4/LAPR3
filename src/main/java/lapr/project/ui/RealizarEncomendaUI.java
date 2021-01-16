@@ -6,12 +6,15 @@
 package lapr.project.ui;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import lapr.project.controller.PedirItemFarmaciaController;
 import lapr.project.controller.RealizaEncomendaController;
 import lapr.project.data.*;
 import lapr.project.login.UserSession;
+import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Farmacia;
 import lapr.project.model.Graph;
@@ -35,7 +38,7 @@ public class RealizarEncomendaUI {
         controller2 = new PedirItemFarmaciaController(new FarmaciaDB(), new TransferenciaDB(), new EmailDB());
     }
 
-    public void introduzEncomenda() throws SQLException {
+    public void introduzEncomenda() throws SQLException, ParseException {
 
         System.out.println("Insira o NIF da farmácia que pretende encomendar os produtos: ");
         List<Farmacia> lstFarmacias = controller2.getLstFarmacias();
@@ -47,7 +50,7 @@ public class RealizarEncomendaUI {
         int nif = LER.nextInt();
         while (controller2.getFarmaciaByNIF(nif) == null) {
             System.out.println("Não existe farmácia com este nif. Por favor insira "
-                    + "no   vamente.");
+                    + "novamente.");
             nif = LER.nextInt();
         };
 
@@ -119,14 +122,19 @@ public class RealizarEncomendaUI {
 
         if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
 
-            Data date = Data.dataAtual();
+            //Data date = Data.dataAtual();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+          //  SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+            Date date1 = new Date(System.currentTimeMillis());
+            String dataInicio = formatter.format(date1);
 
             System.out.println("Deseja pagar com creditos? (S/N)");
             LER.nextLine();
             String credsC = LER.nextLine();
             String email = UserSession.getInstance().getUser().getEmail();
             if (credsC.equalsIgnoreCase("S") || credsC.equalsIgnoreCase("SIM")) {
-
+                Data date = Data.dataAtual();
                 double creditosData = controller.getCreditosData(date, controller.getPreco());
 
                 if (controller.getCliente().getCreditos() < creditosData) {
@@ -136,22 +144,33 @@ public class RealizarEncomendaUI {
                     System.out.println("Foram retirados: " + creditosData + " creditos.");
                 }
             }
-            
-            Encomenda enc = new Encomenda(controller.getCliente().getNIF(), date.toString(), controller.getPreco(), controller.getPeso(), 0.6, 1);
+
+            System.out.println("Peso: " + controller.getPeso());
+            System.out.println("Preço: " + controller.getPreco());
+            System.out.println("");
+            Cliente boomerVaz = controller.getCliente();
+            System.out.println("Qualquer tum ta tum ta tum ta ta "
+                    + "na na na ");
+            System.out.println(boomerVaz.getClienteNIF());
+            int aux1 = controller.getCliente().getNIF();
+            System.out.println("Qualquer coisa antes a dizer o que é que é" + aux1);
+            Encomenda enc = new Encomenda(controller.getCliente().getClienteNIF(), dataInicio,
+                    controller.getPreco(), controller.getPeso(), 0.6, 1);
 
             Map<Produto, Integer> mapaEncomenda = controller.getMapaEncomenda();
-
+            System.out.println("Linha 153");
             controller.registaEncomenda(enc);
-
+            System.out.println("LInha 155");
             for (Produto p : mapaEncomenda.keySet()) {
-                controller.registaEncomendaProduto(enc, p);
+                controller.registaEncomendaProduto(enc, p,mapaEncomenda.get(p));
             }
 
             controller.removerProdutosEncomenda(mapaEncomenda, nif);
 
             double precoTotal = controller.getPrecoTotal(enc.getTaxa());
 
-            Recibo rec = new Recibo(controller.getCliente().getNIF(), precoTotal, date.toString(), enc.getId());
+            Recibo rec = new Recibo(controller.getCliente().getClienteNIF(), precoTotal,
+                    dataInicio, enc.getId());
             rec.setLst(mapaEncomenda);
 
             controller.registaRecibo(rec);
