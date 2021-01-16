@@ -2,6 +2,7 @@ package lapr.project.ui;
 
 import lapr.project.controller.InserirItensStockController;
 import lapr.project.data.ProdutosDB;
+import lapr.project.model.Farmacia;
 import lapr.project.model.Produto;
 
 import java.util.Map;
@@ -24,7 +25,12 @@ public class InserirItensStockUI {
     }
 
     public void registaProduto() {
-        System.out.println("NIF da farmácia onde enviar:");
+        System.out.println("--Lista de farmácias existentes--");
+        for (Farmacia f : controller2.getLstFarmacias()){
+            System.out.println(f.toString());
+        }
+
+        System.out.println("\nNIF da farmácia onde enviar:");
         int nif = LER.nextInt();
         while (controller2.getFarmaciaByNIF(nif) == null) {
             System.out.println("Não existe farmácia com este nif. Por favor insira "
