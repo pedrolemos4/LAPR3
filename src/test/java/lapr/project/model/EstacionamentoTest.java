@@ -75,11 +75,11 @@ class EstacionamentoTest {
      * Test of getNif method, of class Estacionamento.
      */
     @Test
-    public void testGetNif() {
-        System.out.println("getNif");
+    public void testGetIdParque() {
+        System.out.println("getIdParque");
         Estacionamento instance = new Estacionamento(1, 0, 546456);
         int expResult = 546456;
-        int result = instance.getNIF();
+        int result = instance.getIdParque();
         assertEquals(expResult, result);
 
     }
@@ -89,11 +89,11 @@ class EstacionamentoTest {
      */
     @Test
     public void testSetNif() {
-        System.out.println("setNif");
-        int nif = 987654321;
+        System.out.println("setIdParque");
+        int idParque = 987654321;
         Estacionamento instance = new Estacionamento(1, 0, 546456);
-        instance.setNIF(nif);
-        assertEquals(nif, instance.getNIF());
+        instance.setIdParque(idParque);
+        assertEquals(idParque, instance.getIdParque());
 
     }
 
@@ -104,7 +104,7 @@ class EstacionamentoTest {
     public void testToString() {
         System.out.println("toString");
         Estacionamento instance = new Estacionamento(1, 0, 546456);
-        String expResult = "Estacionamento{" + "numeroLote=" + 1 + ", carregador=" + 0 + ", nif=" + 546456 + '}';;
+        String expResult = "Estacionamento{" + "numeroLote=" + 1 + ", carregador=" + 0 + ", id=" + 546456 + '}';;
         String result = instance.toString();
         assertEquals(expResult, result);
     }
