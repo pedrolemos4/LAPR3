@@ -1,10 +1,8 @@
 package lapr.project.controller;
 
 import lapr.project.data.EmailDB;
-import lapr.project.data.EntregaDB;
 import lapr.project.data.EstacionamentosDB;
 import lapr.project.data.VeiculoDB;
-import lapr.project.model.Entrega;
 import lapr.project.model.Estacionamento;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Veiculo;
@@ -19,8 +17,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class EstacionamentoControllerTest {
-
-    private EntregaDB entregaDB;
     private EmailDB emailDB;
     private EstacionamentosDB estacionamentosDB;
     private VeiculoDB veiculoDB;
@@ -28,11 +24,10 @@ class EstacionamentoControllerTest {
 
     @BeforeEach
     void setUp(){
-        entregaDB = mock(EntregaDB.class);
         estacionamentosDB = mock(EstacionamentosDB.class);
         veiculoDB = mock(VeiculoDB.class);
         emailDB = mock(EmailDB.class);
-        instance = new EstacionamentoController(entregaDB,emailDB,estacionamentosDB,veiculoDB);
+        instance = new EstacionamentoController(emailDB,estacionamentosDB,veiculoDB);
     }
 
     @Test
@@ -40,12 +35,9 @@ class EstacionamentoControllerTest {
         System.out.println("checkParkingsTrue()");
 
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
-        Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         estacionamento.setNumeroLote(0);
-
-        when(entregaDB.getEntregaAtiva(estafeta.getEmail())).thenReturn(entrega);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -64,12 +56,9 @@ class EstacionamentoControllerTest {
     void checkParkingsFalse() throws FileNotFoundException {
         System.out.println("checkParkingsFalse()");
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
-        Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         estacionamento.setNumeroLote(0);
-
-        when(entregaDB.getEntregaAtiva(estafeta.getEmail())).thenReturn(entrega);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -90,12 +79,9 @@ class EstacionamentoControllerTest {
         System.out.println("simulateParkingVeiculo1()");
 
         Estafeta estafeta = new Estafeta(0, "nome", "rodrikcraft@gmail.com", 0, 0, "password", 0);
-        Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         estacionamento.setNumeroLote(0);
-
-        when(entregaDB.getEntregaAtiva(estafeta.getEmail())).thenReturn(entrega);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -116,12 +102,9 @@ class EstacionamentoControllerTest {
         System.out.println("simulateParkingVeiculo2()");
 
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
-        Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         estacionamento.setNumeroLote(0);
-
-        when(entregaDB.getEntregaAtiva(estafeta.getEmail())).thenReturn(entrega);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -146,12 +129,9 @@ class EstacionamentoControllerTest {
         System.out.println("simulateParkingVeiculo3()");
 
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
-        Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         estacionamento.setNumeroLote(0);
-
-        when(entregaDB.getEntregaAtiva(estafeta.getEmail())).thenReturn(entrega);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -171,12 +151,9 @@ class EstacionamentoControllerTest {
     void simulateParkingVeiculo4() throws FileNotFoundException {
         System.out.println("simulateParkingVeiculo4()");
         Estafeta estafeta = new Estafeta(0, "nome", "rodrikcraft@gmail.com", 0, 0, "password", 0);
-        Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
         Veiculo veiculo = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         estacionamento.setNumeroLote(0);
-
-        when(entregaDB.getEntregaAtiva(estafeta.getEmail())).thenReturn(entrega);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -191,12 +168,9 @@ class EstacionamentoControllerTest {
     void simulateParkingVeiculo5(){
         System.out.println("simulateParkingVeiculo5()");
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
-        Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
         Veiculo veiculo = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         estacionamento.setNumeroLote(0);
-
-        when(entregaDB.getEntregaAtiva(estafeta.getEmail())).thenReturn(entrega);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -216,14 +190,11 @@ class EstacionamentoControllerTest {
         System.out.println("simulateParkingVeiculo6()");
 
         Estafeta estafeta = new Estafeta(0, "nome", "rodrikcraft@gmail.com", 0, 0, "password", 0);
-        Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         estacionamento.setNumeroLote(0);
 
-        instance = new EstacionamentoController(entregaDB,new EmailDB(),estacionamentosDB,veiculoDB);
-
-        when(entregaDB.getEntregaAtiva(estafeta.getEmail())).thenReturn(entrega);
+        instance = new EstacionamentoController(new EmailDB(),estacionamentosDB,veiculoDB);;
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -232,6 +203,29 @@ class EstacionamentoControllerTest {
         when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
 
         assertEquals(true,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2021_02_02_02_02_02.data"));
+    }
+
+    @Test
+    void simulateParkingVeiculo7() throws FileNotFoundException {
+        System.out.println("simulateParkingVeiculo7()");
+
+        Estafeta estafeta = new Estafeta(0, "nome", "rodrikcraft@gmail.com", 0, 0, "password", 0);
+        Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
+        Estacionamento estacionamento = new Estacionamento(0, 0, 0);
+        estacionamento.setNumeroLote(0);
+
+        when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
+
+        when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
+
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+
+        String assunto = "Estacionamento Veiculo";
+        String mensagem = "O veiculo foi estacionado com sucesso, com uma estimativa de " + 3 + " horas até estar completamente carregada.";
+
+        when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(false);
+
+        assertEquals(false,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2021_02_02_02_02_02.data"));
     }
 
     @Test
@@ -298,16 +292,9 @@ class EstacionamentoControllerTest {
 
     @Test
     void getDiretory() {
-        instance = new EstacionamentoController(new EntregaDB(), new EmailDB(), new EstacionamentosDB(), new VeiculoDB());
+        instance = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB());
         System.out.println("getDiretory()");
         String expected = "estimate_2021_02_02_02_02_01.data";
         assertEquals(expected,instance.getDiretory("src/main/java/lapr/project/parking/teste"));
-    }
-
-    @Test
-    void setDataFim(){
-        Entrega entregaAtiva = new Entrega();
-        entregaAtiva.setDataFim("2020");
-        assertEquals("2020",entregaAtiva.getDataFim());
     }
 }

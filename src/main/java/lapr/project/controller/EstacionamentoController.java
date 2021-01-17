@@ -1,10 +1,8 @@
 package lapr.project.controller;
 
 import lapr.project.data.EmailDB;
-import lapr.project.data.EntregaDB;
 import lapr.project.data.EstacionamentosDB;
 import lapr.project.data.VeiculoDB;
-import lapr.project.model.Entrega;
 import lapr.project.model.Estacionamento;
 import lapr.project.model.Veiculo;
 
@@ -17,13 +15,11 @@ import java.util.TimerTask;
 
 public class EstacionamentoController {
 
-    private final EntregaDB entregaDB;
     private final EmailDB emailDB;
     private final EstacionamentosDB estacionamentosDB;
     private final VeiculoDB veiculoDB;
 
-    public EstacionamentoController(EntregaDB entregaDB,EmailDB emailDB,EstacionamentosDB estacionamentosDB,VeiculoDB veiculoDB) {
-        this.entregaDB = entregaDB;
+    public EstacionamentoController(EmailDB emailDB,EstacionamentosDB estacionamentosDB,VeiculoDB veiculoDB) {
         this.emailDB = emailDB;
         this.estacionamentosDB = estacionamentosDB;
         this.veiculoDB = veiculoDB;
@@ -40,7 +36,7 @@ public class EstacionamentoController {
         Scanner scan = new Scanner(newFile);
 
         String fileName = newFile.getName();
-        String date = fileName.substring(8,18);
+        String date = fileName.substring(9,28);
 
         String line = scan.nextLine();
 
@@ -55,10 +51,6 @@ public class EstacionamentoController {
         int idVeiculo = Integer.parseInt(itens[2]);
 
         int numeroLote = Integer.parseInt(itens[3]);
-
-        Entrega entregaAtiva = entregaDB.getEntregaAtiva(emailEstafeta);
-
-        entregaAtiva.setDataFim(date);
 
         Veiculo veiculo = veiculoDB.getVeiculoById(idVeiculo);
 
