@@ -1,0 +1,26 @@
+@startuml
+autonumber
+
+participant ":EstacionamentoController" as NCONT
+
+-> NCONT: checkParkings(String path)
+activate NCONT
+
+NCONT -> NCONT: simulateParkingVeiculo(String path)
+NCONT -> "VeiculoDB": getVeiculoById(VeiculoId)
+activate "VeiculoDB"
+deactivate "VeiculoDB"
+NCONT -> "EstacionamentoDB": getEstacionamentoById(numeroLote)
+activate "EstacionamentoDB"
+deactivate "EstacionamentoDB"
+
+alt estimativa = -1
+    NCONT -> NCONT: notificaEstafeta(false,estimativa,emailEstafeta)
+    note right: "estimativa = -1" ocorre quando a simulação de\nestacionamento é mal efetuada
+    NCONT -> "EmailDB": sendEmail(emailOrig, email, assunto, mensagem);
+else
+    ref over NCONT
+    SendEmail
+    end ref
+end
+@enduml

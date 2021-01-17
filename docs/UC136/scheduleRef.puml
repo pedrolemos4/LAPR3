@@ -1,0 +1,14 @@
+@startuml
+autonumber
+
+actor "Timer" as TIMER
+participant ":EstacionamentoController" as NCONT
+
+activate TIMER
+TIMER -> NCONT: carregamentoCompleto(veiculo)
+activate NCONT
+NCONT -> "veiculo\n:Veiculo": setPercentagemBateria(100)
+deactivate NCONT
+deactivate TIMER
+
+@enduml
