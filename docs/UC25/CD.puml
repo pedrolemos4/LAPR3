@@ -17,6 +17,7 @@ class RealizaEncomendaController {
     +removeCreditos(nifCliente, precoTotal)
     +getCreditosData(dataPedida, precoTotal)
     +geraCreditos(c,precoTotal)
+    +getFarmaciaByNif(nif)
 }
 
 class ClienteDataHandler {
@@ -51,10 +52,14 @@ class EncomendaDataHandler {
     +geraCreditos(c,precoTotal)
 }
 
-class Entrega {
-  -idEntrega
-  -dataInicio
-  -dataFim
+class FarmaciaDB {
+    +getFarmaciaByNif(nif)
+    +addTransferencia(nif1, nif2, id, quantidade, 1)
+    +enviarStock(fOrig, fDest, prod, quantidade)
+}
+
+class PedirItemFarmaciaDB {
+    +realizaPedido(farmacia1, farmacia2, produto, quantidade)
 }
 
 class Recibo {
@@ -100,11 +105,16 @@ class Cliente {
 }
 
 RealizaEncomendaUI .> RealizaEncomendaController
+
 RealizaEncomendaController .> ClienteDataHandler
 RealizaEncomendaController .> ProdutoDataHandler
 RealizaEncomendaController .> EncomendaDataHandler
 RealizaEncomendaController .> ReciboDataHandler
 RealizaEncomendaController .> EmailDB
+
+RealizaEncomendaUI .> PedirItemFarmaciaDB
+
+PedirItemFarmaciaDB .> FarmaciaDB
 
 ClienteDataHandler .> Cliente
 ProdutoDataHandler .> Produto

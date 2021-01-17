@@ -10,20 +10,29 @@ participant ":Cliente" as CLIEN
 participant ":ProdutoDB" as PDH
 participant ":Produto" as PRO
 participant ":EncomendaDB" as EDH
+participant ":FarmaciaDB" as FDB
 participant ":EnderecoDB" as END
 participant ":ReciboDB" as RDH
+participant ":PedirItemFarmaciaDB" as PEIC
+participant ":TransferenciaDB" as TDB
 participant "rec:Recibo" as REC
 participant ":EmailDB" as EMDB
 participant "lprodutos\n:ListaProdutosEncomenda" as LPROD
 participant "enc: Encomenda" as ENC
 
 
-CLI --> UI : pretende realizar uma encomenda
+CLI --> UI : insere a farmacia a qual quer os produtos
 activate CLI
 activate UI
 
-UI --> CTRL : getCliente()
+UI --> CTRL : getFarmaciaByNif(nif)
 activate CTRL
+
+CTRL --> FDB : nif = getFarmaciaByNif(nif)
+activate FDB
+deactivate FDB
+
+UI --> CTRL : getCliente()
 
 CTRL --> DH : cliente = getCliente()
 activate DH
@@ -46,23 +55,36 @@ deactivate UI
 
 
 LOOP
-CLI --> UI : introduz o produto
+CLI --> UI : introduz o produto e a quantidade que pretende
 activate UI
 
-UI --> CTRL : produtoEncomenda(produto)
+UI --> CTRL : produtoEncomenda(produto,quant)
 activate CTRL
 
-CTRL --> CTRL : verificaProdutoStock(prod)
+CTRL --> CTRL : verificaProdutoStock(produto,quant)
 
 OPT
-note  over CTRL : Se nao houver o produto no stock
+note  over CTRL : Se nao houver o produto no stock na 1 farmacia (farmacia1) percorre a lista de farmacias para encontrar outra farmacia com o stock (farmacia2)
 
-CTRL --> EMDB : sendEmail(email, assunto, mensagem)
-activate EMDB
-deactivate EMDB
+LOOP 
+deactivate CTRL
+UI --> PEIC : realizaPedido(farmacia1, famacia2, produto, quantidade)
+activate PEIC
+
+PEIC --> TDB : realizaPedido(fOrig, fDest, prod, quantidade)
+activate TDB
+
+TDB --> TDB: addTransferencia(nif1, nif2, id, quantidade, 1)
+TDB --> TDB: enviarStock(fOrig, fDest, prod, quantidade)
+
+deactivate TDB
+
+deactivate PEIC
+
+activate CTRL
+END LOOP
 
 END OPT
-
 
 CTRL --> LPROD : addNovoProduto(produto)
 activate LPROD
