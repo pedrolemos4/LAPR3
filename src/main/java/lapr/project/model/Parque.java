@@ -5,6 +5,7 @@ public class Parque {
     private int nif;
     private int numeroMaximo;
     private String tipo;
+    private int idParque;
 
     /**
      * Constrói uma instância de parque com o nif do parque(igual ao nif da
@@ -18,6 +19,14 @@ public class Parque {
         this.nif = nif;
         this.numeroMaximo = numeroMaximo;
         this.tipo = tipo;
+        this.idParque = 0;
+    }
+
+    public Parque(int id, int nif, int numeroMaximo, String tipo) {
+        this.nif = nif;
+        this.numeroMaximo = numeroMaximo;
+        this.tipo = tipo;
+        this.idParque = id;
     }
 
     /**
@@ -28,6 +37,7 @@ public class Parque {
         this.nif = 0;
         this.numeroMaximo = 0;
         this.tipo = "sem tipo";
+        this.idParque = 0;
     }
 
     /**
@@ -76,8 +86,16 @@ public class Parque {
         return tipo;
     }
 
+    public int getIdParque() {
+        return idParque;
+    }
+
+    public void setIdParque(int idParque) {
+        this.idParque = idParque;
+    }
+
     @Override
     public String toString() {
-        return "Parque{" + "nif=" + nif + ", numeroMaximo=" + numeroMaximo + ", tipo=" + tipo + '}';
+        return "Parque{" + "id=" + idParque + ", nif=" + nif + ", numeroMaximo=" + numeroMaximo + ", tipo=" + tipo + '}';
     }
 }
