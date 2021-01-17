@@ -4,8 +4,7 @@ autonumber
 actor "Administrador" as ADM
 participant ":InserirEstacionamentosUI" as UI
 participant ":InserirEstacionamentosController" as CTL
-participant ":AplicacaoPOT" as _APP
-participant "app:\nAplicacaoPOT" as APP
+participant ":FarmaciaDB" as FDB
 participant ":ParqueDB" as PDB
 participant ":EstacionamentoDB" as EDB
 participant "estac:Estacionamento" as ESTAC
@@ -19,9 +18,26 @@ deactivate UI
 ADM -> UI : introduz os dados solicitados
 
 activate UI
-UI -> CTL : numMax = getNumMaxParqueByNIF(NIF)
+UI -> CTL : farmacia = getFarmaciaByNIF(nif)
 activate CTL
-CTL -> PDB : numMax = getNumMaxParqueByNIF(NIF)
+CTL -> FDB : farmacia = getFarmaciaByNIF(nif)
+activate FDB
+deactivate FDB
+
+UI -> CTL : lstParques = getListaParquesByFarmaciaNif(nif)
+CTL -> PDB : lstParques = getLstParquesByFarmaciaNif(nif)
+activate PDB
+deactivate PDB
+deactivate CTL
+UI --> ADM : solicita dados do parque (id do parque)
+deactivate UI
+
+ADM -> UI : introduz os dados solicitados
+activate UI
+
+UI -> CTL : numMax = getNumMaxParqueByNIF(nif, idParque)
+activate CTL
+CTL -> PDB : numMax = getNumMaxParqueByNIF(nif, idParque)
 activate PDB
 deactivate PDB
 deactivate CTL
@@ -33,13 +49,13 @@ deactivate UI
 ADM --> UI : introduz os dados solicitados
 activate UI
 
-UI -> CTL : novoEstacionamento(numeroLote, carregador, NIF)
+UI -> CTL : novoEstacionamento(numeroLote, carregador, idParque)
 activate CTL
 
-CTL -> EDB: estac = novoEstacionamento(numeroLote, carregador, NIF)
+CTL -> EDB: estac = novoEstacionamento(numeroLote, carregador, idParque)
 activate EDB
 
-EDB --> ESTAC ** : create(numeroLote, carregador, NIF)
+EDB --> ESTAC ** : create(numeroLote, carregador, idParque)
 
 deactivate EDB
 deactivate CTL
