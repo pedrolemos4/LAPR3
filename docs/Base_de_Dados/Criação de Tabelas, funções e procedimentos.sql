@@ -198,7 +198,7 @@ CREATE TABLE "LAPR3_G23".LinhaRecibo
 (           ReciboidRecibo number(10) NOT NULL, 
             ProdutoidProduto number(10) NOT NULL, 
 			quantidade number (10) NOT NULL,
-            PRIMARY KEY (ReciboidRecibo)
+            PRIMARY KEY (ReciboidRecibo, ProdutoidProduto)
 );
 
 
@@ -345,15 +345,14 @@ contador int;
 BEGIN
     select count(*) into contador 
     from "LAPR3_G23".produto 
-    where designacao = p_designacao;
+    where designacao = p_designacao and "LAPR3_G23".produto.precobase = p_precoBase;
     
     if(contador=0)then
         INSERT INTO "LAPR3_G23".produto(designacao,peso,precobase) VALUES(p_designacao, p_peso, p_precoBase);
     END IF;
   SELECT "LAPR3_G23".produto.idproduto INTO v_idProduto
   FROM "LAPR3_G23".produto
-  WHERE "LAPR3_G23".produto.designacao = p_designacao 
-  AND "LAPR3_G23".produto.peso = p_peso
+  WHERE "LAPR3_G23".produto.designacao = p_designacao
   AND "LAPR3_G23".produto.precobase = p_precoBase;
   return v_idProduto;
 END;
@@ -371,7 +370,7 @@ BEGIN
     where produtoIdproduto = p_idproduto AND farmacianif = p_nif;
 
     if(contador > 0) then
-    UPDATE "LAPR3_G23".stockFarmacia SET "LAPR3_G23".stockFarmacia.stock = p_stock
+    UPDATE "LAPR3_G23".stockFarmacia SET "LAPR3_G23".stockFarmacia.stock = "LAPR3_G23".stockFarmacia.stock + p_stock
         WHERE "LAPR3_G23".stockFarmacia.produtoIdproduto = p_idProduto AND "LAPR3_G23".stockfarmacia.farmacianif = p_nif;
     else
         INSERT INTO "LAPR3_G23".stockFarmacia VALUES(p_nif,p_idproduto,p_stock);
@@ -692,6 +691,15 @@ BEGIN
 END;
 /
 
+CREATE OR REPLACE PROCEDURE addTransferencia(p_fornecedor "LAPR3_G23".TransferenciaProduto.id_fornecedor%type, p_recetor "LAPR3_G23".TransferenciaProduto.id_recetor%type,
+p_produto "LAPR3_G23".TransferenciaProduto.id_produto%type, p_quantidade "LAPR3_G23".TransferenciaProduto.quantidade%type, p_estado "LAPR3_G23".TransferenciaProduto.id_estado%type)
+AS
+BEGIN
+  INSERT INTO "LAPR3_G23".TransferenciaProduto(id_fornecedor,id_recetor,id_produto,quantidade,id_estado)
+  VALUES(p_fornecedor,p_recetor,p_produto,p_quantidade,p_estado);
+END;
+/
+
 --------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -743,11 +751,21 @@ SELECT "LAPR3_G23".encomenda.idEncomenda --INTO v_idEncomenda
   
 rollback;
   
-  SELECT * FROM cliente;
+  SELECT * FROM produto;
   
-  select * from utilizador;
+  select * from cliente;
   
   select * from stockfarmacia;
+  
+  select * from produto inner join stockfarmacia on produto.idproduto = stockfarmacia.produtoidproduto;
+  
+  update stockfarmacia set stock = 2 where produtoidproduto = 21;
+  
+  select * from farmacia ;
+  
+  select * from linhaRecibo;
+  
+  SELECT * FROM endereco e INNER JOIN farmacia f ON e.morada = f.morada WHERE f.NIF = 333666999;
   
   UPDATE "LAPR3_G23".stockfarmacia SET  "LAPR3_G23".stockfarmacia.stock = 2
     WHERE "LAPR3_G23".stockfarmacia.farmacianif = 555666555 AND "LAPR3_G23".stockfarmacia.ProdutoidProduto  = 1;
