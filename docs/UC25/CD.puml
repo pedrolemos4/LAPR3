@@ -8,7 +8,7 @@ class RealizaEncomendaUI {
 }
 
 class RealizaEncomendaController {
-    +getListClients()
+    +getCliente()
     +produtoEncomenda(produto)
     +registaEncomenda(enc)
     +novoRecibo(nifCliente, lista, precoTotal, dataRecibo)
@@ -16,6 +16,7 @@ class RealizaEncomendaController {
     +getPrecoTotal()
     +removeCreditos(nifCliente, precoTotal)
     +getCreditosData(dataPedida, precoTotal)
+    +geraCreditos(c,precoTotal)
 }
 
 class ClienteDataHandler {
@@ -47,10 +48,7 @@ class EncomendaDataHandler {
     +addEncomenda(enc)
     +getData()
     +getCreditosData(dataPedida, precoTotal)
-}
-
-class SessaoUtilizador{
-  +getEmail()
+    +geraCreditos(c,precoTotal)
 }
 
 class Entrega {
@@ -102,8 +100,6 @@ class Cliente {
 }
 
 RealizaEncomendaUI .> RealizaEncomendaController
-RealizaEncomendaController .> SessaoUtilizador
-RealizaEncomendaController .> AplicacaoPOT
 RealizaEncomendaController .> ClienteDataHandler
 RealizaEncomendaController .> ProdutoDataHandler
 RealizaEncomendaController .> EncomendaDataHandler
@@ -117,7 +113,6 @@ ReciboDataHandler .> Recibo
 
 Recibo "1" -- "1" Encomenda: referente a >
 Recibo "1" -- "1" Cliente: referente a >
-Entrega "1" -- "*" Encomenda : possui >
 Cliente "1" -- "*" Encomenda: realiza e paga >
 Encomenda "1" -- "1..*" Produto: tem >
 Cliente "1" -- "1" Endereco: tem >

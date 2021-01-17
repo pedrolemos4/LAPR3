@@ -5,7 +5,6 @@ actor "Cliente" as CLI
 
 participant ":RealizaEncomendaUI" as UI
 participant ":RealizaEncomendaController" as CTRL
-participant "sessao\n:SessaoUtilizador" as SESSAO
 participant ":ClienteDB" as DH
 participant ":Cliente" as CLIEN
 participant ":ProdutoDB" as PDH
@@ -23,18 +22,10 @@ CLI --> UI : pretende realizar uma encomenda
 activate CLI
 activate UI
 
-UI --> CTRL : getListClients()
+UI --> CTRL : getCliente()
 activate CTRL
 
-
-CTRL -> SESSAO: sessao = getSessaoAtual()
-activate SESSAO
-
-CTRL --> SESSAO : email = getEmail()
-deactivate SESSAO
-
-
-CTRL --> DH : cliente = getClienteByEmail(email)
+CTRL --> DH : cliente = getCliente()
 activate DH
 deactivate DH
 
@@ -143,24 +134,34 @@ deactivate UI
 CLI --> UI : Insere os dados pedidos
 activate UI
 
-UI --> CTRL : getCreditosData(dataPedida, precoTotal)
 activate CTRL
+UI --> CTRL : geraCreditos(c, precoTotal)
+
+CTRL --> EDH : geraCreditos(c, precoTotal)
+activate EDH
+deactivate EDH
+
+OPT
+note over UI : se for sim
+UI --> CTRL : getCreditosData(dataPedida, precoTotal)
 
 CTRL --> EDH : creds = getCreditosData(dataPedida, precoTotal)
 activate EDH
 deactivate EDH
 
-deactivate CTRL
+
 UI --> CTRL: removeCreditos(nifCliente, creds)
-activate CTRL
 
 CTRL --> DH : removerCreditos(nifCliente, creds)
 activate DH
 
 deactivate DH
-deactivate CTRL
+UI --> CLI : remove os creditos
 
-UI --> CLI : remove os creditos, gera o recibo e informa o sucesso da operação
+END OPT
+
+deactivate CTRL
+UI --> CLI: gera o recibo e informa o sucesso da operação
 deactivate UI
 deactivate CLI
 
