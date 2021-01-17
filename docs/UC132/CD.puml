@@ -2,17 +2,17 @@
 skinparam classAttributeIconSize 0
 
 class EmailDB {
-  +sendEmali(emailOrig,emailDest,assunto,mensagem)
+  +sendEmali(emailOrig,emailDest)
 }
 
-class RealizaEncomendaController {
-    +enviarNotaTransferencia(fOrig,fDest,prod,qntd)
+class PedirItemFarmaciaController {
+    +enviarNotaEntrega(fOrig,fDest)
 }
 
 class RealizaEncomendaUI {
 }
 
-RealizaEncomendaUI ..> RealizaEncomendaController
-RealizaEncomendaController ..> EmailDB
+RealizaEncomendaUI ..> PedirItemFarmaciaController
+PedirItemFarmaciaController ..> EmailDB
 
 @enduml

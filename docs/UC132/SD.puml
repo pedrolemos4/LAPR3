@@ -3,19 +3,14 @@ autonumber
 
 actor "Farmácia" as FARM
 participant ":RealizaEncomendaUI" as UI
-participant ":RealizaEncomendaController" as CTL
-participant ":ProdutosDB" as PDB
-participant ":FarmaciaDB" as FDB
+participant ":PedirItemFarmaciaController" as CTL
+participant ":EmailDB" as FDB
 
 activate FARM
 FARM -> UI : envia uma nota de entrega quando \n receber os itens de outra farmácia
 activate UI
 UI -> CTL : enviarNotaEntrega()
 activate CTL
-
-CTL -> FDB : farm = getFarmaciaByNIF(nif)
-activate FDB
-deactivate FDB
 
 CTL -> FDB : enviarNotaEntrega(farm, assunto, mensagem)
 activate FDB
