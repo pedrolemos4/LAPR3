@@ -23,7 +23,7 @@ public class TransferenciaDB extends DataHandler {
         try {
             openConnection();
 
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addTransferencia(?,?,?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addTransferencia(?,?,?,?,?) }")) {
 
                 callStmt.setInt(1, idRem);
                 callStmt.setInt(2, idDes);
@@ -45,15 +45,9 @@ public class TransferenciaDB extends DataHandler {
         Map<Produto, Integer> stockFarmDest = pdb.getLista(fDest.getNIF());
 
         if (stockFarmOrig.containsKey(produto) && stockFarmOrig.get(produto) >= quantidade) {
-            System.out.println("Quantidade antes: "+quantidade);
-            System.out.println("Dest Antes: "+(stockFarmDest.get(produto)));
             stockFarmDest.replace(produto, stockFarmDest.get(produto) + quantidade);
-            System.out.println("Dest: "+(stockFarmDest.get(produto)));
             pdb.atualizarStock(fDest.getNIF(), produto.getId(), stockFarmDest.get(produto));
-            System.out.println("Orig Antes: "+stockFarmOrig.get(produto));
-            System.out.println("Quantidade: "+quantidade);
             stockFarmOrig.replace(produto, stockFarmOrig.get(produto) - quantidade);
-            System.out.println("Orig: "+(stockFarmOrig.get(produto)));
             pdb.atualizarStock(fOrig.getNIF(), produto.getId(), stockFarmOrig.get(produto));
             return true;
         }

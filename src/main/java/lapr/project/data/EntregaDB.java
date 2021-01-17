@@ -30,7 +30,7 @@ import oracle.jdbc.OracleTypes;
  */
 public class EntregaDB extends DataHandler {
     
-    private EncomendaDB encDB = new EncomendaDB();
+    private final EncomendaDB encDB = new EncomendaDB();
 
     public int addEntrega(Entrega entrega) throws SQLException, ParseException {
 
@@ -48,7 +48,6 @@ public class EntregaDB extends DataHandler {
             callStmt.setTimestamp(5, sqlEndDate);
             callStmt.setInt(3, entrega.getIdVeiculo());
             callStmt.setInt(2, entrega.getidEstafeta());
-            System.out.println("NIF: " +entrega.getidEstafeta());
             callStmt.execute();
             id = callStmt.getInt(1);
             try {
@@ -159,7 +158,6 @@ public class EntregaDB extends DataHandler {
         double energiaGasta = 0;
         for (Endereco e : listEnderecos) {
             graph.insertVertex(e);
-            System.out.println("enderecos: " + e.toString());
         }
 
         int i = listEnderecos.size() - 1;
@@ -180,21 +178,16 @@ public class EntregaDB extends DataHandler {
         int aux = 1;
         for (Endereco end : listEnderecos) {
             if (aux < i && listEnderecos.size() > 2) {
-                System.out.println("listEnde: " +listEnderecos.get(aux).getMorada());
                 Encomenda enc1 = getEncomendaByMorada(listEnderecos.get(aux).getMorada()); //mal provavelmente
-                System.out.println("Linha 187 encomneda: " + enc1.toString());
-                System.out.println("e : " + encDB.getEncomenda(enc1.getId()).toString());
                 if((veiculo.getTipo()).equalsIgnoreCase("scooter")){
                     energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
                     graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
-                    System.out.println("energia: " + energiaGasta);
                 }
                 if((veiculo.getTipo()).equalsIgnoreCase("drone")){
                     energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
                     graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
                 }
                 aux = aux + 1;
-                System.out.println("enc1: ");
                 pesoTotalEntrega = pesoTotalEntrega - encDB.getEncomenda(enc1.getId()).getPesoEncomenda();
             }
         }
@@ -236,11 +229,9 @@ public class EntregaDB extends DataHandler {
 
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
-                System.out.println("a");
                 if (rSet.next()) {
                     int idEncomenda = rSet.getInt(1);
                     Timestamp dataPedida = rSet.getTimestamp(2);
-                    System.out.println(dataPedida);
                     double preco = rSet.getDouble(3);
                     double pesoEncomenda = rSet.getDouble(4);
                     double taxa = rSet.getDouble(5);
@@ -248,7 +239,6 @@ public class EntregaDB extends DataHandler {
                     int nif = rSet.getInt(7);
                     Encomenda en = new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado);
                     en.setId(idEncomenda);
-                    System.out.println("e");
                     return en;
                 }
             }

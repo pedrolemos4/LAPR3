@@ -1,11 +1,11 @@
 package lapr.project.model;
 
 public class TransferenciaProduto {
-    private int idTrans;
-    private int idRemetente;
-    private int idDestinatario;
-    private int idProduto;
-    private int quantidade;
+    private final int idTrans;
+    private final int idRemetente;
+    private final int idDestinatario;
+    private final int idProduto;
+    private final int quantidade;
 
     public TransferenciaProduto(int idTrans, int idRemetente, int idDestinatario, int idProduto, int quantidade){
         this.idTrans = idTrans;
