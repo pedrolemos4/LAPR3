@@ -152,7 +152,7 @@ public class EnderecoDB extends DataHandler {
      * @return endereço da farmacia
      */
     public Endereco getEnderecoByNifFarmacia(int nifFarmacia) {
-        String query = "SELECT * FROM endereco e INNER JOIN farmacia f ON e.morada = f.Enderecomorada WHERE f.NIF = " + nifFarmacia;
+        String query = "SELECT * FROM endereco e INNER JOIN farmacia f ON e.morada = f.morada WHERE f.NIF = " + nifFarmacia;
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {

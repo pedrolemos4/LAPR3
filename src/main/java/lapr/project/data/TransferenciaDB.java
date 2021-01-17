@@ -6,14 +6,16 @@ import lapr.project.model.Produto;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.Map;
+import oracle.jdbc.OracleTypes;
 
-public class TransferenciaDB extends DataHandler{
+public class TransferenciaDB extends DataHandler {
+
     ProdutosDB pdb = new ProdutosDB();
     EmailDB edb = new EmailDB();
 
     public boolean realizaPedido(Farmacia fOrig, Farmacia fDest, Produto produto, int quantidade) {
         addTransferencia(fOrig.getNIF(), fDest.getNIF(), produto.getId(), quantidade, 1);
-        enviarStock(fOrig,fDest,produto,quantidade);
+        enviarStock(fOrig, fDest, produto, quantidade);
 
         return true;
     }
@@ -38,21 +40,28 @@ public class TransferenciaDB extends DataHandler{
             e.printStackTrace();
         }
     }
-
+                            //987654322       333666999
     public boolean enviarStock(Farmacia fOrig, Farmacia fDest, Produto produto, int quantidade) {
-        Map<Produto,Integer> stockFarmOrig = pdb.getLista(fOrig.getNIF());
-        Map<Produto,Integer> stockFarmDest = pdb.getLista(fDest.getNIF());
+        Map<Produto, Integer> stockFarmOrig = pdb.getLista(fOrig.getNIF());
+        Map<Produto, Integer> stockFarmDest = pdb.getLista(fDest.getNIF());
 
-        if (stockFarmDest.containsKey(produto)){
+        if (stockFarmOrig.containsKey(produto) && stockFarmOrig.get(produto) >= quantidade) {
+            System.out.println("Quantidade antes: "+quantidade);
+            System.out.println("Dest Antes: "+(stockFarmDest.get(produto)));
             stockFarmDest.replace(produto, stockFarmDest.get(produto) + quantidade);
-            pdb.atualizarStock(fDest.getNIF(),produto.getId(),stockFarmDest.get(produto));
-        } else {
-            stockFarmDest.put(produto,quantidade);
-            pdb.addProdutoStock(fDest.getNIF(),produto.getId(),quantidade);
-        }
-        stockFarmOrig.replace(produto, stockFarmOrig.get(produto) - quantidade);
-        pdb.atualizarStock(fOrig.getNIF(),produto.getId(),stockFarmOrig.get(produto));
+            System.out.println("Dest: "+(stockFarmDest.get(produto)));
+            pdb.atualizarStock(fDest.getNIF(), produto.getId(), stockFarmDest.get(produto));
+            System.out.println("Orig Antes: "+stockFarmOrig.get(produto));
+            System.out.println("Quantidade: "+quantidade);
+            stockFarmOrig.replace(produto, stockFarmOrig.get(produto) - quantidade);
+            System.out.println("Orig: "+(stockFarmOrig.get(produto)));
+            pdb.atualizarStock(fOrig.getNIF(), produto.getId(), stockFarmOrig.get(produto));
+            return true;
+        } /*else {
+            stockFarmDest.put(produto, quantidade);
+            pdb.addProdutoStock(fDest.getNIF(), produto.getId(), quantidade);
+        }*/
 
-        return true;
+        return false;
     }
 }

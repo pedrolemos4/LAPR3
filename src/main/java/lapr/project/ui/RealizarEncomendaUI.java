@@ -87,22 +87,28 @@ public class RealizarEncomendaUI {
             int qntd = LER.nextInt();
             Produto prod = controller.getProdutoByID(id);
             if (controller.produtoEncomenda(nif, prod, qntd) == false) {
+                qntd=qntd-stock.get(prod);
+                System.out.println("QUANT "+qntd);
                 List<Farmacia> farms = controller2.getListaFarmaciaByProduto(prod, qntd);
                 while (qntd > 0) {
                     if(farms.isEmpty()){
+                        System.out.println("Farms.isEmpty");
                         break;
                     }
+                    System.out.println("Depois do is empty");
                     Graph<Farmacia, Double> generateGrafo = controller2.generateGrafo(farms);
                     nif1 = controller2.getFarmaciaProxima(generateGrafo, nif);
-                    if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).containsValue(qntd)) {
-                        controller2.realizaPedido(controller2.getFarmaciaByNIF(nif), controller2.getFarmaciaByNIF(nif1), prod, qntd);
+                    if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).get(prod)>=qntd) {
+                        System.out.println("102");
+                        controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
                         controller.produtoEncomenda(nif1, prod, qntd);
                         qntd = 0;
                         break;
 
                     }
-                    if (controller.getListStock(nif1).containsKey(prod) && !controller.getListStock(nif1).containsValue(qntd)) {
-                        controller2.realizaPedido(controller2.getFarmaciaByNIF(nif), controller2.getFarmaciaByNIF(nif1), prod, controller.getListStock(nif1).get(prod));
+                    if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).get(prod)<qntd) {
+                        System.out.println("110");
+                        controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
                         controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(nif).getEmail(), controller2.getFarmaciaByNIF(nif1).getEmail());
                         qntd = qntd - controller.getListStock(nif1).get(prod);
                         controller.produtoEncomenda(nif1, prod, qntd);
@@ -183,7 +189,6 @@ public class RealizarEncomendaUI {
             
             String assunto = "Recibo.";
             String mensagem = rec.toString();
-            System.out.println("EMAIL NOTIFICA: "+UserSession.getInstance().getUser().getEmail());
             controller.notificaCliente(UserSession.getInstance().getUser().getEmail(), assunto, mensagem);
 
             for (Produto p : mapaEncomenda.keySet()) {

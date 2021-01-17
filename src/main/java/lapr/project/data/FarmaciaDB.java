@@ -148,7 +148,7 @@ public class FarmaciaDB extends DataHandler {
      */
     public List<Farmacia> getLstFarmaciasByProdutos(Produto p, int quant) {
         ArrayList<Farmacia> list = new ArrayList<>();
-        String query = "SELECT * FROM farmacia f INNER JOIN stockfarmacia s ON s.farmacianif = f.nif AND s.stock = " + quant
+        String query = "SELECT * FROM farmacia f INNER JOIN stockfarmacia s ON s.farmacianif = f.nif AND s.stock >= " + quant
                 + "INNER JOIN produto p ON s.produtoidproduto = p.idProduto AND p.idProduto =" + p.getId();
 
         try ( Statement stm = getConnection().createStatement()) {
