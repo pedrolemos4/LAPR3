@@ -265,21 +265,13 @@ public class EncomendaDB extends DataHandler {
         return false;
     }
 
-    public boolean updateEncomenda(Encomenda encomenda) throws SQLException, ParseException {
+    public boolean updateEncomenda(int idEncomenda, int estado) throws SQLException, ParseException {
         boolean updated = false;
 
-        try (CallableStatement callSmt = getConnection().prepareCall("{ call updateEncomenda(?,?,?,?,?,?,?) }")) {
+        try (CallableStatement callSmt = getConnection().prepareCall("{ call updateEncomenda(?,?) }")) {
 
-            callSmt.setInt(1, encomenda.getId());
-            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-            java.util.Date date = sdf1.parse(encomenda.getDataPedida());
-            java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
-            callSmt.setTimestamp(2, sqlStartDate);
-            callSmt.setDouble(3, encomenda.getPreco());
-            callSmt.setDouble(4, encomenda.getPesoEncomenda());
-            callSmt.setDouble(5, encomenda.getTaxa());
-            callSmt.setDouble(6, encomenda.getEstado().getEstado());
-            callSmt.setDouble(7, encomenda.getNif());
+            callSmt.setInt(2, estado);
+            callSmt.setInt(1, idEncomenda);
 
             callSmt.execute();
 

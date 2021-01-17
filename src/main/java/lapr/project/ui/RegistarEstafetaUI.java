@@ -72,7 +72,7 @@ public class RegistarEstafetaUI {
      * Menu da interface cliente
      */
     public static void textoMenuEstafeta() {
-        System.out.println("\nRIDE SHARING - Menu Cliente\n------------"
+        System.out.println("\nRIDE SHARING - Menu Estafeta\n------------"
                 + "\n 1 - Realizar entrega"/*
                 + "\n 2 - Find parks near me"
                 + "\n 3 - Check rentals history"

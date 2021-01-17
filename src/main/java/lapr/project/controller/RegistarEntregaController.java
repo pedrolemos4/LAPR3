@@ -117,8 +117,8 @@ public class RegistarEntregaController {
         return entregaDB.getDuracaoPercurso(finalShortPath, veiculo);
     }
     
-    public boolean updateEncomenda(Encomenda encomenda) throws SQLException, ParseException{
-        return (encomendaDB.updateEncomenda(encomenda) ? (true) : (false));
+    public boolean updateEncomenda(int idEncomenda, int estado) throws SQLException, ParseException{
+        return (encomendaDB.updateEncomenda(idEncomenda, estado) ? (true) : (false));
     }
     
     public boolean updateEntrega(Entrega entrega) throws SQLException, ParseException{

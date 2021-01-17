@@ -375,8 +375,8 @@ public class RegistarEntregaControllerTest {
         System.out.println("updateEncomenda1");
         Encomenda encomenda = new Encomenda(123456789, "12/01/2015", 51, 74, 85, 7);
         boolean expResult = false;
-        when(encomendaDB.updateEncomenda(encomenda)).thenReturn(expResult);
-        boolean result = instance.updateEncomenda(encomenda);
+        when(encomendaDB.updateEncomenda(encomenda.getId(),3)).thenReturn(expResult);
+        boolean result = instance.updateEncomenda(encomenda.getId(),3);
         assertEquals(expResult, result);
 
     }
@@ -389,8 +389,8 @@ public class RegistarEntregaControllerTest {
         System.out.println("updateEncomenda2");
         Encomenda encomenda = new Encomenda(123456789, "12/01/2015", 51, 74, 85, 7);
         boolean expResult = true;
-        when(encomendaDB.updateEncomenda(encomenda)).thenReturn(expResult);
-        boolean result = instance.updateEncomenda(encomenda);
+        when(encomendaDB.updateEncomenda(encomenda.getId(),3)).thenReturn(expResult);
+        boolean result = instance.updateEncomenda(encomenda.getId(),3);
         assertEquals(expResult, result);
 
     }
@@ -405,6 +405,20 @@ public class RegistarEntregaControllerTest {
         Cliente expResult = new Cliente(nif, 12, "fg", 15);
         when(utilizadorDB.getByID(nif)).thenReturn(expResult);
         Utilizador result = instance.getUtilizadorByNif(nif);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of getEncomenda method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetEncomenda() {
+        System.out.println("getEncomenda");
+        int id = 1;
+        Encomenda expResult = new Encomenda(123456789, "12/01/2015", 51, 74, 85, 7);
+        when(encomendaDB.getEncomenda(id)).thenReturn(expResult);
+        Encomenda result = instance.getEncomenda(id);
         assertEquals(expResult, result);
 
     }

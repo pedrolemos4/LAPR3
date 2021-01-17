@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import lapr.project.controller.EnviarNotaTransferenciaController;
 import lapr.project.controller.PedirItemFarmaciaController;
 import lapr.project.controller.RealizaEncomendaController;
 import lapr.project.data.*;
@@ -32,10 +33,12 @@ public class RealizarEncomendaUI {
 
     RealizaEncomendaController controller;
     PedirItemFarmaciaController controller2;
+    EnviarNotaTransferenciaController controller3;
 
     public RealizarEncomendaUI() {
         controller = new RealizaEncomendaController(new ProdutosDB(), new EncomendaDB(), new ReciboDB(), new ClienteDB(), new EmailDB());
         controller2 = new PedirItemFarmaciaController(new FarmaciaDB(), new TransferenciaDB(), new EmailDB());
+        controller3 = new EnviarNotaTransferenciaController(new EmailDB());
     }
 
     public void introduzEncomenda() throws SQLException, ParseException, ClassNotFoundException {
@@ -97,6 +100,8 @@ public class RealizarEncomendaUI {
                     nif1 = controller2.getFarmaciaProxima(generateGrafo, nif);
                     if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).get(prod)>=qntd) {
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
+                        controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
+                        controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(nif).getEmail(), controller2.getFarmaciaByNIF(nif1).getEmail());
                         controller.produtoEncomenda(nif1, prod, qntd);
                         qntd = 0;
                         break;
@@ -104,6 +109,7 @@ public class RealizarEncomendaUI {
                     }
                     if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).get(prod)<qntd) {
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
+                        controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
                         controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(nif).getEmail(), controller2.getFarmaciaByNIF(nif1).getEmail());
                         qntd = qntd - controller.getListStock(nif1).get(prod);
                         controller.produtoEncomenda(nif1, prod, qntd);

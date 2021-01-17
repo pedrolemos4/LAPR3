@@ -108,8 +108,7 @@ public class RegistarEntregaUI {
                 Utilizador u = controller.getUtilizadorByNif(c.getClienteNIF());
                 listEnderecos.add(end);
                 controller.enviarNotaCliente(farmacia, u);
-                Encomenda encomenda = new Encomenda(e.getNif(), e.getDataPedida(),e.getPreco(),e.getPesoEncomenda(),e.getTaxa(),3);
-                controller.updateEncomenda(encomenda);
+                controller.updateEncomenda(e.getId(),3);
             }
             
             Graph<Endereco,Double> graph = controller.generateGraph(listEnderecos, est, veiculo, pesoTotal);
@@ -126,10 +125,9 @@ public class RegistarEntregaUI {
             
             controller.updateEntrega(entrega);
             
-            System.out.println("Veículo atualizado com sucesso.");
             System.out.println("\n\nEntrega adicionada com sucesso");
             System.out.println("\n\nCaminho com menor energia gasta: " + finalShortPath);
-            System.out.println("\n\nEnergia gasta: '" + energiaTotalGasta);
+            System.out.println("\n\nEnergia gasta: " + energiaTotalGasta);
             
             
         }
