@@ -124,5 +124,9 @@ public class RegistarEntregaController {
     public boolean updateEntrega(Entrega entrega) throws SQLException, ParseException{
         return (entregaDB.updateEntrega(entrega) ? (true) : (false));
     }
+
+    public Encomenda getEncomenda(int id) {
+        return encomendaDB.getEncomenda(id);
+    }
     
 }

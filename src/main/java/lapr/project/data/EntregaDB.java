@@ -29,6 +29,8 @@ import oracle.jdbc.OracleTypes;
  * @author beatr
  */
 public class EntregaDB extends DataHandler {
+    
+    private EncomendaDB encDB = new EncomendaDB();
 
     public int addEntrega(Entrega entrega) throws SQLException, ParseException {
 
@@ -172,7 +174,7 @@ public class EntregaDB extends DataHandler {
         int aux = 0;
         for (Endereco end : listEnderecos) {
             if (aux < i && listEnderecos.size() > 2) {
-                Encomenda enc1 = getEncomendaByMorada(listEnderecos.get(aux).getMorada());
+                Encomenda enc1 = getEncomendaByMorada(listEnderecos.get(aux).getMorada()); //mal provavelmente
                 if((veiculo.getTipo()).equalsIgnoreCase("scooter")){
                     energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
                     graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
@@ -182,7 +184,8 @@ public class EntregaDB extends DataHandler {
                     graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
                 }
                 aux = aux + 1;
-                pesoTotalEntrega = pesoTotalEntrega - enc1.getPesoEncomenda();
+                System.out.println("enc1: ");
+                pesoTotalEntrega = pesoTotalEntrega - encDB.getEncomenda(enc1.getNif()).getPesoEncomenda();
             }
         }
         return graph;
@@ -219,7 +222,7 @@ public class EntregaDB extends DataHandler {
     }
 
     public Encomenda getEncomendaByMorada(String morada) {
-        String query = "SELECT * FROM encomenda e INNER JOIN cliente c ON e.ClienteUtilizadorNIF = c.UtilizadorNIF WHERE c.Enderecomorada = " + morada;
+        String query = "SELECT * FROM encomenda e INNER JOIN cliente c ON e.ClienteUtilizadorNIF = c.UtilizadorNIF WHERE c.Enderecomorada = '" + morada+"'";
 
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {

@@ -42,12 +42,26 @@ public class EncomendaDB extends DataHandler {
      * @param nif
      * @return
      */
-    public Encomenda getEncomenda(int nif) {
-        for (int i = 0; i < getListaEncomenda().size(); i++) {
-            Encomenda get = getListaEncomenda().get(i);
-            if (get.getNif() == nif) {
-                return get;
+    public Encomenda getEncomenda(int id) {
+        String query = "SELECT * FROM encomenda WHERE idEncomenda = "+id;
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
+
+                while (rSet.next()) {
+                    int idEncomenda = rSet.getInt(1);
+                    Timestamp dataPedida = rSet.getTimestamp(2);
+                    double preco = rSet.getDouble(3);
+                    double pesoEncomenda = rSet.getDouble(4);
+                    double taxa = rSet.getDouble(5);
+                    int estado = rSet.getInt(6);
+                    int nif = rSet.getInt(7);
+                    Encomenda e = new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado);
+                    e.setId(idEncomenda);
+                    return e;
+                }
             }
+        } catch (SQLException e) {
+            Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
         return null;
     }
@@ -112,7 +126,7 @@ public class EncomendaDB extends DataHandler {
         int id = 0;
         openConnection();
 
-        try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addEncomenda(?,?,?,?,?,?) }")) {
+        try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addEncomenda(?,?,?,?,?,?) }")) {
 
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -146,27 +160,26 @@ public class EncomendaDB extends DataHandler {
      * @param p
      * @return
      */
-    public boolean registaEncomendaProduto(Encomenda enc, Produto p,int stock) {
+    public boolean registaEncomendaProduto(Encomenda enc, Produto p, int stock) {
         if (validaEncomenda(enc)) {
-            return registaEncomendaProduto(enc.getId(), p.getId(),stock);
+            return registaEncomendaProduto(enc.getId(), p.getId(), stock);
         }
         return false;
     }
 
-    private boolean registaEncomendaProduto(int enc, int p,int stock) {
+    private boolean registaEncomendaProduto(int enc, int p, int stock) {
         boolean aux = false;
         try {
             openConnection();
 
-            try ( CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?,?) }")) {
+            try (CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?,?) }")) {
 
-               
                 callStmt1.setInt(1, enc);
                 callStmt1.setInt(2, p);
                 callStmt1.setInt(3, stock);
 
                 callStmt1.execute();
-                aux=true;
+                aux = true;
             }
             closeAll();
 
@@ -200,8 +213,8 @@ public class EncomendaDB extends DataHandler {
 
     public List<Encomenda> getFromDatabase(String query) {
         ArrayList<Encomenda> list = new ArrayList<>();
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int idEncomenda = rSet.getInt(1);
@@ -242,21 +255,21 @@ public class EncomendaDB extends DataHandler {
     }
 
     public boolean geraCreditos(Cliente c, double precoTotal) {
-        
-        if(precoTotal>50 && precoTotal<100){
-            return cliDB.addCreditos(c,precoTotal/5);
+
+        if (precoTotal > 50 && precoTotal < 100) {
+            return cliDB.addCreditos(c, precoTotal / 5);
         }
-        if(precoTotal>100){
-            return cliDB.addCreditos(c,precoTotal/3);
+        if (precoTotal > 100) {
+            return cliDB.addCreditos(c, precoTotal / 3);
         }
         return false;
     }
-    
+
     public boolean updateEncomenda(Encomenda encomenda) throws SQLException, ParseException {
         boolean updated = false;
 
-        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateEncomenda(?,?,?,?,?,?,?) }")) {
-                        
+        try (CallableStatement callSmt = getConnection().prepareCall("{ call updateEncomenda(?,?,?,?,?,?,?) }")) {
+
             callSmt.setInt(1, encomenda.getId());
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             java.util.Date date = sdf1.parse(encomenda.getDataPedida());
@@ -283,6 +296,5 @@ public class EncomendaDB extends DataHandler {
         return updated;
 
     }
-    
 
 }

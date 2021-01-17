@@ -102,7 +102,7 @@ public class RegistarEntregaUI {
             double pesoTotal = 0;
             
             for(Encomenda e : listEncomendaByEntrega){
-                pesoTotal = pesoTotal + e.getPesoEncomenda();
+                pesoTotal = pesoTotal + controller.getEncomenda(e.getId()).getPesoEncomenda();
                 Endereco end = controller.getEnderecoByNifCliente(e.getNif());
                 Cliente c = controller.getClienteByEndereco(end);
                 Utilizador u = controller.getUtilizadorByNif(c.getClienteNIF());

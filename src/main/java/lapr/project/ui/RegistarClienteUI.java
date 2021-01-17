@@ -10,6 +10,7 @@ import lapr.project.data.CartaoDB;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EnderecoDB;
 import lapr.project.data.UtilizadorDB;
+import lapr.project.login.UserSession;
 import lapr.project.model.Cartao;
 import lapr.project.model.Cliente;
 import lapr.project.model.Endereco;
@@ -142,6 +143,7 @@ public class RegistarClienteUI {
                     realizarEncomenda();
                     break;
                 case "0":
+                    UserSession.getInstance().doLogout();
                     loginUI.menu();
                     break;
                 default:

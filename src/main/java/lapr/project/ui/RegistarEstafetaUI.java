@@ -9,6 +9,7 @@ import lapr.project.model.*;
 import java.util.List;
 import java.util.Scanner;
 import lapr.project.data.UtilizadorDB;
+import lapr.project.login.UserSession;
 import static lapr.project.ui.AdminUI.loginUI;
 
 public class RegistarEstafetaUI {
@@ -101,6 +102,7 @@ public class RegistarEstafetaUI {
                     realizarEntrega();
                     break;
                 case "0":
+                    UserSession.getInstance().doLogout();
                     loginUI.menu();
                     break;
                 default:
