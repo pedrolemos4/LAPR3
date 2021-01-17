@@ -97,6 +97,11 @@ public class RealizarEncomendaUI {
                     }
                     System.out.println("Depois do is empty");
                     Graph<Farmacia, Double> generateGrafo = controller2.generateGrafo(farms);
+                    System.out.println("");
+                    System.out.println("");
+                    System.out.println("Grafo: "+generateGrafo.toString());
+                    System.out.println("");
+                    System.out.println("");
                     nif1 = controller2.getFarmaciaProxima(generateGrafo, nif);
                     if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).get(prod)>=qntd) {
                         System.out.println("102");
