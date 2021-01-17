@@ -29,8 +29,9 @@ class Produto {
 
 class Farmacia {
   -NIF
+  -email
+  -morada
 }
-
 
 class Estacionamento {
   -numeroLote
@@ -97,6 +98,15 @@ class Cliente {
   -password
 }
 
+class TransferenciaProduto {
+  -idTransferencia
+  -quantidade
+}
+
+class EstadoTransferencia {
+  -id
+  -designacao
+}
 
 Encomenda "1" -- "1" EstadoEncomenda : tem >
 Entrega "1" -- "*" Encomenda : possui >
@@ -123,5 +133,8 @@ Parque "1" -- "*" Estacionamento: tem >
 Estacionamento "1" -- "1" Scooter: tem >
 Farmacia "1" -- "*" Estafeta: tem >
 Farmacia "1" -- "1" Administrador: tem >
+Farmacia "1" -- "*" TransferenciaProduto: realiza >
+TransferenciaProduto "1" -- "*" EstadoTransferencia: tem >
+TransferenciaProduto "1" -- "1" Produto: referente a >
 
 @enduml
