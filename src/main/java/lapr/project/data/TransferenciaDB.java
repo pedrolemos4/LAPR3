@@ -6,7 +6,6 @@ import lapr.project.model.Produto;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.Map;
-import oracle.jdbc.OracleTypes;
 
 public class TransferenciaDB extends DataHandler {
 
@@ -40,7 +39,7 @@ public class TransferenciaDB extends DataHandler {
             e.printStackTrace();
         }
     }
-                            //987654322       333666999
+
     public boolean enviarStock(Farmacia fOrig, Farmacia fDest, Produto produto, int quantidade) {
         Map<Produto, Integer> stockFarmOrig = pdb.getLista(fOrig.getNIF());
         Map<Produto, Integer> stockFarmDest = pdb.getLista(fDest.getNIF());
@@ -57,10 +56,7 @@ public class TransferenciaDB extends DataHandler {
             System.out.println("Orig: "+(stockFarmOrig.get(produto)));
             pdb.atualizarStock(fOrig.getNIF(), produto.getId(), stockFarmOrig.get(produto));
             return true;
-        } /*else {
-            stockFarmDest.put(produto, quantidade);
-            pdb.addProdutoStock(fDest.getNIF(), produto.getId(), quantidade);
-        }*/
+        }
 
         return false;
     }

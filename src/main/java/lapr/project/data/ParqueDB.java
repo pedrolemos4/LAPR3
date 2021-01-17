@@ -25,7 +25,6 @@ public class ParqueDB extends DataHandler {
      * Cria um novo parque
      *
      * @param nif nif do parque/farmácia
-     * @param morada morada do parque
      * @param numMax limite máximo de veiculos do parque
      * @param tipo tipo de veículos do parque
      * @return novo parque criado
