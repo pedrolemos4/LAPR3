@@ -11,8 +11,7 @@ import lapr.project.model.Veiculo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.FileNotFoundException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -37,7 +36,7 @@ class EstacionamentoControllerTest {
     }
 
     @Test
-    void checkParkingsTrue() {
+    void checkParkingsTrue() throws FileNotFoundException {
         System.out.println("checkParkingsTrue()");
 
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
@@ -62,7 +61,7 @@ class EstacionamentoControllerTest {
     }
 
     @Test
-    void checkParkingsFalse() {
+    void checkParkingsFalse() throws FileNotFoundException {
         System.out.println("checkParkingsFalse()");
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
         Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
@@ -87,7 +86,7 @@ class EstacionamentoControllerTest {
     }
 
     @Test
-    void simulateParkingVeiculo1() {
+    void simulateParkingVeiculo1() throws FileNotFoundException {
         System.out.println("simulateParkingVeiculo1()");
 
         Estafeta estafeta = new Estafeta(0, "nome", "rodrikcraft@gmail.com", 0, 0, "password", 0);
@@ -135,13 +134,15 @@ class EstacionamentoControllerTest {
 
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
 
-        assertEquals(false,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste"));
-
-
+        try {
+            assertEquals(false,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    void simulateParkingVeiculo3() {
+    void simulateParkingVeiculo3() throws FileNotFoundException {
         System.out.println("simulateParkingVeiculo3()");
 
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
@@ -167,7 +168,7 @@ class EstacionamentoControllerTest {
     }
 
     @Test
-    void simulateParkingVeiculo4() {
+    void simulateParkingVeiculo4() throws FileNotFoundException {
         System.out.println("simulateParkingVeiculo4()");
         Estafeta estafeta = new Estafeta(0, "nome", "rodrikcraft@gmail.com", 0, 0, "password", 0);
         Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
@@ -187,7 +188,7 @@ class EstacionamentoControllerTest {
     }
 
     @Test
-    void simulateParkingVeiculo5() {
+    void simulateParkingVeiculo5(){
         System.out.println("simulateParkingVeiculo5()");
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
         Entrega entrega = new Entrega("String dataInicio",null, 0, 0);
@@ -203,16 +204,15 @@ class EstacionamentoControllerTest {
 
         when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
 
-        ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStreamCaptor));
-
-        instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2022_02_02_02_02_02.data");
-
-        assertEquals("Ficheiro não encontrado", outputStreamCaptor.toString().trim());
+        try {
+            assertEquals(false,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2022_02_02_02_02_02.data"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    void simulateParkingVeiculo6() {
+    void simulateParkingVeiculo6() throws FileNotFoundException {
         System.out.println("simulateParkingVeiculo6()");
 
         Estafeta estafeta = new Estafeta(0, "nome", "rodrikcraft@gmail.com", 0, 0, "password", 0);

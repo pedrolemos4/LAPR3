@@ -29,25 +29,23 @@ public class EstacionamentoController {
         this.veiculoDB = veiculoDB;
     }
 
-    public boolean checkParkings(String path) {
+    public boolean checkParkings(String path) throws FileNotFoundException{
         String estimatePath = getDiretory(path);
         path = path + "/" + estimatePath;
         return simulateParkingVeiculo(path);
     }
 
-    public boolean simulateParkingVeiculo(String path){
+    public boolean simulateParkingVeiculo(String path) throws FileNotFoundException{
         File newFile = new File(path);
-        Scanner scan = null;
-        try {
-            scan = new Scanner(newFile);
-        } catch (FileNotFoundException e) {
-            System.out.println("Ficheiro não encontrado");
-            return false;
-        }
+        Scanner scan = new Scanner(newFile);
+
         String fileName = newFile.getName();
         String date = fileName.substring(8,18);
 
         String line = scan.nextLine();
+
+        scan.close();
+
         String[] itens = line.split(",");
 
         int estimativa = Integer.parseInt(itens[0]);
