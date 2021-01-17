@@ -39,18 +39,18 @@ class EnderecoDB {
 
 class ParqueDB {
   +Parque novoParque(Integer NIF, Integer numeroMaximo, String tipo)
-  +registaParque(Parque parque)
+  +registaParques(List<Parque> lparks)
   +validaParque(Parque parque)
   -addParque(Parque parque)
 }
 
 class RegistarFarmaciaController {
+  +novoParque(Integer NIF, Integer numeroMaximo, String tipo)
   +novaFarmacia(NIF, email, morada)
   +novoEndereco(morada, latitude, longitude, altitude)
-  +novoParque(Integer NIF, Integer numeroMaximo, String tipo)
-  +registaFarmacia(farm)
   +registaEndereco(end)
-  +registaParque(parque)
+  +registaFarmacia(farm)
+  +registaParques(lparks)
 }
 
 class RegistarFarmaciaUI {

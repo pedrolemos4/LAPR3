@@ -14,11 +14,22 @@ participant "end:Endereco" as END
 activate ADM
 ADM -> UI : inicia a criação de uma nova farmácia
 activate UI
-UI --> ADM : solicita dados da farmácia (NIF, email, morada), endereço do farmácia \n(morada, latitude, longitude e altitude) e dados do parque (número máximo e tipo)
+UI --> ADM : solicita dados da farmácia (NIF, email, morada), endereço do farmácia \n(morada, latitude, longitude e altitude) e quantidade de parques
 deactivate UI
 
 ADM -> UI : introduz os dados solicitados
 activate UI
+
+loop
+UI -> CTRL : novoParque(NIF, numeroMaximo, tipo)
+activate CTRL
+CTRL -> PDB: parque=novoParque(NIF, numeroMaximo, tipo)
+activate PDB
+PDB --> PQ ** : create(NIF, numeroMaximo, tipo)
+deactivate PDB
+deactivate CTRL
+end loop
+
 UI -> CTRL : novaFarmacia(NIF, email, morada)
 activate CTRL
 
@@ -36,29 +47,11 @@ EDB --> END ** : create(morada, latitude, logitude, altitude)
 deactivate EDB
 deactivate CTRL
 
-UI -> CTRL : novoParque(NIF, numeroMaximo, tipo)
-activate CTRL
-CTRL -> PDB: parque=novoParque(NIF, numeroMaximo, tipo)
-activate PDB
-PDB --> PQ ** : create(NIF, numeroMaximo, tipo)
-deactivate PDB
-
-deactivate CTRL
 UI --> ADM : apresenta dados e solicita confirmação
 deactivate UI
 
 ADM -> UI : confirma
 activate UI
-
-UI -> CTRL: registaFarmacia(farm)
-activate CTRL
-CTRL ->DB: registaFarmacia(farm)
-activate DB
-DB -> DB: validaFarmacia(farm)
-DB -> DB: addFarmacia(farm)
-
-deactivate DB
-deactivate CTRL
 
 UI -> CTRL: registaEndereco(end)
 activate CTRL
@@ -70,9 +63,20 @@ EDB -> EDB: addEndereco(end)
 deactivate EDB
 deactivate CTRL
 
-UI -> CTRL: registaParque(parque)
+UI -> CTRL: registaFarmacia(farm)
 activate CTRL
-CTRL ->PDB: registaParque(parque)
+CTRL ->DB: registaFarmacia(farm)
+activate DB
+DB -> DB: validaFarmacia(farm)
+DB -> DB: addFarmacia(farm)
+
+deactivate DB
+deactivate CTRL
+
+
+UI -> CTRL: registaParques(lparks)
+activate CTRL
+CTRL ->PDB: registaParques(lparks)
 activate PDB
 PDB -> PDB: validaParque(parque)
 PDB -> PDB: addParque(parque)
