@@ -1,0 +1,21 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class VeiculoDB {
+  +List<Drone> getDroneList()
+  +boolean removeVeiculo(int id)
+}
+
+class VeiculoController {
+    +List<Drone> getDroneList()
+    +boolean removeVeiculo(int id)
+}
+
+class AdminUI {
+}
+
+
+AdminUI ..> VeiculoController 
+
+VeiculoController ..> VeiculoDB
+@enduml

@@ -4,11 +4,15 @@ hide methods
 left to right direction
 
 class Parque {
+  -idParque
   -numeroMaximo
+  -tipo
 }
 
 class Farmacia {
   -NIF
+  -email
+  -morada
 }
 
 class Utilizador {
@@ -20,11 +24,11 @@ class Utilizador {
 }
 
 class Drone {
-  -idDrone
-  -descricao
   -percentagemBateria
-  -pesoDrone
   -pesoMaximo
+  -pesoVeiculo
+  -potencia
+  -areaFrontal
 }
 
 Administrador "1" -- "1" Utilizador: atua como >
