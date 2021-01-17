@@ -6,12 +6,6 @@ activate FARM
 FARM -> ":Sistema" : Pretende pedir item a outra farmácia
 activate ":Sistema"
 
-":Sistema" --> FARM : solicita dados do item a pedir (designacao, peso)
-deactivate ":Sistema"
-
-FARM -> ":Sistema" : introduz os dados solicitados
-activate ":Sistema"
-
 ":Sistema" --> FARM : mostra a farmácia mais próxima com o item desejado\n e pede confirmação para realizar o pedido
 deactivate ":Sistema"
 

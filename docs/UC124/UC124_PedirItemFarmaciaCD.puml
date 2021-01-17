@@ -1,47 +1,44 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class Produto {
-  -Integer id
-  -String desig
-  -Double peso
-  -Double preco_base
-  +Produto(desig,peso,preco_base)
+class TransferenciaProduto {
+  -Integer idTransferencia
+  -Integer quantidade
 }
 
-class ProdutosDB {
-  +getListaProdutos()
+class TransferenciaDB {
+  +addTransferencia(fOrig,fDest,prod,qtd)
+  +enviaStock(fOrig,fDest,prod,qtd)
 }
 
 class Farmacia {
   -Integer nif
-  +Farmacia(nif)
+  -String email
+  -String morada
+  +Farmacia(nif,email,morada)
 }
 
 class FarmaciaDB {
-  +getFarmacia(desig,peso,precoBase,quantidade)
-  +validaFarmacia(farm)
-  +realizaPedido(farm)
-  +validaPedido(farm)
-  +enviaPeiddo(farm)
+  +getLstFarmaciasByProdutos(p,quant)
+  +generateGrafo(farms)
+  +getFarmaciaProxima(grafo,nif)
 }
 
 class PedirItemFarmaciaController {
-    +realizaPedido(farm)
-    +getFarmacia(desig,peso,preco_base,quantidade)
-    +getListaProdutos()
+    +getListaFarmaciaByProduto(prod,qntd)
+    +realizaPedido(fOrig,fDest,prod,qtd)
 }
 
-class PedirItemFarmaciaUI {
+class RealizaEncomendaUI {
 }
 
-PedirItemFarmaciaUI ..> PedirItemFarmaciaController
-PedirItemFarmaciaController ..> ProdutosDB
-PedirItemFarmaciaController ..> Produto
+RealizaEncomendaUI ..> PedirItemFarmaciaController
+PedirItemFarmaciaController ..> TransferenciaDB
+PedirItemFarmaciaController ..> TransferenciaProduto
 PedirItemFarmaciaController ..> FarmaciaDB
 PedirItemFarmaciaController ..> Farmacia
 
-ProdutosDB "1" --> "*" Produto : tem registados
-FarmaciaDB "1" --> "*" Farmacia : tem registadas
+FarmaciaDB "1" --> "*" Farmacia : tem registados
+TransferenciaDB "1" --> "*" TransferenciaProduto : tem registadas
 
 @enduml

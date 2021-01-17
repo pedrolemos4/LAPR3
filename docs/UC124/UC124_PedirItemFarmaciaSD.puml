@@ -2,58 +2,49 @@
 autonumber
 
 actor "Administrador" as ADM
-participant ":PedirItemFarmaciaUI" as UI
+participant ":RealizaEncomendaUI" as UI
 participant ":PedirItemFarmaciaController" as CTL
-participant ":ProdutosDB" as PDB
 participant ":FarmaciaDB" as FDB
+participant ":TransferenciaDB" as TDB
 
 activate ADM
 ADM -> UI : novo pedido de produto
 activate UI
-UI -> CTL : getListaProdutos()
+UI -> CTL : getListaFarmaciaByProduto(prod, qntd)
 activate CTL
 
-CTL -> PDB : lp = getListaProdutos()
-activate PDB
-deactivate PDB
-
-deactivate CTL
-
-UI --> ADM : solicita dados do item (designacao,peso,preco base,quantidade)
-deactivate UI
-
-ADM -> UI : introduz os dados solicitados
-activate UI
-UI -> CTL : getFarmacia(desig,peso,preco_base,quantidade)
-activate CTL
-
-CTL -> FDB: farm = getFarmacia(desig,peso,preco_base,quantidade)
+CTL -> FDB: farms = getLstFarmaciasByProdutos(p, quant)
 activate FDB
 
 deactivate FDB
 
-CTL -> FDB : validaFarmacia(farm)
+CTL -> FDB : grafo = generateGrafo(farms)
+activate FDB
+deactivate FDB
+
+CTL -> FDB : fDest = getFarmaciaProxima(grafo,nif)
 activate FDB
 deactivate FDB
 
 deactivate CTL
 
-UI --> ADM : apresenta farmácia mais próxima com o item e solitica confirmação
+UI --> ADM : apresenta farmácia mais próxima com o produto e solitica confirmação
 deactivate UI
 ADM -> UI : confirma
 activate UI
-UI -> CTL : realizaPedido(farm)
+UI -> CTL : realizaPedido(fOrig,fDest,prod,qtd)
 
 activate CTL
-CTL -> FDB :realizaPedido(farm)
+CTL -> TDB :realizaPedido(fOrig,fDest,prod,qtd)
 
-activate FDB
-FDB -> FDB : validaPedido(farm)
+activate TDB
+TDB -> TDB : addTransferencia(fOrig,fDest,prod,qtd)
 
-FDB -> FDB : enviaPedido(farm)
-deactivate FDB
+TDB -> TDB : enviaStock(fOrig,fDest,prod,qtd)
+deactivate TDB
 deactivate CTL
 UI --> ADM: informa sucesso da operação
 
+deactivate UI
 deactivate ADM
 @enduml
