@@ -1,0 +1,30 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class VeiculoDB {
+  +void addVeiculo(String descricao,double percentagemBateria,double pesoMaximo, double pesoDrone,double potencia, double areaFrontal,int estado)
+  +Veiculo newVeiculo(String descricao,double percentagemBateria,double pesoMaximo, double pesoDrone,double potencia, double areaFrontal,int estado)
+  +VeiculoDB veiculoDB(Veiculo veiculo)
+  +scooterHandler(Scooter scooter)
+  +boolean validaScooter(Veiculo veiculo)
+  +boolean addVeiculo(Veiculo veiculo)
+}
+
+class VeiculoController {
+    +void addVeiculo(String descricao,double percentagemBateria,double pesoMaximo, double pesoDrone,double potencia, double areaFrontal,int estado)
+    +droneDB()
+}
+
+class AdminUI {
+}
+
+class Veiculo {
+   +Drone (String descricao,double percentagemBateria,double pesoMaximo, double pesoDrone,double potencia, double areaFrontal,int estado)
+}
+
+AdminUI ..> VeiculoController 
+
+VeiculoController ..> VeiculoDB
+VeiculoDB ..> Veiculo
+@enduml
+
