@@ -17,6 +17,7 @@ import lapr.project.data.EnderecoDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
 import lapr.project.data.FarmaciaDB;
+import lapr.project.data.UtilizadorDB;
 import lapr.project.data.VeiculoDB;
 import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
@@ -25,6 +26,7 @@ import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Farmacia;
 import lapr.project.model.Graph;
+import lapr.project.model.Utilizador;
 import lapr.project.model.Veiculo;
 
 /**
@@ -37,7 +39,7 @@ public class RegistarEntregaUI {
     public final RegistarEntregaController controller;
 
     public RegistarEntregaUI() {
-        this.controller = new RegistarEntregaController(new FarmaciaDB(), new EstafetaDB(),new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
+        this.controller = new RegistarEntregaController(new UtilizadorDB(), new FarmaciaDB(), new EstafetaDB(),new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
     }
     
     public void introduzEntrega() throws SQLException, ParseException {
@@ -64,10 +66,10 @@ public class RegistarEntregaUI {
         Estafeta est = controller.getEstafeta();
         int nifEstafeta = est.getNIF();
         
-        SimpleDateFormat formatter= new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date date = new Date(System.currentTimeMillis());
         String dataInicio = formatter.format(date);
-        String dataFim = null;
+        String dataFim = "0000-00-00 00:00:00.000";
         
         double pesoMaximoPorEntrega = veiculo.getPesoMaximo();
         double pesoEntrega = 0;
@@ -103,8 +105,9 @@ public class RegistarEntregaUI {
                 pesoTotal = pesoTotal + e.getPesoEncomenda();
                 Endereco end = controller.getEnderecoByNifCliente(e.getNif());
                 Cliente c = controller.getClienteByEndereco(end);
+                Utilizador u = controller.getUtilizadorByNif(c.getClienteNIF());
                 listEnderecos.add(end);
-                controller.enviarNotaCliente(farmacia, c);
+                controller.enviarNotaCliente(farmacia, u);
                 Encomenda encomenda = new Encomenda(e.getNif(), e.getDataPedida(),e.getPreco(),e.getPesoEncomenda(),e.getTaxa(),3);
                 controller.updateEncomenda(encomenda);
             }
@@ -124,8 +127,8 @@ public class RegistarEntregaUI {
             controller.updateEntrega(entrega);
             
             System.out.println("Veículo atualizado com sucesso.");
-            System.out.println("\n\nEntrega adicionada com sucesso'");
-            System.out.println("\n\nCaminho com menor energia gasta: '" + finalShortPath);
+            System.out.println("\n\nEntrega adicionada com sucesso");
+            System.out.println("\n\nCaminho com menor energia gasta: " + finalShortPath);
             System.out.println("\n\nEnergia gasta: '" + energiaTotalGasta);
             
             

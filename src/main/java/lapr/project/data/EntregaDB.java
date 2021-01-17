@@ -30,19 +30,23 @@ import oracle.jdbc.OracleTypes;
  */
 public class EntregaDB extends DataHandler {
 
-    public int addEntrega(Entrega entrega) throws SQLException {
+    public int addEntrega(Entrega entrega) throws SQLException, ParseException {
 
         int id = 0;
 
         try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call AddEntrega(?,?,?,?) }")) {
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
-            Timestamp dInicio = Timestamp.valueOf(entrega.getDataInicio());
-            callStmt.setTimestamp(4, dInicio);
-            Timestamp dFim = Timestamp.valueOf(entrega.getDataFim());
-            callStmt.setTimestamp(5, dFim);
+            
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            java.util.Date date = sdf1.parse(entrega.getDataInicio());
+            java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
+            callStmt.setTimestamp(4, sqlStartDate);       
+            java.util.Date date1 = sdf1.parse(entrega.getDataFim());
+            java.sql.Timestamp sqlEndDate = new java.sql.Timestamp(date1.getTime());
+            callStmt.setTimestamp(5, sqlEndDate);
             callStmt.setInt(3, entrega.getIdVeiculo());
             callStmt.setInt(2, entrega.getidEstafeta());
-
+            System.out.println("NIF: " +entrega.getidEstafeta());
             callStmt.execute();
             id = callStmt.getInt(1);
             try {
@@ -62,7 +66,6 @@ public class EntregaDB extends DataHandler {
         boolean flag = false;
         
         try ( CallableStatement callSmt = getConnection().prepareCall("{ call AddEncomendaEntrega(?,?) }")) {
-
                 callSmt.setInt(1, e.getIdEntrega());
                 callSmt.setInt(2, enc.getId());
 

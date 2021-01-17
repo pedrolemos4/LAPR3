@@ -60,7 +60,7 @@ public class VeiculoDB extends DataHandler {
      */
     public List<Veiculo> getListaVeiculo() {
         ArrayList<Veiculo> list = new ArrayList<>();
-        String query = "SELECT * FROM veiculo WHERE EstadoVeiculoid = 1 AND percentagemBateria = 100 AND tipo = 'Scooter'";
+        String query = "SELECT * FROM veiculo WHERE EstadoVeiculoid = 1 AND percentagemBateria = 100 AND tipo = 'scooter'";
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
@@ -76,9 +76,11 @@ public class VeiculoDB extends DataHandler {
                     double potencia = rSet.getDouble(8);
                     double areaFrontal = rSet.getDouble(9);
                     int idEstado = rSet.getInt(10);
-
-                    list.add(new Veiculo(descricao, tipo,capacidade, percentagemBateria,
-                            pesoMaximo,pesoVeiculo, potencia, areaFrontal, idEstado));
+                    
+                    Veiculo v = new Veiculo(descricao, tipo,capacidade, percentagemBateria,
+                            pesoMaximo,pesoVeiculo, potencia, areaFrontal, idEstado);
+                    v.setId(id);
+                    list.add(v);
                 }
                 return list;
             }

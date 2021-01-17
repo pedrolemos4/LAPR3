@@ -58,9 +58,10 @@ public class EstafetaDB extends DataHandler{
     }
 
     public boolean addEstafeta(Estafeta est) {
+        UtilizadorDB userDB = new UtilizadorDB();
+        userDB.addUtilizador(est.getNIF(), est.getNome(), est.getEmail(), est.getNumeroSegurancaSocial(), est.getPassword());
         addEstafeta(est.getNIF(), est.getEstado(), est.getPesoEstafeta());
         lstEstafetas.add(est);
-        addUtilizador(est.getNIF(), est.getNome(), est.getEmail(), est.getNumeroSegurancaSocial(), est.getPassword());
         return true;
     }
 

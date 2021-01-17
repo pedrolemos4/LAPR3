@@ -125,7 +125,7 @@ public class EnderecoDB extends DataHandler {
      * @return endereço do cliente
      */
     public Endereco getEnderecoByNifCliente(int nif) {
-        String query = "SELECT * FROM endereco e INNER JOIN cliente c ON e.morada = c.Enderecomorada WHERE c.UtilizadorNIF = " + nif;
+        String query = "SELECT e.morada, e.latitude, e.longitude, e.altitude FROM endereco e INNER JOIN cliente c ON e.morada = c.Enderecomorada WHERE c.UtilizadorNIF = " + nif;
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {

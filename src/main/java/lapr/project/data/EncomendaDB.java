@@ -211,8 +211,9 @@ public class EncomendaDB extends DataHandler {
                     double taxa = rSet.getDouble(5);
                     int estado = rSet.getInt(6);
                     int nif = rSet.getInt(7);
-
-                    list.add(new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado));
+                    Encomenda e = new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado);
+                    e.setId(idEncomenda);
+                    list.add(e);
                 }
                 return list;
             }

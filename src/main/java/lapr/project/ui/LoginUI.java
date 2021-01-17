@@ -10,9 +10,11 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Scanner;
 import lapr.project.controller.RegistarClienteController;
+import lapr.project.controller.RegistarEstafetaController;
 import lapr.project.data.CartaoDB;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EnderecoDB;
+import lapr.project.data.EstafetaDB;
 import lapr.project.data.UtilizadorDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Utilizador;
@@ -68,6 +70,7 @@ public class LoginUI {
 
         Utilizador utilizador = null;
         RegistarClienteController ctrl = new RegistarClienteController(new ClienteDB(), new UtilizadorDB(), new EnderecoDB(), new CartaoDB());
+        RegistarEstafetaController ctrl1 = new RegistarEstafetaController(new EstafetaDB(), new UtilizadorDB());
         if (email.equalsIgnoreCase(ADMIN_LOGIN) && pwd.equalsIgnoreCase(ADMIN_ACESS)) {
             AdminUI aui = new AdminUI();
             aui.menu();
@@ -75,7 +78,11 @@ public class LoginUI {
             RegistarClienteUI rcui = new RegistarClienteUI();
             UserSession.getInstance().setUser(utilizador);
             rcui.menuCliente();
-        } else {
+        } else if ((utilizador = ctrl1.login(email, pwd)) != null) {
+            RegistarEstafetaUI rest = new RegistarEstafetaUI();
+            UserSession.getInstance().setUser(utilizador);
+            rest.menuEstafeta();
+        }else {
             System.err.println("\nE-mail or Password estão incorretos.\n");
             menu();
         }

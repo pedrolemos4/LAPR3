@@ -161,15 +161,14 @@ public class ClienteDB extends DataHandler {
      * @param end endereco do cliente
      * @return cliente
      */
-    public Cliente getClienteByMorada(Endereco end) {
-        String query = "SELECT * FROM cliente c INNER JOIN endereco e ON c.EnderecoMorada = e.morada WHERE e.morada= " + end.getMorada();
+    public Cliente getClienteByMorada(String end) {
+        String query = "SELECT c.utilizadorNIF, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito FROM cliente c INNER JOIN endereco e ON c.EnderecoMorada = e.morada WHERE c.EnderecoMorada = '" + end + "'";
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
-
                 if (rSet.next()) {
                     int aInt = rSet.getInt(1);
-                    int aInt1 = rSet.getInt(2);
+                    double aInt1 = rSet.getDouble(2);
                     String string = rSet.getString(3);
                     int aInt2 = rSet.getInt(4);
                     return new Cliente(aInt, aInt1, string, aInt2);

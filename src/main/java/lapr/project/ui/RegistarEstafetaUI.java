@@ -1,11 +1,15 @@
 package lapr.project.ui;
 
+import java.sql.SQLException;
+import java.text.ParseException;
 import lapr.project.controller.RegistarEstafetaController;
 import lapr.project.data.EstafetaDB;
 import lapr.project.model.*;
 
 import java.util.List;
 import java.util.Scanner;
+import lapr.project.data.UtilizadorDB;
+import static lapr.project.ui.AdminUI.loginUI;
 
 public class RegistarEstafetaUI {
 
@@ -14,7 +18,7 @@ public class RegistarEstafetaUI {
     RegistarEstafetaController controller;
 
     public RegistarEstafetaUI() {
-        this.controller = new RegistarEstafetaController(new EstafetaDB());
+        this.controller = new RegistarEstafetaController(new EstafetaDB(), new UtilizadorDB());
     }
 
     public void registaEstafeta() {
@@ -34,7 +38,6 @@ public class RegistarEstafetaUI {
         LER.nextLine();
         String nome = LER.nextLine();
         System.out.println("Email:");
-        LER.nextLine();
         String email = LER.nextLine();
         System.out.println("Peso:");
         double peso = LER.nextDouble();
@@ -62,5 +65,54 @@ public class RegistarEstafetaUI {
         }else{
             System.out.println("\n\nRegisto do estafeta cancelado!");
         }
+    }
+    
+    /**
+     * Menu da interface cliente
+     */
+    public static void textoMenuEstafeta() {
+        System.out.println("\nRIDE SHARING - Menu Cliente\n------------"
+                + "\n 1 - Realizar entrega"/*
+                + "\n 2 - Find parks near me"
+                + "\n 3 - Check rentals history"
+                + "\n 4 - Park vehicle"
+                + "\n 5 - Pay monthly invoice"
+                + "\n 6 - Check Spots in a Park for my loaned vehicle"
+                + "\n 7 - Check Spots in a Park for Scooters"
+                + "\n 8 - Check Spots in a Park for Bicycles"*/
+                + "\n 0 - Exit"
+                + "\n Escolha uma opção válida.");
+    }
+
+    /**
+     * Menu do cliente
+     *
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public void menuEstafeta() throws ClassNotFoundException, SQLException, ParseException {
+        String opt;
+        do {
+            textoMenuEstafeta();
+            LER.nextLine();
+            opt = LER.nextLine();
+            switch (opt) {
+                case "1":
+                    realizarEntrega();
+                    break;
+                case "0":
+                    loginUI.menu();
+                    break;
+                default:
+                    System.out.println("");
+                    System.out.println("Insira uma opção válida");
+            }
+        } while (!opt.equals("0"));
+    }
+    
+    public void realizarEntrega() throws SQLException, ClassNotFoundException, ParseException {
+        RegistarEntregaUI regEntUI = new RegistarEntregaUI();
+        regEntUI.introduzEntrega();
+        menuEstafeta();
     }
 }

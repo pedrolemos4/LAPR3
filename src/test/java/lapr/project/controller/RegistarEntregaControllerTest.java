@@ -12,6 +12,7 @@ import lapr.project.data.EnderecoDB;
 import lapr.project.data.EntregaDB;
 import lapr.project.data.EstafetaDB;
 import lapr.project.data.FarmaciaDB;
+import lapr.project.data.UtilizadorDB;
 import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Cliente;
@@ -21,7 +22,11 @@ import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Farmacia;
 import lapr.project.model.Graph;
+import lapr.project.model.Utilizador;
 import lapr.project.model.Veiculo;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +37,7 @@ import static org.mockito.Mockito.*;
  */
 public class RegistarEntregaControllerTest {
     
+    private UtilizadorDB utilizadorDB;
     private FarmaciaDB farmaciaDB;
     private EstafetaDB estafetaDB;
     private EntregaDB entregaDB;
@@ -45,8 +51,17 @@ public class RegistarEntregaControllerTest {
     public RegistarEntregaControllerTest() {
     }
 
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+
     @BeforeEach
     void setUp() throws SQLException {
+        utilizadorDB = mock(UtilizadorDB.class);
         farmaciaDB = mock(FarmaciaDB.class);
         estafetaDB = mock(EstafetaDB.class);
         entregaDB = mock(EntregaDB.class);
@@ -55,8 +70,12 @@ public class RegistarEntregaControllerTest {
         enderecoDB = mock(EnderecoDB.class);
         emailDB = mock(EmailDB.class);
         clienteDB = mock(ClienteDB.class);
-        instance = new RegistarEntregaController(farmaciaDB, estafetaDB, entregaDB, encomendaDB, veiculoDB, enderecoDB, emailDB, clienteDB);
+        instance = new RegistarEntregaController(utilizadorDB, farmaciaDB, estafetaDB, entregaDB, encomendaDB, veiculoDB, enderecoDB, emailDB, clienteDB);
         
+    }
+
+    @After
+    public void tearDown() throws Exception {
     }
 
     /**
@@ -119,7 +138,7 @@ public class RegistarEntregaControllerTest {
      * Test of addEntrega method, of class RegistarEntregaController.
      */
     @Test
-    public void testAddEntrega() throws SQLException {
+    public void testAddEntrega() throws SQLException, ParseException {
         System.out.println("addEntrega");
         String dataInicio = "12/11/2015";
         String dataFim = null;
@@ -250,7 +269,7 @@ public class RegistarEntregaControllerTest {
         Endereco origem = e1;
         double energia = 0.0;
         double expResult = 0.0;
-        RegistarEntregaController teste = new RegistarEntregaController(new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
+        RegistarEntregaController teste = new RegistarEntregaController(new UtilizadorDB(), new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
         double result = teste.getPath(graph, listEnderecos, finalShortPath, origem, energia);
         assertEquals(expResult, result, 0.0);
 
@@ -293,7 +312,7 @@ public class RegistarEntregaControllerTest {
         System.out.println("getClienteByEndereco");
         Endereco end = new Endereco("vnrj", 34, 32, 12);
         Cliente expResult = new Cliente(123456789, "bf", "fbh", 47, 85, "fhg", 34, "dfbg");
-        when(clienteDB.getClienteByMorada(end)).thenReturn(expResult);
+        when(clienteDB.getClienteByMorada(end.getMorada())).thenReturn(expResult);
         Cliente result = instance.getClienteByEndereco(end);
         assertEquals(expResult, result);
 
@@ -314,7 +333,7 @@ public class RegistarEntregaControllerTest {
         finalShortPath.add(e3);
         Veiculo veiculo = new Veiculo(1, "fsss", "scooter", 34, 12, 34, 45, 75, 12, 54);
         String expResult = "17:06:00";
-        RegistarEntregaController teste = new RegistarEntregaController(new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
+        RegistarEntregaController teste = new RegistarEntregaController(new UtilizadorDB(), new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
         String result = teste.getDuracaoPercurso(finalShortPath, veiculo);
         assertEquals(expResult, result);
 
@@ -375,5 +394,18 @@ public class RegistarEntregaControllerTest {
         assertEquals(expResult, result);
 
     }
-    
+
+    /**
+     * Test of getUtilizadorByNif method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetUtilizadorByNif() {
+        System.out.println("getUtilizadorByNif");
+        int nif = 123456678;
+        Cliente expResult = new Cliente(nif, 12, "fg", 15);
+        when(utilizadorDB.getByID(nif)).thenReturn(expResult);
+        Utilizador result = instance.getUtilizadorByNif(nif);
+        assertEquals(expResult, result);
+
+    }
 }
