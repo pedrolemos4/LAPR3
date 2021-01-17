@@ -55,8 +55,7 @@ public class RealizarEncomendaUI {
         int nif = LER.nextInt();
         if(controller2.getFarmaciaByNIF(nif) == null){
             while (controller2.getFarmaciaByNIF(nif) == null) {
-            System.out.println("Não existe farmácia com este nif. Por favor insira "
-                    + "novamente.");
+            System.out.println("Não existe farmácia com este nif. Por favor insira outro nif.");
             nif = LER.nextInt();
             }
         }
@@ -69,10 +68,10 @@ public class RealizarEncomendaUI {
             stock = controller.getListStock(nif);
         }
 
-        System.out.println("Lista de produtos disponível: ");
+        System.out.println("Lista de produtos disponíveis: ");
 
         for (Produto p : stock.keySet()) {
-            System.out.println(p);
+            System.out.println(p + "\nQuantidade: " + stock.get(p));
         }
 
         int nif1;
@@ -83,28 +82,20 @@ public class RealizarEncomendaUI {
             if (id == 0) {
                 break;
             }
-            System.out.println("Introduza a quantidade que pretende mesmo não tendo a quantidade que pretende: ");
+            System.out.println("Introduza a quantidade que pretende comprar: ");
             int qntd = LER.nextInt();
             Produto prod = controller.getProdutoByID(id);
             if (controller.produtoEncomenda(nif, prod, qntd) == false) {
                 qntd=qntd-stock.get(prod);
-                System.out.println("QUANT "+qntd);
                 List<Farmacia> farms = controller2.getListaFarmaciaByProduto(prod, qntd);
                 while (qntd > 0) {
                     if(farms.isEmpty()){
-                        System.out.println("Farms.isEmpty");
                         break;
                     }
-                    System.out.println("Depois do is empty");
                     Graph<Farmacia, Double> generateGrafo = controller2.generateGrafo(farms);
-                    System.out.println("");
-                    System.out.println("");
-                    System.out.println("Grafo: "+generateGrafo.toString());
-                    System.out.println("");
-                    System.out.println("");
+
                     nif1 = controller2.getFarmaciaProxima(generateGrafo, nif);
                     if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).get(prod)>=qntd) {
-                        System.out.println("102");
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
                         controller.produtoEncomenda(nif1, prod, qntd);
                         qntd = 0;
@@ -112,7 +103,6 @@ public class RealizarEncomendaUI {
 
                     }
                     if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).get(prod)<qntd) {
-                        System.out.println("110");
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
                         controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(nif).getEmail(), controller2.getFarmaciaByNIF(nif1).getEmail());
                         qntd = qntd - controller.getListStock(nif1).get(prod);
