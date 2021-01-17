@@ -5,8 +5,6 @@
  */
 package lapr.project.controller;
 
-import java.text.ParseException;
-import java.util.List;
 import lapr.project.data.CartaoDB;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EnderecoDB;
@@ -15,6 +13,9 @@ import lapr.project.model.Cartao;
 import lapr.project.model.Cliente;
 import lapr.project.model.Endereco;
 import lapr.project.model.Utilizador;
+
+import java.text.ParseException;
+import java.util.List;
 
 /**
  *

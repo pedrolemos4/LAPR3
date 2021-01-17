@@ -12,16 +12,18 @@ import lapr.project.data.UtilizadorDB;
 import lapr.project.model.Cartao;
 import lapr.project.model.Cliente;
 import lapr.project.model.Endereco;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import lapr.project.model.Utilizador;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import lapr.project.model.Utilizador;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -179,5 +181,15 @@ public class RegistarClienteControllerTest {
         Cartao cart = new Cartao(5, "sdd", 5);
         when(cartaoMock.registaCartao(cart)).thenReturn(false);
         assertEquals(false, instance1.registaCartao(cart));
+    }
+
+    @Test
+    void login() {
+        System.out.println("login");
+        Cliente user = new Cliente(13, "nome", "email",123,0,"morada",13,"password");
+        when(utilizadorMock.validateLogin("email","password")).thenReturn(13);
+        when(utilizadorMock.getByID(13)).thenReturn(user);
+
+        assertEquals(user,instance1.login("email","password"));
     }
 }
