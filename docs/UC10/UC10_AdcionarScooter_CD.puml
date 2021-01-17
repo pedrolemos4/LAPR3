@@ -1,32 +1,33 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class ScooterDB {
-  +void addNewScooter(double percentagemBateria,double pesoScooter, double pesoMaximo)
-  +Scooter newScooter(int idScooter, double percentagemBateria,double pesoScooter, double pesoMaximo)
+class VeiculoDB {
+ +void addVeiculo(String descricao,double percentagemBateria,double pesoMaximo, double pesoDrone,double potencia, double areaFrontal,int estado)
+  +Veiculo newVeiculo(String descricao,double percentagemBateria,double pesoMaximo, double pesoDrone,double potencia, double areaFrontal,int estado)
+  +VeiculoDB veiculoDB(Veiculo veiculo)
   +scooterHandler(Scooter scooter)
-  +boolean validaScooter(Scooter scooter)
-  +boolean addScooter(Scooter scooter)
+  +boolean validaScooter(Veiculo veiculo)
+  +boolean addVeiculo(Veiculo veiculo)
   +int generateIdScooter()
   +String generateQrCode()
 }
 
-class ScooterController {
+class VeiculoController {
     +generateIdScooter()
     +generateQrCode()
-    +void addNewScooter(double percentagemBateria, double pesoScooter, double pesoMaximo)
-    +scooterHandler()
+    +void addVeiculo(String descricao,double percentagemBateria,double pesoMaximo, double pesoDrone,double potencia, double areaFrontal,int estado)
+    +droneDB()
 }
 
-class ScooterUI {
+class AdminUI {
 }
 
-class Scooter {
-   +Scooter(int idScooter, double percentagemBateria, double pesoScooter,double peso máximo)
+class Veiculo {
+   +Drone (int idVeiculo,String descricao,double percentagemBateria,double pesoMaximo, double pesoDrone,double potencia, double areaFrontal,int estado)
 }
 
-ScooterUI ..> ScooterController 
+AdminUI ..> VeiculoController 
 
-ScooterController ..> ScooterDB
-ScooterDB ..> Scooter
+VeiculoController ..> VeiculoDB
+VeiculoDB ..> Veiculo
 @enduml

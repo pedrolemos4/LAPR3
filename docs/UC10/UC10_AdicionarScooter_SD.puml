@@ -3,10 +3,10 @@ autonumber
 
 actor "Administrador" as ADMIN
 
-participant ":ScooterUI" as UI
-participant ":ScooterController" as CTRL
-participant ":ScooterDB" as SCHL
-participant "scooter :Scooter" as SCOOT
+participant ":AdminUI" as UI
+participant ":VeiculoController" as CTRL
+participant ":VeiculoDB" as SCHL
+participant "veiculo :Veiculo" as SCOOT
 
 activate ADMIN
 ADMIN -> UI : inicia a adição de nova scooter
@@ -37,16 +37,16 @@ end alt
 
 UI -> ADMIN : solicita os restantes dados necessários da scooter
 deactivate UI
-ADMIN -> UI : insere os dados (percentagem de bateria, peso da scooter e peso máximo)
+ADMIN -> UI : insere os dados (descricao,tipo,capacidade,percentagem de bateria, peso da scooter,peso máximo,potencia,área frontal,estado)
 activate UI
-UI -> CTRL : addNewScooter(percentagem de bateria,peso da scooter,peso máximo)
+UI -> CTRL : addVeiculo(descricao,tipo,capacidade,percentagem de bateria, peso da scooter,peso máximo,potencia,área frontal,estado)
 activate CTRL
-CTRL -> SCHL : addNewScooter(percentagem de bateria,peso da scooter, peso máximo)
+CTRL -> SCHL : addVeiculo(descricao,tipo,capacidade,percentagem de bateria, peso da scooter,peso máximo,potencia,área frontal,estado)
 activate SCHL
 deactivate SCHL
-CTRL -> SCHL : scooter = new Scooter(idScooter,percentagem de bateria,peso da scooter, peso máximo)
+CTRL -> SCHL : veiculo = new Veiculo(idVeiculo,descricao,tipo,capacidade,percentagem de bateria, peso da scooter,peso máximo,potencia,área frontal,estado)
 activate SCHL
-SCHL -> SCOOT : create (idScooter,percentagem de bateria, peso da scooter, peso máximo)
+SCHL -> SCOOT : create (idVeiculo,descricao,tipo,capacidade,percentagem de bateria, peso da scooter,peso máximo,potencia,área frontal,estado)
 activate SCOOT
 deactivate SCOOT
 deactivate SCHL
@@ -57,12 +57,12 @@ deactivate UI
 
 ADMIN -> UI : confirma os dados da scooter
 activate UI 
-UI -> CTRL : scooterHandler()
+UI -> CTRL : veiculoDB()
 activate CTRL
-CTRL -> SCHL : scooterHandler(scooter)
+CTRL -> SCHL : veiculoDB(veiculo)
 activate SCHL
-SCHL -> SCHL : validaScooter(scooter)
-SCHL -> SCHL : addScooter(scooter)
+SCHL -> SCHL : validaVeiculo(veiculo)
+SCHL -> SCHL : addVeiculo(veiculo)
 deactivate SCHL
 deactivate CTRL
 deactivate UI

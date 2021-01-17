@@ -4,11 +4,16 @@ hide methods
 left to right direction
 
 class Parque {
+  -idParque
+  -FarmaciaNIF  
   -numeroMaximo
+  -tipo
 }
 
 class Farmacia {
   -NIF
+  -email
+  -morada
 }
 
 class Utilizador {
