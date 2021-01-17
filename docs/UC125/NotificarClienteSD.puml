@@ -4,21 +4,21 @@ autonumber
 actor "Estafeta" as EST
 participant ":RegistarEntregaUI" as UI
 participant ":RegistarEntregaController" as CTL
-participant ":EntregaDB" as PDB
+participant ":EmailDB" as PDB
 
 activate EST
 EST -> UI : envia uma nota a um cliente quando a sua entrega começar
 activate UI
-UI -> CTL : enviarNotaCliente(cliente)
+UI -> CTL : enviarNotaCliente(farmacia, cliente)
 activate CTL
 
 
-CTL -> PDB : enviarNotaCliente(cliente)
+CTL -> PDB : sendEmail(emailFarmacia, emailCliente, assunto, mensagem)
 activate PDB
 
-PDB -> PDB : validaNota(cliente)
+PDB -> PDB : validaNota(farmacia, cliente)
 
-PDB -> PDB : enviarNotaCliente(cliente)
+PDB -> PDB : enviarNotaCliente(farmacia, cliente)
 
 deactivate PDB
 

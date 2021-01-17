@@ -1,116 +1,23 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class EntregaDB {
-  +enviarNotaCliente(cliente)
-  +validaNota(cliente)
+class EmailDB {
+  +sendEmail(emailFarmacia, emailCliente, assunto, mensagem)
+  +validaNota(farmacia, cliente)
+  +enviarNotaCliente(farmacia, cliente)
 }
 
 class RegistarEntregaController {
-    +enviarNotaCliente(cliente)
+    +enviarNotaCliente(farmacia, cliente)
 }
 
 class RegistarEntregaUI {
 }
 
 
-class Cartao {
-  -numeroCartao
-  -dataDeValidade
-  -CCV
-}
-
-class Entrega {
-  -idEntrega
-  -dataInicio
-  -dataFim
-}
-
-class Encomenda {
-  -idEncomenda
-  -dataPedida
-  -preco
-  -pesoEncomenda
-  -taxa
-}
-
-class EstadoEncomenda {
-  -id_estado_encomenda
-  -designacao
-}
-
-class Produto {
-  -idProduto
-  -designacao
-  -peso
-  -precoBase
-}
-
-class Estafeta {
-  -NIF
-  -nome
-  -email
-  -numeroSegurancaSocial
-  -password
-  -pesoEstafeta
-}
-
-
-class Endereco {
-  -morada
-  -latitude
-  -longitude
-  -altitude
-}
-
-class Veiculo {
-  -idVeiculo
-  -descricao
-  -tipo
-  -percentagemBateria
-  -pesoMaximo
-  -pesoVeiculo
-  -potencia
-  -areaFrontal
-}
-
-class Parque {
-  -numeroMaximo
-  -tipo
-}
-
-class Cliente {
-  -NIF
-  -nome
-  -email
-  -numeroSegurancaSocial
-  -password
-  -creditos
-}
-
-class Farmacia {
-  -NIF
-  -email
-}
-
-Encomenda "1" -- "1" EstadoEncomenda : tem >
-Entrega "1" -- "*" Encomenda : possui >
-Estafeta "1" -- "*" Entrega: realiza >
-Cliente "1" -- "1" Endereco: tem >
-Cliente "1" -- "*" Encomenda: realiza e paga >
-Entrega "*" -- "1" Veiculo: realiza <
-Encomenda "1" -- "*" Produto: tem >
-Parque "1" -- "*" Veiculo: possui >
-Cliente "1" -- "1" Cartao: possui >
-Farmacia "1" -- "1" Parque: possui >
-Farmacia "1" -- "*" Estafeta: tem >
-Farmacia "1" -- "1" Endereco: possui >
-
-
 
 RegistarEntregaUI ..> RegistarEntregaController
-RegistarEntregaController ..> EntregaDB
+RegistarEntregaController ..> EmailDB
 
-EntregaDB "1" --> "*" Entrega : tem registados
 
 @enduml

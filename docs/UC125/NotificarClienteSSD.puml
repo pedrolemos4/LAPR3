@@ -1,0 +1,13 @@
+@startuml
+autonumber
+
+actor "Estafeta" as EST
+
+activate EST
+EST -> ":Sistema": envia uma nota a um cliente quando a sua entrega começa
+activate ":Sistema"
+":Sistema" --> EST: operação bem sucedida
+deactivate ":Sistema"
+deactivate EST
+
+@enduml
