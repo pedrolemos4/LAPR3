@@ -65,7 +65,7 @@ public class Farmacia {
      * @return stock da farmácia
      */
     public List<Produto> getStock() {
-        return stock;
+        return new ArrayList<>(stock);
     }
 
     /**
@@ -77,6 +77,10 @@ public class Farmacia {
         return morada;
     }
 
+    /**
+     * Modifica a morada
+     * @param morada 
+     */
     public void setMorada(String morada) {
         this.morada = morada;
     }
@@ -90,17 +94,12 @@ public class Farmacia {
         return email;
     }
 
+    /**
+     * Modifica o email da farmacia
+     * @param email 
+     */
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    /**
-     * Adiciona o produto recebido por parametro ao stock da farmácia
-     *
-     * @param prod novo produto da farmácia
-     */
-    public void addStock(Produto prod) {
-        this.stock.add(prod); //adicionar à base de dados?
     }
 
     @Override

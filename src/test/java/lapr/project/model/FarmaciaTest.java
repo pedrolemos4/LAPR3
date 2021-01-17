@@ -50,23 +50,6 @@ public class FarmaciaTest {
     }
 
     /**
-     * Test of addStock method, of class Farmacia.
-     */
-    @Test
-    public void testAddStock() {
-        System.out.println("addStock");
-        Farmacia instance = new Farmacia(123456789, "email1", "rua3");
-        Produto p = new Produto("sdf", 50, 58);
-
-        List<Produto> expResult = new ArrayList<>();
-        expResult.add(p);
-        instance.addStock(p);
-        List<Produto> result = instance.getStock();
-
-        assertEquals(expResult, result);
-    }
-
-    /**
      * Test of getMorada method, of class Farmacia.
      */
     @Test
