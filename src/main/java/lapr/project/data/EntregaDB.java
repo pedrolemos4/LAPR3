@@ -154,11 +154,12 @@ public class EntregaDB extends DataHandler {
     }
 
     public Graph<Endereco,Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
-
+        
         Graph<Endereco, Double> graph = new Graph<>(true);
         double energiaGasta = 0;
         for (Endereco e : listEnderecos) {
             graph.insertVertex(e);
+            System.out.println("enderecos: " + e.toString());
         }
 
         int i = listEnderecos.size() - 1;
@@ -168,16 +169,27 @@ public class EntregaDB extends DataHandler {
         if((veiculo.getTipo()).equals("drone")){
             energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
         }
-        graph.insertEdge(listEnderecos.get(0), listEnderecos.get(i), 1.0, energiaGasta);
+        if(listEnderecos.size() == 2){
+            System.out.println("aqui");
+            graph.insertEdge(listEnderecos.get(0), listEnderecos.get(1), 1.0, energiaGasta);
+        }else if(listEnderecos.size()> 2){
+            graph.insertEdge(listEnderecos.get(0), listEnderecos.get(1), 1.0, energiaGasta);
+            graph.insertEdge(listEnderecos.get(0), listEnderecos.get(i), 1.0, energiaGasta);
+        }
+        
 
 
-        int aux = 0;
+        int aux = 1;
         for (Endereco end : listEnderecos) {
             if (aux < i && listEnderecos.size() > 2) {
+                System.out.println("listEnde: " +listEnderecos.get(aux).getMorada());
                 Encomenda enc1 = getEncomendaByMorada(listEnderecos.get(aux).getMorada()); //mal provavelmente
+                System.out.println("Linha 187 encomneda: " + enc1.toString());
+                System.out.println("e : " + encDB.getEncomenda(enc1.getId()).toString());
                 if((veiculo.getTipo()).equalsIgnoreCase("scooter")){
                     energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
                     graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
+                    System.out.println("energia: " + energiaGasta);
                 }
                 if((veiculo.getTipo()).equalsIgnoreCase("drone")){
                     energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
@@ -185,7 +197,7 @@ public class EntregaDB extends DataHandler {
                 }
                 aux = aux + 1;
                 System.out.println("enc1: ");
-                pesoTotalEntrega = pesoTotalEntrega - encDB.getEncomenda(enc1.getNif()).getPesoEncomenda();
+                pesoTotalEntrega = pesoTotalEntrega - encDB.getEncomenda(enc1.getId()).getPesoEncomenda();
             }
         }
         return graph;
@@ -222,21 +234,24 @@ public class EntregaDB extends DataHandler {
     }
 
     public Encomenda getEncomendaByMorada(String morada) {
-        String query = "SELECT * FROM encomenda e INNER JOIN cliente c ON e.ClienteUtilizadorNIF = c.UtilizadorNIF WHERE c.Enderecomorada = '" + morada+"'";
+        String query = "SELECT e.idEncomenda,e.datapedida,e.preco, e.pesoEncomenda, e.taxa, e.estadoencomendaidestadoencomenda, e.clienteutilizadornif FROM encomenda e INNER JOIN cliente c ON e.ClienteUtilizadorNIF = c.UtilizadorNIF WHERE c.Enderecomorada = '" + morada+"'";
 
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
-
+                System.out.println("a");
                 if (rSet.next()) {
                     int idEncomenda = rSet.getInt(1);
                     Timestamp dataPedida = rSet.getTimestamp(2);
+                    System.out.println(dataPedida);
                     double preco = rSet.getDouble(3);
                     double pesoEncomenda = rSet.getDouble(4);
                     double taxa = rSet.getDouble(5);
                     int estado = rSet.getInt(6);
                     int nif = rSet.getInt(7);
-
-                    return new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado);
+                    Encomenda en = new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado);
+                    en.setId(idEncomenda);
+                    System.out.println("e");
+                    return en;
                 }
             }
         } catch (SQLException e) {
