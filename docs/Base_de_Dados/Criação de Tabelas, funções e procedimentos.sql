@@ -169,7 +169,7 @@ CREATE TABLE "LAPR3_G23".EncomendaProduto
 CREATE TABLE "LAPR3_G23".Estacionamento 
 (           numeroLote number(10) GENERATED AS IDENTITY, 
             carregador number(1) NOT NULL, 
-            ParqueFarmaciaNIF number(10) NOT NULL, 
+            idParque number(10) NOT NULL, 
             PRIMARY KEY (numeroLote)
 );
 
@@ -255,7 +255,7 @@ ALTER TABLE "LAPR3_G23".Encomenda ADD CONSTRAINT FKEncomenda_Cliente FOREIGN KEY
 ALTER TABLE "LAPR3_G23".Administrador ADD CONSTRAINT FKAdministrador_Utilizador FOREIGN KEY (UtilizadorNIF) REFERENCES "LAPR3_G23".Utilizador (NIF);
 ALTER TABLE "LAPR3_G23".EncomendaProduto ADD CONSTRAINT FKEncomendaProduto_Encomenda FOREIGN KEY (EncomendaidEncomenda) REFERENCES "LAPR3_G23".Encomenda (idEncomenda);
 ALTER TABLE "LAPR3_G23".EncomendaProduto ADD CONSTRAINT FKEncomendaProduto_Produto FOREIGN KEY (ProdutoidProduto) REFERENCES "LAPR3_G23".Produto (idProduto);
-ALTER TABLE "LAPR3_G23".Estacionamento ADD CONSTRAINT FKEstacionamento_Parque FOREIGN KEY (ParqueFarmaciaNIF) REFERENCES "LAPR3_G23".Parque (FarmaciaNIF);
+ALTER TABLE "LAPR3_G23".Estacionamento ADD CONSTRAINT FKEstacionamento_Parque FOREIGN KEY (idParque) REFERENCES "LAPR3_G23".Parque (idParque);
 ALTER TABLE "LAPR3_G23".Estacionamentoveiculo ADD CONSTRAINT FKEstacionamentoveiculo_veiculo FOREIGN KEY (veiculoidveiculo) REFERENCES "LAPR3_G23".veiculo (idveiculo);
 ALTER TABLE "LAPR3_G23".Estacionamentoveiculo ADD CONSTRAINT FKEstacionamentoveiculo_Estacionamento FOREIGN KEY (EstacionamentonumeroLote) REFERENCES "LAPR3_G23".Estacionamento (numeroLote);
 ALTER TABLE "LAPR3_G23".Recibo ADD CONSTRAINT FKRecibo_Cliente FOREIGN KEY (ClienteUtilizadorNIF) REFERENCES "LAPR3_G23".Cliente (UtilizadorNIF);
@@ -504,7 +504,7 @@ END;
 /
 
 CREATE OR REPLACE PROCEDURE addEstacionamento(numeroLote "LAPR3_G23".estacionamento.numerolote%type, carregador "LAPR3_G23".estacionamento.carregador%type,
-ParqueFarmaciaNIF "LAPR3_G23".estacionamento.parquefarmacianif%type) 
+ParqueFarmaciaNIF "LAPR3_G23".estacionamento.idParque%type) 
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".estacionamento VALUES(numeroLote,carregador,ParqueFarmaciaNIF);   
