@@ -5,19 +5,15 @@
  */
 package lapr.project.data;
 
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import lapr.project.model.Estacionamento;
+import lapr.project.model.Veiculo;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import lapr.project.model.Estacionamento;
-import lapr.project.model.Veiculo;
 
 /**
  *
@@ -31,11 +27,11 @@ public class EstacionamentosDB extends DataHandler {
      * @param numLote número de lote do estacionamento
      * @param carregador disponibilidade do carregador do estacionamento (1 se
      * disponível, 0 se não esta disponível)
-     * @param nif nif da farmácia/parque
+     * @param idParque id do parque
      * @return novo estacionamento criado
      */
-    public Estacionamento novoEstacionamento(int numLote, int carregador, int nif) {
-        return new Estacionamento(numLote, carregador, nif);
+    public Estacionamento novoEstacionamento(int numLote, int carregador, int idParque) {
+        return new Estacionamento(numLote, carregador, idParque);
     }
 
     /**
@@ -60,7 +56,7 @@ public class EstacionamentosDB extends DataHandler {
      * @return true se o estacionamento é valido
      */
     public boolean validaEstacionamento(Estacionamento estac) {
-        return !(estac == null || estac.getNumeroLote() <= 0 || estac.getCarregador() < 0 || estac.getCarregador() > 1 || estac.getNIF() < 0);
+        return !(estac == null || estac.getNumeroLote() <= 0 || estac.getCarregador() < 0 || estac.getCarregador() > 1 || estac.getIdParque() < 0);
     }
 
     /**
@@ -70,7 +66,7 @@ public class EstacionamentosDB extends DataHandler {
      * @return
      */
     public boolean addEstacionamento(Estacionamento estac) {
-        addEstacionamento(estac.getNumeroLote(), estac.getCarregador(), estac.getNIF());
+        addEstacionamento(estac.getNumeroLote(), estac.getCarregador(), estac.getIdParque());
         return true;
     }
 
@@ -80,15 +76,15 @@ public class EstacionamentosDB extends DataHandler {
      * @param numeroLote número de lote do estacionamento
      * @param carregador disponibilidade do carregador do estacionamento (1 se
      * disponível, 0 se não esta disponível)
-     * @param nif nif da farmácia/parque
+     * @param idParque id do parque
      */
-    public void addEstacionamento(int numeroLote, int carregador, int nif) {
+    public void addEstacionamento(int numeroLote, int carregador, int idParque) {
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamento(?,?,?) }")) {
                 callStmt.setInt(1, numeroLote);
                 callStmt.setInt(2, carregador);
-                callStmt.setInt(3, nif);
+                callStmt.setInt(3, idParque);
                 callStmt.execute();
             }
             closeAll();
@@ -111,8 +107,8 @@ public class EstacionamentosDB extends DataHandler {
                 while (rSet.next()) {
                     int numLote = rSet.getInt(1);
                     int carregador = rSet.getInt(2);
-                    int nif = rSet.getInt(3);
-                    list.add(new Estacionamento(numLote, carregador, nif));
+                    int idParque = rSet.getInt(3);
+                    list.add(new Estacionamento(numLote, carregador, idParque));
                 }
                 return list;
             }
@@ -126,19 +122,22 @@ public class EstacionamentosDB extends DataHandler {
      * Retorna lista de estacionamento de um determinado parque recendo o seu
      * nif por parâmetro
      *
-     * @param parqueNif nif do parque/farmácia
+     * @param farmNIF
+     * @param parqueID
      * @return lista de estacionamento do parque
      */
-    public List<Estacionamento> getLstEstacionamentosByNif(int parqueNif) {
+    public List<Estacionamento> getListaEstacionamentosByFarmaciaNifParqueId(int farmNIF, int parqueID) {
         ArrayList<Estacionamento> list = new ArrayList<>();
-        String query = "SELECT e.numeroLote, e.carregador, e.ParqueFarmaciaNIF FROM estacionamento e INNER JOIN parque p ON p.FaarmaciaNIF = e.ParqueFarmaciaNIF WHERE p.FaarmaciaNIF = " + parqueNif;
+        String query = "SELECT * FROM estacionamento e INNER JOIN parque p ON p.FarmaciaNIF = e.ParqueFarmaciaNIF "
+                + "INNER JOIN farmacia f ON f.NIF = e.ParqueFarmaciaNIF "
+                + "WHERE e.ParqueFarmaciaNIF = " + farmNIF + "AND p.FarmaciaNIF = " + farmNIF + "AND p.idParque = " + parqueID;
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int numLote = rSet.getInt(1);
                     int carregador = rSet.getInt(2);
-                    int nif = rSet.getInt(3);
-                    list.add(new Estacionamento(numLote, carregador, nif));
+                    int idParque = rSet.getInt(3);
+                    list.add(new Estacionamento(numLote, carregador, idParque));
                 }
                 return list;
             }
@@ -157,9 +156,8 @@ public class EstacionamentosDB extends DataHandler {
                 if (rSet.next()) {
                     int lote = rSet.getInt(1);
                     int carregador = rSet.getInt(2);
-                    int farmnif = rSet.getInt(3);
-
-                    return new Estacionamento(lote, carregador, farmnif);
+                    int idParque = rSet.getInt(3);
+                    return new Estacionamento(lote, carregador, idParque);
                 }
             }
         } catch (SQLException e) {
@@ -172,9 +170,10 @@ public class EstacionamentosDB extends DataHandler {
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoVeiculo(?,?,?,?) }")) {
-                callStmt.setInt(1, estacionamento.getNIF());
-                callStmt.setInt(2, veiculo.getId());
+                callStmt.setInt(1, veiculo.getId());
+                callStmt.setInt(2, estacionamento.getNumeroLote());
                 callStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+                callStmt.setTimestamp(4, null);
                 callStmt.execute();
             }
             closeAll();

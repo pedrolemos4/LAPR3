@@ -1,31 +1,43 @@
 @startuml
 skinparam classAttributeIconSize 0
 
+class Farmacia {
+  - Integer nif
+  - String email
+  - String morada
+}
+
 class Parque {
   -Integer numeroMaximo
-  +getNumMax()
 }
 
 class Estacionamento {
   -Integer numeroLote
   -Integer carregador
-  -Integer NIF
-  +Estacionamento(numeroLote, carregador, NIF)
+  -Integer idParque
+  +Estacionamento(numeroLote, carregador, idParque)
+}
+
+class FarmaciaDB {
+  +getFarmaciaByNIF(nif)
 }
 
 class ParqueDB {
-  +getNumMaxParqueByNIF(NIF)
+  +getLstParquesByFarmaciaNif(nif)
+  +getNumMaxByFarmaciaNifParqueId(nif, idParque)
 }
 
 class EstacionamentoDB {
-  +Estacionamento novoEstacionamento(numeroLote, carregador, NIF)
+  +Estacionamento novoEstacionamento(numeroLote, carregador, idParque)
   +registaEstacionamento(estac)
   +validaEstacionamento(estac)
 }
 
 class InserirEstacionamentosController {
-    +getNumMaxParqueByNIF(NIF)
-    +novoEstacionamento(numeroLote, carregador, NIF)
+    +getFarmaciaByNIF(nif)
+    +getListaParquesByFarmaciaNif(nif)
+    +getNumMaxByFarmaciaNifParqueId(nif, idParque)
+    +novoEstacionamento(numeroLote, carregador, idParque)
     +registaEstacionamentos(lEstac)
 }
 
@@ -33,11 +45,15 @@ class InserirEstacionamentosUI {
 }
 
 InserirEstacionamentosUI ..> InserirEstacionamentosController
+InserirEstacionamentosController ..> FarmaciaDB
+InserirEstacionamentosController ..> Farmacia
 InserirEstacionamentosController ..> ParqueDB
 InserirEstacionamentosController ..> Parque
 InserirEstacionamentosController ..> EstacionamentoDB
 InserirEstacionamentosController ..> Estacionamento
 
+FarmaciaDB "1" --> "*" Farmacia : possui
+Farmacia "1" --> "*" Parque : possui
 ParqueDB "1" --> "*" Parque : possui
 Parque "1" --> "*" Estacionamento : tem
 EstacionamentoDB "1" --> "*" Estacionamento : possui

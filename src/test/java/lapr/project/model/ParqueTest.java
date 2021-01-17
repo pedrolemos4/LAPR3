@@ -69,7 +69,7 @@ class ParqueTest {
     @Test
     public void testToString() {
         Parque instance = new Parque(123, 20, "drones");
-        String expResult = "Parque{nif=123, numeroMaximo=20, tipo=drones}";
+        String expResult = "Parque{id=0, nif=123, numeroMaximo=20, tipo=drones}";
         assertEquals(expResult, instance.toString());
     }
 }

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr.project.model.Parque;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -25,7 +26,6 @@ public class ParqueDB extends DataHandler {
      * Cria um novo parque
      *
      * @param nif nif do parque/farmácia
-     * @param morada morada do parque
      * @param numMax limite máximo de veiculos do parque
      * @param tipo tipo de veículos do parque
      * @return novo parque criado
@@ -43,8 +43,7 @@ public class ParqueDB extends DataHandler {
     public boolean registaParques(List<Parque> lparks) {
         for (Parque park : lparks) {
             if (validaParque(park)) {
-                System.out.println("VALIDOU PARQUE");
-                addParque(park);
+                park.setIdParque(addParque(park));
             }
         }
         return true;
@@ -64,9 +63,10 @@ public class ParqueDB extends DataHandler {
      * Adiciona o parque à base de dados
      *
      * @param park parque
+     * @return id do parque
      */
-    public void addParque(Parque park) {
-        addParque(park.getNIF(), park.getNumeroMaximo(), park.getTipo());
+    public int addParque(Parque park) {
+        return addParque(park.getNIF(), park.getNumeroMaximo(), park.getTipo());
     }
 
     /**
@@ -75,20 +75,25 @@ public class ParqueDB extends DataHandler {
      * @param nif nif do parque/farmácia
      * @param numMax limite máximo de veiculos do parque
      * @param tipo tipo do parque
+     * @return id do parque
      */
-    public void addParque(int nif, int numMax, String tipo) {
+    public int addParque(int nif, int numMax, String tipo) {
+        int idParque = 0;
         try {
             openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addParque(?,?,?) }")) {
-                callStmt.setInt(1, nif);
-                callStmt.setInt(2, numMax);
-                callStmt.setString(3, tipo);
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addParque(?,?,?) }")) {
+                callStmt.registerOutParameter(1, OracleTypes.INTEGER);
+                callStmt.setInt(2, nif);
+                callStmt.setInt(3, numMax);
+                callStmt.setString(4, tipo);
                 callStmt.execute();
+                idParque = callStmt.getInt(1);
             }
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return idParque;
     }
 
     /**
@@ -104,35 +109,11 @@ public class ParqueDB extends DataHandler {
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
-                    int nif = rSet.getInt(1);
-                    int numMax = rSet.getInt(2);
-                    String tipo = rSet.getString(3);
-                    list.add(new Parque(nif, numMax, tipo));
-                }
-                return list;
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
-        }
-        return list;
-    }
-
-    /**
-     * Lista com todos os parques registados
-     *
-     * @return lista dos parques
-     */
-    public List<Parque> getLstParques() {
-        ArrayList<Parque> list = new ArrayList<>();
-        String query = "SELECT * FROM parque";
-
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
-                while (rSet.next()) {
-                    int nif = rSet.getInt(1);
-                    int numMax = rSet.getInt(2);
-                    String tipo = rSet.getString(3);
-                    list.add(new Parque(nif, numMax, tipo));
+                    int id = rSet.getInt(1);
+                    int nif = rSet.getInt(2);
+                    int numMax = rSet.getInt(3);
+                    String tipo = rSet.getString(4);
+                    list.add(new Parque(id, nif, numMax, tipo));
                 }
                 return list;
             }
@@ -146,12 +127,13 @@ public class ParqueDB extends DataHandler {
      * Retorna o limite máximo de veiculos do parque recebendo o nif da farmácia
      * referente ao parque
      *
-     * @param parqueNif nif do parque
+     * @param farmNIF
+     * @param parqueID
      * @return limite máximo de veiculos
      */
-    public int getNumMaxParqueByNIF(int parqueNif) {
+    public int getNumMaxByFarmaciaNifParqueId(int farmNIF, int parqueID) {
         int numMax = 0;
-        String query = "SELECT p.numeroMaximo FROM parque p INNER JOIN estacionamento e ON p.FarmaciaNIF = e.ParqueFarmaciaNIF WHERE p.FarmaciaNIF = " + parqueNif;
+        String query = "SELECT p.numeroMaximo FROM parque p INNER JOIN farmacia f ON p.FarmaciaNIF = f.NIF WHERE p.FarmaciaNIF = " + farmNIF + "AND p.idParque =" + parqueID;
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
                 numMax = rSet.getInt(1);
@@ -160,5 +142,23 @@ public class ParqueDB extends DataHandler {
             Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
         return numMax;
+    }
+
+    public Parque getParqueByFarmaciaNifParqueId(int farmNIF, int idParque) {
+        String query = "SELECT * FROM parque p INNER JOIN farmacia f ON p.FarmaciaNIF = f.NIF WHERE p.FarmaciaNIF = " + farmNIF + "AND p.idParque =" + idParque;
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
+                if (rSet.next()) {
+                    int id = rSet.getInt(1);
+                    int nif = rSet.getInt(2);
+                    int numMax = rSet.getInt(3);
+                    String tipo = rSet.getString(4);
+                    return new Parque(id, nif, numMax, tipo);
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return null;
     }
 }

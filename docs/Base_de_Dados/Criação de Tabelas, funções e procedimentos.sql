@@ -167,10 +167,10 @@ CREATE TABLE "LAPR3_G23".EncomendaProduto
 
 
 CREATE TABLE "LAPR3_G23".Estacionamento 
-(           numeroLote number(10) GENERATED AS IDENTITY, 
+(           numeroLote number(10) NOT NULL, 
             carregador number(1) NOT NULL, 
             idParque number(10) NOT NULL, 
-            PRIMARY KEY (numeroLote)
+            PRIMARY KEY (idParque, numeroLote)
 );
 
 
@@ -428,10 +428,16 @@ END;
 
 CREATE OR REPLACE PROCEDURE addParque(p_FarmaciaNIF "LAPR3_G23".parque.farmacianif%type, p_numeroMaximo "LAPR3_G23".parque.numeromaximo%type,
 p_tipo "LAPR3_G23".parque.tipo%type) 
-AS
+RETURN INTEGER
+IS
+v_idParque INTEGER;
 BEGIN
-  INSERT INTO "LAPR3_G23".parque (FarmaciaNIF,numeroMaximo,tipo)
-  VALUES(p_FarmaciaNIF, p_numeroMaximo, p_tipo);
+  	INSERT INTO "LAPR3_G23".parque (FarmaciaNIF,numeroMaximo,tipo)
+  	VALUES(p_FarmaciaNIF, p_numeroMaximo, p_tipo);
+	SELECT "LAPR3_G23".parque.idParque INTO v_idParque
+        FROM "LAPR3_G23".parque
+        WHERE "LAPR3_G23".parque.FarmaciaNIF = p_FarmaciaNIF;
+RETURN v_idParque;
 END;
 /
 
@@ -504,10 +510,10 @@ END;
 /
 
 CREATE OR REPLACE PROCEDURE addEstacionamento(numeroLote "LAPR3_G23".estacionamento.numerolote%type, carregador "LAPR3_G23".estacionamento.carregador%type,
-ParqueFarmaciaNIF "LAPR3_G23".estacionamento.idParque%type) 
+idParque "LAPR3_G23".estacionamento.idParque%type) 
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".estacionamento VALUES(numeroLote,carregador,ParqueFarmaciaNIF);   
+  INSERT INTO "LAPR3_G23".estacionamento VALUES(numeroLote,carregador,idParque);   
 END;
 /
 

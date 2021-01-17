@@ -85,16 +85,7 @@ public class EncomendaDB extends DataHandler {
      * @return
      */
     public int registaEncomenda(Encomenda enc) throws SQLException, ParseException {
-        System.out.println("Nif: " + enc.getNif());
-        System.out.println("Data Pedida: " + enc.getDataPedida());
-        System.out.println("Estado: " + enc.getEstado().getEstado());
-        System.out.println("Id: " + enc.getId());
-        System.out.println("Lista: " + enc.getLst());
-        System.out.println("Peso: " + enc.getPesoEncomenda());
-        System.out.println("Preco: " + enc.getPreco());
-        System.out.println("Taxa: " + enc.getTaxa());
         if (validaEncomenda(enc)) {
-            System.out.println("Linha 71 Encomenda DB");
             enc.setId(addEncomenda(enc));
             return enc.getId();
         }
@@ -120,7 +111,6 @@ public class EncomendaDB extends DataHandler {
      * @param pesoEncomenda
      * @param taxa
      * @param estado
-     * @param lst
      */
     private int addEncomenda(int nif, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) throws SQLException, ParseException {
         int id = 0;

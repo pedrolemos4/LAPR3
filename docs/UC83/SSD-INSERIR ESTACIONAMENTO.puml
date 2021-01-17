@@ -6,7 +6,7 @@ activate ADM
 ADM -> ":Sistema" : Pretende inserir estacionamentos de um parque de uma farmácia
 activate ":Sistema"
 
-":Sistema" --> ADM : solicita dados do parque (NIF da farmácia) e dos estacionamentos \n(disponibilidade do carregador)
+":Sistema" --> ADM : solicita dados da farmácia (NIF da farmácia), do parque (id do parque) \ne dos estacionamentos (disponibilidade do carregador)
 deactivate ":Sistema"
 
 ADM -> ":Sistema" : introduz os dados solicitados

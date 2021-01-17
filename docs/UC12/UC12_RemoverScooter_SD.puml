@@ -3,10 +3,9 @@ autonumber
 
 actor "Administrador" as ADMIN
 
-participant ":ScooterUI" as UI
-participant ":ScooterController" as CTRL
-participant ":ScooterDB" as SCHL
-participant "scooter :Scooter" as SCOOT
+participant ":AdminUI" as UI
+participant ":VeiculoController" as CTRL
+participant ":VeiculoDB" as SCHL
 
 
 activate ADMIN
@@ -25,9 +24,9 @@ deactivate UI
 
 ADMIN -> UI : insere o id da scooter
 activate UI 
-UI -> CTRL : removeScooter(id)
+UI -> CTRL : removeVeiculo(id)
 activate CTRL
-CTRL -> SCHL : removeScooter(id)
+CTRL -> SCHL : removeVeiculo(id)
 activate SCHL
 deactivate SCHL
 deactivate CTRL

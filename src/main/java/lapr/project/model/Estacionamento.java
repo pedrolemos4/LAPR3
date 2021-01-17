@@ -4,7 +4,7 @@ public class Estacionamento {
 
     private int numeroLote;
     private int carregador;
-    private int nif;
+    private int idParque;
 
     /**
      * Constrói uma instância de estacionamento com o número do lugar e um valor
@@ -13,12 +13,12 @@ public class Estacionamento {
      * @param numeroLote número do lugar do estacionamento
      * @param carregador valor que mostra se tem estacao de carregamento sendo 0
      * não e 1 sim
-     * @param nif do parque/farmácia
+     * @param idParque id do parque
      */
-    public Estacionamento(int numeroLote, int carregador, int nif) {
+    public Estacionamento(int numeroLote, int carregador, int idParque) {
         this.numeroLote = numeroLote;
         this.carregador = carregador;
-        this.nif = nif;
+        this.idParque = idParque;
     }
 
     /**
@@ -28,7 +28,7 @@ public class Estacionamento {
     public Estacionamento() {
         this.numeroLote = 1;
         this.carregador = 0;
-        this.nif = 0;
+        this.idParque = 0;
     }
 
     /**
@@ -70,22 +70,22 @@ public class Estacionamento {
     }
 
     /**
-     * Devolve o valor do nif da farmácia/parque
+     * Devolve o valor do id do parque
      *
-     * @return nif da farmácia
+     * @return id do parque
      */
-    public int getNIF() {
-        return nif;
+    public int getIdParque() {
+        return idParque;
     }
 
     /**
-     * Modifica o valor do nif da farmácia/parque com o valor recebido por
+     * Modifica o valor do id do parque com o valor recebido por
      * parâmetro
      *
-     * @param nif novo nif da farmácia
+     * @param idParque novo id do parque
      */
-    public void setNIF(int nif) {
-        this.nif = nif;
+    public void setIdParque(int idParque) {
+        this.idParque = idParque;
     }
 
     /**
@@ -95,6 +95,6 @@ public class Estacionamento {
      */
     @Override
     public String toString() {
-        return "Estacionamento{" + "numeroLote=" + numeroLote + ", carregador=" + carregador + ", nif=" + nif + '}';
+        return "Estacionamento{" + "numeroLote=" + numeroLote + ", carregador=" + carregador + ", id=" + idParque + '}';
     }
 }

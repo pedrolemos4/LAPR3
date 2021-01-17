@@ -48,7 +48,6 @@ public class RealizaEncomendaController {
     }
 
     public int registaEncomenda(Encomenda enc1) throws SQLException, ParseException {
-        System.out.println("Regista Encomenda Linha 52");
         return (encDB.registaEncomenda(enc1));
     }
 
@@ -70,8 +69,6 @@ public class RealizaEncomendaController {
 
     public Cliente getCliente() {
         int nif = UserSession.getInstance().getUser().getNIF();
-        System.out.println("get cliente");
-        System.out.println(nif);
         return cliDB.getClienteByNIF(nif);
     }
 
@@ -81,10 +78,6 @@ public class RealizaEncomendaController {
 
     public boolean verificaProdutoEncomenda(int nif, Produto prod, int qntd) {
         Map<Produto, Integer> map = getListStock(nif);
-        for(Produto p : map.keySet()){
-            System.out.println(p.toString());
-            System.out.println(map.get(p));
-        }
         return ((getListStock(nif).containsKey(prod) && getListStock(nif).get(prod)>=qntd) ? true : false);
     }
 

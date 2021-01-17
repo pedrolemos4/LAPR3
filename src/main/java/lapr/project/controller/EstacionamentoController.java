@@ -47,11 +47,11 @@ public class EstacionamentoController {
 
         int idVeiculo = Integer.parseInt(itens[2]);
 
-        int numeroLote = Integer.parseInt(itens[3]);
+        int idEstacionamento = Integer.parseInt(itens[3]);
 
         Veiculo veiculo = veiculoDB.getVeiculoById(idVeiculo);
 
-        Estacionamento estac = estacionamentosDB.getEstacionamentoById(numeroLote);
+        Estacionamento estac = estacionamentosDB.getEstacionamentoById(idEstacionamento);
 
         estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo);
 

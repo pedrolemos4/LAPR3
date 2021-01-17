@@ -4,11 +4,15 @@ hide methods
 left to right direction
 
 class Parque {
+  -idParque
   -numeroMaximo
+  -tipo
 }
 
 class Farmacia {
   -NIF
+  -email
+  -morada
 }
 
 class Utilizador {
@@ -20,10 +24,13 @@ class Utilizador {
 }
 
 class Scooter {
-  -idScooter
+  -idVeiculo
+  -tipo
   -percentagemBateria
-  -pesoScooter
   -pesoMaximo
+  -pesoVeiculo
+  -potencia
+  -areaFrontal
 }
 
 Administrador "1" -- "1" Utilizador: atua como >
@@ -33,3 +40,4 @@ Farmacia "1" -- "1" Administrador: tem >
 Parque "1" -- "0..*" Scooter: tem > 
 
 @enduml
+

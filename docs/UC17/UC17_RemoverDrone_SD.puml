@@ -3,9 +3,9 @@ autonumber
 
 actor "Administrador" as ADMIN
 
-participant ":DroneUI" as UI
-participant ":DroneController" as CTRL
-participant ":DroneDB" as DRDB
+participant ":AdminUI" as UI
+participant ":VeiculoController" as CTRL
+participant ":VeiculoDB" as DRDB
 
 
 activate ADMIN
@@ -24,9 +24,9 @@ deactivate UI
 
 ADMIN -> UI : insere o id do drone
 activate UI 
-UI -> CTRL : removeDrone(id)
+UI -> CTRL : removeVeiculo(id)
 activate CTRL
-CTRL -> DRDB : removeDrone(id)
+CTRL -> DRDB : removeVeiculo(id)
 activate DRDB
 deactivate DRDB
 deactivate CTRL

@@ -3,10 +3,10 @@ autonumber
 
 actor "Administrador" as ADMIN
 
-participant ":DroneUI" as UI
-participant ":DroneController" as CTRL
-participant ":DroneDB" as DRDB
-participant "drone :Drone" as DRON
+participant ":AdminUI" as UI
+participant ":VeiculoController" as CTRL
+participant ":VeiculoDB" as DRDB
+participant "veiculo :Veiculo" as DRON
 activate ADMIN
 ADMIN -> UI : inicia a adição de novo drone
 activate UI
@@ -14,12 +14,12 @@ UI -> ADMIN : solicita os dados necessários do drone
 deactivate UI
 ADMIN -> UI : insere os dados (descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado)
 activate UI
-UI -> CTRL : addDrone(descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado)
+UI -> CTRL : addVeiculo(descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado)
 activate CTRL
-CTRL -> DRDB : addDrone(descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado)
+CTRL -> DRDB : addVeiculo(descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado)
 activate DRDB
 deactivate DRDB
-CTRL -> DRDB : drone = newDrone(descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado)
+CTRL -> DRDB : veiculo = newVeiculo(descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado)
 activate DRDB
 DRDB -> DRON : create (descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado)
 activate DRON
@@ -32,16 +32,18 @@ deactivate UI
 
 ADMIN -> UI : confirma os dados do drone
 activate UI 
-UI -> CTRL : droneDB()
+UI -> CTRL : veiculoDB()
 activate CTRL
-CTRL -> DRDB : droneDB(drone)
+CTRL -> DRDB : veiculoDB(veiculo)
 activate DRDB
-DRDB -> DRDB : validaDrone(drone)
-DRDB -> DRDB : addDrone(drone)
+DRDB -> DRDB : validaVeiculo(veiculo)
+DRDB -> DRDB : addVeiculo(veiculo)
 deactivate DRDB
 deactivate CTRL
 deactivate UI
 deactivate ADMIN
 
 @enduml
+
+
 

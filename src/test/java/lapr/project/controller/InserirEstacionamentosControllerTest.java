@@ -9,8 +9,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import lapr.project.data.EstacionamentosDB;
+import lapr.project.data.FarmaciaDB;
 import lapr.project.data.ParqueDB;
 import lapr.project.model.Estacionamento;
+import lapr.project.model.Farmacia;
 import lapr.project.model.Parque;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,32 +30,18 @@ public class InserirEstacionamentosControllerTest {
     private InserirEstacionamentosController instance1;
     private EstacionamentosDB estacionamentoMock;
     private ParqueDB parqueMock;
+    private FarmaciaDB farmaciaMock;
     private Estacionamento estac;
 
     @BeforeEach
     public void setUp() throws SQLException {
-        instance = new InserirEstacionamentosController(new EstacionamentosDB(), new ParqueDB());
+        instance = new InserirEstacionamentosController(new EstacionamentosDB(), new ParqueDB(), new FarmaciaDB());
         estacionamentoMock = mock(EstacionamentosDB.class);
         parqueMock = mock(ParqueDB.class);
+        farmaciaMock = mock(FarmaciaDB.class);
         estac = new Estacionamento(123456789, 5, 1);
-        instance1 = new InserirEstacionamentosController(estacionamentoMock, parqueMock);
+        instance1 = new InserirEstacionamentosController(estacionamentoMock, parqueMock, farmaciaMock);
         when(estacionamentoMock.addEstacionamento(estac)).thenReturn(true);
-    }
-
-    /**
-     * Test of getListaEstacionamentos method, of class
-     * InserirEstacionamentosController.
-     *
-     * @throws java.sql.SQLException
-     */
-    @Test
-    public void testGetListaEstacionamentos() throws SQLException {
-        System.out.println("getListaEstacionamentos");
-        Estacionamento estacionamento = new Estacionamento(1, 0, 0);
-        List<Estacionamento> expResult = new ArrayList<>();
-        expResult.add(estacionamento);
-        when(estacionamentoMock.getLstEstacionamentos()).thenReturn(expResult);
-        assertEquals(expResult, instance1.getListaEstacionamentos());
     }
 
     /**
@@ -63,13 +51,19 @@ public class InserirEstacionamentosControllerTest {
      * @throws java.sql.SQLException
      */
     @Test
-    public void testGetListaEstacionamentosByParqueNif() throws SQLException {
+    public void testGetListaEstacionamentosByFarmaciaNifParqueId() throws SQLException {
         System.out.println("getListaEstacionamentosByParqueNif");
-        Estacionamento estacionamento = new Estacionamento(1, 0, 0);
+        Farmacia farm = new Farmacia(123456789, "email", "rua1");
+        farmaciaMock.addFarmacia(farm);
+        Parque parque = new Parque(1, 123456789, 20, "drones");
+        parqueMock.addParque(parque);
+        Estacionamento estacionamento1 = new Estacionamento(1, 0, 123456789);
+        Estacionamento estacionamento2 = new Estacionamento(2, 1, 123456789);
         List<Estacionamento> expResult = new ArrayList<>();
-        expResult.add(estacionamento);
-        when(estacionamentoMock.getLstEstacionamentosByNif(estacionamento.getNIF())).thenReturn(expResult);
-        assertEquals(expResult, instance1.getListaEstacionamentosByParqueNif(estacionamento.getNIF()));
+        expResult.add(estacionamento1);
+        expResult.add(estacionamento2);
+        when(estacionamentoMock.getListaEstacionamentosByFarmaciaNifParqueId(farm.getNIF(), parque.getIdParque())).thenReturn(expResult);
+        assertEquals(expResult, instance1.getListaEstacionamentosByFarmaciaNifParqueId(farm.getNIF(), parque.getIdParque()));
     }
 
     /**
@@ -83,7 +77,7 @@ public class InserirEstacionamentosControllerTest {
         System.out.println("novoEstacionamento");
         Estacionamento estacionamento = new Estacionamento(1, 0, 0);
         when(estacionamentoMock.novoEstacionamento(1, 0, 0)).thenReturn(estacionamento);
-        assertEquals(estacionamento.toString(), instance.novoEstacionamento(estacionamento.getNumeroLote(), estacionamento.getCarregador(), estacionamento.getNIF()).toString());
+        assertEquals(estacionamento.toString(), instance.novoEstacionamento(estacionamento.getNumeroLote(), estacionamento.getCarregador(), estacionamento.getIdParque()).toString());
     }
 
     /**
@@ -125,13 +119,67 @@ public class InserirEstacionamentosControllerTest {
      * @throws java.sql.SQLException
      */
     @Test
-    public void testGetNumMaxParqueByNIF() throws SQLException {
+    public void testGetNumMaxByFarmaciaNifParqueId() throws SQLException {
         System.out.println("getNumMaxParqueByNIF");
-        Parque parque = new Parque(111111111, 20, "drones");
+        Farmacia farm = new Farmacia(123456789, "email", "rua1");
+        farmaciaMock.addFarmacia(farm);
+        Parque parque = new Parque(1, 123456789, 20, "drones");
         parqueMock.addParque(parque);
         int expResult = parque.getNumeroMaximo();
-        when(parqueMock.getNumMaxParqueByNIF(111111111)).thenReturn(20);
-        int result = instance1.getNumMaxParqueByNIF(111111111);
+        when(parqueMock.getNumMaxByFarmaciaNifParqueId(123456789, 1)).thenReturn(20);
+        int result = instance1.getNumMaxByFarmaciaNifParqueId(123456789, 1);
         assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getListaFarmacias method, of class
+     * InserirEstacionamentosController.
+     *
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testGetListaFarmacias() throws SQLException {
+        System.out.println("getListaFarmacias");
+        Farmacia farmacia = new Farmacia(123456789, "email", "rua1");
+        List<Farmacia> expResult = new ArrayList<>();
+        expResult.add(farmacia);
+        when(farmaciaMock.getLstFarmacias()).thenReturn(expResult);
+        assertEquals(expResult, instance1.getListaFarmacias());
+    }
+
+    /**
+     * Test of getListaParquesByFarmaciaNif method, of class
+     * InserirEstacionamentosController.
+     *
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testGetListaParquesByFarmaciaNif() throws SQLException {
+        System.out.println("getListaParquesByFarmaciaNif");
+        Farmacia farmacia1 = new Farmacia(123456789, "email", "rua1");
+        Farmacia farmacia2 = new Farmacia(234, "email", "rua1");
+        farmaciaMock.addFarmacia(farmacia1);
+        farmaciaMock.addFarmacia(farmacia2);
+        Parque parque1 = new Parque(1, 123456789, 20, "drones");
+        Parque parque2 = new Parque(2, 123456789, 12, "scooters");
+        List<Parque> expResult = new ArrayList<>();
+        expResult.add(parque1);
+        expResult.add(parque2);
+        when(parqueMock.getLstParquesByFarmaciaNif(farmacia1.getNIF())).thenReturn(expResult);
+        assertEquals(expResult, instance1.getListaParquesByFarmaciaNif(farmacia1.getNIF()));
+    }
+
+    /**
+     * Test of getFarmaciaByNIF method, of class
+     * InserirEstacionamentosController.
+     *
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testGetFarmaciaByNIF() throws SQLException {
+        System.out.println("getFarmaciaByNIF");
+        Farmacia farmacia = new Farmacia(1, "a", "a");
+        when(farmaciaMock.getFarmaciaByNIF(1)).thenReturn(farmacia);
+        assertEquals(farmacia, instance1.getFarmaciaByNIF(1));
     }
 }
