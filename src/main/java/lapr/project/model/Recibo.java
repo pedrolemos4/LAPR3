@@ -142,7 +142,7 @@ public class Recibo {
     /**
      * Modifica a lista
      *
-     * @param lst
+     * @param mapa
      */
     public void setLst(Map<Produto, Integer> mapa) {
         this.map = new HashMap<>(mapa);
@@ -150,12 +150,13 @@ public class Recibo {
 
     @Override
     public String toString() {
-        System.out.println("Recibo{" + "nif=" + nif + ", id=" + id + ", preco=" + preco + ", data=" + data + ", idEncomenda="
-                    + idEncomenda );
+        String s = "";
+        s = s + "Recibo{" + "nif=" + nif + ", id=" + id + ", preco=" + preco + ", data=" + data + ", idEncomenda="
+                    + idEncomenda;
         for (Produto p : map.keySet()) {
-            return String.format(", produtos=" + map +"quantidade=" + map.get(p) + '}');
+            s = s + ", produto=" + map +"quantidade=" + map.get(p) + '}';
         }
-        return "";
+        return s;
     }
 
 }
