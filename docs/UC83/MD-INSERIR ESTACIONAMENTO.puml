@@ -32,6 +32,7 @@ class Administrador {
 
 class Parque {
   -numeroMaximo
+  -tipo
 }
 
 Administrador "1" -- "1" Utilizador: atua como >
