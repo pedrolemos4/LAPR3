@@ -196,6 +196,16 @@ public class DataTest {
     }
 
     @Test
+    public void testContaDias1() {
+        System.out.println("contaDias1");
+        Data instance = new Data(2021,Mes.MARCO,10);
+        int expResult = 737859;
+        int result = instance.contaDias();
+        System.out.println(instance.contaDias());
+        assertEquals(expResult, result);
+    }
+
+    @Test
     public void testConstructorOutraData(){
         Data outraData = new Data(2020, Mes.JANEIRO,12);
         Data instance = new Data(outraData);
