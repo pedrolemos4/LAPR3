@@ -1,22 +1,22 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class ScooterDB {
-  +List<Scooter> getScooterList()
-  +boolean removeScooter(int id)
+class VeiculoDB {
+  +List<Veiculo> getScooterList()
+  +boolean removeVeiculo(int id)
 }
 
-class ScooterController {
-    +List<Scooter> getScooterList()
-    +boolean removeScooter(int id)
+class VeiculoController {
+    +List<Veiculo> getScooterList()
+    +boolean removeVeiculo(int id)
 }
 
-class ScooterUI {
+class AdminUI {
 }
 
 
-ScooterUI ..> ScooterController 
+AdminUI ..> VeiculoController 
 
-ScooterController ..> ScooterDB
+VeiculoController ..> VeiculoDB
 @enduml
 
