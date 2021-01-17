@@ -1,5 +1,10 @@
 package lapr.project.ui;
 
+import lapr.project.controller.EstacionamentoController;
+import lapr.project.data.EmailDB;
+import lapr.project.data.EstacionamentosDB;
+import lapr.project.data.VeiculoDB;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,8 +48,13 @@ class Main {
             e.printStackTrace();
         }
 
+        EstacionamentoController cont = new EstacionamentoController(new EmailDB(),new EstacionamentosDB(),new VeiculoDB());
+        System.out.println("a");
+        cont.checkParkings("src/main/java/lapr/project/parking/estacionamento");
+
         LoginUI login = new LoginUI();
         login.menu();
+
     }
 }
 

@@ -120,7 +120,6 @@ public class EncomendaDB extends DataHandler {
      * @param pesoEncomenda
      * @param taxa
      * @param estado
-     * @param lst
      */
     private int addEncomenda(int nif, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) throws SQLException, ParseException {
         int id = 0;

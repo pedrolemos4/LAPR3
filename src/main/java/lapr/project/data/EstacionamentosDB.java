@@ -5,19 +5,15 @@
  */
 package lapr.project.data;
 
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import lapr.project.model.Estacionamento;
+import lapr.project.model.Veiculo;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import lapr.project.model.Estacionamento;
-import lapr.project.model.Veiculo;
 
 /**
  *
@@ -60,7 +56,7 @@ public class EstacionamentosDB extends DataHandler {
      * @return true se o estacionamento é valido
      */
     public boolean validaEstacionamento(Estacionamento estac) {
-        return !(estac == null || estac.getNumeroLote() <= 0 || estac.getCarregador() < 0 || estac.getCarregador() > 1 || estac.getIdParque()< 0);
+        return !(estac == null || estac.getNumeroLote() <= 0 || estac.getCarregador() < 0 || estac.getCarregador() > 1 || estac.getIdParque() < 0);
     }
 
     /**
@@ -174,9 +170,10 @@ public class EstacionamentosDB extends DataHandler {
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoVeiculo(?,?,?,?) }")) {
-                callStmt.setInt(1, estacionamento.getIdParque());
-                callStmt.setInt(2, veiculo.getId());
+                callStmt.setInt(1, veiculo.getId());
+                callStmt.setInt(2, estacionamento.getNumeroLote());
                 callStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+                callStmt.setTimestamp(4, null);
                 callStmt.execute();
             }
             closeAll();

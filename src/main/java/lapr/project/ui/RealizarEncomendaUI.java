@@ -98,6 +98,9 @@ public class RealizarEncomendaUI {
                     Graph<Farmacia, Double> generateGrafo = controller2.generateGrafo(farms);
 
                     nif1 = controller2.getFarmaciaProxima(generateGrafo, nif);
+                    System.out.println("Grafo: ");
+                    System.out.println(generateGrafo.toString());
+                    System.out.println("");
                     if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).get(prod)>=qntd) {
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
                         controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);

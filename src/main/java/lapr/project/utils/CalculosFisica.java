@@ -40,7 +40,6 @@ public class CalculosFisica {
     
     /**
      * Devolve o calculo da energia gasta no percurso
-     * @param pesoEstafeta peso do estafeta
      * @param pesoVeiculo peso do drone
      * @param areaFrontal a area frontal do drone
      * @param pesoEncomenda o peso da encomenda

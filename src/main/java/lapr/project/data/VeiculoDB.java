@@ -1,5 +1,9 @@
 package lapr.project.data;
 
+import lapr.project.model.Estacionamento;
+import lapr.project.model.Veiculo;
+import oracle.jdbc.OracleTypes;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,10 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import lapr.project.model.Estacionamento;
-import lapr.project.model.Veiculo;
-import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -114,8 +114,10 @@ public class VeiculoDB extends DataHandler {
                     double areaFrontal = rSet.getDouble(9);
                     int idEstado = rSet.getInt(10);
 
-                    return new Veiculo(descricao, tipo,capacidade, percentagemBateria,
+                    Veiculo v = new Veiculo(descricao, tipo,capacidade, percentagemBateria,
                             pesoMaximo, pesoVeiculo, potencia, areaFrontal, idEstado);
+                    v.setId(id);
+                    return v;
                 }
             }
         } catch (SQLException e) {

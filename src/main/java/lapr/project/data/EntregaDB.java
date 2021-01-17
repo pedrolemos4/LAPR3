@@ -176,8 +176,6 @@ public class EntregaDB extends DataHandler {
             graph.insertEdge(listEnderecos.get(0), listEnderecos.get(1), 1.0, energiaGasta);
             graph.insertEdge(listEnderecos.get(0), listEnderecos.get(i), 1.0, energiaGasta);
         }
-        
-
 
         int aux = 1;
         for (Endereco end : listEnderecos) {

@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr.project.model.Cliente;
-import lapr.project.model.Endereco;
 
 /**
  *
@@ -127,9 +126,9 @@ public class ClienteDB extends DataHandler {
     }
 
     /**
-     * Procura cliente por email recebido
+     * Procura cliente por nif recebido
      *
-     * @param email email do cliente
+     * @param nif nif do cliente
      * @return cliente
      */
     public Cliente getClienteByNIF(int nif) {
