@@ -2,46 +2,45 @@
 skinparam classAttributeIconSize 0
 
 class VeiculoDB {
-  +setDrone(tipo, percentagemBateria, pesoMaximo, pesoVeiculo, potencia, areaFrontal)
-  +updateDrone(drone)
-  +validaDrone(drone)
-  +addDrone(drone)
+  +update(veiculo)
 }
 
-class AtualizarDroneController {
-    +setDrone(tipo, percentagemBateria, pesoMaximo, pesoVeiculo, potencia, areaFrontal)
-    +updateDrone()
+class VeiculoController {
+    +update(veiculo)
 }
 
-class AtualizarDroneUI {
+class AdminUI {
 }
 
-class Veiculo {
-   -idVeiculo
-   -tipo
-   -percentagemBateria
-   -pesoMaximo
-   -pesoVeiculo
-   -potencia
-   -areaFrontal
-   +setDrone(tipo, percentagemBateria, pesoMaximo, pesoVeiculo, potencia, areaFrontal)
-}
 
 class Parque {
-  -numeroMaximo
-  -tipo
+  -Integer idParque
+  -Integer numeroMaximo
+  -String tipo
 }
 
 class Farmacia {
-  -NIF
+  -Integer NIF
+  -String email
+  -String morada
 }
 
 class Utilizador {
-  -NIF
-  -nome
-  -email
-  -numeroSegurancaSocial
-  -password
+  -Integer NIF
+  -String nome
+  -String email
+  -Integer numeroSegurancaSocial
+  -String password
+}
+
+class Veiculo {
+  -Integer idVeiculo
+  -String tipo
+  -Double percentagemBateria
+  -Double pesoMaximo
+  -Double pesoVeiculo
+  -Double potencia
+  -Double areaFrontal
 }
 
 Administrador "1" -- "1" Utilizador: atua como >
@@ -49,9 +48,11 @@ Administrador "1" -- "1..*" Parque: remove >
 Farmacia "1" -- "1" Parque: tem >
 Farmacia "1" -- "1" Administrador: tem >
 Parque "1" -- "0..*" Veiculo: tem > 
+VeiculoDB "1" -- "*" Veiculo: tem registados> 
 
-AtualizarDroneUI ..> AtualizarDroneController 
+AdminUI ..> VeiculoController 
 
-AtualizarDroneController ..> VeiculoDB
-VeiculoDB "1" -- "*" Veiculo: tem registadas >
+VeiculoController ..> VeiculoDB
+
+
 @enduml
