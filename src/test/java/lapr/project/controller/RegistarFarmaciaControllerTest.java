@@ -1,8 +1,5 @@
 package lapr.project.controller;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import lapr.project.data.EnderecoDB;
 import lapr.project.data.FarmaciaDB;
 import lapr.project.data.ParqueDB;
@@ -11,7 +8,12 @@ import lapr.project.model.Farmacia;
 import lapr.project.model.Parque;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -173,4 +175,30 @@ public class RegistarFarmaciaControllerTest {
         assertEquals(false, instance1.registaEndereco(end));
     }
 
+    @Test
+    void getListaParquesByFarmaciaNif() {
+        System.out.println("getListaParquesByFarmaciaNif");
+        List<Parque> listParques = new ArrayList<>();
+        when(parqueMock.getLstParquesByFarmaciaNif(1)).thenReturn(listParques);
+
+        assertEquals(listParques,instance1.getListaParquesByFarmaciaNif(1));
+    }
+
+    @Test
+    void getFarmaciaByNIF() {
+        System.out.println("getFarmaciaByNIF");
+        Farmacia farmacia = new Farmacia(1,"a","a");
+        when(farmaciaMock.getFarmaciaByNIF(1)).thenReturn(farmacia);
+
+        assertEquals(farmacia,instance1.getFarmaciaByNIF(1));
+    }
+
+    @Test
+    void getEnderecoByFarmaciaMorada() {
+        System.out.println("getEnderecoByFarmaciaMorada");
+        Endereco endereco = new Endereco("a",1,1,1);
+        when(enderecoMock.getEnderecoByFarmaciaMorada("a")).thenReturn(endereco);
+
+        assertEquals(endereco,instance1.getEnderecoByFarmaciaMorada("a"));
+    }
 }
