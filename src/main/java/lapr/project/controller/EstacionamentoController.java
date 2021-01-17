@@ -35,9 +35,6 @@ public class EstacionamentoController {
         File newFile = new File(path);
         Scanner scan = new Scanner(newFile);
 
-        String fileName = newFile.getName();
-        String date = fileName.substring(9,28);
-
         String line = scan.nextLine();
 
         scan.close();

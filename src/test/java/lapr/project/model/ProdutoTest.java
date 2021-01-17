@@ -193,7 +193,7 @@ public class ProdutoTest {
      */
     @Test
     public void testEquals3() {
-        System.out.println("equals2");
+        System.out.println("equals3");
         Object obj = null;
         Produto instance = new Produto(1, "df", 32, 32);
         boolean expResult = false;

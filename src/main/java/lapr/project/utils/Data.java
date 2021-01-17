@@ -7,6 +7,7 @@ package lapr.project.utils;
 
 
 import java.util.Calendar;
+import java.util.Objects;
 
 /**
  *
@@ -112,6 +113,10 @@ public class Data implements Comparable<Data>{
         return (outraData.isMaior(this)) ? -1 : (isMaior(outraData)) ? 1 : 0;
     }
 
+    @Override
+    public int hashCode(){
+        return Objects.hash(ano) - 31 + Objects.hash(mes) + Objects.hash(dia);
+    }
     public boolean isMaior(Data outraData) {
         int totalDias = contaDias();
         int totalDias1 = outraData.contaDias();

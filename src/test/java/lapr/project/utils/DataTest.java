@@ -5,6 +5,7 @@
  */
 package lapr.project.utils;
 
+import lapr.project.model.Produto;
 import org.junit.jupiter.api.Test;
 
 import static lapr.project.utils.Data.*;
@@ -225,5 +226,51 @@ public class DataTest {
     @Test
     void valueOf() {
         assertEquals(Mes.JANEIRO,Mes.valueOf("JANEIRO"));
+    }
+
+    @Test
+    void hashCodeTest() {
+        Data data = new Data(1,Mes.JANEIRO,2020);
+        Data dataExpected = new Data(1,Mes.JANEIRO,2020);
+
+        assertEquals(dataExpected.hashCode(),data.hashCode());
+    }
+
+    @Test
+    public void testEquals1() {
+        System.out.println("equals1");
+        Data outroObjeto = new Data("02/01/2021");
+        Data instance = new Data("01/01/2021");
+        boolean expResult = false;
+        boolean result = instance.equals(outroObjeto);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testEquals2() {
+        System.out.println("equals2");
+        Data instance = new Data("01/01/2021");
+        boolean expResult = false;
+        boolean result = instance.equals(null);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testEquals3() {
+        System.out.println("equals3");
+        Data instance = new Data("01/01/2021");
+        boolean expResult = true;
+        boolean result = instance.equals(instance);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testEquals4() {
+        System.out.println("equals4");
+        Produto outroObjeto = new Produto();
+        Data instance = new Data("01/01/2021");
+        boolean expResult = false;
+        boolean result = instance.equals(outroObjeto);
+        assertEquals(expResult, result);
     }
 }
