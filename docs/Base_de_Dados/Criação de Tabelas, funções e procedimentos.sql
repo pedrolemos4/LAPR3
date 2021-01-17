@@ -272,15 +272,15 @@ ALTER TABLE "LAPR3_G23".TransferenciaProduto ADD CONSTRAINT FKTransferenciaProdu
 ALTER TABLE "LAPR3_G23".TransferenciaProduto ADD CONSTRAINT FKTransferenciaProduto_Estado FOREIGN KEY (id_Estado) REFERENCES "LAPR3_G23".EstadoTransferencia (id);
 ------------------------------------------------------------------------------------
 
-INSERT INTO "LAPR3_G23".estadoveiculo VALUES (1,'Disponível');
-INSERT INTO "LAPR3_G23".estadoveiculo VALUES (2,'Indisponível');
+INSERT INTO "LAPR3_G23".estadoveiculo VALUES (1,'DisponÃ­vel');
+INSERT INTO "LAPR3_G23".estadoveiculo VALUES (2,'IndisponÃ­vel');
 
 INSERT INTO "LAPR3_G23".estadoEncomenda VALUES (1,'Encomendado');
 INSERT INTO "LAPR3_G23".estadoEncomenda VALUES (2,'Entregando');
 INSERT INTO "LAPR3_G23".estadoEncomenda VALUES (3,'Entregue');
 
-INSERT INTO "LAPR3_G23".estadoEstafeta VALUES(1,'Disponível');
-INSERT INTO "LAPR3_G23".estadoEstafeta VALUES(2,'Indisponível');
+INSERT INTO "LAPR3_G23".estadoEstafeta VALUES(1,'DisponÃ­vel');
+INSERT INTO "LAPR3_G23".estadoEstafeta VALUES(2,'IndisponÃ­vel');
 
 INSERT INTO "LAPR3_G23".EstadoTransferencia VALUES(1,'Pendente');
 INSERT INTO "LAPR3_G23".EstadoTransferencia VALUES(2,'A transferir');
@@ -560,8 +560,8 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addEncomendaEntrega(EntregaidEntrega "LAPR3_G23".encomendaEntrega.entregaidentrega%type,
-EncomendaidEncomenda "LAPR3_G23".encomendaEntrega.encomendaidencomenda%type)
+CREATE OR REPLACE PROCEDURE addEncomendaEntrega(EntregaidEntrega "LAPR3_G23".entrega.identrega%type,
+EncomendaidEncomenda "LAPR3_G23".encomenda.idencomenda%type)
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".encomendaEntrega VALUES(EntregaidEntrega,EncomendaidEncomenda);
@@ -672,7 +672,7 @@ CREATE OR REPLACE PROCEDURE updateEntrega(p_idEntrega "LAPR3_G23".entrega.idEntr
 p_veiculoid "LAPR3_G23".entrega.veiculoid%type, p_dataInicio "LAPR3_G23".entrega.dataInicio%type, p_datafim "LAPR3_G23".entrega.dataFim%type)
 AS
 BEGIN
-  UPDATE "LAPR3_G23".entrega SET "LAPR3_G23".entrega.idEntrega = p_idEntrega,"LAPR3_G23".entrega.EstafetaUtilizadorNIF = p_EstafetaUtilizadorNIF,
+  UPDATE "LAPR3_G23".entrega SET "LAPR3_G23".entrega.EstafetaUtilizadorNIF = p_EstafetaUtilizadorNIF,
   "LAPR3_G23".entrega.veiculoid = p_veiculoid, "LAPR3_G23".entrega.dataInicio= p_dataInicio,"LAPR3_G23".entrega.dataFim = p_datafim
     WHERE "LAPR3_G23".entrega.idEntrega = p_idEntrega;
 END;
@@ -684,7 +684,7 @@ p_EstadoEncomendaidEstadoEncomenda "LAPR3_G23".encomenda.estadoEncomendaIdEstado
 p_ClienteUtilizadorNIF "LAPR3_G23".encomenda.clienteutilizadornif%type)
 AS
 BEGIN
-  UPDATE "LAPR3_G23".encomenda SET "LAPR3_G23".encomenda.idEncomenda = p_idEncomenda,"LAPR3_G23".encomenda.dataPedida = p_dataPedida,
+  UPDATE "LAPR3_G23".encomenda SET "LAPR3_G23".encomenda.dataPedida = p_dataPedida,
   "LAPR3_G23".encomenda.preco = p_preco, "LAPR3_G23".encomenda.pesoEncomenda = p_pesoEncomenda,"LAPR3_G23".encomenda.taxa = p_taxa,
   "LAPR3_G23".encomenda.estadoEncomendaIdEstadoEncomenda = p_EstadoEncomendaidEstadoEncomenda, "LAPR3_G23".encomenda.clienteutilizadornif = p_ClienteUtilizadorNIF
     WHERE "LAPR3_G23".encomenda.idEncomenda = p_idEncomenda;
@@ -755,13 +755,18 @@ rollback;
   
   select * from cliente;
   
-  select * from stockfarmacia;
+  select * from entrega;
   
+  SELECT c.utilizadorNIF, c.creditos, c.EnderecoMorada, c.cartaonumerocartaocredito FROM cliente c INNER JOIN endereco e ON c.EnderecoMorada = e.morada WHERE c.EnderecoMorada= 'adsfsf';
+
+SELECT c.utilizadorNIF, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito FROM cliente c INNER JOIN endereco e ON c.EnderecoMorada = e.morada WHERE c.EnderecoMorada = 'adsfsf';
+
   select * from produto inner join stockfarmacia on produto.idproduto = stockfarmacia.produtoidproduto;
   
   update stockfarmacia set stock = 2 where produtoidproduto = 21;
   
   select * from farmacia ;
+  select * from utilizador;
   
   select * from linhaRecibo;
   
