@@ -126,15 +126,12 @@ public class EstacionamentosDB extends DataHandler {
      * Retorna lista de estacionamento de um determinado parque recendo o seu
      * nif por parâmetro
      *
-     * @param farmNIF
-     * @param parqueID
+     * @param parqueNif nif do parque/farmácia
      * @return lista de estacionamento do parque
      */
-    public List<Estacionamento> getListaEstacionamentosByFarmaciaNifParqueId(int farmNIF, int parqueID) {
+    public List<Estacionamento> getLstEstacionamentosByNif(int parqueNif) {
         ArrayList<Estacionamento> list = new ArrayList<>();
-        String query = "SELECT * FROM estacionamento e INNER JOIN parque p ON p.FarmaciaNIF = e.ParqueFarmaciaNIF "
-                + "INNER JOIN farmacia f ON f.NIF = e.ParqueFarmaciaNIF "
-                + "WHERE e.ParqueFarmaciaNIF = " + farmNIF + "AND p.FarmaciaNIF = " + farmNIF + "AND p.idParque = " + parqueID;
+        String query = "SELECT e.numeroLote, e.carregador, e.ParqueFarmaciaNIF FROM estacionamento e INNER JOIN parque p ON p.FaarmaciaNIF = e.ParqueFarmaciaNIF WHERE p.FaarmaciaNIF = " + parqueNif;
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {

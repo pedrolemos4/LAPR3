@@ -7,11 +7,8 @@ package lapr.project.controller;
 
 import java.util.List;
 import lapr.project.data.EstacionamentosDB;
-import lapr.project.data.FarmaciaDB;
 import lapr.project.data.ParqueDB;
 import lapr.project.model.Estacionamento;
-import lapr.project.model.Farmacia;
-import lapr.project.model.Parque;
 
 /**
  *
@@ -21,19 +18,14 @@ public class InserirEstacionamentosController {
 
     private final EstacionamentosDB estacionamentoDB;
     private final ParqueDB parqueDB;
-    private final FarmaciaDB farmaciaDB;
 
     /**
      * Cria instância do controlador InserirEstacionamentosController
      *
-     * @param edb
-     * @param pdb
-     * @param fdb
      */
-    public InserirEstacionamentosController(EstacionamentosDB edb, ParqueDB pdb, FarmaciaDB fdb) {
+    public InserirEstacionamentosController(EstacionamentosDB edb, ParqueDB pdb) {
         this.estacionamentoDB = edb;
         this.parqueDB = pdb;
-        this.farmaciaDB = fdb;
     }
 
     /**
@@ -49,40 +41,11 @@ public class InserirEstacionamentosController {
      * Retorna lista de estacionamento de um determinado parque recendo o seu
      * nif por parâmetro
      *
-     * @param farmNIF
-     * @param parqueID
+     * @param parqueNif nif do parque/farmácia
      * @return lista de estacionamento do parque
      */
-    public List<Estacionamento> getListaEstacionamentosByFarmaciaNifParqueId(int farmNIF, int parqueID) {
-        return estacionamentoDB.getListaEstacionamentosByFarmaciaNifParqueId(farmNIF, parqueID);
-    }
-
-    /**
-     * Retorna lista com todas as farmácias
-     *
-     * @return lista das farmácias
-     */
-    public List<Farmacia> getListaFarmacias() {
-        return farmaciaDB.getLstFarmacias();
-    }
-
-    /**
-     * Retorna lista com todas os parques de uma determinada farmácia
-     *
-     * @param nif da farmacia
-     * @return lista dos parques da farmácia
-     */
-    public List<Parque> getListaParquesByFarmaciaNif(int nif) {
-        return parqueDB.getLstParquesByFarmaciaNif(nif);
-    }
-
-    /**
-     * 
-     * @param nif
-     * @return 
-     */
-    public Farmacia getFarmaciaByNIF(int nif) {
-        return farmaciaDB.getFarmaciaByNIF(nif);
+    public List<Estacionamento> getListaEstacionamentosByParqueNif(int parqueNif) {
+        return estacionamentoDB.getLstEstacionamentosByNif(parqueNif);
     }
 
     /**
@@ -112,15 +75,10 @@ public class InserirEstacionamentosController {
      * Retorna o limite máximo de veiculos do parque recebendo o nif da farmácia
      * referente ao parque
      *
-     * @param farmNIF
-     * @param parqueID
+     * @param nif nif do parque/farmácia
      * @return limite máximo de veiculos do parque
      */
-    public int getNumMaxByFarmaciaNifParqueId(int farmNIF, int parqueID) {
-        return parqueDB.getNumMaxByFarmaciaNifParqueId(farmNIF, parqueID);
-    }
-
-    public Parque getParqueByFarmaciaNifParqueId(int farmNIF, int idParque) {
-        return parqueDB.getParqueByFarmaciaNifParqueId(farmNIF, idParque);
+    public int getNumMaxParqueByNIF(int nif) {
+        return parqueDB.getNumMaxParqueByNIF(nif);
     }
 }

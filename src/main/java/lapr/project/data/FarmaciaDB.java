@@ -136,7 +136,7 @@ public class FarmaciaDB extends DataHandler {
                 }
             }
         } catch (SQLException e) {
-            Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
         return null;
     }
