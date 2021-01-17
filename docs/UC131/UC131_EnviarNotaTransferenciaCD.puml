@@ -1,43 +1,18 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class Produto {
-  -Integer id
-  -String desig
-  -Double peso
-  -Double preco_base
-  +Produto(desig,peso,preco_base)
-}
-
-class ProdutosDB {
-  +getListaProdutos()
-}
-
-class Farmacia {
-  -Integer nif
-  +Farmacia(nif)
-}
-
-class FarmaciaDB {
-  +getFarmacia(nif)
-  +enviarNotaTrans(prods,nif)
-  +validaInfo(prods,nif)
+class EmailDB {
+  +sendEmali(emailOrig,emailDest,assunto,mensagem)
 }
 
 class EnviarNotaTransferenciaController {
-    +enviarNotaTrans(prods,nif)
+    +enviarNotaTransferencia(fOrig,fDest,prod,qntd)
 }
 
 class EnviarNotaTransferenciaUI {
 }
 
 EnviarNotaTransferenciaUI ..> EnviarNotaTransferenciaController
-EnviarNotaTransferenciaController ..> ProdutosDB
-EnviarNotaTransferenciaController ..> Produto
-EnviarNotaTransferenciaController ..> FarmaciaDB
-EnviarNotaTransferenciaController ..> Farmacia
-
-ProdutosDB "1" --> "*" Produto : tem registados
-FarmaciaDB "1" --> "*" Farmacia : tem registadas
+EnviarNotaTransferenciaController ..> EmailDB
 
 @enduml

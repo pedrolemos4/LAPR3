@@ -13,7 +13,7 @@ activate UI
 UI -> CTL : enviarNotaEntrega()
 activate CTL
 
-CTL -> FDB : farm = getFarmacia(nif)
+CTL -> FDB : farm = getFarmaciaByNIF(nif)
 activate FDB
 deactivate FDB
 

@@ -2,33 +2,20 @@
 autonumber
 
 actor "Farmácia" as FARM
-participant ":EnviarNotaTransferenciaUI" as UI
+participant ":RealizarEncomendaUI" as UI
 participant ":EnviarNotaTransferenciaController" as CTL
-participant ":ProdutosDB" as PDB
-participant ":FarmaciaDB" as FDB
+participant ":EmailDB" as EDB
 
 activate FARM
 FARM -> UI : envia uma nota de transferência\n com os produtos enviados
 activate UI
-UI -> CTL : enviarNotaTrans(prods,nif)
+UI -> CTL : enviarNotaTransferencia(fOrig,fDest,prod,qntd)
 activate CTL
 
-CTL -> PDB : lp = getListaProdutos()
-activate PDB
-deactivate PDB
+CTL -> EDB : sendEmail(emailOrig,emailDest,assunto,mensagem)
+activate EDB
 
-CTL -> FDB : farm = getFarmacia(nif)
-activate FDB
-deactivate FDB
-
-CTL -> FDB : enviarNotaTrans(prods,nif)
-activate FDB
-
-FDB -> FDB : validaInfo(prods,nif)
-
-FDB -> FDB : enviarNotaTrans(prods,nif)
-
-deactivate FDB
+deactivate EDB
 
 deactivate CTL
 
