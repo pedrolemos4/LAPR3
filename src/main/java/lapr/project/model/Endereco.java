@@ -31,6 +31,9 @@ public class Endereco {
         this.altitude = altitude;
     }
 
+    /**
+     * Construtor vazio
+     */
     public Endereco() {
         this.morada = null;
         this.latitude = 0;
@@ -110,6 +113,10 @@ public class Endereco {
         this.altitude = altitude;
     }
 
+    /**
+     * Devolve a descrição textual do Endereco
+     * @return 
+     */
     @Override
     public String toString() {
         return "Endereco{" + "morada=" + morada + ", latitude=" + latitude + ", longitude=" + longitude + ", altitude=" + altitude + '}';

@@ -9,52 +9,97 @@ public class Edge<V,E> implements Comparable {
     private Vertex<V,E> vOrig;  // vertex origin
     private Vertex<V,E> vDest;  // vertex destination
 
+    /**
+     * Cria um construtor vazio
+     */
     public Edge() {
         element = null; weight= 0.0; vOrig=null; vDest=null;
     }
 
+    /**
+     * Cria uma edge com os elemento, o peso e a informação
+     * @param eInf
+     * @param ew
+     * @param vo
+     * @param vd 
+     */
     public Edge(E eInf, double ew, Vertex<V,E> vo, Vertex<V,E> vd) {
         element = eInf; weight= ew; vOrig=vo; vDest=vd;
     }
 
+    /**
+     * Devolve o elemento
+     * @return 
+     */
     public E getElement() {
         return element;
     }
 
+    /**
+     * Modifica o elemento
+     * @param eInf 
+     */
     public void setElement(E eInf) {
         element = eInf;
     }
 
+    /**
+     * Devolve o peso
+     * @return 
+     */
     public double getWeight() {
         return weight;
     }
 
+    /**
+     * Modifica o peso
+     * @param ew 
+     */
     public void setWeight(double ew) {
         weight= ew;
     }
 
+    /**
+     * Devolve a origem
+     * @return 
+     */
     public V getVOrig() {
         if (this.vOrig != null)
             return vOrig.getElement();
         return null;
     }
 
+    /**
+     * Modifica a origem
+     * @param vo 
+     */
     public void setVOrig(Vertex<V,E> vo) {
         vOrig= vo;
     }
 
+    /**
+     * Devolve o destino
+     * @return 
+     */
     public V getVDest() {
         if (this.vDest != null)
             return vDest.getElement();
         return null;
     }
 
+    /**
+     * Modifica o destino
+     * @param vd 
+     */
     public void setVDest(Vertex<V,E> vd) {
         vDest= vd;
     }
 
+    /**
+     * Retorna os vértices na extremidade do ramo
+     * @return 
+     */
     public V[] getEndpoints() {
-        //retorna os vértices na extremidade do ramo
 
         V oElem=null;
         V dElem=null;
@@ -69,7 +114,7 @@ public class Edge<V,E> implements Comparable {
         if (oElem == null && dElem == null)
             return null;
 
-        if (oElem != null)          // To get type
+        if (oElem != null)         
             typeElem = oElem;
 
         if (dElem != null)
@@ -83,6 +128,11 @@ public class Edge<V,E> implements Comparable {
         return endverts;
     }
 
+    /**
+     * Compara o objeto Edge com outro objeto Edge
+     * @param otherObj
+     * @return 
+     */
     @Override
     public boolean equals(Object otherObj) {
 
@@ -122,6 +172,11 @@ public class Edge<V,E> implements Comparable {
         return true;
     }
 
+    /**
+     * Compara 2 Edges
+     * @param otherObject
+     * @return 
+     */
     @Override
     public int compareTo(Object otherObject) {
 
@@ -131,6 +186,10 @@ public class Edge<V,E> implements Comparable {
         return 1;
     }
 
+    /**
+     * Clona a edge
+     * @return 
+     */
     @Override
     public Edge<V,E> clone() {
 
@@ -144,6 +203,10 @@ public class Edge<V,E> implements Comparable {
         return newEdge;
     }
 
+    /**
+     * Devolve a descrição textual da Edge
+     * @return 
+     */
     @Override
     public String toString() {
         String st="";

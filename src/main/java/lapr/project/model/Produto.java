@@ -39,6 +39,13 @@ public class Produto {
         this.precoBase = 0;
     }
 
+    /**
+     * Cria uma instância com id, designacao, peso e precoBase
+     * @param id
+     * @param designacao
+     * @param peso
+     * @param precoBase 
+     */
     public Produto(int id, String designacao, double peso, double precoBase) {
         this.id = id;
         this.designacao = designacao;
@@ -112,17 +119,30 @@ public class Produto {
         this.precoBase = precoBase;
     }
 
+    /**
+     * Devolve a descrição do produto
+     * @return 
+     */
     @Override
     public String toString() {
         return "Produto{" + "id=" + id + ", designacao=" + designacao + ", peso=" + peso + ", precoBase=" + precoBase + '}';
     }
 
+    /**
+     * Devolve o hashCode
+     * @return 
+     */
     @Override
     public int hashCode() {
         int hash = 7;
         return hash;
     }
 
+    /**
+     * Verifica se o obj é igual à instância do produto
+     * @param obj
+     * @return 
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

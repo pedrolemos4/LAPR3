@@ -148,6 +148,10 @@ public class Recibo {
         this.map = new HashMap<>(mapa);
     }
 
+    /**
+     * Devolve a descrição do recibo
+     * @return 
+     */
     @Override
     public String toString() {
         String s = "";

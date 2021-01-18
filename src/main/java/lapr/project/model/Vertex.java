@@ -19,18 +19,30 @@ import java.util.Map;
 
 public class Vertex<V, E> {
 
-    private int key ;                     //Vertex key number
-    private V  element ;                 //Vertex information
-    private final Map<V, Edge<V,E>> outVerts; //adjacent vertices
+    private int key ;                     
+    private V  element ;                 
+    private final Map<V, Edge<V,E>> outVerts; 
 
+    /**
+     * Controi um vertice vazio
+     */
     public Vertex () {
         key = -1; element = null; outVerts = new LinkedHashMap<>();
     }
 
+    /**
+     * Constroi uma instância com k e vInf
+     * @param k
+     * @param vInf 
+     */
     public Vertex (int k, V vInf) {
         key = k; element = vInf; outVerts = new LinkedHashMap<>();
     }
 
+    /**
+     * Controi uma instância com o vertice
+     * @param v 
+     */
     public Vertex (Vertex<V,E> v) {
         key = v.getKey(); element = v.getElement();
         outVerts = new LinkedHashMap<>();
@@ -40,26 +52,52 @@ public class Vertex<V, E> {
         }
     }
 
+    /**
+     * Devolve a chave
+     * @return 
+     */
     public int getKey() {
         return key;
     }
 
+    /**
+     * Modifica a chave
+     * @param k 
+     */
     public void setKey(int k) {
         key = k;
     }
 
+    /**
+     * Devolve o elemento
+     * @return 
+     */
     public V getElement() {
         return element;
     }
 
+    /**
+     * Modifica o elemento
+     * @param vInf 
+     */
     public void setElement(V vInf) {
         element = vInf;
     }
 
+    /**
+     * Adiciona um vertice ajdacente vAdj a partir da aresta edge
+     * @param vAdj
+     * @param edge 
+     */
     public void addAdjVert(V vAdj, Edge<V,E> edge){
         outVerts.put(vAdj, edge);
     }
 
+    /**
+     * Devolve o vertice adjacente
+     * @param edge
+     * @return 
+     */
     public V getAdjVert(Edge<V,E> edge){
 
         for (V vert : outVerts.keySet())
@@ -69,26 +107,52 @@ public class Vertex<V, E> {
         return null;
     }
 
+    /**
+     * Remove o vertice adjacente vAdj
+     * @param vAdj 
+     */
     public void remAdjVert(V vAdj){
         outVerts.remove(vAdj);
     }
 
+    /**
+     * Devolve a aresta onde 1 dos vertices é vAdj
+     * @param vAdj
+     * @return 
+     */
     public Edge<V,E> getEdge(V vAdj){
         return outVerts.get(vAdj);
     }
 
+    /**
+     * Devolve o numero de vertices adjacentes
+     * @return 
+     */
     public int numAdjVerts() {
         return outVerts.size();
     }
 
+    /**
+     * Devolve todos os vertices adjacentes
+     * @return 
+     */
     public Iterable<V> getAllAdjVerts() {
         return outVerts.keySet();
     }
-
+    
+    /**
+     * Devolve o valor de todas as arestas
+     * @return 
+     */
     public Iterable<Edge<V,E>> getAllOutEdges() {
         return outVerts.values();
     }
 
+    /**
+     * Verifica se otherObj é igual ao vertice
+     * @param otherObj
+     * @return 
+     */
     @Override
     public boolean equals(Object otherObj) {
 
@@ -108,11 +172,9 @@ public class Vertex<V, E> {
                 !this.element.equals(otherVertex.element))
             return false;
 
-        //adjacency vertices should be equal
         if (this.numAdjVerts() != otherVertex.numAdjVerts())
             return false;
 
-        //and edges also
         Iterator<Edge<V,E>> it1 = this.getAllOutEdges().iterator();
         while (it1.hasNext()){
             Iterator<Edge<V,E>> it2 = otherVertex.getAllOutEdges().iterator();
@@ -127,6 +189,10 @@ public class Vertex<V, E> {
         return true;
     }
 
+    /**
+     * Devolve um clone do vertice
+     * @return 
+     */
     @Override
     public Vertex<V,E> clone() {
 
@@ -141,6 +207,10 @@ public class Vertex<V, E> {
         return newVertex;
     }
 
+    /**
+     * Devolve a descrição do vertice
+     * @return 
+     */
     @Override
     public String toString() {
         String st="";

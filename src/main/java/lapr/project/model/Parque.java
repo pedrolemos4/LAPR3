@@ -86,18 +86,34 @@ public class Parque {
         return tipo;
     }
 
+    /**
+     * Modifica o tipo
+     * @param tipo 
+     */
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
+    /**
+     * Devolve o id do parque
+     * @return 
+     */
     public int getIdParque() {
         return idParque;
     }
 
+    /**
+     * Modifica o id do parque
+     * @param idParque 
+     */
     public void setIdParque(int idParque) {
         this.idParque = idParque;
     }
 
+    /**
+     * Devolve a descrição do parque
+     * @return 
+     */
     @Override
     public String toString() {
         return "Parque{" + "id=" + idParque + ", nif=" + nif + ", numeroMaximo=" + numeroMaximo + ", tipo=" + tipo + '}';

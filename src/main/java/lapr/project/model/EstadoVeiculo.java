@@ -32,6 +32,10 @@ public class EstadoVeiculo {
         this.designacao = "Indisponível";
     }
 
+    /**
+     * Constroi uma instância de estado do veiculo com o id
+     * @param idEstadoVeiculo 
+     */
     public EstadoVeiculo(int idEstadoVeiculo) {
         this.idEstadoVeiculo = idEstadoVeiculo;
         if(this.idEstadoVeiculo==1){

@@ -127,6 +127,10 @@ public class Cliente extends Utilizador {
         this.numCartaoCredito = numCartaoCredito;
     }
 
+    /**
+     * Devolve a descrição textual do Cliente
+     * @return 
+     */
     @Override
     public String toString() {
         return "Cliente{" + "nif=" + nif + ", creditos=" + creditos + ", enderecomorada=" + enderecomorada + ", numCartaoCredito" + numCartaoCredito + '}';

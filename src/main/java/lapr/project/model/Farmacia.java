@@ -92,6 +92,10 @@ public class Farmacia {
         this.email = email;
     }
 
+    /**
+     * Devolve a descrição textual da Farmacia
+     * @return 
+     */
     @Override
     public String toString() {
         return "Farmacia{" + "nif=" + nif + ", email=" + email + ", morada=" + morada + '}';

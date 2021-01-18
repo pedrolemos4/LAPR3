@@ -16,9 +16,12 @@ public class Graph<V,E> implements GraphInterface<V,E> {
     private int numVert;
     private int numEdge;
     private final boolean isDirected;
-    private final Map<V,Vertex<V,E>> vertices;  //all Vertices of the graph
+    private final Map<V,Vertex<V,E>> vertices;  
 
-    // Constructs an empty graph (either undirected or directed)
+    /**
+     * Constroi uma instância grafo onde indica se é direcionado ou não
+     * @param directed 
+     */
     public Graph(boolean directed) {
         numVert=0;
         numEdge=0;
@@ -26,14 +29,27 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         vertices = new LinkedHashMap<>();
     }
 
+    /**
+     * Retorna o  numero de vertices
+     * @return 
+     */
     public int numVertices(){
         return numVert;
     }
 
+    /**
+     * Devolve os vertices todos
+     * @return 
+     */
     public Iterable<V> vertices() {
         return vertices.keySet();
     }
 
+    /**
+     * Valida um vertice enviado por parametro
+     * @param vert
+     * @return 
+     */
     public boolean validVertex(V vert) {
 
         if (vertices.get(vert) == null)
@@ -42,10 +58,20 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return true;
     }
 
+    /**
+     * Devolve a chave referente ao vertice
+     * @param vert
+     * @return 
+     */
     public int getKey(V vert) {
         return vertices.get(vert).getKey();
     }
 
+    /**
+     * Retorna os vertives adjacentes ao enviado por parametro
+     * @param vert
+     * @return 
+     */
     public Iterable<V> adjVertices(V vert){
 
         if (!validVertex(vert))
@@ -57,11 +83,18 @@ public class Graph<V,E> implements GraphInterface<V,E> {
     }
 
 
+    /**
+     * Retorna o numero de arestas
+     * @return 
+     */
     public int numEdges(){
         return numEdge;
     }
 
-
+    /**
+     * Retorna todas as arestas
+     * @return 
+     */
     public Iterable<Edge<V,E>> edges() {
         ArrayList<Edge<V,E>> listEdges = new ArrayList<>();
 
@@ -73,6 +106,12 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return listEdges;
     }
 
+    /**
+     * Devolve a aresta entre o vOrig e vDest
+     * @param vOrig
+     * @param vDest
+     * @return 
+     */
     public Edge<V,E> getEdge(V vOrig, V vDest){
 
         if (!validVertex(vOrig) || !validVertex(vDest))
@@ -83,6 +122,11 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return vorig.getEdge(vDest);
     }
 
+    /**
+     * Devolve os vertices da aresta enviada por parametro
+     * @param edge
+     * @return 
+     */
     public V[] endVertices(Edge<V,E> edge){
 
         if (edge == null)
@@ -99,7 +143,12 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return edge.getEndpoints();
     }
 
-    //gets the vertice that is in the end of the common edge
+    /**
+     * Devolve o vertice que está do outro lado da aresta
+     * @param vert
+     * @param edge
+     * @return 
+     */
     public V opposite(V vert, Edge<V,E> edge){
 
         if (!validVertex(vert))
@@ -110,6 +159,11 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return vertex.getAdjVert(edge);
     }
 
+    /**
+     * Devolve o numero de vertices adjacentes
+     * @param vert
+     * @return 
+     */
     public int outDegree(V vert){
 
         if (!validVertex(vert))
@@ -120,6 +174,11 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return vertex.numAdjVerts();
     }
 
+    /**
+     * Devolve o numero de arestas do vertices
+     * @param vert
+     * @return 
+     */
     public int inDegree(V vert){
 
         if (!validVertex(vert))
@@ -133,6 +192,11 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return degree;
     }
 
+    /**
+     * Devolve todas as arestas que tem como vertice de origem o vertice vert
+     * @param vert
+     * @return 
+     */
     public Iterable<Edge<V,E>> outgoingEdges(V vert){
 
         if (!validVertex(vert))
@@ -143,6 +207,11 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return vertex.getAllOutEdges();
     }
 
+    /**
+     * Devolve todas as arestas que tem como vertice de destino o vertice vert
+     * @param vert
+     * @return 
+     */
     public Iterable<Edge<V,E>> incomingEdges(V vert){
         ArrayList <Edge<V,E>> listIncomingEdges = new ArrayList<>();
         for(Vertex<V,E> verti :  vertices.values()) {
@@ -155,6 +224,11 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return listIncomingEdges;
     }
 
+    /**
+     * Insere o vertice vert
+     * @param vert
+     * @return 
+     */
     public boolean insertVertex(V vert){
 
         if (validVertex(vert))
@@ -167,6 +241,14 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return true;
     }
 
+    /**
+     * Insere a aresta com a informação eInf, peso eWeight, vertice origem vOrig e vertice destino vDest
+     * @param vOrig
+     * @param vDest
+     * @param eInf
+     * @param eWeight
+     * @return 
+     */
     public boolean insertEdge(V vOrig, V vDest, E eInf, double eWeight){
 
         if (getEdge(vOrig,vDest) != null)
@@ -185,9 +267,7 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         vorig.addAdjVert(vDest,newEdge);
         numEdge++;
 
-        //if graph is not direct insert other edge in the opposite direction
         if (!isDirected)
-            // if vDest different vOrig
             if (getEdge(vDest,vOrig) == null){
                 Edge<V,E> otherEdge = new Edge<>(eInf,eWeight,vdest,vorig);
                 vdest.addAdjVert(vOrig,otherEdge);
@@ -197,12 +277,16 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return true ;
     }
 
+    /**
+     * Remove o vertice
+     * @param vert
+     * @return 
+     */
     public boolean removeVertex(V vert){
 
         if (!validVertex(vert))
             return false;
 
-        //remove all edges that point to vert
         for (Edge<V,E> edge : incomingEdges(vert)){
             V vadj = edge.getVOrig();
             removeEdge(vadj,vert);
@@ -210,7 +294,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
 
         Vertex<V,E> vertex = vertices.get(vert);
 
-        //update the keys of subsequent vertices in the map
         for (Vertex<V,E> v : vertices.values()){
             int keyVert = v.getKey();
             if ( keyVert > vertex.getKey()){
@@ -218,7 +301,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
                 v.setKey(keyVert);
             }
         }
-        //The edges that live from vert are removed with the vertex
         vertices.remove(vert);
 
         numVert--;
@@ -226,6 +308,12 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return true;
     }
 
+    /**
+     * Remove a aresta
+     * @param vOrig
+     * @param vDest
+     * @return 
+     */
     public boolean removeEdge(V vOrig, V vDest) {
 
         if (!validVertex(vOrig) || !validVertex(vDest))
@@ -241,7 +329,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         vorig.remAdjVert(vDest);
         numEdge--;
 
-        //if graph is not direct
         if (!isDirected){
             edge = getEdge(vDest,vOrig);
             if (edge != null){
@@ -254,16 +341,17 @@ public class Graph<V,E> implements GraphInterface<V,E> {
     }
 
 
-    //Returns a clone of the graph
+    /**
+     * Retorna uma copia do grafo
+     * @return 
+     */
     public Graph<V,E> clone() {
 
         Graph<V,E> newObject = new Graph<>(this.isDirected);
 
-        //insert all vertices
         for (V vert : vertices.keySet())
             newObject.insertVertex(vert);
 
-        //insert all edges
         for (V vert1 : vertices.keySet())
             for (Edge<V,E> e : this.outgoingEdges(vert1))
                 if (e != null){
@@ -291,7 +379,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         if (numVert != otherGraph.numVertices() || numEdge != otherGraph.numEdges())
             return false;
 
-        //graph must have same vertices
         boolean eqvertex;
         for (V v1 : this.vertices()){
             eqvertex=false;
@@ -305,7 +392,10 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return true;
     }
 
-    //string representation
+    /**
+     * Devolve descrição do grafo
+     * @return 
+     */
     @Override
     public String toString() {
         String s="" ;

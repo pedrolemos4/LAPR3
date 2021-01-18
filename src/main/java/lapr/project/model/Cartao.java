@@ -87,6 +87,10 @@ public class Cartao {
         this.ccv = ccv;
     }
 
+    /**
+     * Devolve a descrição textual do Cartao
+     * @return 
+     */
     @Override
     public String toString() {
         return "Cartao{" + "numeroCartao=" + numeroCartao + ", dataDeValidade=" + dataDeValidade + ", ccv=" + ccv + '}';

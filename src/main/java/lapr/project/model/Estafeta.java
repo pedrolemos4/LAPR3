@@ -79,6 +79,10 @@ public class Estafeta extends Utilizador{
         this.idEstado = idEstado;
     }
 
+    /**
+     * Devolve a descrição textual do Estafeta
+     * @return 
+     */
     @Override
     public String toString() {
         return "Estafeta{" + "pesoEstafeta=" + pesoEstafeta + ", idEstado=" + idEstado + '}';

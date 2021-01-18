@@ -76,7 +76,16 @@ public class GraphAlgorithms {
         }
     }
 
-    //shortest-path between vOrig and vDest
+    /**
+     * Caminho mais curto entre vOrig e vDest
+     * @param <V>
+     * @param <E>
+     * @param g
+     * @param vOrig
+     * @param vDest
+     * @param shortPath
+     * @return 
+     */
     public static<V,E> double shortestPath(Graph<V,E> g, V vOrig, V vDest, LinkedList<V> shortPath){
 
         if(!g.validVertex(vOrig) || !g.validVertex(vDest)){
@@ -101,7 +110,16 @@ public class GraphAlgorithms {
         return 0;
     }
 
-    //shortest-path between voInf and all other
+    /**
+     * Caminho mais curto entre vOrig e qualquer outro vertice
+     * @param <V>
+     * @param <E>
+     * @param g
+     * @param vOrig
+     * @param paths
+     * @param dists
+     * @return 
+     */
     public static<V,E> boolean shortestPaths(Graph<V,E> g, V vOrig, ArrayList<LinkedList<V>> paths, ArrayList<Double> dists){
 
         if(!g.validVertex(vOrig)) return false;
