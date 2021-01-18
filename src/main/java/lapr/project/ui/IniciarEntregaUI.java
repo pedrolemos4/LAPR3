@@ -35,17 +35,13 @@ public class IniciarEntregaUI {
         Estafeta est = controller.getEstafeta();
         
         System.out.println("Lista de entregas: ");
-        List<Entrega> list = controller.getListaEntregaByNifEstafeta(est.getNIF());
-        for(Entrega e : list){
-            System.out.println(e);
-        }
         
         System.out.println("Introduza o id de uma entrega apresentada: ");
         int idEntrega = LER.nextInt();
         List<Encomenda> listEnc = controller.getListaEncomendaById(idEntrega);
         
-        Entrega entr = controller.getEntregaById(idEntrega);
-        Veiculo veiculo = controller.getVeiculoById(entr.getIdVeiculo());
+        Entrega entr = new Entrega();
+        Veiculo veiculo = new Veiculo();
         
         System.out.println("IdEntrega:\t" + idEntrega
                 + "\nLista de Encomendas associadas à entrega:\t" + listEnc

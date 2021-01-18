@@ -1,0 +1,14 @@
+@startuml
+autonumber
+actor "Cliente" as UNR
+
+activate UNR
+UNR -> ":Sistema" : Pretende realizar a encomenda
+activate ":Sistema"
+
+":Sistema" --> UNR : seleciona a farmacia mais perto da morada do cliente \n e continua o processo de realizar a encomenda
+deactivate ":Sistema"
+
+deactivate UNR
+
+@enduml

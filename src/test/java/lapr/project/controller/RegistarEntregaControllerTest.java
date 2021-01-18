@@ -80,6 +80,7 @@ public class RegistarEntregaControllerTest {
 
     /**
      * Test of getListVeiculo method, of class RegistarEntregaController.
+     * @throws java.sql.SQLException
      */
     @Test
     public void testGetListVeiculo() throws SQLException {
@@ -93,6 +94,7 @@ public class RegistarEntregaControllerTest {
 
     /**
      * Test of getEstafeta method, of class RegistarEntregaController.
+     * @throws java.sql.SQLException
      */
     @Test
     public void testGetEstafeta() throws SQLException {
@@ -107,6 +109,7 @@ public class RegistarEntregaControllerTest {
 
     /**
      * Test of getVeiculo method, of class RegistarEntregaController.
+     * @throws java.sql.SQLException
      */
     @Test
     public void testGetVeiculo() throws SQLException {
@@ -121,6 +124,7 @@ public class RegistarEntregaControllerTest {
 
     /**
      * Test of getListaEncomenda method, of class RegistarEntregaController.
+     * @throws java.sql.SQLException
      */
     @Test
     public void testGetListaEncomenda() throws SQLException {
@@ -136,6 +140,8 @@ public class RegistarEntregaControllerTest {
 
     /**
      * Test of addEntrega method, of class RegistarEntregaController.
+     * @throws java.sql.SQLException
+     * @throws java.text.ParseException
      */
     @Test
     public void testAddEntrega() throws SQLException, ParseException {
@@ -196,6 +202,7 @@ public class RegistarEntregaControllerTest {
 
     /**
      * Test of addEncomendaEntrega method, of class RegistarEntregaController.
+     * @throws java.lang.Exception
      */
     @Test
     public void testAddEncomendaEntrega() throws Exception {
@@ -211,6 +218,7 @@ public class RegistarEntregaControllerTest {
     
     /**
      * Test of addEncomendaEntrega method, of class RegistarEntregaController.
+     * @throws java.lang.Exception
      */
     @Test
     public void testAddEncomendaEntrega1() throws Exception {
@@ -320,6 +328,7 @@ public class RegistarEntregaControllerTest {
 
     /**
      * Test of getDuracaoPercurso method, of class RegistarEntregaController.
+     * @throws java.text.ParseException
      */
     @Test
     public void testGetDuracaoPercurso() throws ParseException {
@@ -341,6 +350,7 @@ public class RegistarEntregaControllerTest {
 
     /**
      * Test of updateEntrega method, of class RegistarEntregaController.
+     * @throws java.lang.Exception
      */
     @Test
     public void testUpdateEntrega() throws Exception {
@@ -355,6 +365,7 @@ public class RegistarEntregaControllerTest {
     
     /**
      * Test of updateEntrega method, of class RegistarEntregaController.
+     * @throws java.lang.Exception
      */
     @Test
     public void testUpdateEntrega1() throws Exception {
@@ -369,6 +380,7 @@ public class RegistarEntregaControllerTest {
 
     /**
      * Test of updateEncomenda method, of class RegistarEntregaController.
+     * @throws java.lang.Exception
      */
     @Test
     public void testUpdateEncomenda1() throws Exception {
@@ -383,6 +395,7 @@ public class RegistarEntregaControllerTest {
     
     /**
      * Test of updateEncomenda method, of class RegistarEntregaController.
+     * @throws java.lang.Exception
      */
     @Test
     public void testUpdateEncomenda2() throws Exception {

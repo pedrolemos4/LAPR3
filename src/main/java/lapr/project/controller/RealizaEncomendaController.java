@@ -42,7 +42,7 @@ public class RealizaEncomendaController {
 
     public boolean produtoEncomenda(int nif, Produto prod, int qntd) {
         if (verificaProdutoEncomenda(nif, prod, qntd)) {
-            return (produtoDB.addListaProdutos(prod, qntd) ? true : false);
+            return (produtoDB.addListaProdutos(prod, qntd) ? (true) : (false));
         }
         return false;
     }
@@ -52,7 +52,7 @@ public class RealizaEncomendaController {
     }
 
     public boolean registaEncomendaProduto(Encomenda enc, Produto p,int stock) {
-        return (encDB.registaEncomendaProduto(enc, p,stock) ? true : false);
+        return (encDB.registaEncomendaProduto(enc, p,stock) ? (true) : (false));
     }
 
     public Map<Produto, Integer> getListStock(int nif) {
@@ -73,20 +73,20 @@ public class RealizaEncomendaController {
     }
 
     public boolean novoRecibo(Recibo rec, Produto prod, int quant) {
-        return (reciboDB.registaRecibo(rec, prod, quant) ? true : false);
+        return (reciboDB.registaRecibo(rec, prod, quant) ? (true) : (false));
     }
 
     public boolean verificaProdutoEncomenda(int nif, Produto prod, int qntd) {
         Map<Produto, Integer> map = getListStock(nif);
-        return ((getListStock(nif).containsKey(prod) && getListStock(nif).get(prod)>=qntd) ? true : false);
+        return ((getListStock(nif).containsKey(prod) && getListStock(nif).get(prod)>=qntd) ? (true) : (false));
     }
 
     public boolean notificaCliente(String email, String assunto, String mensagem) {
-        return (emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem) ? true : false);
+        return (emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem) ? (true) : (false));
     }
 
     public boolean removerProdutosEncomenda(Produto prod, int nif, int map, int mapStock) {
-        return (produtoDB.removerProdutosEncomenda(prod, nif, map, mapStock) ? true : false);
+        return (produtoDB.removerProdutosEncomenda(prod, nif, map, mapStock) ? (true) : (false));
     }
 
     public double getCreditosData(Data date, double preco) {
@@ -94,7 +94,7 @@ public class RealizaEncomendaController {
     }
 
     public boolean removerCreditos(int nif, double creditosData) throws SQLException {
-        return (cliDB.removerCreditos(nif, creditosData) ? true : false);
+        return (cliDB.removerCreditos(nif, creditosData) ? (true) : (false));
     }
 
     public double getPreco() {
@@ -110,11 +110,11 @@ public class RealizaEncomendaController {
     }
 
     public boolean registaRecibo(Recibo rec) throws SQLException, ParseException {
-        return (reciboDB.registaRecibo(rec) ? true : false);
+        return (reciboDB.registaRecibo(rec) ? (true) : (false));
     }
 
     public boolean geraCreditos(Cliente c, double precoTotal) {
-        return (encDB.geraCreditos(c,precoTotal) ? true : false);
+        return (encDB.geraCreditos(c,precoTotal) ? (true) : (false));
     }
 
 }
