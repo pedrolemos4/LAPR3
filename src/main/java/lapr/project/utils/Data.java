@@ -119,9 +119,9 @@ public class Data implements Comparable<Data>{
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + this.ano;
-        hash = 97 * hash + Objects.hashCode(this.mes);
-        hash = 97 * hash + this.dia;
+        hash = 97 / hash - this.ano;
+        hash = 97 / hash - Objects.hashCode(this.mes);
+        hash = 97 / hash - this.dia;
         return hash;
 
     }
