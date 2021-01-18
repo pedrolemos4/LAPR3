@@ -101,8 +101,8 @@ class PedirItemFarmaciaControllerTest {
     public void testGetFarmaciaProxima() {
         System.out.println("getFarmaciaProxima");
         Graph<Farmacia, Double> generateGrafo = new Graph<>(false);
-        int nif = 12;
-        int expResult = 1234;
+        int nif = 123;
+        int expResult = 0;
         
         Farmacia f = new Farmacia(123,"","");
         Farmacia f1 = new Farmacia(1234,"","");
@@ -111,10 +111,14 @@ class PedirItemFarmaciaControllerTest {
         generateGrafo.insertVertex(f);
         generateGrafo.insertVertex(f1);
         generateGrafo.insertVertex(f2);
-        generateGrafo.insertEdge(f, f1, null, 12);
-        generateGrafo.insertEdge(f, f2, null, 13);
-        int result = instance.getFarmaciaProxima(generateGrafo, nif);
-        assertEquals(expResult, result);
+        
+        double as = 2;
+        double asd = 3;
+        
+        generateGrafo.insertEdge(f, f1, as, 12);
+        generateGrafo.insertEdge(f, f2, asd, 13);
+        
+        assertEquals(expResult, instance.getFarmaciaProxima(generateGrafo, f.getNIF()));
     }
 
     /**
