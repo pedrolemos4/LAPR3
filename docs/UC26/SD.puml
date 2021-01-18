@@ -1,0 +1,26 @@
+@startuml
+autonumber
+
+actor "Cliente" as CLI
+participant ":RealizarEncomendaUI" as UI
+participant ":PedirItemFarmaciaController" as CTL
+participant ":FarmaciaDB" as FDB
+
+activate CLI
+CLI -> UI : pretende realizar a encomenda
+activate UI
+UI -> CTL : getFarmaciaProximaByCliente(nif)
+activate CTL
+
+CTL -> FDB : getFarmaciaProximaByCliente(nif)
+activate FDB
+
+deactivate FDB
+
+deactivate CTL
+
+UI --> CLI : operação bem sucedida
+deactivate UI
+
+deactivate CLI
+@enduml

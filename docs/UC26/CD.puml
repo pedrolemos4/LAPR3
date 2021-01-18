@@ -1,0 +1,27 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class FarmaciaDB {
+    +getFarmaciaProximaByCliente(nif)
+}
+
+class Farmacia {
+  -Integer nif
+  -String email
+  -String morada
+  +Farmacia(nif,email,morada)
+}
+
+class PedirItemFarmaciaController {
+    +getFarmaciaProximaByCliente(nif)
+}
+
+class RealizarEncomendaUI {
+}
+
+RealizarEncomendaUI ..> PedirItemFarmaciaController
+PedirItemFarmaciaController ..> FarmaciaDB
+
+FarmaciaDB "1" --> "*" Farmacia : tem registadas
+
+@enduml
