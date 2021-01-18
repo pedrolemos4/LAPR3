@@ -15,7 +15,6 @@ import java.util.List;
 public class Farmacia {
 
     private int nif;
-    private List<Produto> stock = new ArrayList<>();
     private String morada;
     private String email;
 
@@ -57,15 +56,6 @@ public class Farmacia {
      */
     public void setNIF(int nif) {
         this.nif = nif;
-    }
-
-    /**
-     * Devolve o stock da farmácia
-     *
-     * @return stock da farmácia
-     */
-    public List<Produto> getStock() {
-        return new ArrayList<>(stock);
     }
 
     /**
