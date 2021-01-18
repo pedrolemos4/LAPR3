@@ -1,0 +1,54 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide methods
+left to right direction
+
+class Entrega {
+  -idEntrega
+  -dataInicio
+  -dataFim
+}
+
+class Encomenda {
+  -idEncomenda
+  -dataPedida
+  -preco
+}
+
+class Farmacia {
+  -NIF
+  -email
+  -morada
+}
+
+class Endereco {
+  -morada
+}
+
+class Cliente {
+  -numeroCartaoCredito
+  -dataDeValidade
+  -CCV
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+class Produto {
+  -idProduto
+  -designacao
+  -peso
+  -precoBase
+}
+
+
+Cliente "1" -- "1" Endereco: tem >
+Cliente "1" -- "*" Encomenda: realiza e paga >~
+Entrega "1" -- "*" Encomenda : possui >
+Farmacia "1" -- "*" Produto: tem >
+Encomenda "1" -- "*" Produto: tem >
+
+
+@enduml
