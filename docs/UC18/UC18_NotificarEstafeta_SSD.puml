@@ -1,0 +1,14 @@
+@startuml
+autonumber
+
+actor "Administrador" as ADMIN
+
+
+activate ADMIN
+ADMIN -> ":Sistema" : deseja notificar o estafeta de que o tempo de carregamento da scooter se alterou
+activate ":Sistema"
+":Sistema" --> ADMIN: operação bem sucedida
+deactivate ":Sistema"
+deactivate ADMIN
+
+@enduml
