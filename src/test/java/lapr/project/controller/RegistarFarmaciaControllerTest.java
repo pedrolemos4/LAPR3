@@ -125,8 +125,8 @@ public class RegistarFarmaciaControllerTest {
      * @throws java.sql.SQLException
      */
     @Test
-    public void testRegistaParque() throws SQLException {
-        System.out.println("registaParque");
+    public void testRegistaParques() throws SQLException {
+        System.out.println("registaParques");
         List<Parque> expResult = new ArrayList<>();
         Parque parque = new Parque(111111111, 20, "drones");
         expResult.add(parque);
@@ -140,8 +140,8 @@ public class RegistarFarmaciaControllerTest {
      * @throws java.sql.SQLException
      */
     @Test
-    public void testRegistaParque1() throws SQLException {
-        System.out.println("registaParque1");
+    public void testRegistaParques1() throws SQLException {
+        System.out.println("registaParques1");
         List<Parque> expResult = new ArrayList<>();
         Parque parque = new Parque(111111111, 20, "drones");
         expResult.add(parque);
@@ -178,27 +178,30 @@ public class RegistarFarmaciaControllerTest {
     @Test
     void getListaParquesByFarmaciaNif() {
         System.out.println("getListaParquesByFarmaciaNif");
+        Farmacia farmacia = new Farmacia(123456789, "email1", "rua1");
+        Parque parque1 = new Parque(111111111, 20, "drones");
+        Parque parque2 = new Parque(222222222, 15, "scooters");
         List<Parque> listParques = new ArrayList<>();
-        when(parqueMock.getLstParquesByFarmaciaNif(1)).thenReturn(listParques);
-
-        assertEquals(listParques,instance1.getListaParquesByFarmaciaNif(1));
+        listParques.add(parque1);
+        listParques.add(parque2);
+        when(parqueMock.getLstParquesByFarmaciaNif(farmacia.getNIF())).thenReturn(listParques);
+        assertEquals(listParques, instance1.getListaParquesByFarmaciaNif(123456789));
     }
 
     @Test
     void getFarmaciaByNIF() {
         System.out.println("getFarmaciaByNIF");
-        Farmacia farmacia = new Farmacia(1,"a","a");
+        Farmacia farmacia = new Farmacia(1, "a", "a");
         when(farmaciaMock.getFarmaciaByNIF(1)).thenReturn(farmacia);
 
-        assertEquals(farmacia,instance1.getFarmaciaByNIF(1));
+        assertEquals(farmacia, instance1.getFarmaciaByNIF(1));
     }
 
     @Test
     void getEnderecoByFarmaciaMorada() {
         System.out.println("getEnderecoByFarmaciaMorada");
-        Endereco endereco = new Endereco("a",1,1,1);
+        Endereco endereco = new Endereco("a", 1, 1, 1);
         when(enderecoMock.getEnderecoByFarmaciaMorada("a")).thenReturn(endereco);
-
-        assertEquals(endereco,instance1.getEnderecoByFarmaciaMorada("a"));
+        assertEquals(endereco, instance1.getEnderecoByFarmaciaMorada("a"));
     }
 }

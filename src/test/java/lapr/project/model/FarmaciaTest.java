@@ -38,22 +38,10 @@ public class FarmaciaTest {
     }
 
     /**
-     * Test of getStock method, of class Farmacia.
+     * Test of getEmail method, of class Farmacia.
      */
     @Test
-    public void testGetStock() {
-        System.out.println("getStock");
-        Farmacia instance = new Farmacia(123456789, "email", "rua2");
-        List<Produto> expResult = instance.getStock();
-        List<Produto> result = instance.getStock();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of getMorada method, of class Farmacia.
-     */
-    @Test
-    void getEmail() {
+    public void testGetEmail() {
         System.out.println("getEmail");
         Farmacia instance = new Farmacia(123456789, "email1", "rua1");
         String expResult = "email1";
@@ -62,7 +50,7 @@ public class FarmaciaTest {
     }
 
     /**
-     * Test of setMorada method, of class Farmacia.
+     * Test of setEmail method, of class Farmacia.
      */
     @Test
     public void testSetEmail() {
@@ -77,7 +65,7 @@ public class FarmaciaTest {
      * Test of getMorada method, of class Farmacia.
      */
     @Test
-    void getMorada() {
+    public void testGetMorada() {
         System.out.println("getNif");
         Farmacia instance = new Farmacia(123456789, "email", "rua1");
         String expResult = "rua1";
@@ -108,5 +96,4 @@ public class FarmaciaTest {
         String result = instance.toString();
         assertEquals(expResult, result);
     }
-
 }
