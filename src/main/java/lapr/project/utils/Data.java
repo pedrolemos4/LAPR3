@@ -110,7 +110,10 @@ public class Data implements Comparable<Data>{
 
     @Override
     public int compareTo(Data outraData) {
-        return (outraData.isMaior(this)) ? -1 : (isMaior(outraData)) ? 1 : 0;
+        if(outraData.isMaior(this)){
+            return -1;
+        }
+        return (isMaior(outraData)) ? 1 : 0;
     }
 
     @Override

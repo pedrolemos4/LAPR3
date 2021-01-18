@@ -10,6 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author beatr
  */
 public class CalculosFisicaTest {
+    
+    public CalculosFisicaTest() {
+    }
 
     /**
      * Test of calculoEnergiaScooter method, of class CalculosFisica.

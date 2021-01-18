@@ -283,6 +283,32 @@ public class DataTest {
     }
     
     @Test
+    public void testEquals5() {
+        System.out.println("equals5");
+        Object outroObjeto = new Data("01/01/2021");
+        Data instance = new Data("01/01/2021");
+        Data outraData = (Data) outroObjeto;
+        boolean expResult = true;
+        boolean result = instance.getAno()== outraData.getAno()
+                && instance.getMes()== outraData.getMes()
+                && instance.getDia()== outraData.getDia();
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testEquals6() {
+        System.out.println("equals6");
+        Object outroObjeto = new Data("01/10/2021");
+        Data instance = new Data("01/01/2021");
+        Data outraData = (Data) outroObjeto;
+        boolean expResult = false;
+        boolean result = instance.getAno()== outraData.getAno()
+                && instance.getMes()== outraData.getMes()
+                && instance.getDia()== outraData.getDia();
+        assertEquals(expResult, result);
+    }
+    
+    @Test
     public void simpleEnumTest(){
         System.out.println("simpleEnumTest");
         Mes mes = Mes.JANEIRO;
