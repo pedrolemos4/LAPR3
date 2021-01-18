@@ -276,6 +276,24 @@ class RealizaEncomendaControllerTest {
         boolean result = instance.verificaProdutoEncomenda(nif, prod, qntd);
         assertEquals(expResult, result);
     }
+    
+    /**
+     * Test of verificaProdutoEncomenda method, of class
+     * RealizaEncomendaController.
+     */
+    @Test
+    public void testVerificaProdutoEncomenda4() {
+        System.out.println("verificaProdutoEncomenda4");
+        Produto prod = new Produto("sdfa", 58, 50);
+        prod.setId(2);
+        int qntd = 2;
+        boolean expResult = true;
+        Map<Produto, Integer> expResult1 = new HashMap<>();
+        expResult1.put(prod, 2);
+        when(produtoDB.getLista(1234)).thenReturn(expResult1);
+        boolean result = instance.verificaProdutoEncomenda(1234, prod, qntd);
+        assertEquals(expResult, result);
+    }
 
     /**
      * Test of getCreditosData method, of class RealizaEncomendaController.
@@ -346,6 +364,22 @@ class RealizaEncomendaControllerTest {
         when(produtoDB.removerProdutosEncomenda(p, nif, map, mapStock)).thenReturn(expResult);
         assertEquals(expResult, instance.removerProdutosEncomenda(p, nif, map, mapStock));
     }
+    
+    /**
+     * Test of removerProdutosEncomenda method, of class
+     * RealizaEncomendaController.
+     */
+    @Test
+    public void testRemoverProdutosEncomenda1() {
+        System.out.println("removerProdutosEncomenda1");
+        int map = 1;
+        Produto p = new Produto();
+        int nif = 123;
+        int mapStock = 0;
+        Boolean expResult = false;
+        when(produtoDB.removerProdutosEncomenda(p, nif, map, mapStock)).thenReturn(expResult);
+        assertEquals(expResult, instance.removerProdutosEncomenda(p, nif, map, mapStock));
+    }
 
     /**
      * Test of getPrecoTotal method, of class RealizaEncomendaController.
@@ -375,6 +409,22 @@ class RealizaEncomendaControllerTest {
         boolean result = instance.notificaCliente(email, assunto, mensagem);
         assertEquals(expResult, result);
     }
+    
+    /**
+     * Test of notificaCliente method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testNotificaCliente1() {
+        System.out.println("notificaCliente1");
+        String email = "";
+        String assunto = "";
+        String mensagem = "";
+        boolean expResult = false;
+        when(emailDB.sendEmail("admlapr123", email, assunto, mensagem)).thenReturn(expResult);
+        boolean result = instance.notificaCliente(email, assunto, mensagem);
+        assertEquals(expResult, result);
+    }
+
 
     /**
      * Test of registaRecibo method, of class RealizaEncomendaController.
@@ -384,6 +434,20 @@ class RealizaEncomendaControllerTest {
         System.out.println("registaRecibo");
         Recibo rec = new Recibo();
         boolean expResult = true;
+        when(reciboDB.registaRecibo(rec)).thenReturn(expResult);
+        boolean result = instance.registaRecibo(rec);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of registaRecibo method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testRegistaRecibo1() throws Exception {
+        System.out.println("registaRecibo1");
+        Recibo rec = new Recibo();
+        rec.setData(null);
+        boolean expResult = false;
         when(reciboDB.registaRecibo(rec)).thenReturn(expResult);
         boolean result = instance.registaRecibo(rec);
         assertEquals(expResult, result);
@@ -398,6 +462,19 @@ class RealizaEncomendaControllerTest {
         Cliente c = new Cliente();
         double precoTotal = 2.0;
         boolean expResult = true;
+        when(encDB.geraCreditos(c, precoTotal)).thenReturn(expResult);
+        assertEquals(expResult, instance.geraCreditos(c, precoTotal));
+    }
+    
+    /**
+     * Test of geraCreditos method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testGeraCreditos1() {
+        System.out.println("geraCreditos1");
+        Cliente c = null;
+        double precoTotal = 2.0;
+        boolean expResult = false;
         when(encDB.geraCreditos(c, precoTotal)).thenReturn(expResult);
         assertEquals(expResult, instance.geraCreditos(c, precoTotal));
     }
