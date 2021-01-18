@@ -24,11 +24,11 @@ public class InserirEstacionamentosController {
     private final FarmaciaDB farmaciaDB;
 
     /**
-     * Cria instância do controlador InserirEstacionamentosController
+     * Cria instância do InserirEstacionamentosController
      *
-     * @param edb
-     * @param pdb
-     * @param fdb
+     * @param edb instancia de EstacionamentosDB
+     * @param pdb instancia de ParqueDB
+     * @param fdb instancia de FarmaciaDB
      */
     public InserirEstacionamentosController(EstacionamentosDB edb, ParqueDB pdb, FarmaciaDB fdb) {
         this.estacionamentoDB = edb;
@@ -40,8 +40,8 @@ public class InserirEstacionamentosController {
      * Retorna lista de estacionamento de um determinado parque recendo o seu
      * nif por parâmetro
      *
-     * @param farmNIF
-     * @param parqueID
+     * @param farmNIF nif da farmacia
+     * @param parqueID id do parque
      * @return lista de estacionamento do parque
      */
     public List<Estacionamento> getListaEstacionamentosByFarmaciaNifParqueId(int farmNIF, int parqueID) {
@@ -68,16 +68,16 @@ public class InserirEstacionamentosController {
     }
 
     /**
-     * 
-     * @param nif
-     * @return 
+     * Devolve a farmacia recebendo o nif da farmacia
+     * @param nif nif da farmacia
+     * @return farmacia
      */
     public Farmacia getFarmaciaByNIF(int nif) {
         return farmaciaDB.getFarmaciaByNIF(nif);
     }
 
     /**
-     * Cria um novo estacionamento
+     * Cria um novo estacionamento recebendo o numero de lote, a disponibilidade do carregador do estacionamento e o id do parque
      *
      * @param numLote número de lote do estacionamento
      * @param carregador disponibilidade do carregador do estacionamento (1 se
@@ -90,10 +90,9 @@ public class InserirEstacionamentosController {
     }
 
     /**
-     * Regista estacionamentos recebendo a lista com os estacionamentos
-     *
+     * Verifica se regista estacionamentos recebendo a lista com os estacionamentos por parametro
      * @param lestac lista de estacionamentos
-     * @return
+     * @return true se o estacionamento foi registado
      */
     public boolean registaEstacionamentos(List<Estacionamento> lestac) {
         return (estacionamentoDB.registaEstacionamento(lestac) ? (true) : (false));
@@ -102,9 +101,8 @@ public class InserirEstacionamentosController {
     /**
      * Retorna o limite máximo de veiculos do parque recebendo o nif da farmácia
      * referente ao parque
-     *
-     * @param farmNIF
-     * @param parqueID
+     * @param farmNIF nif da farmacia
+     * @param parqueID id do parque
      * @return limite máximo de veiculos do parque
      */
     public int getNumMaxByFarmaciaNifParqueId(int farmNIF, int parqueID) {

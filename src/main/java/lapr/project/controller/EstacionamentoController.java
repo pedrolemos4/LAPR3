@@ -18,19 +18,37 @@ public class EstacionamentoController {
     private final EmailDB emailDB;
     private final EstacionamentosDB estacionamentosDB;
     private final VeiculoDB veiculoDB;
-
+    
+    /**
+     * Constroi uma instancia de EstacionamentoController recebendo uma instancia de emailDB, estacionamentosDB, veiculoDB
+     * @param emailDB instancia de emailDB
+     * @param estacionamentosDB instancia de estacionamentosDB
+     * @param veiculoDB instancia de veiculoDB
+     */
     public EstacionamentoController(EmailDB emailDB,EstacionamentosDB estacionamentosDB,VeiculoDB veiculoDB) {
         this.emailDB = emailDB;
         this.estacionamentosDB = estacionamentosDB;
         this.veiculoDB = veiculoDB;
     }
-
+    
+    /**
+     * 
+     * @param path
+     * @return
+     * @throws FileNotFoundException 
+     */
     public boolean checkParkings(String path) throws FileNotFoundException{
         String estimatePath = getDiretory(path);
         path = path + "/" + estimatePath;
         return simulateParkingVeiculo(path);
     }
-
+    
+    /**
+     * 
+     * @param path
+     * @return
+     * @throws FileNotFoundException 
+     */
     public boolean simulateParkingVeiculo(String path) throws FileNotFoundException{
         File newFile = new File(path);
         Scanner scan = new Scanner(newFile);
@@ -67,7 +85,14 @@ public class EstacionamentoController {
             }
         }
     }
-
+    
+    /**
+     * 
+     * @param bemEstacionado
+     * @param estimativa
+     * @param email
+     * @return 
+     */
     public boolean notificaEstafeta(boolean bemEstacionado, int estimativa, String email){
         String assunto = "Estacionamento Veiculo";
         String mensagem;
@@ -78,11 +103,21 @@ public class EstacionamentoController {
         }
         return emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem);
     }
-
+    
+    /**
+     * 
+     * @param veiculo 
+     */
     public void carregamentoCompleto(Veiculo veiculo){
         veiculo.setPercentagemBateria(100);
     }
-
+    
+    /**
+     * 
+     * @param estimativa
+     * @param veiculo
+     * @return 
+     */
     public boolean timerCarregamento(int estimativa, Veiculo veiculo){
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
@@ -96,7 +131,12 @@ public class EstacionamentoController {
 
         return true;
     }
-
+    
+    /**
+     * 
+     * @param path
+     * @return 
+     */
     public String getDiretory(String path) {
         String[] pathnames;
 
