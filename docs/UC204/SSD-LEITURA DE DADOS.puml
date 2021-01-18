@@ -1,0 +1,14 @@
+@startuml
+autonumber
+actor "Administrador" as ADMIN
+
+activate ADMIN
+ADMIN -> ":Sistema" : inicia a leitura do ficheiro de dados
+activate ":Sistema"
+":Sistema" --> ADMIN: solicita o nome do ficheiro de leitura
+ADMIN -> ":Sistema" : introduz os dados solicitados
+":Sistema" --> ADMIN: operação bem sucedida
+deactivate ":Sistema"
+deactivate ADMIN
+
+@enduml
