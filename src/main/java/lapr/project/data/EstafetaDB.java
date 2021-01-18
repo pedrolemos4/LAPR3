@@ -85,23 +85,6 @@ public class EstafetaDB extends DataHandler{
         }
     }
 
-    private void addUtilizador(int nif, String nome, String email, int numeroSegurancaSocial, String password) {
-        try {
-            openConnection();
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addUtilizador(?,?,?,?,?) }")) {
-                callStmt.setInt(1, nif);
-                callStmt.setString(2, nome);
-                callStmt.setString(3, email);
-                callStmt.setInt(4, numeroSegurancaSocial);
-                callStmt.setString(5, password);
-                callStmt.execute();
-            }
-            closeAll();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public boolean atualizarEstafeta(Estafeta est) {
         if (validaEstafeta(est)){
             atualizarEstafeta(est.getNIF(), est.getEstado(), est.getPesoEstafeta());

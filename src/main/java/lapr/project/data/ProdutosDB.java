@@ -213,7 +213,7 @@ public class ProdutosDB extends DataHandler {
      */
     public boolean addListaProdutos(Produto prod, int qntd) {
 
-        if (mapEnc.containsKey(prod) == true) {
+        if (mapEnc.containsKey(prod)) {
             Integer get = mapEnc.get(prod);
             mapEnc.replace(prod, get + qntd);
         }

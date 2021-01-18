@@ -99,21 +99,21 @@ public class ParqueDB extends DataHandler {
     /**
      * Lista com todos os parques de uma determinada farmácia
      *
-     * @param NIF nif da farmácia
+     * @param nif nif da farmácia
      * @return lista dos parques da farmácia
      */
-    public List<Parque> getLstParquesByFarmaciaNif(int NIF) {
+    public List<Parque> getLstParquesByFarmaciaNif(int nif) {
         ArrayList<Parque> list = new ArrayList<>();
-        String query = "SELECT * FROM parque p WHERE p.FarmaciaNIF =" + NIF;
+        String query = "SELECT * FROM parque p WHERE p.FarmaciaNIF =" + nif;
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int id = rSet.getInt(1);
-                    int nif = rSet.getInt(2);
+                    int nifF = rSet.getInt(2);
                     int numMax = rSet.getInt(3);
                     String tipo = rSet.getString(4);
-                    list.add(new Parque(id, nif, numMax, tipo));
+                    list.add(new Parque(id, nifF, numMax, tipo));
                 }
                 return list;
             }

@@ -191,7 +191,6 @@ public class DataTest {
         Data instance = new Data("01/01/2021");
         int expResult = 737791;
         int result = instance.contaDias();
-        System.out.println(instance.contaDias());
         assertEquals(expResult, result);
     }
 
@@ -201,7 +200,6 @@ public class DataTest {
         Data instance = new Data(2021,Mes.MARCO,10);
         int expResult = 737859;
         int result = instance.contaDias();
-        System.out.println(instance.contaDias());
         assertEquals(expResult, result);
     }
 
@@ -282,5 +280,34 @@ public class DataTest {
         boolean expResult = false;
         boolean result = instance.equals(outroObjeto);
         assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void simpleEnumTest(){
+        System.out.println("simpleEnumTest");
+        Mes mes = Mes.JANEIRO;
+        assertEquals("Janeiro", mes.toString());
+        Mes mes1 = Mes.FEVEREIRO;
+        assertEquals("Fevereiro", mes1.toString());
+        Mes mes2 = Mes.MARCO;
+        assertEquals("Março", mes2.toString());
+        Mes mes3 = Mes.ABRIL;
+        assertEquals("Abril", mes3.toString());
+        Mes mes4 = Mes.MAIO;
+        assertEquals("Maio", mes4.toString());
+        Mes mes5 = Mes.JUNHO;
+        assertEquals("Junho", mes5.toString());
+        Mes mes6 = Mes.JULHO;
+        assertEquals("Julho", mes6.toString());
+        Mes mes7 = Mes.AGOSTO;
+        assertEquals("Agosto", mes7.toString());
+        Mes mes8 = Mes.SETEMBRO;
+        assertEquals("Setembro", mes8.toString());
+        Mes mes9 = Mes.OUTUBRO;
+        assertEquals("Outubro", mes9.toString());
+        Mes mes10 = Mes.NOVEMBRO;
+        assertEquals("Novembro", mes10.toString());
+        Mes mes11 = Mes.DEZEMBRO;
+        assertEquals("Dezembro", mes11.toString());
     }
 }
