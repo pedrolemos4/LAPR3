@@ -101,11 +101,18 @@ class PedirItemFarmaciaControllerTest {
     public void testGetFarmaciaProxima() {
         System.out.println("getFarmaciaProxima");
         Graph<Farmacia, Double> generateGrafo = new Graph<>(false);
-        int nif = 0;
-        int expResult = 0;
-        Farmacia f = new Farmacia(123,"","");
+        int nif = 12;
+        int expResult = 1234;
         
+        Farmacia f = new Farmacia(123,"","");
         Farmacia f1 = new Farmacia(1234,"","");
+        Farmacia f2 = new Farmacia(12345,"","");
+        
+        generateGrafo.insertVertex(f);
+        generateGrafo.insertVertex(f1);
+        generateGrafo.insertVertex(f2);
+        generateGrafo.insertEdge(f, f1, null, 12);
+        generateGrafo.insertEdge(f, f2, null, 13);
         int result = instance.getFarmaciaProxima(generateGrafo, nif);
         assertEquals(expResult, result);
     }
@@ -132,6 +139,20 @@ class PedirItemFarmaciaControllerTest {
         System.out.println("getLstFarmacias");
         List<Farmacia> expResult = new ArrayList<>();
         List<Farmacia> result = instance.getLstFarmacias();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getFarmaciaByNIF method, of class PedirItemFarmaciaController.
+     */
+    @Test
+    public void testGetFarmaciaByNIF() {
+        System.out.println("getFarmaciaByNIF");
+        int nif = 123;
+        Farmacia expResult = new Farmacia();
+        expResult.setNIF(nif);
+        when(fdb.getFarmaciaByNIF(nif)).thenReturn(expResult);
+        Farmacia result = instance.getFarmaciaByNIF(nif);
         assertEquals(expResult, result);
     }
 }

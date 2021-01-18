@@ -84,7 +84,7 @@ public class FarmaciaDB extends DataHandler {
     public void addFarmacia(int nif, String email, String morada) {
         try {
             openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?,?,?) }")) {
                 callStmt.setInt(1, nif);
                 callStmt.setString(2, email);
                 callStmt.setString(3, morada);
@@ -105,8 +105,8 @@ public class FarmaciaDB extends DataHandler {
         ArrayList<Farmacia> list = new ArrayList<>();
         String query = "SELECT * FROM farmacia";
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
                     String email = rSet.getString(2);
@@ -124,8 +124,8 @@ public class FarmaciaDB extends DataHandler {
     public Farmacia getFarmaciaByNIF(int nif) {
         String query = "SELECT * FROM farmacia f INNER JOIN endereco e ON f.morada = e.morada WHERE f.nif =" + nif;
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     nif = rSet.getInt(1);
@@ -151,8 +151,33 @@ public class FarmaciaDB extends DataHandler {
         String query = "SELECT * FROM farmacia f INNER JOIN stockfarmacia s ON s.farmacianif = f.nif AND s.stock >= " + quant
                 + "INNER JOIN produto p ON s.produtoidproduto = p.idProduto AND p.idProduto =" + p.getId();
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
+                while (rSet.next()) {
+                    int nif = rSet.getInt(1);
+                    String email = rSet.getString(2);
+                    String morada = rSet.getString(3);
+                    list.add(new Farmacia(nif, email, morada));
+                }
+                if (list.isEmpty()) {
+                    list = new ArrayList<>(getLstFarmaciasByProduto(p));
+                }
+                return list;
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+
+        return list;
+    }
+
+    private ArrayList<Farmacia> getLstFarmaciasByProduto(Produto p) {
+        ArrayList<Farmacia> list = new ArrayList<>();
+        String query = "SELECT * FROM farmacia f INNER JOIN stockfarmacia s ON s.farmacianif = f.nif "
+                + "INNER JOIN produto p ON s.produtoidproduto = p.idProduto AND p.idProduto =" + p.getId();
+
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
                     String email = rSet.getString(2);

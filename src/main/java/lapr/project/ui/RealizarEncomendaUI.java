@@ -89,18 +89,15 @@ public class RealizarEncomendaUI {
             int qntd = LER.nextInt();
             Produto prod = controller.getProdutoByID(id);
             if (controller.produtoEncomenda(nif, prod, qntd) == false) {
+                
                 qntd=qntd-stock.get(prod);
                 List<Farmacia> farms = controller2.getListaFarmaciaByProduto(prod, qntd);
+                
                 while (qntd > 0) {
-                    if(farms.isEmpty()){
-                        break;
-                    }
+                    
                     Graph<Farmacia, Double> generateGrafo = controller2.generateGrafo(farms);
 
                     nif1 = controller2.getFarmaciaProxima(generateGrafo, nif);
-                    System.out.println("Grafo: ");
-                    System.out.println(generateGrafo.toString());
-                    System.out.println("");
                     if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).get(prod)>=qntd) {
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
                         controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
@@ -119,7 +116,7 @@ public class RealizarEncomendaUI {
                         farms.remove(controller2.getFarmaciaByNIF(nif1));
                     }
                 }
-                if (qntd > 0) {
+                if (farms.isEmpty() && qntd > 0) {
                     System.out.println("Não havia a quantidade que pretende.");
                     String assunto = "Produto não disponível.";
                     String mensagem = "O produto não estava disponível na quantidade pretendida logo foi inserido a quantidade existente em stock.";
