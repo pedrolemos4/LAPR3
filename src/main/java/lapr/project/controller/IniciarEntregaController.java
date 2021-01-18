@@ -33,17 +33,9 @@ public class IniciarEntregaController {
         this.enderecoDB = enderecoDB;
         this.veiculoDB = veiculoDB;
     }
-   
-    public List<Entrega> getListaEntregaByNifEstafeta(int nifEstafeta){
-        return entregaDB.getListaEntregaByNifEstafeta(nifEstafeta);
-    }
     
     public List<Encomenda> getListaEncomendaById(int idEntrega){
         return encomendaDB.getListaEncomendaById(idEntrega);
-    }
-    
-    public Entrega getEntregaById(int idEntrega){
-        return entregaDB.getEntregaById(idEntrega);
     }
     
     public Veiculo getVeiculoById(int idVeiculo){

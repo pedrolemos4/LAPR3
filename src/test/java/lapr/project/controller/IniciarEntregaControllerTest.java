@@ -51,23 +51,6 @@ public class IniciarEntregaControllerTest {
     }
 
     /**
-     * Test of getListaEntregaByNifEstafeta method, of class
-     * IniciarEntregaController.
-     */
-    @Test
-    public void testGetListaEntregaByNifEstafeta() {
-        System.out.println("getListaEntregaByNifEstafeta");
-        int nifEstafeta = 123456789;
-        List<Entrega> expResult = new ArrayList<>();
-        expResult.add(new Entrega("12-12-1004", "23-11-2001", nifEstafeta, 1));
-        when(entregaDB.getListaEntregaByNifEstafeta(nifEstafeta)).thenReturn(expResult);
-        List<Entrega> result = instance.getListaEntregaByNifEstafeta(nifEstafeta);
-
-        assertEquals(expResult, result);
-
-    }
-
-    /**
      * Test of getListaEncomendaById method, of class IniciarEntregaController.
      */
     @Test
@@ -78,20 +61,6 @@ public class IniciarEntregaControllerTest {
         expResult.add(new Encomenda(123456789, "14-01-2015", 5, 56, 48, 85));
         when(encomendaDB.getListaEncomendaById(idEntrega)).thenReturn(expResult);
         List<Encomenda> result = instance.getListaEncomendaById(idEntrega);
-        assertEquals(expResult, result);
-
-    }
-
-    /**
-     * Test of getEntregaById method, of class IniciarEntregaController.
-     */
-    @Test
-    public void testGetEntregaById() {
-        System.out.println("getEntregaById");
-        int idEntrega = 1;
-        Entrega expResult = new Entrega("12-12-1004", "23-11-2001", 123456789, 1);
-        when(entregaDB.getEntregaById(idEntrega)).thenReturn(expResult);
-        Entrega result = instance.getEntregaById(idEntrega);
         assertEquals(expResult, result);
 
     }

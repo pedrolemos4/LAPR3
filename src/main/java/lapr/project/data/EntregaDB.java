@@ -30,8 +30,8 @@ import oracle.jdbc.OracleTypes;
  */
 public class EntregaDB extends DataHandler {
     
-    private static final String drone = "drone";
-    private static final String scooter = "scooter";
+    private static final String DRONE = "drone";
+    private static final String SCOOTER = "scooter";
     private final EncomendaDB encDB = new EncomendaDB();
 
     public int addEntrega(Entrega entrega) throws SQLException, ParseException {
@@ -84,52 +84,6 @@ public class EntregaDB extends DataHandler {
 
     }
 
-    public Entrega getEntregaById(int idEntrega) {
-        String query = "SELECT * FROM entrega WHERE idEntrega = " + idEntrega;
-
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
-
-                if (rSet.next()) {
-                    int id = rSet.getInt(1);
-                    int nif = rSet.getInt(2);
-                    int idVeiculo = rSet.getInt(3);
-                    Timestamp dataInicio = rSet.getTimestamp(4);
-                    Timestamp dataFim = rSet.getTimestamp(5);
-
-                    return new Entrega(dataInicio.toString(), dataFim.toString(), idVeiculo, nif);
-                }
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
-        }
-        return null;
-    }
-
-    public Entrega getEntregaAtiva(String email) {
-
-        try {
-            openConnection();
-
-            int vRes;
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call getEntregaAtiva(?) }")) {
-                callStmt.setString(1, email);
-
-                callStmt.execute();
-
-                vRes = callStmt.getInt(1);
-            }
-
-            closeAll();
-
-            return getEntregaById(vRes);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
     public List<Entrega> getListaEntregaByNifEstafeta(int nifEstafeta) {
         ArrayList<Entrega> list = new ArrayList<>();
         String query = "SELECT * FROM entrega e INNER JOIN estafeta est ON est.UtilizadorNIF = e.EstafetaUtilizadorNIF WHERE e.EstafetaUtilizadorNIF = " + nifEstafeta;
@@ -163,10 +117,10 @@ public class EntregaDB extends DataHandler {
         }
 
         int i = listEnderecos.size() - 1;
-        if((veiculo.getTipo()).equals(scooter)){
+        if((veiculo.getTipo()).equals(SCOOTER)){
             energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
         }
-        if((veiculo.getTipo()).equals(drone)){
+        if((veiculo.getTipo()).equals(DRONE)){
             energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
         }
         if(listEnderecos.size() == 2){
@@ -180,11 +134,11 @@ public class EntregaDB extends DataHandler {
         for (Endereco end : listEnderecos) {
             if (aux < i && listEnderecos.size() > 2) {
                 Encomenda enc1 = getEncomendaByMorada(listEnderecos.get(aux).getMorada()); //mal provavelmente
-                if((veiculo.getTipo()).equalsIgnoreCase(scooter)){
+                if((veiculo.getTipo()).equalsIgnoreCase(SCOOTER)){
                     energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
                     graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
                 }
-                if((veiculo.getTipo()).equalsIgnoreCase(drone)){
+                if((veiculo.getTipo()).equalsIgnoreCase(DRONE)){
                     energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
                     graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
                 }
@@ -255,10 +209,10 @@ public class EntregaDB extends DataHandler {
         int i = finalShortPath.size() - 1;
         for (Endereco end : finalShortPath) {
             if (aux < i && finalShortPath.size() > 2) {
-                if((veiculo.getTipo()).equalsIgnoreCase("scooter")){
+                if((veiculo.getTipo()).equalsIgnoreCase(SCOOTER)){
                     distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
                 }
-                if((veiculo.getTipo()).equalsIgnoreCase("drone")){
+                if((veiculo.getTipo()).equalsIgnoreCase(DRONE)){
                     distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
                 }
                 aux = aux + 1;

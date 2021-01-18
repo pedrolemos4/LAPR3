@@ -28,7 +28,7 @@ import lapr.project.model.Veiculo;
  * @author beatr
  */
 public class RegistarEntregaController {
-    
+
     private final UtilizadorDB utilizadorDB;
     private final FarmaciaDB farmaciaDB;
     private final EstafetaDB estafetaDB;
@@ -39,7 +39,7 @@ public class RegistarEntregaController {
     private final EmailDB emailDB;
     private final ClienteDB clienteDB;
 
-    public RegistarEntregaController(UtilizadorDB utilizadorDB,FarmaciaDB farmaciaDB, EstafetaDB estafetaDB, EntregaDB entregaDB, EncomendaDB encomendaDB, VeiculoDB veiculoDB, EnderecoDB enderecoDB, EmailDB emailDB, ClienteDB clienteDB) {
+    public RegistarEntregaController(UtilizadorDB utilizadorDB, FarmaciaDB farmaciaDB, EstafetaDB estafetaDB, EntregaDB entregaDB, EncomendaDB encomendaDB, VeiculoDB veiculoDB, EnderecoDB enderecoDB, EmailDB emailDB, ClienteDB clienteDB) {
         this.utilizadorDB = utilizadorDB;
         this.farmaciaDB = farmaciaDB;
         this.estafetaDB = estafetaDB;
@@ -50,83 +50,84 @@ public class RegistarEntregaController {
         this.emailDB = emailDB;
         this.clienteDB = clienteDB;
     }
-    
-    public List<Farmacia> getLstFarmacias(){
+
+    public List<Farmacia> getLstFarmacias() {
         return farmaciaDB.getLstFarmacias();
     }
-    
-    public Farmacia getFarmaciaByNif(int nifFarmacia){
+
+    public Farmacia getFarmaciaByNif(int nifFarmacia) {
         return farmaciaDB.getFarmaciaByNIF(nifFarmacia);
     }
-    
-    public List<Veiculo> getListVeiculo(){
+
+    public List<Veiculo> getListVeiculo() {
         return veiculoDB.getListaVeiculo();
     }
-    
-    public Endereco getEnderecoOrigem(int nifFarmacia){
+
+    public Endereco getEnderecoOrigem(int nifFarmacia) {
         return enderecoDB.getEnderecoByNifFarmacia(nifFarmacia);
     }
-    public Estafeta getEstafeta(){
+
+    public Estafeta getEstafeta() {
         int nif = UserSession.getInstance().getUser().getNIF();
         return estafetaDB.getEstafetaByNIF(nif);
     }
-    
-    public Veiculo getVeiculo(int idVeiculo){
+
+    public Veiculo getVeiculo(int idVeiculo) {
         return veiculoDB.getVeiculoById(idVeiculo);
     }
-      
-    public List<Encomenda> getListaEncomenda(){
+
+    public List<Encomenda> getListaEncomenda() {
         return encomendaDB.getListaEncomenda();
     }
-    
-    public Entrega addEntrega(String dataInicio, String dataFim, int idVeiculo, int idEstafeta) throws SQLException, ParseException{
+
+    public Entrega addEntrega(String dataInicio, String dataFim, int idVeiculo, int idEstafeta) throws SQLException, ParseException {
         Entrega en = new Entrega(dataInicio, dataFim, idVeiculo, idEstafeta);
         en.setIdEntrega(entregaDB.addEntrega(en));
         return en;
     }
-    
-    public boolean addEncomendaEntrega(Entrega e, Encomenda enc) throws SQLException{        
-        return (entregaDB.addEncomendaEntrega(e,enc)? (true) : (false));
+
+    public boolean addEncomendaEntrega(Entrega e, Encomenda enc) throws SQLException {
+        return (entregaDB.addEncomendaEntrega(e, enc) ? (true) : (false));
     }
-    
-    public Endereco getEnderecoByNifCliente(int nif){
+
+    public Endereco getEnderecoByNifCliente(int nif) {
         return enderecoDB.getEnderecoByNifCliente(nif);
     }
-    
-    public Utilizador getUtilizadorByNif(int nif){
+
+    public Utilizador getUtilizadorByNif(int nif) {
         return utilizadorDB.getByID(nif);
     }
-    
-    public Graph<Endereco,Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotal){
+
+    public Graph<Endereco, Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotal) {
         return entregaDB.generateGraph(listEnderecos, est, veiculo, pesoTotal);
     }
-    
-    public double getPath(Graph<Endereco, Double> graph, List<Endereco> listEnderecos, List<Endereco> finalShortPath, Endereco origem, double energia){
+
+    public double getPath(Graph<Endereco, Double> graph, List<Endereco> listEnderecos, List<Endereco> finalShortPath, Endereco origem, double energia) {
         return entregaDB.getPath(graph, listEnderecos, finalShortPath, origem, energia);
     }
-    
-    public boolean enviarNotaCliente(Farmacia farmacia, Utilizador c){
-        return (emailDB.sendEmail(farmacia.getEmail(), c.getEmail(), "Entrega", "A sua entrega está a caminho")? (true) : (false));
+
+    public boolean enviarNotaCliente(Farmacia farmacia, Utilizador c) {
+        return (emailDB.sendEmail(farmacia.getEmail(), c.getEmail(), "Entrega", "A sua entrega está a caminho") ? (true) : (false));
     }
-    
-    public Cliente getClienteByEndereco(Endereco end){
+
+    public Cliente getClienteByEndereco(Endereco end) {
         return clienteDB.getClienteByMorada(end.getMorada());
     }
-    
-    public String getDuracaoPercurso(List<Endereco> finalShortPath, Veiculo veiculo) throws ParseException{
+
+    public String getDuracaoPercurso(List<Endereco> finalShortPath, Veiculo veiculo) throws ParseException {
         return entregaDB.getDuracaoPercurso(finalShortPath, veiculo);
     }
-    
-    public boolean updateEncomenda(int idEncomenda, int estado) throws SQLException, ParseException{
+
+    public boolean updateEncomenda(int idEncomenda, int estado) throws SQLException {
         return (encomendaDB.updateEncomenda(idEncomenda, estado) ? (true) : (false));
     }
-    
-    public boolean updateEntrega(Entrega entrega) throws SQLException, ParseException{
+
+    public boolean updateEntrega(Entrega entrega) throws SQLException, ParseException {
         return (entregaDB.updateEntrega(entrega) ? (true) : (false));
     }
 
     public Encomenda getEncomenda(int id) {
         return encomendaDB.getEncomenda(id);
     }
-    
+
 }
