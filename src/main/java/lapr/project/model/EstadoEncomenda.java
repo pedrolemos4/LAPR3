@@ -37,13 +37,12 @@ public class EstadoEncomenda {
     public EstadoEncomenda(int estado) {
         this.idEstadoEncomenda = 0;
         this.estado = estado;
-        if (estado == 1) {
+        if (estado < 2) {
             this.designacao = "Encomendado";
-        }
-        if (estado == 2) {
-            this.designacao = "Entregando";
-        }
-        if (estado == 3) {
+        } else {
+            if (estado != 3) {
+                this.designacao = "Entregando";
+            }
             this.designacao = "Entregue";
         }
     }
