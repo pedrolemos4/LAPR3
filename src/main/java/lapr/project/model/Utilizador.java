@@ -133,6 +133,10 @@ public class Utilizador {
         this.password = password;
     }
 
+    /**
+     * Devolve a instância de utilizador no formato String
+     * @return string com a instância de utilizador
+     */
     @Override
     public String toString() {
         return "Utilizador{" + "nif=" + nif + ", nome=" + nome + ", email=" + email + ", numeroSegurancaSocial=" + numeroSegurancaSocial + ", password=" + password + '}';

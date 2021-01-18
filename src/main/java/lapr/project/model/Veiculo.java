@@ -252,7 +252,7 @@ public class Veiculo {
     }
     
     /**
-     * Modifica o estado do veículo
+     * Modifica o estado do veículo pelo estado recebido por parametro
      *
      * @param estado
      */
@@ -260,10 +260,19 @@ public class Veiculo {
         this.estado = new EstadoVeiculo(estado);
     }
 
+    /**
+     * Modifica a capacidade do veículo pelo estado recebido por parametro
+     *
+     * @param capacidade
+     */
     public void setCapacidade(int capacidade){
         this.capacidade=capacidade;
     }
-    
+
+    /**
+     * Devolve a instância de Veículo no formato String
+     * @return string com a instância de veículo
+     */
     @Override
     public String toString() {
         return "Veiculo: \tid" + id 
