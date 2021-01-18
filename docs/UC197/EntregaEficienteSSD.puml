@@ -1,0 +1,23 @@
+@startuml
+autonumber
+actor "Administrador" as UNR
+
+activate UNR
+UNR -> ":Sistema" : Pretende saber qual a entrega mais eficiente
+activate ":Sistema"
+":Sistema" --> UNR : solicita uma lista de encomendas
+deactivate ":Sistema"
+
+
+UNR -> ":Sistema" : introduz os dados solicitados
+activate ":Sistema"
+":Sistema" --> UNR : apresenta dados e solicita confirmação
+deactivate ":Sistema"
+
+UNR -> ":Sistema" : confirma
+activate ":Sistema"
+":Sistema" --> UNR : operação bem sucedida
+deactivate ":Sistema"
+
+deactivate UNR
+@enduml
