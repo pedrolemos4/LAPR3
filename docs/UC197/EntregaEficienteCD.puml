@@ -1,0 +1,116 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class EncomendaDB {
+  +getListaEncomenda()
+}
+
+class EntregaDB {
+  +getEntregaEficiente(listaEncomendas)
+}
+
+class RegistarEntregaController {
+    +getEntregaEficiente(listaEncomendas)
+    +getListaEncomenda()
+}
+
+class RegistarEntregaUI {
+}
+
+
+class Entrega {
+  -Integer idEntrega
+  -String dataInicio
+  -String dataFim
+}
+
+class Encomenda {
+  -Integer idEncomenda
+  -String dataPedida
+  -Double preco
+  -Double pesoEncomenda
+  -Double taxa
+}
+
+class EstadoEncomenda {
+  -Integer id_estado_encomenda
+  -String designacao
+}
+
+class Produto {
+  -Integer idProduto
+  -String designacao
+  -Double peso
+  -Double precoBase
+}
+
+class Estafeta {
+  -Integer NIF
+  -String nome
+  -String email
+  -Integer numeroSegurancaSocial
+  -String password
+  -Double pesoEstafeta
+}
+
+
+class Endereco {
+  -String morada
+  -Double latitude
+  -Double longitude
+  -Double altitude
+}
+
+class Veiculo {
+  -Integer idVeiculo
+  -String descricao
+  -String tipo
+  -Double percentagemBateria
+  -Double pesoMaximo
+  -Double pesoVeiculo
+  -Double potencia
+  -Double areaFrontal
+}
+
+class Parque {
+  -Integer idParque
+  -Integer numeroMaximo
+  -String tipo
+}
+
+class Cliente {
+  -Integer NIF
+  -String nome
+  -String email
+  -numeroSegurancaSocial
+  -String password
+  -Double creditos
+}
+
+class Farmacia {
+  -Integer NIF
+  -String email
+  -String morada
+}
+
+Encomenda "1" -- "1" EstadoEncomenda : tem >
+Entrega "1" -- "*" Encomenda : possui >
+Estafeta "1" -- "*" Entrega: realiza >
+Cliente "1" -- "1" Endereco: tem >
+Cliente "1" -- "*" Encomenda: realiza e paga >
+Entrega "*" -- "1" Veiculo: realiza <
+Encomenda "1" -- "*" Produto: tem >
+Parque "1" -- "*" Veiculo: possui >
+Farmacia "1" -- "1" Parque: possui >
+Farmacia "1" -- "*" Estafeta: tem >
+Farmacia "1" -- "1" Endereco: possui >
+EncomendaDB "1" -- "*" Encomenda: tem registadas >
+EntregaDB "1" -- "*" Entrega: tem registadas >
+
+RegistarEntregaUI ..> RegistarEntregaController 
+
+RegistarEntregaController ..> EncomendaDB
+RegistarEntregaController ..> EntregaDB
+
+
+@enduml
