@@ -1,7 +1,6 @@
 package lapr.project.model;
 
 import java.lang.reflect.Array;
-import java.util.Objects;
 
 public class Edge<V,E> implements Comparable {
 
@@ -124,16 +123,6 @@ public class Edge<V,E> implements Comparable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.element);
-        hash = 29 * hash + (int) (Double.doubleToLongBits(this.weight) ^ (Double.doubleToLongBits(this.weight) >>> 32));
-        hash = 29 * hash + Objects.hashCode(this.vOrig);
-        hash = 29 * hash + Objects.hashCode(this.vDest);
-        return hash;
-    }
-
-    @Override
     public int compareTo(Object otherObject) {
 
         Edge<V,E> other = (Edge<V,E>) otherObject ;
@@ -143,7 +132,7 @@ public class Edge<V,E> implements Comparable {
     }
 
     @Override
-    public Edge<V,E> clone() throws CloneNotSupportedException {
+    public Edge<V,E> clone() {
 
         Edge<V,E> newEdge = new Edge<>();
 

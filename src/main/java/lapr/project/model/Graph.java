@@ -3,7 +3,6 @@ package lapr.project.model;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  *
@@ -27,19 +26,20 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         vertices = new LinkedHashMap<>();
     }
 
-    @Override
     public int numVertices(){
         return numVert;
     }
 
-    @Override
     public Iterable<V> vertices() {
         return vertices.keySet();
     }
 
     public boolean validVertex(V vert) {
 
-        return vertices.get(vert) != null;
+        if (vertices.get(vert) == null)
+            return false;
+
+        return true;
     }
 
     public int getKey(V vert) {
@@ -57,13 +57,11 @@ public class Graph<V,E> implements GraphInterface<V,E> {
     }
 
 
-    @Override
     public int numEdges(){
         return numEdge;
     }
 
 
-    @Override
     public Iterable<Edge<V,E>> edges() {
         ArrayList<Edge<V,E>> listEdges = new ArrayList<>();
 
@@ -75,7 +73,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return listEdges;
     }
 
-    @Override
     public Edge<V,E> getEdge(V vOrig, V vDest){
 
         if (!validVertex(vOrig) || !validVertex(vDest))
@@ -86,7 +83,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return vorig.getEdge(vDest);
     }
 
-    @Override
     public V[] endVertices(Edge<V,E> edge){
 
         if (edge == null)
@@ -104,7 +100,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
     }
 
     //gets the vertice that is in the end of the common edge
-    @Override
     public V opposite(V vert, Edge<V,E> edge){
 
         if (!validVertex(vert))
@@ -115,7 +110,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return vertex.getAdjVert(edge);
     }
 
-    @Override
     public int outDegree(V vert){
 
         if (!validVertex(vert))
@@ -126,7 +120,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return vertex.numAdjVerts();
     }
 
-    @Override
     public int inDegree(V vert){
 
         if (!validVertex(vert))
@@ -140,7 +133,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return degree;
     }
 
-    @Override
     public Iterable<Edge<V,E>> outgoingEdges(V vert){
 
         if (!validVertex(vert))
@@ -151,7 +143,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return vertex.getAllOutEdges();
     }
 
-    @Override
     public Iterable<Edge<V,E>> incomingEdges(V vert){
         ArrayList <Edge<V,E>> listIncomingEdges = new ArrayList<>();
         for(Vertex<V,E> verti :  vertices.values()) {
@@ -164,7 +155,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return listIncomingEdges;
     }
 
-    @Override
     public boolean insertVertex(V vert){
 
         if (validVertex(vert))
@@ -177,7 +167,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return true;
     }
 
-    @Override
     public boolean insertEdge(V vOrig, V vDest, E eInf, double eWeight){
 
         if (getEdge(vOrig,vDest) != null)
@@ -208,7 +197,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return true ;
     }
 
-    @Override
     public boolean removeVertex(V vert){
 
         if (!validVertex(vert))
@@ -238,7 +226,6 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         return true;
     }
 
-    @Override
     public boolean removeEdge(V vOrig, V vDest) {
 
         if (!validVertex(vOrig) || !validVertex(vDest))
@@ -268,9 +255,7 @@ public class Graph<V,E> implements GraphInterface<V,E> {
 
 
     //Returns a clone of the graph
-
-    @Override
-    public Graph<V,E> clone() throws CloneNotSupportedException {
+    public Graph<V,E> clone() {
 
         Graph<V,E> newObject = new Graph<>(this.isDirected);
 
@@ -293,18 +278,8 @@ public class Graph<V,E> implements GraphInterface<V,E> {
      * @param the other graph to test for equality
      * @return true if both objects represent the same graph
      */
-    @Override
-    public int hashCode() {
-
-        int hash = 3;
-        hash = 19 * hash + this.numVert;
-        hash = 19 * hash + this.numEdge;
-        hash = 19 * hash + Objects.hashCode(this.vertices);
-        return hash;
-    }
-
-    @Override
     public boolean equals(Object otherObj) {
+
         if (this == otherObj)
             return true;
 
