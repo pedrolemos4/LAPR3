@@ -117,16 +117,8 @@ public class EnderecoDB extends DataHandler {
         }
         return list;
     }
-
-    /**
-     * Retorna endereço do cliente recebendo o nif por parãmetro
-     *
-     * @param nif nif do cliente
-     * @return endereço do cliente
-     */
-    public Endereco getEnderecoByNifCliente(int nif) {
-        String query = "SELECT e.morada, e.latitude, e.longitude, e.altitude FROM endereco e INNER JOIN cliente c ON e.morada = c.Enderecomorada WHERE c.UtilizadorNIF = " + nif;
-
+    
+    public Endereco getQuery(String query){
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
 
@@ -143,6 +135,17 @@ public class EnderecoDB extends DataHandler {
             Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
         return null;
+    }
+
+    /**
+     * Retorna endereço do cliente recebendo o nif por parãmetro
+     *
+     * @param nif nif do cliente
+     * @return endereço do cliente
+     */
+    public Endereco getEnderecoByNifCliente(int nif) {
+        String query = "SELECT e.morada, e.latitude, e.longitude, e.altitude FROM endereco e INNER JOIN cliente c ON e.morada = c.Enderecomorada WHERE c.UtilizadorNIF = " + nif;
+        return getQuery(query);
     }
 
     /**
@@ -153,44 +156,12 @@ public class EnderecoDB extends DataHandler {
      */
     public Endereco getEnderecoByNifFarmacia(int nifFarmacia) {
         String query = "SELECT * FROM endereco e INNER JOIN farmacia f ON e.morada = f.morada WHERE f.NIF = " + nifFarmacia;
-
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
-
-                if (rSet.next()) {
-                    String morada = rSet.getString(1);
-                    double latitude = rSet.getDouble(2);
-                    double longitude = rSet.getDouble(3);
-                    double altitude = rSet.getDouble(4);
-
-                    return new Endereco(morada, latitude, longitude, altitude);
-                }
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
-        }
-        return null;
+        return getQuery(query);
     }
 
     public Endereco getEnderecoByFarmaciaMorada(String farmMorada) {
         String query = "SELECT * FROM endereco e WHERE e.morada = " + farmMorada;
-
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
-
-                if (rSet.next()) {
-                    String morada = rSet.getString(1);
-                    double latitude = rSet.getDouble(2);
-                    double longitude = rSet.getDouble(3);
-                    double altitude = rSet.getDouble(4);
-
-                    return new Endereco(morada, latitude, longitude, altitude);
-                }
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
-        }
-        return null;
+        return getQuery(query);
     }
 
 }

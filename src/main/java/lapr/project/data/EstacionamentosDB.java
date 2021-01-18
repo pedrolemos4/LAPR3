@@ -92,16 +92,9 @@ public class EstacionamentosDB extends DataHandler {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Retorna lista com todos os estacionamentos
-     *
-     * @return lista dos estacionamentos
-     */
-    public List<Estacionamento> getLstEstacionamentos() {
+    
+    public List<Estacionamento> getFromQuery(String query){
         ArrayList<Estacionamento> list = new ArrayList<>();
-        String query = "SELECT * FROM estacionamento";
-
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
@@ -119,6 +112,16 @@ public class EstacionamentosDB extends DataHandler {
     }
 
     /**
+     * Retorna lista com todos os estacionamentos
+     *
+     * @return lista dos estacionamentos
+     */
+    public List<Estacionamento> getLstEstacionamentos() {
+        String query = "SELECT * FROM estacionamento";
+        return getFromQuery(query);
+    }
+
+    /**
      * Retorna lista de estacionamento de um determinado parque recendo o seu
      * nif por parâmetro
      *
@@ -127,24 +130,11 @@ public class EstacionamentosDB extends DataHandler {
      * @return lista de estacionamento do parque
      */
     public List<Estacionamento> getListaEstacionamentosByFarmaciaNifParqueId(int farmNIF, int parqueID) {
-        ArrayList<Estacionamento> list = new ArrayList<>();
         String query = "SELECT * FROM estacionamento e INNER JOIN parque p ON p.FarmaciaNIF = e.ParqueFarmaciaNIF "
                 + "INNER JOIN farmacia f ON f.NIF = e.ParqueFarmaciaNIF "
                 + "WHERE e.ParqueFarmaciaNIF = " + farmNIF + "AND p.FarmaciaNIF = " + farmNIF + "AND p.idParque = " + parqueID;
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
-                while (rSet.next()) {
-                    int numLote = rSet.getInt(1);
-                    int carregador = rSet.getInt(2);
-                    int idParque = rSet.getInt(3);
-                    list.add(new Estacionamento(numLote, carregador, idParque));
-                }
-                return list;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
+        
+        return getFromQuery(query);
     }
 
     public Estacionamento getEstacionamentoById(int loteEstacionameto) {

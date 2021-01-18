@@ -30,6 +30,8 @@ import oracle.jdbc.OracleTypes;
  */
 public class EntregaDB extends DataHandler {
     
+    private static final String drone = "drone";
+    private static final String scooter = "scooter";
     private final EncomendaDB encDB = new EncomendaDB();
 
     public int addEntrega(Entrega entrega) throws SQLException, ParseException {
@@ -161,14 +163,13 @@ public class EntregaDB extends DataHandler {
         }
 
         int i = listEnderecos.size() - 1;
-        if((veiculo.getTipo()).equals("scooter")){
+        if((veiculo.getTipo()).equals(scooter)){
             energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
         }
-        if((veiculo.getTipo()).equals("drone")){
+        if((veiculo.getTipo()).equals(drone)){
             energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
         }
         if(listEnderecos.size() == 2){
-            System.out.println("aqui");
             graph.insertEdge(listEnderecos.get(0), listEnderecos.get(1), 1.0, energiaGasta);
         }else if(listEnderecos.size()> 2){
             graph.insertEdge(listEnderecos.get(0), listEnderecos.get(1), 1.0, energiaGasta);
@@ -179,11 +180,11 @@ public class EntregaDB extends DataHandler {
         for (Endereco end : listEnderecos) {
             if (aux < i && listEnderecos.size() > 2) {
                 Encomenda enc1 = getEncomendaByMorada(listEnderecos.get(aux).getMorada()); //mal provavelmente
-                if((veiculo.getTipo()).equalsIgnoreCase("scooter")){
+                if((veiculo.getTipo()).equalsIgnoreCase(scooter)){
                     energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
                     graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
                 }
-                if((veiculo.getTipo()).equalsIgnoreCase("drone")){
+                if((veiculo.getTipo()).equalsIgnoreCase(drone)){
                     energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
                     graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
                 }

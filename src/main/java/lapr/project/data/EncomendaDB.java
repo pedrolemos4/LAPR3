@@ -28,11 +28,9 @@ import oracle.jdbc.OracleTypes;
  */
 public class EncomendaDB extends DataHandler {
 
-    private final ProdutosDB produtoDB;
     private final ClienteDB cliDB;
 
     public EncomendaDB() {
-        produtoDB = new ProdutosDB();
         cliDB = new ClienteDB();
     }
 
@@ -255,7 +253,7 @@ public class EncomendaDB extends DataHandler {
         return false;
     }
 
-    public boolean updateEncomenda(int idEncomenda, int estado) throws SQLException, ParseException {
+    public boolean updateEncomenda(int idEncomenda, int estado) throws SQLException {
         boolean updated = false;
 
         try (CallableStatement callSmt = getConnection().prepareCall("{ call updateEncomenda(?,?) }")) {
