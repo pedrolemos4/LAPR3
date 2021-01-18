@@ -54,6 +54,23 @@ class RealizaEncomendaControllerTest {
         Produto prod = new Produto("a", 1, 1);
         prod.setId(1);
         int nif = 12;
+        Map<Produto,Integer> m = new HashMap<>();
+        m.put(prod, 1);
+        boolean expResult = true;
+        when(produtoDB.getLista(nif)).thenReturn(m);
+        when(produtoDB.addListaProdutos(prod, 1)).thenReturn(expResult);
+        assertEquals(expResult, instance.produtoEncomenda(nif, prod, 1));
+    }
+    
+    /**
+     * Test of produtoEncomenda method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testProdutoEncomenda1() {
+        System.out.println("produtoEncomenda1");
+        Produto prod = new Produto("a", 1, 1);
+        prod.setId(1);
+        int nif = 12;
         boolean expResult = false;
         assertEquals(expResult, instance.produtoEncomenda(nif, prod, 1));
     }
@@ -387,12 +404,27 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testGetPrecoTotal() {
         System.out.println("getPrecoTotal");
+        double taxa = 0.1;
+        double expResult = 1.1;
+        Map<Produto, Integer> map = new HashMap<>();
+        map.put(new Produto("asd",1,1), 1);
+        when(produtoDB.getPrecoTotal(map, taxa)).thenReturn(expResult);
+        double result = instance.getPrecoTotal(map, taxa);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getPrecoTotal method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testGetPrecoTotal1() {
+        System.out.println("getPrecoTotal1");
         double taxa = 0.0;
         double expResult = 0.0;
         Map<Produto, Integer> map = new HashMap<>();
         when(produtoDB.getPrecoTotal(map, taxa)).thenReturn(expResult);
         double result = instance.getPrecoTotal(map, taxa);
-        assertEquals(expResult, result, 0.0);
+        assertEquals(expResult, result);
     }
 
     /**
