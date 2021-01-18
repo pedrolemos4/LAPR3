@@ -1,0 +1,31 @@
+@startuml
+autonumber
+
+actor "Administrador" as ADMIN
+participant ":AdminUI" as UI
+participant ":NotificaEstafetaController" as CTL
+participant ":EmailDB" as PDB
+
+activate ADMIN
+ADMIN -> UI : envia uma nota a um estafeta quando o tempo de carregamento da scooter alterou
+activate UI
+UI -> CTL : enviarNotaEstafeta(farmacia, estafeta)
+activate CTL
+
+
+CTL -> PDB : sendEmail(emailFarmacia, emailEstafeta, assunto, mensagem)
+activate PDB
+
+PDB -> PDB : validaNota(farmacia, estafeta)
+
+PDB -> PDB : enviarNotaCliente(farmacia, estafeta)
+
+deactivate PDB
+
+deactivate CTL
+
+UI --> ADMIN : operação bem sucedida
+deactivate UI
+
+deactivate ADMIN
+@enduml

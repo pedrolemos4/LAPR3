@@ -1,0 +1,24 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class EmailDB {
+  +sendEmail(emailFarmacia, emailEstafeta, assunto, mensagem)
+  +validaNota(farmacia, estafeta)
+  +enviarNotaEstafeta(farmacia, estafeta)
+}
+
+class NotificarEstafetaController {
+    +enviarNotaEstafeta(farmacia, estafeta)
+}
+
+class AdminUI {
+}
+
+
+
+AdminUI ..> NotificarEstafetaController
+NotificarEstafetaController ..> EmailDB
+
+
+@enduml
+
