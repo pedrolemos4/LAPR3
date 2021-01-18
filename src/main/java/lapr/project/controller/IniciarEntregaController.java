@@ -9,7 +9,6 @@ import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
-import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Graph;
 import lapr.project.model.Veiculo;

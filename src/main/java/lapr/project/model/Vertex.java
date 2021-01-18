@@ -9,6 +9,7 @@ package lapr.project.model;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *
@@ -128,7 +129,15 @@ public class Vertex<V, E> {
     }
 
     @Override
-    public Vertex<V,E> clone() {
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + this.key;
+        hash = 41 * hash + Objects.hashCode(this.element);
+        return hash;
+    }
+
+    @Override
+    public Vertex<V,E> clone() throws CloneNotSupportedException {
 
         Vertex<V,E> newVertex = new Vertex<>();
 
