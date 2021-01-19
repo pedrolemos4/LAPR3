@@ -342,8 +342,8 @@ public class RegistarEntregaControllerTest {
         finalShortPath.add(e3);
         Veiculo veiculo = new Veiculo(1, "fsss", "scooter", 34, 12, 34, 45, 75, 12, 54);
         String expResult = "17:06:00";
-        RegistarEntregaController teste = new RegistarEntregaController(new UtilizadorDB(), new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
-        String result = teste.getDuracaoPercurso(finalShortPath, veiculo);
+        when(entregaDB.getDuracaoPercurso(finalShortPath, veiculo)).thenReturn(expResult);
+        String result = instance.getDuracaoPercurso(finalShortPath, veiculo);
         assertEquals(expResult, result);
 
     }
