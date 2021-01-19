@@ -107,7 +107,8 @@ CREATE TABLE "LAPR3_G23".Parque
 (           idParque number(10) GENERATED AS IDENTITY, 
             FarmaciaNIF number(10) NOT NULL,
             numeroMaximo number(10) NOT NULL,
-            tipo varchar(255) NOT NULL, 
+            tipo varchar(255) NOT NULL,
+            maxCap number(10) NOT NULL,
             PRIMARY KEY (idParque)
 );
 
@@ -440,13 +441,13 @@ END;
 /
 
 CREATE OR REPLACE FUNCTION addParque(p_FarmaciaNIF "LAPR3_G23".parque.farmacianif%type, p_numeroMaximo "LAPR3_G23".parque.numeromaximo%type,
-p_tipo "LAPR3_G23".parque.tipo%type) 
+p_tipo "LAPR3_G23".parque.tipo%type, p_maxCap "LAPR3_G23".parque.maxCap%type) 
 RETURN INTEGER
 IS
 v_idParque INTEGER;
 BEGIN
-    INSERT INTO "LAPR3_G23".parque (FarmaciaNIF,numeroMaximo,tipo)
-    VALUES(p_FarmaciaNIF, p_numeroMaximo, p_tipo);
+    INSERT INTO "LAPR3_G23".parque (FarmaciaNIF,numeroMaximo,tipo,maxCap)
+    VALUES(p_FarmaciaNIF, p_numeroMaximo, p_tipo, p_maxCap);
     SELECT "LAPR3_G23".parque.idParque INTO v_idParque
         FROM "LAPR3_G23".parque
         WHERE "LAPR3_G23".parque.FarmaciaNIF = p_FarmaciaNIF;
