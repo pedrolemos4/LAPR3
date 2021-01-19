@@ -112,7 +112,7 @@ public class RegistarEntregaUI {
             Graph<Endereco,Double> graph = controller.generateGraph(listEnderecos, est, veiculo, pesoTotal);
             LinkedList<Endereco> finalShortPath = new LinkedList<>();
             
-            double energiaTotalGasta = controller.getPath(graph, listEnderecos, finalShortPath, listEnderecos.get(0), 0);
+            double energiaTotalGasta = controller.getPath(graph, listEnderecos, finalShortPath, controller.getEnderecoOrigem(nifFarmacia), 0);
             
             String data = controller.getDuracaoPercurso(finalShortPath, veiculo);
             DateFormat format1 = new SimpleDateFormat("HH:mm:ss");
@@ -126,7 +126,6 @@ public class RegistarEntregaUI {
             System.out.println("\n\nEntrega adicionada com sucesso");
             System.out.println("\n\nCaminho com menor energia gasta: " + finalShortPath);
             System.out.println("\n\nEnergia gasta: " + energiaTotalGasta);
-            
             
         }
     }

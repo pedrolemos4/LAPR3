@@ -128,7 +128,7 @@ public class EntregaDB extends DataHandler {
                 }
                 if((veiculo.getTipo()).equalsIgnoreCase(DRONE)){
                     energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(),
-                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), caminho.getRoadResistanceCoefficient(), caminho.getDirecaoVento(), caminho.getVelocidadeVento());
+                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), 1, caminho.getDirecaoVento(), caminho.getVelocidadeVento());
                     graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
                 }
                 if(end.getMorada().equals(caminho.getEnd2().getMorada())){

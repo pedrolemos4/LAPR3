@@ -1,5 +1,6 @@
 package lapr.project.data;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,6 +16,23 @@ import lapr.project.model.Endereco;
  * @author beatr
  */
 public class CaminhoDB extends DataHandler{
+    
+    public void addCaminho(String morada1, String morada2, double roadResistanceCoefficient, double velocidadeVento, double direcaoVento) {
+        try {
+            openConnection();
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCaminho(?,?,?,?) }")) {
+                callStmt.setString(1, morada1);
+                callStmt.setString(2, morada2);
+                callStmt.setDouble(3, roadResistanceCoefficient);
+                callStmt.setDouble(4, velocidadeVento);
+                callStmt.setDouble(5, direcaoVento);
+                callStmt.execute();
+            }
+            closeAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
     public List<Caminho> getAllCaminhos(){
         String query = "SELECT * FROM caminho";
