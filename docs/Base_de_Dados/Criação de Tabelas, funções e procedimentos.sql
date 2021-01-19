@@ -108,6 +108,7 @@ CREATE TABLE "LAPR3_G23".Parque
             FarmaciaNIF number(10) NOT NULL,
             numeroMaximo number(10) NOT NULL,
             tipo varchar(255) NOT NULL, 
+            maxCap number(10) NOT NULL,
             PRIMARY KEY (idParque)
 );
 
@@ -180,6 +181,7 @@ CREATE TABLE "LAPR3_G23".Estacionamentoveiculo
 (           idEstacionamentoveiculo number(10) GENERATED AS IDENTITY, 
             veiculoidveiculo number(10) NOT NULL, 
             EstacionamentonumeroLote number(10) NOT NULL, 
+            EstacionamentoIdParque number(10) NOT NULL,
             datainicio timestamp NOT NULL, 
             datafim timestamp, 
             PRIMARY KEY (idEstacionamentoveiculo)
@@ -269,6 +271,7 @@ ALTER TABLE "LAPR3_G23".EncomendaProduto ADD CONSTRAINT FKEncomendaProduto_Produ
 ALTER TABLE "LAPR3_G23".Estacionamento ADD CONSTRAINT FKEstacionamento_Parque FOREIGN KEY (idParque) REFERENCES "LAPR3_G23".Parque (idParque);
 ALTER TABLE "LAPR3_G23".Estacionamentoveiculo ADD CONSTRAINT FKEstacionamentoveiculo_veiculo FOREIGN KEY (veiculoidveiculo) REFERENCES "LAPR3_G23".veiculo (idveiculo);
 ALTER TABLE "LAPR3_G23".Estacionamentoveiculo ADD CONSTRAINT FKEstacionamentoveiculo_Estacionamento FOREIGN KEY (EstacionamentonumeroLote) REFERENCES "LAPR3_G23".Estacionamento (numeroLote);
+ALTER TABLE "LAPR3_G23".Estacionamentoveiculo ADD CONSTRAINT FKEstacionamentoveiculo_ParqueIdParque FOREIGN KEY (EstacionamentoParqueIdParque) REFERENCES "LAPR3_G23".Estacionamento (idParque);
 ALTER TABLE "LAPR3_G23".Recibo ADD CONSTRAINT FKRecibo_Cliente FOREIGN KEY (ClienteUtilizadorNIF) REFERENCES "LAPR3_G23".Cliente (UtilizadorNIF);
 ALTER TABLE "LAPR3_G23".Recibo ADD CONSTRAINT FKRecibo_Encomenda FOREIGN KEY (EncomendaidEncomenda) REFERENCES "LAPR3_G23".Encomenda (idEncomenda);
 ALTER TABLE "LAPR3_G23".LinhaRecibo ADD CONSTRAINT FKLinhaRecibo_Recibo FOREIGN KEY (ReciboidRecibo) REFERENCES "LAPR3_G23".Recibo (idRecibo);
@@ -439,15 +442,16 @@ RETURN v_idEntrega;
 END;
 /
 
+
 CREATE OR REPLACE FUNCTION addParque(p_FarmaciaNIF "LAPR3_G23".parque.farmacianif%type, p_numeroMaximo "LAPR3_G23".parque.numeromaximo%type,
-p_tipo "LAPR3_G23".parque.tipo%type) 
+p_tipo "LAPR3_G23".parque.tipo%type, p_maxCap "LAPR3_G23".parque.maxCap%type) 
 RETURN INTEGER
 IS
 v_idParque INTEGER;
 BEGIN
-    INSERT INTO "LAPR3_G23".parque (FarmaciaNIF,numeroMaximo,tipo)
-    VALUES(p_FarmaciaNIF, p_numeroMaximo, p_tipo);
-    SELECT "LAPR3_G23".parque.idParque INTO v_idParque
+        INSERT INTO "LAPR3_G23".parque (FarmaciaNIF,numeroMaximo,tipo,maxCap)
+        VALUES(p_FarmaciaNIF, p_numeroMaximo, p_tipo, p_maxCap);
+        SELECT "LAPR3_G23".parque.idParque INTO v_idParque
         FROM "LAPR3_G23".parque
         WHERE "LAPR3_G23".parque.FarmaciaNIF = p_FarmaciaNIF;
 RETURN v_idParque;
