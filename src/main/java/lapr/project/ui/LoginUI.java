@@ -34,7 +34,7 @@ public class LoginUI {
     }
 
     public static void textoMenuLogin() {
-        System.out.println("Bem-vindo à Ride Sharing");
+        System.out.println("\nBem-vindo à Ride Sharing");
         System.out.println("1- Login    \n"
                 + "2- Registo \n"
                 + "0- Sair");
@@ -83,7 +83,7 @@ public class LoginUI {
             UserSession.getInstance().setUser(utilizador);
             rest.menuEstafeta();
         }else {
-            System.err.println("\nE-mail or Password estão incorretos.\n");
+            System.out.println("\nE-mail or Password estão incorretos.\n");
             menu();
         }
     }

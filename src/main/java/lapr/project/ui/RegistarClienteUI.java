@@ -112,8 +112,8 @@ public class RegistarClienteUI {
     /**
      * Menu da interface cliente
      */
-    public static void textoMenuCliente() {
-        System.out.println("\nRIDE SHARING - Menu Cliente\n------------"
+    public void textoMenuCliente() {
+        System.out.println("\nRIDE SHARING - Menu Cliente\n-------------------"
                 + "\n 1 - Realizar encomenda"/*
                 + "\n 2 - Find parks near me"
                 + "\n 3 - Check rentals history"
@@ -123,7 +123,7 @@ public class RegistarClienteUI {
                 + "\n 7 - Check Spots in a Park for Scooters"
                 + "\n 8 - Check Spots in a Park for Bicycles"*/
                 + "\n 0 - Exit"
-                + "\n Escolha uma opção válida.");
+                + "\n Escolha uma das opcões apresentadas\n-------------------");
     }
 
     /**
@@ -136,7 +136,7 @@ public class RegistarClienteUI {
         String opt;
         do {
             textoMenuCliente();
-            LER.nextLine();
+            //LER.nextLine();
             opt = LER.nextLine();
             switch (opt) {
                 case "1":

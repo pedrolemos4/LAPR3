@@ -95,7 +95,6 @@ public class RegistarEstafetaUI {
         String opt;
         do {
             textoMenuEstafeta();
-            LER.nextLine();
             opt = LER.nextLine();
             switch (opt) {
                 case "1":
