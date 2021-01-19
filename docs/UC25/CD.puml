@@ -18,6 +18,7 @@ class RealizaEncomendaController {
     +getCreditosData(dataPedida, precoTotal)
     +geraCreditos(c,precoTotal)
     +getFarmaciaByNif(nif)
+    +getFarmaciaMaisProxima(nif)
 }
 
 class ClienteDataHandler {
@@ -56,6 +57,7 @@ class FarmaciaDB {
     +getFarmaciaByNif(nif)
     +addTransferencia(nif1, nif2, id, quantidade, 1)
     +enviarStock(fOrig, fDest, prod, quantidade)
+    +getFarmaciaByNif(nif)
 }
 
 class PedirItemFarmaciaDB {

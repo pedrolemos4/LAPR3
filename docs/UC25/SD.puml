@@ -21,17 +21,12 @@ participant "lprodutos\n:ListaProdutosEncomenda" as LPROD
 participant "enc: Encomenda" as ENC
 
 
-CLI --> UI : insere a farmacia a qual quer os produtos
+CLI --> UI : pretende realizar a encomenda
 activate CLI
 activate UI
 
-UI --> CTRL : getFarmaciaByNif(nif)
+
 activate CTRL
-
-CTRL --> FDB : nif = getFarmaciaByNif(nif)
-activate FDB
-deactivate FDB
-
 UI --> CTRL : getCliente()
 
 CTRL --> DH : cliente = getCliente()
@@ -42,8 +37,14 @@ CTRL --> CLIEN : nifCLiente = getNif()
 activate CLIEN
 deactivate CLIEN
 
+UI --> CTRL : getFarmaciaMaisProxima(nif)
+
+CTRL --> FDB : nif = getFarmaciaByNif(nif)
+activate FDB
+deactivate FDB
+
 deactivate DH
-CTRL --> PDH : getListaStock()
+CTRL --> PDH : getListaStock(nif)
 activate PDH
 deactivate PDH
 
