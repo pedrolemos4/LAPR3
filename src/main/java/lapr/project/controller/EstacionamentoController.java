@@ -32,7 +32,7 @@ public class EstacionamentoController {
     }
     
     /**
-     * 
+     * Verifica a pasta destinada à simulação de carregamentos à procura de ficheiros para simular o carregamento
      * @param path
      * @return
      * @throws FileNotFoundException 
@@ -44,10 +44,11 @@ public class EstacionamentoController {
     }
     
     /**
-     * 
+     * Método principal para a simulação do carregamento dos veículos, interaje com a Base de Dados para a recolha de
+     * dados sobre o estacionamento e para a criação da instância de um novo estacionamento.
      * @param path
-     * @return
-     * @throws FileNotFoundException 
+     * @return true se o método conseguir criar a instância de estacionamento sem nenhum erro
+     * @throws FileNotFoundException quando não é possível encontrar o ficheiro encontrado
      */
     public boolean simulateParkingVeiculo(String path) throws FileNotFoundException{
         File newFile = new File(path);
@@ -87,11 +88,11 @@ public class EstacionamentoController {
     }
     
     /**
-     * 
-     * @param bemEstacionado
-     * @param estimativa
-     * @param email
-     * @return 
+     * Envia um email ao estafeta com informação sobre o estacionamento da sua scooter
+     * @param bemEstacionado reflete se foi bem estacionada a scooter
+     * @param estimativa representa o número de horas que vai levar até o carregamento se encontrar concluido
+     * @param email email do estafeta
+     * @return true se o email tiver sido enviado
      */
     public boolean notificaEstafeta(boolean bemEstacionado, int estimativa, String email){
         String assunto = "Estacionamento Veiculo";
@@ -105,18 +106,19 @@ public class EstacionamentoController {
     }
     
     /**
-     * 
-     * @param veiculo 
+     * Modifica a bateria do veículo para os 100%, quando a simulação de carregamento é concluída
+     * @param veiculo scooter ou drone
      */
     public void carregamentoCompleto(Veiculo veiculo){
         veiculo.setPercentagemBateria(100);
     }
     
     /**
-     * 
-     * @param estimativa
-     * @param veiculo
-     * @return 
+     * Cria um timer de acordo com a estimativa simulada de carregamento, onde no final do tempo definido pela estimativa
+     * é chamado um método para modificar o valor da bateria do veículo
+     * @param estimativa estimativa calculada de tempo até o veículo estar carregado
+     * @param veiculo scooter ou drone a carregar
+     * @return true quando o timer e a tarefa são criadas com sucesso
      */
     public boolean timerCarregamento(int estimativa, Veiculo veiculo){
         Timer timer = new Timer();
@@ -133,9 +135,9 @@ public class EstacionamentoController {
     }
     
     /**
-     * 
-     * @param path
-     * @return 
+     * Busca o nome dos ficheiros introduzidos pelo utilizador na pasta de simulação de carregamento de veículos
+     * @param path caminho para o diretório da pasta de ficheiros de simulação de carregamento
+     * @return primeiro ficheiro da pasta
      */
     public String getDiretory(String path) {
         String[] pathnames;
