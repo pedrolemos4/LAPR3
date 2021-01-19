@@ -6,6 +6,7 @@ import lapr.project.data.ParqueDB;
 import lapr.project.data.VeiculoDB;
 import lapr.project.model.Estacionamento;
 import lapr.project.model.Estafeta;
+import lapr.project.model.Parque;
 import lapr.project.model.Veiculo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,14 +40,17 @@ class EstacionamentoControllerTest {
 
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
-        Estacionamento estacionamento = new Estacionamento(0, 0, 0);
+        Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         estacionamento.setNumeroLote(0);
+        Parque parque = new Parque(0,1,1,"scooter");
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
 
         when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+
+        when(parqueDB.getParqueByID(0)).thenReturn(parque);
 
         String assunto = "Estacionamento Veiculo";
         String mensagem = "O veiculo foi estacionado sem sucesso, tente novamente.";
@@ -62,12 +66,15 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         estacionamento.setNumeroLote(0);
+        Parque parque = new Parque(0,1,1,"scooter");
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
 
         when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+
+        when(parqueDB.getParqueByID(0)).thenReturn(parque);
 
         String assunto = "Estacionamento Veiculo";
         String mensagem = "O veiculo foi estacionado com sucesso, com uma estimativa de " + 3 + " horas até estar completamente carregada.";
@@ -83,14 +90,17 @@ class EstacionamentoControllerTest {
 
         Estafeta estafeta = new Estafeta(0, "nome", "rodrikcraft@gmail.com", 0, 0, "password", 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
-        Estacionamento estacionamento = new Estacionamento(0, 0, 0);
+        Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         estacionamento.setNumeroLote(0);
+        Parque parque = new Parque(0,1,1,"scooter");
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
 
         when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+
+        when(parqueDB.getParqueByID(0)).thenReturn(parque);
 
         String assunto = "Estacionamento Veiculo";
         String mensagem = "O veiculo foi estacionado com sucesso, com uma estimativa de " + 3 + " horas até estar completamente carregada.";
@@ -133,14 +143,17 @@ class EstacionamentoControllerTest {
 
         Estafeta estafeta = new Estafeta(0, "nome", "a@gmail.com", 0, 0, "password", 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
-        Estacionamento estacionamento = new Estacionamento(0, 0, 0);
+        Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         estacionamento.setNumeroLote(0);
+        Parque parque = new Parque(0,1,1,"scooter");
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
 
         when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+
+        when(parqueDB.getParqueByID(0)).thenReturn(parque);
 
         String assunto = "Estacionamento Veiculo";
         String mensagem = "O veiculo foi estacionado sem sucesso, tente novamente.";
@@ -153,16 +166,18 @@ class EstacionamentoControllerTest {
     @Test
     void simulateParkingVeiculo4() throws FileNotFoundException {
         System.out.println("simulateParkingVeiculo4()");
-        Estafeta estafeta = new Estafeta(0, "nome", "rodrikcraft@gmail.com", 0, 0, "password", 0);
         Veiculo veiculo = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
-        Estacionamento estacionamento = new Estacionamento(0, 0, 0);
+        Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         estacionamento.setNumeroLote(0);
+        Parque parque = new Parque(0,1,1,"drone");
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
 
         when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+
+        when(parqueDB.getParqueByID(0)).thenReturn(parque);
 
         assertTrue(instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2021_02_02_02_02_02.data"));
     }
@@ -192,10 +207,10 @@ class EstacionamentoControllerTest {
     void simulateParkingVeiculo6() throws FileNotFoundException {
         System.out.println("simulateParkingVeiculo6()");
 
-        Estafeta estafeta = new Estafeta(0, "nome", "rodrikcraft@gmail.com", 0, 0, "password", 0);
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
-        Estacionamento estacionamento = new Estacionamento(0, 0, 0);
+        Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         estacionamento.setNumeroLote(0);
+        Parque parque = new Parque(0,1,1,"scooter");
 
         instance = new EstacionamentoController(new EmailDB(),estacionamentosDB,veiculoDB,parqueDB);
 
@@ -204,6 +219,8 @@ class EstacionamentoControllerTest {
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
 
         when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+
+        when(parqueDB.getParqueByID(0)).thenReturn(parque);
 
         assertEquals(true,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2021_02_02_02_02_02.data"));
     }
@@ -216,6 +233,7 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         estacionamento.setNumeroLote(0);
+        Parque parque = new Parque(0,1,1,"scooter");
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -227,6 +245,8 @@ class EstacionamentoControllerTest {
         String mensagem = "O veiculo foi estacionado com sucesso, com uma estimativa de " + 3 + " horas até estar completamente carregada.";
 
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(false);
+
+        when(parqueDB.getParqueByID(0)).thenReturn(parque);
 
         assertEquals(false,instance.simulateParkingVeiculo("src/main/java/lapr/project/parking/teste/estimate_2021_02_02_02_02_02.data"));
     }
