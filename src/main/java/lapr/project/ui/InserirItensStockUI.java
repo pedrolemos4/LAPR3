@@ -63,7 +63,7 @@ public class InserirItensStockUI {
         System.out.println(prod.getDesignacao());
         System.out.println(prod.getPeso());
         System.out.println(prod.getPrecoBase());
-        System.out.println("Nº de produtos a adicionar" + qtd);
+        System.out.println("Nº de produtos a adicionar: " + qtd);
 
         System.out.println("Deseja adicionar ao stock da farmácia o produto criado? (S/N)");
         String confirm = LER.next();

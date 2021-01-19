@@ -43,20 +43,26 @@ public class RealizarEncomendaUI {
 
     public void introduzEncomenda() throws SQLException, ParseException, ClassNotFoundException {
 
-        System.out.println("Insira o NIF da farmácia que pretende encomendar os produtos: ");
         List<Farmacia> lstFarmacias = controller2.getLstFarmacias();
-        
         if(lstFarmacias.isEmpty()){
             System.out.println("Não existem farmácias");
             rcUI.menuCliente();
         }
-        
+
+        System.out.println("--STOCK DAS FARMÁCIAS--");
         for (Farmacia f : lstFarmacias) {
             System.out.println(f.toString());
+            System.out.println("--PRODUTOS--");
+            for (Produto p : controller.getListStock(f.getNIF()).keySet()) {
+                System.out.println(p.toString());
+                System.out.println("Quantidade: " + controller.getListStock(f.getNIF()).get(p));
+            }
         }
 
+        System.out.println("Insira o NIF da farmácia que pretende encomendar os produtos: ");
+
         int nif = LER.nextInt();
-        if(controller2.getFarmaciaByNIF(nif) == null){
+        if (controller2.getFarmaciaByNIF(nif) == null) {
             while (controller2.getFarmaciaByNIF(nif) == null) {
             System.out.println("Não existe farmácia com este nif. Por favor insira outro nif.");
             nif = LER.nextInt();
@@ -71,16 +77,10 @@ public class RealizarEncomendaUI {
             stock = controller.getListStock(nif);
         }
 
-        System.out.println("Lista de produtos disponíveis: ");
-
-        for (Produto p : stock.keySet()) {
-            System.out.println(p + "\nQuantidade: " + stock.get(p));
-        }
-
         int nif1;
 
         while (LER.hasNextLine()) {
-            System.out.println("Introduza o id de um produto apresentado ou 0 para terminar ");
+            System.out.println("Introduza o id de um produto apresentado ou 0 para terminar.");
             int id = LER.nextInt();
             if (id == 0) {
                 break;
@@ -205,9 +205,8 @@ public class RealizarEncomendaUI {
                 System.out.println(p.getDesignacao() + " " + mapaEncomenda.get(p));
             }
 
-            System.out.println("\n\nEncomenda adicionada com sucesso'");
+            System.out.println("\n\nEncomenda adicionada com sucesso!'");
             rcUI.menuCliente();
         }
     }
-
 }

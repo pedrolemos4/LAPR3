@@ -28,7 +28,7 @@ public class UtilizadorDB extends DataHandler {
     public UtilizadorDB() {
         this.dataHandler = DataHandler.getInstance();
     }
-    
+
     /**
      * Adiciona um utilizador à base de dados
      * @param nif nid do utilizador
