@@ -28,34 +28,7 @@ public class UtilizadorDB extends DataHandler {
     public UtilizadorDB() {
         this.dataHandler = DataHandler.getInstance();
     }
-
-    public Utilizador novoUtilizador(int nif, String nome, String email, int numeroSegurancaSocial, String password) {
-        return new Utilizador(nif, nome, email, numeroSegurancaSocial, password);
-    }
-
-    public void registaUtilizador(Utilizador user) {
-        if (validaUtilizador(user)) {
-            addUtilizador(user);
-        }
-    }
-
-    /**
-     * Verifica se o utilizador é válido
-     * @param user utilizador a ser verificado
-     * @return true se o utilizador for válido, false se não
-     */
-    public boolean validaUtilizador(Utilizador user) {
-        return user != null;
-    }
-
-    /**
-     * Adiciona um utilizador à base de dados
-     * @param user utilziador a ser adicionado
-     */
-    public void addUtilizador(Utilizador user) {
-        addUtilizador(user.getNIF(), user.getNome(), user.getEmail(), user.getNumeroSegurancaSocial(), user.getPassword());
-    }
-
+    
     /**
      * Adiciona um utilizador à base de dados
      * @param nif nid do utilizador
@@ -79,28 +52,6 @@ public class UtilizadorDB extends DataHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public List<Utilizador> getLstUtilizador() {
-        ArrayList<Utilizador> list = new ArrayList<>();
-        String query = "SELECT * FROM utilizador";
-
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
-                while (rSet.next()) {
-                    int nif = rSet.getInt(1);
-                    String nome = rSet.getString(2);
-                    String email = rSet.getString(3);
-                    int numeroSegurancaSocial = rSet.getInt(4);
-                    String password = rSet.getString(5);
-                    list.add(new Utilizador(nif, nome, email, numeroSegurancaSocial, password));
-                }
-                return list;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
     }
 
     /**
