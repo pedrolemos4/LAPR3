@@ -75,6 +75,7 @@ public class CartaoDB extends DataHandler {
      * @param numeroCartao número do cartão de crédito
      * @param dataDeValidade data de validade do cartão de crédito
      * @param ccv código de segurança do cartão de crédito
+     * @throws java.text.ParseException
      */
     public void addCartao(int numeroCartao, String dataDeValidade, int ccv) throws ParseException {
         try {

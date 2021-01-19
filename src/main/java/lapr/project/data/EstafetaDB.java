@@ -11,7 +11,8 @@ import java.util.logging.Logger;
 
 import lapr.project.model.Estafeta;
 
-public class EstafetaDB extends DataHandler{
+public class EstafetaDB extends DataHandler {
+
     Estafeta est;
     private final List<Estafeta> lstEstafetas;
 
@@ -21,14 +22,15 @@ public class EstafetaDB extends DataHandler{
 
     /**
      * Devolve a lista de estafetas existentes
+     *
      * @return lista de estafetas
      */
     public List<Estafeta> getListaEstafetas() {
         ArrayList<Estafeta> list = new ArrayList<>();
         String query = "SELECT * FROM estafeta";
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
@@ -47,6 +49,7 @@ public class EstafetaDB extends DataHandler{
 
     /**
      * Cria um novo estafeta
+     *
      * @param nif nif do estafeta
      * @param nome nome do estafeta
      * @param email email do estafeta
@@ -62,11 +65,12 @@ public class EstafetaDB extends DataHandler{
 
     /**
      * Regista um estafeta na base de dados
+     *
      * @param est estafeta a ser registado
      * @return true se o estafeta for registado, falso se não
      */
     public boolean registaEstafeta(Estafeta est) {
-        if (validaEstafeta(est)){
+        if (validaEstafeta(est)) {
             addEstafeta(est);
             return true;
         }
@@ -75,6 +79,7 @@ public class EstafetaDB extends DataHandler{
 
     /**
      * Verifica se o estafeta é valido
+     *
      * @param est estafeta a verificar
      * @return true se o estafeta for válido, falso se não
      */
@@ -84,6 +89,7 @@ public class EstafetaDB extends DataHandler{
 
     /**
      * Adiciona o estafeta à base de dados
+     *
      * @param est estafeta a ser adicionado
      * @return true
      */
@@ -97,25 +103,21 @@ public class EstafetaDB extends DataHandler{
 
     /**
      * Adiciona o estafeta à base de dados
+     *
      * @param nif nif do estafeta
      * @param estadoEstafeta estado do estafeta
      * @param peso peso do estafeta
      */
-    private void addEstafeta(int nif, int estadoEstafeta, double peso) {
-
+    public void addEstafeta(int nif, int estadoEstafeta, double peso) {
         try {
             openConnection();
-
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addEstafeta(?,?,?) }")) {
-
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstafeta(?,?,?) }")) {
                 callStmt.setInt(1, nif);
                 callStmt.setInt(2, estadoEstafeta);
                 callStmt.setDouble(3, peso);
-
                 callStmt.execute();
             }
             closeAll();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -123,11 +125,12 @@ public class EstafetaDB extends DataHandler{
 
     /**
      * Atualiza as informações de um estafeta na base de dados
+     *
      * @param est estafeta a ser alterado
      * @return true se o estafeta for atualizado, falso se não
      */
     public boolean atualizarEstafeta(Estafeta est) {
-        if (validaEstafeta(est)){
+        if (validaEstafeta(est)) {
             atualizarEstafeta(est.getNIF(), est.getEstado(), est.getPesoEstafeta());
             atualizarUtilizador(est.getNIF(), est.getNome(), est.getEmail(), est.getNumeroSegurancaSocial(), est.getPassword());
             return true;
@@ -137,6 +140,7 @@ public class EstafetaDB extends DataHandler{
 
     /**
      * Atualiza as informações de um estafeta na base de dados
+     *
      * @param nif nif do estafeta
      * @param estadoEstafeta estado do estafeta
      * @param peso peso do estafeta
@@ -145,7 +149,7 @@ public class EstafetaDB extends DataHandler{
         try {
             openConnection();
 
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarEstafeta(?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call atualizarEstafeta(?,?,?) }")) {
 
                 callStmt.setInt(1, nif);
                 callStmt.setInt(2, estadoEstafeta);
@@ -162,6 +166,7 @@ public class EstafetaDB extends DataHandler{
 
     /**
      * Atualiza as informações de um utilizador na base de dados
+     *
      * @param nif nif do utilizador
      * @param nome nome do utilizador
      * @param email email do utilzador
@@ -172,7 +177,7 @@ public class EstafetaDB extends DataHandler{
         try {
             openConnection();
 
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarUtilizador(?,?,?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call atualizarUtilizador(?,?,?,?,?) }")) {
 
                 callStmt.setInt(1, nif);
                 callStmt.setString(2, nome);
@@ -191,14 +196,15 @@ public class EstafetaDB extends DataHandler{
 
     /**
      * Devolve o estafeta cujo nif é igual ao recebido por parâmetro
+     *
      * @param nif nif do estafeta
      * @return estafeta
      */
     public Estafeta getEstafetaByNIF(int nif) {
         String query = "SELECT * FROM estafeta e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.NIF= " + nif;
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     nif = rSet.getInt(1);
