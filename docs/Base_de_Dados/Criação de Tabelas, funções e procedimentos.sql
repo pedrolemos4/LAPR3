@@ -107,11 +107,7 @@ CREATE TABLE "LAPR3_G23".Parque
 (           idParque number(10) GENERATED AS IDENTITY, 
             FarmaciaNIF number(10) NOT NULL,
             numeroMaximo number(10) NOT NULL,
-<<<<<<< HEAD
-            tipo varchar(255) NOT NULL, 
-=======
             tipo varchar(255) NOT NULL,
->>>>>>> 1e1544d82b00d7879664c482ac2053e7654d63dc
             maxCap number(10) NOT NULL,
             PRIMARY KEY (idParque)
 );
@@ -274,8 +270,7 @@ ALTER TABLE "LAPR3_G23".EncomendaProduto ADD CONSTRAINT FKEncomendaProduto_Encom
 ALTER TABLE "LAPR3_G23".EncomendaProduto ADD CONSTRAINT FKEncomendaProduto_Produto FOREIGN KEY (ProdutoidProduto) REFERENCES "LAPR3_G23".Produto (idProduto);
 ALTER TABLE "LAPR3_G23".Estacionamento ADD CONSTRAINT FKEstacionamento_Parque FOREIGN KEY (idParque) REFERENCES "LAPR3_G23".Parque (idParque);
 ALTER TABLE "LAPR3_G23".Estacionamentoveiculo ADD CONSTRAINT FKEstacionamentoveiculo_veiculo FOREIGN KEY (veiculoidveiculo) REFERENCES "LAPR3_G23".veiculo (idveiculo);
-ALTER TABLE "LAPR3_G23".Estacionamentoveiculo ADD CONSTRAINT FKEstacionamentoveiculo_Estacionamento FOREIGN KEY (EstacionamentonumeroLote) REFERENCES "LAPR3_G23".Estacionamento (numeroLote);
-ALTER TABLE "LAPR3_G23".Estacionamentoveiculo ADD CONSTRAINT FKEstacionamentoveiculo_ParqueIdParque FOREIGN KEY (EstacionamentoParqueIdParque) REFERENCES "LAPR3_G23".Estacionamento (idParque);
+ALTER TABLE "LAPR3_G23".Estacionamentoveiculo ADD CONSTRAINT FKEstacionamentoveiculo_Estacionamento FOREIGN KEY (EstacionamentonumeroLote,EstacionamentoIdParque) REFERENCES "LAPR3_G23".Estacionamento (numeroLote,idParque);
 ALTER TABLE "LAPR3_G23".Recibo ADD CONSTRAINT FKRecibo_Cliente FOREIGN KEY (ClienteUtilizadorNIF) REFERENCES "LAPR3_G23".Cliente (UtilizadorNIF);
 ALTER TABLE "LAPR3_G23".Recibo ADD CONSTRAINT FKRecibo_Encomenda FOREIGN KEY (EncomendaidEncomenda) REFERENCES "LAPR3_G23".Encomenda (idEncomenda);
 ALTER TABLE "LAPR3_G23".LinhaRecibo ADD CONSTRAINT FKLinhaRecibo_Recibo FOREIGN KEY (ReciboidRecibo) REFERENCES "LAPR3_G23".Recibo (idRecibo);
@@ -292,15 +287,15 @@ ALTER TABLE "LAPR3_G23".Caminho ADD CONSTRAINT FKCaminho_Morada1 FOREIGN KEY (mo
 ALTER TABLE "LAPR3_G23".Caminho ADD CONSTRAINT FKCaminho_Morada2 FOREIGN KEY (morada2) REFERENCES "LAPR3_G23".Endereco (morada);
 ------------------------------------------------------------------------------------
 
-INSERT INTO "LAPR3_G23".estadoveiculo VALUES (1,'DisponÃ­vel');
-INSERT INTO "LAPR3_G23".estadoveiculo VALUES (2,'IndisponÃ­vel');
+INSERT INTO "LAPR3_G23".estadoveiculo VALUES (1,'Disponivel');
+INSERT INTO "LAPR3_G23".estadoveiculo VALUES (2,'Indisponivel');
 
 INSERT INTO "LAPR3_G23".estadoEncomenda VALUES (1,'Encomendado');
 INSERT INTO "LAPR3_G23".estadoEncomenda VALUES (2,'Entregando');
 INSERT INTO "LAPR3_G23".estadoEncomenda VALUES (3,'Entregue');
 
-INSERT INTO "LAPR3_G23".estadoEstafeta VALUES(1,'DisponÃ­vel');
-INSERT INTO "LAPR3_G23".estadoEstafeta VALUES(2,'IndisponÃ­vel');
+INSERT INTO "LAPR3_G23".estadoEstafeta VALUES(1,'Disponivel');
+INSERT INTO "LAPR3_G23".estadoEstafeta VALUES(2,'Indisponivel');
 
 INSERT INTO "LAPR3_G23".EstadoTransferencia VALUES(1,'Pendente');
 INSERT INTO "LAPR3_G23".EstadoTransferencia VALUES(2,'A transferir');
