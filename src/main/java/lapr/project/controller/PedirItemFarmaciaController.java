@@ -4,6 +4,7 @@ import java.util.List;
 import lapr.project.data.EmailDB;
 import lapr.project.data.FarmaciaDB;
 import lapr.project.data.TransferenciaDB;
+import lapr.project.model.Endereco;
 import lapr.project.model.Farmacia;
 import lapr.project.model.Graph;
 import lapr.project.model.Produto;
@@ -61,10 +62,9 @@ public class PedirItemFarmaciaController {
      * @param farms lista de farmacias
      * @return grafo
      */
-    public Graph<Farmacia, Double> generateGrafo(List<Farmacia> farms) {
+    public Graph<Endereco, Double> generateGrafo(List<Farmacia> farms) {
         return fdb.generateGrafo(farms);
     }
-    //COPIAR MÉTODO ACIMA SO Q É LIST<ENDERECO>
 
     /**
      * Devolve o nif da farmacia mais proxima recebendo um grafo e o nif da farmacia
@@ -72,8 +72,8 @@ public class PedirItemFarmaciaController {
      * @param nif nif da farmacia
      * @return nif da farmacia mais proxima
      */
-    public int getFarmaciaProxima(Graph<Farmacia, Double> generateGrafo, int nif) {
-        return fdb.getFarmaciaProxima(generateGrafo,nif);
+    public Farmacia getFarmaciaProxima(Graph<Endereco, Double> generateGrafo, Endereco end) {
+        return fdb.getFarmaciaProxima(generateGrafo,end);
     }
     //COPIAR MÉTODO ACIMA SO Q É UM GRAFO<ENDERECO, DOUBLE>
 

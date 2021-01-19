@@ -34,10 +34,9 @@ public class RealizarEncomendaUI {
     RegistarClienteController controller4;
 
     public RealizarEncomendaUI() {
-        controller = new RealizaEncomendaController(new ProdutosDB(), new EncomendaDB(), new ReciboDB(), new ClienteDB(), new EmailDB());
+        controller = new RealizaEncomendaController(new ProdutosDB(), new EncomendaDB(), new ReciboDB(), new ClienteDB(), new EmailDB(), new EnderecoDB());
         controller2 = new PedirItemFarmaciaController(new FarmaciaDB(), new TransferenciaDB(), new EmailDB());
         controller3 = new EnviarNotaTransferenciaController(new EmailDB());
-        controller4 = new RegistarClienteController(new ClienteDB(), new UtilizadorDB(), new EnderecoDB(), new CartaoDB());
     }
 
     public void introduzEncomenda() throws SQLException, ParseException, ClassNotFoundException {
@@ -57,25 +56,16 @@ public class RealizarEncomendaUI {
                 System.out.println("Quantidade: " + controller.getListStock(f.getNIF()).get(p));
             }
         }
-
-        System.out.println("Insira o NIF da farmácia que pretende encomendar os produtos: ");
-
-        int nif = LER.nextInt();
-        if (controller2.getFarmaciaByNIF(nif) == null) {
-            while (controller2.getFarmaciaByNIF(nif) == null) {
-            System.out.println("Não existe farmácia com este nif. Por favor insira outro nif.");
-            nif = LER.nextInt();
-            }
-        }
-
+        
+        
+        Cliente cliente = controller.getCliente();
+        Endereco enderecoCliente = controller.getEnderecoByNifCliente(cliente.getNIF());
+        Graph<Endereco, Double> generateGrafo = controller2.generateGrafo(controller2.getLstFarmacias());
+        Farmacia farm = controller2.getFarmaciaProxima(generateGrafo, enderecoCliente); 
+        generateGrafo.removeVertex(enderecoCliente);
+        int nif = farm.getNIF();
         Map<Produto, Integer> stock = controller.getListStock(nif);
-        while (stock.keySet().isEmpty()) {
-            System.out.println("Neste momento esta farmácia não tem produtos em stock."
-                    + " Insira o nif de outra farmácia.");
-            nif = LER.nextInt();
-            stock = controller.getListStock(nif);
-        }
-
+        
         int nif1;
 
         while (LER.hasNextLine()) {
@@ -91,25 +81,10 @@ public class RealizarEncomendaUI {
             if (controller.produtoEncomenda(nif, prod, qntd) == false) {
                 qntd = qntd - stock.get(prod);
 
-                EnderecoDB edb = new EnderecoDB();
-                List<Farmacia> farms = controller2.getListaFarmaciaByProduto(prod, qntd);
-                List<Cliente> clientes = controller4.getListaClientes();
-
-                List<Endereco> le = new ArrayList<>();
-                for (Farmacia f : farms) {
-                    le.add(edb.getEnderecoByNifFarmacia(f.getNIF()));
-                }
-                for (Cliente c : clientes) {
-                    le.add(edb.getEnderecoByNifCliente(c.getNIF()));
-                }
+                Farmacia farm1 = controller2.getFarmaciaProxima(generateGrafo, controller.getEnderecoOrigem(nif));
+                nif1 = farm1.getNIF();
                 
                 while (qntd > 0) {
-                    //Graph<Endereco, Double> grafoEnd = controller2.generateGrafoEnd(le);
-                    Graph<Farmacia, Double> generateGrafo = controller2.generateGrafo(farms);
-
-                    //int nifCliente = UserSession.getInstance().getUser().getNIF();
-                    //nif1 = controller2.getFarmaciaProximaCliente(grafoEnd, nifCliente);
-                    nif1 = controller2.getFarmaciaProxima(generateGrafo, nif);
                     if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).get(prod)>=qntd) {
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
                         controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
@@ -125,10 +100,10 @@ public class RealizarEncomendaUI {
                         controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(nif).getEmail(), controller2.getFarmaciaByNIF(nif1).getEmail());
                         qntd = qntd - controller.getListStock(nif1).get(prod);
                         controller.produtoEncomenda(nif1, prod, qntd);
-                        farms.remove(controller2.getFarmaciaByNIF(nif1));
+                        generateGrafo.removeVertex(controller.getEnderecoOrigem(nif1));
                     }
                 }
-                if (farms.isEmpty() && qntd > 0) {
+                if (generateGrafo.numVertices()==0 && qntd > 0) {
                     System.out.println("Não havia a quantidade que pretende.");
                     String assunto = "Produto não disponível.";
                     String mensagem = "O produto não estava disponível na quantidade pretendida logo foi inserido a quantidade existente em stock.";

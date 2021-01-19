@@ -14,8 +14,10 @@ import java.util.TreeMap;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
 import lapr.project.data.EncomendaDB;
+import lapr.project.data.EnderecoDB;
 import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
+import lapr.project.model.Endereco;
 import lapr.project.utils.Data;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,6 +33,7 @@ class RealizaEncomendaControllerTest {
     private ClienteDB cliDB;
     private ReciboDB reciboDB;
     private EmailDB emailDB;
+    private EnderecoDB endDB;
 
     public RealizaEncomendaControllerTest() {
     }
@@ -42,7 +45,8 @@ class RealizaEncomendaControllerTest {
         emailDB = mock(EmailDB.class);
         cliDB = mock(ClienteDB.class);
         reciboDB = mock(ReciboDB.class);
-        instance = new RealizaEncomendaController(produtoDB, encDB, reciboDB, cliDB, emailDB);
+        endDB = mock(EnderecoDB.class);
+        instance = new RealizaEncomendaController(produtoDB, encDB, reciboDB, cliDB, emailDB, endDB);
     }
 
     /**
@@ -321,7 +325,7 @@ class RealizaEncomendaControllerTest {
         Data date = new Data("02/01/2021");
         double preco = 10.0;
         double expResult = 30.0;
-        RealizaEncomendaController instance1 = new RealizaEncomendaController(new ProdutosDB(), new EncomendaDB(), new ReciboDB(), new ClienteDB(), new EmailDB());
+        RealizaEncomendaController instance1 = new RealizaEncomendaController(new ProdutosDB(), new EncomendaDB(), new ReciboDB(), new ClienteDB(), new EmailDB(), new EnderecoDB());
         assertEquals(expResult, instance1.getCreditosData(date, preco));
     }
 
@@ -523,6 +527,60 @@ class RealizaEncomendaControllerTest {
         boolean expResult = false;
         when(reciboDB.registaRecibo(rec, prod, quant)).thenReturn(expResult);
         boolean result = instance.novoRecibo(rec, prod, quant);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getEnderecoByNifCliente method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testGetEnderecoByNifCliente() {
+        System.out.println("getEnderecoByNifCliente");
+        int nif = 0;
+        Endereco expResult = new Endereco();
+        when(endDB.getEnderecoByNifCliente(nif)).thenReturn(expResult);
+        Endereco result = instance.getEnderecoByNifCliente(nif);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getEnderecoByNifCliente method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testGetEnderecoByNifCliente1() {
+        System.out.println("getEnderecoByNifCliente1");
+        int nif = 123;
+        Endereco expResult = new Endereco();
+        expResult.setMorada("adeus");
+        when(endDB.getEnderecoByNifCliente(nif)).thenReturn(expResult);
+        Endereco result = instance.getEnderecoByNifCliente(nif);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getEnderecoOrigem method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testGetEnderecoOrigem() {
+        System.out.println("getEnderecoOrigem");
+        int nifFarmacia = 0;
+        Endereco expResult = new Endereco();
+        when(endDB.getEnderecoByNifFarmacia(nifFarmacia)).thenReturn(expResult);
+        Endereco result = instance.getEnderecoOrigem(nifFarmacia);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getEnderecoOrigem method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testGetEnderecoOrigem1() {
+        System.out.println("getEnderecoOrigem1");
+        int nifFarmacia = 123;
+        Endereco expResult = new Endereco();
+        expResult.setMorada("ola");
+        when(endDB.getEnderecoByNifFarmacia(nifFarmacia)).thenReturn(expResult);
+        Endereco result = instance.getEnderecoOrigem(nifFarmacia);
         assertEquals(expResult, result);
     }
 

@@ -11,11 +11,13 @@ import java.util.Map;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
 import lapr.project.data.EncomendaDB;
+import lapr.project.data.EnderecoDB;
 import lapr.project.data.ProdutosDB;
 import lapr.project.data.ReciboDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Cliente;
 import lapr.project.model.Encomenda;
+import lapr.project.model.Endereco;
 import lapr.project.model.Produto;
 import lapr.project.model.Recibo;
 import lapr.project.utils.Data;
@@ -31,6 +33,7 @@ public class RealizaEncomendaController {
     private final ClienteDB cliDB;
     private final ReciboDB reciboDB;
     private final EmailDB emailDB;
+    private final EnderecoDB edb;
     
     /**
      * Constroi uma instancia de RealizaEncomendaController recebendo uma instancia de ProdutosDB, EncomendaDB, ReciboDB, ClienteDB e EmailDB
@@ -40,12 +43,13 @@ public class RealizaEncomendaController {
      * @param cl uma instancia de ClienteDB
      * @param em uma instancia de EmailDB
      */
-    public RealizaEncomendaController(ProdutosDB prod, EncomendaDB enc, ReciboDB rec, ClienteDB cl, EmailDB em) {
+    public RealizaEncomendaController(ProdutosDB prod, EncomendaDB enc, ReciboDB rec, ClienteDB cl, EmailDB em, EnderecoDB ed) {
         this.produtoDB = prod;
         this.encDB = enc;
         this.reciboDB = rec;
         this.cliDB = cl;
         this.emailDB = em;
+        this.edb = ed;
     }
     
     /**
@@ -231,6 +235,24 @@ public class RealizaEncomendaController {
      */
     public boolean geraCreditos(Cliente c, double precoTotal) {
         return (encDB.geraCreditos(c,precoTotal) ? (true) : (false));
+    }
+
+    /**
+     * Devolve o endereco pelo nif do cliente
+     * @param nif
+     * @return 
+     */
+    public Endereco getEnderecoByNifCliente(int nif) {
+        return edb.getEnderecoByNifCliente(nif);
+    }
+    
+    /**
+     * Devolve o endereço de uma farmacia recebendo por parametro o nif da farmacia
+     * @param nifFarmacia nif da farmacia
+     * @return endereço da farmacia
+     */
+    public Endereco getEnderecoOrigem(int nifFarmacia) {
+        return edb.getEnderecoByNifFarmacia(nifFarmacia);
     }
 
 }

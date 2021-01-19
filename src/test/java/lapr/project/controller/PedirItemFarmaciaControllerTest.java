@@ -88,9 +88,9 @@ class PedirItemFarmaciaControllerTest {
     public void testGenerateGrafo() {
         System.out.println("generateGrafo");
         List<Farmacia> farms = new ArrayList<>();
-        Graph<Farmacia, Double> expResult = new Graph<>(false);
+        Graph<Endereco, Double> expResult = new Graph<>(false);
         when(fdb.generateGrafo(farms)).thenReturn(expResult);
-        Graph<Farmacia, Double> result = instance.generateGrafo(farms);
+        Graph<Endereco, Double> result = instance.generateGrafo(farms);
         assertEquals(expResult, result);
     }
 
@@ -100,13 +100,15 @@ class PedirItemFarmaciaControllerTest {
     @Test
     public void testGetFarmaciaProxima() {
         System.out.println("getFarmaciaProxima");
-        Graph<Farmacia, Double> generateGrafo = new Graph<>(false);
+        Graph<Endereco, Double> generateGrafo = new Graph<>(false);
         int nif = 123;
-        int expResult = 0;
         
-        Farmacia f = new Farmacia(123,"","");
-        Farmacia f1 = new Farmacia(1234,"","");
-        Farmacia f2 = new Farmacia(12345,"","");
+        Endereco f = new Endereco("",123,4,12);
+        Endereco f1 = new Endereco("a",123,4,12);
+        Endereco f2 = new Endereco("3",123413123,412121,123333);
+        
+        Farmacia f5 = new Farmacia();
+        f5.setMorada("a");
         
         generateGrafo.insertVertex(f);
         generateGrafo.insertVertex(f1);
@@ -117,8 +119,8 @@ class PedirItemFarmaciaControllerTest {
         
         generateGrafo.insertEdge(f, f1, as, 12);
         generateGrafo.insertEdge(f, f2, asd, 13);
-        
-        assertEquals(expResult, instance.getFarmaciaProxima(generateGrafo, f.getNIF()));
+        when(fdb.getFarmaciaProxima(generateGrafo,f)).thenReturn(f5);
+        assertEquals(f5, instance.getFarmaciaProxima(generateGrafo, f));
     }
 
     /**
@@ -131,6 +133,20 @@ class PedirItemFarmaciaControllerTest {
         String email1 = "dsa@gmail.com";
         boolean expResult = true;
         when(emDB.sendEmail(email, email1, "Adicionar Stock.", "Confirmamos que os produtos enviados foram recebidos.")).thenReturn(expResult);
+        boolean result = instance.enviaNotaEntrega(email, email1);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of enviaNotaEntrega method, of class PedirItemFarmaciaController.
+     */
+    @Test
+    public void testEnviaNotaEntrega1() {
+        System.out.println("enviaNotaEntrega1");
+        String email = "";
+        String email1 = "dsa@gmail.com";
+        boolean expResult = false;
+        when(emDB.sendEmail("asd@hotmail.com", email1, "Adicionar Stock.", "Confirmamos que os produtos enviados foram recebidos.")).thenReturn(expResult);
         boolean result = instance.enviaNotaEntrega(email, email1);
         assertEquals(expResult, result);
     }
@@ -159,4 +175,35 @@ class PedirItemFarmaciaControllerTest {
         Farmacia result = instance.getFarmaciaByNIF(nif);
         assertEquals(expResult, result);
     }
+
+    /**
+     * Test of realizaPedido method, of class PedirItemFarmaciaController.
+     */
+    @Test
+    public void testRealizaPedido() {
+        System.out.println("realizaPedido");
+        Farmacia fOri = new Farmacia();
+        Farmacia fDest = new Farmacia();
+        Produto prod = new Produto();
+        int quantidade = 0;
+        boolean expResult = true;
+        when(tdb.realizaPedido(fOri,fDest,prod,quantidade)).thenReturn(expResult);
+        assertEquals(expResult, instance.realizaPedido(fOri, fDest, prod, quantidade));
+    }
+    
+    /**
+     * Test of realizaPedido method, of class PedirItemFarmaciaController.
+     */
+    @Test
+    public void testRealizaPedido1() {
+        System.out.println("realizaPedido1");
+        Farmacia fOri = new Farmacia();
+        Farmacia fDest = new Farmacia();
+        Produto prod = new Produto();
+        int quantidade = 500;
+        boolean expResult = false;
+        when(tdb.realizaPedido(fOri,fDest,prod,quantidade)).thenReturn(expResult);
+        assertEquals(expResult, instance.realizaPedido(fOri, fDest, prod, quantidade));
+    }
+    
 }
