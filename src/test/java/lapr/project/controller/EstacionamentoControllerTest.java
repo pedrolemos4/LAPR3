@@ -288,32 +288,6 @@ class EstacionamentoControllerTest {
     }
 
     @Test
-    void carregamentoCompleto() {
-        System.out.println("carregamentoCompleto()");
-        Veiculo veiculo = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
-        veiculo.setPercentagemBateria(100);
-        Veiculo veiculo1 = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
-        instance.carregamentoCompleto(veiculo1);
-        assertEquals(veiculo1.getPercentagemBateria(),veiculo.getPercentagemBateria(),0);
-    }
-
-    @Test
-    void timerCarregamento() {
-        System.out.println("timerCarregamento()");
-        Veiculo veiculo = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
-
-        assertEquals(true,instance.timerCarregamento(1,veiculo));
-    }
-
-    @Test
-    void timerCarregamentoRun() {
-        System.out.println("timerCarregamento()");
-        Veiculo veiculo = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
-
-        assertEquals(true,instance.timerCarregamento(1,veiculo));
-    }
-
-    @Test
     void getDiretory() {
         instance = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB());
         System.out.println("getDiretory()");

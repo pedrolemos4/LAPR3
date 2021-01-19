@@ -10,9 +10,8 @@ import lapr.project.model.Veiculo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class EstacionamentoController {
@@ -84,9 +83,13 @@ public class EstacionamentoController {
             if (estimativa == -1) {
                 return notificaEstafeta(false, estimativa, emailEstafeta);
             } else {
-                timerCarregamento(estimativa, veiculo);
-
                 if (veiculo.getTipo().equalsIgnoreCase("scooter")) {
+                    try {
+                        veiculo.setEstadoVeiculo(0);
+                        veiculoDB.updateVeiculo(veiculo);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                     return notificaEstafeta(true, estimativa, emailEstafeta);
                 } else {
                     return true;
@@ -113,35 +116,6 @@ public class EstacionamentoController {
             mensagem = "O veiculo foi estacionado sem sucesso, tente novamente.";
         }
         return emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem);
-    }
-    
-    /**
-     * Modifica a bateria do veículo para os 100%, quando a simulação de carregamento é concluída
-     * @param veiculo scooter ou drone
-     */
-    public void carregamentoCompleto(Veiculo veiculo){
-        veiculo.setPercentagemBateria(100);
-    }
-    
-    /**
-     * Cria um timer de acordo com a estimativa simulada de carregamento, onde no final do tempo definido pela estimativa
-     * é chamado um método para modificar o valor da bateria do veículo
-     * @param estimativa estimativa calculada de tempo até o veículo estar carregado
-     * @param veiculo scooter ou drone a carregar
-     * @return true quando o timer e a tarefa são criadas com sucesso
-     */
-    public boolean timerCarregamento(int estimativa, Veiculo veiculo){
-        Timer timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                carregamentoCompleto(veiculo);
-            }
-        };
-
-        timer.schedule(timerTask, (estimativa * 3600));
-
-        return true;
     }
     
     /**
