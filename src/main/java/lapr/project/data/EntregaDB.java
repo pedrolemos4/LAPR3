@@ -34,6 +34,13 @@ public class EntregaDB extends DataHandler {
     private static final String SCOOTER = "scooter";
     private final EncomendaDB encDB = new EncomendaDB();
 
+    /**
+     * Adiciona uma entrega à base de dados
+     * @param entrega entrega a adicionar
+     * @return id da entrega
+     * @throws SQLException
+     * @throws ParseException
+     */
     public int addEntrega(Entrega entrega) throws SQLException, ParseException {
 
         int id = 0;
@@ -65,6 +72,13 @@ public class EntregaDB extends DataHandler {
         return id;
     }
 
+    /**
+     * Adiciona uma encomenda à entrega
+     * @param e entrega onde se vão adicionar as encomendas
+     * @param enc encomenda a adicionar
+     * @return true se for adicionada com sucesso, falso se não
+     * @throws SQLException
+     */
     public boolean addEncomendaEntrega(Entrega e, Encomenda enc) throws SQLException {
         boolean flag = false;
         
@@ -84,30 +98,14 @@ public class EntregaDB extends DataHandler {
 
     }
 
-    public List<Entrega> getListaEntregaByNifEstafeta(int nifEstafeta) {
-        ArrayList<Entrega> list = new ArrayList<>();
-        String query = "SELECT * FROM entrega e INNER JOIN estafeta est ON est.UtilizadorNIF = e.EstafetaUtilizadorNIF WHERE e.EstafetaUtilizadorNIF = " + nifEstafeta;
-
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
-
-                while (rSet.next()) {
-                    int idEntrega = rSet.getInt(1);
-                    int nif = rSet.getInt(2);
-                    int idVeiculo = rSet.getInt(3);
-                    Timestamp dataInicio = rSet.getTimestamp(4);
-                    Timestamp dataFim = rSet.getTimestamp(5);
-
-                    list.add(new Entrega(dataInicio.toString(), dataFim.toString(), idVeiculo, nif));
-                }
-                return list;
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
-        }
-        return list;
-    }
-
+    /**
+     * Gera o grafo com os endereços existentes como vértices
+     * @param listEnderecos lista de endereços
+     * @param est estafeta
+     * @param veiculo veículo
+     * @param pesoTotalEntrega peso total de entrega
+     * @return grafo com os endereços e as ruas definidas
+     */
     public Graph<Endereco,Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
         
         Graph<Endereco, Double> graph = new Graph<>(true);
@@ -149,6 +147,15 @@ public class EntregaDB extends DataHandler {
         return graph;
     }
 
+    /**
+     * Retorna o caminho
+     * @param graph grafo a ver o caminho
+     * @param listEnderecos lista de endereços do grafo
+     * @param finalShortPath lista de endereços com o caminho com menos energia gasta
+     * @param origem vértice de origem
+     * @param energia energia gasta nessa rua
+     * @return valor da energia
+     */
     public double getPath(Graph<Endereco, Double> graph, List<Endereco> listEnderecos, List<Endereco> finalShortPath, Endereco origem, double energia) {
         double dFinal;
         if (!listEnderecos.isEmpty()) {
@@ -179,6 +186,11 @@ public class EntregaDB extends DataHandler {
         return energia;
     }
 
+    /**
+     * Retorna a encomenda cuja morada do cliente é a recebida por parâmetro
+     * @param morada morada do cliente
+     * @return encomenda
+     */
     public Encomenda getEncomendaByMorada(String morada) {
         String query = "SELECT e.idEncomenda,e.datapedida,e.preco, e.pesoEncomenda, e.taxa, e.estadoencomendaidestadoencomenda, e.clienteutilizadornif FROM encomenda e INNER JOIN cliente c ON e.ClienteUtilizadorNIF = c.UtilizadorNIF WHERE c.Enderecomorada = '" + morada+"'";
 
@@ -201,8 +213,15 @@ public class EntregaDB extends DataHandler {
             Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
         return null;
-    } 
-    
+    }
+
+    /**
+     * Retorna o valor da duração do percurso
+     * @param finalShortPath lista de endereços com o caminho com menos energia gasta
+     * @param veiculo veículo utilizado
+     * @return duração do percurso
+     * @throws ParseException
+     */
     public String getDuracaoPercurso(List<Endereco> finalShortPath, Veiculo veiculo) throws ParseException{
         double distancia = 0;
         int aux = 0;
@@ -226,7 +245,14 @@ public class EntregaDB extends DataHandler {
        
         return format1.format(date2);
     }
-    
+
+    /**
+     * Atualiza a entrega na base de dados
+     * @param entrega entrega a ser utilizada
+     * @return true se a entrega foi atualizada com sucesso, false se não
+     * @throws SQLException
+     * @throws ParseException
+     */
     public boolean updateEntrega(Entrega entrega) throws SQLException, ParseException {
         boolean updated = false;
 

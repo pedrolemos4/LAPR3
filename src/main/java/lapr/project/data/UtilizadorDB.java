@@ -39,14 +39,31 @@ public class UtilizadorDB extends DataHandler {
         }
     }
 
+    /**
+     * Verifica se o utilizador é válido
+     * @param user utilizador a ser verificado
+     * @return true se o utilizador for válido, false se não
+     */
     public boolean validaUtilizador(Utilizador user) {
         return user != null;
     }
 
+    /**
+     * Adiciona um utilizador à base de dados
+     * @param user utilziador a ser adicionado
+     */
     public void addUtilizador(Utilizador user) {
         addUtilizador(user.getNIF(), user.getNome(), user.getEmail(), user.getNumeroSegurancaSocial(), user.getPassword());
     }
 
+    /**
+     * Adiciona um utilizador à base de dados
+     * @param nif nid do utilizador
+     * @param nome nome do utilizador
+     * @param email email do utilizador
+     * @param numeroSegurancaSocial número de segurança do utilizador
+     * @param password password do utilizador
+     */
     public void addUtilizador(int nif, String nome, String email, int numeroSegurancaSocial, String password) {
         try {
             openConnection();
@@ -110,6 +127,11 @@ public class UtilizadorDB extends DataHandler {
         return result;
     }
 
+    /**
+     * Devolve o cliente cujo nif é igual ao recebido por parâmetro
+     * @param nif nif do cliente
+     * @return cliente
+     */
     public Cliente getByID(int nif) {
         String query = "SELECT * FROM cliente p,utilizador s "
                 + "WHERE p.Utilizadornif= " + nif 

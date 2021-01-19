@@ -15,8 +15,15 @@ import java.util.Properties;
  * @author pedro
  */
 public class EmailDB {
-    
 
+    /**
+     * Envia um email recebendo o assunto e a mensagem do mesmo
+     * @param emailOrig email do remetente
+     * @param emailDest email do destinatário
+     * @param assunto assunto do email
+     * @param mensagem corpo do email
+     * @return
+     */
     public boolean sendEmail(String emailOrig, String emailDest, String assunto, String mensagem){
         Properties props = new Properties();
         

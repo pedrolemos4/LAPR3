@@ -37,8 +37,8 @@ public class EstacionamentosDB extends DataHandler {
     /**
      * Regista o estacionamento
      *
-     * @param lestac
-     * @return
+     * @param lestac lista de estacionamentos
+     * @return true se o estacionamento for registado
      */
     public boolean registaEstacionamento(List<Estacionamento> lestac) {
         for (Estacionamento estac : lestac) {
@@ -92,7 +92,12 @@ public class EstacionamentosDB extends DataHandler {
             e.printStackTrace();
         }
     }
-    
+
+    /**
+     * Devolve uma lista de estacionamentos da base de dados
+     * @param query query a ser aplicada na base de dados
+     * @return lista de estacionamentos
+     */
     public List<Estacionamento> getFromQuery(String query){
         ArrayList<Estacionamento> list = new ArrayList<>();
         try ( Statement stm = getConnection().createStatement()) {
@@ -137,6 +142,11 @@ public class EstacionamentosDB extends DataHandler {
         return getFromQuery(query);
     }
 
+    /**
+     * Devolve o estacionamento cujo id é o mesmo que o recebido por parâmetro
+     * @param loteEstacionameto id do estacionamento
+     * @return estacionamento
+     */
     public Estacionamento getEstacionamentoById(int loteEstacionameto) {
         String query = "SELECT * FROM estacionamento WHERE numerolote = " + loteEstacionameto;
 
@@ -156,6 +166,12 @@ public class EstacionamentosDB extends DataHandler {
         return null;
     }
 
+    /**
+     * Adiciona um veículo ao estacionamento
+     * @param estacionamento estacionamento onde vai ser colocado o veículo
+     * @param veiculo veículo a estacionar
+     * @return true se o veículo for colocado com sucessso, false se não
+     */
     public boolean addEstacionamentoVeiculo(Estacionamento estacionamento, Veiculo veiculo) {
         try {
             openConnection();

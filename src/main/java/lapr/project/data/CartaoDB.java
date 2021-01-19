@@ -24,21 +24,21 @@ import lapr.project.model.Cartao;
 public class CartaoDB extends DataHandler {
 
     /**
-     * Cria um novo cartão de cidadão
+     * Cria um novo cartão de crédito
      *
-     * @param numeroCartao número do cartão de cidadão
-     * @param dataDeValidade data de validade do cartão de cidadão
-     * @param ccv código de segurança do cartão de cidadão
-     * @return o novo cartão de cidadão criado
+     * @param numeroCartao número do cartão de crédito
+     * @param dataDeValidade data de validade do cartão de crédito
+     * @param ccv código de segurança do cartão de crédito
+     * @return o novo cartão de crédito criado
      */
     public Cartao novoCartao(int numeroCartao, String dataDeValidade, int ccv) {
         return new Cartao(numeroCartao, dataDeValidade, ccv);
     }
 
     /**
-     * Regista cartão de cidadão
+     * Regista cartão de crédito
      *
-     * @param cc cartão de cidadão
+     * @param cc cartão de crédito
      * @return
      */
     public boolean registaCartao(Cartao cc) throws ParseException {
@@ -49,19 +49,19 @@ public class CartaoDB extends DataHandler {
     }
 
     /**
-     * Valida cartão de cidadão
+     * Valida cartão de crédito
      *
-     * @param cc cartão de cidadão
-     * @return true se os dados do cartão de cidadão são válidos
+     * @param cc cartão de crédito
+     * @return true se os dados do cartão de crédito são válidos
      */
     public boolean validaCartao(Cartao cc) {
         return !(cc == null || cc.getNumeroCartao() < 0 || cc.getCCV() < 0 || cc.getDataDeValidade().isEmpty());
     }
 
     /**
-     * Adiciona cartão de cidadão à base de dados
+     * Adiciona cartão de crédito à base de dados
      *
-     * @param cc cartão de cidadão
+     * @param cc cartão de crédito
      * @return
      */
     public boolean addCartao(Cartao cc) throws ParseException {
@@ -70,11 +70,11 @@ public class CartaoDB extends DataHandler {
     }
 
     /**
-     * Adiciona cartão de cidadão à base de dados
+     * Adiciona cartão de crédito à base de dados
      *
-     * @param numeroCartao número do cartão de cidadão
-     * @param dataDeValidade data de validade do cartão de cidadão
-     * @param ccv
+     * @param numeroCartao número do cartão de crédito
+     * @param dataDeValidade data de validade do cartão de crédito
+     * @param ccv código de segurança do cartão de crédito
      */
     public void addCartao(int numeroCartao, String dataDeValidade, int ccv) throws ParseException {
         try {
@@ -95,9 +95,9 @@ public class CartaoDB extends DataHandler {
     }
 
     /**
-     * Retorna todos os cartões de cidadão
+     * Retorna todos os cartões de crédito
      *
-     * @return lista de cartões de cidadão registados
+     * @return lista de cartões de crédito registados
      */
     public List<Cartao> getLstCC() {
         ArrayList<Cartao> list = new ArrayList<>();

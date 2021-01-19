@@ -117,7 +117,12 @@ public class EnderecoDB extends DataHandler {
         }
         return list;
     }
-    
+
+    /**
+     * Retorna um endereço da base de dados
+     * @param query query da base de dados
+     * @return endereço
+     */
     public Endereco getQuery(String query){
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
@@ -138,7 +143,7 @@ public class EnderecoDB extends DataHandler {
     }
 
     /**
-     * Retorna endereço do cliente recebendo o nif por parãmetro
+     * Retorna endereço do cliente recebendo o nif por parâmetro
      *
      * @param nif nif do cliente
      * @return endereço do cliente
@@ -149,7 +154,7 @@ public class EnderecoDB extends DataHandler {
     }
 
     /**
-     * Retorna endereço da farmacia recebendo o nif por parãmetro
+     * Retorna endereço da farmacia recebendo o nif por parâmetro
      *
      * @param nifFarmacia nif da farmacia
      * @return endereço da farmacia
@@ -159,6 +164,12 @@ public class EnderecoDB extends DataHandler {
         return getQuery(query);
     }
 
+    /**
+     * Retorna endereço da farmacia recebendo a morada por parâmetro
+     *
+     * @param farmMorada morada da farmacia
+     * @return endereço da farmacia
+     */
     public Endereco getEnderecoByFarmaciaMorada(String farmMorada) {
         String query = "SELECT * FROM endereco e WHERE e.morada = " + farmMorada;
         return getQuery(query);

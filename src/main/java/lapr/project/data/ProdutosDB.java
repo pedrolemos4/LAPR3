@@ -19,19 +19,41 @@ public class ProdutosDB extends DataHandler {
     private final Map<Produto, Integer> mapEnc;
     private final FarmaciaDB fdb;
 
+    /**
+     * Cria uma instância de ProdutosDB
+     */
     public ProdutosDB() {
         mapEnc = new HashMap<>();
         fdb = new FarmaciaDB();
     }
 
+    /**
+     * Devolve o produto criado com os dados enviados por parâmetro
+     * @param desig designação do produto
+     * @param peso peso do produto
+     * @param precoBase preço base do produto
+     * @return novo produto
+     */
     public Produto novoProduto(String desig, double peso, double precoBase) {
         return new Produto(desig, peso, precoBase);
     }
 
+    /**
+     * Valida o produto criado
+     * @param prod produto a verificar
+     * @return true se o produto criado for válido, falso se não
+     */
     public boolean validaProduto(Produto prod) {
         return !(prod.getDesignacao() == null || prod.getPeso() < 0 || prod.getPrecoBase() < 0);
     }
 
+    /**
+     * Regista o produto na base de dados
+     * @param prod produto a registar
+     * @param farm farmácia para onde o produto vai ser enviado
+     * @param qtd quantidade do produto a enviar
+     * @return true se o produto for registado com sucesso, false se não
+     */
     public boolean registaProduto(Produto prod, int farm, int qtd) {
         if (validaProduto(prod)) {
             prod.setId(addProduto(prod));
@@ -45,10 +67,22 @@ public class ProdutosDB extends DataHandler {
         return false;
     }
 
+    /**
+     * Adiciona o produto à base de dados
+     * @param prod produto a atualizar
+     * @return o id do produto criado
+     */
     public int addProduto(Produto prod) {
         return addProduto(prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase());
     }
 
+    /**
+     * Adiciona o produto à base de dados
+     * @param desig designação do produto
+     * @param peso peso do produto
+     * @param precoBase preço base do produto
+     * @return id do produto criado
+     */
     private int addProduto(String desig, double peso, double precoBase) {
         int id = 0;
         try {
@@ -71,6 +105,12 @@ public class ProdutosDB extends DataHandler {
         return id;
     }
 
+    /**
+     * Adiciona o produto criado ao stock da farmácia selecionada
+     * @param nif nif da farmácia onde será adicionado o produto
+     * @param prod id do produto a adicionar
+     * @param qtd quantidade a ser adicionada
+     */
     public void addProdutoStock(int nif, int prod, int qtd) {
         try {
             openConnection();
@@ -90,6 +130,11 @@ public class ProdutosDB extends DataHandler {
         }
     }
 
+    /**
+     * Atualiza as informações do produto na base de dados
+     * @param prod produto a ser atualizado
+     * @return true se o produto for alterado com sucesso, false se não
+     */
     public boolean atualizarProduto(Produto prod) {
         if (validaProduto(prod)) {
             atualizarProduto(prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase(), prod.getId());
@@ -98,6 +143,13 @@ public class ProdutosDB extends DataHandler {
         return false;
     }
 
+    /**
+     * Atualiza as informações do produto na base de dados
+     * @param desig designação do produto
+     * @param peso peso do produto
+     * @param precoBase preço base do produto
+     * @param id id do produto
+     */
     private void atualizarProduto(String desig, double peso, double precoBase, int id) {
         try {
             openConnection();
@@ -118,6 +170,13 @@ public class ProdutosDB extends DataHandler {
         }
     }
 
+    /**
+     * Atualiza o stock de uma farmácia na base de dados
+     * @param nif nif da farmácia a atualizar
+     * @param idProduto id do produto a atualizar
+     * @param quantidade nova quantidade
+     * @return true se for atualizado com sucesso, false se não
+     */
     public boolean atualizarStock(int nif, int idProduto, int quantidade) {
         boolean removed = false;
         try {
@@ -139,18 +198,11 @@ public class ProdutosDB extends DataHandler {
         return removed;
     }
 
-    public boolean validaListaProdutos(List<Produto> lprods) {
-        boolean check = true;
-        for (Produto prod1 : lprods) {
-            if (prod1.getDesignacao() == null || prod1.getPeso() < 0 || prod1.getPrecoBase() < 0) {
-                check = false;
-            } else {
-                check = true;
-            }
-        }
-        return check;
-    }
-
+    /**
+     * Devolve o produto cujo id é igual ao recebido por parâmetro
+     * @param id id do produto
+     * @return produto
+     */
     public Produto getProdutoByID(int id) {
         String query = "SELECT * FROM produto p WHERE p.idProduto= " + id;
 
@@ -173,9 +225,9 @@ public class ProdutosDB extends DataHandler {
     }
 
     /**
-     * Lista do stock da farmacia recebida por parametro
+     * Lista do stock da farmácia recebida por parametro
      *
-     * @return
+     * @return mapa com o stock da farmácia
      */
     public Map<Produto, Integer> getLista(int nif) {
         Map<Produto, Integer> map = new HashMap<>();
@@ -209,7 +261,8 @@ public class ProdutosDB extends DataHandler {
     /**
      * Adiciona ao mapa os produtos e quantidade da encomenda
      *
-     * @param prod
+     * @param prod produto a adicionar
+     * @param qntd quantidade do produto
      */
     public boolean addListaProdutos(Produto prod, int qntd) {
 
@@ -224,7 +277,7 @@ public class ProdutosDB extends DataHandler {
     /**
      * Devolve o mapa de encomendas
      *
-     * @return
+     * @return mapa de encomendas
      */
     public Map<Produto, Integer> getMapaEncomenda() {
         return mapEnc;
@@ -233,17 +286,21 @@ public class ProdutosDB extends DataHandler {
     /**
      * Remove os produtos da base de dados
      *
-     * @param
+     * @param prod produto a ser removido
+     * @param nif nif da farmácia
+     * @param qtd quantidade do produto
+     * @param qtdStock quantidade do produto em stock
      */
-    public boolean removerProdutosEncomenda(Produto prod, int nif, int map, int mapStock) {
-        return atualizarStock(nif, prod.getId(), mapStock-map);
+    public boolean removerProdutosEncomenda(Produto prod, int nif, int qtd, int qtdStock) {
+        return atualizarStock(nif, prod.getId(), qtdStock-qtd);
     }
 
     /**
      * Devolve o preco total tendo em conta a taxa
      *
-     * @param taxa
-     * @return
+     * @param mapaEncomenda mapa da encomendas
+     * @param taxa taxa da encomenda
+     * @return preço total
      */
     public double getPrecoTotal(Map<Produto, Integer> mapaEncomenda, double taxa) {
 
@@ -259,7 +316,7 @@ public class ProdutosDB extends DataHandler {
     /**
      * Devolve o preco
      *
-     * @return
+     * @return preco
      */
     public double getPreco() {
         Map<Produto, Integer> mapaEncomenda = getMapaEncomenda();
@@ -276,7 +333,7 @@ public class ProdutosDB extends DataHandler {
     /**
      * Devolve o peso
      *
-     * @return
+     * @return peso
      */
     public double getPeso() {
         Map<Produto, Integer> mapaEncomenda = getMapaEncomenda();

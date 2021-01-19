@@ -20,7 +20,13 @@ import oracle.jdbc.OracleTypes;
  * @author pedro
  */
 public class ReciboDB extends DataHandler {
-
+    /**
+     * Regista o recibo na base de dados
+     * @param rec recibo a registar
+     * @return true se o recibo for registado com sucesso, false se não
+     * @throws SQLException
+     * @throws ParseException
+     */
     public boolean registaRecibo(Recibo rec) throws SQLException, ParseException {
         if (validaRecibo(rec)) {
             int id = addRecibo(rec);
@@ -30,14 +36,36 @@ public class ReciboDB extends DataHandler {
         return false;
     }
 
+    /**
+     * Valida o recibo recebido opr parâmetro
+     * @param rec recibo a verificar
+     * @return true se o recibo for válido, false se não
+     */
     private boolean validaRecibo(Recibo rec) {
         return !(rec.getData() == null ||  rec.getNif() < 0 || rec.getIdEncomenda() < 0);
     }
 
+    /**
+     * Adiciona o recibo à base de dados
+     * @param rec recibo a adicionar
+     * @return id do recibo
+     * @throws SQLException
+     * @throws ParseException
+     */
     public int addRecibo(Recibo rec) throws SQLException, ParseException {
         return addRecibo(rec.getData(), rec.getPreco(), rec.getNif(), rec.getIdEncomenda());
     }
 
+    /**
+     * Adiciona o recibo à base de dados
+     * @param data data do recibo
+     * @param preco preco da encomenda
+     * @param nif nif do cliente
+     * @param idEncomenda id da encomenda
+     * @return id do recibo
+     * @throws SQLException
+     * @throws ParseException
+     */
     private int addRecibo(String data, double preco, int nif, int idEncomenda) throws SQLException, ParseException {
         int id = 0;
 
@@ -74,6 +102,13 @@ public class ReciboDB extends DataHandler {
         return id;
     }
 
+    /**
+     * Regista o produto na linha do recibo
+     * @param rec recibo onde se vai registar
+     * @param prod produto a registar
+     * @param quant quantidade do produto
+     * @return true se o produto for registado com sucesso, false se não
+     */
     public boolean registaRecibo(Recibo rec, Produto prod, int quant) {
         if (validaRecibo(rec)) {
             return registaRecibo(rec.getId(), prod.getId(), quant);
@@ -81,6 +116,13 @@ public class ReciboDB extends DataHandler {
         return false;
     }
 
+    /**
+     * Regista o produto na linha do recibo
+     * @param rec recibo onde se vai registar
+     * @param prod produto a registar
+     * @param quant quantidade do produto
+     * @return true se o produto for registado com sucesso, false se não
+     */
     private boolean registaRecibo(int rec, int prod, int quant) {
         boolean bo = false;
         try {

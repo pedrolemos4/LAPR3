@@ -127,8 +127,8 @@ public class ParqueDB extends DataHandler {
      * Retorna o limite máximo de veiculos do parque recebendo o nif da farmácia
      * referente ao parque
      *
-     * @param farmNIF
-     * @param parqueID
+     * @param farmNIF nif da farmácia
+     * @param parqueID id do parque
      * @return limite máximo de veiculos
      */
     public int getNumMaxByFarmaciaNifParqueId(int farmNIF, int parqueID) {
@@ -142,23 +142,5 @@ public class ParqueDB extends DataHandler {
             Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
         return numMax;
-    }
-
-    public Parque getParqueByFarmaciaNifParqueId(int farmNIF, int idParque) {
-        String query = "SELECT * FROM parque p INNER JOIN farmacia f ON p.FarmaciaNIF = f.NIF WHERE p.FarmaciaNIF = " + farmNIF + "AND p.idParque =" + idParque;
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
-                if (rSet.next()) {
-                    int id = rSet.getInt(1);
-                    int nif = rSet.getInt(2);
-                    int numMax = rSet.getInt(3);
-                    String tipo = rSet.getString(4);
-                    return new Parque(id, nif, numMax, tipo);
-                }
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
-        }
-        return null;
     }
 }

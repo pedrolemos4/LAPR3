@@ -23,6 +23,12 @@ public class VeiculoDB extends DataHandler {
         //dummy constructor
     }
 
+    /**
+     * Adiciona um veículo à base de dados
+     * @param veiculo veículo a ser adicionado
+     * @return id do veículo
+     * @throws SQLException
+     */
     public int addVeiculo(Veiculo veiculo) throws SQLException {
         int id = 0;
 
@@ -56,7 +62,7 @@ public class VeiculoDB extends DataHandler {
     /**
      * Devolve a lista de veiculos
      *
-     * @return
+     * @return lista de veículos
      */
     public List<Veiculo> getListaVeiculo() {
         ArrayList<Veiculo> list = new ArrayList<>();
@@ -91,10 +97,10 @@ public class VeiculoDB extends DataHandler {
     }
 
     /**
-     * Devolve o veiculo de acordo com o seu id
+     * Devolve o veiculo de acordo com o id recebido por parâmetro
      *
-     * @param idVeiculo
-     * @return
+     * @param idVeiculo id do veículo
+     * @return veículo
      */
     public Veiculo getVeiculoById(int idVeiculo) {
         String query = "SELECT * FROM veiculo WHERE idVeiculo = " + idVeiculo;
@@ -126,6 +132,12 @@ public class VeiculoDB extends DataHandler {
         return null;
     }
 
+    /**
+     * Atualiza a informação de um veículo na base de dados
+     * @param veiculo veículo a ser alterado
+     * @return true se o veículo foi alterado com sucesso, false se não
+     * @throws SQLException
+     */
     public boolean updateVeiculo(Veiculo veiculo) throws SQLException {
         boolean removed = false;
 
@@ -154,9 +166,14 @@ public class VeiculoDB extends DataHandler {
         }
 
         return removed;
-
     }
 
+    /**
+     * Remove o veículo da base de dados
+     * @param id id do veículo a remover
+     * @return true se o veículo foi removido com sucesso, false se não
+     * @throws SQLException
+     */
     public boolean removeVeiculo(int id) throws SQLException {
         boolean removed = false;
 
@@ -184,6 +201,11 @@ public class VeiculoDB extends DataHandler {
         addEstacionamentoVeiculo(estac.getNumeroLote(), scoot.getId());
     }
 
+    /**
+     * Adiciona um veículo ao estacionamento
+     * @param numLote id do estacionamento onde irá ficar o veículo
+     * @param idVeiculo veículo a estacionar
+     */
     private void addEstacionamentoVeiculo(int numLote, int idVeiculo) {
 
         try {

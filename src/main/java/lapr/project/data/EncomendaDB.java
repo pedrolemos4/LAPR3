@@ -35,10 +35,10 @@ public class EncomendaDB extends DataHandler {
     }
 
     /**
-     * Devolve a encomenda com base no nif do cliente
+     * Devolve a encomenda com base no id da encomenda
      *
-     * @param nif
-     * @return
+     * @param id id da encomenda
+     * @return encomenda cujo id é o recebido por parâmetro
      */
     public Encomenda getEncomenda(int id) {
         String query = "SELECT * FROM encomenda WHERE idEncomenda = "+id;
@@ -67,8 +67,8 @@ public class EncomendaDB extends DataHandler {
     /**
      * Valida a encomenda
      *
-     * @param enc
-     * @return
+     * @param enc encomenda a ser validada
+     * @return true se a encomenda for válida, false se não
      */
     public boolean validaEncomenda(Encomenda enc) {
         return enc.getNif() != 0 && enc.getDataPedida() != null
@@ -79,8 +79,8 @@ public class EncomendaDB extends DataHandler {
     /**
      * Regista e encomenda se for válida
      *
-     * @param enc
-     * @return
+     * @param enc encomenda a ser registada
+     * @return id da encomenda, retorna 0 se a encomenda não for registada
      */
     public int registaEncomenda(Encomenda enc) throws SQLException, ParseException {
         if (validaEncomenda(enc)) {
@@ -93,8 +93,8 @@ public class EncomendaDB extends DataHandler {
     /**
      * Adiciona a encomenda à base de dados
      *
-     * @param enc
-     * @return
+     * @param enc encomenda a ser adicionada
+     * @return true se for adicionada com sucesso, false se não
      * @throws java.sql.SQLException
      */
     public int addEncomenda(Encomenda enc) throws SQLException, ParseException {
@@ -104,11 +104,11 @@ public class EncomendaDB extends DataHandler {
     /**
      * Adiciona a encomenda à base de dados
      *
-     * @param dataPedida
-     * @param preco
-     * @param pesoEncomenda
-     * @param taxa
-     * @param estado
+     * @param dataPedida data em que a encomenda foi pedida
+     * @param preco preço da encomenda
+     * @param pesoEncomenda peso da encomenda
+     * @param taxa taxa da encomenda
+     * @param estado estado da encomenda
      */
     private int addEncomenda(int nif, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) throws SQLException, ParseException {
         int id = 0;
@@ -144,9 +144,9 @@ public class EncomendaDB extends DataHandler {
     /**
      * Guarda na base de dados a lista de produtos por encomenda
      *
-     * @param enc
-     * @param p
-     * @return
+     * @param enc encomenda a registar
+     * @param p produto a registar
+     * @return true se os dados foram registados, false se não
      */
     public boolean registaEncomendaProduto(Encomenda enc, Produto p, int stock) {
         if (validaEncomenda(enc)) {
@@ -155,6 +155,13 @@ public class EncomendaDB extends DataHandler {
         return false;
     }
 
+    /**
+     * Guarda na base de dados a lista de produtos por encomenda
+     * @param enc encomenda a registar
+     * @param p produto a registar
+     * @param stock quantidade do produto a registar
+     * @return true se os dados foram registados, false se não
+     */
     private boolean registaEncomendaProduto(int enc, int p, int stock) {
         boolean aux = false;
         try {
@@ -180,7 +187,7 @@ public class EncomendaDB extends DataHandler {
     /**
      * Devolve a lista de encomendas
      *
-     * @return
+     * @return lista de encomenda
      */
     public List<Encomenda> getListaEncomenda() {
         String query = "SELECT * FROM encomenda WHERE EstadoEncomendaidEstadoEncomenda = 1";
@@ -189,16 +196,21 @@ public class EncomendaDB extends DataHandler {
     }
 
     /**
-     * Devolve a lista de encomendas
+     * Devolve a lista de encomendas pelo id de entrega
      *
-     * @param idEntrega
-     * @return
+     * @param idEntrega id da entrega
+     * @return lista de encomendas
      */
     public List<Encomenda> getListaEncomendaById(int idEntrega) {
         String query = "SELECT * FROM encomenda e INNER JOIN EncomendaEntrega ee ON ee.EntregaidEntrega = e.idEntrega WHERE e.idEntrega = " + idEntrega;
         return getFromDatabase(query);
     }
 
+    /**
+     * Retorna a lista de encomendas presentes na base de dados
+     * @param query query de pesquisa
+     * @return lista de encomendas
+     */
     public List<Encomenda> getFromDatabase(String query) {
         ArrayList<Encomenda> list = new ArrayList<>();
         try (Statement stm = getConnection().createStatement()) {
@@ -224,6 +236,12 @@ public class EncomendaDB extends DataHandler {
         return list;
     }
 
+    /**
+     * Retorna o valor dos créditos
+     * @param date data de quando foi feita a encomenda
+     * @param preco preco do produto
+     * @return valor dos créditos
+     */
     public double getCreditosData(Data date, double preco) {
         String dataI = "01/01/2021";
         String dataM = "31/07/2021";
@@ -242,6 +260,12 @@ public class EncomendaDB extends DataHandler {
         return -1;
     }
 
+    /**
+     * Gera e adiciona créditos oa cliente
+     * @param c cliente a adicionar os créditos
+     * @param precoTotal preco total da encomenda
+     * @return true se os créditos foram adicionados com sucesso, false se não
+     */
     public boolean geraCreditos(Cliente c, double precoTotal) {
 
         if (precoTotal > 50 && precoTotal < 100) {
@@ -253,6 +277,13 @@ public class EncomendaDB extends DataHandler {
         return false;
     }
 
+    /**
+     * Atualiza a encomenda recebendo o id e o estado por parâmetro
+     * @param idEncomenda id da encomenda
+     * @param estado estado da encomenda
+     * @return true se atualizou a encomenda com sucesso, false se não
+     * @throws SQLException
+     */
     public boolean updateEncomenda(int idEncomenda, int estado) throws SQLException {
         boolean updated = false;
 
@@ -274,7 +305,5 @@ public class EncomendaDB extends DataHandler {
         }
 
         return updated;
-
     }
-
 }

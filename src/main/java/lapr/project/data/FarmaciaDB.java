@@ -44,20 +44,21 @@ public class FarmaciaDB extends DataHandler {
      * Regista a farmacia
      *
      * @param farm farmacia
-     * @return
+     * @return true se o registo for feito com sucesso, falso se não
      */
     public boolean registaFarmacia(Farmacia farm) {
         if (validaFarmacia(farm)) {
             addFarmacia(farm);
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
      * Valida a farmacia
      *
-     * @param farm farmacia
-     * @return true se a farmacia é valida
+     * @param farm farmacia a ser validada
+     * @return true se a farmacia é valida, false se não
      */
     public boolean validaFarmacia(Farmacia farm) {
         return !(farm == null || farm.getNIF() <= 0 || farm.getEmail().isEmpty());
@@ -121,6 +122,11 @@ public class FarmaciaDB extends DataHandler {
         return list;
     }
 
+    /**
+     * Devolve a farmácia cujo nif é igual ao enviado por parâmetro
+     * @param nif nif da farmácia
+     * @return farmácia
+     */
     public Farmacia getFarmaciaByNIF(int nif) {
         String query = "SELECT * FROM farmacia f INNER JOIN endereco e ON f.morada = e.morada WHERE f.nif =" + nif;
 
@@ -171,6 +177,11 @@ public class FarmaciaDB extends DataHandler {
         return list;
     }
 
+    /**
+     * Devolve a lista de farmácias que possuem o produto enviado por parâmetro
+     * @param p produto
+     * @return lista de farmácias
+     */
     private ArrayList<Farmacia> getLstFarmaciasByProduto(Produto p) {
         ArrayList<Farmacia> list = new ArrayList<>();
         String query = "SELECT * FROM farmacia f INNER JOIN stockfarmacia s ON s.farmacianif = f.nif "
@@ -192,6 +203,11 @@ public class FarmaciaDB extends DataHandler {
         return list;
     }
 
+    /**
+     * Gera um grafo com a lista de farmácias e a distância entre elas
+     * @param farms lista de farmácias
+     * @return grafo
+     */
     public Graph<Farmacia, Double> generateGrafo(List<Farmacia> farms) {
         Graph<Farmacia, Double> graph = new Graph<>(false);
 
@@ -213,6 +229,12 @@ public class FarmaciaDB extends DataHandler {
         return graph;
     }
 
+    /**
+     * Devolve a farmácia mais próxima da recebida por parâmetro
+     * @param graph grafo com a lista de farmácias
+     * @param nif nif da farmácia
+     * @return farmácia mais próxima
+     */
     public int getFarmaciaProxima(Graph<Farmacia, Double> graph, int nif) {
         LinkedList<Farmacia> shortPath = new LinkedList<>();
         double min = 999999999;

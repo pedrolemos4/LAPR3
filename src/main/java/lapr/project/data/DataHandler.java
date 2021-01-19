@@ -74,7 +74,6 @@ public class DataHandler {
         }
 
         return instance;
-
     }
 
     /**
@@ -149,6 +148,10 @@ public class DataHandler {
         return message.toString();
     }
 
+    /**
+     * Devolve a ligação à BD
+     * @return ligação à BD
+     */
     protected Connection getConnection() {
         if (connection == null) {
             openConnection();

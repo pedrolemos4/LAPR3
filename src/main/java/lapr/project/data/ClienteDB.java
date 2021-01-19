@@ -28,7 +28,7 @@ public class ClienteDB extends DataHandler {
      * @param nome nome do cliente
      * @param email email do cliente
      * @param numeroSegurancaSocial número de segurança social do cliente
-     * @param creditos
+     * @param creditos número de créditos do cliente
      * @param password password do cliente
      * @param morada morada do cliente
      * @param numCC número do cartão de cidadão do cliente
@@ -129,7 +129,7 @@ public class ClienteDB extends DataHandler {
      * Procura cliente por nif recebido
      *
      * @param nif nif do cliente
-     * @return cliente
+     * @return cliente com o nif especificado por parâmetro
      */
     public Cliente getClienteByNIF(int nif) {
         String query = "SELECT c.utilizadornif, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito "
@@ -158,7 +158,7 @@ public class ClienteDB extends DataHandler {
      * Procura cliente pelo endereco do cliente
      *
      * @param end endereco do cliente
-     * @return cliente
+     * @return cliente com a morada especificada por parâmetro
      */
     public Cliente getClienteByMorada(String end) {
         String query = "SELECT c.utilizadorNIF, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito FROM cliente c INNER JOIN endereco e ON c.EnderecoMorada = e.morada WHERE c.EnderecoMorada = '" + end + "'";
@@ -179,6 +179,13 @@ public class ClienteDB extends DataHandler {
         return null;
     }
 
+    /**
+     * Remove uma certa quantidade de créditos de um cliente com base na data em que fez a encomenda
+     * @param nif nif do cliente
+     * @param creditosData data
+     * @return true se removeu com sucesso, false se não
+     * @throws SQLException
+     */
     public boolean removerCreditos(int nif, double creditosData) throws SQLException {
 
         boolean removed = false;
@@ -198,6 +205,12 @@ public class ClienteDB extends DataHandler {
         return removed;
     }
 
+    /**
+     * Adiciona uma certa quantidade de créditos a um cliente
+     * @param c cliente a adicionar os créditos
+     * @param d valor em créditos
+     * @return true se adicionou com sucesso, false se não
+     */
     public boolean addCreditos(Cliente c, double d) {
         boolean bool = false;
         
