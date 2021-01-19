@@ -85,9 +85,7 @@ public class RegistarEntregaUI {
         
         if(confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")){
             Entrega entr = controller.addEntrega(dataInicio, dataFim, idVeiculo, nifEstafeta);
-            Endereco endOrigem = controller.getEnderecoOrigem(nifFarmacia);
             List<Endereco> listEnderecos = new LinkedList<>();
-            listEnderecos.add(endOrigem);
             
             System.out.println("Lista de encomendas por fazer entrega: ");
             List<Encomenda> listAllEncomenda = controller.getListaEncomenda();

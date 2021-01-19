@@ -26,8 +26,11 @@ public class CalculosFisicaTest {
         double pesoEncomenda = 5.0;
         Endereco end1 = new Endereco("vfve", 56, 78, 132);
         Endereco end2 = new Endereco("tg", 89, 52, 321);
-        double expResult = 5.311420519345936E15;
-        double result = CalculosFisica.calculoEnergiaScooter(pesoEstafeta, pesoVeiculo, areaFrontal, pesoEncomenda, end1, end2);
+        double road = 12.0;
+        double velocidadeVento = 12.0;
+        double direcaoVento = 15.0;
+        double expResult = 5.31143770056731E15;
+        double result = CalculosFisica.calculoEnergiaScooter(pesoEstafeta, pesoVeiculo, areaFrontal, pesoEncomenda, end1, end2, road, direcaoVento, velocidadeVento);
         assertEquals(expResult, result, 0.0);
 
     }
@@ -38,14 +41,16 @@ public class CalculosFisicaTest {
     @Test
     public void testCalculoEnergiaDrone() {
         System.out.println("calculoEnergiaDrone");
-        double pesoEstafeta = 15.0;
-        double pesoVeiculo = 48.0;
-        double areaFrontal = 6.0;
-        double pesoEncomenda = 89.0;
+        double pesoVeiculo = 23.0;
+        double areaFrontal = 3.0;
+        double pesoEncomenda = 5.0;
         Endereco end1 = new Endereco("vfve", 56, 78, 132);
         Endereco end2 = new Endereco("tg", 89, 52, 321);
-        double expResult = 1.8576717573282668E16;
-        double result = CalculosFisica.calculoEnergiaDrone(pesoVeiculo, areaFrontal, pesoEncomenda, end1, end2);
+        double road = 12.0;
+        double velocidadeVento = 12.0;
+        double direcaoVento = 15.0;
+        double expResult = 3.7967137226710595E15;
+        double result = CalculosFisica.calculoEnergiaDrone(pesoVeiculo, areaFrontal, pesoEncomenda, end1, end2, road, direcaoVento, velocidadeVento);
         assertEquals(expResult, result, 0.0);
 
     }
@@ -57,8 +62,10 @@ public class CalculosFisicaTest {
     public void testCalculoTempo() {
         System.out.println("calculoTempo");
         double distancia = 48.0;
-        double expResult = 3.771608369387552;
-        double result = CalculosFisica.calculoTempo(distancia);
+        double velocidadeVento = 12.0;
+        double direcaoVento = 15.0;
+        double expResult = 24.379217700936035;
+        double result = CalculosFisica.calculoTempo(distancia, velocidadeVento, direcaoVento);
         assertEquals(expResult, result, 0.0);
 
     }
@@ -77,8 +84,11 @@ public class CalculosFisicaTest {
         double end2Lat = 78.0;
         double end2Lon = 52.0;
         double end2Alt = 26.0;
-        double expResult = 3.672275869836575E8;
-        double result = CalculosFisica.calculoForcaTotal(pesoTotal, areaFrontal, end1Lat, end1Lon, end1Alt, end2Lat, end2Lon, end2Alt);
+        double road = 12.0;
+        double velocidadeVento = 12.0;
+        double direcaoVento = 15.0;
+        double expResult = 3.672321957131147E8;
+        double result = CalculosFisica.calculoForcaTotal(pesoTotal, areaFrontal, end1Lat, end1Lon, end1Alt, end2Lat, end2Lon, end2Alt, road, direcaoVento, velocidadeVento);
         assertEquals(expResult, result, 0.0);
 
     }
@@ -133,8 +143,9 @@ public class CalculosFisicaTest {
         double end2Lat = 36.0;
         double end2Lon = 15.0;
         double end2Alt = 54.0;
-        double expResult = 2.587199999898758;
-        double result = CalculosFisica.calculoRoadLoad(pesoTotal, end1Lat, end1Lon, end1Alt, end2Lat, end2Lon, end2Alt);
+        double road = 12.0;
+        double expResult = 5644.7999997791085;
+        double result = CalculosFisica.calculoRoadLoad(pesoTotal, end1Lat, end1Lon, end1Alt, end2Lat, end2Lon, end2Alt, road);
         assertEquals(expResult, result, 0.0);
 
     }
@@ -146,8 +157,10 @@ public class CalculosFisicaTest {
     public void testCalculoAerodynamicDragForce() {
         System.out.println("calculoAerodynamicDragForce");
         double areaFrontal = 23.0;
-        double expResult = 269.1354685989774;
-        double result = CalculosFisica.calculoAerodynamicDragForce(areaFrontal);
+        double velocidadeVento = 12.0;
+        double direcaoVento = 15.0;
+        double expResult = 6.441464037539741;
+        double result = CalculosFisica.calculoAerodynamicDragForce(areaFrontal, velocidadeVento, direcaoVento);
         assertEquals(expResult, result, 0.0);
 
     }
@@ -176,8 +189,10 @@ public class CalculosFisicaTest {
     @Test
     public void testCalculoVelocidade() {
         System.out.println("calculoVelocidade");
-        double expResult = 12.726666;
-        double result = CalculosFisica.calculoVelocidade();
+        double velocidadeVento = 12.0;
+        double direcaoVento = 15.0;
+        double expResult = 1.9688900845311803;
+        double result = CalculosFisica.calculoVelocidade(velocidadeVento, direcaoVento);
         assertEquals(expResult, result, 0.0);
 
     }

@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lapr.project.model.Caminho;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
@@ -109,41 +110,34 @@ public class EntregaDB extends DataHandler {
     public Graph<Endereco,Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
         
         Graph<Endereco, Double> graph = new Graph<>(true);
+        List<Caminho> listCaminhos = new CaminhoDB().getAllCaminhos();
+        
         double energiaGasta = 0;
-        for (Endereco e : listEnderecos) {
-            graph.insertVertex(e);
+        
+        for(Caminho c : listCaminhos){
+            graph.insertVertex(c.getEnd1());
+            graph.insertVertex(c.getEnd2());
         }
-
-        int i = listEnderecos.size() - 1;
-        if((veiculo.getTipo()).equals(SCOOTER)){
-            energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
-        }
-        if((veiculo.getTipo()).equals(DRONE)){
-            energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(0), listEnderecos.get(i));
-        }
-        if(listEnderecos.size() == 2){
-            graph.insertEdge(listEnderecos.get(0), listEnderecos.get(1), 1.0, energiaGasta);
-        }else if(listEnderecos.size()> 2){
-            graph.insertEdge(listEnderecos.get(0), listEnderecos.get(1), 1.0, energiaGasta);
-            graph.insertEdge(listEnderecos.get(0), listEnderecos.get(i), 1.0, energiaGasta);
-        }
-
-        int aux = 1;
-        for (Endereco end : listEnderecos) {
-            if (aux < i && listEnderecos.size() > 2) {
-                Encomenda enc1 = getEncomendaByMorada(listEnderecos.get(aux).getMorada()); //mal provavelmente
+        
+        for(Caminho caminho : listCaminhos){
+            for(Endereco end : listEnderecos){
                 if((veiculo.getTipo()).equalsIgnoreCase(SCOOTER)){
-                    energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
-                    graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
+                    energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(),
+                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), caminho.getRoadResistanceCoefficient(), caminho.getDirecaoVento(), caminho.getVelocidadeVento());
+                    graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
                 }
                 if((veiculo.getTipo()).equalsIgnoreCase(DRONE)){
-                    energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(), pesoTotalEntrega, listEnderecos.get(aux), listEnderecos.get(aux + 1));
-                    graph.insertEdge(listEnderecos.get(aux), listEnderecos.get(aux + 1), 1.0, energiaGasta);
+                    energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(),
+                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), caminho.getRoadResistanceCoefficient(), caminho.getDirecaoVento(), caminho.getVelocidadeVento());
+                    graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
                 }
-                aux = aux + 1;
-                pesoTotalEntrega = pesoTotalEntrega - encDB.getEncomenda(enc1.getId()).getPesoEncomenda();
+                if(end.getMorada().equals(caminho.getEnd2().getMorada())){
+                    Encomenda enc1 = getEncomendaByMorada(caminho.getEnd2().getMorada());
+                    pesoTotalEntrega = pesoTotalEntrega - encDB.getEncomenda(enc1.getId()).getPesoEncomenda();
+                }
             }
         }
+        
         return graph;
     }
 
@@ -226,18 +220,22 @@ public class EntregaDB extends DataHandler {
         double distancia = 0;
         int aux = 0;
         int i = finalShortPath.size() - 1;
+        double tempo = 0;
         for (Endereco end : finalShortPath) {
             if (aux < i && finalShortPath.size() > 2) {
                 if((veiculo.getTipo()).equalsIgnoreCase(SCOOTER)){
                     distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
+                    Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
+                    tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
                 }
                 if((veiculo.getTipo()).equalsIgnoreCase(DRONE)){
                     distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
+                    Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
+                    tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
                 }
                 aux = aux + 1;
             }
         }
-        double tempo = CalculosFisica.calculoTempo(distancia);
         String s = String.format("%06d", (int)tempo);
         DateFormat format = new SimpleDateFormat("HHmmss");
         DateFormat format1 = new SimpleDateFormat("HH:mm:ss");
