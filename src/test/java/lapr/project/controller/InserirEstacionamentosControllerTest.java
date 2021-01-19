@@ -55,7 +55,7 @@ public class InserirEstacionamentosControllerTest {
         System.out.println("getListaEstacionamentosByParqueNif");
         Farmacia farm = new Farmacia(123456789, "email", "rua1");
         farmaciaMock.addFarmacia(farm);
-        Parque parque = new Parque(1, 123456789, 20, "drones");
+        Parque parque = new Parque(1, 123456789, 20, "drones",1000);
         parqueMock.addParque(parque);
         Estacionamento estacionamento1 = new Estacionamento(1, 0, 123456789);
         Estacionamento estacionamento2 = new Estacionamento(2, 1, 123456789);
@@ -123,7 +123,7 @@ public class InserirEstacionamentosControllerTest {
         System.out.println("getNumMaxParqueByNIF");
         Farmacia farm = new Farmacia(123456789, "email", "rua1");
         farmaciaMock.addFarmacia(farm);
-        Parque parque = new Parque(1, 123456789, 20, "drones");
+        Parque parque = new Parque(1, 123456789, 20, "drones",1000);
         parqueMock.addParque(parque);
         int expResult = parque.getNumeroMaximo();
         when(parqueMock.getNumMaxByFarmaciaNifParqueId(123456789, 1)).thenReturn(20);
@@ -160,8 +160,8 @@ public class InserirEstacionamentosControllerTest {
         Farmacia farmacia2 = new Farmacia(234, "email", "rua1");
         farmaciaMock.addFarmacia(farmacia1);
         farmaciaMock.addFarmacia(farmacia2);
-        Parque parque1 = new Parque(1, 123456789, 20, "drones");
-        Parque parque2 = new Parque(2, 123456789, 12, "scooters");
+        Parque parque1 = new Parque(1, 123456789, 20, "drones",1000);
+        Parque parque2 = new Parque(2, 123456789, 12, "scooters",1000);
         List<Parque> expResult = new ArrayList<>();
         expResult.add(parque1);
         expResult.add(parque2);

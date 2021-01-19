@@ -29,10 +29,11 @@ public class ParqueDB extends DataHandler {
      * @param nif nif do parque/farmácia
      * @param numMax limite máximo de veiculos do parque
      * @param tipo tipo de veículos do parque
+     * @param maxCap capacidade máxima de carregamento do parque
      * @return novo parque criado
      */
-    public Parque novoParque(int nif, int numMax, String tipo) {
-        return new Parque(nif, numMax, tipo);
+    public Parque novoParque(int nif, int numMax, String tipo, int maxCap) {
+        return new Parque(nif, numMax, tipo, maxCap);
     }
 
     /**
@@ -57,7 +58,7 @@ public class ParqueDB extends DataHandler {
      * @return true se o parque é valido
      */
     public boolean validaParque(Parque park) {
-        return !(park.getNIF() < 0 || park.getNumeroMaximo() < 0);
+        return !(park.getNIF() < 0 || park.getNumeroMaximo() < 0 || park.getMaxCap() <= 0);
     }
 
     /**
@@ -67,7 +68,7 @@ public class ParqueDB extends DataHandler {
      * @return id do parque
      */
     public int addParque(Parque park) {
-        return addParque(park.getNIF(), park.getNumeroMaximo(), park.getTipo());
+        return addParque(park.getNIF(), park.getNumeroMaximo(), park.getTipo(), park.getMaxCap());
     }
 
     /**
@@ -76,17 +77,19 @@ public class ParqueDB extends DataHandler {
      * @param nif nif do parque/farmácia
      * @param numMax limite máximo de veiculos do parque
      * @param tipo tipo do parque
+     * @param maxCap capacidade máxima de carregamento do parque
      * @return id do parque
      */
-    public int addParque(int nif, int numMax, String tipo) {
+    public int addParque(int nif, int numMax, String tipo, int maxCap) {
         int idParque = 0;
         try {
             openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addParque(?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addParque(?,?,?,?) }")) {
                 callStmt.registerOutParameter(1, OracleTypes.INTEGER);
                 callStmt.setInt(2, nif);
                 callStmt.setInt(3, numMax);
                 callStmt.setString(4, tipo);
+                callStmt.setInt(5, maxCap);
                 callStmt.execute();
                 idParque = callStmt.getInt(1);
             }
@@ -114,7 +117,8 @@ public class ParqueDB extends DataHandler {
                     int nifF = rSet.getInt(2);
                     int numMax = rSet.getInt(3);
                     String tipo = rSet.getString(4);
-                    list.add(new Parque(id, nifF, numMax, tipo));
+                    int maxCap = rSet.getInt(5);
+                    list.add(new Parque(id, nifF, numMax, tipo, maxCap));
                 }
                 return list;
             }
@@ -145,19 +149,19 @@ public class ParqueDB extends DataHandler {
         return numMax;
     }
 
-    public Parque getParqueByID(int ID){
+    public Parque getParqueByID(int ID) {
         String query = "SELECT * FROM parque p WHERE p.IdParque =" + ID;
 
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     ID = rSet.getInt(1);
                     int FarmaciaNIF = rSet.getInt(2);
                     int numeroMaximo = rSet.getInt(3);
                     String tipo = rSet.getString(4);
-
-                    return new Parque(ID,FarmaciaNIF,numeroMaximo,tipo);
+                    int maxCap = rSet.getInt(5);
+                    return new Parque(ID, FarmaciaNIF, numeroMaximo, tipo, maxCap);
                 }
             }
         } catch (SQLException e) {

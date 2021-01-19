@@ -170,7 +170,7 @@ public class EnderecoDB extends DataHandler {
      * @param farmMorada morada da farmacia
      * @return endereço da farmacia
      */
-    public Endereco getEnderecoByFarmaciaMorada(String farmMorada) {
+    public Endereco getEnderecoByMorada(String farmMorada) {
         String query = "SELECT * FROM endereco e WHERE e.morada = " + farmMorada;
         return getQuery(query);
     }

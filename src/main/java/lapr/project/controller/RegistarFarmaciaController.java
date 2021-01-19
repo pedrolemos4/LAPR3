@@ -66,8 +66,8 @@ public class RegistarFarmaciaController {
      * @param farmMorada morada da farmacia
      * @return endereço da farmacia 
      */
-    public Endereco getEnderecoByFarmaciaMorada(String farmMorada) {
-        return enderecoDB.getEnderecoByFarmaciaMorada(farmMorada);
+    public Endereco getEnderecoByMorada(String farmMorada) {
+        return enderecoDB.getEnderecoByMorada(farmMorada);
     }
 
     /**
@@ -86,10 +86,11 @@ public class RegistarFarmaciaController {
      * @param nif nif do parque/farmácia
      * @param numMax limite máximo de veiculos do parque
      * @param tipo tipo de veículos do parque
+     * @param maxCap capacidade máxima de carregamento do parque
      * @return novo parque criado
      */
-    public Parque novoParque(int nif, int numMax, String tipo) {
-        return parqueDB.novoParque(nif, numMax, tipo);
+    public Parque novoParque(int nif, int numMax, String tipo, int maxCap) {
+        return parqueDB.novoParque(nif, numMax, tipo, maxCap);
     }
 
     /**

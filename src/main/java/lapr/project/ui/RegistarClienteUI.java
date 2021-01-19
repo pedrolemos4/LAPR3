@@ -33,6 +33,9 @@ public class RegistarClienteUI {
      * Interface responsável por registar clientes
      *
      * @return
+     * @throws java.text.ParseException
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
     public boolean registaCliente() throws ParseException, ClassNotFoundException, SQLException {
         boolean aux = false;

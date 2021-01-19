@@ -57,14 +57,16 @@ public class RegistarFarmaciaUI {
             for (int i = 0; i < parkNum; i++) {
                 System.out.println("Limite máximo do parque:");
                 int numMax = LER.nextInt();
-                System.out.println("Qual o tipo do parque, drones ou scooters?");
+                System.out.println("Qual o tipo do parque, drone ou scooter?");
                 LER.nextLine();
                 String tipo = LER.nextLine();
-                while (!tipo.equalsIgnoreCase("drones") && !tipo.equalsIgnoreCase("scooters")) {
+                while (!tipo.equalsIgnoreCase("drone") && !tipo.equalsIgnoreCase("scooter")) {
                     System.out.println("Tipo de parque inválido, introduzia novamente!");
                     tipo = LER.nextLine();
                 }
-                Parque park = controller.novoParque(nif, numMax, tipo.toLowerCase());
+                System.out.println("Qual a capacidade máxima de carregamento do parque?");
+                int maxCap = LER.nextInt();
+                Parque park = controller.novoParque(nif, numMax, tipo.toLowerCase(),maxCap);
                 lparks.add(park);
             }
             Endereco end = controller.novoEndereco(morada, lat, lon, alt);
@@ -81,6 +83,7 @@ public class RegistarFarmaciaUI {
             for (Parque p : lparks) {
                 System.out.println(p.getNumeroMaximo());
                 System.out.println(p.getTipo());
+                System.out.println(p.getMaxCap());
             }
             System.out.println("Deseja registar a farmácia criada e os parques criados? (S/N)");
             String confirm = LER.next();

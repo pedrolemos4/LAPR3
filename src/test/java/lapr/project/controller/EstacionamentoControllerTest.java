@@ -42,7 +42,7 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         estacionamento.setNumeroLote(0);
-        Parque parque = new Parque(0,1,1,"scooter");
+        Parque parque = new Parque(0,1,1,"scooter",1000);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -66,7 +66,7 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         estacionamento.setNumeroLote(0);
-        Parque parque = new Parque(0,1,1,"scooter");
+        Parque parque = new Parque(0,1,1,"scooter",1000);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -92,7 +92,7 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         estacionamento.setNumeroLote(0);
-        Parque parque = new Parque(0,1,1,"scooter");
+        Parque parque = new Parque(0,1,1,"scooter",1000);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -145,7 +145,7 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         estacionamento.setNumeroLote(0);
-        Parque parque = new Parque(0,1,1,"scooter");
+        Parque parque = new Parque(0,1,1,"scooter",1000);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -169,7 +169,7 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo("String descricao","drone", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         estacionamento.setNumeroLote(0);
-        Parque parque = new Parque(0,1,1,"drone");
+        Parque parque = new Parque(0,1,1,"drone",1000);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -210,7 +210,7 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         estacionamento.setNumeroLote(0);
-        Parque parque = new Parque(0,1,1,"scooter");
+        Parque parque = new Parque(0,1,1,"scooter",1000);
 
         instance = new EstacionamentoController(new EmailDB(),estacionamentosDB,veiculoDB,parqueDB);
 
@@ -233,7 +233,7 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo("String descricao","scooter", 0,0, 0,0, 0,0, 0);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         estacionamento.setNumeroLote(0);
-        Parque parque = new Parque(0,1,1,"scooter");
+        Parque parque = new Parque(0,1,1,"scooter",1000);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 

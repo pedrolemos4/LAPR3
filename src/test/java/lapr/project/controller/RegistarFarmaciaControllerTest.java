@@ -75,9 +75,9 @@ public class RegistarFarmaciaControllerTest {
     @Test
     public void testNovoParque() throws SQLException {
         System.out.println("novoParque");
-        Parque parque = new Parque(111111111, 20, "drones");
-        when(parqueMock.novoParque(111111111, 20, "drones")).thenReturn(parque);
-        assertEquals(parque.toString(), instance.novoParque(parque.getNIF(), parque.getNumeroMaximo(), parque.getTipo()).toString());
+        Parque parque = new Parque(111111111, 20, "drones", 1000);
+        when(parqueMock.novoParque(111111111, 20, "drones", 1000)).thenReturn(parque);
+        assertEquals(parque.toString(), instance.novoParque(parque.getNIF(), parque.getNumeroMaximo(), parque.getTipo(), parque.getMaxCap()).toString());
     }
 
     /**
@@ -128,7 +128,7 @@ public class RegistarFarmaciaControllerTest {
     public void testRegistaParques() throws SQLException {
         System.out.println("registaParques");
         List<Parque> expResult = new ArrayList<>();
-        Parque parque = new Parque(111111111, 20, "drones");
+        Parque parque = new Parque(111111111, 20, "drones", 1000);
         expResult.add(parque);
         when(parqueMock.registaParques(expResult)).thenReturn(true);
         assertEquals(true, instance1.registaParques(expResult));
@@ -143,7 +143,7 @@ public class RegistarFarmaciaControllerTest {
     public void testRegistaParques1() throws SQLException {
         System.out.println("registaParques1");
         List<Parque> expResult = new ArrayList<>();
-        Parque parque = new Parque(111111111, 20, "drones");
+        Parque parque = new Parque(111111111, 20, "drones", 1000);
         expResult.add(parque);
         when(parqueMock.registaParques(expResult)).thenReturn(false);
         assertEquals(false, instance1.registaParques(expResult));
@@ -179,8 +179,8 @@ public class RegistarFarmaciaControllerTest {
     void getListaParquesByFarmaciaNif() {
         System.out.println("getListaParquesByFarmaciaNif");
         Farmacia farmacia = new Farmacia(123456789, "email1", "rua1");
-        Parque parque1 = new Parque(111111111, 20, "drones");
-        Parque parque2 = new Parque(222222222, 15, "scooters");
+        Parque parque1 = new Parque(111111111, 20, "drones", 1000);
+        Parque parque2 = new Parque(222222222, 15, "scooters", 1000);
         List<Parque> listParques = new ArrayList<>();
         listParques.add(parque1);
         listParques.add(parque2);
@@ -198,10 +198,10 @@ public class RegistarFarmaciaControllerTest {
     }
 
     @Test
-    void getEnderecoByFarmaciaMorada() {
-        System.out.println("getEnderecoByFarmaciaMorada");
+    void getEnderecoByMorada() {
+        System.out.println("getEnderecoByMorada");
         Endereco endereco = new Endereco("a", 1, 1, 1);
-        when(enderecoMock.getEnderecoByFarmaciaMorada("a")).thenReturn(endereco);
-        assertEquals(endereco, instance1.getEnderecoByFarmaciaMorada("a"));
+        when(enderecoMock.getEnderecoByMorada("a")).thenReturn(endereco);
+        assertEquals(endereco, instance1.getEnderecoByMorada("a"));
     }
 }
