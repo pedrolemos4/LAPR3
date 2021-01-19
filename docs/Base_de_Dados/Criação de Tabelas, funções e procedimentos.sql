@@ -24,6 +24,8 @@ drop table "LAPR3_G23".cartao CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".encomendaEntrega CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".transferenciaproduto CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".estadoTransferencia CASCADE CONSTRAINTS PURGE;
+drop table "LAPR3_G23".caminho CASCADE CONSTRAINTS PURGE;
+
 
 CREATE TABLE "LAPR3_G23".Farmacia 
 (           NIF number(10),
@@ -94,7 +96,7 @@ CREATE TABLE "LAPR3_G23".Encomenda
 
 CREATE TABLE "LAPR3_G23".Entrega 
 (           idEntrega number(10) GENERATED AS IDENTITY, 
-            EstafetaUtilizadorNIF number(10) NOT NULL, 
+            EstafetaUtilizadorNIF number(10), 
             veiculoid number(10) NOT NULL, 
             dataInicio timestamp NOT NULL, 
             dataFim timestamp NOT NULL, 
@@ -187,7 +189,7 @@ CREATE TABLE "LAPR3_G23".Estacionamentoveiculo
 CREATE TABLE "LAPR3_G23".Recibo 
 (           idRecibo number(10) GENERATED AS IDENTITY, 
             dataRecibo timestamp NOT NULL, 
-			preco number(10) NOT NULL,
+            preco number(10) NOT NULL,
             ClienteUtilizadorNIF number(10) NOT NULL, 
             EncomendaidEncomenda number(10) NOT NULL,
             PRIMARY KEY (idRecibo)
@@ -197,7 +199,7 @@ CREATE TABLE "LAPR3_G23".Recibo
 CREATE TABLE "LAPR3_G23".LinhaRecibo 
 (           ReciboidRecibo number(10) NOT NULL, 
             ProdutoidProduto number(10) NOT NULL, 
-			quantidade number (10) NOT NULL,
+            quantidade number (10) NOT NULL,
             PRIMARY KEY (ReciboidRecibo, ProdutoidProduto)
 );
 
@@ -239,6 +241,15 @@ CREATE TABLE "LAPR3_G23".EstadoTransferencia
             PRIMARY KEY (id)
 );
 
+CREATE TABLE "LAPR3_G23".Caminho 
+(           morada1 varchar(255), 
+            morada2 varchar(255), 
+            roadResistanceCoefficient number(5,2) check(roadResistanceCoefficient > 0),
+            velocidadeVento number(5,2) check(velocidadeVento > 0),
+            direcaoVento number(5,2) check(direcaoVento BETWEEN 0 AND 360),
+            PRIMARY KEY (morada1, morada2)
+);
+
 ALTER TABLE "LAPR3_G23".Cliente ADD CONSTRAINT FKCliente_Utilizador FOREIGN KEY (UtilizadorNIF) REFERENCES "LAPR3_G23".Utilizador (NIF);
 ALTER TABLE "LAPR3_G23".Estafeta ADD CONSTRAINT FKEstafeta_Utilizador FOREIGN KEY (UtilizadorNIF) REFERENCES "LAPR3_G23".Utilizador (NIF);
 ALTER TABLE "LAPR3_G23".Cliente ADD CONSTRAINT FKCliente_Endereco FOREIGN KEY (Enderecomorada) REFERENCES "LAPR3_G23".Endereco (morada);
@@ -270,6 +281,8 @@ ALTER TABLE "LAPR3_G23".TransferenciaProduto ADD CONSTRAINT FKTransferenciaProdu
 ALTER TABLE "LAPR3_G23".TransferenciaProduto ADD CONSTRAINT FKTransferenciaProduto_Recetor FOREIGN KEY (id_Recetor) REFERENCES "LAPR3_G23".Farmacia (NIF);
 ALTER TABLE "LAPR3_G23".TransferenciaProduto ADD CONSTRAINT FKTransferenciaProduto_Produto FOREIGN KEY (id_Produto) REFERENCES "LAPR3_G23".Produto (idProduto);
 ALTER TABLE "LAPR3_G23".TransferenciaProduto ADD CONSTRAINT FKTransferenciaProduto_Estado FOREIGN KEY (id_Estado) REFERENCES "LAPR3_G23".EstadoTransferencia (id);
+ALTER TABLE "LAPR3_G23".Caminho ADD CONSTRAINT FKCaminho_Morada1 FOREIGN KEY (morada1) REFERENCES "LAPR3_G23".Endereco (morada);
+ALTER TABLE "LAPR3_G23".Caminho ADD CONSTRAINT FKCaminho_Morada2 FOREIGN KEY (morada2) REFERENCES "LAPR3_G23".Endereco (morada);
 ------------------------------------------------------------------------------------
 
 INSERT INTO "LAPR3_G23".estadoveiculo VALUES (1,'DisponÃ­vel');
@@ -426,15 +439,15 @@ RETURN v_idEntrega;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addParque(p_FarmaciaNIF "LAPR3_G23".parque.farmacianif%type, p_numeroMaximo "LAPR3_G23".parque.numeromaximo%type,
+CREATE OR REPLACE FUNCTION addParque(p_FarmaciaNIF "LAPR3_G23".parque.farmacianif%type, p_numeroMaximo "LAPR3_G23".parque.numeromaximo%type,
 p_tipo "LAPR3_G23".parque.tipo%type) 
 RETURN INTEGER
 IS
 v_idParque INTEGER;
 BEGIN
-  	INSERT INTO "LAPR3_G23".parque (FarmaciaNIF,numeroMaximo,tipo)
-  	VALUES(p_FarmaciaNIF, p_numeroMaximo, p_tipo);
-	SELECT "LAPR3_G23".parque.idParque INTO v_idParque
+    INSERT INTO "LAPR3_G23".parque (FarmaciaNIF,numeroMaximo,tipo)
+    VALUES(p_FarmaciaNIF, p_numeroMaximo, p_tipo);
+    SELECT "LAPR3_G23".parque.idParque INTO v_idParque
         FROM "LAPR3_G23".parque
         WHERE "LAPR3_G23".parque.FarmaciaNIF = p_FarmaciaNIF;
 RETURN v_idParque;
@@ -703,6 +716,15 @@ BEGIN
 END;
 /
 
+
+CREATE OR REPLACE PROCEDURE addCaminho(morada1 "LAPR3_G23".caminho.morada1%type, morada2 "LAPR3_G23".caminho.morada2%type,
+roadResistanceCoefficient "LAPR3_G23".caminho.roadResistanceCoefficient%type, velocidadeVento "LAPR3_G23".caminho.velocidadeVento%type,
+direcaoVento "LAPR3_G23".caminho.direcaoVento%type) 
+AS
+BEGIN
+  INSERT INTO "LAPR3_G23".caminho VALUES(morada1, morada2, roadResistanceCoefficient, velocidadeVento, direcaoVento);
+END;
+/
 --------------------------------------------------------------------------------------------------------------------------------
 
 
