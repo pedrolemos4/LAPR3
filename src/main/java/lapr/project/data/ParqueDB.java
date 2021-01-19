@@ -5,6 +5,9 @@
  */
 package lapr.project.data;
 
+import lapr.project.model.Parque;
+import oracle.jdbc.OracleTypes;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lapr.project.model.Parque;
-import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -142,5 +143,26 @@ public class ParqueDB extends DataHandler {
             Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
         return numMax;
+    }
+
+    public Parque getParqueByID(int ID){
+        String query = "SELECT * FROM parque p WHERE p.IdParque =" + ID;
+
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
+
+                if (rSet.next()) {
+                    ID = rSet.getInt(1);
+                    int FarmaciaNIF = rSet.getInt(2);
+                    int numeroMaximo = rSet.getInt(3);
+                    String tipo = rSet.getString(4);
+
+                    return new Parque(ID,FarmaciaNIF,numeroMaximo,tipo);
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return null;
     }
 }

@@ -2,8 +2,10 @@ package lapr.project.controller;
 
 import lapr.project.data.EmailDB;
 import lapr.project.data.EstacionamentosDB;
+import lapr.project.data.ParqueDB;
 import lapr.project.data.VeiculoDB;
 import lapr.project.model.Estacionamento;
+import lapr.project.model.Parque;
 import lapr.project.model.Veiculo;
 
 import java.io.File;
@@ -18,6 +20,7 @@ public class EstacionamentoController {
     private final EmailDB emailDB;
     private final EstacionamentosDB estacionamentosDB;
     private final VeiculoDB veiculoDB;
+    private final ParqueDB parqueDB;
     
     /**
      * Constroi uma instancia de EstacionamentoController recebendo uma instancia de emailDB, estacionamentosDB, veiculoDB
@@ -25,10 +28,11 @@ public class EstacionamentoController {
      * @param estacionamentosDB instancia de estacionamentosDB
      * @param veiculoDB instancia de veiculoDB
      */
-    public EstacionamentoController(EmailDB emailDB,EstacionamentosDB estacionamentosDB,VeiculoDB veiculoDB) {
+    public EstacionamentoController(EmailDB emailDB,EstacionamentosDB estacionamentosDB,VeiculoDB veiculoDB,ParqueDB parqueDB) {
         this.emailDB = emailDB;
         this.estacionamentosDB = estacionamentosDB;
         this.veiculoDB = veiculoDB;
+        this.parqueDB = parqueDB;
     }
     
     /**
@@ -50,7 +54,7 @@ public class EstacionamentoController {
      * @return true se o método conseguir criar a instância de estacionamento sem nenhum erro
      * @throws FileNotFoundException quando não é possível encontrar o ficheiro encontrado
      */
-    public boolean simulateParkingVeiculo(String path) throws FileNotFoundException{
+    public boolean simulateParkingVeiculo(String path) throws FileNotFoundException {
         File newFile = new File(path);
         Scanner scan = new Scanner(newFile);
 
@@ -72,18 +76,24 @@ public class EstacionamentoController {
 
         Estacionamento estac = estacionamentosDB.getEstacionamentoById(idEstacionamento);
 
+        Parque parque = parqueDB.getParqueByID(estac.getIdParque());
+
         estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo);
 
-        if(estimativa == -1){
-            return notificaEstafeta(false,estimativa,emailEstafeta);
-        }else {
-            timerCarregamento(estimativa, veiculo);
-
-            if (veiculo.getTipo().equalsIgnoreCase("scooter")) {
-                return notificaEstafeta(true, estimativa, emailEstafeta);
+        if (veiculo.getTipo().equalsIgnoreCase(parque.getTipo()) && estac.getCarregador() == 1) {
+            if (estimativa == -1) {
+                return notificaEstafeta(false, estimativa, emailEstafeta);
             } else {
-                return true;
+                timerCarregamento(estimativa, veiculo);
+
+                if (veiculo.getTipo().equalsIgnoreCase("scooter")) {
+                    return notificaEstafeta(true, estimativa, emailEstafeta);
+                } else {
+                    return true;
+                }
             }
+        }else{
+            return notificaEstafeta(false, estimativa, emailEstafeta);
         }
     }
     

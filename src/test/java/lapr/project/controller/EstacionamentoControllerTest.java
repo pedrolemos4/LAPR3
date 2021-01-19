@@ -2,6 +2,7 @@ package lapr.project.controller;
 
 import lapr.project.data.EmailDB;
 import lapr.project.data.EstacionamentosDB;
+import lapr.project.data.ParqueDB;
 import lapr.project.data.VeiculoDB;
 import lapr.project.model.Estacionamento;
 import lapr.project.model.Estafeta;
@@ -20,6 +21,7 @@ class EstacionamentoControllerTest {
     private EmailDB emailDB;
     private EstacionamentosDB estacionamentosDB;
     private VeiculoDB veiculoDB;
+    private ParqueDB parqueDB;
     private EstacionamentoController instance;
 
     @BeforeEach
@@ -27,7 +29,8 @@ class EstacionamentoControllerTest {
         estacionamentosDB = mock(EstacionamentosDB.class);
         veiculoDB = mock(VeiculoDB.class);
         emailDB = mock(EmailDB.class);
-        instance = new EstacionamentoController(emailDB,estacionamentosDB,veiculoDB);
+        parqueDB = mock(ParqueDB.class);
+        instance = new EstacionamentoController(emailDB,estacionamentosDB,veiculoDB,parqueDB);
     }
 
     @Test
@@ -194,7 +197,7 @@ class EstacionamentoControllerTest {
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         estacionamento.setNumeroLote(0);
 
-        instance = new EstacionamentoController(new EmailDB(),estacionamentosDB,veiculoDB);;
+        instance = new EstacionamentoController(new EmailDB(),estacionamentosDB,veiculoDB,parqueDB);
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
 
@@ -292,7 +295,7 @@ class EstacionamentoControllerTest {
 
     @Test
     void getDiretory() {
-        instance = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB());
+        instance = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB());
         System.out.println("getDiretory()");
         String expected = "estimate_2021_02_02_02_02_01.data";
         assertEquals(expected,instance.getDiretory("src/main/java/lapr/project/parking/teste"));
