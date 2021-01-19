@@ -24,11 +24,10 @@ public class RegistarFarmaciaController {
     private final EnderecoDB enderecoDB;
 
     /**
-     * Cria instância do controlador InserirEstacionamentosController
-     *
-     * @param fdb
-     * @param pdb
-     * @param edb
+     * Constroi uma instancia de RegistarFarmaciaController recebendo uma instancia de FarmaciaDB, ParqueDB e EnderecoDB
+     * @param fdb uma instancia de FarmaciaDB
+     * @param pdb uma instancia de ParqueDB
+     * @param edb uma instancia de EnderecoDB
      */
     public RegistarFarmaciaController(FarmaciaDB fdb, ParqueDB pdb, EnderecoDB edb) {
         this.farmaciaDB = fdb;
@@ -38,7 +37,6 @@ public class RegistarFarmaciaController {
 
     /**
      * Retorna lista com todas as farmácias
-     *
      * @return lista das farmácias
      */
     public List<Farmacia> getListaFarmacias() {
@@ -47,25 +45,33 @@ public class RegistarFarmaciaController {
 
     /**
      * Retorna lista com todas os parques de uma determinada farmácia
-     *
      * @param nif da farmacia
      * @return lista dos parques da farmácia
      */
     public List<Parque> getListaParquesByFarmaciaNif(int nif) {
         return parqueDB.getLstParquesByFarmaciaNif(nif);
     }
-
+    
+    /**
+     * Devolve uma farmacia recebendo por parametro o nif da farmacia
+     * @param nif nif da farmacia
+     * @return farmacia
+     */
     public Farmacia getFarmaciaByNIF(int nif) {
         return farmaciaDB.getFarmaciaByNIF(nif);
     }
-
+    
+    /**
+     * Devolve um endereço da farmacia recebendo por parametro a morada da farmacia
+     * @param farmMorada morada da farmacia
+     * @return endereço da farmacia 
+     */
     public Endereco getEnderecoByFarmaciaMorada(String farmMorada) {
         return enderecoDB.getEnderecoByFarmaciaMorada(farmMorada);
     }
 
     /**
-     * Cria uma nova farmácia
-     *
+     * Cria uma nova farmácia recebendo por parametro o nif, email e morada
      * @param nif nif da farmácia
      * @param email nif da farmácia
      * @param morada morada da farmácia
@@ -76,8 +82,7 @@ public class RegistarFarmaciaController {
     }
 
     /**
-     * Cria um novo parque
-     *
+     * Cria um novo parque recebendo o nif, numero maximo e tipo
      * @param nif nif do parque/farmácia
      * @param numMax limite máximo de veiculos do parque
      * @param tipo tipo de veículos do parque
@@ -88,12 +93,11 @@ public class RegistarFarmaciaController {
     }
 
     /**
-     * Cria um novo endereço
-     *
-     * @param morada
-     * @param latitude
-     * @param longitude
-     * @param altitude
+     * Cria um novo endereço recebendo por parametro a morada, latitude, longitude e altitude
+     * @param morada morada do endereço
+     * @param latitude latitude do endereço
+     * @param longitude longitude do endereço
+     * @param altitude altitude do endereço
      * @return novo endereço criado
      */
     public Endereco novoEndereco(String morada, double latitude, double longitude, double altitude) {
@@ -101,18 +105,16 @@ public class RegistarFarmaciaController {
     }
 
     /**
-     * Regista a farmacia
-     *
+     * Verifica se a farmacia foi registada recebendo a farmacia
      * @param farm farmacia
-     * @return
+     * @return true se a farmacia foi registada
      */
     public boolean registaFarmacia(Farmacia farm) {
         return (farmaciaDB.registaFarmacia(farm) ? (true) : (false));
     }
 
     /**
-     * Regista o parque
-     *
+     * Verifica se o parque foi registado recebendo uma lista de parques
      * @param lparks lista dos parques a serem registados
      * @return true se os parques forem todos adicionados
      */
@@ -121,10 +123,9 @@ public class RegistarFarmaciaController {
     }
 
     /**
-     * Regista o endereço
-     *
+     * Verifica se o endereço foi registado recebendo o endereço por parametro
      * @param end endereço
-     * @return
+     * @return true se o endereço foi registado
      */
     public boolean registaEndereco(Endereco end) {
         return (enderecoDB.registaEndereco(end) ? (true) : (false));

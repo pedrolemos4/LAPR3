@@ -38,7 +38,19 @@ public class RegistarEntregaController {
     private final EnderecoDB enderecoDB;
     private final EmailDB emailDB;
     private final ClienteDB clienteDB;
-
+    
+    /**
+     * Constroi uma instancia de RegistarClienteController recebendo uma instancia de UtilizadorDB, FarmaciaDB, EstafetaDB, EntregaDB, EncomendaDB, VeiculoDB, EnderecoDB, EmailDB, ClienteDB
+     * @param utilizadorDB instancia de UtilizadorDB
+     * @param farmaciaDB instancia de FarmaciaDB
+     * @param estafetaDB instancia de EstafetaDB
+     * @param entregaDB instancia de EntregaDB
+     * @param encomendaDB instancia de EncomendaDB
+     * @param veiculoDB instancia de VeiculoDB
+     * @param enderecoDB instancia de EnderecoDB
+     * @param emailDB instancia de EmailDB
+     * @param clienteDB instancia de ClienteDB
+     */
     public RegistarEntregaController(UtilizadorDB utilizadorDB, FarmaciaDB farmaciaDB, EstafetaDB estafetaDB, EntregaDB entregaDB, EncomendaDB encomendaDB, VeiculoDB veiculoDB, EnderecoDB enderecoDB, EmailDB emailDB, ClienteDB clienteDB) {
         this.utilizadorDB = utilizadorDB;
         this.farmaciaDB = farmaciaDB;
@@ -50,82 +62,194 @@ public class RegistarEntregaController {
         this.emailDB = emailDB;
         this.clienteDB = clienteDB;
     }
-
+    
+    /**
+     * Devolve uma lista de farmacias
+     * @return lista e farmacias
+     */
     public List<Farmacia> getLstFarmacias() {
         return farmaciaDB.getLstFarmacias();
     }
-
+    
+    /**
+     * Devolve uma farmacia recebendo por parametro o nif da farmacia
+     * @param nifFarmacia nif da farmacia
+     * @return farmacia
+     */
     public Farmacia getFarmaciaByNif(int nifFarmacia) {
         return farmaciaDB.getFarmaciaByNIF(nifFarmacia);
     }
-
+    
+    /**
+     * Devolve uma lista de veiculos
+     * @return lista de veiculos
+     */
     public List<Veiculo> getListVeiculo() {
         return veiculoDB.getListaVeiculo();
     }
-
+    
+    /**
+     * Devolve o endereço de uma farmacia recebendo por parametro o nif da farmacia
+     * @param nifFarmacia nif da farmacia
+     * @return endereço da farmacia
+     */
     public Endereco getEnderecoOrigem(int nifFarmacia) {
         return enderecoDB.getEnderecoByNifFarmacia(nifFarmacia);
     }
-
+    
+    /**
+     * Devolve o estafeta que fez login
+     * @return estafeta
+     */
     public Estafeta getEstafeta() {
         int nif = UserSession.getInstance().getUser().getNIF();
         return estafetaDB.getEstafetaByNIF(nif);
     }
-
+    
+    /**
+     * Devolve um veiculo recebendo por parametro o id do veiculo
+     * @param idVeiculo id do veiculo
+     * @return veiculo
+     */
     public Veiculo getVeiculo(int idVeiculo) {
         return veiculoDB.getVeiculoById(idVeiculo);
     }
-
+    
+    /**
+     * Devolve uma lista de encomendas
+     * @return lista de encomendas
+     */
     public List<Encomenda> getListaEncomenda() {
         return encomendaDB.getListaEncomenda();
     }
-
+    
+    /**
+     * Devolve uma entrega recebendo por parametro a data de inicio, a data de fim, o id do veiculo, o id do estafeta.
+     * @param dataInicio data de inicio
+     * @param dataFim data de fim
+     * @param idVeiculo id do veiculo
+     * @param idEstafeta id do estafeta
+     * @return entrega
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public Entrega addEntrega(String dataInicio, String dataFim, int idVeiculo, int idEstafeta) throws SQLException, ParseException {
         Entrega en = new Entrega(dataInicio, dataFim, idVeiculo, idEstafeta);
         en.setIdEntrega(entregaDB.addEntrega(en));
         return en;
     }
-
+    
+    /**
+     * Verifica se a encomenda relativa à entrega foi registada recebendo por parametro a entrega e a encomenda
+     * @param e entrega
+     * @param enc encomenda
+     * @return true se a encomenda relativa à entrega foi registada
+     * @throws SQLException 
+     */
     public boolean addEncomendaEntrega(Entrega e, Encomenda enc) throws SQLException {
         return (entregaDB.addEncomendaEntrega(e, enc) ? (true) : (false));
     }
-
+    
+    /**
+     * Devolve o endereço do cliente recebendo por parametro o nif do cliente
+     * @param nif nif do cliente
+     * @return endereço do cliente
+     */
     public Endereco getEnderecoByNifCliente(int nif) {
         return enderecoDB.getEnderecoByNifCliente(nif);
     }
-
+    
+    /**
+     * Devolve um utilizador recebendo por parametro o nif
+     * @param nif nif
+     * @return utilizador
+     */
     public Utilizador getUtilizadorByNif(int nif) {
         return utilizadorDB.getByID(nif);
     }
-
+    
+    /**
+     * Devolve um grafo recebendo por parametro uma lista de endereços, o estafeta, o veiculo e o pesoTotal
+     * @param listEnderecos lista de endereços dos clientes que fizeram encomendas relativas à entrega
+     * @param est estafeta associado à entrega
+     * @param veiculo veiculo associado à entrega
+     * @param pesoTotal peso total da entrega
+     * @return 
+     */
     public Graph<Endereco, Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotal) {
         return entregaDB.generateGraph(listEnderecos, est, veiculo, pesoTotal);
     }
-
+    
+    /**
+     * Devolve a energia gasta no percurso
+     * @param graph o grafo
+     * @param listEnderecos lista de endereços dos clientes que fizeram encomendas relativas à entrega
+     * @param finalShortPath lista de endereços presentes no caminho com custo de energia mais baixo
+     * @param origem endereço de origem
+     * @param energia a energia inicial
+     * @return energia gasta no percurso
+     */
     public double getPath(Graph<Endereco, Double> graph, List<Endereco> listEnderecos, List<Endereco> finalShortPath, Endereco origem, double energia) {
         return entregaDB.getPath(graph, listEnderecos, finalShortPath, origem, energia);
     }
-
+    
+    /**
+     * Verifica se a nota ao cliente foi enviada recebendo a farmacia e o utilizador
+     * @param farmacia farmacia que vai enviar a nota
+     * @param c utilizador que vai receber a nota
+     * @return true se a nota ao cliente foi enviada
+     */
     public boolean enviarNotaCliente(Farmacia farmacia, Utilizador c) {
         return (emailDB.sendEmail(farmacia.getEmail(), c.getEmail(), "Entrega", "A sua entrega está a caminho") ? (true) : (false));
     }
-
+    
+    /**
+     * Devolve o cliente recebendo por parametro o endereço do cliente
+     * @param end endereço do cliente
+     * @return cliente
+     */
     public Cliente getClienteByEndereco(Endereco end) {
         return clienteDB.getClienteByMorada(end.getMorada());
     }
-
+    
+    /**
+     * Devolve a duraçao do percurso da entrega
+     * @param finalShortPath lista de endereços presentes no caminho com custo de energia mais baixo
+     * @param veiculo veiculo associado à entrega
+     * @return duraçao do percurso da entrega
+     * @throws ParseException 
+     */
     public String getDuracaoPercurso(List<Endereco> finalShortPath, Veiculo veiculo) throws ParseException {
         return entregaDB.getDuracaoPercurso(finalShortPath, veiculo);
     }
-
+    
+    /**
+     * Verifica se a encomenda foi atualizada recebendo por parametro o id de encomenda e o estado
+     * @param idEncomenda id da encomenda
+     * @param estado estado da encomenda
+     * @return true se a encomenda foi atualizada
+     * @throws SQLException 
+     */
     public boolean updateEncomenda(int idEncomenda, int estado) throws SQLException {
         return (encomendaDB.updateEncomenda(idEncomenda, estado) ? (true) : (false));
     }
-
+    
+    /**
+     * Verifica se a entrega foi atualizada recebendo por parametro a entrega
+     * @param entrega entrega
+     * @return true se a entrega foi atualizada
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public boolean updateEntrega(Entrega entrega) throws SQLException, ParseException {
         return (entregaDB.updateEntrega(entrega) ? (true) : (false));
     }
-
+    
+    /**
+     * Devolve a encomenda recebendo por parametro o id da encomenda
+     * @param id id da encomenda
+     * @return encomenda
+     */
     public Encomenda getEncomenda(int id) {
         return encomendaDB.getEncomenda(id);
     }
