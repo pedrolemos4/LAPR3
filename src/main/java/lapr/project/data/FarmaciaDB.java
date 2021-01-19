@@ -28,6 +28,8 @@ import lapr.project.utils.CalculosFisica;
  */
 public class FarmaciaDB extends DataHandler {
 
+    EnderecoDB end = new EnderecoDB();
+
     /**
      * Cria uma nova farmácia
      *
@@ -124,6 +126,7 @@ public class FarmaciaDB extends DataHandler {
 
     /**
      * Devolve a farmácia cujo nif é igual ao enviado por parâmetro
+     *
      * @param nif nif da farmácia
      * @return farmácia
      */
@@ -179,6 +182,7 @@ public class FarmaciaDB extends DataHandler {
 
     /**
      * Devolve a lista de farmácias que possuem o produto enviado por parâmetro
+     *
      * @param p produto
      * @return lista de farmácias
      */
@@ -204,24 +208,51 @@ public class FarmaciaDB extends DataHandler {
     }
 
     /**
-     * Gera um grafo com a lista de farmácias e a distância entre elas
+     * Devolve a farmacia pelo endereco
+     * @param morada
+     * @return 
+     */
+    private Farmacia getFarmaciaByEndereco(String morada) {
+
+        String query = "SELECT * FROM farmacia f WHERE f.morada = '" + morada + "'";
+
+        Farmacia f = new Farmacia();
+
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
+                while (rSet.next()) {
+                    int nif = rSet.getInt(1);
+                    String email = rSet.getString(2);
+                    String morada1 = rSet.getString(3);
+                    f = (new Farmacia(nif, email, morada1));
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return f;
+    }
+
+    /**
+     * Gera um grafo com a lista de enderecos das farmácias e a distância entre
+     * elas
+     *
      * @param farms lista de farmácias
      * @return grafo
      */
-    public Graph<Farmacia, Double> generateGrafo(List<Farmacia> farms) {
-        Graph<Farmacia, Double> graph = new Graph<>(false);
+    public Graph<Endereco, Double> generateGrafo(List<Farmacia> farms) {
+
+        Graph<Endereco, Double> graph = new Graph<>(true);
 
         for (Farmacia f : farms) {
-            graph.insertVertex(f);
+            graph.insertVertex(end.getEnderecoByNifFarmacia(f.getNIF()));
         }
 
-        for (Farmacia f : graph.vertices()) {
-            for (Farmacia f2 : farms) {
-                if (!f.equals(f2)) {
-                    EnderecoDB endDB = new EnderecoDB();
-                    Endereco en1 = endDB.getEnderecoByNifFarmacia(f.getNIF());
-                    Endereco en2 = endDB.getEnderecoByNifFarmacia(f2.getNIF());
-                    graph.insertEdge(f, f2, null, CalculosFisica.calculoDistancia(en1.getLatitude(), en1.getLongitude(), en1.getAltitude(),
+        for (Endereco en1 : graph.vertices()) {
+            for (Endereco en2 : graph.vertices()) {
+                if (!en1.equals(en2)) {
+                    //contruir as arestas com base na leitura do ficheiro
+                    graph.insertEdge(en1, en2, null, CalculosFisica.calculoDistancia(en1.getLatitude(), en1.getLongitude(), en1.getAltitude(),
                             en2.getLatitude(), en2.getLongitude(), en2.getAltitude()));
                 }
             }
@@ -231,24 +262,28 @@ public class FarmaciaDB extends DataHandler {
 //ALTERAR MÉTODO DE CIMA
 
     /**
-     * Devolve a farmácia mais próxima da recebida por parâmetro
+     * Devolve a farmácia mais próxima do endereco cliente recebido por parâmetro
+     *
      * @param graph grafo com a lista de farmácias
-     * @param nif nif da farmácia
+     * @param enderecoCliente
      * @return farmácia mais próxima
      */
-    public int getFarmaciaProxima(Graph<Farmacia, Double> graph, int nif) {
-        LinkedList<Farmacia> shortPath = new LinkedList<>();
+    public Farmacia getFarmaciaProxima(Graph<Endereco, Double> graph, Endereco enderecoCliente) {
+        LinkedList<Endereco> shortPath = new LinkedList<>();
         double min = 999999999;
         int nif1 = 0;
+        Farmacia farmaciaByEndereco = null;
 
-        for (Farmacia f1 : graph.vertices()) {
-            double valor = shortestPath(graph, getFarmaciaByNIF(nif), f1, shortPath);
+        graph.insertVertex(enderecoCliente);
+
+        for (Endereco f1 : graph.vertices()) {
+            double valor = shortestPath(graph, f1, enderecoCliente, shortPath);
             if (valor < min) {
                 min = valor;
-                nif1 = f1.getNIF();
+                farmaciaByEndereco = getFarmaciaByEndereco(f1.getMorada());
             }
         }
-        return nif1;
+        return farmaciaByEndereco;
     }
-//ALTERAR MÉTODO DE CIMA
+
 }
