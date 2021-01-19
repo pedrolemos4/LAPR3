@@ -64,7 +64,8 @@ public class PedirItemFarmaciaController {
     public Graph<Farmacia, Double> generateGrafo(List<Farmacia> farms) {
         return fdb.generateGrafo(farms);
     }
-    
+    //COPIAR MÉTODO ACIMA SO Q É LIST<ENDERECO>
+
     /**
      * Devolve o nif da farmacia mais proxima recebendo um grafo e o nif da farmacia
      * @param generateGrafo grafo
@@ -74,6 +75,7 @@ public class PedirItemFarmaciaController {
     public int getFarmaciaProxima(Graph<Farmacia, Double> generateGrafo, int nif) {
         return fdb.getFarmaciaProxima(generateGrafo,nif);
     }
+    //COPIAR MÉTODO ACIMA SO Q É UM GRAFO<ENDERECO, DOUBLE>
 
     /**
      * Verifica se a nota de entrega é enviada

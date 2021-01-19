@@ -228,6 +228,7 @@ public class FarmaciaDB extends DataHandler {
         }
         return graph;
     }
+//ALTERAR MÉTODO DE CIMA
 
     /**
      * Devolve a farmácia mais próxima da recebida por parâmetro
@@ -249,5 +250,5 @@ public class FarmaciaDB extends DataHandler {
         }
         return nif1;
     }
-
+//ALTERAR MÉTODO DE CIMA
 }

@@ -13,13 +13,10 @@ import java.util.*;
 import lapr.project.controller.EnviarNotaTransferenciaController;
 import lapr.project.controller.PedirItemFarmaciaController;
 import lapr.project.controller.RealizaEncomendaController;
+import lapr.project.controller.RegistarClienteController;
 import lapr.project.data.*;
 import lapr.project.login.UserSession;
-import lapr.project.model.Encomenda;
-import lapr.project.model.Farmacia;
-import lapr.project.model.Graph;
-import lapr.project.model.Produto;
-import lapr.project.model.Recibo;
+import lapr.project.model.*;
 import lapr.project.utils.Data;
 
 /**
@@ -34,11 +31,13 @@ public class RealizarEncomendaUI {
     RealizaEncomendaController controller;
     PedirItemFarmaciaController controller2;
     EnviarNotaTransferenciaController controller3;
+    RegistarClienteController controller4;
 
     public RealizarEncomendaUI() {
         controller = new RealizaEncomendaController(new ProdutosDB(), new EncomendaDB(), new ReciboDB(), new ClienteDB(), new EmailDB());
         controller2 = new PedirItemFarmaciaController(new FarmaciaDB(), new TransferenciaDB(), new EmailDB());
         controller3 = new EnviarNotaTransferenciaController(new EmailDB());
+        controller4 = new RegistarClienteController(new ClienteDB(), new UtilizadorDB(), new EnderecoDB(), new CartaoDB());
     }
 
     public void introduzEncomenda() throws SQLException, ParseException, ClassNotFoundException {
@@ -88,15 +87,28 @@ public class RealizarEncomendaUI {
             System.out.println("Introduza a quantidade que pretende comprar: ");
             int qntd = LER.nextInt();
             Produto prod = controller.getProdutoByID(id);
+
             if (controller.produtoEncomenda(nif, prod, qntd) == false) {
-                
-                qntd=qntd-stock.get(prod);
+                qntd = qntd - stock.get(prod);
+
+                EnderecoDB edb = new EnderecoDB();
                 List<Farmacia> farms = controller2.getListaFarmaciaByProduto(prod, qntd);
+                List<Cliente> clientes = controller4.getListaClientes();
+
+                List<Endereco> le = new ArrayList<>();
+                for (Farmacia f : farms) {
+                    le.add(edb.getEnderecoByNifFarmacia(f.getNIF()));
+                }
+                for (Cliente c : clientes) {
+                    le.add(edb.getEnderecoByNifCliente(c.getNIF()));
+                }
                 
                 while (qntd > 0) {
-                    
+                    //Graph<Endereco, Double> grafoEnd = controller2.generateGrafoEnd(le);
                     Graph<Farmacia, Double> generateGrafo = controller2.generateGrafo(farms);
 
+                    //int nifCliente = UserSession.getInstance().getUser().getNIF();
+                    //nif1 = controller2.getFarmaciaProximaCliente(grafoEnd, nifCliente);
                     nif1 = controller2.getFarmaciaProxima(generateGrafo, nif);
                     if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).get(prod)>=qntd) {
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
