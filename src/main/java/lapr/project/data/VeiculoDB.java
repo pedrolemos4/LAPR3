@@ -25,6 +25,19 @@ public class VeiculoDB extends DataHandler {
         //dummy constructor
     }
 
+    public boolean registaVeiculo(Veiculo ve) throws SQLException {
+        if (validaVeiculo(ve)) {
+            addVeiculo(ve);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean validaVeiculo(Veiculo ve) {
+        return !(ve.getCapacidade() < 0 || ve.getDescricao() == null || ve.getPercentagemBateria() < 0
+                || ve.getPesoMaximo() < 0 || ve.getPesoVeiculo() < 0 || ve.getPotencia() < 0);
+    }
+
     /**
      * Adiciona um veículo à base de dados
      *
@@ -38,13 +51,11 @@ public class VeiculoDB extends DataHandler {
         try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addVeiculo(?,?,?,?,?,?,?) }")) {
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
             callStmt.setString(2, veiculo.getDescricao());
-            //callStmt.setString(3, veiculo.getTipo());
             callStmt.setInt(3, veiculo.getCapacidade());
             callStmt.setDouble(4, veiculo.getPercentagemBateria());
             callStmt.setDouble(5, veiculo.getPesoMaximo());
             callStmt.setDouble(6, veiculo.getPesoVeiculo());
             callStmt.setDouble(7, veiculo.getPotencia());
-            //callStmt.setDouble(8, veiculo.getAreaFrontal());
             callStmt.setInt(8, veiculo.getEstadoVeiculo().getId());
             callStmt.execute();
 
@@ -60,6 +71,22 @@ public class VeiculoDB extends DataHandler {
             }
         }
         return id;
+    }
+
+    public Drone novoDrone(Veiculo ve, int id, double powerPro) {
+        return new Drone(ve, id, powerPro);
+    }
+
+    public boolean registaDrone(Drone drone) throws SQLException {
+        if (validaDrone(drone)) {
+            addDrone(drone);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean validaDrone(Drone drone) {
+        return !(drone.getPowerPro() < 0);
     }
 
     public void addDrone(Drone drone) throws SQLException {
@@ -78,6 +105,22 @@ public class VeiculoDB extends DataHandler {
         }
     }
 
+    public Scooter novaScooter(Veiculo ve, int id, double areaFrontal) {
+        return new Scooter(ve, id, areaFrontal);
+    }
+
+    public boolean registaScooter(Scooter scooter) throws SQLException{
+        if(validaScooter(scooter)){
+            addScooter(scooter);
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean validaScooter(Scooter scooter){
+        return !(scooter.getAreaFrontal()<0);
+    }
+    
     public void addScooter(Scooter scooter) throws SQLException {
         try ( CallableStatement callStmt = getConnection().prepareCall("{ call addScooter(?,?) }")) {
             callStmt.setInt(1, scooter.getId());
@@ -109,13 +152,11 @@ public class VeiculoDB extends DataHandler {
                 while (rSet.next()) {
                     int id = rSet.getInt(1);
                     String descricao = rSet.getString(2);
-                    //String tipo = rSet.getString(3);
                     int capacidade = rSet.getInt(3);
                     double percentagemBateria = rSet.getDouble(4);
                     double pesoMaximo = rSet.getDouble(5);
                     double pesoVeiculo = rSet.getDouble(6);
                     double potencia = rSet.getDouble(7);
-                    // double areaFrontal = rSet.getDouble(8);
                     int idEstado = rSet.getInt(8);
 
                     Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria,
@@ -146,13 +187,11 @@ public class VeiculoDB extends DataHandler {
                 if (rSet.next()) {
                     int id = rSet.getInt(1);
                     String descricao = rSet.getString(2);
-                    // String tipo = rSet.getString(3);
                     int capacidade = rSet.getInt(3);
                     double percentagemBateria = rSet.getDouble(4);
                     double pesoMaximo = rSet.getDouble(5);
                     double pesoVeiculo = rSet.getDouble(6);
                     double potencia = rSet.getDouble(7);
-                    //double areaFrontal = rSet.getDouble(8);
                     int idEstado = rSet.getInt(8);
 
                     Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria,
@@ -181,13 +220,11 @@ public class VeiculoDB extends DataHandler {
 
             callSmt.setInt(1, veiculo.getId());
             callSmt.setString(2, veiculo.getDescricao());
-            // callSmt.setString(3, veiculo.getTipo());
             callSmt.setInt(3, veiculo.getCapacidade());
             callSmt.setDouble(4, veiculo.getPercentagemBateria());
             callSmt.setDouble(5, veiculo.getPesoMaximo());
             callSmt.setDouble(6, veiculo.getPesoVeiculo());
             callSmt.setDouble(7, veiculo.getPotencia());
-            //callSmt.setDouble(8, veiculo.getAreaFrontal());
             callSmt.setInt(8, veiculo.getEstadoVeiculo().getId());
             callSmt.execute();
 

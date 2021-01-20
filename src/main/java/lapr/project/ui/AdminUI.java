@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 import lapr.project.controller.VeiculoController;
 import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
+import lapr.project.model.Drone;
+import lapr.project.model.Scooter;
 import lapr.project.model.Veiculo;
 
 /**
@@ -152,7 +154,8 @@ public class AdminUI {
                 VeiculoController sc = new VeiculoController(new VeiculoDB());
                 try {
                     Veiculo ve = sc.addVeiculo(descricao, capacidade, percentagemBateria, peso, pesoMaximo, potencia, idestado);
-                    sc.addDrone(ve,ve.getId(), powerPro);
+                    Drone dr =sc.novoDrone(ve, ve.getId(), powerPro);
+                    sc.registaDrone(dr);
                     System.out.println("\n\nVeículo adicionado com sucesso'");
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -184,7 +187,8 @@ public class AdminUI {
                 VeiculoController sc = new VeiculoController(new VeiculoDB());
                 try {
                     Veiculo ve = sc.addVeiculo(descricao, capacidade, percentagemBateria, peso, pesoMaximo, potencia, idestado);
-                    sc.addScooter(ve,ve.getId(),areaFrontal);
+                    Scooter sr =sc.novaScooter(ve, ve.getId(), powerPro);
+                    sc.registaScooter(sr);
                     System.out.println("\n\nVeículo adicionado com sucesso'");
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);

@@ -52,15 +52,20 @@ public class VeiculoController {
         return veiculo;
     }
 
-    public void addDrone(Veiculo ve, int id, double powerPro) throws SQLException {
-        Drone drone = new Drone(ve, id, powerPro);
-        veiculoDB.addDrone(drone);
+    public boolean registaDrone(Drone de) throws SQLException {
+        return (veiculoDB.registaDrone(de) ? (true) : (false));
     }
-    
-    
-    public void addScooter(Veiculo ve, int id, double areaFrontal) throws SQLException {
-        Scooter scooter = new Scooter(ve,id,areaFrontal);
-        veiculoDB.addScooter(scooter);
+
+    public Drone novoDrone(Veiculo ve, int id, double powerPro) {
+        return veiculoDB.novoDrone(ve, id, powerPro);
+    }
+
+    public boolean registaScooter(Scooter scooter) throws SQLException {
+        return (veiculoDB.registaScooter(scooter));
+    }
+
+    public Scooter novaScooter(Veiculo ve, int id, double powerPro) {
+        return veiculoDB.novaScooter(ve, id, powerPro);
     }
 
     /**

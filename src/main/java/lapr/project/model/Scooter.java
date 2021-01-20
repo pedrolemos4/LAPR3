@@ -16,6 +16,7 @@ public class Scooter extends Veiculo {
 
     /**
      * Construtor completo
+     *
      * @param descricao
      * @param capacidade
      * @param percentagemBateria
@@ -23,19 +24,24 @@ public class Scooter extends Veiculo {
      * @param pesoVeiculo
      * @param potencia
      * @param estado
-     * @param areaFrontal 
+     * @param areaFrontal
+     * @param id
      */
     public Scooter(String descricao, int capacidade, double percentagemBateria,
             double pesoMaximo, double pesoVeiculo, double potencia, int estado,
-            double areaFrontal) {
+            double areaFrontal, int id) {
+        super(descricao, capacidade, percentagemBateria, pesoMaximo, pesoVeiculo,
+                potencia, estado);
+        this.id = id;
         this.areaFrontal = areaFrontal;
     }
 
-    public Scooter(Veiculo ve,int id, double areaFrontal ){
+    public Scooter(Veiculo ve, int id, double areaFrontal) {
         super(ve);
-        this.id=id;
-        this.areaFrontal=areaFrontal;
+        this.id = id;
+        this.areaFrontal = areaFrontal;
     }
+
     /**
      * Devolve a área frontal do veiculo
      *

@@ -249,7 +249,7 @@ public class Veiculo {
      */
     @Override
     public String toString() {
-        return "Veiculo: \tid" + id 
+        return "Veiculo:" 
                 + "\nDescrição: \t" + descricao 
                 + "\nCapacidade: \t" + capacidade
                 + "\nPercentagem de Bateria= \t" + percentagemBateria 
