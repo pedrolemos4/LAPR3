@@ -154,13 +154,12 @@ public class Recibo {
      */
     @Override
     public String toString() {
-        String s = "";
-        s = s + "Recibo{" + "nif=" + nif + ", id=" + id + ", preco=" + preco + ", data=" + data + ", idEncomenda="
-                    + idEncomenda;
-        for (Produto p : map.keySet()) {
-            s = s + ", produto=" + map +"quantidade=" + map.get(p) + '}';
+        StringBuilder s = new StringBuilder();
+        s.append("Recibo{").append("nif=").append(nif).append(", id=").append(id).append(", preco=").append(preco).append(", data=").append(data).append(", idEncomenda=").append(idEncomenda);
+        for (Map.Entry<Produto, Integer> p : map.entrySet()) {
+            s.append(", produto=").append(map).append("quantidade=").append(map.get(p)).append('}');
         }
-        return s;
+        return s.toString();
     }
 
 }
