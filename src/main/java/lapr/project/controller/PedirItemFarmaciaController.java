@@ -1,5 +1,6 @@
 package lapr.project.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import lapr.project.data.EmailDB;
 import lapr.project.data.FarmaciaDB;
@@ -91,7 +92,7 @@ public class PedirItemFarmaciaController {
      * @return lista de farmacias
      */
     public List<Farmacia> getLstFarmacias() {
-        return fdb.getLstFarmacias();
+        return new ArrayList<>(fdb.getLstFarmacias());
     }
 
 }
