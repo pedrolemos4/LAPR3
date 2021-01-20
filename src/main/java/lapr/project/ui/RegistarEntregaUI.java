@@ -20,12 +20,14 @@ import lapr.project.data.FarmaciaDB;
 import lapr.project.data.UtilizadorDB;
 import lapr.project.data.VeiculoDB;
 import lapr.project.model.Cliente;
+import lapr.project.model.Drone;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Farmacia;
 import lapr.project.model.Graph;
+import lapr.project.model.Scooter;
 import lapr.project.model.Utilizador;
 import lapr.project.model.Veiculo;
 
@@ -37,6 +39,8 @@ public class RegistarEntregaUI {
     
     public static final Scanner LER = new Scanner(System.in);
     public final RegistarEntregaController controller;
+    private static final String DRONE = "drone";
+    private static final String SCOOTER = "scooter";
 
     public RegistarEntregaUI() {
         this.controller = new RegistarEntregaController(new UtilizadorDB(), new FarmaciaDB(), new EstafetaDB(),new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
@@ -108,8 +112,16 @@ public class RegistarEntregaUI {
                 controller.enviarNotaCliente(farmacia, u);
                 controller.updateEncomenda(e.getId(),3);
             }
+            Graph<Endereco,Double> graph = new Graph<>(true);
             
-            Graph<Endereco,Double> graph = controller.generateGraph(listEnderecos, est, veiculo, pesoTotal);
+            if((veiculo.getDescricao()).equalsIgnoreCase(SCOOTER)){
+                Scooter s = controller.getScooterById(veiculo.getId());
+                 graph = controller.generateGraph(listEnderecos, est, veiculo, s.getAreaFrontal(), pesoTotal);
+            } else if((veiculo.getDescricao()).equalsIgnoreCase(DRONE)){
+                Drone d = controller.getDroneById(veiculo.getId());
+                graph = controller.generateGraph(listEnderecos, est, veiculo, d.getPowerPro(), pesoTotal);
+            }
+            
             LinkedList<Endereco> finalShortPath = new LinkedList<>();
             
             double energiaTotalGasta = controller.getPath(graph, listEnderecos, finalShortPath, controller.getEnderecoOrigem(nifFarmacia), 0);
@@ -117,9 +129,10 @@ public class RegistarEntregaUI {
             String data = controller.getDuracaoPercurso(finalShortPath, veiculo);
             DateFormat format1 = new SimpleDateFormat("HH:mm:ss");
             Date date2 = format1.parse(data);
-            long soma = date.getTime() + date2.getTime();
+            Date newDate = new Date(date.getTime() + date2.getTime() + 3600*1000);
             
-            Entrega entrega = new Entrega(dataInicio, formatter.format(soma), idVeiculo, nifEstafeta);
+            
+            Entrega entrega = new Entrega(dataInicio, formatter.format(newDate), idVeiculo, nifEstafeta);
             
             controller.updateEntrega(entrega);
             

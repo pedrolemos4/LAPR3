@@ -101,7 +101,7 @@ public class VeiculoDB extends DataHandler {
      */
     public List<Veiculo> getListaVeiculo() {
         ArrayList<Veiculo> list = new ArrayList<>();
-        String query = "SELECT * FROM veiculo WHERE EstadoVeiculoid = 1 AND percentagemBateria = 100 AND tipo = 'scooter'";
+        String query = "SELECT * FROM veiculo WHERE EstadoVeiculoid = 1 AND percentagemBateria = 100";
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
@@ -109,13 +109,11 @@ public class VeiculoDB extends DataHandler {
                 while (rSet.next()) {
                     int id = rSet.getInt(1);
                     String descricao = rSet.getString(2);
-                    //String tipo = rSet.getString(3);
                     int capacidade = rSet.getInt(3);
                     double percentagemBateria = rSet.getDouble(4);
                     double pesoMaximo = rSet.getDouble(5);
                     double pesoVeiculo = rSet.getDouble(6);
                     double potencia = rSet.getDouble(7);
-                    // double areaFrontal = rSet.getDouble(8);
                     int idEstado = rSet.getInt(8);
 
                     Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria,
@@ -146,19 +144,74 @@ public class VeiculoDB extends DataHandler {
                 if (rSet.next()) {
                     int id = rSet.getInt(1);
                     String descricao = rSet.getString(2);
-                    // String tipo = rSet.getString(3);
                     int capacidade = rSet.getInt(3);
                     double percentagemBateria = rSet.getDouble(4);
                     double pesoMaximo = rSet.getDouble(5);
                     double pesoVeiculo = rSet.getDouble(6);
                     double potencia = rSet.getDouble(7);
-                    //double areaFrontal = rSet.getDouble(8);
                     int idEstado = rSet.getInt(8);
 
                     Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria,
                             pesoMaximo, pesoVeiculo, potencia, idEstado);
                     v.setId(id);
                     return v;
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return null;
+    }
+    
+    /**
+     * Devolve o scooter de acordo com o id recebido por parâmetro
+     *
+     * @param idVeiculo id do veículo
+     * @return veículo
+     */
+    public Scooter getScooterById(int idVeiculo) {
+        String query = "SELECT * FROM scooter s INNER JOIN veiculo v ON v.idveiculo = s.id WHERE v.idVeiculo = " + idVeiculo;
+
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
+
+                if (rSet.next()) {
+                    int id = rSet.getInt(1);
+                    double areaFrontal = rSet.getDouble(2);
+                                 
+                    Veiculo v = getVeiculoById(idVeiculo);
+                    Scooter s = new Scooter(v, id, areaFrontal);
+                    s.setId(id);
+                    return s;
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return null;
+    }
+    
+    
+    /**
+     * Devolve o drone de acordo com o id recebido por parâmetro
+     *
+     * @param idVeiculo id do veículo
+     * @return veículo
+     */
+    public Drone getDroneById(int idVeiculo) {
+        String query = "SELECT * FROM drone d INNER JOIN veiculo v ON v.idveiculo = d.id WHERE v.idVeiculo = " + idVeiculo;
+
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
+
+                if (rSet.next()) {
+                    int id = rSet.getInt(1);
+                    double powerPro = rSet.getDouble(2);
+                                 
+                    Veiculo v = getVeiculoById(idVeiculo);
+                    Drone d = new Drone(v, id, powerPro);
+                    d.setId(id);
+                    return d;
                 }
             }
         } catch (SQLException e) {
@@ -177,17 +230,15 @@ public class VeiculoDB extends DataHandler {
     public boolean updateVeiculo(Veiculo veiculo) throws SQLException {
         boolean removed = false;
 
-        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateVeiculo(?,?,?,?,?,?,?,?,?) }")) {
+        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateVeiculo(?,?,?,?,?,?,?,?) }")) {
 
             callSmt.setInt(1, veiculo.getId());
             callSmt.setString(2, veiculo.getDescricao());
-            // callSmt.setString(3, veiculo.getTipo());
             callSmt.setInt(3, veiculo.getCapacidade());
             callSmt.setDouble(4, veiculo.getPercentagemBateria());
             callSmt.setDouble(5, veiculo.getPesoMaximo());
             callSmt.setDouble(6, veiculo.getPesoVeiculo());
             callSmt.setDouble(7, veiculo.getPotencia());
-            //callSmt.setDouble(8, veiculo.getAreaFrontal());
             callSmt.setInt(8, veiculo.getEstadoVeiculo().getId());
             callSmt.execute();
 

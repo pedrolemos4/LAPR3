@@ -15,12 +15,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr.project.model.Caminho;
+import lapr.project.model.Drone;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Graph;
 import lapr.project.model.GraphAlgorithms;
+import lapr.project.model.Scooter;
 import lapr.project.model.Veiculo;
 import lapr.project.utils.CalculosFisica;
 import oracle.jdbc.OracleTypes;
@@ -34,6 +36,7 @@ public class EntregaDB extends DataHandler {
     private static final String DRONE = "drone";
     private static final String SCOOTER = "scooter";
     private final EncomendaDB encDB = new EncomendaDB();
+    private final VeiculoDB veiDB = new VeiculoDB();
 
     /**
      * Adiciona uma entrega à base de dados
@@ -62,9 +65,9 @@ public class EntregaDB extends DataHandler {
             id = callStmt.getInt(1);
             try {
 
-                callStmt.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
 
                 Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
@@ -90,8 +93,8 @@ public class EntregaDB extends DataHandler {
                 callSmt.execute();
                 flag = true;
             try {
-                callSmt.close();
-            } catch (SQLException | NullPointerException ex) {
+                closeAll();
+            } catch (NullPointerException ex) {
                 Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
         }
@@ -107,7 +110,7 @@ public class EntregaDB extends DataHandler {
      * @param pesoTotalEntrega peso total de entrega
      * @return grafo com os endereços e as ruas definidas
      */
-    public Graph<Endereco,Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
+    public Graph<Endereco,Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double atributo, double pesoTotalEntrega) {
         
         Graph<Endereco, Double> graph = new Graph<>(true);
         List<Caminho> listCaminhos = new CaminhoDB().getAllCaminhos();
@@ -119,25 +122,24 @@ public class EntregaDB extends DataHandler {
             graph.insertVertex(c.getEnd2());
         }
         
-//        for(Caminho caminho : listCaminhos){
-//            for(Endereco end : listEnderecos){
-//                if((veiculo.getTipo()).equalsIgnoreCase(SCOOTER)){
-//                    energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(),
-//                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), caminho.getRoadResistanceCoefficient(), caminho.getDirecaoVento(), caminho.getVelocidadeVento());
-//                    graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
-//                }
-//                if((veiculo.getTipo()).equalsIgnoreCase(DRONE)){
-//                    energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(),
-//                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), 1, caminho.getDirecaoVento(), caminho.getVelocidadeVento());
-//                    graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
-//                }
-//                if(end.getMorada().equals(caminho.getEnd2().getMorada())){
-//                    Encomenda enc1 = getEncomendaByMorada(caminho.getEnd2().getMorada());
-//                    pesoTotalEntrega = pesoTotalEntrega - encDB.getEncomenda(enc1.getId()).getPesoEncomenda();
-//                }
-//            }
-//        }
-        
+        for(Caminho caminho : listCaminhos){
+            for(Endereco end : listEnderecos){
+                if((veiculo.getDescricao()).equalsIgnoreCase(SCOOTER)){
+                    energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), atributo,
+                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), caminho.getRoadResistanceCoefficient(), caminho.getDirecaoVento(), caminho.getVelocidadeVento());
+                    graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
+                }
+                if((veiculo.getDescricao()).equalsIgnoreCase(DRONE)){
+                    energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), atributo, veiculo.getPotencia(),
+                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(),caminho.getDirecaoVento(), caminho.getVelocidadeVento());
+                    graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
+                }
+                if(end.getMorada().equals(caminho.getEnd2().getMorada())){
+                    Encomenda enc1 = getEncomendaByMorada(caminho.getEnd2().getMorada());
+                    pesoTotalEntrega = pesoTotalEntrega - encDB.getEncomenda(enc1.getId()).getPesoEncomenda();
+                }
+            }
+        }
         return graph;
     }
 
@@ -223,16 +225,16 @@ public class EntregaDB extends DataHandler {
         double tempo = 0;
         for (Endereco end : finalShortPath) {
             if (aux < i && finalShortPath.size() > 2) {
-//                if((veiculo.getTipo()).equalsIgnoreCase(SCOOTER)){
-//                    distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
-//                    Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
-//                    tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
-//                }
-//                if((veiculo.getTipo()).equalsIgnoreCase(DRONE)){
-//                    distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
-//                    Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
-//                    tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
-//                }
+                if((veiculo.getDescricao()).equalsIgnoreCase(SCOOTER)){
+                    distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
+                    Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
+                    tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
+                }
+                if((veiculo.getDescricao()).equalsIgnoreCase(DRONE)){
+                    distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
+                    Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
+                    tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
+                }
                 aux = aux + 1;
             }
         }
@@ -274,9 +276,9 @@ public class EntregaDB extends DataHandler {
             updated = true;
             try {
 
-                callSmt.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
                 Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
         }
