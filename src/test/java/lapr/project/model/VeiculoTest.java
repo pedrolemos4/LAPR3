@@ -232,7 +232,7 @@ public class VeiculoTest {
     public void testToString() {
         System.out.println("toString");
         Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
-        String expResult = "Veiculo: \tid" + 0
+        String expResult = "Veiculo:"
                 + "\nDescrição: \t" + "descricao"
                 + "\nCapacidade: \t" + 100
                 + "\nPercentagem de Bateria= \t" + 85.0
