@@ -23,7 +23,7 @@ import lapr.project.model.Veiculo;
  */
 public class AdminUI {
 
-    private static final int PERCENTAGEM= 100;
+    private static final int PERCENTAGEM = 100;
     /**
      * Scanner para leitura de teclado
      */
@@ -98,26 +98,13 @@ public class AdminUI {
      * Interface that allows the addition of a veiculo into the system
      */
     public void addVeiculo() throws ClassNotFoundException, SQLException, ParseException {
-
         System.out.println("Pretende adicionar uma scooter ou um drone?");
         String veiculo = LER.nextLine();
-        String tipo = null;
-        while (tipo == null) {
-            if (veiculo.equalsIgnoreCase("drone")) {
-                tipo = "drone";
-            } else if (veiculo.equalsIgnoreCase("scooter")) {
-                tipo = "scooter";
-            } else {
-                System.out.println("Insira um tipo de veículo válido. (Drone/Scooter)");
-                tipo = null;
-                veiculo = LER.nextLine();
-            }
-        }
         System.out.println("Insira uma descrição única do veículo:");
         String descricao = LER.nextLine();
         System.out.println("Insira a capacidade máxima da bateria:");
         int capacidade = LER.nextInt();
-        
+
         int percentagemBateria = PERCENTAGEM;
 
         System.out.println("\nO veículo vai estar disponível imediatamente após a sua criação? (S/N)");
@@ -142,35 +129,70 @@ public class AdminUI {
         System.out.println("Insira a potência do veículo:");
         double potencia = LER.nextDouble();
 
-        System.out.println("Insira a área frontal do veículo:");
-        double areaFrontal = LER.nextDouble();
+        double powerPro = 0.0;
+        double areaFrontal = 0.0;
+        if (veiculo.equalsIgnoreCase("drone")) {
+            System.out.println("Insira a power pro do veículo");
+            powerPro = LER.nextDouble();
+            System.out.println("Descrição:\t" + descricao
+                    + "\nEstado:\t" + estado
+                    + "\nCapacidade de Bateria:\t" + capacidade
+                    + "\nPercentagem de bateria:\t" + percentagemBateria
+                    + "\nPeso:\t" + peso
+                    + "\nPeso máximo:\t" + pesoMaximo
+                    + "\nPotencia:\t" + potencia
+                    + "\nPower pro:\t" + powerPro);
 
-        System.out.println("Tipo:\t" + tipo
-                + "\nDescrição:\t" + descricao
-                + "\nEstado:\t" + estado
-                + "\nCapacidade de Bateria:\t" + capacidade
-                + "\nPercentagem de bateria:\t" + percentagemBateria
-                + "\nPeso:\t" + peso
-                + "\nPeso máximo:\t" + pesoMaximo
-                + "\nPotencia:\t" + potencia
-                + "\nÁrea Frontal:\t" + areaFrontal);
+            System.out.println("\nConfirme a informação relativa ao veículo(S/N)");
+            LER.nextLine();
+            String confirmacao = LER.nextLine();
 
-        System.out.println("\nConfirme a informação relativa ao veículo(S/N)");
-        LER.nextLine();
-        String confirmacao = LER.nextLine();
+            if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
 
-        if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
-
-            VeiculoController sc = new VeiculoController(new VeiculoDB());
-            try {
-                sc.addVeiculo(descricao, tipo,capacidade, percentagemBateria, peso, pesoMaximo, potencia, areaFrontal, idestado);
-                System.out.println("\n\nVeículo adicionado com sucesso'");
-            } catch (SQLException ex) {
-                Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
+                VeiculoController sc = new VeiculoController(new VeiculoDB());
+                try {
+                    Veiculo ve = sc.addVeiculo(descricao, capacidade, percentagemBateria, peso, pesoMaximo, potencia, idestado);
+                    sc.addDrone(ve,ve.getId(), powerPro);
+                    System.out.println("\n\nVeículo adicionado com sucesso'");
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                menu();
+            } else {
+                menu();
             }
-            menu();
         } else {
-            menu();
+
+            System.out.println("Insira a área frontal do veículo:");
+            areaFrontal = LER.nextDouble();
+
+            System.out.println("Descrição:\t" + descricao
+                    + "\nEstado:\t" + estado
+                    + "\nCapacidade de Bateria:\t" + capacidade
+                    + "\nPercentagem de bateria:\t" + percentagemBateria
+                    + "\nPeso:\t" + peso
+                    + "\nPeso máximo:\t" + pesoMaximo
+                    + "\nPotencia:\t" + potencia
+                    + "\nÁrea Frontal:\t" + areaFrontal);
+
+            System.out.println("\nConfirme a informação relativa ao veículo(S/N)");
+            LER.nextLine();
+            String confirmacao = LER.nextLine();
+
+            if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
+
+                VeiculoController sc = new VeiculoController(new VeiculoDB());
+                try {
+                    Veiculo ve = sc.addVeiculo(descricao, capacidade, percentagemBateria, peso, pesoMaximo, potencia, idestado);
+                    sc.addScooter(ve,ve.getId(),areaFrontal);
+                    System.out.println("\n\nVeículo adicionado com sucesso'");
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                menu();
+            } else {
+                menu();
+            }
         }
     }
 
@@ -304,8 +326,8 @@ public class AdminUI {
         atStoUI.atualizarProduto();
         menu();
     }
-    
-    public void registarFarmacia() throws ClassNotFoundException, SQLException, ParseException{
+
+    public void registarFarmacia() throws ClassNotFoundException, SQLException, ParseException {
         RegistarFarmaciaUI regFarUI = new RegistarFarmaciaUI();
         regFarUI.registaFarmacia();
         menu();

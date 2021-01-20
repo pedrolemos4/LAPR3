@@ -5,6 +5,8 @@
  */
 package lapr.project.model;
 
+import java.util.Objects;
+
 /**
  *
  * @author pedro
@@ -13,13 +15,13 @@ public class Veiculo {
 
     private int id;
     private String descricao;
-    private String tipo;
+    //private String tipo;
     private int capacidade;
     private double percentagemBateria;
     private double pesoMaximo;
     private double pesoVeiculo;
     private double potencia;
-    private double areaFrontal;
+   // private double areaFrontal;
     private EstadoVeiculo estado;
 
     /**
@@ -37,17 +39,15 @@ public class Veiculo {
      * @param areaFrontal
      * @param estado 
      */
-    public Veiculo(int id, String descricao,String tipo,int capacidade, double percentagemBateria, 
-            double pesoMaximo, double pesoVeiculo, double potencia, double areaFrontal,int estado) {
+    public Veiculo(int id, String descricao,int capacidade, double percentagemBateria, 
+            double pesoMaximo, double pesoVeiculo, double potencia,int estado) {
         this.id = id;
         this.descricao = descricao;
-        this.tipo = tipo;
         this.capacidade= capacidade;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
         this.pesoVeiculo = pesoVeiculo;
         this.potencia = potencia;
-        this.areaFrontal=areaFrontal;
         this.estado = new EstadoVeiculo(estado);
     }
 
@@ -65,32 +65,39 @@ public class Veiculo {
      * @param areaFrontal
      * @param estado
      */
-    public Veiculo(String descricao, String tipo, int capacidade,double percentagemBateria, 
-            double pesoMaximo,double pesoVeiculo, double potencia,double areaFrontal, int estado) {
+    public Veiculo(String descricao,int capacidade,double percentagemBateria, 
+            double pesoMaximo,double pesoVeiculo, double potencia,int estado) {
         this.descricao = descricao;
-        this.tipo = tipo;
         this.capacidade = capacidade;
         this.percentagemBateria = percentagemBateria;
         this.pesoMaximo = pesoMaximo;
         this.pesoVeiculo = pesoVeiculo;
         this.potencia = potencia;
-        this.areaFrontal = areaFrontal;
         this.estado = new EstadoVeiculo(estado);
     }
 
+    public Veiculo(Veiculo outroVeiculo){
+        this.id = outroVeiculo.id;
+        this.descricao = outroVeiculo.descricao;
+        this.capacidade=outroVeiculo.capacidade;
+        this.percentagemBateria = outroVeiculo.percentagemBateria;
+        this.pesoMaximo = outroVeiculo.pesoMaximo;
+        this.pesoVeiculo = outroVeiculo.pesoVeiculo;
+        this.potencia = outroVeiculo.potencia;
+        this.estado = new EstadoVeiculo(outroVeiculo.estado);
+    }
+    
     /**
      * Constrói uma instância vazia do veículo
      */
     public Veiculo() {
         this.id = 0;
         this.descricao = null;
-        this.tipo = null;
         this.capacidade = 0;
         this.percentagemBateria = 0;
         this.pesoMaximo = 0;
         this.pesoVeiculo = 0;
         this.potencia = 0;
-        this.areaFrontal = 0;
         this.estado = new EstadoVeiculo(0);
     }
 
@@ -111,23 +118,6 @@ public class Veiculo {
     public String getDescricao() {
         return descricao;
     }
-    
-    /**
-     * Devolve o tipo do veículo
-     * @return 
-     */
-    public String getTipo(){
-        return tipo;
-    }
-    
-    /**
-     * Modifica o tipo do veiculo
-     * @param tipo o novo tipo do veiculo
-     */
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-    
     
     /**
      * Devolve a percentagem da bateria
@@ -165,14 +155,6 @@ public class Veiculo {
         return potencia;
     }
     
-    /**
-     * Devolve a área frontal do veiculo
-     * @return 
-     */
-    public double getAreaFrontal(){
-        return areaFrontal;
-    }
-
     /**
      * Devolve o estado do veiculo
      *
@@ -244,14 +226,6 @@ public class Veiculo {
     }
 
     /**
-     * Modifica a área frontal do veículo
-     * @param areaFrontal 
-     */
-    public void setAreaFrontal(double areaFrontal){
-        this.areaFrontal=areaFrontal;
-    }
-    
-    /**
      * Modifica o estado do veículo pelo estado recebido por parametro
      *
      * @param estado
@@ -268,7 +242,7 @@ public class Veiculo {
     public void setCapacidade(int capacidade){
         this.capacidade=capacidade;
     }
-
+    
     /**
      * Devolve a instância de Veículo no formato String
      * @return string com a instância de veículo
@@ -276,14 +250,12 @@ public class Veiculo {
     @Override
     public String toString() {
         return "Veiculo: \tid" + id 
-                + "\nTipo: \t" + tipo 
                 + "\nDescrição: \t" + descricao 
                 + "\nCapacidade: \t" + capacidade
                 + "\nPercentagem de Bateria= \t" + percentagemBateria 
                 + "\nPeso máximo= \t" + pesoMaximo 
                 + "\nPeso do Veiculo= \t"+ pesoVeiculo 
                 + "\nPotência= \t" + potencia 
-                + "\nÁrea frontal= \t" + areaFrontal 
                 +"\nEstado: \t" + estado.getDesignacao();
     }
     

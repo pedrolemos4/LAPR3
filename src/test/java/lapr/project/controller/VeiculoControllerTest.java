@@ -26,7 +26,7 @@ public class VeiculoControllerTest {
     void setUp() throws SQLException {
         veiculoDBMock = mock(VeiculoDB.class);
         instance = new VeiculoController(veiculoDBMock);
-        s = new Veiculo("","drone",100, 23, 45, 3, 435, 34, 1);
+        s = new Veiculo("",100, 23, 45, 3, 435, 1);
         when(veiculoDBMock.addVeiculo(s)).thenReturn(1);
         
     }
@@ -48,12 +48,12 @@ public class VeiculoControllerTest {
         double potencia = 0.0;
         double areaFrontal = 0.0;
         int estado = 0;
-        Veiculo s = new Veiculo(descricao,tipo,capacidade, percentagemBateria, 
-                pesoMaximo, pesoVeiculo, potencia, areaFrontal, estado);
+        Veiculo s = new Veiculo(descricao,capacidade, percentagemBateria, 
+                pesoMaximo, pesoVeiculo, potencia,  estado);
         when(veiculoDBMock.addVeiculo(s)).thenReturn(1);
-        instance.addVeiculo(s.getDescricao(),s.getTipo(),s.getCapacidade(), 
+        instance.addVeiculo(s.getDescricao(),s.getCapacidade(), 
                 s.getPercentagemBateria(), s.getPesoMaximo(), s.getPesoVeiculo(),
-                s.getPotencia(), s.getAreaFrontal(), s.getEstadoVeiculo().getId());
+                s.getPotencia(), s.getEstadoVeiculo().getId());
         s.setId(1);
         assertEquals(1, s.getId());
 
@@ -90,7 +90,7 @@ public class VeiculoControllerTest {
     @Test
     public void testGetListaVeiculo()  throws SQLException {
         System.out.println("getListaVeiculo");
-        Veiculo veiculo = new Veiculo("","scooter",100, 45, 56, 48, 486, 45, 1);
+        Veiculo veiculo = new Veiculo("",100, 45, 56, 48, 486,1);
         List<Veiculo> expResult = new ArrayList<>();
         expResult.add(veiculo);
         when(veiculoDBMock.getListaVeiculo()).thenReturn(expResult);
@@ -114,8 +114,8 @@ public class VeiculoControllerTest {
         double potencia = 0.0;
         double areaFrontal = 0.0;
         int estado = 0;
-        Veiculo e = new Veiculo(descricao,tipo,capacidade, percentagemBateria,
-                pesoMaximo, pesoVeiculo, potencia, areaFrontal, estado);
+        Veiculo e = new Veiculo(descricao,capacidade, percentagemBateria,
+                pesoMaximo, pesoVeiculo, potencia, estado);
         e.setId(id);
         when(veiculoDBMock.getVeiculoById(id)).thenReturn(e);
         assertEquals(e, instance.getVeiculoById(id));
@@ -130,7 +130,7 @@ public class VeiculoControllerTest {
     public void testRemoveVeiculo() throws SQLException {
         System.out.println("removeVeiculo");
         int idVeiculo = 1;
-        Veiculo veiculo = new Veiculo("","scooter",100, 45, 56, 48, 486, 45, 1);
+        Veiculo veiculo = new Veiculo("",100, 45, 56, 48, 486, 1);
         veiculo.setId(idVeiculo);
         when(veiculoDBMock.removeVeiculo(idVeiculo)).thenReturn(false);
         assertEquals(false, instance.removeVeiculo(idVeiculo));
@@ -145,7 +145,7 @@ public class VeiculoControllerTest {
     public void testRemoveVeiculo1() throws SQLException {
         System.out.println("removeVeiculo1");
         int idVeiculo = 1;
-        Veiculo veiculo = new Veiculo("","scooter",100, 45, 56, 48, 486, 45, 1);
+        Veiculo veiculo = new Veiculo("",100, 45, 56, 48, 486, 1);
         veiculo.setId(idVeiculo);
         when(veiculoDBMock.removeVeiculo(idVeiculo)).thenReturn(true);
         assertEquals(true, instance.removeVeiculo(idVeiculo));

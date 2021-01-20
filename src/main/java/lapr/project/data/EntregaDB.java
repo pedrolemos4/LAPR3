@@ -119,24 +119,24 @@ public class EntregaDB extends DataHandler {
             graph.insertVertex(c.getEnd2());
         }
         
-        for(Caminho caminho : listCaminhos){
-            for(Endereco end : listEnderecos){
-                if((veiculo.getTipo()).equalsIgnoreCase(SCOOTER)){
-                    energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(),
-                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), caminho.getRoadResistanceCoefficient(), caminho.getDirecaoVento(), caminho.getVelocidadeVento());
-                    graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
-                }
-                if((veiculo.getTipo()).equalsIgnoreCase(DRONE)){
-                    energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(),
-                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), 1, caminho.getDirecaoVento(), caminho.getVelocidadeVento());
-                    graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
-                }
-                if(end.getMorada().equals(caminho.getEnd2().getMorada())){
-                    Encomenda enc1 = getEncomendaByMorada(caminho.getEnd2().getMorada());
-                    pesoTotalEntrega = pesoTotalEntrega - encDB.getEncomenda(enc1.getId()).getPesoEncomenda();
-                }
-            }
-        }
+//        for(Caminho caminho : listCaminhos){
+//            for(Endereco end : listEnderecos){
+//                if((veiculo.getTipo()).equalsIgnoreCase(SCOOTER)){
+//                    energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(),
+//                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), caminho.getRoadResistanceCoefficient(), caminho.getDirecaoVento(), caminho.getVelocidadeVento());
+//                    graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
+//                }
+//                if((veiculo.getTipo()).equalsIgnoreCase(DRONE)){
+//                    energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(),
+//                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), 1, caminho.getDirecaoVento(), caminho.getVelocidadeVento());
+//                    graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
+//                }
+//                if(end.getMorada().equals(caminho.getEnd2().getMorada())){
+//                    Encomenda enc1 = getEncomendaByMorada(caminho.getEnd2().getMorada());
+//                    pesoTotalEntrega = pesoTotalEntrega - encDB.getEncomenda(enc1.getId()).getPesoEncomenda();
+//                }
+//            }
+//        }
         
         return graph;
     }
@@ -223,16 +223,16 @@ public class EntregaDB extends DataHandler {
         double tempo = 0;
         for (Endereco end : finalShortPath) {
             if (aux < i && finalShortPath.size() > 2) {
-                if((veiculo.getTipo()).equalsIgnoreCase(SCOOTER)){
-                    distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
-                    Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
-                    tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
-                }
-                if((veiculo.getTipo()).equalsIgnoreCase(DRONE)){
-                    distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
-                    Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
-                    tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
-                }
+//                if((veiculo.getTipo()).equalsIgnoreCase(SCOOTER)){
+//                    distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
+//                    Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
+//                    tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
+//                }
+//                if((veiculo.getTipo()).equalsIgnoreCase(DRONE)){
+//                    distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
+//                    Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
+//                    tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
+//                }
                 aux = aux + 1;
             }
         }

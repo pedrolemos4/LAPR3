@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lapr.project.model.Drone;
+import lapr.project.model.Scooter;
 
 /**
  *
@@ -25,6 +27,7 @@ public class VeiculoDB extends DataHandler {
 
     /**
      * Adiciona um veículo à base de dados
+     *
      * @param veiculo veículo a ser adicionado
      * @return id do veículo
      * @throws SQLException
@@ -32,17 +35,17 @@ public class VeiculoDB extends DataHandler {
     public int addVeiculo(Veiculo veiculo) throws SQLException {
         int id = 0;
 
-        try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addVeiculo(?,?,?,?,?,?,?,?,?) }")) {
+        try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addVeiculo(?,?,?,?,?,?,?) }")) {
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
             callStmt.setString(2, veiculo.getDescricao());
-            callStmt.setString(3, veiculo.getTipo());
-            callStmt.setInt(4, veiculo.getCapacidade());
-            callStmt.setDouble(5, veiculo.getPercentagemBateria());
-            callStmt.setDouble(6, veiculo.getPesoMaximo());
-            callStmt.setDouble(7, veiculo.getPesoVeiculo());
-            callStmt.setDouble(8, veiculo.getPotencia());
-            callStmt.setDouble(9, veiculo.getAreaFrontal());
-            callStmt.setInt(10, veiculo.getEstadoVeiculo().getId());
+            //callStmt.setString(3, veiculo.getTipo());
+            callStmt.setInt(3, veiculo.getCapacidade());
+            callStmt.setDouble(4, veiculo.getPercentagemBateria());
+            callStmt.setDouble(5, veiculo.getPesoMaximo());
+            callStmt.setDouble(6, veiculo.getPesoVeiculo());
+            callStmt.setDouble(7, veiculo.getPotencia());
+            //callStmt.setDouble(8, veiculo.getAreaFrontal());
+            callStmt.setInt(8, veiculo.getEstadoVeiculo().getId());
             callStmt.execute();
 
             id = callStmt.getInt(1);
@@ -57,6 +60,38 @@ public class VeiculoDB extends DataHandler {
             }
         }
         return id;
+    }
+
+    public void addDrone(Drone drone) throws SQLException {
+        try ( CallableStatement callStmt = getConnection().prepareCall("{ call addDrone(?,?) }")) {
+            callStmt.setInt(1, drone.getId());
+            callStmt.setDouble(2, drone.getPowerPro());
+            callStmt.execute();
+            try {
+
+                callStmt.close();
+
+            } catch (SQLException | NullPointerException ex) {
+
+                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            }
+        }
+    }
+
+    public void addScooter(Scooter scooter) throws SQLException {
+        try ( CallableStatement callStmt = getConnection().prepareCall("{ call addScooter(?,?) }")) {
+            callStmt.setInt(1, scooter.getId());
+            callStmt.setDouble(2, scooter.getAreaFrontal());
+            callStmt.execute();
+            try {
+
+                callStmt.close();
+
+            } catch (SQLException | NullPointerException ex) {
+
+                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            }
+        }
     }
 
     /**
@@ -74,17 +109,17 @@ public class VeiculoDB extends DataHandler {
                 while (rSet.next()) {
                     int id = rSet.getInt(1);
                     String descricao = rSet.getString(2);
-                    String tipo = rSet.getString(3);
-                    int capacidade = rSet.getInt(4);
-                    double percentagemBateria = rSet.getDouble(5);
-                    double pesoMaximo = rSet.getDouble(6);
-                    double pesoVeiculo = rSet.getDouble(7);
-                    double potencia = rSet.getDouble(8);
-                    double areaFrontal = rSet.getDouble(9);
-                    int idEstado = rSet.getInt(10);
-                    
-                    Veiculo v = new Veiculo(descricao, tipo,capacidade, percentagemBateria,
-                            pesoMaximo,pesoVeiculo, potencia, areaFrontal, idEstado);
+                    //String tipo = rSet.getString(3);
+                    int capacidade = rSet.getInt(3);
+                    double percentagemBateria = rSet.getDouble(4);
+                    double pesoMaximo = rSet.getDouble(5);
+                    double pesoVeiculo = rSet.getDouble(6);
+                    double potencia = rSet.getDouble(7);
+                    // double areaFrontal = rSet.getDouble(8);
+                    int idEstado = rSet.getInt(8);
+
+                    Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria,
+                            pesoMaximo, pesoVeiculo, potencia, idEstado);
                     v.setId(id);
                     list.add(v);
                 }
@@ -111,17 +146,17 @@ public class VeiculoDB extends DataHandler {
                 if (rSet.next()) {
                     int id = rSet.getInt(1);
                     String descricao = rSet.getString(2);
-                    String tipo = rSet.getString(3);
-                    int capacidade = rSet.getInt(4);
-                    double percentagemBateria = rSet.getDouble(5);
-                    double pesoMaximo = rSet.getDouble(6);
-                    double pesoVeiculo = rSet.getDouble(7);
-                    double potencia = rSet.getDouble(8);
-                    double areaFrontal = rSet.getDouble(9);
-                    int idEstado = rSet.getInt(10);
+                    // String tipo = rSet.getString(3);
+                    int capacidade = rSet.getInt(3);
+                    double percentagemBateria = rSet.getDouble(4);
+                    double pesoMaximo = rSet.getDouble(5);
+                    double pesoVeiculo = rSet.getDouble(6);
+                    double potencia = rSet.getDouble(7);
+                    //double areaFrontal = rSet.getDouble(8);
+                    int idEstado = rSet.getInt(8);
 
-                    Veiculo v = new Veiculo(descricao, tipo,capacidade, percentagemBateria,
-                            pesoMaximo, pesoVeiculo, potencia, areaFrontal, idEstado);
+                    Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria,
+                            pesoMaximo, pesoVeiculo, potencia, idEstado);
                     v.setId(id);
                     return v;
                 }
@@ -134,6 +169,7 @@ public class VeiculoDB extends DataHandler {
 
     /**
      * Atualiza a informação de um veículo na base de dados
+     *
      * @param veiculo veículo a ser alterado
      * @return true se o veículo foi alterado com sucesso, false se não
      * @throws SQLException
@@ -141,18 +177,18 @@ public class VeiculoDB extends DataHandler {
     public boolean updateVeiculo(Veiculo veiculo) throws SQLException {
         boolean removed = false;
 
-        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateVeiculo(?,?,?,?,?,?,?,?,?,?) }")) {
+        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateVeiculo(?,?,?,?,?,?,?,?,?) }")) {
 
             callSmt.setInt(1, veiculo.getId());
             callSmt.setString(2, veiculo.getDescricao());
-            callSmt.setString(3, veiculo.getTipo());
-            callSmt.setInt(4, veiculo.getCapacidade());
-            callSmt.setDouble(5, veiculo.getPercentagemBateria());
-            callSmt.setDouble(6, veiculo.getPesoMaximo());
-            callSmt.setDouble(7, veiculo.getPesoVeiculo());
-            callSmt.setDouble(8, veiculo.getPotencia());
-            callSmt.setDouble(9, veiculo.getAreaFrontal());
-            callSmt.setInt(10, veiculo.getEstadoVeiculo().getId());
+            // callSmt.setString(3, veiculo.getTipo());
+            callSmt.setInt(3, veiculo.getCapacidade());
+            callSmt.setDouble(4, veiculo.getPercentagemBateria());
+            callSmt.setDouble(5, veiculo.getPesoMaximo());
+            callSmt.setDouble(6, veiculo.getPesoVeiculo());
+            callSmt.setDouble(7, veiculo.getPotencia());
+            //callSmt.setDouble(8, veiculo.getAreaFrontal());
+            callSmt.setInt(8, veiculo.getEstadoVeiculo().getId());
             callSmt.execute();
 
             removed = true;
@@ -170,6 +206,7 @@ public class VeiculoDB extends DataHandler {
 
     /**
      * Remove o veículo da base de dados
+     *
      * @param id id do veículo a remover
      * @return true se o veículo foi removido com sucesso, false se não
      * @throws SQLException
@@ -203,6 +240,7 @@ public class VeiculoDB extends DataHandler {
 
     /**
      * Adiciona um veículo ao estacionamento
+     *
      * @param numLote id do estacionamento onde irá ficar o veículo
      * @param idVeiculo veículo a estacionar
      */
@@ -223,4 +261,5 @@ public class VeiculoDB extends DataHandler {
             e.printStackTrace();
         }
     }
+
 }

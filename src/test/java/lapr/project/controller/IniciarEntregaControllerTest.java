@@ -65,19 +65,19 @@ public class IniciarEntregaControllerTest {
 
     }
 
-    /**
-     * Test of getVeiculoById method, of class IniciarEntregaController.
-     */
-    @Test
-    public void testGetVeiculoById() {
-        System.out.println("getVeiculoById");
-        int idVeiculo = 1;
-        Veiculo expResult = new Veiculo(1, "descricao", "drone", 100,74, 15, 47, 47, 85, 86);
-        when(veiculoDB.getVeiculoById(idVeiculo)).thenReturn(expResult);
-        Veiculo result = instance.getVeiculoById(idVeiculo);
-        assertEquals(expResult, result);
-
-    }
+//    /**
+//     * Test of getVeiculoById method, of class IniciarEntregaController.
+//     */
+//    @Test
+//    public void testGetVeiculoById() {
+//        System.out.println("getVeiculoById");
+//        int idVeiculo = 1;
+//        Veiculo expResult = new Veiculo(1, "descricao", "drone", 100,74, 15, 47, 47, 85, 86);
+//        when(veiculoDB.getVeiculoById(idVeiculo)).thenReturn(expResult);
+//        Veiculo result = instance.getVeiculoById(idVeiculo);
+//        assertEquals(expResult, result);
+//
+//    }
 
     /**
      * Test of getEstafeta method, of class IniciarEntregaController.
@@ -126,28 +126,28 @@ public class IniciarEntregaControllerTest {
     /**
      * Test of generateGraph method, of class IniciarEntregaController.
      */
-    @Test
-    public void testGenerateGraph() {
-        System.out.println("generateGraph");
-        List<Endereco> listEnderecos = new LinkedList<>();
-        Endereco e1 = new Endereco("dfad", 23, 34, 1);
-        listEnderecos.add(e1);
-        Endereco e2 = new Endereco("hte", 3, 5, 2);
-        listEnderecos.add(e2);
-        Endereco e3 = new Endereco("rrs", 34, 111, 34);
-        listEnderecos.add(e3);
-        Estafeta est = new Estafeta(123456789, 1, 15);
-        Veiculo veiculo = new Veiculo(1, "fsss", "scooter", 34, 12, 34, 45, 75, 12, 54);
-        double pesoTotal = 24.0;
-        Graph<Endereco, Double> expResult = new Graph<>(true) ;
-        expResult.insertVertex(e1);
-        expResult.insertVertex(e2);
-        expResult.insertVertex(e3);
-        when(entregaDB.generateGraph(listEnderecos, est, veiculo, pesoTotal)).thenReturn(expResult);
-        Graph<Endereco, Double> result = instance.generateGraph(listEnderecos, est, veiculo, pesoTotal);
-
-        assertEquals(expResult, result);
-
-    }
+//    @Test
+//    public void testGenerateGraph() {
+//        System.out.println("generateGraph");
+//        List<Endereco> listEnderecos = new LinkedList<>();
+//        Endereco e1 = new Endereco("dfad", 23, 34, 1);
+//        listEnderecos.add(e1);
+//        Endereco e2 = new Endereco("hte", 3, 5, 2);
+//        listEnderecos.add(e2);
+//        Endereco e3 = new Endereco("rrs", 34, 111, 34);
+//        listEnderecos.add(e3);
+//        Estafeta est = new Estafeta(123456789, 1, 15);
+//        Veiculo veiculo = new Veiculo(1, "fsss", "scooter", 34, 12, 34, 45, 75, 12, 54);
+//        double pesoTotal = 24.0;
+//        Graph<Endereco, Double> expResult = new Graph<>(true) ;
+//        expResult.insertVertex(e1);
+//        expResult.insertVertex(e2);
+//        expResult.insertVertex(e3);
+//        when(entregaDB.generateGraph(listEnderecos, est, veiculo, pesoTotal)).thenReturn(expResult);
+//        Graph<Endereco, Double> result = instance.generateGraph(listEnderecos, est, veiculo, pesoTotal);
+//
+//        assertEquals(expResult, result);
+//
+//    }
 
 }
