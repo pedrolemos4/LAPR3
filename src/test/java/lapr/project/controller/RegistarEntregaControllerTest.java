@@ -16,12 +16,14 @@ import lapr.project.data.UtilizadorDB;
 import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Cliente;
+import lapr.project.model.Drone;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Farmacia;
 import lapr.project.model.Graph;
+import lapr.project.model.Scooter;
 import lapr.project.model.Utilizador;
 import lapr.project.model.Veiculo;
 import org.junit.After;
@@ -78,19 +80,19 @@ public class RegistarEntregaControllerTest {
     public void tearDown() throws Exception {
     }
 
-//    /**
-//     * Test of getListVeiculo method, of class RegistarEntregaController.
-//     * @throws java.sql.SQLException
-//     */
-//    @Test
-//    public void testGetListVeiculo() throws SQLException {
-//        System.out.println("getListVeiculo");
-//        List<Veiculo> expResult = new ArrayList<>();
-//        expResult.add(new Veiculo("sddd","drone",100, 45, 89, 7, 52, 78, 85));
-//        when(veiculoDB.getListaVeiculo()).thenReturn(expResult);
-//        assertEquals(expResult, instance.getListVeiculo());
-//
-//    }
+    /**
+     * Test of getListVeiculo method, of class RegistarEntregaController.
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testGetListVeiculo() throws SQLException {
+        System.out.println("getListVeiculo");
+        List<Veiculo> expResult = new ArrayList<>();
+        expResult.add(new Veiculo("drone",100, 45, 89, 7, 52, 85));
+        when(veiculoDB.getListaVeiculo()).thenReturn(expResult);
+        assertEquals(expResult, instance.getListVeiculo());
+
+    }
 
     /**
      * Test of getEstafeta method, of class RegistarEntregaController.
@@ -107,20 +109,20 @@ public class RegistarEntregaControllerTest {
 
     }
 
-//    /**
-//     * Test of getVeiculo method, of class RegistarEntregaController.
-//     * @throws java.sql.SQLException
-//     */
-//    @Test
-//    public void testGetVeiculo() throws SQLException {
-//        System.out.println("getVeiculo");
-//        int idVeiculo = 1;
-//        Veiculo expResult = new Veiculo(idVeiculo, "descricao","scooter",100, 12, 45, 48, 56, 48, 89);
-//        when(veiculoDB.getVeiculoById(idVeiculo)).thenReturn(expResult);
-//        Veiculo result = instance.getVeiculo(idVeiculo);
-//        assertEquals(expResult, result);
-//
-//    }
+    /**
+     * Test of getVeiculo method, of class RegistarEntregaController.
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testGetVeiculo() throws SQLException {
+        System.out.println("getVeiculo");
+        int idVeiculo = 1;
+        Veiculo expResult = new Veiculo(idVeiculo,"scooter",100, 12, 45, 48, 56, 89);
+        when(veiculoDB.getVeiculoById(idVeiculo)).thenReturn(expResult);
+        Veiculo result = instance.getVeiculo(idVeiculo);
+        assertEquals(expResult, result);
+
+    }
 
     /**
      * Test of getListaEncomenda method, of class RegistarEntregaController.
@@ -129,11 +131,11 @@ public class RegistarEntregaControllerTest {
     @Test
     public void testGetListaEncomenda() throws SQLException {
         System.out.println("getListaEncomenda");
+        int nifFarmacia = 123456789;
         List<Encomenda> expResult = new ArrayList<>();
-        expResult.add(new Encomenda(123456789, "12-02-2001", 56, 48, 47, 89));
-        
-        when(encomendaDB.getListaEncomenda()).thenReturn(expResult);
-        List<Encomenda> result = instance.getListaEncomenda();
+        expResult.add(new Encomenda(123456789, 12,"12-02-2001", 56, 48, 47, 89));
+        when(encomendaDB.getListaEncomenda(nifFarmacia)).thenReturn(expResult);
+        List<Encomenda> result = instance.getListaEncomenda(nifFarmacia);
         assertEquals(expResult, result);
 
     }
@@ -208,7 +210,7 @@ public class RegistarEntregaControllerTest {
     public void testAddEncomendaEntrega() throws Exception {
         System.out.println("addEncomendaEntrega");
         Entrega e = new Entrega("15/02/2001", "15/02/2001", 2, 34);
-        Encomenda enc = new Encomenda(123456789, "15/02/2001", 2, 3, 3, 2);
+        Encomenda enc = new Encomenda(123456789, 12,"15/02/2001", 2, 3, 3, 2);
         boolean expResult = false;
         when(entregaDB.addEncomendaEntrega(e, enc)).thenReturn(expResult);
         boolean result = instance.addEncomendaEntrega(e, enc);
@@ -224,7 +226,7 @@ public class RegistarEntregaControllerTest {
     public void testAddEncomendaEntrega1() throws Exception {
         System.out.println("addEncomendaEntrega1");
         Entrega e = new Entrega("15/02/2001", "15/02/2001", 2, 34);
-        Encomenda enc = new Encomenda(123456789, "15/02/2001", 2, 3, 3, 2);
+        Encomenda enc = new Encomenda(123456789, 12,"15/02/2001", 2, 3, 3, 2);
         boolean expResult = true;
         when(entregaDB.addEncomendaEntrega(e, enc)).thenReturn(expResult);
         boolean result = instance.addEncomendaEntrega(e, enc);
@@ -232,32 +234,32 @@ public class RegistarEntregaControllerTest {
 
     }
 
-//    /**
-//     * Test of generateGraph method, of class RegistarEntregaController.
-//     */
-//    @Test
-//    public void testGenerateGraph() {
-//        System.out.println("generateGraph");
-//        List<Endereco> listEnderecos = new LinkedList<>();
-//        Endereco e1 = new Endereco("dfad", 23, 34, 1);
-//        listEnderecos.add(e1);
-//        Endereco e2 = new Endereco("hte", 3, 5, 2);
-//        listEnderecos.add(e2);
-//        Endereco e3 = new Endereco("rrs", 34, 111, 34);
-//        listEnderecos.add(e3);
-//        Estafeta est = new Estafeta(123456789, 1, 15);
-//        Veiculo veiculo = new Veiculo(1, "fsss", "scooter", 34, 12, 34, 45, 75, 12, 54);
-//        double pesoTotal = 24.0;
-//        Graph<Endereco, Double> expResult = new Graph<>(true) ;
-//        expResult.insertVertex(e1);
-//        expResult.insertVertex(e2);
-//        expResult.insertVertex(e3);
-//        when(entregaDB.generateGraph(listEnderecos, est, veiculo, pesoTotal)).thenReturn(expResult);
-//        Graph<Endereco, Double> result = instance.generateGraph(listEnderecos, est, veiculo, pesoTotal);
-//
-//        assertEquals(expResult, result);
-//
-//    }
+    /**
+     * Test of generateGraph method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGenerateGraph() {
+        System.out.println("generateGraph");
+        List<Endereco> listEnderecos = new LinkedList<>();
+        Endereco e1 = new Endereco("dfad", 23, 34, 1);
+        listEnderecos.add(e1);
+        Endereco e2 = new Endereco("hte", 3, 5, 2);
+        listEnderecos.add(e2);
+        Endereco e3 = new Endereco("rrs", 34, 111, 34);
+        listEnderecos.add(e3);
+        Estafeta est = new Estafeta(123456789, 1, 15);
+        Veiculo veiculo = new Veiculo(1, "scooter", 34, 12, 34, 45, 75, 54);
+        double pesoTotal = 24.0;
+        Graph<Endereco, Double> expResult = new Graph<>(true) ;
+        expResult.insertVertex(e1);
+        expResult.insertVertex(e2);
+        expResult.insertVertex(e3);
+        when(entregaDB.generateGraph(listEnderecos, est, veiculo, 12, pesoTotal)).thenReturn(expResult);
+        Graph<Endereco, Double> result = instance.generateGraph(listEnderecos, est, veiculo, 12, pesoTotal);
+
+        assertEquals(expResult, result);
+
+    }
 
     /**
      * Test of getPath method, of class RegistarEntregaController.
@@ -326,27 +328,27 @@ public class RegistarEntregaControllerTest {
 
     }
 
-//    /**
-//     * Test of getDuracaoPercurso method, of class RegistarEntregaController.
-//     * @throws java.text.ParseException
-//     */
-//    @Test
-//    public void testGetDuracaoPercurso() throws ParseException {
-//        System.out.println("getDuracaoPercurso");        
-//        List<Endereco> finalShortPath = new LinkedList<>();
-//        Endereco e1 = new Endereco("dfad", 23, 34, 1);
-//        finalShortPath.add(e1);
-//        Endereco e2 = new Endereco("hte", 3, 5, 2);
-//        finalShortPath.add(e2);
-//        Endereco e3 = new Endereco("rrs", 34, 111, 34);
-//        finalShortPath.add(e3);
-//        Veiculo veiculo = new Veiculo(1, "fsss", "scooter", 34, 12, 34, 45, 75, 12, 54);
-//        String expResult = "17:06:00";
-//        when(entregaDB.getDuracaoPercurso(finalShortPath, veiculo)).thenReturn(expResult);
-//        String result = instance.getDuracaoPercurso(finalShortPath, veiculo);
-//        assertEquals(expResult, result);
-//
-//    }
+    /**
+     * Test of getDuracaoPercurso method, of class RegistarEntregaController.
+     * @throws java.text.ParseException
+     */
+    @Test
+    public void testGetDuracaoPercurso() throws ParseException {
+        System.out.println("getDuracaoPercurso");        
+        List<Endereco> finalShortPath = new LinkedList<>();
+        Endereco e1 = new Endereco("dfad", 23, 34, 1);
+        finalShortPath.add(e1);
+        Endereco e2 = new Endereco("hte", 3, 5, 2);
+        finalShortPath.add(e2);
+        Endereco e3 = new Endereco("rrs", 34, 111, 34);
+        finalShortPath.add(e3);
+        Veiculo veiculo = new Veiculo(1,"scooter", 34, 12, 34, 45, 75, 54);
+        String expResult = "17:06:00";
+        when(entregaDB.getDuracaoPercurso(finalShortPath, veiculo)).thenReturn(expResult);
+        String result = instance.getDuracaoPercurso(finalShortPath, veiculo);
+        assertEquals(expResult, result);
+
+    }
 
     /**
      * Test of updateEntrega method, of class RegistarEntregaController.
@@ -385,7 +387,7 @@ public class RegistarEntregaControllerTest {
     @Test
     public void testUpdateEncomenda1() throws Exception {
         System.out.println("updateEncomenda1");
-        Encomenda encomenda = new Encomenda(123456789, "12/01/2015", 51, 74, 85, 7);
+        Encomenda encomenda = new Encomenda(123456789, 12,"12/01/2015", 51, 74, 85, 7);
         boolean expResult = false;
         when(encomendaDB.updateEncomenda(encomenda.getId(),3)).thenReturn(expResult);
         boolean result = instance.updateEncomenda(encomenda.getId(),3);
@@ -400,7 +402,7 @@ public class RegistarEntregaControllerTest {
     @Test
     public void testUpdateEncomenda2() throws Exception {
         System.out.println("updateEncomenda2");
-        Encomenda encomenda = new Encomenda(123456789, "12/01/2015", 51, 74, 85, 7);
+        Encomenda encomenda = new Encomenda(123456789, 12,"12/01/2015", 51, 74, 85, 7);
         boolean expResult = true;
         when(encomendaDB.updateEncomenda(encomenda.getId(),3)).thenReturn(expResult);
         boolean result = instance.updateEncomenda(encomenda.getId(),3);
@@ -429,9 +431,38 @@ public class RegistarEntregaControllerTest {
     public void testGetEncomenda() {
         System.out.println("getEncomenda");
         int id = 1;
-        Encomenda expResult = new Encomenda(123456789, "12/01/2015", 51, 74, 85, 7);
+        Encomenda expResult = new Encomenda(123456789, 12,"12/01/2015", 51, 74, 85, 7);
         when(encomendaDB.getEncomenda(id)).thenReturn(expResult);
         Encomenda result = instance.getEncomenda(id);
+        assertEquals(expResult, result);
+
+    }
+    
+
+    /**
+     * Test of getScooterById method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetScooterById() {
+        System.out.println("getScooterById");
+        int idVeiculo = 1;
+        Scooter expResult = new Scooter("scooter", 12, 2, 43, 34, 5, 54, 45, 65);
+        when(veiculoDB.getScooterById(idVeiculo)).thenReturn(expResult);
+        Scooter result = instance.getScooterById(idVeiculo);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of getDroneById method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetDroneById() {
+        System.out.println("getDroneById");
+        int idVeiculo = 1;
+        Drone expResult = new Drone("drone", 15, 21, 32, 2, 12, 34, 4, 1);
+        when(veiculoDB.getDroneById(idVeiculo)).thenReturn(expResult);
+        Drone result = instance.getDroneById(idVeiculo);
         assertEquals(expResult, result);
 
     }

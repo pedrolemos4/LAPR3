@@ -13,6 +13,7 @@ public class CalculosFisica {
     public static final double AIR_DRAG_COEFFICIENT = 0.12;
     public static final double SPEED = 13.56; // m/s
     public static final double EARTHRADIUS = 6371; // km
+    public static final double LIFTTODRAG = 15; 
     
     /**
      * Devolve o calculo da energia gasta no percurso pela scooter
@@ -42,29 +43,29 @@ public class CalculosFisica {
     /**
      * Devolve o calculo da energia gasta no percurso
      * @param pesoVeiculo peso do drone
-     * @param areaFrontal a area frontal do drone
-     * @param pesoEncomenda o peso da encomenda
+     * @param powerPro powerPro do drone
+     * @param potencia potencia do drone
+     * @param pesoTotalEntrega o peso da encomenda
      * @param end1 o endereco de origem
      * @param end2 o endereco de destino
-     * @param roadResistanceCoefficient roadResistanceCoefficient do percurso
      * @param direcaoVento direcao do vento no percurso
      * @param velocidadeVento velocidade do vento no percurso
      * @return calculo da energia gasta no percurso
      */
-    public static double calculoEnergiaDrone(double pesoVeiculo, double areaFrontal,
-            double pesoEncomenda, Endereco end1, Endereco end2, double roadResistanceCoefficient, double direcaoVento, double velocidadeVento) {
-        double pesoTotal = pesoEncomenda + pesoVeiculo;
-        
-        double forcaTotalExercida = calculoForcaTotal(pesoTotal, areaFrontal,
-                end1.getLatitude(), end1.getLongitude(), 0,
-                end2.getLatitude(), end2.getLongitude(), 0, roadResistanceCoefficient, velocidadeVento, direcaoVento);
+    public static double calculoEnergiaDrone(double pesoVeiculo, double powerPro, double potencia,
+                        double pesoTotalEntrega, Endereco end1, Endereco end2,
+                        double direcaoVento, double velocidadeVento) {
+        double pesoTotal = pesoTotalEntrega + pesoVeiculo;
+        double a = (potencia / 1000) / (SPEED * 3.6);
+        double b = pesoTotal / (370 * powerPro * LIFTTODRAG);
+        double c = a + b;
         
         double distancia = calculoDistancia(end1.getLatitude(), end1.getLongitude(),
                 end1.getAltitude(), end2.getLatitude(), 0, 0);
         
-        double tempo = calculoTempo(distancia, velocidadeVento, direcaoVento);
-        
-        return forcaTotalExercida * calculoVelocidade(velocidadeVento, direcaoVento) * tempo;
+        double d = (distancia / 1000) / (1 - (calculoVelocidade(velocidadeVento * 3.6, direcaoVento)));
+
+        return d * c * 3600000;
     }
     
     public static double calculoTempo(double distancia, double velocidadeVento, double direcaoVento){
@@ -127,7 +128,7 @@ public class CalculosFisica {
      */
     public static double calculoRoadSlope(double pesoTotal, double end1Lat, double end1Lon, double end1Alt,
             double end2Lat, double end2Lon, double end2Alt) {
-        return pesoTotal * GRAVITATIONAL_ACCELERATION * calculoDistancia(end1Lat, end1Lon, end1Alt,
+        return pesoTotal * GRAVITATIONAL_ACCELERATION * calculoInclinacao(end1Lat, end1Lon, end1Alt,
                 end2Lat, end2Lon, end2Alt);
     }
     

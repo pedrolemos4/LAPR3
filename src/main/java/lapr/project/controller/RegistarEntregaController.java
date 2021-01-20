@@ -14,12 +14,14 @@ import lapr.project.data.UtilizadorDB;
 import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Cliente;
+import lapr.project.model.Drone;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Farmacia;
 import lapr.project.model.Graph;
+import lapr.project.model.Scooter;
 import lapr.project.model.Utilizador;
 import lapr.project.model.Veiculo;
 
@@ -116,11 +118,12 @@ public class RegistarEntregaController {
     }
     
     /**
-     * Devolve uma lista de encomendas
+     * Devolve uma lista de encomendas relativas a uma farmacia
+     * @param nifFarmacia nif da farmacia
      * @return lista de encomendas
      */
-    public List<Encomenda> getListaEncomenda() {
-        return encomendaDB.getListaEncomenda();
+    public List<Encomenda> getListaEncomenda(int nifFarmacia) {
+        return encomendaDB.getListaEncomenda(nifFarmacia);
     }
     
     /**
@@ -176,8 +179,8 @@ public class RegistarEntregaController {
      * @param pesoTotal peso total da entrega
      * @return 
      */
-    public Graph<Endereco, Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double pesoTotal) {
-        return entregaDB.generateGraph(listEnderecos, est, veiculo, pesoTotal);
+    public Graph<Endereco, Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double atributo, double pesoTotal) {
+        return entregaDB.generateGraph(listEnderecos, est, veiculo, atributo, pesoTotal);
     }
     
     /**
@@ -252,6 +255,24 @@ public class RegistarEntregaController {
      */
     public Encomenda getEncomenda(int id) {
         return encomendaDB.getEncomenda(id);
+    }
+    
+    /**
+     * Devolve o scooter recebendo por parametro o id do veiculo
+     * @param idVeiculo id do veiculo
+     * @return scooter
+     */
+    public Scooter getScooterById(int idVeiculo){
+        return veiculoDB.getScooterById(idVeiculo);
+    }
+    
+    /**
+     * Devolve o drone recebendo por parametro o id do veiculo
+     * @param idVeiculo id do veiculo
+     * @return drone
+     */
+    public Drone getDroneById(int idVeiculo){
+        return veiculoDB.getDroneById(idVeiculo);
     }
 
 }

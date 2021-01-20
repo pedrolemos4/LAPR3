@@ -149,19 +149,19 @@ public class ParqueDB extends DataHandler {
         return numMax;
     }
 
-    public Parque getParqueByID(int ID) {
-        String query = "SELECT * FROM parque p WHERE p.IdParque =" + ID;
+    public Parque getParqueByID(int id) {
+        String query = "SELECT * FROM parque p WHERE p.IdParque =" + id;
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
-                    ID = rSet.getInt(1);
-                    int FarmaciaNIF = rSet.getInt(2);
+                    id = rSet.getInt(1);
+                    int farmaciaNIF = rSet.getInt(2);
                     int numeroMaximo = rSet.getInt(3);
                     String tipo = rSet.getString(4);
                     int maxCap = rSet.getInt(5);
-                    return new Parque(ID, FarmaciaNIF, numeroMaximo, tipo, maxCap);
+                    return new Parque(id, farmaciaNIF, numeroMaximo, tipo, maxCap);
                 }
             }
         } catch (SQLException e) {

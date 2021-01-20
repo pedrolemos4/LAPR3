@@ -86,7 +86,7 @@ class RealizaEncomendaControllerTest {
     public void testRegistaEncomenda() throws Exception {
         System.out.println("registaEncomenda");
         int expResult = 1;
-        Encomenda enc = new Encomenda(1234, "02-01-2000", 10, 20, 10, 1);
+        Encomenda enc = new Encomenda(1234, 12, "02-01-2000", 10, 20, 10, 1);
         when(encDB.registaEncomenda(enc)).thenReturn(expResult);
         assertEquals(expResult, instance.registaEncomenda(enc));
     }
@@ -98,7 +98,7 @@ class RealizaEncomendaControllerTest {
     public void testRegistaEncomenda1() throws Exception {
         System.out.println("registaEncomenda1");
         int expResult = 1;
-        Encomenda enc = new Encomenda(1234, "02-01-2000", 10, 20, 10, 1);
+        Encomenda enc = new Encomenda(1234, 12,"02-01-2000", 10, 20, 10, 1);
         when(encDB.registaEncomenda(enc)).thenReturn(expResult);
         assertEquals(expResult, instance.registaEncomenda(enc));
     }
@@ -110,7 +110,7 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testRegistaEncomendaProduto() {
         System.out.println("registaEncomendaProduto");
-        Encomenda enc = new Encomenda(1234, "02-01-2000", 10, 20, 10, 1);
+        Encomenda enc = new Encomenda(1234, 12,"02-01-2000", 10, 20, 10, 1);
         Produto p = new Produto();
         int stock = 1;
         boolean expResult = true;
@@ -125,7 +125,7 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testRegistaEncomendaProduto1() {
         System.out.println("registaEncomendaProduto1");
-        Encomenda enc = new Encomenda(1234, "02-01-2000", 10, 20, 10, 1);
+        Encomenda enc = new Encomenda(1234, 12,"02-01-2000", 10, 20, 10, 1);
         Produto p = new Produto();
         boolean expResult = false;
         int stock = 1;

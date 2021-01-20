@@ -48,7 +48,8 @@ public class EncomendaDB extends DataHandler {
                     double taxa = rSet.getDouble(5);
                     int estado = rSet.getInt(6);
                     int nif = rSet.getInt(7);
-                    Encomenda e = new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado);
+                    int nifFarmacia = rSet.getInt(8);
+                    Encomenda e = new Encomenda(nif, nifFarmacia, dataPedida.toString(), preco, pesoEncomenda, taxa, estado);
                     e.setId(idEncomenda);
                     return e;
                 }
@@ -93,7 +94,7 @@ public class EncomendaDB extends DataHandler {
      * @throws java.sql.SQLException
      */
     public int addEncomenda(Encomenda enc) throws SQLException, ParseException {
-        return addEncomenda(enc.getNif(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado().getEstado());
+        return addEncomenda(enc.getNif(), enc.getNifFarmacia(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado().getEstado());
     }
 
     /**
@@ -105,23 +106,24 @@ public class EncomendaDB extends DataHandler {
      * @param taxa taxa da encomenda
      * @param estado estado da encomenda
      */
-    private int addEncomenda(int nif, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) throws SQLException, ParseException {
+    private int addEncomenda(int nif, int nifFarmacia, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) throws SQLException, ParseException {
         int id = 0;
         openConnection();
 
-        try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addEncomenda(?,?,?,?,?,?) }")) {
+        try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addEncomenda(?,?,?,?,?,?,?) }")) {
 
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             java.util.Date date = sdf1.parse(dataPedida);
             java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
-            callStmt.setTimestamp(2, sqlStartDate);
+            callStmt.setInt(2, nifFarmacia);
+            callStmt.setTimestamp(3, sqlStartDate);
 
-            callStmt.setDouble(3, preco);
-            callStmt.setDouble(4, pesoEncomenda);
-            callStmt.setDouble(5, taxa);
-            callStmt.setInt(6, estado);
-            callStmt.setInt(7, nif);
+            callStmt.setDouble(4, preco);
+            callStmt.setDouble(5, pesoEncomenda);
+            callStmt.setDouble(6, taxa);
+            callStmt.setInt(7, estado);
+            callStmt.setInt(8, nif);
             callStmt.execute();
             id = callStmt.getInt(1);
         }
@@ -180,12 +182,13 @@ public class EncomendaDB extends DataHandler {
     }
 
     /**
-     * Devolve a lista de encomendas
+     * Devolve a lista de encomendas realizadas numa determinada farmácia
      *
+     * @param nifFarmacia nif da farmacia
      * @return lista de encomenda
      */
-    public List<Encomenda> getListaEncomenda() {
-        String query = "SELECT * FROM encomenda WHERE EstadoEncomendaidEstadoEncomenda = 1";
+    public List<Encomenda> getListaEncomenda(int nifFarmacia) {
+        String query = "SELECT * FROM encomenda WHERE EstadoEncomendaidEstadoEncomenda = 1 AND nifFarmacia = " + nifFarmacia;
 
         return getFromDatabase(query);
     }
@@ -219,7 +222,8 @@ public class EncomendaDB extends DataHandler {
                     double taxa = rSet.getDouble(5);
                     int estado = rSet.getInt(6);
                     int nif = rSet.getInt(7);
-                    Encomenda e = new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado);
+                    int nifFarmacia = rSet.getInt(8);
+                    Encomenda e = new Encomenda(nif, nifFarmacia, dataPedida.toString(), preco, pesoEncomenda, taxa, estado);
                     e.setId(idEncomenda);
                     list.add(e);
                 }
@@ -292,9 +296,9 @@ public class EncomendaDB extends DataHandler {
             updated = true;
             try {
 
-                callSmt.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
                 Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
         }

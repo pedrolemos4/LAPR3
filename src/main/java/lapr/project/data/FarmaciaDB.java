@@ -28,6 +28,7 @@ import lapr.project.utils.CalculosFisica;
 public class FarmaciaDB extends DataHandler {
 
     EnderecoDB end = new EnderecoDB();
+    CaminhoDB cam = new CaminhoDB();
 
     /**
      * Cria uma nova farmácia
@@ -231,15 +232,15 @@ public class FarmaciaDB extends DataHandler {
     }
 
     /**
-     * Gera um grafo com a lista de enderecos das farmácias e a distância entre
-     * elas
+     * Gera um grafo com a lista de enderecos das farmácias, das ruas e das ruas
+     * dos clientes e a distância entre elas
      *
      * @return grafo
      */
     public Graph<Endereco, Double> generateGrafo() {
 
         Graph<Endereco, Double> graph = new Graph<>(true);
-        List<Caminho> listCaminhos = new CaminhoDB().getAllCaminhos();
+        List<Caminho> listCaminhos = new ArrayList<>(cam.getAllCaminhos());
 
         for(Caminho c : listCaminhos){
             graph.insertVertex(c.getEnd1());

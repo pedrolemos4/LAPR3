@@ -106,6 +106,7 @@ CREATE TABLE "LAPR3_G23".Encomenda
             taxa number(10,2) NOT NULL,
             EstadoEncomendaidEstadoEncomenda number(10) NOT NULL, 
             ClienteUtilizadorNIF number(10) NOT NULL, 
+            nifFarmacia number(10) NOT NULL,
             PRIMARY KEY (idEncomenda)
 );
 /
@@ -283,6 +284,7 @@ ALTER TABLE "LAPR3_G23".drone ADD CONSTRAINT FKdrone_Veiculo FOREIGN KEY (idDron
 ALTER TABLE "LAPR3_G23".scooter ADD CONSTRAINT FKscooter_Veiculo FOREIGN KEY (idScooter) REFERENCES "LAPR3_G23".veiculo (idVeiculo);
 ALTER TABLE "LAPR3_G23".Entrega ADD CONSTRAINT FKEntrega_Estafeta FOREIGN KEY (EstafetaUtilizadorNIF) REFERENCES "LAPR3_G23".Estafeta (UtilizadorNIF);
 ALTER TABLE "LAPR3_G23".Entrega ADD CONSTRAINT FKEntrega_veiculo FOREIGN KEY (veiculoid) REFERENCES "LAPR3_G23".veiculo (idveiculo);
+ALTER TABLE "LAPR3_G23".Encomenda ADD CONSTRAINT FKEncomenda_farmacia FOREIGN KEY (nifFarmacia) REFERENCES "LAPR3_G23".farmacia (NIF);
 ALTER TABLE "LAPR3_G23".Encomenda ADD CONSTRAINT FKEncomenda_EstadoEncomenda FOREIGN KEY (EstadoEncomendaidEstadoEncomenda) REFERENCES "LAPR3_G23".EstadoEncomenda (idEstadoEncomenda);
 ALTER TABLE "LAPR3_G23".Estafeta ADD CONSTRAINT FKEstafeta_EstadoEstafeta FOREIGN KEY (EstadoEstafetaid) REFERENCES "LAPR3_G23".EstadoEstafeta (id);
 ALTER TABLE "LAPR3_G23".StockFarmacia ADD CONSTRAINT FKStock_Farmacia FOREIGN KEY (FarmaciaNIF) REFERENCES "LAPR3_G23".Farmacia (NIF);
@@ -427,7 +429,7 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE FUNCTION addEncomenda(p_dataPedida "LAPR3_G23".encomenda.dataPedida%type,
+CREATE OR REPLACE FUNCTION addEncomenda(p_dataPedida "LAPR3_G23".encomenda.dataPedida%type, p_nifFarmacia "LAPR3_G23".encomenda.nifFarmacia%type,
 p_preco "LAPR3_G23".encomenda.preco%type, p_pesoEncomenda "LAPR3_G23".encomenda.pesoEncomenda%type,p_taxa "LAPR3_G23".encomenda.taxa%type, 
 p_EstadoEncomendaidEstadoEncomenda "LAPR3_G23".encomenda.estadoEncomendaIdEstadoEncomenda%type,
 p_ClienteUtilizadorNIF "LAPR3_G23".encomenda.clienteutilizadornif%type) 
@@ -435,11 +437,12 @@ RETURN INTEGER
 IS
 v_idEncomenda INTEGER;
 BEGIN
-  INSERT INTO "LAPR3_G23".encomenda(dataPedida,preco,pesoEncomenda,taxa,EstadoEncomendaidEstadoEncomenda,ClienteUtilizadorNIF)
-  VALUES(p_dataPedida ,p_preco,p_pesoEncomenda,p_taxa,p_EstadoEncomendaidEstadoEncomenda,p_ClienteUtilizadorNIF);
+  INSERT INTO "LAPR3_G23".encomenda(dataPedida, nifFarmacia,preco,pesoEncomenda,taxa,EstadoEncomendaidEstadoEncomenda,ClienteUtilizadorNIF)
+  VALUES(p_dataPedida, p_nifFarmacia,p_preco,p_pesoEncomenda,p_taxa,p_EstadoEncomendaidEstadoEncomenda,p_ClienteUtilizadorNIF);
   SELECT "LAPR3_G23".encomenda.idEncomenda INTO v_idEncomenda
   FROM "LAPR3_G23".encomenda
   WHERE "LAPR3_G23".encomenda.dataPedida = p_dataPedida
+  AND "LAPR3_G23".encomenda.nifFarmacia = p_nifFarmacia
   AND "LAPR3_G23".encomenda.preco = p_preco
   AND "LAPR3_G23".encomenda.pesoEncomenda = p_pesoEncomenda
   AND "LAPR3_G23".encomenda.taxa = p_taxa
@@ -508,29 +511,6 @@ BEGIN
 END;
 /
 ------------------------------------------------------------------------------------
-
-CREATE OR REPLACE PROCEDURE addEstadoveiculo(idEstadoveiculo "LAPR3_G23".estadoveiculo.idestadoveiculo%type, 
-designacao "LAPR3_G23".estadoveiculo.designacao%type) 
-AS
-BEGIN
-  INSERT INTO "LAPR3_G23".estadoveiculo VALUES(idEstadoveiculo,designacao);   
-END;
-/
-
-CREATE OR REPLACE PROCEDURE addEstadoEncomenda(idEstadoEncomenda "LAPR3_G23".estadoencomenda.idEstadoEncomenda%type,
-designacao "LAPR3_G23".estadoEncomenda.designacao%type) 
-AS
-BEGIN
-  INSERT INTO "LAPR3_G23".estadoencomenda VALUES(idEstadoEncomenda,designacao);   
-END;
-/
-
-CREATE OR REPLACE PROCEDURE addEstadoEstafeta(id "LAPR3_G23".estadoestafeta.id%type, designacao "LAPR3_G23".estadoestafeta.designacao%type) 
-AS
-BEGIN
-  INSERT INTO "LAPR3_G23".estadoestafeta VALUES(id,designacao);   
-END;
-/
 
 CREATE OR REPLACE PROCEDURE addStockFarmacia(FarmaciaNIF "LAPR3_G23".stockfarmacia.farmacianif%type, ProdutoidProduto "LAPR3_G23".stockfarmacia.produtoidproduto%type, 
 stock "LAPR3_G23".stockfarmacia.stock%type) 

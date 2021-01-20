@@ -63,9 +63,9 @@ public class VeiculoDB extends DataHandler {
 
             try {
 
-                callStmt.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
 
                 Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
@@ -96,9 +96,9 @@ public class VeiculoDB extends DataHandler {
             callStmt.execute();
             try {
 
-                callStmt.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
 
                 Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
@@ -128,9 +128,9 @@ public class VeiculoDB extends DataHandler {
             callStmt.execute();
             try {
 
-                callStmt.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
 
                 Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
@@ -144,7 +144,7 @@ public class VeiculoDB extends DataHandler {
      */
     public List<Veiculo> getListaVeiculo() {
         ArrayList<Veiculo> list = new ArrayList<>();
-        String query = "SELECT * FROM veiculo WHERE EstadoVeiculoid = 1 AND percentagemBateria = 100 AND tipo = 'scooter'";
+        String query = "SELECT * FROM veiculo WHERE EstadoVeiculoid = 1 AND percentagemBateria = 100";
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
@@ -205,6 +205,63 @@ public class VeiculoDB extends DataHandler {
         }
         return null;
     }
+    
+    /**
+     * Devolve o scooter de acordo com o id recebido por parâmetro
+     *
+     * @param idVeiculo id do veículo
+     * @return veículo
+     */
+    public Scooter getScooterById(int idVeiculo) {
+        String query = "SELECT * FROM scooter s INNER JOIN veiculo v ON v.idveiculo = s.id WHERE v.idVeiculo = " + idVeiculo;
+
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
+
+                if (rSet.next()) {
+                    int id = rSet.getInt(1);
+                    double areaFrontal = rSet.getDouble(2);
+                                 
+                    Veiculo v = getVeiculoById(idVeiculo);
+                    Scooter s = new Scooter(v, id, areaFrontal);
+                    s.setId(id);
+                    return s;
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return null;
+    }
+    
+    
+    /**
+     * Devolve o drone de acordo com o id recebido por parâmetro
+     *
+     * @param idVeiculo id do veículo
+     * @return veículo
+     */
+    public Drone getDroneById(int idVeiculo) {
+        String query = "SELECT * FROM drone d INNER JOIN veiculo v ON v.idveiculo = d.id WHERE v.idVeiculo = " + idVeiculo;
+
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
+
+                if (rSet.next()) {
+                    int id = rSet.getInt(1);
+                    double powerPro = rSet.getDouble(2);
+                                 
+                    Veiculo v = getVeiculoById(idVeiculo);
+                    Drone d = new Drone(v, id, powerPro);
+                    d.setId(id);
+                    return d;
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return null;
+    }
 
     /**
      * Atualiza a informação de um veículo na base de dados
@@ -216,7 +273,7 @@ public class VeiculoDB extends DataHandler {
     public boolean updateVeiculo(Veiculo veiculo) throws SQLException {
         boolean removed = false;
 
-        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateVeiculo(?,?,?,?,?,?,?,?,?) }")) {
+        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateVeiculo(?,?,?,?,?,?,?,?) }")) {
 
             callSmt.setInt(1, veiculo.getId());
             callSmt.setString(2, veiculo.getDescricao());
@@ -231,9 +288,9 @@ public class VeiculoDB extends DataHandler {
             removed = true;
             try {
 
-                callSmt.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
                 Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
         }
@@ -261,9 +318,9 @@ public class VeiculoDB extends DataHandler {
 
             try {
 
-                callV.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
                 Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
 
             }

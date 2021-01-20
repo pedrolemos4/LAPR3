@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr.project.model;
 
-import java.util.Objects;
 
 /**
  *
@@ -15,13 +9,11 @@ public class Veiculo {
 
     private int id;
     private String descricao;
-    //private String tipo;
     private int capacidade;
     private double percentagemBateria;
     private double pesoMaximo;
     private double pesoVeiculo;
     private double potencia;
-   // private double areaFrontal;
     private EstadoVeiculo estado;
 
     /**
@@ -30,13 +22,11 @@ public class Veiculo {
      * 
      * @param id
      * @param descricao
-     * @param tipo
      * @param capacidade
      * @param percentagemBateria
      * @param pesoMaximo
      * @param pesoVeiculo
      * @param potencia
-     * @param areaFrontal
      * @param estado 
      */
     public Veiculo(int id, String descricao,int capacidade, double percentagemBateria, 

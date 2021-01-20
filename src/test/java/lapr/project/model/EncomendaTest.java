@@ -14,7 +14,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
 
         assertEquals(instance,instance);
     }
@@ -26,7 +26,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         String expResult = "01-01-2000";
         String result = instance.getDataPedida();
         assertEquals(expResult, result);
@@ -39,7 +39,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10,1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10,1);
         double expResult = 10;
         double result = instance.getPreco();
         assertEquals(expResult, result);
@@ -53,7 +53,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         instance.setPreco(11);
         assertEquals(preco, instance.getPreco());
     }
@@ -65,7 +65,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         double expResult = 10;
         double result = instance.getPesoEncomenda();
         assertEquals(expResult, result);
@@ -79,7 +79,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         instance.setPesoEncomenda(11);
         assertEquals(peso, instance.getPesoEncomenda());
     }
@@ -91,7 +91,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda( c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda( c.getNIF(),12,"01-01-2000",10,10,10, 1);
         double expResult = 10;
         double result = instance.getTaxa();
         assertEquals(expResult, result);
@@ -104,7 +104,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda( c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda( c.getNIF(),12,"01-01-2000",10,10,10, 1);
         double expResult = 10;
         double result = instance.getTaxa();
         assertEquals(expResult, result);
@@ -117,7 +117,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         EstadoEncomenda e = new EstadoEncomenda(1);
         int expResult = 1;
         int result = instance.getEstado().getEstado();
@@ -135,7 +135,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente(123,"Teste","@",1234,12,"Ali",123,"pass");
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         int expResult = c.getNIF();
         int result = instance.getNif();
         assertEquals(expResult, result);
@@ -150,7 +150,7 @@ class EncomendaTest {
         List<Produto> lp = new ArrayList<>();
         Produto p = new Produto(123, "321", 12.2, 14.3);
         lp.add(p);
-        Encomenda instance = new Encomenda(123,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(123,12,"01-01-2000",10,10,10, 1);
         instance.setLst(lp);
         List<Produto> expResult = new ArrayList<>();
         expResult.add(p);
@@ -168,7 +168,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         String expResult = "01-01-2000";
         String result = instance.getDataPedida();
         assertEquals(expResult, result);
@@ -184,7 +184,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         double expResult = 10.0;
         double result = instance.getPreco();
         assertEquals(expResult, result, 0.0);
@@ -201,7 +201,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10,1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10,1);
         instance.setPreco(preco);
     }
 
@@ -215,7 +215,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         double expResult = 10.0;
         double result = instance.getPesoEncomenda();
         assertEquals(expResult, result, 0.0);
@@ -231,7 +231,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         instance.setLst(lp);
     }
 
@@ -246,7 +246,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         instance.setPesoEncomenda(pesoEncomenda);
     }
 
@@ -260,7 +260,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         double expResult = 10.0;
         double result = instance.getTaxa();
         assertEquals(expResult, result, 0.0);
@@ -277,7 +277,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         instance.setTaxa(taxa);
     }
 
@@ -289,7 +289,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
         instance.setNif(nif);
     }
 
@@ -299,7 +299,7 @@ class EncomendaTest {
     @Test
     public void testGetId() {
         System.out.println("getId");
-        Encomenda instance = new Encomenda(123456789,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
         int expResult = 1;
         instance.setId(expResult);
         int result = instance.getId();
@@ -314,7 +314,7 @@ class EncomendaTest {
     public void testSetId() {
         System.out.println("setId");
         int id = 2;
-        Encomenda instance = new Encomenda(123456789,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
         instance.setId(id);
         assertEquals(id, instance.getId());
     }
@@ -325,7 +325,7 @@ class EncomendaTest {
     @Test
     public void testGetEstado() {
         System.out.println("getEstado");
-        Encomenda instance = new Encomenda(123456789,"01-01-2000",10,10,10, 1);;
+        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);;
         int expResult = 1;
         int result = instance.getEstado().getEstado();
         assertEquals(expResult, result);
@@ -338,9 +338,31 @@ class EncomendaTest {
     public void testSetEstado() {
         System.out.println("setEstado");
         int estado = 0;
-        Encomenda instance = new Encomenda(123456789,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
         EstadoEncomenda e = new EstadoEncomenda(estado,"");
         instance.setEstado(e);
+    }
+
+    /**
+     * Test of getNifFarmacia method, of class Encomenda.
+     */
+    @Test
+    public void testGetNifFarmacia() {
+        System.out.println("getNifFarmacia");
+        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
+        int expResult = 12;
+        assertEquals(expResult, instance.getNifFarmacia());
+    }
+
+    /**
+     * Test of setNifFarmacia method, of class Encomenda.
+     */
+    @Test
+    public void testSetNifFarmacia() {
+        System.out.println("setNifFarmacia");
+        int nifFarmacia = 0;
+        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
+        instance.setNifFarmacia(nifFarmacia);
     }
 
 }

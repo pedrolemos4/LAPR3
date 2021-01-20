@@ -142,7 +142,6 @@ public class RealizaEncomendaController {
      * @return true se o produto da encomenda for valido
      */
     public boolean verificaProdutoEncomenda(int nif, Produto prod, int qntd) {
-        Map<Produto, Integer> map = getListStock(nif);
         return ((getListStock(nif).containsKey(prod) && getListStock(nif).get(prod)>=qntd) ? (true) : (false));
     }
     

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr.project.ui;
 
 import java.sql.SQLException;
@@ -13,7 +8,6 @@ import java.util.*;
 import lapr.project.controller.EnviarNotaTransferenciaController;
 import lapr.project.controller.PedirItemFarmaciaController;
 import lapr.project.controller.RealizaEncomendaController;
-import lapr.project.controller.RegistarClienteController;
 import lapr.project.data.*;
 import lapr.project.login.UserSession;
 import lapr.project.model.*;
@@ -31,7 +25,6 @@ public class RealizarEncomendaUI {
     RealizaEncomendaController controller;
     PedirItemFarmaciaController controller2;
     EnviarNotaTransferenciaController controller3;
-    RegistarClienteController controller4;
 
     public RealizarEncomendaUI() {
         controller = new RealizaEncomendaController(new ProdutosDB(), new EncomendaDB(), new ReciboDB(), new ClienteDB(), new EmailDB(), new EnderecoDB());
@@ -77,7 +70,7 @@ public class RealizarEncomendaUI {
             int qntd = LER.nextInt();
             Produto prod = controller.getProdutoByID(id);
 
-            if (controller.produtoEncomenda(nif, prod, qntd) == false) {
+            if (!controller.produtoEncomenda(nif, prod, qntd)) {
                 qntd = qntd - stock.get(prod);
 
                 Farmacia farm1 = controller2.getFarmaciaProxima(generateGrafo, controller.getEnderecoOrigem(nif));
@@ -149,7 +142,7 @@ public class RealizarEncomendaUI {
             System.out.println("Peso: " + controller.getPeso());
             System.out.println("Preço: " + controller.getPreco());
             
-            Encomenda enc = new Encomenda(controller.getCliente().getClienteNIF(), dataInicio,
+            Encomenda enc = new Encomenda(controller.getCliente().getClienteNIF(), nif, dataInicio,
                     controller.getPreco(), controller.getPeso(), 0.6, 1);
 
             Map<Produto, Integer> mapaEncomenda = controller.getMapaEncomenda();

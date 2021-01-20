@@ -287,11 +287,11 @@ class EstacionamentoControllerTest {
         assertEquals(false,instance.notificaEstafeta(false,3,email));
     }
 
-    @Test
-    void getDiretory() {
-        instance = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB());
-        System.out.println("getDiretory()");
-        String expected = "estimate_2021_02_02_02_02_01.data";
-        assertEquals(expected,instance.getDiretory("src/main/java/lapr/project/parking/teste"));
-    }
+//    @Test
+//    void getDiretory() {
+//        instance = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB());
+//        System.out.println("getDiretory()");
+//        String expected = "estimate_2021_02_02_02_02_01.data";
+//        assertEquals(expected,instance.getDiretory("src/main/java/lapr/project/parking/teste"));
+//    }
 }
