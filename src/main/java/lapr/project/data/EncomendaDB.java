@@ -292,9 +292,9 @@ public class EncomendaDB extends DataHandler {
             updated = true;
             try {
 
-                callSmt.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
                 Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
         }

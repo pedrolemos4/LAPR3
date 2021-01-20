@@ -76,8 +76,7 @@ public class CaminhoDB extends DataHandler{
                     Endereco end1 = new EnderecoDB().getEnderecoByMorada(morada3);
                     Endereco end2 = new EnderecoDB().getEnderecoByMorada(morada4);
                     
-                    Caminho e = new Caminho(end1, end2, roadResistanceCoefficient, velocidadeVento, direcaoVento);
-                    return e;
+                    return new Caminho(end1, end2, roadResistanceCoefficient, velocidadeVento, direcaoVento);
                 }
             }
         } catch (SQLException e) {
