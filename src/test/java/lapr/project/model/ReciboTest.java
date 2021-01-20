@@ -204,4 +204,16 @@ class ReciboTest {
         String result = instance2.toString();
         assertEquals(expResult, result);
     }
+
+    /**
+     * Test of toString method, of class Recibo.
+     */
+    @Test
+    public void testToString1() {
+        System.out.println("toString1");
+        String expResult = "Recibo{nif=12, id=0, preco=20.0, data=01/01/2001, idEncomenda=1";
+        Recibo instance = new Recibo(12,20.0,"01/01/2001",1);
+        String result = instance.toString();
+        assertEquals(expResult, result);
+    }
 }
