@@ -2,6 +2,8 @@ drop table "LAPR3_G23".farmacia CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".cliente CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".administrador CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".veiculo CASCADE CONSTRAINTS PURGE;
+drop table "LAPR3_G23".drone CASCADE CONSTRAINTS PURGE;
+drop table "LAPR3_G23".scooter CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".estafeta CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".produto CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".encomenda CASCADE CONSTRAINTS PURGE;
@@ -33,7 +35,7 @@ CREATE TABLE "LAPR3_G23".Farmacia
             Morada varchar(255) NOT NULL,
             PRIMARY KEY (NIF)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".Cliente 
 (           UtilizadorNIF number(10) NOT NULL, 
@@ -48,7 +50,7 @@ CREATE TABLE "LAPR3_G23".Administrador
 (           UtilizadorNIF number(10) NOT NULL,
             PRIMARY KEY (UtilizadorNIF)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".veiculo 
 (           idveiculo number(10) GENERATED AS IDENTITY, 
@@ -63,7 +65,21 @@ CREATE TABLE "LAPR3_G23".veiculo
             Estadoveiculoid number(10) NOT NULL, 
             PRIMARY KEY (idveiculo)
 );
+/
 
+CREATE TABLE "LAPR3_G23".drone
+(           idDrone number(10),
+            powerPro number(5,2),
+            PRIMARY KEY (idDrone)
+);
+/
+
+CREATE TABLE "LAPR3_G23".scooter
+(           idVeiculo number(10),
+            areaFrontal number(5,2),
+            PRIMARY KEY (idVeiculo)
+);
+/
 
 CREATE TABLE "LAPR3_G23".Estafeta 
 (           UtilizadorNIF number(10) NOT NULL,
@@ -71,7 +87,7 @@ CREATE TABLE "LAPR3_G23".Estafeta
             pesoEstafeta number(10) NOT NULL, 
             PRIMARY KEY (UtilizadorNIF)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".Produto 
 (           idProduto number(10) GENERATED AS IDENTITY, 
@@ -80,7 +96,7 @@ CREATE TABLE "LAPR3_G23".Produto
             precoBase number(10,2) NOT NULL, 
             PRIMARY KEY (idProduto)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".Encomenda 
 (           idEncomenda number(10) GENERATED AS IDENTITY, 
@@ -92,7 +108,7 @@ CREATE TABLE "LAPR3_G23".Encomenda
             ClienteUtilizadorNIF number(10) NOT NULL, 
             PRIMARY KEY (idEncomenda)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".Entrega 
 (           idEntrega number(10) GENERATED AS IDENTITY, 
@@ -102,6 +118,7 @@ CREATE TABLE "LAPR3_G23".Entrega
             dataFim timestamp NOT NULL, 
             PRIMARY KEY (idEntrega)
 );
+/
 
 CREATE TABLE "LAPR3_G23".Parque 
 (           idParque number(10) GENERATED AS IDENTITY, 
@@ -120,7 +137,7 @@ CREATE TABLE "LAPR3_G23".Endereco
             altitude number(10) NOT NULL, 
             PRIMARY KEY (morada)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".Utilizador 
 (           NIF number(10), 
@@ -130,28 +147,28 @@ CREATE TABLE "LAPR3_G23".Utilizador
             password varchar(255) NOT NULL, 
             PRIMARY KEY (NIF)
  );
-
+/
 
 CREATE TABLE "LAPR3_G23".Estadoveiculo 
 (           idEstadoveiculo number(10), 
             designacao varchar(255), 
             PRIMARY KEY (idEstadoveiculo)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".EstadoEncomenda 
 (           idEstadoEncomenda number(10), 
             designacao varchar(255) NOT NULL, 
             PRIMARY KEY (idEstadoEncomenda)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".EstadoEstafeta 
 (           id number(10) , 
             designacao varchar(255), 
             PRIMARY KEY (id)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".StockFarmacia 
 (           FarmaciaNIF number(10) NOT NULL, 
@@ -167,7 +184,7 @@ CREATE TABLE "LAPR3_G23".EncomendaProduto
             stock number(10) NOT NULL, 
             PRIMARY KEY (EncomendaidEncomenda, ProdutoidProduto)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".Estacionamento 
 (           numeroLote number(10) NOT NULL, 
@@ -175,7 +192,7 @@ CREATE TABLE "LAPR3_G23".Estacionamento
             idParque number(10) NOT NULL, 
             PRIMARY KEY (idParque, numeroLote)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".Estacionamentoveiculo 
 (           idEstacionamentoveiculo number(10) GENERATED AS IDENTITY, 
@@ -186,7 +203,7 @@ CREATE TABLE "LAPR3_G23".Estacionamentoveiculo
             datafim timestamp, 
             PRIMARY KEY (idEstacionamentoveiculo)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".Recibo 
 (           idRecibo number(10) GENERATED AS IDENTITY, 
@@ -196,7 +213,7 @@ CREATE TABLE "LAPR3_G23".Recibo
             EncomendaidEncomenda number(10) NOT NULL,
             PRIMARY KEY (idRecibo)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".LinhaRecibo 
 (           ReciboidRecibo number(10) NOT NULL, 
@@ -204,7 +221,7 @@ CREATE TABLE "LAPR3_G23".LinhaRecibo
             quantidade number (10) NOT NULL,
             PRIMARY KEY (ReciboidRecibo, ProdutoidProduto)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".Pagamento 
 (           idPagamento number(10) GENERATED AS IDENTITY, 
@@ -212,7 +229,7 @@ CREATE TABLE "LAPR3_G23".Pagamento
             EncomendaidEncomenda number(10) NOT NULL, 
             PRIMARY KEY (idPagamento)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".Cartao 
 (           numeroCartaoCredito number(10),
@@ -220,13 +237,14 @@ CREATE TABLE "LAPR3_G23".Cartao
             CCV number(10) NOT NULL, 
             PRIMARY KEY (numeroCartaoCredito)
 );
-
+/
 
 CREATE TABLE "LAPR3_G23".EncomendaEntrega 
 (           EntregaidEntrega number(10) NOT NULL, 
             EncomendaidEncomenda number(10) NOT NULL, 
             PRIMARY KEY (EntregaidEntrega, EncomendaidEncomenda)
 );
+/
 
 CREATE TABLE "LAPR3_G23".TransferenciaProduto
 (           id_Transferencia INTEGER GENERATED AS IDENTITY CONSTRAINT pkIdTransferencia PRIMARY KEY,
@@ -236,12 +254,14 @@ CREATE TABLE "LAPR3_G23".TransferenciaProduto
             quantidade       INTEGER CONSTRAINT nnQuantidadeTransferencia NOT NULL, CONSTRAINT ckQuantidadeTransferencia check (quantidade >0),
             id_Estado        INTEGER CONSTRAINT nnEstadoTransferencia NOT NULL
 );            
+/
 
 CREATE TABLE "LAPR3_G23".EstadoTransferencia 
 (           id number(10), 
             designacao varchar(255), 
             PRIMARY KEY (id)
 );
+/
 
 CREATE TABLE "LAPR3_G23".Caminho 
 (           morada1 varchar(255), 
@@ -251,6 +271,7 @@ CREATE TABLE "LAPR3_G23".Caminho
             direcaoVento number(5,2) check(direcaoVento BETWEEN 0 AND 360),
             PRIMARY KEY (morada1, morada2)
 );
+/
 
 ALTER TABLE "LAPR3_G23".Cliente ADD CONSTRAINT FKCliente_Utilizador FOREIGN KEY (UtilizadorNIF) REFERENCES "LAPR3_G23".Utilizador (NIF);
 ALTER TABLE "LAPR3_G23".Estafeta ADD CONSTRAINT FKEstafeta_Utilizador FOREIGN KEY (UtilizadorNIF) REFERENCES "LAPR3_G23".Utilizador (NIF);
@@ -258,6 +279,8 @@ ALTER TABLE "LAPR3_G23".Cliente ADD CONSTRAINT FKCliente_Endereco FOREIGN KEY (E
 ALTER TABLE "LAPR3_G23".Parque ADD CONSTRAINT FKParque_Farmacia FOREIGN KEY (FarmaciaNIF) REFERENCES "LAPR3_G23".Farmacia (NIF);
 ALTER TABLE "LAPR3_G23".Farmacia ADD CONSTRAINT FKFarmacia_Endereco FOREIGN KEY (morada) REFERENCES "LAPR3_G23".Endereco (morada);
 ALTER TABLE "LAPR3_G23".veiculo ADD CONSTRAINT FKveiculo_Estadoveiculo FOREIGN KEY (Estadoveiculoid) REFERENCES "LAPR3_G23".Estadoveiculo (idEstadoveiculo);
+ALTER TABLE "LAPR3_G23".drone ADD CONSTRAINT FKdrone_Veiculo FOREIGN KEY (idDrone) REFERENCES "LAPR3_G23".veiculo (idVeiculo);
+ALTER TABLE "LAPR3_G23".scooter ADD CONSTRAINT FKscooter_Veiculo FOREIGN KEY (idScooter) REFERENCES "LAPR3_G23".veiculo (idVeiculo);
 ALTER TABLE "LAPR3_G23".Entrega ADD CONSTRAINT FKEntrega_Estafeta FOREIGN KEY (EstafetaUtilizadorNIF) REFERENCES "LAPR3_G23".Estafeta (UtilizadorNIF);
 ALTER TABLE "LAPR3_G23".Entrega ADD CONSTRAINT FKEntrega_veiculo FOREIGN KEY (veiculoid) REFERENCES "LAPR3_G23".veiculo (idveiculo);
 ALTER TABLE "LAPR3_G23".Encomenda ADD CONSTRAINT FKEncomenda_EstadoEncomenda FOREIGN KEY (EstadoEncomendaidEstadoEncomenda) REFERENCES "LAPR3_G23".EstadoEncomenda (idEstadoEncomenda);
@@ -726,6 +749,20 @@ direcaoVento "LAPR3_G23".caminho.direcaoVento%type)
 AS
 BEGIN
   INSERT INTO "LAPR3_G23".caminho VALUES(morada1, morada2, roadResistanceCoefficient, velocidadeVento, direcaoVento);
+END;
+/
+
+CREATE OR REPLACE PROCEDURE addScooter (idScooter "LAPR3_G23".scooter.idScooter%type, areaFrontal "LAPR3_G23".scooter.areaFrontal%type)
+AS
+BEGIN
+  INSERT INTO "LAPR3_G23".scooter VALUES(idScooter,areaFrontal);
+END;
+/
+
+CREATE OR REPLACE PROCEDURE addDrone (idDrone "LAPR3_G23".drone.idDrone%type, powerPro "LAPR3_G23".drone.powerPro%type)
+AS
+BEGIN
+  INSERT INTO "LAPR3_G23".drone VALUES (idDrone,powerPro);
 END;
 /
 --------------------------------------------------------------------------------------------------------------------------------
