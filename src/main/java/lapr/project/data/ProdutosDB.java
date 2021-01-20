@@ -322,9 +322,9 @@ public class ProdutosDB extends DataHandler {
         Map<Produto, Integer> mapaEncomenda = getMapaEncomenda();
         double preco = 0;
 
-        for (Produto p : mapaEncomenda.keySet()) {
-            for (int i = 0; i < mapaEncomenda.get(p); i++) {
-                preco = preco + p.getPrecoBase();
+        for (Map.Entry<Produto, Integer> entry : mapaEncomenda.entrySet()) {
+            for (int i = 0; i < mapaEncomenda.get(entry.getKey()); i++) {
+                preco = preco + entry.getKey().getPrecoBase();
             }
         }
         return preco;
@@ -339,9 +339,9 @@ public class ProdutosDB extends DataHandler {
         Map<Produto, Integer> mapaEncomenda = getMapaEncomenda();
         double peso = 0;
 
-        for (Produto p : mapaEncomenda.keySet()) {
-            for (int i = 0; i < mapaEncomenda.get(p); i++) {
-                peso = peso + p.getPeso();
+        for (Map.Entry<Produto, Integer> entry : mapaEncomenda.entrySet()) {
+            for (int i = 0; i < mapaEncomenda.get(entry.getKey()); i++) {
+                peso = peso + entry.getKey().getPeso();
             }
         }
         return peso;
