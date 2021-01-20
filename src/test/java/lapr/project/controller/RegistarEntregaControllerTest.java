@@ -131,11 +131,11 @@ public class RegistarEntregaControllerTest {
     @Test
     public void testGetListaEncomenda() throws SQLException {
         System.out.println("getListaEncomenda");
+        int nifFarmacia = 123456789;
         List<Encomenda> expResult = new ArrayList<>();
         expResult.add(new Encomenda(123456789, 12,"12-02-2001", 56, 48, 47, 89));
-        
-        when(encomendaDB.getListaEncomenda()).thenReturn(expResult);
-        List<Encomenda> result = instance.getListaEncomenda();
+        when(encomendaDB.getListaEncomenda(nifFarmacia)).thenReturn(expResult);
+        List<Encomenda> result = instance.getListaEncomenda(nifFarmacia);
         assertEquals(expResult, result);
 
     }
@@ -446,7 +446,7 @@ public class RegistarEntregaControllerTest {
     public void testGetScooterById() {
         System.out.println("getScooterById");
         int idVeiculo = 1;
-        Scooter expResult = new Scooter("scooter", 12, 43, 34, 5, 54, 45, 65);
+        Scooter expResult = new Scooter("scooter", 12, 2, 43, 34, 5, 54, 45, 65);
         when(veiculoDB.getScooterById(idVeiculo)).thenReturn(expResult);
         Scooter result = instance.getScooterById(idVeiculo);
         assertEquals(expResult, result);

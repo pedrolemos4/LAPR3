@@ -182,12 +182,13 @@ public class EncomendaDB extends DataHandler {
     }
 
     /**
-     * Devolve a lista de encomendas
+     * Devolve a lista de encomendas realizadas numa determinada farmácia
      *
+     * @param nifFarmacia nif da farmacia
      * @return lista de encomenda
      */
-    public List<Encomenda> getListaEncomenda() {
-        String query = "SELECT * FROM encomenda WHERE EstadoEncomendaidEstadoEncomenda = 1";
+    public List<Encomenda> getListaEncomenda(int nifFarmacia) {
+        String query = "SELECT * FROM encomenda WHERE EstadoEncomendaidEstadoEncomenda = 1 AND nifFarmacia = " + nifFarmacia;
 
         return getFromDatabase(query);
     }

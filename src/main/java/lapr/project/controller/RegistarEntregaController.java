@@ -118,11 +118,12 @@ public class RegistarEntregaController {
     }
     
     /**
-     * Devolve uma lista de encomendas
+     * Devolve uma lista de encomendas relativas a uma farmacia
+     * @param nifFarmacia nif da farmacia
      * @return lista de encomendas
      */
-    public List<Encomenda> getListaEncomenda() {
-        return encomendaDB.getListaEncomenda();
+    public List<Encomenda> getListaEncomenda(int nifFarmacia) {
+        return encomendaDB.getListaEncomenda(nifFarmacia);
     }
     
     /**

@@ -37,6 +37,7 @@ public class EntregaDB extends DataHandler {
     private static final String SCOOTER = "scooter";
     private final EncomendaDB encDB = new EncomendaDB();
     private final VeiculoDB veiDB = new VeiculoDB();
+    private final CaminhoDB caminhoDB = new CaminhoDB();
 
     /**
      * Adiciona uma entrega à base de dados
@@ -107,13 +108,14 @@ public class EntregaDB extends DataHandler {
      * @param listEnderecos lista de endereços
      * @param est estafeta
      * @param veiculo veículo
+     * @param atributo atributo
      * @param pesoTotalEntrega peso total de entrega
      * @return grafo com os endereços e as ruas definidas
      */
     public Graph<Endereco,Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double atributo, double pesoTotalEntrega) {
         
         Graph<Endereco, Double> graph = new Graph<>(true);
-        List<Caminho> listCaminhos = new CaminhoDB().getAllCaminhos();
+        List<Caminho> listCaminhos = new ArrayList<>(caminhoDB.getAllCaminhos());
         
         double energiaGasta = 0;
         

@@ -24,10 +24,14 @@ public class Scooter extends Veiculo {
      * @param potencia
      * @param estado
      * @param areaFrontal 
+     * @param id 
      */
     public Scooter(String descricao, int capacidade, double percentagemBateria,
             double pesoMaximo, double pesoVeiculo, double potencia, int estado,
-            double areaFrontal) {
+            double areaFrontal, int id) {
+        super(descricao, capacidade, percentagemBateria, pesoMaximo, pesoVeiculo,
+                potencia, estado);
+        this.id = id;
         this.areaFrontal = areaFrontal;
     }
 
