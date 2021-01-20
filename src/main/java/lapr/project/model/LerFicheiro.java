@@ -18,15 +18,15 @@ import lapr.project.data.VeiculoDB;
 
 public class LerFicheiro {
 
-    private  FarmaciaDB fdb;
-    private  ParqueDB pdb;
-    private  EstacionamentosDB edb;
-    private  CartaoDB cdb;
-    private  EnderecoDB endb;
-    private  UtilizadorDB udb;
-    private  ClienteDB cldb;
-    private  EstafetaDB esdb;
-    private  VeiculoController vctrl;
+    private final FarmaciaDB fdb;
+    private final ParqueDB pdb;
+    private final EstacionamentosDB edb;
+    private final CartaoDB cdb;
+    private final EnderecoDB endb;
+    private final UtilizadorDB udb;
+    private final ClienteDB cldb;
+    private final EstafetaDB esdb;
+    private final VeiculoController vctrl;
 
     public LerFicheiro() {
         this.fdb = new FarmaciaDB();
@@ -44,7 +44,7 @@ public class LerFicheiro {
         try {
             try ( Scanner in = new Scanner(new File(nameFile))) {
                 while (in.hasNextLine()) {
-                    String items[] = in.nextLine().split(";");
+                    String[] items = in.nextLine().split(";");
                     switch (nameFile) {
                         case "farmacias.csv":
                             fdb.addFarmacia(Integer.parseInt(items[0]), items[1], items[2]);
@@ -74,6 +74,9 @@ public class LerFicheiro {
                             vctrl.addVeiculo(items[0], items[1], Integer.parseInt(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]), Double.parseDouble(items[5]), Double.parseDouble(items[6]), Double.parseDouble(items[7]), Integer.parseInt(items[8]));
                             break;
                         case "caminhos.csv":
+                            break;
+                        default:
+                            System.out.println("nome de ficheiro inválido");
                             break;
                     }
                 }
