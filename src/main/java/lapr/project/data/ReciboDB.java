@@ -81,15 +81,9 @@ public class ReciboDB extends DataHandler {
             callStmt.setDouble(3, preco);
             callStmt.setInt(4, nif);
             callStmt.setInt(5, idEncomenda);
-            System.out.println("idEncomenda "+idEncomenda);
-            System.out.println("sqlStartDate "+sqlStartDate);
-            System.out.println("preco "+preco);
-            System.out.println("nif "+nif);
-            System.out.println("Antes do execute addRecibo");
             
             callStmt.execute();
             id = callStmt.getInt(1);
-            System.out.println("ID apos recibo: "+id);
 
         }
         try {

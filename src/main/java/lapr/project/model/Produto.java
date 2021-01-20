@@ -88,8 +88,7 @@ public class Produto {
 
     /**
      * Modifica o id da produto
-     *
-     * @return
+     * @param id novo id do produto
      */
     public void setId(int id) {
         this.id=id;
@@ -134,8 +133,7 @@ public class Produto {
      */
     @Override
     public int hashCode() {
-        int hash = 7;
-        return hash;
+        return 7;
     }
 
     /**

@@ -166,7 +166,7 @@ public class RegistarEntregaUI {
         List<Encomenda> listEncomendas = new ArrayList<>();
         List<Endereco> listEnderecos = new ArrayList<>();
         System.out.println("Introduza o id das encomendas que pretende fazer entrega:");
-        while (flag == true) {
+        while (flag) {
             int idEncomenda = LER.nextInt();
             Encomenda e = controller.getEncomenda(idEncomenda);
             listEncomendas.add(e);
@@ -193,7 +193,7 @@ public class RegistarEntregaUI {
 
         double energiaTotalGastaScooter = controller.getPath(graphScooter, listEnderecos, finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0);
 
-        graphDrone = controller.generateGraph(listEnderecos, est, v, s.getAreaFrontal(), pesoTotal);
+        graphDrone = controller.generateGraph(listEnderecos, est, v, d.getPowerPro(), pesoTotal);
         LinkedList<Endereco> finalShortPathDrone = new LinkedList<>();
 
         double energiaTotalGastaDrone = controller.getPath(graphDrone, listEnderecos, finalShortPathDrone, controller.getEnderecoOrigem(nifFarmacia), 0);

@@ -15,14 +15,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr.project.model.Caminho;
-import lapr.project.model.Drone;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
 import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Graph;
 import lapr.project.model.GraphAlgorithms;
-import lapr.project.model.Scooter;
 import lapr.project.model.Veiculo;
 import lapr.project.utils.CalculosFisica;
 import oracle.jdbc.OracleTypes;
@@ -36,7 +34,6 @@ public class EntregaDB extends DataHandler {
     private static final String DRONE = "drone";
     private static final String SCOOTER = "scooter";
     private final EncomendaDB encDB = new EncomendaDB();
-    private final VeiculoDB veiDB = new VeiculoDB();
     private final CaminhoDB caminhoDB = new CaminhoDB();
 
     /**

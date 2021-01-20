@@ -52,9 +52,9 @@ public class VeiculoDB extends DataHandler {
 
             try {
 
-                callStmt.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
 
                 Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
@@ -69,9 +69,9 @@ public class VeiculoDB extends DataHandler {
             callStmt.execute();
             try {
 
-                callStmt.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
 
                 Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
@@ -85,9 +85,9 @@ public class VeiculoDB extends DataHandler {
             callStmt.execute();
             try {
 
-                callStmt.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
 
                 Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
@@ -245,9 +245,9 @@ public class VeiculoDB extends DataHandler {
             removed = true;
             try {
 
-                callSmt.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
                 Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
         }
@@ -275,9 +275,9 @@ public class VeiculoDB extends DataHandler {
 
             try {
 
-                callV.close();
+                closeAll();
 
-            } catch (SQLException | NullPointerException ex) {
+            } catch (NullPointerException ex) {
                 Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
 
             }
