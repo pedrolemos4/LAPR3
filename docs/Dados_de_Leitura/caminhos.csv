@@ -3,14 +3,11 @@ R. do Bolhão;Farmacia Almeida Cunha, Lda;0.7;7.5;20
 R. do Bolhão;Rua da Firmeza;0.6;6.8;70
 Rua da Firmeza;R. do Bolhão;0.6;6.8;70
 Rua da Firmeza;R. de Sá da Bandeira;0.7;9;154
-R. de Sá da Bandeira;Rua da Firmeza;0.7;9;154
 R. de Sá da Bandeira;Farmacia Sa da Bandeira;0.6;5.8;83
 Farmacia Sa da Bandeira;R. de Sá da Bandeira;0.6;5.8;83
 R. do Bolhão;Rua de Fernandes Tomás;0.5;7;227
 Rua de Fernandes Tomás;R. do Bolhão;0.5;7;227
-Rua de Fernandes Tomás;Rua da Trindade;0.4;7.2;1
 Rua da Trindade;Rua de Fernandes Tomás;0.4;7.2;1
-Rua da Trindade;Praça da Trindade;0.4;6;28
 Praça da Trindade;Rua da Trindade;0.4;6;28
 Praça da Trindade;R. do Dr. Ricardo Jorge;0.6;7.5;100
 R. do Dr. Ricardo Jorge;Praça da Trindade;0.6;7.5;100
@@ -22,14 +19,12 @@ Rua de José Falcão;Praça Guilherme Gomes Fernandes;0.7;5.2;254
 Praça Guilherme Gomes Fernandes;Rua de José Falcão;0.7;5.2;254
 Praça Guilherme Gomes Fernandes;Farmacia Lemos;0.5;4.9;98
 Farmacia Lemos;Praça Guilherme Gomes Fernandes;0.5;4.9;98
-Rua da Conceição;Farmacia Alianca;0.5;8;5;264
-Farmacia Alianca;Rua da Conceição;0.5;8;5;264
+Rua da Conceição;Farmacia Alianca;0.5;8.5;264
+Farmacia Alianca;Rua da Conceição;0.5;8.5;264
 R. do Bolhão;Rua das Carvalheiras;0.8;5.2;211
 Rua das Carvalheiras;R. do Bolhão;0.8;5.2;211
 Rua Guedes de Azevedo;R. do Bolhão;0.4;4.6;297
-R. do Bolhão;Rua Guedes de Azevedo;0.4;4.6;297
 Rua das Carvalheiras;Rua de Gonçalo Cristóvão;0.6;6.4;119
-Rua de Gonçalo Cristóvão;Rua das Carvalheiras;0.6;6.4;119
 Rua de Gonçalo Cristóvão;Praça da Republica;0.9;5.5;32
 Praça da Republica;Rua de Gonçalo Cristóvão;0.9;5.5;32
 Praça da Republica;Farmacia do Campo;0.7;4.3;77
@@ -42,7 +37,6 @@ R. do Bonjardim;R. do Alferes Malheiro;0.6;7;221
 R. do Alferes Malheiro;R. do Bonjardim;0.6;7;221
 R. do Alferes Malheiro;Rua do Almada;0.7;3.2;343
 Rua do Almada;R. do Alferes Malheiro;0.7;3.2;343
-Rua do Almada;Praça da Republica;0.7;4.9;258
 Praça da Republica;Rua do Almada;0.7;4.9;258
 Rua Guedes de Azevedo;R. do Bonjardim;0.4;5;344
 R. do Bonjardim;Rua Guedes de Azevedo;0.4;5;344
