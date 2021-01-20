@@ -9,6 +9,7 @@ public class Encomenda {
     private double pesoEncomenda;
     private double taxa;
     private int nifCliente;
+    private int nifFarmacia;
     private List<Produto> lst;
     private EstadoEncomenda estado;
     private int id;
@@ -22,9 +23,10 @@ public class Encomenda {
      * @param taxa taxa da encomenda
      * @param estado estado atual da encomenda
      */
-    public Encomenda(int nifCliente, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) {
+    public Encomenda(int nifCliente, int nifFarmacia, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) {
         this.lst=new ArrayList<>();
         this.nifCliente=nifCliente;
+        this.nifFarmacia = nifFarmacia;
         this.dataPedida = dataPedida;
         this.preco = preco;
         this.pesoEncomenda = pesoEncomenda;
@@ -55,6 +57,24 @@ public class Encomenda {
     public int getId() {
         return id;
     }
+
+    /**
+     * Devolve o nif da farmacia
+     * @return 
+     */
+    public int getNifFarmacia() {
+        return nifFarmacia;
+    }
+
+    /**
+     * Modifica o nif da farmacia da encomenda
+     * @param nifFarmacia 
+     */
+    public void setNifFarmacia(int nifFarmacia) {
+        this.nifFarmacia = nifFarmacia;
+    }
+    
+    
     
     /**
      * Modifica o id da encomenda

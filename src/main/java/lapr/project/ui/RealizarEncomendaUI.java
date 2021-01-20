@@ -31,7 +31,6 @@ public class RealizarEncomendaUI {
     RealizaEncomendaController controller;
     PedirItemFarmaciaController controller2;
     EnviarNotaTransferenciaController controller3;
-    RegistarClienteController controller4;
 
     public RealizarEncomendaUI() {
         controller = new RealizaEncomendaController(new ProdutosDB(), new EncomendaDB(), new ReciboDB(), new ClienteDB(), new EmailDB(), new EnderecoDB());
@@ -149,7 +148,7 @@ public class RealizarEncomendaUI {
             System.out.println("Peso: " + controller.getPeso());
             System.out.println("Preço: " + controller.getPreco());
             
-            Encomenda enc = new Encomenda(controller.getCliente().getClienteNIF(), dataInicio,
+            Encomenda enc = new Encomenda(controller.getCliente().getClienteNIF(), nif, dataInicio,
                     controller.getPreco(), controller.getPeso(), 0.6, 1);
 
             Map<Produto, Integer> mapaEncomenda = controller.getMapaEncomenda();
