@@ -200,7 +200,8 @@ public class EntregaDB extends DataHandler {
                     double taxa = rSet.getDouble(5);
                     int estado = rSet.getInt(6);
                     int nif = rSet.getInt(7);
-                    Encomenda en = new Encomenda(nif, dataPedida.toString(), preco, pesoEncomenda, taxa, estado);
+                    int nifFarm = rSet.getInt(8);
+                    Encomenda en = new Encomenda(nif, nifFarm, dataPedida.toString(), preco, pesoEncomenda, taxa, estado);
                     en.setId(idEncomenda);
                     return en;
                 }
