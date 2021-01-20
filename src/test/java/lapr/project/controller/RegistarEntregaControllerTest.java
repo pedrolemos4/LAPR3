@@ -132,7 +132,7 @@ public class RegistarEntregaControllerTest {
     public void testGetListaEncomenda() throws SQLException {
         System.out.println("getListaEncomenda");
         List<Encomenda> expResult = new ArrayList<>();
-        expResult.add(new Encomenda(123456789, "12-02-2001", 56, 48, 47, 89));
+        expResult.add(new Encomenda(123456789, 12,"12-02-2001", 56, 48, 47, 89));
         
         when(encomendaDB.getListaEncomenda()).thenReturn(expResult);
         List<Encomenda> result = instance.getListaEncomenda();
@@ -210,7 +210,7 @@ public class RegistarEntregaControllerTest {
     public void testAddEncomendaEntrega() throws Exception {
         System.out.println("addEncomendaEntrega");
         Entrega e = new Entrega("15/02/2001", "15/02/2001", 2, 34);
-        Encomenda enc = new Encomenda(123456789, "15/02/2001", 2, 3, 3, 2);
+        Encomenda enc = new Encomenda(123456789, 12,"15/02/2001", 2, 3, 3, 2);
         boolean expResult = false;
         when(entregaDB.addEncomendaEntrega(e, enc)).thenReturn(expResult);
         boolean result = instance.addEncomendaEntrega(e, enc);
@@ -226,7 +226,7 @@ public class RegistarEntregaControllerTest {
     public void testAddEncomendaEntrega1() throws Exception {
         System.out.println("addEncomendaEntrega1");
         Entrega e = new Entrega("15/02/2001", "15/02/2001", 2, 34);
-        Encomenda enc = new Encomenda(123456789, "15/02/2001", 2, 3, 3, 2);
+        Encomenda enc = new Encomenda(123456789, 12,"15/02/2001", 2, 3, 3, 2);
         boolean expResult = true;
         when(entregaDB.addEncomendaEntrega(e, enc)).thenReturn(expResult);
         boolean result = instance.addEncomendaEntrega(e, enc);
@@ -387,7 +387,7 @@ public class RegistarEntregaControllerTest {
     @Test
     public void testUpdateEncomenda1() throws Exception {
         System.out.println("updateEncomenda1");
-        Encomenda encomenda = new Encomenda(123456789, "12/01/2015", 51, 74, 85, 7);
+        Encomenda encomenda = new Encomenda(123456789, 12,"12/01/2015", 51, 74, 85, 7);
         boolean expResult = false;
         when(encomendaDB.updateEncomenda(encomenda.getId(),3)).thenReturn(expResult);
         boolean result = instance.updateEncomenda(encomenda.getId(),3);
@@ -402,7 +402,7 @@ public class RegistarEntregaControllerTest {
     @Test
     public void testUpdateEncomenda2() throws Exception {
         System.out.println("updateEncomenda2");
-        Encomenda encomenda = new Encomenda(123456789, "12/01/2015", 51, 74, 85, 7);
+        Encomenda encomenda = new Encomenda(123456789, 12,"12/01/2015", 51, 74, 85, 7);
         boolean expResult = true;
         when(encomendaDB.updateEncomenda(encomenda.getId(),3)).thenReturn(expResult);
         boolean result = instance.updateEncomenda(encomenda.getId(),3);
@@ -431,7 +431,7 @@ public class RegistarEntregaControllerTest {
     public void testGetEncomenda() {
         System.out.println("getEncomenda");
         int id = 1;
-        Encomenda expResult = new Encomenda(123456789, "12/01/2015", 51, 74, 85, 7);
+        Encomenda expResult = new Encomenda(123456789, 12,"12/01/2015", 51, 74, 85, 7);
         when(encomendaDB.getEncomenda(id)).thenReturn(expResult);
         Encomenda result = instance.getEncomenda(id);
         assertEquals(expResult, result);

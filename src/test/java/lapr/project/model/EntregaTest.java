@@ -122,7 +122,7 @@ public class EntregaTest {
     public void testGetListEncomendas() {
         System.out.println("getListEncomendas");
         List<Encomenda> expResult = new ArrayList<>();
-        Encomenda e = new Encomenda(2,"25/12/2252", 15, 20, 5, 1);
+        Encomenda e = new Encomenda(2,12,"25/12/2252", 15, 20, 5, 1);
         expResult.add(e);
         
         List<Encomenda> list = new ArrayList<>();
@@ -144,8 +144,8 @@ public class EntregaTest {
     public void testSetListEncomendas() {
         System.out.println("setListEncomendas");
         List<Encomenda> expResult = new ArrayList<>();
-        expResult.add(new Encomenda(2,"25/12/2252", 15, 20, 5, 1));
-        expResult.add(new Encomenda(3,"25/12/2252", 10, 25, 6, 2));
+        expResult.add(new Encomenda(2,12,"25/12/2252", 15, 20, 5, 1));
+        expResult.add(new Encomenda(3,13,"25/12/2252", 10, 25, 6, 2));
         Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
         
         instance.setListEncomendas(expResult);
