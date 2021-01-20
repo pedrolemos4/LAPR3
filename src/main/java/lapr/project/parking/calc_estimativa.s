@@ -9,7 +9,6 @@ calc_estimativa:
 	movl %esp, %ebp
 	
 	pushl %ebx
-	pushl %esi
 	
 	movl $0, %edx # limpa %edx
 	
@@ -22,7 +21,8 @@ calc_estimativa:
 	
 	movl %ebx, %eax # percentagem necessaria para os 100
 	
-	movl $0, %ebx # limpa ebx
+	movl 16(%ebp),%ebx # corrente debitada (a)
+	
 	movl $0, %edx # limpa edx
 	
 	imull %ecx, %eax # capacidade * (percentagem necessaria)
@@ -33,13 +33,9 @@ calc_estimativa:
 	
 	idivl %ecx
 	
-	movl $13, %ecx
-	
-	idivl %ecx # corrente debitada pelo aparelho de carregamento
+	idivl %ebx # corrente debitada pelo aparelho de carregamento
 	
 	#epilogo
-
-	popl %esi
 	popl %ebx
 	
 	movl %ebp, %esp
