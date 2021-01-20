@@ -34,6 +34,7 @@ class Main {
     private static final String CLIENTES = "docs/Dados_de_Leitura/clientes.csv";
     private static final String ESTAFETAS = "docs/Dados_de_Leitura/estafetas.csv";
     private static final String VEICULOS = "docs/Dados_de_Leitura/veiculos.csv";
+    private static final String CAMINHOS = "docs/Dados_de_Leitura/caminhos.csv";
 
     /**
      * Private constructor to hide implicit public one.
@@ -56,6 +57,7 @@ class Main {
         readFile.read(CLIENTES);
         readFile.read(ESTAFETAS);
         readFile.read(VEICULOS);
+        readFile.read(CAMINHOS);
         try {
             Properties properties
                     = new Properties(System.getProperties());

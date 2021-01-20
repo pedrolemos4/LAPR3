@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Scanner;
 import lapr.project.controller.VeiculoController;
+import lapr.project.data.CaminhoDB;
 import lapr.project.data.CartaoDB;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EnderecoDB;
@@ -27,6 +28,7 @@ public class LerFicheiro {
     private final ClienteDB cldb;
     private final EstafetaDB esdb;
     private final VeiculoController vctrl;
+    private final CaminhoDB pathdb;
 
     public LerFicheiro() {
         this.fdb = new FarmaciaDB();
@@ -38,6 +40,7 @@ public class LerFicheiro {
         this.cldb = new ClienteDB();
         this.esdb = new EstafetaDB();
         this.vctrl = new VeiculoController(new VeiculoDB());
+        this.pathdb = new CaminhoDB();
     }
 
     public void read(String nameFile) throws ParseException, SQLException {
@@ -71,9 +74,10 @@ public class LerFicheiro {
                             esdb.addEstafeta(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Double.parseDouble(items[2]));
                             break;
                         case "veiculos.csv":
-                         //   vctrl.addVeiculo(items[0], items[1], Integer.parseInt(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]), Double.parseDouble(items[5]), Double.parseDouble(items[6]), Double.parseDouble(items[7]), Integer.parseInt(items[8]));
+                            //   vctrl.addVeiculo(items[0], items[1], Integer.parseInt(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]), Double.parseDouble(items[5]), Double.parseDouble(items[6]), Double.parseDouble(items[7]), Integer.parseInt(items[8]));
                             break;
                         case "caminhos.csv":
+                            pathdb.addCaminho(items[0], items[1], Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]));
                             break;
                     }
                 }
