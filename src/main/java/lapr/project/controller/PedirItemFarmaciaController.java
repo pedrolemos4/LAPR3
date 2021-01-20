@@ -59,17 +59,16 @@ public class PedirItemFarmaciaController {
     
     /**
      * Devolve um grafo recebendo uma lista de farmacias
-     * @param farms lista de farmacias
      * @return grafo
      */
-    public Graph<Endereco, Double> generateGrafo(List<Farmacia> farms) {
-        return fdb.generateGrafo(farms);
+    public Graph<Endereco, Double> generateGrafo() {
+        return fdb.generateGrafo();
     }
 
     /**
      * Devolve o nif da farmacia mais proxima recebendo um grafo e o nif da farmacia
      * @param generateGrafo grafo
-     * @param nif nif da farmacia
+     * @param end endereço da farmacia
      * @return nif da farmacia mais proxima
      */
     public Farmacia getFarmaciaProxima(Graph<Endereco, Double> generateGrafo, Endereco end) {

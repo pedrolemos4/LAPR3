@@ -89,8 +89,8 @@ class PedirItemFarmaciaControllerTest {
         System.out.println("generateGrafo");
         List<Farmacia> farms = new ArrayList<>();
         Graph<Endereco, Double> expResult = new Graph<>(false);
-        when(fdb.generateGrafo(farms)).thenReturn(expResult);
-        Graph<Endereco, Double> result = instance.generateGrafo(farms);
+        when(fdb.generateGrafo()).thenReturn(expResult);
+        Graph<Endereco, Double> result = instance.generateGrafo();
         assertEquals(expResult, result);
     }
 

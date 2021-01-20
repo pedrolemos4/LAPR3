@@ -56,11 +56,10 @@ public class RealizarEncomendaUI {
                 System.out.println("Quantidade: " + controller.getListStock(f.getNIF()).get(p));
             }
         }
-        
-        
+
         Cliente cliente = controller.getCliente();
         Endereco enderecoCliente = controller.getEnderecoByNifCliente(cliente.getNIF());
-        Graph<Endereco, Double> generateGrafo = controller2.generateGrafo(controller2.getLstFarmacias());
+        Graph<Endereco, Double> generateGrafo = controller2.generateGrafo();
         Farmacia farm = controller2.getFarmaciaProxima(generateGrafo, enderecoCliente); 
         generateGrafo.removeVertex(enderecoCliente);
         int nif = farm.getNIF();

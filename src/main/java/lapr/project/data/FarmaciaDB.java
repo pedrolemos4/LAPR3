@@ -15,11 +15,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import lapr.project.model.Endereco;
-import lapr.project.model.Farmacia;
-import lapr.project.model.Graph;
+import lapr.project.model.*;
+
 import static lapr.project.model.GraphAlgorithms.shortestPath;
-import lapr.project.model.Produto;
+
 import lapr.project.utils.CalculosFisica;
 
 /**
@@ -216,50 +215,46 @@ public class FarmaciaDB extends DataHandler {
 
         String query = "SELECT * FROM farmacia f WHERE f.morada = '" + morada + "'";
 
-        Farmacia f = new Farmacia();
-
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
                     String email = rSet.getString(2);
                     String morada1 = rSet.getString(3);
-                    f = (new Farmacia(nif, email, morada1));
+                    return (new Farmacia(nif, email, morada1));
                 }
             }
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
-        return f;
+        return null;
     }
 
     /**
      * Gera um grafo com a lista de enderecos das farmácias e a distância entre
      * elas
      *
-     * @param farms lista de farmácias
      * @return grafo
      */
-    public Graph<Endereco, Double> generateGrafo(List<Farmacia> farms) {
+    public Graph<Endereco, Double> generateGrafo() {
 
         Graph<Endereco, Double> graph = new Graph<>(true);
+        List<Caminho> listCaminhos = new CaminhoDB().getAllCaminhos();
 
-        for (Farmacia f : farms) {
-            graph.insertVertex(end.getEnderecoByNifFarmacia(f.getNIF()));
+        for(Caminho c : listCaminhos){
+            graph.insertVertex(c.getEnd1());
+            graph.insertVertex(c.getEnd2());
         }
 
-        for (Endereco en1 : graph.vertices()) {
-            for (Endereco en2 : graph.vertices()) {
-                if (!en1.equals(en2)) {
-                    //contruir as arestas com base na leitura do ficheiro
-                    graph.insertEdge(en1, en2, null, CalculosFisica.calculoDistancia(en1.getLatitude(), en1.getLongitude(), en1.getAltitude(),
-                            en2.getLatitude(), en2.getLongitude(), en2.getAltitude()));
-                }
+        for(Caminho caminho : listCaminhos){
+            if (!caminho.getEnd1() .equals(caminho.getEnd2())) {
+                graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), null, CalculosFisica.calculoDistancia(caminho.getEnd1().getLatitude(), caminho.getEnd1().getLongitude(), caminho.getEnd1().getAltitude(),
+                        caminho.getEnd2().getLatitude(), caminho.getEnd2().getLongitude(), caminho.getEnd2().getAltitude()));
             }
         }
+
         return graph;
     }
-//ALTERAR MÉTODO DE CIMA
 
     /**
      * Devolve a farmácia mais próxima do endereco cliente recebido por parâmetro
@@ -271,16 +266,15 @@ public class FarmaciaDB extends DataHandler {
     public Farmacia getFarmaciaProxima(Graph<Endereco, Double> graph, Endereco enderecoCliente) {
         LinkedList<Endereco> shortPath = new LinkedList<>();
         double min = 999999999;
-        int nif1 = 0;
         Farmacia farmaciaByEndereco = null;
 
-        graph.insertVertex(enderecoCliente);
-
         for (Endereco f1 : graph.vertices()) {
-            double valor = shortestPath(graph, f1, enderecoCliente, shortPath);
-            if (valor < min) {
-                min = valor;
-                farmaciaByEndereco = getFarmaciaByEndereco(f1.getMorada());
+            if (getFarmaciaByEndereco(f1.getMorada()) != null){
+                double valor = shortestPath(graph, f1, enderecoCliente, shortPath);
+                if (valor < min) {
+                    min = valor;
+                    farmaciaByEndereco = getFarmaciaByEndereco(f1.getMorada());
+                }
             }
         }
         return farmaciaByEndereco;

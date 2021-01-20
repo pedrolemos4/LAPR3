@@ -75,9 +75,6 @@ public class LerFicheiro {
                             break;
                         case "caminhos.csv":
                             break;
-                        default:
-                            System.out.println("nome de ficheiro inválido");
-                            break;
                     }
                 }
             }
