@@ -75,9 +75,9 @@ CREATE TABLE "LAPR3_G23".drone
 /
 
 CREATE TABLE "LAPR3_G23".scooter
-(           idVeiculo number(10),
+(           idScooter number(10),
             areaFrontal number(5,2),
-            PRIMARY KEY (idVeiculo)
+            PRIMARY KEY (idScooter)
 );
 /
 
