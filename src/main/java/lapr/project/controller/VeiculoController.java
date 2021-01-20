@@ -61,7 +61,7 @@ public class VeiculoController {
     }
 
     public boolean registaScooter(Scooter scooter) throws SQLException {
-        return (veiculoDB.registaScooter(scooter));
+        return (veiculoDB.registaScooter(scooter) ? (true) : (false));
     }
 
     public Scooter novaScooter(Veiculo ve, int id, double powerPro) {

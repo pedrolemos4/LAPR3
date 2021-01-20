@@ -171,10 +171,27 @@ public class VeiculoControllerTest {
         int id = 1;
         double powerPro = 42;
         Drone dr = new Drone(ve, id, powerPro);
+        Drone dr1 = new Drone(ve, 4, 56);
         boolean expResult = false;
         boolean result = instance.registaDrone(dr);
-        when(instance.registaDrone(dr)).thenReturn(false);
+        when(veiculoDBMock.registaDrone(dr1)).thenReturn(false);
         assertEquals(false, instance.registaDrone(dr));
+    }
+    
+    /**
+     * Test of registaDrone method, of class VeiculoController.
+     */
+    @Test
+    public void testRegistaDrone1() throws Exception {
+        System.out.println("registaDrone1");
+        Veiculo ve = new Veiculo(1, "", 100, 45, 56, 48, 486, 1);
+        int id = 1;
+        double powerPro = 42;
+        Drone dr = new Drone(ve, id, powerPro);
+        boolean expResult = true;
+        boolean result = instance.registaDrone(dr);
+        when(veiculoDBMock.registaDrone(dr)).thenReturn(true);
+        assertEquals(true, instance.registaDrone(dr));
     }
 
     /**
@@ -194,6 +211,7 @@ public class VeiculoControllerTest {
 
     /**
      * Test of registaScooter method, of class VeiculoController.
+     * @throws java.lang.Exception
      */
     @Test
     public void testRegistaScooter() throws Exception {
@@ -202,9 +220,26 @@ public class VeiculoControllerTest {
         int id = 1;
         double areaFrontal = 50.0;
         Scooter scooter = new Scooter(ve, id, areaFrontal);
+        boolean expResult = true;
+        when(veiculoDBMock.registaScooter(scooter)).thenReturn(expResult);
+        assertEquals(expResult, instance.registaScooter(scooter));
+    }
+    
+    /**
+     * Test of registaScooter method, of class VeiculoController.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testRegistaScooter1() throws Exception {
+        System.out.println("registaScooter1");
+        Veiculo ve = new Veiculo(1, "", 100, 45, 56, 48, 486, 1);
+        int id = 1;
+        double areaFrontal = 50.0;
+        Scooter scooter = new Scooter(ve, id, areaFrontal);
+        Scooter scooter1 = new Scooter(ve, 4, 43);
         boolean expResult = false;
         boolean result = instance.registaScooter(scooter);
-        when(instance.registaScooter(scooter)).thenReturn(false);
+        when(veiculoDBMock.registaScooter(scooter1)).thenReturn(expResult);
         assertEquals(expResult, result);
     }
 
