@@ -142,5 +142,14 @@ public class Entrega {
     public void setEstafeta(int idEstafeta) {
         this.idEstafeta = idEstafeta;
     }
-       
+    
+    /**
+     * Devolve a descrição textual da entrega
+     * @return descrição textual da entrega
+     */
+    @Override
+    public String toString() {
+        return "Entrega{" + "idEntrega=" + idEntrega + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + ", listEncomendas=" + listEncomendas + ", idVeiculo=" + idVeiculo + ", idEstafeta=" + idEstafeta + '}';
+    }
+           
 }

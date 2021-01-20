@@ -158,6 +158,7 @@ class PedirItemFarmaciaControllerTest {
     public void testGetLstFarmacias() {
         System.out.println("getLstFarmacias");
         List<Farmacia> expResult = new ArrayList<>();
+        expResult.add(new Farmacia(123456789, "dgv","dv"));
         List<Farmacia> result = instance.getLstFarmacias();
         assertEquals(expResult, result);
     }

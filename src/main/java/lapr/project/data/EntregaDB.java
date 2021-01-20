@@ -30,7 +30,7 @@ import oracle.jdbc.OracleTypes;
  * @author beatr
  */
 public class EntregaDB extends DataHandler {
-    
+
     private static final String DRONE = "drone";
     private static final String SCOOTER = "scooter";
     private final EncomendaDB encDB = new EncomendaDB();
@@ -38,6 +38,7 @@ public class EntregaDB extends DataHandler {
 
     /**
      * Adiciona uma entrega à base de dados
+     *
      * @param entrega entrega a adicionar
      * @return id da entrega
      * @throws SQLException
@@ -49,11 +50,11 @@ public class EntregaDB extends DataHandler {
 
         try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call AddEntrega(?,?,?,?) }")) {
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
-            
+
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             java.util.Date date = sdf1.parse(entrega.getDataInicio());
             java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
-            callStmt.setTimestamp(4, sqlStartDate);       
+            callStmt.setTimestamp(4, sqlStartDate);
             java.util.Date date1 = sdf1.parse(entrega.getDataFim());
             java.sql.Timestamp sqlEndDate = new java.sql.Timestamp(date1.getTime());
             callStmt.setTimestamp(5, sqlEndDate);
@@ -76,6 +77,7 @@ public class EntregaDB extends DataHandler {
 
     /**
      * Adiciona uma encomenda à entrega
+     *
      * @param e entrega onde se vão adicionar as encomendas
      * @param enc encomenda a adicionar
      * @return true se for adicionada com sucesso, falso se não
@@ -83,13 +85,13 @@ public class EntregaDB extends DataHandler {
      */
     public boolean addEncomendaEntrega(Entrega e, Encomenda enc) throws SQLException {
         boolean flag = false;
-        
-        try ( CallableStatement callSmt = getConnection().prepareCall("{ call AddEncomendaEntrega(?,?) }")) {
-                callSmt.setInt(1, e.getIdEntrega());
-                callSmt.setInt(2, enc.getId());
 
-                callSmt.execute();
-                flag = true;
+        try (CallableStatement callSmt = getConnection().prepareCall("{ call AddEncomendaEntrega(?,?) }")) {
+            callSmt.setInt(1, e.getIdEntrega());
+            callSmt.setInt(2, enc.getId());
+
+            callSmt.execute();
+            flag = true;
             try {
                 closeAll();
             } catch (NullPointerException ex) {
@@ -102,6 +104,7 @@ public class EntregaDB extends DataHandler {
 
     /**
      * Gera o grafo com os endereços existentes como vértices
+     *
      * @param listEnderecos lista de endereços
      * @param est estafeta
      * @param veiculo veículo
@@ -109,31 +112,31 @@ public class EntregaDB extends DataHandler {
      * @param pesoTotalEntrega peso total de entrega
      * @return grafo com os endereços e as ruas definidas
      */
-    public Graph<Endereco,Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double atributo, double pesoTotalEntrega) {
-        
+    public Graph<Endereco, Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double atributo, double pesoTotalEntrega) {
+
         Graph<Endereco, Double> graph = new Graph<>(true);
         List<Caminho> listCaminhos = new ArrayList<>(caminhoDB.getAllCaminhos());
-        
+
         double energiaGasta = 0;
-        
-        for(Caminho c : listCaminhos){
+
+        for (Caminho c : listCaminhos) {
             graph.insertVertex(c.getEnd1());
             graph.insertVertex(c.getEnd2());
         }
-        
-        for(Caminho caminho : listCaminhos){
-            for(Endereco end : listEnderecos){
-                if((veiculo.getDescricao()).equalsIgnoreCase(SCOOTER)){
+
+        for (Caminho caminho : listCaminhos) {
+            for (Endereco end : listEnderecos) {
+                if ((veiculo.getDescricao()).equalsIgnoreCase(SCOOTER)) {
                     energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), atributo,
-                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), caminho.getRoadResistanceCoefficient(), caminho.getDirecaoVento(), caminho.getVelocidadeVento());
+                            pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), caminho.getRoadResistanceCoefficient(), caminho.getDirecaoVento(), caminho.getVelocidadeVento());
                     graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
                 }
-                if((veiculo.getDescricao()).equalsIgnoreCase(DRONE)){
+                if ((veiculo.getDescricao()).equalsIgnoreCase(DRONE)) {
                     energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), atributo, veiculo.getPotencia(),
-                        pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(),caminho.getDirecaoVento(), caminho.getVelocidadeVento());
+                            pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), caminho.getDirecaoVento(), caminho.getVelocidadeVento());
                     graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
                 }
-                if(end.getMorada().equals(caminho.getEnd2().getMorada())){
+                if (end.getMorada().equals(caminho.getEnd2().getMorada())) {
                     Encomenda enc1 = getEncomendaByMorada(caminho.getEnd2().getMorada());
                     pesoTotalEntrega = pesoTotalEntrega - encDB.getEncomenda(enc1.getId()).getPesoEncomenda();
                 }
@@ -144,9 +147,11 @@ public class EntregaDB extends DataHandler {
 
     /**
      * Retorna o caminho
+     *
      * @param graph grafo a ver o caminho
      * @param listEnderecos lista de endereços do grafo
-     * @param finalShortPath lista de endereços com o caminho com menos energia gasta
+     * @param finalShortPath lista de endereços com o caminho com menos energia
+     * gasta
      * @param origem vértice de origem
      * @param energia energia gasta nessa rua
      * @return valor da energia
@@ -187,7 +192,7 @@ public class EntregaDB extends DataHandler {
      * @return encomenda
      */
     public Encomenda getEncomendaByMorada(String morada) {
-        String query = "SELECT e.idEncomenda,e.datapedida,e.preco, e.pesoEncomenda, e.taxa, e.estadoencomendaidestadoencomenda, e.clienteutilizadornif FROM encomenda e INNER JOIN cliente c ON e.ClienteUtilizadorNIF = c.UtilizadorNIF WHERE c.Enderecomorada = '" + morada+"'";
+        String query = "SELECT e.idEncomenda,e.datapedida,e.preco, e.pesoEncomenda, e.taxa, e.estadoencomendaidestadoencomenda, e.clienteutilizadornif FROM encomenda e INNER JOIN cliente c ON e.ClienteUtilizadorNIF = c.UtilizadorNIF WHERE c.Enderecomorada = '" + morada + "'";
 
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
@@ -213,36 +218,35 @@ public class EntregaDB extends DataHandler {
 
     /**
      * Retorna o valor da duração do percurso
-     * @param finalShortPath lista de endereços com o caminho com menos energia gasta
+     *
+     * @param finalShortPath lista de endereços com o caminho com menos energia
+     * gasta
      * @param veiculo veículo utilizado
      * @return duração do percurso
      * @throws ParseException
      */
-    public String getDuracaoPercurso(List<Endereco> finalShortPath, Veiculo veiculo) throws ParseException{
+    public String getDuracaoPercurso(List<Endereco> finalShortPath, Veiculo veiculo) throws ParseException {
         double distancia = 0;
         int aux = 0;
         int i = finalShortPath.size() - 1;
         double tempo = 0;
-        for (Endereco end : finalShortPath) {
-            if (aux < i && finalShortPath.size() > 2) {
-                if((veiculo.getDescricao()).equalsIgnoreCase(SCOOTER)){
-                    distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
-                    Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
-                    tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
-                }
-                if((veiculo.getDescricao()).equalsIgnoreCase(DRONE)){
-                    distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
-                    Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
-                    tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
-                }
-                aux = aux + 1;
+        for (aux = 0; aux < i; aux++) {
+            if ((veiculo.getDescricao()).equalsIgnoreCase(SCOOTER)) {
+                distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
+                Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
+                tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
+            }
+            if ((veiculo.getDescricao()).equalsIgnoreCase(DRONE)) {
+                distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
+                Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
+                tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
             }
         }
-        String s = String.format("%06d", (int)tempo);
+        String s = String.format("%06d", (int) tempo);
         DateFormat format = new SimpleDateFormat("HHmmss");
         DateFormat format1 = new SimpleDateFormat("HH:mm:ss");
         Date date2 = format.parse(s);
-       
+
         return format1.format(date2);
     }
 
@@ -257,16 +261,16 @@ public class EntregaDB extends DataHandler {
         boolean updated = false;
 
         try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateEntrega(?,?,?,?,?) }")) {
-                        
+
             callSmt.setInt(1, entrega.getIdEntrega());
             callSmt.setInt(2, entrega.getidEstafeta());
             callSmt.setInt(3, entrega.getIdVeiculo());
-            
+
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             java.util.Date date = sdf1.parse(entrega.getDataInicio());
             java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
             callSmt.setTimestamp(4, sqlStartDate);
-            
+
             java.util.Date date1 = sdf1.parse(entrega.getDataFim());
             java.sql.Timestamp sqlEndDate = new java.sql.Timestamp(date1.getTime());
             callSmt.setTimestamp(5, sqlEndDate);

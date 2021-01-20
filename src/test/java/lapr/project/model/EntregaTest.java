@@ -207,5 +207,18 @@ public class EntregaTest {
         
     }
 
+    /**
+     * Test of toString method, of class Entrega.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1);
+        String expResult = "Entrega{idEntrega=0, dataInicio=25/12/2252, dataFim=26/12/2252, listEncomendas=[], idVeiculo=1, idEstafeta=1}";
+        String result = instance.toString();
+        assertEquals(expResult, result);
+
+    }
+
     
 }

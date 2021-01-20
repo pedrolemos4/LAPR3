@@ -159,6 +159,27 @@ public class RegistarEntregaControllerTest {
         assertEquals(1, expResult.getIdEntrega());
 
     }
+    
+    /**
+     * Test of addEntrega method, of class RegistarEntregaController.
+     * @throws java.sql.SQLException
+     * @throws java.text.ParseException
+     */
+    @Test
+    public void testAddEntrega1() throws SQLException, ParseException {
+        System.out.println("addEntrega1");
+        String dataInicio = "13/11/2015";
+        String dataFim = null;
+        int idVeiculo = 1;
+        int idEstafeta = 3;
+        Entrega expResult = new Entrega(dataInicio, dataFim, idVeiculo, idEstafeta);
+        when(entregaDB.addEntrega(expResult)).thenReturn(1);
+        Entrega entrega = instance.addEntrega(expResult.getDataInicio(),expResult.getDataFim(), expResult.getIdVeiculo(), expResult.getidEstafeta());
+        expResult.setIdEntrega(1);
+        entrega.setIdEntrega(entregaDB.addEntrega(expResult));
+        assertEquals(expResult.toString(), entrega.toString());
+
+    }
 
     /**
      * Test of getLstFarmacias method, of class RegistarEntregaController.
@@ -275,10 +296,16 @@ public class RegistarEntregaControllerTest {
         listEnderecos.add(e2);
         Endereco e3 = new Endereco("rrs", 34, 111, 34);
         listEnderecos.add(e3);
+        graph.insertVertex(e3);
+        graph.insertVertex(e2);
+        graph.insertVertex(e1);
+        graph.insertEdge(e1, e2, 1.0, 34);
+        graph.insertEdge(e2, e3, 1.0, 12);
+        graph.insertEdge(e1, e3, 1.0, 23);
         List<Endereco> finalShortPath = new LinkedList<>();
         Endereco origem = e1;
-        double energia = 0.0;
-        double expResult = 0.0;
+        double energia = 48.0;
+        double expResult = 48.0;
         RegistarEntregaController teste = new RegistarEntregaController(new UtilizadorDB(), new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
         double result = teste.getPath(graph, listEnderecos, finalShortPath, origem, energia);
         assertEquals(expResult, result, 0.0);

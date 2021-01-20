@@ -29,8 +29,7 @@ public class RegistarEstafetaController {
      * @return utilizador
      */
     public Utilizador login(String email, String password) {
-        int nif = utilizadorDB.validateLogin(email, password);
-        return estafetaDB.getEstafetaByNIF(nif);
+        return estafetaDB.getEstafetaByNIF(utilizadorDB.validateLogin(email, password));
     }
     
     /**
