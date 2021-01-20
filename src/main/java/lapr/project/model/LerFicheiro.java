@@ -44,39 +44,46 @@ public class LerFicheiro {
     }
 
     public void read(String nameFile) throws ParseException, SQLException {
+        System.out.println("1");
         try {
             try ( Scanner in = new Scanner(new File(nameFile))) {
+                System.out.println("2");
                 while (in.hasNextLine()) {
+                    System.out.println("3");
                     String[] items = in.nextLine().split(";");
+                    System.out.println("Items: "+items[0]);
                     switch (nameFile) {
-                        case "farmacias.csv":
+                        case "docs/Dados_de_Leitura/farmacias.csv":
                             fdb.addFarmacia(Integer.parseInt(items[0]), items[1], items[2]);
+                            System.out.println("Entre Far");
                             break;
-                        case "parques.csv":
+                        case "docs/Dados_de_Leitura/parques.csv":
+                            System.out.println("Parques");
                             pdb.addParque(Integer.parseInt(items[0]), Integer.parseInt(items[1]), items[2], Integer.parseInt(items[3]));
                             break;
-                        case "estacionamentos.csv":
+                        case "docs/Dados_de_Leitura/estacionamentos.csv":
+                            System.out.println("Estacionamentos");
                             edb.addEstacionamento(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Integer.parseInt(items[2]));
                             break;
-                        case "cartoes.csv":
+                        case "docs/Dados_de_Leitura/cartoes.csv":
                             cdb.addCartao(Integer.parseInt(items[0]), items[1], Integer.parseInt(items[2]));
                             break;
-                        case "enderecos.csv":
+                        case "docs/Dados_de_Leitura/enderecos.csv":
                             endb.addEndereco(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]), Double.parseDouble(items[3]));
                             break;
-                        case "utilizadores.csv":
+                        case "docs/Dados_de_Leitura/utilizadores.csv":
                             udb.addUtilizador(Integer.parseInt(items[0]), items[1], items[2], Integer.parseInt(items[3]), items[4]);
                             break;
-                        case "clientes.csv":
+                        case "docs/Dados_de_Leitura/clientes.csv":
                             cldb.addCliente(Integer.parseInt(items[0]), Double.parseDouble(items[1]), items[2], Integer.parseInt(items[3]));
                             break;
-                        case "estafetas.csv":
+                        case "docs/Dados_de_Leitura/estafetas.csv":
                             esdb.addEstafeta(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Double.parseDouble(items[2]));
                             break;
-                        case "veiculos.csv":
+                        case "docs/Dados_de_Leitura/veiculos.csv":
                             //   vctrl.addVeiculo(items[0], items[1], Integer.parseInt(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]), Double.parseDouble(items[5]), Double.parseDouble(items[6]), Double.parseDouble(items[7]), Integer.parseInt(items[8]));
                             break;
-                        case "caminhos.csv":
+                        case "docs/Dados_de_Leitura/caminhos.csv":
                             pathdb.addCaminho(items[0], items[1], Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]));
                             break;
                     }
