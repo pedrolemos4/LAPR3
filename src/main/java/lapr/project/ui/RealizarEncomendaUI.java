@@ -143,7 +143,7 @@ public class RealizarEncomendaUI {
             System.out.println("Preço: " + controller.getPreco());
             
             Encomenda enc = new Encomenda(controller.getCliente().getClienteNIF(), nif, dataInicio,
-                    controller.getPreco(), controller.getPeso(), 0.6, 1);
+                    controller.getPreco(), controller.getPeso(), controller.getTaxa(controller.getPreco()), 1);
 
             Map<Produto, Integer> mapaEncomenda = controller.getMapaEncomenda();
             

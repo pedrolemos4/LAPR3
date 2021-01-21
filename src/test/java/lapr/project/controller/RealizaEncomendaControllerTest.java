@@ -584,4 +584,43 @@ class RealizaEncomendaControllerTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of getTaxa method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testGetTaxa() {
+        System.out.println("getTaxa");
+        double preco = 30.0;
+        double expResult = 0.3;
+        when(encDB.getTaxa(preco)).thenReturn(expResult);
+        double result = instance.getTaxa(preco);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getTaxa method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testGetTaxa1() {
+        System.out.println("getTaxa1");
+        double preco = 51.0;
+        double expResult = 0.2;
+        when(encDB.getTaxa(preco)).thenReturn(expResult);
+        double result = instance.getTaxa(preco);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getTaxa method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testGetTaxa2() {
+        System.out.println("getTaxa2");
+        double preco = 101.0;
+        double expResult = 0.15;
+        when(encDB.getTaxa(preco)).thenReturn(expResult);
+        double result = instance.getTaxa(preco);
+        assertEquals(expResult, result);
+    }
+
 }

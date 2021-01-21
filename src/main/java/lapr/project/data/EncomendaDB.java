@@ -305,4 +305,19 @@ public class EncomendaDB extends DataHandler {
 
         return updated;
     }
+
+    /**
+     * Calcua a taxa da encomenda com base no preco dos produtos.
+     * @param preco
+     * @return 
+     */
+    public double getTaxa(double preco) {
+        if(preco<50){
+            return 0.3;
+        }
+        if(preco>=50 && preco<100){
+            return 0.2;
+        }
+        return 0.15;
+    }
 }

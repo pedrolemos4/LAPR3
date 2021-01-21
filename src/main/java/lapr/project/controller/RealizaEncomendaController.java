@@ -54,7 +54,8 @@ public class RealizaEncomendaController {
     }
     
     /**
-     * Verifica se produto foi adicionada recebendo o nif da farmacia, o produto e a quantidade
+     * Verifica se produto é válido e se for adiciona à lista recebendo o nif da 
+     * farmacia, o produto e a quantidade
      * @param nif nif da farmacia
      * @param prod produto
      * @param qntd quantidade do produto
@@ -68,7 +69,7 @@ public class RealizaEncomendaController {
     }
     
     /**
-     * Devolve o id da encomenda
+     * Regista a encomenda e devolve o id da encomenda
      * @param enc1 encomenda
      * @return id da encomenda
      * @throws SQLException
@@ -90,7 +91,8 @@ public class RealizaEncomendaController {
     }
     
     /**
-     * Devolve um map cuja key é o produto e o value a sua quantidade recebendo o nif da farmacia
+     * Devolve um map referente à lista de stock da farmacia recebida por parametro
+     * cuja key é o produto e o value a sua quantidade recebendo o nif da farmacia
      * @param nif nif da farmacia
      * @return map cuja key é o produto e o value a sua quantidade
      */
@@ -99,7 +101,8 @@ public class RealizaEncomendaController {
     }
     
     /**
-     * Devolve um map cuja key é o produto e o value a sua quantidade
+     * Devolve um map com os produtos selecionados pelo cliente na encomenda 
+     * cuja key é o produto e o value a sua quantidade
      * @return map cuja key é o produto e o value a sua quantidade
      */
     public Map<Produto, Integer> getMapaEncomenda() {
@@ -253,6 +256,15 @@ public class RealizaEncomendaController {
      */
     public Endereco getEnderecoOrigem(int nifFarmacia) {
         return edb.getEnderecoByNifFarmacia(nifFarmacia);
+    }
+
+    /**
+     * Devolve a taxa de acordo com o preço
+     * @param preco
+     * @return 
+     */
+    public double getTaxa(double preco) {
+        return encDB.getTaxa(preco);
     }
 
 }
