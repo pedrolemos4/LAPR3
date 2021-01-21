@@ -41,7 +41,7 @@ CREATE TABLE "LAPR3_G23".Cliente
 (           UtilizadorNIF number(10) NOT NULL, 
             creditos number(10), 
             Enderecomorada varchar(255) NOT NULL,
-            CartaonumeroCartaoCredito number(10) NOT NULL, 
+            CartaonumeroCartaoCredito number(16) NOT NULL, 
             PRIMARY KEY (UtilizadorNIF)
 );
 
@@ -233,9 +233,9 @@ CREATE TABLE "LAPR3_G23".Pagamento
 /
 
 CREATE TABLE "LAPR3_G23".Cartao 
-(           numeroCartaoCredito number(10),
+(           numeroCartaoCredito number(16),
             dataDeValidade date NOT NULL, 
-            CCV number(10) NOT NULL, 
+            CCV number(3) NOT NULL, 
             PRIMARY KEY (numeroCartaoCredito)
 );
 /
@@ -478,7 +478,10 @@ BEGIN
     VALUES(p_FarmaciaNIF, p_numeroMaximo, p_tipo, p_maxCap);
     SELECT "LAPR3_G23".parque.idParque INTO v_idParque
     FROM "LAPR3_G23".parque
-    WHERE "LAPR3_G23".parque.FarmaciaNIF = p_FarmaciaNIF;
+    WHERE "LAPR3_G23".parque.FarmaciaNIF = p_FarmaciaNIF
+    AND "LAPR3_G23".parque.numeromaximo = p_numeroMaximo
+    AND "LAPR3_G23".parque.tipo = p_tipo
+    AND "LAPR3_G23".parque.maxCap = p_maxCap;
 RETURN v_idParque;
 END;
 /
@@ -532,7 +535,7 @@ CREATE OR REPLACE PROCEDURE addEstacionamento(numeroLote "LAPR3_G23".estacioname
 idParque "LAPR3_G23".estacionamento.idParque%type) 
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".estacionamento VALUES(numeroLote,carregador,idParque);   
+  INSERT INTO "LAPR3_G23".estacionamento VALUES(numeroLote,carregador,idParque);
 END;
 /
 
