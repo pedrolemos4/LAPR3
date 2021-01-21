@@ -1,7 +1,7 @@
-Matternet M2;drone;12.9;100;2;9.5;3500;0,6;1
-Parcelcopter 4.0;drone;18.1;100;3;12;4200;0,4;1
-Rakuten Tenku;drone;17.5;100;2;9;3800;0,6;1
-Flirtey F3.0;drone;15.4;100;3;10;4400;0.5;1
-TVS NTORQ 125;scooter;12;100;15;118;7200;1.8;1
-Honda Activa 125;scooter;12;100;16;111;6600;1.8;1
-Hero Pleasure Plus;scooter;12;100;18;104;6000;1.7;1
+Drone;12.9;100;2;9.5;3500;1
+Drone;18.1;100;3;12;4200;1
+Drone;17.5;100;2;9;3800;1
+Drone;15.4;100;3;10;4400;1
+Scooter;12;100;15;118;7200;1
+Scooter;12;100;16;111;6600;1
+Scooter;12;100;18;104;6000;1

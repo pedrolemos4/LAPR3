@@ -51,7 +51,7 @@ public class VeiculoDB extends DataHandler {
         try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addVeiculo(?,?,?,?,?,?,?) }")) {
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
             callStmt.setString(2, veiculo.getDescricao());
-            callStmt.setInt(3, veiculo.getCapacidade());
+            callStmt.setDouble(3, veiculo.getCapacidade());
             callStmt.setDouble(4, veiculo.getPercentagemBateria());
             callStmt.setDouble(5, veiculo.getPesoMaximo());
             callStmt.setDouble(6, veiculo.getPesoVeiculo());
@@ -277,7 +277,7 @@ public class VeiculoDB extends DataHandler {
 
             callSmt.setInt(1, veiculo.getId());
             callSmt.setString(2, veiculo.getDescricao());
-            callSmt.setInt(3, veiculo.getCapacidade());
+            callSmt.setDouble(3, veiculo.getCapacidade());
             callSmt.setDouble(4, veiculo.getPercentagemBateria());
             callSmt.setDouble(5, veiculo.getPesoMaximo());
             callSmt.setDouble(6, veiculo.getPesoVeiculo());

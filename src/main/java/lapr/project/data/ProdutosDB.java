@@ -29,6 +29,7 @@ public class ProdutosDB extends DataHandler {
 
     /**
      * Devolve o produto criado com os dados enviados por parâmetro
+     *
      * @param desig designação do produto
      * @param peso peso do produto
      * @param precoBase preço base do produto
@@ -40,6 +41,7 @@ public class ProdutosDB extends DataHandler {
 
     /**
      * Valida o produto criado
+     *
      * @param prod produto a verificar
      * @return true se o produto criado for válido, falso se não
      */
@@ -49,6 +51,7 @@ public class ProdutosDB extends DataHandler {
 
     /**
      * Regista o produto na base de dados
+     *
      * @param prod produto a registar
      * @param farm farmácia para onde o produto vai ser enviado
      * @param qtd quantidade do produto a enviar
@@ -69,6 +72,7 @@ public class ProdutosDB extends DataHandler {
 
     /**
      * Adiciona o produto à base de dados
+     *
      * @param prod produto a atualizar
      * @return o id do produto criado
      */
@@ -78,6 +82,7 @@ public class ProdutosDB extends DataHandler {
 
     /**
      * Adiciona o produto à base de dados
+     *
      * @param desig designação do produto
      * @param peso peso do produto
      * @param precoBase preço base do produto
@@ -88,7 +93,7 @@ public class ProdutosDB extends DataHandler {
         try {
             openConnection();
 
-            try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addProduto(?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addProduto(?,?,?) }")) {
                 callStmt.registerOutParameter(1, OracleTypes.INTEGER);
                 callStmt.setString(2, desig);
                 callStmt.setDouble(3, peso);
@@ -107,6 +112,7 @@ public class ProdutosDB extends DataHandler {
 
     /**
      * Adiciona o produto criado ao stock da farmácia selecionada
+     *
      * @param nif nif da farmácia onde será adicionado o produto
      * @param prod id do produto a adicionar
      * @param qtd quantidade a ser adicionada
@@ -115,7 +121,7 @@ public class ProdutosDB extends DataHandler {
         try {
             openConnection();
 
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addProdutoStock(?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addProdutoStock(?,?,?) }")) {
 
                 callStmt.setInt(1, nif);
                 callStmt.setInt(2, prod);
@@ -132,10 +138,11 @@ public class ProdutosDB extends DataHandler {
 
     /**
      * Atualiza as informações do produto na base de dados
+     *
      * @param prod produto a ser atualizado
      * @return true se o produto for alterado com sucesso, false se não
      */
-    public boolean atualizarProduto(Produto prod) {
+    public boolean atualizarProduto(Produto prod) throws SQLException {
         if (validaProduto(prod)) {
             atualizarProduto(prod.getDesignacao(), prod.getPeso(), prod.getPrecoBase(), prod.getId());
             return true;
@@ -145,33 +152,40 @@ public class ProdutosDB extends DataHandler {
 
     /**
      * Atualiza as informações do produto na base de dados
+     *
      * @param desig designação do produto
      * @param peso peso do produto
      * @param precoBase preço base do produto
      * @param id id do produto
      */
-    private void atualizarProduto(String desig, double peso, double precoBase, int id) {
-        try {
-            openConnection();
+    private void atualizarProduto(String desig, double peso, double precoBase, int id) throws SQLException {
+        System.out.println("ID = " + id);
+        System.out.println("DESIGNAÇÃO = " + desig);
+        System.out.println("Peso = " + peso);
+        System.out.println("Preco Base = " + precoBase);
 
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?,?) }")) {
+        // openConnection();
+        try ( CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?,?) }")) {
 
-                callStmt.setString(1, desig);
-                callStmt.setDouble(2, peso);
-                callStmt.setDouble(3, precoBase);
-                callStmt.setInt(4, id);
+            callStmt.setString(1, desig);
+            callStmt.setDouble(2, peso);
+            callStmt.setDouble(3, precoBase);
+            callStmt.setInt(4, id);
 
-                callStmt.execute();
+            callStmt.execute();
+            try {
+
+                closeAll();
+
+            } catch (NullPointerException ex) {
+                Logger.getLogger(ProdutosDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
-            closeAll();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
     /**
      * Atualiza o stock de uma farmácia na base de dados
+     *
      * @param nif nif da farmácia a atualizar
      * @param idProduto id do produto a atualizar
      * @param quantidade nova quantidade
@@ -182,7 +196,7 @@ public class ProdutosDB extends DataHandler {
         try {
             openConnection();
 
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call procAtualizarStock(?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call procAtualizarStock(?,?,?) }")) {
 
                 callStmt.setInt(1, nif);
                 callStmt.setInt(2, idProduto);
@@ -200,14 +214,15 @@ public class ProdutosDB extends DataHandler {
 
     /**
      * Devolve o produto cujo id é igual ao recebido por parâmetro
+     *
      * @param id id do produto
      * @return produto
      */
     public Produto getProdutoByID(int id) {
         String query = "SELECT * FROM produto p WHERE p.idProduto= " + id;
 
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int id1 = rSet.getInt(1);
@@ -233,8 +248,8 @@ public class ProdutosDB extends DataHandler {
         Map<Produto, Integer> map = new HashMap<>();
         String query = "SELECT * FROM produto p INNER JOIN StockFarmacia s ON s.ProdutoidProduto = p.idProduto AND s.FarmaciaNIF = " + nif;
 
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int id = rSet.getInt(1);
@@ -292,7 +307,7 @@ public class ProdutosDB extends DataHandler {
      * @param qtdStock quantidade do produto em stock
      */
     public boolean removerProdutosEncomenda(Produto prod, int nif, int qtd, int qtdStock) {
-        return atualizarStock(nif, prod.getId(), qtdStock-qtd);
+        return atualizarStock(nif, prod.getId(), qtdStock - qtd);
     }
 
     /**

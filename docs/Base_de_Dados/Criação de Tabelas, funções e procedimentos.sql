@@ -54,14 +54,12 @@ CREATE TABLE "LAPR3_G23".Administrador
 
 CREATE TABLE "LAPR3_G23".veiculo 
 (           idveiculo number(10) GENERATED AS IDENTITY, 
-            descricao varchar(255) NOT NULL UNIQUE,
-            tipo varchar(255) NOT NULL,
-            capacidade number(6,2) NOT NULL,
+            descricao varchar(255) NOT NULL, CONSTRAINT ckDescricao check (lower(descricao) in ('drone','scooter')),
+            capacidade number(5,2) NOT NULL,
             percentagemBateria number(5,2) NOT NULL,
             pesoMaximo number(5,2) NOT NULL, 
             pesoveiculo number(5,2) NOT NULL,
-            potencia number(5,2) NOT NULL,
-            areaFrontal number(5,2) NOT NULL,
+            potencia number(10,2) NOT NULL,
             Estadoveiculoid number(10) NOT NULL, 
             PRIMARY KEY (idveiculo)
 );
@@ -84,7 +82,7 @@ CREATE TABLE "LAPR3_G23".scooter
 CREATE TABLE "LAPR3_G23".Estafeta 
 (           UtilizadorNIF number(10) NOT NULL,
             EstadoEstafetaid number(10) NOT NULL, 
-            pesoEstafeta number(10) NOT NULL, 
+            pesoEstafeta number(10,1) NOT NULL, 
             PRIMARY KEY (UtilizadorNIF)
 );
 /
@@ -133,10 +131,10 @@ CREATE TABLE "LAPR3_G23".Parque
 
 CREATE TABLE "LAPR3_G23".Endereco 
 (           morada varchar(255) NOT NULL,
-            latitude number(10) NOT NULL, 
-            longitude number(10) NOT NULL, 
+            latitude number(10,5) NOT NULL, 
+            longitude number(10,5) NOT NULL, 
             altitude number(10) NOT NULL, 
-            PRIMARY KEY (morada)
+            PRIMARY KEY (morada)    
 );
 /
 
@@ -326,6 +324,9 @@ INSERT INTO "LAPR3_G23".EstadoTransferencia VALUES(1,'Pendente');
 INSERT INTO "LAPR3_G23".EstadoTransferencia VALUES(2,'A transferir');
 INSERT INTO "LAPR3_G23".EstadoTransferencia VALUES(3,'Transferido');
 
+-----------------------------------------------------------------------------------------------------
+
+
 CREATE OR REPLACE PROCEDURE addFarmacia(p_NIF "LAPR3_G23".farmacia.nif%type,p_email "LAPR3_G23".farmacia.email%type,
 morada "LAPR3_G23".farmacia.morada%type) 
 AS
@@ -419,13 +420,13 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE atualizaProduto(idProd "LAPR3_G23".produto.idProduto%type,designacao "LAPR3_G23".produto.designacao%type,
-peso "LAPR3_G23".produto.peso%type, precoBase "LAPR3_G23".produto.precoBase%type)
+CREATE OR REPLACE PROCEDURE atualizarProduto(v_designacao "LAPR3_G23".produto.designacao%type,
+v_peso "LAPR3_G23".produto.peso%type, v_precoBase "LAPR3_G23".produto.precoBase%type,v_idProd "LAPR3_G23".produto.idProduto%type)
 AS
 BEGIN
-  UPDATE "LAPR3_G23".produto SET "LAPR3_G23".produto.designacao = designacao, "LAPR3_G23".produto.peso = peso, 
-  "LAPR3_G23".produto.precoBase = precoBase 
-  WHERE "LAPR3_G23".produto.idProduto = idProd;
+  UPDATE "LAPR3_G23".produto 
+  SET "LAPR3_G23".produto.designacao = v_designacao, "LAPR3_G23".produto.peso = v_peso, "LAPR3_G23".produto.precoBase = v_precoBase 
+  WHERE "LAPR3_G23".produto.idProduto = v_idProd;
 END;
 /
 
@@ -596,21 +597,19 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE Function addveiculo(p_descricao "LAPR3_G23".veiculo.descricao%type, p_tipo "LAPR3_G23".veiculo.tipo%type,
-p_capacidade "LAPR3_G23".veiculo.capacidade%type,percentagemBateria "LAPR3_G23".veiculo.percentagemBateria%type, 
-pesoMaximo "LAPR3_G23".veiculo.pesoMaximo%type, pesoveiculo "LAPR3_G23".veiculo.pesoveiculo%type,
-potencia "LAPR3_G23".veiculo.potencia%type, areaFrontal "LAPR3_G23".veiculo.areaFrontal%type,
-estadoveiculoId "LAPR3_G23".veiculo.estadoveiculoId%type)
+CREATE OR REPLACE Function addveiculo(p_descricao "LAPR3_G23".veiculo.descricao%type,p_capacidade "LAPR3_G23".veiculo.capacidade%type,
+percentagemBateria "LAPR3_G23".veiculo.percentagemBateria%type, pesoMaximo "LAPR3_G23".veiculo.pesoMaximo%type, 
+pesoveiculo "LAPR3_G23".veiculo.pesoveiculo%type,potencia "LAPR3_G23".veiculo.potencia%type,estadoveiculoId "LAPR3_G23".veiculo.estadoveiculoId%type)
 RETURN INTEGER
 IS
 v_idveiculo INTEGER;
     BEGIN
-        INSERT INTO "LAPR3_G23".veiculo(descricao,tipo, capacidade,percentagemBateria,pesoMaximo,pesoveiculo,potencia,
-        areaFrontal,Estadoveiculoid)
-        VALUES(p_descricao,p_tipo,p_capacidade,percentagemBateria, pesoMaximo, pesoveiculo, potencia, areaFrontal, estadoveiculoId);
+        INSERT INTO "LAPR3_G23".veiculo(descricao, capacidade,percentagemBateria,pesoMaximo,pesoveiculo,potencia,Estadoveiculoid)
+        VALUES(p_descricao,p_capacidade,percentagemBateria, pesoMaximo, pesoveiculo, potencia, estadoveiculoId);
         SELECT "LAPR3_G23".veiculo.idveiculo INTO v_idveiculo
         FROM "LAPR3_G23".veiculo
-        WHERE "LAPR3_G23".veiculo.descricao = p_descricao;
+        --WHERE "LAPR3_G23".veiculo.descricao = p_descricao
+        order by veiculo.idveiculo desc FETCH next 1 rows only;
 RETURN v_idveiculo;
 END;
 /
@@ -675,16 +674,14 @@ END;
 
 
 CREATE OR REPLACE PROCEDURE updateveiculo(p_id "LAPR3_G23".veiculo.idveiculo%type,p_descricao "LAPR3_G23".veiculo.descricao%type,
-p_tipo "LAPR3_G23".veiculo.tipo%type,p_capacidade "LAPR3_G23".veiculo.capacidade%type,p_pb "LAPR3_G23".veiculo.percentagemBateria%type,
-p_pm "LAPR3_G23".veiculo.pesoMaximo%type, p_ps "LAPR3_G23".veiculo.pesoveiculo%type,p_pot "LAPR3_G23".veiculo.potencia%type,
-p_af "LAPR3_G23".veiculo.areafrontal%type,p_eS "LAPR3_G23".veiculo.estadoveiculoid%type) 
+p_capacidade "LAPR3_G23".veiculo.capacidade%type,p_pb "LAPR3_G23".veiculo.percentagemBateria%type,p_pm "LAPR3_G23".veiculo.pesoMaximo%type,
+p_ps "LAPR3_G23".veiculo.pesoveiculo%type,p_pot "LAPR3_G23".veiculo.potencia%type,p_eS "LAPR3_G23".veiculo.estadoveiculoid%type) 
 AS
 BEGIN
-  UPDATE "LAPR3_G23".veiculo SET "LAPR3_G23".veiculo.descricao = p_descricao,"LAPR3_G23".veiculo.tipo = p_tipo,
-  "LAPR3_G23".veiculo.capacidade = p_capacidade, "LAPR3_G23".veiculo.percentagemBateria=p_pm,"LAPR3_G23".veiculo.pesoMaximo = p_pm,
-  "LAPR3_G23".veiculo.pesoveiculo = p_ps, "LAPR3_G23".veiculo.potencia = p_pot,"LAPR3_G23".veiculo.areafrontal = p_af, 
-  "LAPR3_G23".veiculo.estadoveiculoId = p_eS
-    WHERE "LAPR3_G23".veiculo.idveiculo = p_id;
+  UPDATE "LAPR3_G23".veiculo SET "LAPR3_G23".veiculo.descricao = p_descricao,"LAPR3_G23".veiculo.capacidade = p_capacidade,
+  "LAPR3_G23".veiculo.percentagemBateria=p_pm,"LAPR3_G23".veiculo.pesoMaximo = p_pm,"LAPR3_G23".veiculo.pesoveiculo = p_ps,
+  "LAPR3_G23".veiculo.potencia = p_pot,"LAPR3_G23".veiculo.estadoveiculoId = p_eS
+ WHERE "LAPR3_G23".veiculo.idveiculo = p_id;
 END;
 /
 
@@ -749,9 +746,22 @@ BEGIN
 END;
 /
 --------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO drone VALUES (1,30);
 
-
+select * from scooter;
+select * from drone;
 select * from endereco;
+select * from veiculo;
+select * from utilizador;
+select * from parque;
+select * from farmacia;
+select * from cliente;
+select * from estafeta;
+select * from estacionamento;
+select * from utilizador;
+order by numeroLote,idParque;
+select * from cartao;
+select * from caminho;
 INSERT INTO "LAPR3_G23".cartao VALUES(123123456,3,3);   
 select * from cartao;
 select c.utilizadornif, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito
@@ -800,7 +810,11 @@ SELECT "LAPR3_G23".encomenda.idEncomenda --INTO v_idEncomenda
   AND "LAPR3_G23".recibo.encomendaidencomenda = 181;
   
 rollback;
-  
+
+INSERT INTO veiculo(descricao, capacidade,percentagemBateria,pesoMaximo,pesoveiculo,potencia,Estadoveiculoid)
+        VALUES('Matternet M2 Drone',12,100, 2, 9.5, 3500, 1);
+  						
+
   SELECT * FROM produto;
   
   select * from cliente;
@@ -819,9 +833,17 @@ SELECT c.utilizadorNIF, c.creditos, c.enderecomorada, c.cartaonumerocartaocredit
   select * from farmacia ;
   select * from utilizador;
   
-  select * from linhaRecibo;
+   UPDATE "LAPR3_G23".produto SET "LAPR3_G23".produto.designacao = 'Comprimidos', "LAPR3_G23".produto.peso = 500, 
+  "LAPR3_G23".produto.precoBase = 3 
+  WHERE "LAPR3_G23".produto.idProduto = 1;
   
+  update farmacia set farmacia.email = 'beatriz.vaz2001@gmail.com'
+  where farmacia.nif = 111111111;
+  select * from linhaRecibo;
+  select * from produto;
   SELECT * FROM endereco e INNER JOIN farmacia f ON e.morada = f.morada WHERE f.NIF = 333666999;
+  
+  INSERT INTO "LAPR3_G23".produto(designacao,peso,precobase) VALUES('xaropeeeeeeeeeeee', 50,4);
   
   UPDATE "LAPR3_G23".stockfarmacia SET  "LAPR3_G23".stockfarmacia.stock = 2
     WHERE "LAPR3_G23".stockfarmacia.farmacianif = 555666555 AND "LAPR3_G23".stockfarmacia.ProdutoidProduto  = 1;
