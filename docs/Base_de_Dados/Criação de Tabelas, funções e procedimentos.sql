@@ -628,7 +628,19 @@ end;
 
 create or replace PROCEDURE procRemoveveiculo(p_id_veiculo "LAPR3_G23".veiculo.idveiculo%type) IS
 BEGIN
-    Update "LAPR3_G23".veiculo  Set Estadoveiculoid = 0 where idveiculo = p_id_veiculo;
+    DELETE FROM "LAPR3_G23".veiculo where idveiculo = p_id_veiculo;
+END;
+/
+
+create or replace PROCEDURE procRemovedrone(p_id_drone "LAPR3_G23".drone.idDrone%type) IS
+BEGIN
+    DELETE FROM "LAPR3_G23".drone where idDrone = p_id_drone;
+END;
+/
+
+create or replace PROCEDURE procRemovescooter(p_id_scooter "LAPR3_G23".scooter.idscooter%type) IS
+BEGIN
+    DELETE FROM "LAPR3_G23".scooter where idscooter = p_id_scooter;
 END;
 /
 
@@ -673,7 +685,7 @@ END;
 /
 
 
-CREATE OR REPLACE PROCEDURE updateveiculo(p_id "LAPR3_G23".veiculo.idveiculo%type,p_descricao "LAPR3_G23".veiculo.descricao%type,
+CREATE OR REPLACE PROCEDURE updateVeiculo(p_id "LAPR3_G23".veiculo.idveiculo%type,p_descricao "LAPR3_G23".veiculo.descricao%type,
 p_capacidade "LAPR3_G23".veiculo.capacidade%type,p_pb "LAPR3_G23".veiculo.percentagemBateria%type,p_pm "LAPR3_G23".veiculo.pesoMaximo%type,
 p_ps "LAPR3_G23".veiculo.pesoveiculo%type,p_pot "LAPR3_G23".veiculo.potencia%type,p_eS "LAPR3_G23".veiculo.estadoveiculoid%type) 
 AS
@@ -682,6 +694,22 @@ BEGIN
   "LAPR3_G23".veiculo.percentagemBateria=p_pm,"LAPR3_G23".veiculo.pesoMaximo = p_pm,"LAPR3_G23".veiculo.pesoveiculo = p_ps,
   "LAPR3_G23".veiculo.potencia = p_pot,"LAPR3_G23".veiculo.estadoveiculoId = p_eS
  WHERE "LAPR3_G23".veiculo.idveiculo = p_id;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE updateDrone(p_id "LAPR3_G23".drone.idDrone%type,p_power "LAPR3_G23".drone.powerPro%type) 
+AS
+BEGIN
+  UPDATE "LAPR3_G23".drone SET "LAPR3_G23".drone.powerPro = p_power
+ WHERE "LAPR3_G23".drone.idDrone = p_id;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE updateScooter(p_id "LAPR3_G23".scooter.idScooter%type,p_area "LAPR3_G23".scooter.areaFrontal%type) 
+AS
+BEGIN
+  UPDATE "LAPR3_G23".scooter SET "LAPR3_G23".scooter.areaFrontal = p_area
+ WHERE "LAPR3_G23".scooter.idScooter = p_id;
 END;
 /
 
@@ -747,6 +775,7 @@ END;
 /
 --------------------------------------------------------------------------------------------------------------------------------
 INSERT INTO drone VALUES (1,30);
+delete from "LAPR3_G23".veiculo where idveiculo = 181;
 
 select * from scooter;
 select * from drone;
@@ -813,7 +842,7 @@ rollback;
 
 INSERT INTO veiculo(descricao, capacidade,percentagemBateria,pesoMaximo,pesoveiculo,potencia,Estadoveiculoid)
         VALUES('Matternet M2 Drone',12,100, 2, 9.5, 3500, 1);
-  						
+                                    
 
   SELECT * FROM produto;
   
