@@ -57,7 +57,7 @@ public class AtualizarItensStockControllerTest {
      * Test of atualizarProduto method, of class AtualizarItensStockController.
      */
     @Test
-    public void testAtualizarProduto() {
+    public void testAtualizarProduto() throws SQLException, SQLException {
         System.out.println("atualizarProduto");
         Produto prod2  = new Produto("teste",50.0,70);
         when(produtoMock.atualizarProduto(prod2)).thenReturn(true);
@@ -68,7 +68,7 @@ public class AtualizarItensStockControllerTest {
      * Test of atualizarProduto method, of class AtualizarItensStockController.
      */
     @Test
-    public void testAtualizarProduto1() {
+    public void testAtualizarProduto1() throws SQLException {
         System.out.println("atualizarProduto1");
         Produto prod2  = new Produto("teste",50.0,70);
         when(produtoMock.atualizarProduto(prod2)).thenReturn(false);
