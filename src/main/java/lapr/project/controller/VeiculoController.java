@@ -64,8 +64,8 @@ public class VeiculoController {
         return (veiculoDB.registaScooter(scooter) ? (true) : (false));
     }
 
-    public Scooter novaScooter(Veiculo ve, int id, double powerPro) {
-        return veiculoDB.novaScooter(ve, id, powerPro);
+    public Scooter novaScooter(Veiculo ve, int id, double areaFrontal) {
+        return veiculoDB.novaScooter(ve, id, areaFrontal);
     }
 
     /**
@@ -77,6 +77,30 @@ public class VeiculoController {
      */
     public boolean updateVeiculo(Veiculo veiculo) throws SQLException {
         return (veiculoDB.updateVeiculo(veiculo) ? (true) : (false));
+    }
+    
+    /**
+     * Verifica se o drone foi atualizado recebendo o id  e a power pro do veiculo
+     *
+     * @param id id do veiculo
+     * @param powerPro power pro do veiculo
+     * @return true se o drone doi atualizado
+     * @throws SQLException
+     */
+    public boolean updateDrone(int id, double powerPro) throws SQLException {
+        return (veiculoDB.updateDrone(id, powerPro) ? (true) : (false));
+    }
+    
+    /**
+     * Verifica se a scooter foi atualizado recebendo o id  e a area frontal do veiculo
+     *
+     * @param id id do veiculo
+     * @param areaFrontal area frontal do veiculo
+     * @return true se a scooter doi atualizado
+     * @throws SQLException
+     */
+    public boolean updateScooter(int id, double areaFrontal) throws SQLException {
+        return (veiculoDB.updateScooter(id, areaFrontal) ? (true) : (false));
     }
 
     /**
@@ -109,5 +133,28 @@ public class VeiculoController {
     public boolean removeVeiculo(int idVeiculo) throws SQLException {
         return (veiculoDB.removeVeiculo(idVeiculo) ? (true) : (false));
     }
+    
+    /**
+     * Verifica se o drone foi removido recebendo por parametro o id do
+     * veiculo
+     * @param idVeiculo id do veiculo
+     * @return true se o drone foi removido
+     * @throws SQLException
+     */
+    public boolean removeDrone(int idVeiculo) throws SQLException {
+        return (veiculoDB.removeDrone(idVeiculo) ? (true) : (false));
+    }
+    
+    /**
+     * Verifica se a scooter foi removido recebendo por parametro o id do
+     * veiculo
+     * @param idVeiculo id do veiculo
+     * @return true se a scooter foi removido
+     * @throws SQLException
+     */
+    public boolean removeScooter(int idVeiculo) throws SQLException {
+        return (veiculoDB.removeScooter(idVeiculo) ? (true) : (false));
+    }
+
 
 }

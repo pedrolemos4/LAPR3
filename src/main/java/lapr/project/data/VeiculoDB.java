@@ -297,6 +297,54 @@ public class VeiculoDB extends DataHandler {
 
         return removed;
     }
+    
+    /**
+     * Atualiza a informação de um drone na base de dados
+     *
+     * @param id id do drone
+     * @param powerPro power pro do drone
+     * @return true se o drone foi alterado com sucesso, false se não
+     * @throws SQLException
+     */
+    public boolean updateDrone(int id, double powerPro) throws SQLException {
+        boolean removed = false;
+        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateDrone(?,?) }")) {
+            callSmt.setInt(1, id);
+            callSmt.setDouble(2, powerPro);
+            callSmt.execute();
+            removed = true;
+            try {
+                closeAll();
+            } catch (NullPointerException ex) {
+                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            }
+        }
+        return removed;
+    }
+    
+    /**
+     * Atualiza a informação de uma scooter na base de dados
+     *
+     * @param id id da scooter
+     * @param areaFrontal areaFrontal da scooter
+     * @return true se a scooter foi alterado com sucesso, false se não
+     * @throws SQLException
+     */
+    public boolean updateScooter(int id, double areaFrontal) throws SQLException {
+        boolean removed = false;
+        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateScooter(?,?) }")) {
+            callSmt.setInt(1, id);
+            callSmt.setDouble(2, areaFrontal);
+            callSmt.execute();
+            removed = true;
+            try {
+                closeAll();
+            } catch (NullPointerException ex) {
+                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            }
+        }
+        return removed;
+    }
 
     /**
      * Remove o veículo da base de dados
@@ -307,27 +355,63 @@ public class VeiculoDB extends DataHandler {
      */
     public boolean removeVeiculo(int id) throws SQLException {
         boolean removed = false;
-
-        try ( CallableStatement callV = getConnection().prepareCall("{ call removeVehicle(?) }")) {
-
+        try ( CallableStatement callV = getConnection().prepareCall("{ call procRemoveveiculo(?) }")) {
             callV.setInt(1, id);
-
             callV.execute();
-
             removed = true;
-
             try {
-
                 closeAll();
-
             } catch (NullPointerException ex) {
                 Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
-
             }
         }
         return removed;
     }
-
+    
+    /**
+     * Remove o drone da base de dados
+     *
+     * @param id id do veículo a remover
+     * @return true se o veículo foi removido com sucesso, false se não
+     * @throws SQLException
+     */
+    public boolean removeDrone (int id) throws SQLException {
+        boolean removed = false;
+        try ( CallableStatement callV = getConnection().prepareCall("{ call procRemovedrone(?) }")) {
+            callV.setInt(1, id);
+            callV.execute();
+            removed = true;
+            try {
+                closeAll();
+            } catch (NullPointerException ex) {
+                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            }
+        }
+        return removed;
+    }
+    
+    /**
+     * Remove o scooter da base de dados
+     *
+     * @param id id do veículo a remover
+     * @return true se o veículo foi removido com sucesso, false se não
+     * @throws SQLException
+     */
+        public boolean removeScooter (int id) throws SQLException {
+        boolean removed = false;
+        try ( CallableStatement callV = getConnection().prepareCall("{ call procRemovescooter(?) }")) {
+            callV.setInt(1, id);
+            callV.execute();
+            removed = true;
+            try {
+                closeAll();
+            } catch (NullPointerException ex) {
+                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            }
+        }
+        return removed;
+    }
+    
     public void addEstacionamentoVeiculo(Estacionamento estac, Veiculo scoot) {
         addEstacionamentoVeiculo(estac.getNumeroLote(), scoot.getId());
     }

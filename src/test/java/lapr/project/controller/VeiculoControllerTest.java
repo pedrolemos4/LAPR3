@@ -257,4 +257,120 @@ public class VeiculoControllerTest {
         assertEquals(expResult.toString(), vC.novaScooter(ve, id, areaFrontal).toString());
     }
 
+    /**
+     * Test of updateDrone method, of class VeiculoController.
+     */
+    @Test
+    public void testUpdateDrone() throws Exception {
+        System.out.println("updateDrone");
+        int id = 1;
+        double powerPro = 12.0;
+        boolean expResult = false;
+        when(veiculoDBMock.updateDrone(id, powerPro)).thenReturn(expResult);
+        boolean result = instance.updateDrone(id, powerPro);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
+     * Test of updateDrone method, of class VeiculoController.
+     */
+    @Test
+    public void testUpdateDrone1() throws Exception {
+        System.out.println("updateDrone");
+        int id = 1;
+        double powerPro = 12.0;
+        boolean expResult = true;
+        when(veiculoDBMock.updateDrone(id, powerPro)).thenReturn(expResult);
+        boolean result = instance.updateDrone(id, powerPro);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of updateScooter method, of class VeiculoController.
+     */
+    @Test
+    public void testUpdateScooter() throws Exception {
+        System.out.println("updateScooter");
+        int id = 1;
+        double areaFrontal = 15.0;
+        boolean expResult = false;
+        when(veiculoDBMock.updateScooter(id, areaFrontal)).thenReturn(expResult);
+        boolean result = instance.updateScooter(id, areaFrontal);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
+     * Test of updateScooter method, of class VeiculoController.
+     */
+    @Test
+    public void testUpdateScooter1() throws Exception {
+        System.out.println("updateScooter1");
+        int id = 1;
+        double areaFrontal = 15.0;
+        boolean expResult = true;
+        when(veiculoDBMock.updateScooter(id, areaFrontal)).thenReturn(expResult);
+        boolean result = instance.updateScooter(id, areaFrontal);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of removeDrone method, of class VeiculoController.
+     */
+    @Test
+    public void testRemoveDrone() throws Exception {
+        System.out.println("removeDrone");
+        int idVeiculo = 0;
+        boolean expResult = false;
+        when(veiculoDBMock.removeDrone(idVeiculo)).thenReturn(expResult);
+        boolean result = instance.removeDrone(idVeiculo);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
+     * Test of removeDrone method, of class VeiculoController.
+     */
+    @Test
+    public void testRemoveDrone1() throws Exception {
+        System.out.println("removeDrone1");
+        int idVeiculo = 1;
+        boolean expResult = true;
+        when(veiculoDBMock.removeDrone(idVeiculo)).thenReturn(expResult);
+        boolean result = instance.removeDrone(idVeiculo);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of removeScooter method, of class VeiculoController.
+     */
+    @Test
+    public void testRemoveScooter() throws Exception {
+        System.out.println("removeScooter");
+        int idVeiculo = 2;
+        boolean expResult = false;
+        when(veiculoDBMock.removeScooter(idVeiculo)).thenReturn(expResult);
+        boolean result = instance.removeScooter(idVeiculo);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
+     * Test of removeScooter method, of class VeiculoController.
+     */
+    @Test
+    public void testRemoveScooter1() throws Exception {
+        System.out.println("removeScooter1");
+        int idVeiculo = 2;
+        boolean expResult = true;
+        when(veiculoDBMock.removeScooter(idVeiculo)).thenReturn(expResult);
+        boolean result = instance.removeScooter(idVeiculo);
+        assertEquals(expResult, result);
+
+    }
+
 }
