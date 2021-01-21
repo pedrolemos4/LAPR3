@@ -9,7 +9,7 @@ public class Veiculo {
 
     private int id;
     private String descricao;
-    private int capacidade;
+    private double capacidade;
     private double percentagemBateria;
     private double pesoMaximo;
     private double pesoVeiculo;
@@ -29,7 +29,7 @@ public class Veiculo {
      * @param potencia
      * @param estado 
      */
-    public Veiculo(int id, String descricao,int capacidade, double percentagemBateria, 
+    public Veiculo(int id, String descricao,double capacidade, double percentagemBateria, 
             double pesoMaximo, double pesoVeiculo, double potencia,int estado) {
         this.id = id;
         this.descricao = descricao;
@@ -55,7 +55,7 @@ public class Veiculo {
      * @param areaFrontal
      * @param estado
      */
-    public Veiculo(String descricao,int capacidade,double percentagemBateria, 
+    public Veiculo(String descricao,double capacidade,double percentagemBateria, 
             double pesoMaximo,double pesoVeiculo, double potencia,int estado) {
         this.descricao = descricao;
         this.capacidade = capacidade;
@@ -158,7 +158,7 @@ public class Veiculo {
      * Devolve a capacidade da bateria do veículo
      * @return 
      */
-    public int getCapacidade(){
+    public double getCapacidade(){
         return capacidade;
     }
     
@@ -229,7 +229,7 @@ public class Veiculo {
      *
      * @param capacidade
      */
-    public void setCapacidade(int capacidade){
+    public void setCapacidade(double capacidade){
         this.capacidade=capacidade;
     }
     

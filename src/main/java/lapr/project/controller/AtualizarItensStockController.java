@@ -1,5 +1,6 @@
 package lapr.project.controller;
 
+import java.sql.SQLException;
 import lapr.project.data.ProdutosDB;
 import lapr.project.model.Produto;
 
@@ -39,7 +40,7 @@ public class AtualizarItensStockController {
      * @param prod o produto que vai ser atualizado ou nao
      * @return true se os atributos do produto foram atualizados
      */
-    public boolean atualizarProduto(Produto prod) {
+    public boolean atualizarProduto(Produto prod) throws SQLException {
         return (produtosDB.atualizarProduto(prod)? (true) : (false));
     }
 }

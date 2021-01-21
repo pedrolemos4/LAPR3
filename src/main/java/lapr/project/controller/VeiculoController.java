@@ -42,7 +42,7 @@ public class VeiculoController {
      * @return veiculo
      * @throws SQLException
      */
-    public Veiculo addVeiculo(String descricao, int capacidade,
+    public Veiculo addVeiculo(String descricao, double capacidade,
             double percentagemBateria, double pesoMaximo, double pesoVeiculo,
             double potencia, int estado) throws SQLException {
         Veiculo veiculo = new Veiculo(descricao, capacidade, percentagemBateria, pesoMaximo,

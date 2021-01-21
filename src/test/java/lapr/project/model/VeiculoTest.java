@@ -234,7 +234,7 @@ public class VeiculoTest {
         Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
         String expResult = "Veiculo:"
                 + "\nDescrição: \t" + "descricao"
-                + "\nCapacidade: \t" + 100
+                + "\nCapacidade: \t" + 100.0
                 + "\nPercentagem de Bateria= \t" + 85.0
                 + "\nPeso máximo= \t" + 50.0
                 + "\nPeso do Veiculo= \t" + 30.0
@@ -250,8 +250,8 @@ public class VeiculoTest {
     public void testGetCapacidade() {
         System.out.println("getCapacidade");
         Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
-        int expResult = 100;
-        int result = instance.getCapacidade();
+        double expResult = 100;
+        double result = instance.getCapacidade();
         assertEquals(expResult, result);
 
     }
@@ -262,7 +262,7 @@ public class VeiculoTest {
     @Test
     public void testSetCapacidade() {
         System.out.println("setCapacidade");
-        int capacidade = 10;
+        double capacidade = 10;
         Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
         instance.setCapacidade(capacidade);
 

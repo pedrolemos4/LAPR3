@@ -101,8 +101,8 @@ public class AdminUI {
      */
     public void addVeiculo() throws ClassNotFoundException, SQLException, ParseException {
         System.out.println("Pretende adicionar uma scooter ou um drone?");
-        String veiculo = LER.nextLine();
-        System.out.println("Insira uma descrição única do veículo:");
+        //String veiculo = LER.nextLine();
+       // System.out.println("Insira uma descrição única do veículo:");
         String descricao = LER.nextLine();
         System.out.println("Insira a capacidade máxima da bateria:");
         int capacidade = LER.nextInt();
@@ -133,7 +133,7 @@ public class AdminUI {
 
         double powerPro = 0.0;
         double areaFrontal = 0.0;
-        if (veiculo.equalsIgnoreCase("drone")) {
+        if (descricao.equalsIgnoreCase("drone")) {
             System.out.println("Insira a power pro do veículo");
             powerPro = LER.nextDouble();
             System.out.println("Descrição:\t" + descricao

@@ -62,7 +62,7 @@ public class ScooterTest {
         Scooter instance = new Scooter("descricao", 100, 85, 50, 30, 40,1, 50,1);
         String expResult = "Veiculo:"
                 + "\nDescrição: \t" + "descricao"
-                + "\nCapacidade: \t" + 100
+                + "\nCapacidade: \t" + 100.0
                 + "\nPercentagem de Bateria= \t" + 85.0
                 + "\nPeso máximo= \t" + 50.0
                 + "\nPeso do Veiculo= \t" + 30.0

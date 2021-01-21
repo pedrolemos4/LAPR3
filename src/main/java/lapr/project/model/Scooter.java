@@ -42,6 +42,16 @@ public class Scooter extends Veiculo {
         this.areaFrontal = areaFrontal;
     }
 
+    public Scooter(int id,double areaFrontal){
+        this.id=id;
+        this.areaFrontal=areaFrontal;
+    }
+    
+    @Override
+    public int getId(){
+        return this.id;
+    }
+    
     /**
      * Devolve a área frontal do veiculo
      *

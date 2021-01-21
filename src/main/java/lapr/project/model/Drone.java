@@ -47,7 +47,17 @@ public class Drone extends Veiculo {
         this.id = id;
         this.powerPro = powerPro;
     }
+    
+    public Drone(int id, double powerPro){
+        this.id = id;
+        this.powerPro = powerPro;
+    }
 
+    @Override
+    public int getId(){
+        return this.id;
+    }
+    
     /**
      * Retorna o atributo power pro do drone
      *

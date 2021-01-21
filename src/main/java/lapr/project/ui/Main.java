@@ -33,6 +33,8 @@ class Main {
     private static final String CLIENTES = "docs/Dados_de_Leitura/clientes.csv";
     private static final String ESTAFETAS = "docs/Dados_de_Leitura/estafetas.csv";
     private static final String VEICULOS = "docs/Dados_de_Leitura/veiculos.csv";
+    private static final String DRONES = "docs/Dados_de_Leitura/drones.csv";
+    private static final String SCOOTERS = "docs/Dados_de_Leitura/scooters.csv";
     private static final String CAMINHOS = "docs/Dados_de_Leitura/caminhos.csv";
 
     /**
@@ -60,19 +62,21 @@ class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+       
         LerFicheiro readFile = new LerFicheiro();
         
-        readFile.read(ENDERECOS);
-        readFile.read(CARTOES);
-        readFile.read(VEICULOS);
-        readFile.read(UTILIZADORES);
-        readFile.read(FARMACIAS);
-        readFile.read(PARQUES);
-        readFile.read(ESTACIONAMENTOS);
-        readFile.read(CLIENTES);
-        readFile.read(ESTAFETAS);
-        readFile.read(CAMINHOS);
+//        readFile.read(ENDERECOS);
+//        readFile.read(CARTOES);
+//        readFile.read(VEICULOS);
+//        readFile.read(DRONES);
+//        readFile.read(SCOOTERS);
+//        readFile.read(UTILIZADORES);
+//        readFile.read(FARMACIAS);
+//        readFile.read(PARQUES);
+//        readFile.read(ESTACIONAMENTOS);
+//        readFile.read(CLIENTES);
+//        readFile.read(ESTAFETAS);
+//        readFile.read(CAMINHOS);
 
 //        EstacionamentoController cont = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB());
 //        cont.checkParkings("src/main/java/lapr/project/parking/estacionamento");
