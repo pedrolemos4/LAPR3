@@ -24,7 +24,6 @@ class Main {
      * Logger class.
      */
     private static final Logger LOGGER = Logger.getLogger("MainLog");
-    private static final LerFicheiro readFile = new LerFicheiro();
     private static final String FARMACIAS = "docs/Dados_de_Leitura/farmacias.csv";
     private static final String PARQUES = "docs/Dados_de_Leitura/parques.csv";
     private static final String ESTACIONAMENTOS = "docs/Dados_de_Leitura/estacionamentos.csv";
@@ -48,16 +47,7 @@ class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException, ParseException {
-        readFile.read(FARMACIAS);
-        readFile.read(PARQUES);
-        readFile.read(ESTACIONAMENTOS);
-        readFile.read(CARTOES);
-        readFile.read(ENDERECOS);
-        readFile.read(UTILIZADORES);
-        readFile.read(CLIENTES);
-        readFile.read(ESTAFETAS);
-        readFile.read(VEICULOS);
-        readFile.read(CAMINHOS);
+        
         try {
             Properties properties
                     = new Properties(System.getProperties());
@@ -65,10 +55,24 @@ class Main {
             properties.load(input);
             input.close();
             System.setProperties(properties);
+            
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        LerFicheiro readFile = new LerFicheiro();
+        
+        readFile.read(ENDERECOS);
+        readFile.read(CARTOES);
+        readFile.read(VEICULOS);
+        readFile.read(UTILIZADORES);
+        readFile.read(FARMACIAS);
+        readFile.read(PARQUES);
+        readFile.read(ESTACIONAMENTOS);
+        readFile.read(CLIENTES);
+        readFile.read(ESTAFETAS);
+        readFile.read(CAMINHOS);
 
 //        EstacionamentoController cont = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB());
 //        cont.checkParkings("src/main/java/lapr/project/parking/estacionamento");

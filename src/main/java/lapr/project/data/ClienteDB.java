@@ -34,7 +34,7 @@ public class ClienteDB extends DataHandler {
      * @param numCC número do cartão de cidadão do cliente
      * @return o novo cliente criado
      */
-    public Cliente novoCliente(int nif, String nome, String email, int numeroSegurancaSocial, double creditos, String morada, int numCC, String password) {
+    public Cliente novoCliente(int nif, String nome, String email, int numeroSegurancaSocial, double creditos, String morada, long numCC, String password) {
         return new Cliente(nif, nome, email, numeroSegurancaSocial, creditos, morada, numCC, password);
     }
 
@@ -82,14 +82,14 @@ public class ClienteDB extends DataHandler {
      * @param enderecoMorada morada do cliente
      * @param numCC número do cartão de cidadão do cliente
      */
-    public void addCliente(int nif, double creditos, String enderecoMorada, int numCC) {
+    public void addCliente(int nif, double creditos, String enderecoMorada, long numCC) {
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCliente(?,?,?,?) }")) {
                 callStmt.setInt(1, nif);
                 callStmt.setDouble(2, creditos);
                 callStmt.setString(3, enderecoMorada);
-                callStmt.setInt(4, numCC);
+                callStmt.setLong(4, numCC);
                 callStmt.execute();
             }
             closeAll();
@@ -113,7 +113,7 @@ public class ClienteDB extends DataHandler {
                     int nif = rSet.getInt(1);
                     int creditos = rSet.getInt(2);
                     String enderecoMorada = rSet.getString(3);
-                    int numCC = rSet.getInt(4);
+                    long numCC = rSet.getLong(4);
 
                     list.add(new Cliente(nif, creditos, enderecoMorada, numCC));
                 }
@@ -143,7 +143,7 @@ public class ClienteDB extends DataHandler {
                     int id1 = rSet.getInt(1);
                     double creds = rSet.getDouble(2);
                     String morada = rSet.getString(3);
-                    int num = rSet.getInt(4);
+                    long num = rSet.getLong(4);
 
                     return new Cliente(id1,creds,morada,num);
                 }
@@ -169,7 +169,7 @@ public class ClienteDB extends DataHandler {
                     int aInt = rSet.getInt(1);
                     double aInt1 = rSet.getDouble(2);
                     String string = rSet.getString(3);
-                    int aInt2 = rSet.getInt(4);
+                    long aInt2 = rSet.getLong(4);
                     return new Cliente(aInt, aInt1, string, aInt2);
                 }
             }

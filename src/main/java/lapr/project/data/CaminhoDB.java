@@ -20,7 +20,7 @@ public class CaminhoDB extends DataHandler{
     public void addCaminho(String morada1, String morada2, double roadResistanceCoefficient, double velocidadeVento, double direcaoVento) {
         try {
             openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCaminho(?,?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCaminho(?,?,?,?,?) }")) {
                 callStmt.setString(1, morada1);
                 callStmt.setString(2, morada2);
                 callStmt.setDouble(3, roadResistanceCoefficient);

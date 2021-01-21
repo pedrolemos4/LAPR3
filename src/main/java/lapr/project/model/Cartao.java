@@ -6,7 +6,7 @@ package lapr.project.model;
  */
 public class Cartao {
 
-    private int numeroCartao;
+    private long numeroCartao;
     private String dataDeValidade;
     private int ccv;
 
@@ -18,7 +18,7 @@ public class Cartao {
      * @param dataDeValidade a data de validade de cartao
      * @param ccv o CCV de cartao
      */
-    public Cartao(int numeroCartao, String dataDeValidade, int ccv) {
+    public Cartao(long numeroCartao, String dataDeValidade, int ccv) {
         this.numeroCartao = numeroCartao;
         this.dataDeValidade = dataDeValidade;
         this.ccv = ccv;
@@ -38,7 +38,7 @@ public class Cartao {
      *
      * @return numero de cartao.
      */
-    public int getNumeroCartao() {
+    public long getNumeroCartao() {
         return numeroCartao;
     }
 
@@ -47,7 +47,7 @@ public class Cartao {
      *
      * @param numeroCartao o novo numero de cartao
      */
-    public void setNumeroCartao(int numeroCartao) {
+    public void setNumeroCartao(long numeroCartao) {
         this.numeroCartao = numeroCartao;
     }
 

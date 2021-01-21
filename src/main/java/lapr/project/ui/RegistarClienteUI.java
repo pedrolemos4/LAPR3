@@ -68,7 +68,7 @@ public class RegistarClienteUI {
         System.out.println("Altitude:");
         double alt = LER.nextDouble();
         System.out.println("Número de Cartão de Crédito:");
-        int ncc = LER.nextInt();
+        long ncc = LER.nextLong();
         System.out.println("Data de Validade do CC:");
         LER.nextLine();
         String dvcc = LER.nextLine();

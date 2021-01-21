@@ -73,7 +73,7 @@ public class RegistarClienteController {
      * @param password a password do cliente
      * @return  cliente
      */
-    public Cliente novoCliente(int nif, String nome, String email, int numeroSegurancaSocial, double creditos, String morada, int numCC, String password) {
+    public Cliente novoCliente(int nif, String nome, String email, int numeroSegurancaSocial, double creditos, String morada, long numCC, String password) {
         return clienteDB.novoCliente(nif, nome, email, numeroSegurancaSocial, creditos, morada, numCC, password);
     }
     
@@ -84,7 +84,7 @@ public class RegistarClienteController {
      * @param ccv o codigo de segurança do cartao de credito
      * @return cartao
      */
-    public Cartao novoCartao(int numCC, String dataValidade, int ccv) {
+    public Cartao novoCartao(long numCC, String dataValidade, int ccv) {
         return cartaoDB.novoCartao(numCC, dataValidade, ccv);
     }
     

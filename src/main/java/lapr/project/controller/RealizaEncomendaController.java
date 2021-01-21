@@ -36,12 +36,13 @@ public class RealizaEncomendaController {
     private final EnderecoDB edb;
     
     /**
-     * Constroi uma instancia de RealizaEncomendaController recebendo uma instancia de ProdutosDB, EncomendaDB, ReciboDB, ClienteDB e EmailDB
+     * Constroi uma instancia de RealizaEncomendaController recebendo uma instancia de ProdutosDB, EncomendaDB, ReciboDB, ClienteDB, EmailDB e EnderecoDB
      * @param prod uma instancia de ProdutosDB
      * @param enc uma instancia de EncomendaDB
      * @param rec uma instancia de ReciboDB
      * @param cl uma instancia de ClienteDB
      * @param em uma instancia de EmailDB
+     * @param ed uma instancia de EnderecoDB
      */
     public RealizaEncomendaController(ProdutosDB prod, EncomendaDB enc, ReciboDB rec, ClienteDB cl, EmailDB em, EnderecoDB ed) {
         this.produtoDB = prod;
