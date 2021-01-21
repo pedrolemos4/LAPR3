@@ -36,7 +36,7 @@ public class EncomendaDB extends DataHandler {
      * @return encomenda cujo id é o recebido por parâmetro
      */
     public Encomenda getEncomenda(int id) {
-        String query = "SELECT * FROM encomenda WHERE idEncomenda = "+id;
+        String query = "SELECT * FROM encomenda WHERE idEncomenda = " + id;
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
 
@@ -92,6 +92,7 @@ public class EncomendaDB extends DataHandler {
      * @param enc encomenda a ser adicionada
      * @return true se for adicionada com sucesso, false se não
      * @throws java.sql.SQLException
+     * @throws java.text.ParseException
      */
     public int addEncomenda(Encomenda enc) throws SQLException, ParseException {
         return addEncomenda(enc.getNif(), enc.getNifFarmacia(), enc.getDataPedida(), enc.getPreco(), enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado().getEstado());
@@ -116,9 +117,9 @@ public class EncomendaDB extends DataHandler {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             java.util.Date date = sdf1.parse(dataPedida);
             java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
-            callStmt.setInt(2, nifFarmacia);
-            callStmt.setTimestamp(3, sqlStartDate);
 
+            callStmt.setTimestamp(2, sqlStartDate);
+            callStmt.setInt(3, nifFarmacia);
             callStmt.setDouble(4, preco);
             callStmt.setDouble(5, pesoEncomenda);
             callStmt.setDouble(6, taxa);
@@ -154,6 +155,7 @@ public class EncomendaDB extends DataHandler {
 
     /**
      * Guarda na base de dados a lista de produtos por encomenda
+     *
      * @param enc encomenda a registar
      * @param p produto a registar
      * @param stock quantidade do produto a registar
@@ -206,6 +208,7 @@ public class EncomendaDB extends DataHandler {
 
     /**
      * Retorna a lista de encomendas presentes na base de dados
+     *
      * @param query query de pesquisa
      * @return lista de encomendas
      */
@@ -237,6 +240,7 @@ public class EncomendaDB extends DataHandler {
 
     /**
      * Retorna o valor dos créditos
+     *
      * @param date data de quando foi feita a encomenda
      * @param preco preco do produto
      * @return valor dos créditos
@@ -261,6 +265,7 @@ public class EncomendaDB extends DataHandler {
 
     /**
      * Gera e adiciona créditos oa cliente
+     *
      * @param c cliente a adicionar os créditos
      * @param precoTotal preco total da encomenda
      * @return true se os créditos foram adicionados com sucesso, false se não
@@ -278,6 +283,7 @@ public class EncomendaDB extends DataHandler {
 
     /**
      * Atualiza a encomenda recebendo o id e o estado por parâmetro
+     *
      * @param idEncomenda id da encomenda
      * @param estado estado da encomenda
      * @return true se atualizou a encomenda com sucesso, false se não
@@ -308,14 +314,15 @@ public class EncomendaDB extends DataHandler {
 
     /**
      * Calcua a taxa da encomenda com base no preco dos produtos.
+     *
      * @param preco
-     * @return 
+     * @return
      */
     public double getTaxa(double preco) {
-        if(preco<50){
+        if (preco < 50) {
             return 0.3;
         }
-        if(preco>=50 && preco<100){
+        if (preco >= 50 && preco < 100) {
             return 0.2;
         }
         return 0.15;

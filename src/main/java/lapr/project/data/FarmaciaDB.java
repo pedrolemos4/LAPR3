@@ -241,7 +241,7 @@ public class FarmaciaDB extends DataHandler {
 
         Graph<Endereco, Double> graph = new Graph<>(true);
         List<Caminho> listCaminhos = new ArrayList<>(cam.getAllCaminhos());
-
+        
         for(Caminho c : listCaminhos){
             graph.insertVertex(c.getEnd1());
             graph.insertVertex(c.getEnd2());

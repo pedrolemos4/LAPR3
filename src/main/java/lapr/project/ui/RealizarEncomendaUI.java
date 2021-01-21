@@ -44,24 +44,28 @@ public class RealizarEncomendaUI {
         for (Farmacia f : lstFarmacias) {
             System.out.println(f.toString());
             System.out.println("--PRODUTOS--");
-            for (Produto p : controller.getListStock(f.getNIF()).keySet()) {
-                System.out.println(p.toString());
-                System.out.println("Quantidade: " + controller.getListStock(f.getNIF()).get(p));
+            for (Map.Entry<Produto, Integer> p : controller.getListStock(f.getNIF()).entrySet()) {
+                System.out.println(p.getKey().toString());
+                System.out.println("Quantidade: " + p.getValue());
             }
         }
-
+        
         Cliente cliente = controller.getCliente();
-        Endereco enderecoCliente = controller.getEnderecoByNifCliente(cliente.getNIF());
+        
+        Endereco enderecoCliente = controller.getEnderecoByNifCliente(cliente.getClienteNIF());
+        
         Graph<Endereco, Double> generateGrafo = controller2.generateGrafo();
+        
         Farmacia farm = controller2.getFarmaciaProxima(generateGrafo, enderecoCliente); 
         generateGrafo.removeVertex(enderecoCliente);
         int nif = farm.getNIF();
         Map<Produto, Integer> stock = controller.getListStock(nif);
         
         int nif1;
-
-        while (LER.hasNextLine()) {
+        boolean bool = true;
+        while (bool) {
             System.out.println("Introduza o id de um produto apresentado ou 0 para terminar.");
+            
             int id = LER.nextInt();
             if (id == 0) {
                 break;
@@ -184,8 +188,10 @@ public class RealizarEncomendaUI {
                 System.out.println(p.getDesignacao() + " " + mapaEncomenda.get(p));
             }
 
-            System.out.println("\n\nEncomenda adicionada com sucesso!'");
+            System.out.println("\n\nEncomenda adicionada com sucesso!");
             rcUI.menuCliente();
+        } else{
+            System.out.println("\n\nEncomenda cancelada.");
         }
     }
 }

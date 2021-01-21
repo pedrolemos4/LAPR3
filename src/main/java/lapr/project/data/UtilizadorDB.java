@@ -91,7 +91,7 @@ public class UtilizadorDB extends DataHandler {
                 if (rSet.next()) {
                     int creditos = rSet.getInt(2);
                     String morada = rSet.getString(3);
-                    int numCC = rSet.getInt(4);
+                    long numCC = rSet.getLong(4);
                     String nome = rSet.getString(6);
                     String email = rSet.getString(7);
                     int nSegSocial = rSet.getInt(8);

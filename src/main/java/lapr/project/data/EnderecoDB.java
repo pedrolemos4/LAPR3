@@ -124,6 +124,7 @@ public class EnderecoDB extends DataHandler {
      * @return endereço
      */
     public Endereco getQuery(String query){
+        Endereco end = new Endereco();
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
 
@@ -133,13 +134,13 @@ public class EnderecoDB extends DataHandler {
                     double longitude = rSet.getDouble(3);
                     double altitude = rSet.getDouble(4);
 
-                    return new Endereco(morada, latitude, longitude, altitude);
+                    end = new Endereco(morada, latitude, longitude, altitude);
                 }
             }
         } catch (SQLException e) {
             Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
         }
-        return null;
+        return end;
     }
 
     /**
@@ -171,7 +172,7 @@ public class EnderecoDB extends DataHandler {
      * @return endereço da farmacia
      */
     public Endereco getEnderecoByMorada(String farmMorada) {
-        String query = "SELECT * FROM endereco e WHERE e.morada = " + farmMorada;
+        String query = "SELECT * FROM endereco e WHERE e.morada = '" + farmMorada + "'";
         return getQuery(query);
     }
 
