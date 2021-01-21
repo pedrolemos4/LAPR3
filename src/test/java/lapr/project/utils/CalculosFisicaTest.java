@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CalculosFisicaTest {
     
     public CalculosFisicaTest() {
+        CalculosFisica test = new CalculosFisica();
+        assertEquals(test, test);
     }
 
     /**

@@ -31,7 +31,7 @@ public class CartaoDB extends DataHandler {
      * @param ccv código de segurança do cartão de crédito
      * @return o novo cartão de crédito criado
      */
-    public Cartao novoCartao(int numeroCartao, String dataDeValidade, int ccv) {
+    public Cartao novoCartao(long numeroCartao, String dataDeValidade, int ccv) {
         return new Cartao(numeroCartao, dataDeValidade, ccv);
     }
 
@@ -77,11 +77,11 @@ public class CartaoDB extends DataHandler {
      * @param ccv código de segurança do cartão de crédito
      * @throws java.text.ParseException
      */
-    public void addCartao(int numeroCartao, String dataDeValidade, int ccv) throws ParseException {
+    public void addCartao(long numeroCartao, String dataDeValidade, int ccv) throws ParseException {
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }")) {
-                callStmt.setInt(1, numeroCartao);
+                callStmt.setLong(1, numeroCartao);
                 SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
                 java.util.Date date = sdf1.parse(dataDeValidade);
                 java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
@@ -107,7 +107,7 @@ public class CartaoDB extends DataHandler {
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
-                    int numeroCartao = rSet.getInt(1);
+                    long numeroCartao = rSet.getLong(1);
                     String dataDeValidade = rSet.getTimestamp(2).toString();
                     int ccv = rSet.getInt(3);
                     list.add(new Cartao(numeroCartao, dataDeValidade, ccv));

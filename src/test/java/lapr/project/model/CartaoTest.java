@@ -1,9 +1,5 @@
 package lapr.project.model;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,8 +31,8 @@ public class CartaoTest {
     public void testGetNumeroCartao() {
         System.out.println("getNumeroCartao");
         Cartao instance = new Cartao(5,"sdd",5);
-        int expResult = 5;
-        int result = instance.getNumeroCartao();
+        long expResult = 5;
+        long result = instance.getNumeroCartao();
         assertEquals(expResult, result);
     }
 
@@ -46,7 +42,7 @@ public class CartaoTest {
     @Test
     public void testSetNumeroCartao() {
         System.out.println("setNumeroCartao");
-        int numeroCartao = 6;
+        long numeroCartao = 6;
         Cartao instance = new Cartao(5,"sdd",5);
         instance.setNumeroCartao(numeroCartao);
         assertEquals(numeroCartao, instance.getNumeroCartao());

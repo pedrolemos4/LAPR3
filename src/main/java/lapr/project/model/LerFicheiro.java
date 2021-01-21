@@ -9,6 +9,7 @@ import lapr.project.controller.VeiculoController;
 import lapr.project.data.CaminhoDB;
 import lapr.project.data.CartaoDB;
 import lapr.project.data.ClienteDB;
+import lapr.project.data.DataHandler;
 import lapr.project.data.EnderecoDB;
 import lapr.project.data.EstacionamentosDB;
 import lapr.project.data.EstafetaDB;
@@ -17,7 +18,7 @@ import lapr.project.data.ParqueDB;
 import lapr.project.data.UtilizadorDB;
 import lapr.project.data.VeiculoDB;
 
-public class LerFicheiro {
+public class LerFicheiro extends DataHandler{
 
     private final FarmaciaDB fdb;
     private final ParqueDB pdb;
@@ -44,7 +45,7 @@ public class LerFicheiro {
     }
 
     public void read(String nameFile) throws ParseException, SQLException {
-        System.out.println("1");
+        System.out.println("1");        
         try {
             try ( Scanner in = new Scanner(new File(nameFile))) {
                 System.out.println("2");

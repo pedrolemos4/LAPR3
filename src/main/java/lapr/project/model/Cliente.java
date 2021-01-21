@@ -9,7 +9,7 @@ public class Cliente extends Utilizador {
     private int nif;
     private double creditos;
     private String enderecomorada;
-    private int numCartaoCredito;
+    private long numCartaoCredito;
 
     /**
      * Controi uma instância de cliente
@@ -23,7 +23,7 @@ public class Cliente extends Utilizador {
      * @param numCC número de cartão de cidadão do cliente
      * @param password password do cliente
      */
-    public Cliente(int nif, String nome, String email, int numeroSegurancaSocial, double creditos, String morada, int numCC, String password) {
+    public Cliente(int nif, String nome, String email, int numeroSegurancaSocial, double creditos, String morada, long numCC, String password) {
         super(nif, nome, email, numeroSegurancaSocial, password);
         this.creditos = creditos;
         this.enderecomorada = morada;
@@ -38,7 +38,7 @@ public class Cliente extends Utilizador {
      * @param morada morada do cliente
      * @param numCC número de cartão de cidadão do cliente
      */
-    public Cliente(int nif, double creditos, String morada, int numCC) {
+    public Cliente(int nif, double creditos, String morada, long numCC) {
         this.nif = nif;
         this.creditos = creditos;
         this.enderecomorada = morada;
@@ -114,7 +114,7 @@ public class Cliente extends Utilizador {
      *
      * @return número de cartão de crédito do cliente
      */
-    public int getNumCartaoCredito() {
+    public long getNumCartaoCredito() {
         return numCartaoCredito;
     }
 
@@ -123,7 +123,7 @@ public class Cliente extends Utilizador {
      *
      * @param numCartaoCredito o novo número de cartão de crédito do cliente
      */
-    public void setNumCartaoCredito(int numCartaoCredito) {
+    public void setNumCartaoCredito(long numCartaoCredito) {
         this.numCartaoCredito = numCartaoCredito;
     }
 
