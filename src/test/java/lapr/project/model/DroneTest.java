@@ -14,7 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class DroneTest {
 
-    public DroneTest() {
+    @Test
+    public void testConstructor() {
+        Drone instance = new Drone(1,50);
+        assertEquals(instance,instance);
     }
 
     /**
@@ -38,7 +41,7 @@ public class DroneTest {
         double powerPro = 30.0;
         Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1);
         instance.setPowerPro(powerPro);
-        assertEquals(powerPro,instance.getPowerPro());
+        assertEquals(powerPro, instance.getPowerPro());
     }
 
     /**
@@ -47,7 +50,7 @@ public class DroneTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Drone instance = new Drone("descricao", 100, 85, 50, 30, 40,1, 50,1);
+        Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1);
         String expResult = "Veiculo:"
                 + "\nDescrição: \t" + "descricao"
                 + "\nCapacidade: \t" + 100.0
@@ -58,6 +61,19 @@ public class DroneTest {
                 + "\nEstado: \t" + "Disponível"
                 + "\nPower pro: \t" + 50.0;
         assertEquals(expResult, instance.toString());
+    }
+
+    /**
+     * Test of getId method, of class Drone.
+     */
+    @Test
+    public void testGetId() {
+        System.out.println("getId");
+        Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1);
+        instance.setId(1);
+        int expResult = 1;
+        int result = instance.getId();
+        assertEquals(expResult, result);
     }
 
 }

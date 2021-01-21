@@ -29,6 +29,12 @@ public class ScooterTest {
         assertEquals(scooter, scooter);
     }
 
+    @Test
+    void ScooterConstructorTest() {
+        Scooter scooter = new Scooter(1, 50);
+        assertEquals(scooter, scooter);
+    }
+
     /**
      * Test of getAreaFrontal method, of class Scooter.
      */
@@ -47,7 +53,7 @@ public class ScooterTest {
     @Test
     public void testSetAreaFrontal() {
         System.out.println("setAreaFrontal");
-        Scooter instance = new Scooter("descricao", 100, 85, 50, 30, 40, 50, 50,1);
+        Scooter instance = new Scooter("descricao", 100, 85, 50, 30, 40, 50, 50, 1);
         double expResult = 30.0;
         instance.setAreaFrontal(expResult);
         assertEquals(expResult, instance.getAreaFrontal(), 0.0);
@@ -59,7 +65,7 @@ public class ScooterTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Scooter instance = new Scooter("descricao", 100, 85, 50, 30, 40,1, 50,1);
+        Scooter instance = new Scooter("descricao", 100, 85, 50, 30, 40, 1, 50, 1);
         String expResult = "Veiculo:"
                 + "\nDescrição: \t" + "descricao"
                 + "\nCapacidade: \t" + 100.0
@@ -70,6 +76,19 @@ public class ScooterTest {
                 + "\nEstado: \t" + "Disponível"
                 + "\nÁrea frontal: \t" + 50.0;
         assertEquals(expResult, instance.toString());
+    }
+
+    /**
+     * Test of getId method, of class Scooter.
+     */
+    @Test
+    public void testGetId() {
+        System.out.println("getId");
+        Scooter instance = new Scooter("descricao", 100, 85, 50, 30, 40, 1, 50, 1);
+        int expResult = 1;
+        instance.setId(1);
+        int result = instance.getId();
+        assertEquals(expResult, result);
     }
 
 }
