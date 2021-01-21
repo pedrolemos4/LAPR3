@@ -1,4 +1,4 @@
-INCLUDES = calc_estimativa.h
+INCLUDES = read_file.h
 SOURCES = calc_estimativa.s main.c
 OBJFILES = calc_estimativa.o main.o
 EXEC = main
