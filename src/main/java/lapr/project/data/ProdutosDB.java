@@ -88,7 +88,7 @@ public class ProdutosDB extends DataHandler {
      * @param precoBase preço base do produto
      * @return id do produto criado
      */
-    private int addProduto(String desig, double peso, double precoBase) {
+    public int addProduto(String desig, double peso, double precoBase) {
         int id = 0;
         try {
             openConnection();

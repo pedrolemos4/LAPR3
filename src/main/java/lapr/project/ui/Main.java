@@ -36,6 +36,8 @@ class Main {
     private static final String DRONES = "docs/Dados_de_Leitura/drones.csv";
     private static final String SCOOTERS = "docs/Dados_de_Leitura/scooters.csv";
     private static final String CAMINHOS = "docs/Dados_de_Leitura/caminhos.csv";
+    private static final String PRODUTOS = "docs/Dados_de_Leitura/produtos.csv";
+    private static final String STOCK = "docs/Dados_de_Leitura/stock.csv";
 
     /**
      * Private constructor to hide implicit public one.
@@ -49,7 +51,7 @@ class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException, ParseException {
-        
+
         try {
             Properties properties
                     = new Properties(System.getProperties());
@@ -57,14 +59,13 @@ class Main {
             properties.load(input);
             input.close();
             System.setProperties(properties);
-            
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-       
+
         LerFicheiro readFile = new LerFicheiro();
-        
+
 //        readFile.read(ENDERECOS);
 //        readFile.read(CARTOES);
 //        readFile.read(VEICULOS);
@@ -74,13 +75,14 @@ class Main {
 //        readFile.read(FARMACIAS);
 //        readFile.read(PARQUES);
 //        readFile.read(ESTACIONAMENTOS);
+//        readFile.read(PRODUTOS);
+//        readFile.read(STOCK);
 //        readFile.read(CLIENTES);
 //        readFile.read(ESTAFETAS);
 //        readFile.read(CAMINHOS);
 
 //        EstacionamentoController cont = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB());
 //        cont.checkParkings("src/main/java/lapr/project/parking/estacionamento");
-
         LoginUI login = new LoginUI();
         login.menu();
 

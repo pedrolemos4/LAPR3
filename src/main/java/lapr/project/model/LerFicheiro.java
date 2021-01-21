@@ -15,6 +15,7 @@ import lapr.project.data.EstacionamentosDB;
 import lapr.project.data.EstafetaDB;
 import lapr.project.data.FarmaciaDB;
 import lapr.project.data.ParqueDB;
+import lapr.project.data.ProdutosDB;
 import lapr.project.data.UtilizadorDB;
 import lapr.project.data.VeiculoDB;
 
@@ -31,6 +32,7 @@ public class LerFicheiro extends DataHandler {
     private final VeiculoController vctrl;
     private final VeiculoDB vdb;
     private final CaminhoDB pathdb;
+    private final ProdutosDB proddb;
 
     public LerFicheiro() {
         this.fdb = new FarmaciaDB();
@@ -43,35 +45,30 @@ public class LerFicheiro extends DataHandler {
         this.esdb = new EstafetaDB();
         this.vctrl = new VeiculoController(new VeiculoDB());
         this.pathdb = new CaminhoDB();
-        this.vdb=new VeiculoDB();
+        this.vdb = new VeiculoDB();
+        this.proddb = new ProdutosDB();
     }
 
     public void read(String nameFile) throws ParseException, SQLException {
-        System.out.println("1");
         try {
             try ( Scanner in = new Scanner(new File(nameFile))) {
-                System.out.println("2");
                 while (in.hasNextLine()) {
-                    System.out.println("3");
                     String[] items = in.nextLine().split(";");
                     System.out.println("Items: " + items[0]);
                     switch (nameFile) {
                         case "docs/Dados_de_Leitura/farmacias.csv":
                             fdb.addFarmacia(Integer.parseInt(items[0]), items[1], items[2]);
-                            System.out.println("Entre Far");
                             break;
                         case "docs/Dados_de_Leitura/parques.csv":
-                            System.out.println("Parques");
                             pdb.addParque(Integer.parseInt(items[0]), Integer.parseInt(items[1]), items[2], Integer.parseInt(items[3]));
                             break;
                         case "docs/Dados_de_Leitura/estacionamentos.csv":
-                            System.out.println("Estacionamentos");
                             edb.addEstacionamento(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Integer.parseInt(items[2]));
                             break;
                         case "docs/Dados_de_Leitura/cartoes.csv":
                             cdb.addCartao(Long.parseLong(items[0]), items[1], Integer.parseInt(items[2]));
                             break;
-                        case "docs/Dados_de_Leitura/enderecos.csv":
+                        case "docs/Dados_de_Leitura/enderecos.csv":;
                             endb.addEndereco(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]), Double.parseDouble(items[3]));
                             break;
                         case "docs/Dados_de_Leitura/utilizadores.csv":
@@ -90,17 +87,20 @@ public class LerFicheiro extends DataHandler {
                             pathdb.addCaminho(items[0], items[1], Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]));
                             break;
                         case "docs/Dados_de_Leitura/drones.csv":
-                            System.out.println("Entras aqui?");
-                            Drone drone = new Drone(Integer.parseInt(items[0]),Double.parseDouble(items[1]));
-                            System.out.println(drone.toString());
+                            Drone drone = new Drone(Integer.parseInt(items[0]), Double.parseDouble(items[1]));
                             vdb.addDrone(drone);
                             break;
                         case "docs/Dados_de_Leitura/scooters.csv":
-                            Scooter scooter = new Scooter(Integer.parseInt(items[0]),Double.parseDouble(items[1]));
+                            Scooter scooter = new Scooter(Integer.parseInt(items[0]), Double.parseDouble(items[1]));
                             vdb.addScooter(scooter);
                             break;
+                        case "docs/Dados_de_Leitura/produtos.csv":
+                            proddb.addProduto(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]));
+                            break;
+                        case "docs/Dados_de_Leitura/stock.csv":
+                            proddb.addProdutoStock(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Integer.parseInt(items[2]));
+                            break;
                     }
-                    
                 }
             }
         } catch (FileNotFoundException | NumberFormatException | NullPointerException e) {
