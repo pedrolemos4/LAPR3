@@ -10,10 +10,11 @@ public class CalculosFisica {
 
     public static final double GRAVITATIONAL_ACCELERATION = 9.8;
     public static final double AIR_DENSITY_20DEGREES = 1.2041;
-    public static final double AIR_DRAG_COEFFICIENT = 0.12;
+    public static final double AIR_DRAG_COEFFICIENT = 0.3;
     public static final double SPEED = 13.56; // m/s
     public static final double EARTHRADIUS = 6371; // km
     public static final double LIFTTODRAG = 15; 
+    public static final double EFICIENCIA = 0.70; 
     
     /**
      * Devolve o calculo da energia gasta no percurso pela scooter
@@ -64,10 +65,16 @@ public class CalculosFisica {
                 end1.getAltitude(), end2.getLatitude(), 0, 0);
         
         double d = (distancia / 1000) / (1 - (calculoVelocidade(velocidadeVento * 3.6, direcaoVento)));
-
         return d * c * 3600000;
     }
     
+    /**
+     * Devolve o tempo gasto no percurso
+     * @param distancia distancia do percurso
+     * @param velocidadeVento velocidade do vento no percurso
+     * @param direcaoVento direçao do vento no percurso
+     * @return tempo gasto no percurso
+     */
     public static double calculoTempo(double distancia, double velocidadeVento, double direcaoVento){
         return distancia/calculoVelocidade(velocidadeVento, direcaoVento);
     }
@@ -202,5 +209,17 @@ public class CalculosFisica {
             return SPEED;
         }
         
+    }
+    
+    /**
+     * Devolve a distancia que o veiculo pode percorrer até ficar sem bateria
+     * @param capacidade capacidade do veiculo
+     * @param percentagemBateria percentagem da bateria do veiculo
+     * @param potencia potencia do veiculo
+     * @return distancia que o veiculo pode percorrer até ficar sem bateria
+     */
+    public static double getDistanciaQuePodePercorrer(double capacidade, double percentagemBateria, double potencia){
+        double tempo = ((capacidade * 3600) * (percentagemBateria / 100)) / potencia;
+        return tempo * SPEED * EFICIENCIA;
     }
 }

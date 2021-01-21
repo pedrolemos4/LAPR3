@@ -31,7 +31,7 @@ public class CalculosFisicaTest {
         double road = 12.0;
         double velocidadeVento = 12.0;
         double direcaoVento = 15.0;
-        double expResult = 444597.22788380674;
+        double expResult = 444718.3637051812;
         double result = CalculosFisica.calculoEnergiaScooter(pesoEstafeta, pesoVeiculo, areaFrontal, pesoEncomenda, end1, end2, road, direcaoVento, velocidadeVento);
         assertEquals(expResult, result, 0.0);
 
@@ -89,7 +89,7 @@ public class CalculosFisicaTest {
         double road = 12.0;
         double velocidadeVento = 12.0;
         double direcaoVento = 15.0;
-        double expResult = 5652.740648946761;
+        double expResult = 5664.671510221156;
         double result = CalculosFisica.calculoForcaTotal(pesoTotal, areaFrontal, end1Lat, end1Lon, end1Alt, end2Lat, end2Lon, end2Alt, road, direcaoVento, velocidadeVento);
         assertEquals(expResult, result, 0.0);
 
@@ -161,7 +161,7 @@ public class CalculosFisicaTest {
         double areaFrontal = 23.0;
         double velocidadeVento = 12.0;
         double direcaoVento = 15.0;
-        double expResult = 6.441464037539741;
+        double expResult = 16.103660093849353;
         double result = CalculosFisica.calculoAerodynamicDragForce(areaFrontal, velocidadeVento, direcaoVento);
         assertEquals(expResult, result, 0.0);
 
@@ -223,6 +223,21 @@ public class CalculosFisicaTest {
         double direcaoVento = 185.0;
         double expResult = 13.56;
         double result = CalculosFisica.calculoVelocidade(velocidadeVento, direcaoVento); 
+        assertEquals(expResult, result, 0.0);
+
+    }
+
+    /**
+     * Test of getDistanciaQuePodePercorrer method, of class CalculosFisica.
+     */
+    @Test
+    public void testGetDistanciaQuePodePercorrer() {
+        System.out.println("getDistanciaQuePodePercorrer");
+        double capacidade = 350.0;
+        double percentagemBateria = 100.0;
+        double potencia = 250.0;
+        double expResult = 47839.68;
+        double result = CalculosFisica.getDistanciaQuePodePercorrer(capacidade, percentagemBateria, potencia);
         assertEquals(expResult, result, 0.0);
 
     }

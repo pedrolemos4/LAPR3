@@ -96,7 +96,10 @@ public class RegistarEntregaUI {
             List<Encomenda> listEncomendaByEntrega = new ArrayList<>();
 
             for (Encomenda e : listAllEncomenda) {
-                if (e.getPesoEncomenda() + pesoEntrega < pesoMaximoPorEntrega) {
+                Endereco end1 = controller.getEnderecoByNifCliente(e.getNif());
+                if(veiculo.getDescricao().equals(DRONE) && end1.getAltitude()>150){
+                    System.out.println("Nao é possivel fazer uma entrega onde a altitude do ponto de entrega seja maior 150m.");    
+                } else if (e.getPesoEncomenda() + pesoEntrega < pesoMaximoPorEntrega) {
                     controller.addEncomendaEntrega(entr, e);
                     listEncomendaByEntrega.add(e);
                 }
