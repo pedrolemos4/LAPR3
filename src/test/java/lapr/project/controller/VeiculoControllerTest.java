@@ -43,13 +43,11 @@ public class VeiculoControllerTest {
     public void testAddVeiculo() throws SQLException {
         System.out.println("addScooter");
         String descricao = "";
-        String tipo = "";
         int capacidade = 100;
         double percentagemBateria = 0.0;
         double pesoMaximo = 0.0;
         double pesoVeiculo = 0.0;
         double potencia = 0.0;
-        double areaFrontal = 0.0;
         int estado = 0;
         Veiculo s = new Veiculo(descricao, capacidade, percentagemBateria,
                 pesoMaximo, pesoVeiculo, potencia, estado);
@@ -60,6 +58,29 @@ public class VeiculoControllerTest {
         s.setId(1);
         assertEquals(1, s.getId());
 
+    }
+    
+    /**
+     * Test of addEntrega method, of class RegistarEntregaController.
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testAddVeiculo1() throws SQLException {
+        System.out.println("addVeiculo1");
+        String descricao = "";
+        int capacidade = 100;
+        double percentagemBateria = 23.0;
+        double pesoMaximo = 34.0;
+        double pesoVeiculo = 54.0;
+        double potencia = 245.0;
+        int estado = 1;
+        Veiculo expResult = new Veiculo(descricao, capacidade, percentagemBateria,
+                pesoMaximo, pesoVeiculo, potencia, estado);
+        when(veiculoDBMock.addVeiculo(expResult)).thenReturn(1);
+        Veiculo v = instance.addVeiculo(expResult.getDescricao(),expResult.getCapacidade(), expResult.getPercentagemBateria(), expResult.getPesoMaximo(),expResult.getPesoVeiculo(),expResult.getPotencia(), expResult.getEstadoVeiculo().getId());
+        expResult.setId(1);
+        v.setId(veiculoDBMock.addVeiculo(expResult));
+        assertEquals(expResult.toString(), v.toString());
     }
 
     /**

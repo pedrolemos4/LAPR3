@@ -7,7 +7,11 @@ import lapr.project.model.Endereco;
  * @author beatr
  */
 public class CalculosFisica {
-
+    
+    private CalculosFisica(){
+        //dummy constructor
+    }
+    
     public static final double GRAVITATIONAL_ACCELERATION = 9.8;
     public static final double AIR_DENSITY_20DEGREES = 1.2041;
     public static final double AIR_DRAG_COEFFICIENT = 0.3;
@@ -202,7 +206,7 @@ public class CalculosFisica {
      */
     public static double calculoVelocidade(double velocidadeVento, double direcaoVento){
         if(direcaoVento == 90){
-            return SPEED - (velocidadeVento * Math.cos(0));
+            return SPEED - (velocidadeVento /** Math.cos(0)*/);
         }else if (direcaoVento < 180 && direcaoVento > 0){
             return SPEED - (velocidadeVento * Math.cos(Math.toRadians(direcaoVento)));
         }else{
@@ -219,7 +223,10 @@ public class CalculosFisica {
      * @return distancia que o veiculo pode percorrer até ficar sem bateria
      */
     public static double getDistanciaQuePodePercorrer(double capacidade, double percentagemBateria, double potencia){
-        double tempo = ((capacidade * 3600) * (percentagemBateria / 100)) / potencia;
+        double cap = capacidade * 3600;
+        double percentagem = percentagemBateria / 100;
+        double a = cap * percentagem;
+        double tempo = a / potencia;
         return tempo * SPEED * EFICIENCIA;
     }
 }

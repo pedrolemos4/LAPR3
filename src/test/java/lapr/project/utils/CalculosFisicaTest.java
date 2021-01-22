@@ -10,11 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author beatr
  */
 public class CalculosFisicaTest {
-    
-    public CalculosFisicaTest() {
-        CalculosFisica test = new CalculosFisica();
-        assertEquals(test, test);
-    }
 
     /**
      * Test of calculoEnergiaScooter method, of class CalculosFisica.
@@ -221,6 +216,48 @@ public class CalculosFisicaTest {
         System.out.println("calculoVelocidade2");
         double velocidadeVento = 12.0;
         double direcaoVento = 185.0;
+        double expResult = 13.56;
+        double result = CalculosFisica.calculoVelocidade(velocidadeVento, direcaoVento); 
+        assertEquals(expResult, result, 0.0);
+
+    }
+    
+    /**
+     * Test of calculoVelocidade method, of class CalculosFisica.
+     */
+    @Test
+    public void testCalculoVelocidade3() {
+        System.out.println("calculoVelocidade3");
+        double velocidadeVento = 12.0;
+        double direcaoVento = -1.0;
+        double expResult = 13.56;
+        double result = CalculosFisica.calculoVelocidade(velocidadeVento, direcaoVento); 
+        assertEquals(expResult, result, 0.0);
+
+    }
+    
+    /**
+     * Test of calculoVelocidade method, of class CalculosFisica.
+     */
+    @Test
+    public void testCalculoVelocidade4() {
+        System.out.println("calculoVelocidade4");
+        double velocidadeVento = 12.0;
+        double direcaoVento = 180.0;
+        double expResult = 13.56;
+        double result = CalculosFisica.calculoVelocidade(velocidadeVento, direcaoVento); 
+        assertEquals(expResult, result, 0.0);
+
+    }
+    
+    /**
+     * Test of calculoVelocidade method, of class CalculosFisica.
+     */
+    @Test
+    public void testCalculoVelocidade5() {
+        System.out.println("calculoVelocidade5");
+        double velocidadeVento = 12.0;
+        double direcaoVento = 0.0;
         double expResult = 13.56;
         double result = CalculosFisica.calculoVelocidade(velocidadeVento, direcaoVento); 
         assertEquals(expResult, result, 0.0);
