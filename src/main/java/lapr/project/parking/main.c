@@ -9,24 +9,29 @@ struct Estacionamento arrayEstacionamentos[100];
 int current = 0;
 
 int main(void){
-	//int run = 0;
-	//while(run == 0){
+	int run = 0;
+	while(run == 0){
 		DIR *folder;
 	
 		struct dirent *entry;
 	
 		folder = opendir("./estacionamento");
 	
-		current = 0;
-	
 		while((entry = readdir(folder))!= NULL){
+			char name [100] = "";
+			int i;
+			for(i = 0; i < 8; i++){
+				name[i] = *(entry->d_name+i);
+			}
+			
 			char *extensao = strrchr(entry->d_name, '.');
-			if(strcmp(extensao,".data") == 0){
+			if((strcmp(extensao,".data") == 0) & (strcmp(name,"estimate") != 0)){
 				readFile(entry->d_name);
 			}
 		}
-		//sleep(15);
-	//}
+		closedir(folder);
+		sleep(5);
+	}
 
 	return 0;
 }
@@ -34,6 +39,7 @@ int main(void){
 int readFile(char* nomeFicheiro){
 	char flag[] = ".flag";
 	char nomeFicheiroFlag[50];
+	int boolflag = 0;
 	
 	strcpy(nomeFicheiroFlag,nomeFicheiro);
 	
@@ -48,9 +54,12 @@ int readFile(char* nomeFicheiro){
 	while((entry = readdir(folder))!= NULL){
 		if(strcmp(entry->d_name,nomeFicheiroFlag) == 0){
 			tratamentoFile(nomeFicheiro,nomeFicheiroFlag);
+			boolflag = 1;
 		}
 	}
-	
+	if(boolflag == 0){
+		wrongParking(nomeFicheiro);
+	}
 	return 0;
 }
 
@@ -115,7 +124,7 @@ int tratamentoFile(char* nomeFicheiro, char* nomeFicheiroFlag){
 	if(correnteTotal > capacidadeParque){
 		
 		capacidadeParque = capacidadeParque/(j+1);
-		printf("Corrente dividida: %d\n", capacidadeParque);
+		//printf("Corrente dividida: %d\n", capacidadeParque);
 		for(i = 0; i < j; i++){
 			for(k = 0; k < current; k++){
 				if(strcmp(samePark[i].dirFicheiro, arrayEstacionamentos[k].dirFicheiro) == 0){
@@ -123,6 +132,8 @@ int tratamentoFile(char* nomeFicheiro, char* nomeFicheiroFlag){
 				}
 			}
 		}
+	}else{
+		capacidadeParque = capacidade * 0.1;
 	}
 	estimateFile(dirlock,direstimate, percentagem,capacidade,idParque,estimativa,capacidadeParque, content);
 	
@@ -146,18 +157,17 @@ int tratamentoFile(char* nomeFicheiro, char* nomeFicheiroFlag){
 	
 	current++;
 	
-
 	return 0;
 }
 
 int estimateFile(char* dirlock, char* direstimate, int percentagem, int capacidade, int idParque, int estimativa, int corrente, char * content){
 	
-	printf("Nova estimativa:\n");
-	printf("%d,%d,%d\n",percentagem, capacidade, corrente);
+	//printf("Nova estimativa:\n");
+	//printf("%d,%d,%d\n",percentagem, capacidade, corrente);
 	
 	estimativa = calc_estimativa(percentagem, capacidade, corrente);
 	
-	printf("%d\n",estimativa);
+	//printf("%d\n",estimativa);
 	
 	int i;
 	for(i = 0; i < current; i++){
@@ -191,7 +201,7 @@ int estimateFile(char* dirlock, char* direstimate, int percentagem, int capacida
 	strcpy(fichApagar,dirlock);
 	
 	remove(fichApagar);
-	printf("%s\n", fichApagar);
+	//printf("%s\n", fichApagar);
 	
 	strcat(fichApagar,".flag");
 	
@@ -218,3 +228,65 @@ int numeroDeLocks(void){
 	
 	return numero;
 }
+
+int wrongParking(char* nomeFicheiro){
+	FILE * lockFile;
+	FILE * estimateFile;
+	
+	char dirlock[100] = "./estacionamento/";
+	char direstimate[100] = "./estacionamento/";
+	
+	char *datetime = nomeFicheiro;
+	int i;
+	for(i = 0; i < 4; i++){
+			datetime++;
+	}	
+	
+	char estimate[100] = "estimate";
+	
+	strcat(dirlock,nomeFicheiro);
+	strcat(estimate,datetime);
+	strcat(direstimate, estimate);	
+		
+	lockFile = fopen(dirlock,"r");
+	
+
+	char content[100];
+	
+	int percentagem;
+	int capacidade;
+	int idParque;
+	int estimativa;
+	int capacidadeParque;
+		
+	fscanf(lockFile, "%d,%d,%d,%d,%d,%s", &percentagem, &capacidade, &idParque, &estimativa, &capacidadeParque,content);
+	
+	fclose(lockFile);
+	
+	estimateFile = fopen(direstimate,"w");
+	
+	estimativa = -1;
+	
+	char fileContent[100];
+	
+	sprintf(fileContent,"%d,%d,%s",estimativa,idParque,content);
+	
+	fputs(fileContent, estimateFile);
+	
+	fclose(estimateFile);
+	
+	strcat(direstimate,".flag");
+	
+	estimateFile = fopen(direstimate,"w");
+	
+	fclose(estimateFile);
+	
+	char fichApagar[100];
+	
+	strcpy(fichApagar,dirlock);
+	
+	remove(fichApagar);
+	
+	return 0;
+}
+

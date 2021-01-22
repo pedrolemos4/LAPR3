@@ -17,4 +17,5 @@ int numeroDeLocks(void);
 struct Estacionamento arrayEstacionamentos[100];
 int calc_estimativa(int percentagem,int capacidade,int correnteDebitada);
 int estimateFile(char* dirlock, char* direstimate, int percentagem, int capacidade, int idParque, int estimativa, int capacidadeParque, char* content);
+int wrongParking(char* nomeFicheiro);
 #endif
