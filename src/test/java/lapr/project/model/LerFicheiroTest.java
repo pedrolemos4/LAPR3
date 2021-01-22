@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import lapr.project.data.FarmaciaDB;
+import lapr.project.data.ParqueDB;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,11 +25,14 @@ public class LerFicheiroTest {
 
     private static LerFicheiro instance;
     private FarmaciaDB farmaciaMock;
+    private ParqueDB parqueMock;
     private Farmacia farm;
 
     @BeforeEach
     public void setUp() throws SQLException {
         farmaciaMock = mock(FarmaciaDB.class);
+        parqueMock = mock(ParqueDB.class);
+        instance = new LerFicheiro();
         farm = new Farmacia(123456789, "email", "rua1");
         when(farmaciaMock.addFarmacia(farm)).thenReturn(true);
     }
@@ -38,6 +42,27 @@ public class LerFicheiroTest {
         LerFicheiro expResult = instance;
         LerFicheiro result = expResult;
         assertEquals(result, expResult);
+    }
+
+    @Test
+    public void testAddFarmacia() {
+        System.out.println("Add Farmácia");
+        int nif = 111111111;
+        String email = "email";
+        String morada = "bla";
+        when(farmaciaMock.addFarmacia(nif, email, morada)).thenReturn(true);
+        assertEquals(true, farmaciaMock.addFarmacia(farm));
+    }
+
+    @Test
+    public void testAddParque() {
+        System.out.println("Add Parque");
+        int i1 = 111;
+        int i2 = 222;
+        String i3 = "teste";
+        int i4 = 333;
+        when(parqueMock.addParque(i1, i2, i3, i4)).thenReturn(1);
+        assertEquals(1, parqueMock.addParque(i1, i2, i3, i4));
     }
 
     /**

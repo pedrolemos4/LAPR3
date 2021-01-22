@@ -84,7 +84,8 @@ public class FarmaciaDB extends DataHandler {
      * @param email email da farmácia
      * @param morada morada da farmácia
      */
-    public void addFarmacia(int nif, String email, String morada) {
+    public boolean addFarmacia(int nif, String email, String morada) {
+        boolean res = false;
         try {
             openConnection();
             try (CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?,?,?) }")) {
@@ -94,9 +95,12 @@ public class FarmaciaDB extends DataHandler {
                 callStmt.execute();
             }
             closeAll();
+            res = true;
         } catch (SQLException e) {
+            
             e.printStackTrace();
         }
+        return res;
     }
 
     /**
