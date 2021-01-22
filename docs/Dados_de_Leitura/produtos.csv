@@ -1,11 +1,11 @@
-Brufen 20;20;5.70
-Brufen 400;400;6.50
-Brufen 600x20;600;5
-Paracetamol 500;500;1.25
-Paracetamol 1000;1000;2.20
-Dormidina;25;10
-AnimaFort MULTI;170;11
-NORMOLIP 5;500;17.5
-Domperidona;10;4
-Metoclopramida Labesfal;10;1.80
-Vacina pfizer;1000;12
+Brufen 20;0.02;5.70
+Brufen 400;0.4;6.50
+Brufen 600x20;0.6;5
+Paracetamol 500;0.5;1.25
+Paracetamol 1000;1;2.20
+Dormidina;0.25;10
+AnimaFort MULTI;0.17;11
+NORMOLIP 5;0.5;17.5
+Domperidona;0.01;4
+Metoclopramida Labesfal;0.01;1.80
+Vacina pfizer;1;12
