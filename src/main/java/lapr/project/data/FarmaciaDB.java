@@ -93,10 +93,9 @@ public class FarmaciaDB extends DataHandler {
                 callStmt.setString(2, email);
                 callStmt.setString(3, morada);
                 callStmt.execute();
-                res = true;
             }
             closeAll();
-            
+            res = true;
         } catch (SQLException e) {
             
             e.printStackTrace();

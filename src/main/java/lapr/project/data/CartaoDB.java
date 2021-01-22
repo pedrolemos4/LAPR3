@@ -81,8 +81,7 @@ public class CartaoDB extends DataHandler {
      * @param ccv código de segurança do cartão de crédito
      * @throws java.text.ParseException
      */
-    public boolean addCartao(long numeroCartao, String dataDeValidade, int ccv) throws ParseException {
-        boolean res = false;
+    public void addCartao(long numeroCartao, String dataDeValidade, int ccv) throws ParseException {
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }")) {
@@ -93,14 +92,11 @@ public class CartaoDB extends DataHandler {
                 callStmt.setDate(2, sqlStartDate);
                 callStmt.setInt(3, ccv);
                 callStmt.execute();
-                res = true;
             }
             closeAll();
-            
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return res;
     }
 
     /**

@@ -108,8 +108,7 @@ public class EstafetaDB extends DataHandler {
      * @param estadoEstafeta estado do estafeta
      * @param peso peso do estafeta
      */
-    public boolean addEstafeta(int nif, int estadoEstafeta, double peso) {
-        boolean res = false;
+    public void addEstafeta(int nif, int estadoEstafeta, double peso) {
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstafeta(?,?,?) }")) {
@@ -117,14 +116,11 @@ public class EstafetaDB extends DataHandler {
                 callStmt.setInt(2, estadoEstafeta);
                 callStmt.setDouble(3, peso);
                 callStmt.execute();
-                res = true;
             }
             closeAll();
-            
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return res;
     }
 
     /**

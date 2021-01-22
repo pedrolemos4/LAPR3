@@ -117,8 +117,7 @@ public class ProdutosDB extends DataHandler {
      * @param prod id do produto a adicionar
      * @param qtd quantidade a ser adicionada
      */
-    public boolean addProdutoStock(int nif, int prod, int qtd) {
-        boolean res = false;
+    public void addProdutoStock(int nif, int prod, int qtd) {
         try {
             openConnection();
 
@@ -129,14 +128,12 @@ public class ProdutosDB extends DataHandler {
                 callStmt.setInt(3, qtd);
 
                 callStmt.execute();
-                res = true;
             }
             closeAll();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return res;
     }
 
     /**
