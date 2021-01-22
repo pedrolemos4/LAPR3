@@ -21,6 +21,10 @@ import java.util.logging.Logger;
  */
 public class EstacionamentosDB extends DataHandler {
 
+    public EstacionamentosDB(){
+        //dummyConstructor
+    }
+    
     /**
      * Cria um novo estacionamento
      *

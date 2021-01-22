@@ -13,7 +13,15 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Properties;
 import java.util.logging.Logger;
-import lapr.project.model.LerFicheiro;
+import lapr.project.data.FarmaciaDB;
+import lapr.project.data.CartaoDB;
+import lapr.project.data.CaminhoDB;
+import lapr.project.data.ClienteDB;
+import lapr.project.data.EstafetaDB;
+import lapr.project.data.ProdutosDB;
+import lapr.project.data.UtilizadorDB;
+import lapr.project.data.EnderecoDB;
+import lapr.project.data.LerFicheiro;
 
 /**
  * @author Nuno Bettencourt <nmb@isep.ipp.pt> on 24/05/16.
@@ -64,7 +72,10 @@ class Main {
             e.printStackTrace();
         }
 
-        LerFicheiro readFile = new LerFicheiro();
+        LerFicheiro readFile = new LerFicheiro(new FarmaciaDB(),new ParqueDB(),
+        new EstacionamentosDB(),new CartaoDB(),new EnderecoDB(),new UtilizadorDB(),
+        new ClienteDB(),new EstafetaDB(),new CaminhoDB(),new VeiculoDB(),
+        new ProdutosDB());
 
 //        readFile.read(ENDERECOS);
 //        readFile.read(CARTOES);

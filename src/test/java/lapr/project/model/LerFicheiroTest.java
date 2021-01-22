@@ -5,12 +5,23 @@
  */
 package lapr.project.model;
 
+import lapr.project.data.LerFicheiro;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
+import lapr.project.controller.VeiculoController;
+import lapr.project.data.CaminhoDB;
+import lapr.project.data.CartaoDB;
+import lapr.project.data.ClienteDB;
+import lapr.project.data.EnderecoDB;
+import lapr.project.data.EstacionamentosDB;
+import lapr.project.data.EstafetaDB;
 
 import lapr.project.data.FarmaciaDB;
 import lapr.project.data.ParqueDB;
+import lapr.project.data.ProdutosDB;
+import lapr.project.data.UtilizadorDB;
+import lapr.project.data.VeiculoDB;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,19 +37,40 @@ public class LerFicheiroTest {
     private static LerFicheiro instance;
     private FarmaciaDB farmaciaMock;
     private ParqueDB parqueMock;
+    private EstacionamentosDB edb;
+    private CartaoDB cdb;
+    private EnderecoDB endb;
+    private UtilizadorDB udb;
+    private ClienteDB cldb;
+    private EstafetaDB esdb;
+    private VeiculoDB vdb;
+    private CaminhoDB pathdb;
+    private ProdutosDB proddb;
+
     private Farmacia farm;
 
     @BeforeEach
     public void setUp() throws SQLException {
         farmaciaMock = mock(FarmaciaDB.class);
         parqueMock = mock(ParqueDB.class);
-        instance = new LerFicheiro();
+        edb = mock(EstacionamentosDB.class);
+        cdb = mock(CartaoDB.class);
+        endb = mock(EnderecoDB.class);
+        udb = mock(UtilizadorDB.class);
+        cldb = mock(ClienteDB.class);
+        esdb = mock(EstafetaDB.class);
+        vdb = mock(VeiculoDB.class);
+        pathdb = mock(CaminhoDB.class);
+        proddb = mock(ProdutosDB.class);
+        instance = new LerFicheiro(farmaciaMock,parqueMock,edb,cdb,endb,udb,cldb,esdb,
+        pathdb,vdb,proddb);
         farm = new Farmacia(123456789, "email", "rua1");
         when(farmaciaMock.addFarmacia(farm)).thenReturn(true);
     }
 
     public LerFicheiroTest() throws ParseException, SQLException {
-        instance = new LerFicheiro();
+        instance = new LerFicheiro(farmaciaMock,parqueMock,edb,cdb,endb,udb,cldb,esdb,
+        pathdb,vdb,proddb);
         LerFicheiro expResult = instance;
         LerFicheiro result = expResult;
         assertEquals(result, expResult);
@@ -64,7 +96,6 @@ public class LerFicheiroTest {
 //        when(parqueMock.addParque(i1, i2, i3, i4)).thenReturn(1);
 //        assertEquals(1, parqueMock.addParque(i1, i2, i3, i4));
 //    }
-
     /**
      * Test of read method, of class LerFicheiro.
      *
@@ -83,8 +114,7 @@ public class LerFicheiroTest {
 //        assertEquals(null, result);
 
         when(farmaciaMock.addFarmacia(nif, email, morada)).thenReturn(true);
-        assertEquals(true, farmaciaMock.addFarmacia(farm));
-        
+        assertEquals(true, instance.addFarmacia(nif,email,morada));
     }
 
     /**

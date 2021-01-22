@@ -17,6 +17,10 @@ import lapr.project.model.Endereco;
  */
 public class CaminhoDB extends DataHandler{
     
+    public CaminhoDB(){
+        //dummyConstructor
+    }
+    
     public void addCaminho(String morada1, String morada2, double roadResistanceCoefficient, double velocidadeVento, double direcaoVento) {
         try {
             openConnection();
