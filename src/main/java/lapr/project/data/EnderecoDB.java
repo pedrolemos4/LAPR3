@@ -76,7 +76,8 @@ public class EnderecoDB extends DataHandler {
      * @param longitude longitude do endereço
      * @param altitude altitude do endereço
      */
-    public void addEndereco(String morada, double latitude, double longitude, double altitude) {
+    public boolean addEndereco(String morada, double latitude, double longitude, double altitude) {
+        boolean res = false;
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEndereco(?,?,?,?) }")) {
@@ -85,11 +86,14 @@ public class EnderecoDB extends DataHandler {
                 callStmt.setDouble(3, longitude);
                 callStmt.setDouble(4, altitude);
                 callStmt.execute();
+                res = true;
             }
             closeAll();
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
+       return res;
     }
 
     /**

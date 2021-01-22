@@ -89,11 +89,13 @@ public class VeiculoDB extends DataHandler {
         return !(drone.getPowerPro() < 0);
     }
 
-    public void addDrone(Drone drone) throws SQLException {
+    public boolean addDrone(Drone drone) throws SQLException {
+        boolean res =false;
         try ( CallableStatement callStmt = getConnection().prepareCall("{ call addDrone(?,?) }")) {
             callStmt.setInt(1, drone.getId());
             callStmt.setDouble(2, drone.getPowerPro());
             callStmt.execute();
+            res = true;
             try {
 
                 closeAll();
@@ -103,6 +105,7 @@ public class VeiculoDB extends DataHandler {
                 Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
         }
+        return res;
     }
 
     public Scooter novaScooter(Veiculo ve, int id, double areaFrontal) {
@@ -121,11 +124,13 @@ public class VeiculoDB extends DataHandler {
         return !(scooter.getAreaFrontal()<0);
     }
     
-    public void addScooter(Scooter scooter) throws SQLException {
+    public boolean addScooter(Scooter scooter) throws SQLException {
+        boolean res = false;
         try ( CallableStatement callStmt = getConnection().prepareCall("{ call addScooter(?,?) }")) {
             callStmt.setInt(1, scooter.getId());
             callStmt.setDouble(2, scooter.getAreaFrontal());
             callStmt.execute();
+            res = true;
             try {
 
                 closeAll();
@@ -135,6 +140,7 @@ public class VeiculoDB extends DataHandler {
                 Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
         }
+        return res;
     }
 
     /**

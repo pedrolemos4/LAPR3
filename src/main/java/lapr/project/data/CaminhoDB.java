@@ -21,7 +21,8 @@ public class CaminhoDB extends DataHandler{
         //dummyConstructor
     }
     
-    public void addCaminho(String morada1, String morada2, double roadResistanceCoefficient, double velocidadeVento, double direcaoVento) {
+    public boolean addCaminho(String morada1, String morada2, double roadResistanceCoefficient, double velocidadeVento, double direcaoVento) {
+        boolean res = false;
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCaminho(?,?,?,?,?) }")) {
@@ -31,11 +32,13 @@ public class CaminhoDB extends DataHandler{
                 callStmt.setDouble(4, velocidadeVento);
                 callStmt.setDouble(5, direcaoVento);
                 callStmt.execute();
+                res =true;
             }
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return res;
     }
     
     public List<Caminho> getAllCaminhos(){

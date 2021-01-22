@@ -21,10 +21,10 @@ import lapr.project.model.Cliente;
  */
 public class ClienteDB extends DataHandler {
 
-    public ClienteDB(){
+    public ClienteDB() {
         //dummyConstructor
     }
-    
+
     /**
      * Cria um novo cliente
      *
@@ -86,7 +86,8 @@ public class ClienteDB extends DataHandler {
      * @param enderecoMorada morada do cliente
      * @param numCC número do cartão de cidadão do cliente
      */
-    public void addCliente(int nif, double creditos, String enderecoMorada, long numCC) {
+    public boolean addCliente(int nif, double creditos, String enderecoMorada, long numCC) {
+        boolean res = false;
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCliente(?,?,?,?) }")) {
@@ -95,11 +96,14 @@ public class ClienteDB extends DataHandler {
                 callStmt.setString(3, enderecoMorada);
                 callStmt.setLong(4, numCC);
                 callStmt.execute();
+                res = true;
             }
             closeAll();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return res;
     }
 
     /**
@@ -149,7 +153,7 @@ public class ClienteDB extends DataHandler {
                     String morada = rSet.getString(3);
                     long num = rSet.getLong(4);
 
-                    return new Cliente(id1,creds,morada,num);
+                    return new Cliente(id1, creds, morada, num);
                 }
             }
         } catch (SQLException e) {
@@ -184,7 +188,9 @@ public class ClienteDB extends DataHandler {
     }
 
     /**
-     * Remove uma certa quantidade de créditos de um cliente com base na data em que fez a encomenda
+     * Remove uma certa quantidade de créditos de um cliente com base na data em
+     * que fez a encomenda
+     *
      * @param nif nif do cliente
      * @param creditosData data
      * @return true se removeu com sucesso, false se não
@@ -211,28 +217,29 @@ public class ClienteDB extends DataHandler {
 
     /**
      * Adiciona uma certa quantidade de créditos a um cliente
+     *
      * @param c cliente a adicionar os créditos
      * @param d valor em créditos
      * @return true se adicionou com sucesso, false se não
      */
     public boolean addCreditos(Cliente c, double d) {
         boolean bool = false;
-        
+
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCreditosCliente(?,?) }")) {
                 callStmt.setInt(1, c.getClienteNIF());
                 callStmt.setDouble(2, d);
-                
+
                 callStmt.execute();
-                
-                bool=true;
+
+                bool = true;
             }
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return bool;
     }
 }

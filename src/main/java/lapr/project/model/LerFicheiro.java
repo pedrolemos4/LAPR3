@@ -62,45 +62,43 @@ public class LerFicheiro extends DataHandler {
                             addFarmacia(Integer.parseInt(items[0]), items[1], items[2]);
                             break;
                         case "docs/Dados_de_Leitura/parques.csv":
-                            pdb.addParque(Integer.parseInt(items[0]), Integer.parseInt(items[1]), items[2], Integer.parseInt(items[3]));
+                            addParque(Integer.parseInt(items[0]), Integer.parseInt(items[1]), items[2], Integer.parseInt(items[3]));
                             break;
                         case "docs/Dados_de_Leitura/estacionamentos.csv":
-                            edb.addEstacionamento(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Integer.parseInt(items[2]));
+                            addEstacionamento(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Integer.parseInt(items[2]));
                             break;
                         case "docs/Dados_de_Leitura/cartoes.csv":
-                            cdb.addCartao(Long.parseLong(items[0]), items[1], Integer.parseInt(items[2]));
+                            addCartao(Long.parseLong(items[0]), items[1], Integer.parseInt(items[2]));
                             break;
                         case "docs/Dados_de_Leitura/enderecos.csv":
-                            endb.addEndereco(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]), Double.parseDouble(items[3]));
+                            addEndereco(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]), Double.parseDouble(items[3]));
                             break;
                         case "docs/Dados_de_Leitura/utilizadores.csv":
-                            udb.addUtilizador(Integer.parseInt(items[0]), items[1], items[2], Integer.parseInt(items[3]), items[4]);
+                            addUtilizador(Integer.parseInt(items[0]), items[1], items[2], Integer.parseInt(items[3]), items[4]);
                             break;
                         case "docs/Dados_de_Leitura/clientes.csv":
-                            cldb.addCliente(Integer.parseInt(items[0]), Double.parseDouble(items[1]), items[2], Long.parseLong(items[3]));
+                            addCliente(Integer.parseInt(items[0]), Double.parseDouble(items[1]), items[2], Long.parseLong(items[3]));
                             break;
                         case "docs/Dados_de_Leitura/estafetas.csv":
-                            esdb.addEstafeta(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Double.parseDouble(items[2]));
+                            addEstafeta(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Double.parseDouble(items[2]));
                             break;
                         case "docs/Dados_de_Leitura/veiculos.csv":
-                            vctrl.addVeiculo(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]), Double.parseDouble(items[5]), Integer.parseInt(items[6]));
+                            addVeiculo(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]), Double.parseDouble(items[5]), Integer.parseInt(items[6]));
                             break;
                         case "docs/Dados_de_Leitura/caminhos.csv":
-                            pathdb.addCaminho(items[0], items[1], Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]));
+                            addCaminho(items[0], items[1], Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]));
                             break;
                         case "docs/Dados_de_Leitura/drones.csv":
-                            Drone drone = new Drone(Integer.parseInt(items[0]), Double.parseDouble(items[1]));
-                            vdb.addDrone(drone);
+                            addDrone(Integer.parseInt(items[0]), Double.parseDouble(items[1]));
                             break;
                         case "docs/Dados_de_Leitura/scooters.csv":
-                            Scooter scooter = new Scooter(Integer.parseInt(items[0]), Double.parseDouble(items[1]));
-                            vdb.addScooter(scooter);
+                            addScooter(Integer.parseInt(items[0]), Double.parseDouble(items[1]));
                             break;
                         case "docs/Dados_de_Leitura/produtos.csv":
-                            proddb.addProduto(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]));
+                            addProduto(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]));
                             break;
                         case "docs/Dados_de_Leitura/stock.csv":
-                            proddb.addProdutoStock(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Integer.parseInt(items[2]));
+                            addProdutoStock(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Integer.parseInt(items[2]));
                             break;
                         default:
                             break;
@@ -113,6 +111,62 @@ public class LerFicheiro extends DataHandler {
     }
 
     public boolean addFarmacia(int i, String s, String r) {
-        return fdb.addFarmacia(i, s, r);
+        return (fdb.addFarmacia(i, s, r) ? (true) : (false));
+    }
+
+    public int addParque(int i, int i1, String s, int i2) {
+        return pdb.addParque(i, i1, s, i2);
+    }
+
+    public boolean addEstacionamento(int parseInt, int parseInt0, int parseInt1) {
+        return (edb.addEstacionamento(parseInt, parseInt0, parseInt1) ? (true) : (false));
+    }
+
+    public boolean addCartao(long parseLong, String item, int parseInt) throws ParseException {
+        return (cdb.addCartao(parseLong, item, parseInt) ? (true) : (false));
+    }
+
+    public boolean addEndereco(String item, double parseDouble, double parseDouble0, double parseDouble1) {
+        return (endb.addEndereco(item, parseDouble, parseDouble0, parseDouble1) ? (true) : (false));
+    }
+
+    public boolean addUtilizador(int parseInt, String item, String item0, int parseInt0, String item1) {
+        return (udb.addUtilizador(parseInt, item, item0, parseInt0, item1) ? (true) : (false));
+    }
+
+    public boolean addCliente(int parseInt, double parseDouble, String item, long parseLong) {
+        return (cldb.addCliente(parseInt, parseDouble, item, parseLong) ? (true) : (false));
+    }
+
+    public boolean addEstafeta(int parseInt, int parseInt0, double parseDouble) {
+        return (esdb.addEstafeta(parseInt, parseInt0, parseDouble) ? (true) : (false));
+    }
+
+    public int addVeiculo(String item, double parseDouble, double parseDouble0, double parseDouble1, double parseDouble2, double parseDouble3, int parseInt) throws SQLException {
+        Veiculo vei = new Veiculo(item, parseDouble, parseDouble0, parseDouble1, parseDouble2, parseDouble3, parseInt);
+        return vdb.addVeiculo(vei);
+    }
+
+    public boolean addCaminho(String item, String item0, double parseDouble, double parseDouble0, double parseDouble1) {
+        return (pathdb.addCaminho(item, item0, parseDouble, parseDouble0, parseDouble1) ? (true) : (false));
+    }
+
+    public boolean addDrone(int parseInt, double parseDouble) throws SQLException {
+        Drone drone = new Drone(parseInt, parseDouble);
+
+        return (vdb.addDrone(drone) ? (true) : (false));
+    }
+
+    public boolean addScooter(int parseInt, double parseDouble) throws SQLException {
+        Scooter scooter = new Scooter(parseInt, parseDouble);
+        return (vdb.addScooter(scooter) ? (true) : (false));
+    }
+
+    public int addProduto(String item, double parseDouble, double parseDouble0) {
+        return proddb.addProduto(item, parseDouble, parseDouble0);
+    }
+
+    public boolean addProdutoStock(int parseInt, int parseInt0, int parseInt1) {
+        return (proddb.addProdutoStock(parseInt,parseInt0,parseInt1) ? (true) : (false));
     }
 }

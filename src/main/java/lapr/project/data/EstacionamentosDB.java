@@ -82,7 +82,8 @@ public class EstacionamentosDB extends DataHandler {
      * disponível, 0 se não esta disponível)
      * @param idParque id do parque
      */
-    public void addEstacionamento(int numeroLote, int carregador, int idParque) {
+    public boolean addEstacionamento(int numeroLote, int carregador, int idParque) {
+        boolean res= false;
         try {
             openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamento(?,?,?) }")) {
@@ -90,11 +91,14 @@ public class EstacionamentosDB extends DataHandler {
                 callStmt.setInt(2, carregador);
                 callStmt.setInt(3, idParque);
                 callStmt.execute();
+                res = true;
             }
             closeAll();
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return res;
     }
 
     /**
