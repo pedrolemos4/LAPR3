@@ -21,6 +21,10 @@ import lapr.project.model.Cliente;
  */
 public class ClienteDB extends DataHandler {
 
+    public ClienteDB(){
+        //dummyConstructor
+    }
+    
     /**
      * Cria um novo cliente
      *

@@ -34,19 +34,21 @@ public class LerFicheiro extends DataHandler {
     private final CaminhoDB pathdb;
     private final ProdutosDB proddb;
 
-    public LerFicheiro() {
-        this.fdb = new FarmaciaDB();
-        this.pdb = new ParqueDB();
-        this.edb = new EstacionamentosDB();
-        this.cdb = new CartaoDB();
-        this.endb = new EnderecoDB();
-        this.udb = new UtilizadorDB();
-        this.cldb = new ClienteDB();
-        this.esdb = new EstafetaDB();
-        this.vctrl = new VeiculoController(new VeiculoDB());
-        this.pathdb = new CaminhoDB();
-        this.vdb = new VeiculoDB();
-        this.proddb = new ProdutosDB();
+    public LerFicheiro(FarmaciaDB far, ParqueDB par, EstacionamentosDB est, CartaoDB car,
+            EnderecoDB end, UtilizadorDB uti, ClienteDB cli, EstafetaDB estDB, CaminhoDB cam,
+            VeiculoDB vei, ProdutosDB prod) {
+        this.fdb = far;
+        this.pdb = par;
+        this.edb = est;
+        this.cdb = car;
+        this.endb = end;
+        this.udb = uti;
+        this.cldb = cli;
+        this.esdb = estDB;
+        this.vctrl = new VeiculoController(vei);
+        this.pathdb = cam;
+        this.vdb = vei;
+        this.proddb = prod;
     }
 
     public void read(String nameFile) throws ParseException, SQLException {
@@ -57,7 +59,7 @@ public class LerFicheiro extends DataHandler {
                     System.out.println("Items: " + items[0]);
                     switch (nameFile) {
                         case "docs/Dados_de_Leitura/farmacias.csv":
-                            fdb.addFarmacia(Integer.parseInt(items[0]), items[1], items[2]);
+                            addFarmacia(Integer.parseInt(items[0]), items[1], items[2]);
                             break;
                         case "docs/Dados_de_Leitura/parques.csv":
                             pdb.addParque(Integer.parseInt(items[0]), Integer.parseInt(items[1]), items[2], Integer.parseInt(items[3]));
@@ -100,7 +102,7 @@ public class LerFicheiro extends DataHandler {
                         case "docs/Dados_de_Leitura/stock.csv":
                             proddb.addProdutoStock(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Integer.parseInt(items[2]));
                             break;
-                        default :
+                        default:
                             break;
                     }
                 }
@@ -108,5 +110,9 @@ public class LerFicheiro extends DataHandler {
         } catch (FileNotFoundException | NumberFormatException | NullPointerException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean addFarmacia(int i, String s, String r) {
+        return fdb.addFarmacia(i, s, r);
     }
 }
