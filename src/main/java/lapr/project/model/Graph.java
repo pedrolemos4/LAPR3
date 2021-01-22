@@ -287,6 +287,7 @@ public class Graph<V,E> implements GraphInterface<V,E> {
         if (!validVertex(vert))
             return false;
 
+        //remove all edges that point to vert
         for (Edge<V,E> edge : incomingEdges(vert)){
             V vadj = edge.getVOrig();
             removeEdge(vadj,vert);
@@ -294,6 +295,7 @@ public class Graph<V,E> implements GraphInterface<V,E> {
 
         Vertex<V,E> vertex = vertices.get(vert);
 
+        //update the keys of subsequent vertices in the map
         for (Vertex<V,E> v : vertices.values()){
             int keyVert = v.getKey();
             if ( keyVert > vertex.getKey()){
@@ -301,6 +303,7 @@ public class Graph<V,E> implements GraphInterface<V,E> {
                 v.setKey(keyVert);
             }
         }
+        //The edges that live from vert are removed with the vertex
         vertices.remove(vert);
 
         numVert--;

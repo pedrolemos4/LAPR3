@@ -788,6 +788,7 @@ select * from cliente;
 select * from estafeta;
 select * from estacionamento;
 select * from utilizador;
+select * from produto;
 order by numeroLote,idParque;
 select * from cartao;
 select * from caminho;
@@ -796,6 +797,16 @@ select * from cartao;
 select c.utilizadornif, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito
 from cliente c, utilizador u
 where c.utilizadornif = u.nif;
+
+select * from stockfarmacia;
+--IVULFacKOHnE
+
+
+SELECT * FROM produto p INNER JOIN StockFarmacia s ON s.ProdutoidProduto = p.idProduto AND s.FarmaciaNIF = 111111111;
+
+update stockfarmacia set stock = 1 where farmacianif = 111111111;
+--update produto set 
+select * from encomendaproduto;
 
 SELECT * 
 FROM produto p 

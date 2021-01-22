@@ -17,9 +17,7 @@ import lapr.project.model.Endereco;
  */
 public class CaminhoDB extends DataHandler{
     
-    public CaminhoDB(){
-        //dummyConstructor
-    }
+    public final EnderecoDB end = new EnderecoDB();
     
     public void addCaminho(String morada1, String morada2, double roadResistanceCoefficient, double velocidadeVento, double direcaoVento) {
         try {
@@ -51,8 +49,8 @@ public class CaminhoDB extends DataHandler{
                     Double velocidadeVento = rSet.getDouble(4);
                     Double direcaoVento = rSet.getDouble(5);
                     
-                    Endereco end1 = new EnderecoDB().getEnderecoByMorada(morada1);
-                    Endereco end2 = new EnderecoDB().getEnderecoByMorada(morada2);
+                    Endereco end1 = end.getEnderecoByMorada(morada1);
+                    Endereco end2 = end.getEnderecoByMorada(morada2);
                     
                     Caminho e = new Caminho(end1, end2, roadResistanceCoefficient, velocidadeVento, direcaoVento);
                     list.add(e);
@@ -77,8 +75,8 @@ public class CaminhoDB extends DataHandler{
                     Double velocidadeVento = rSet.getDouble(4);
                     Double direcaoVento = rSet.getDouble(5);
                     
-                    Endereco end1 = new EnderecoDB().getEnderecoByMorada(morada3);
-                    Endereco end2 = new EnderecoDB().getEnderecoByMorada(morada4);
+                    Endereco end1 = end.getEnderecoByMorada(morada3);
+                    Endereco end2 = end.getEnderecoByMorada(morada4);
                     
                     return new Caminho(end1, end2, roadResistanceCoefficient, velocidadeVento, direcaoVento);
                 }

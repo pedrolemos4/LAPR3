@@ -35,6 +35,7 @@ public class EntregaDB extends DataHandler {
     private static final String SCOOTER = "scooter";
     private final EncomendaDB encDB = new EncomendaDB();
     private final CaminhoDB caminhoDB = new CaminhoDB();
+    private final EnderecoDB end = new EnderecoDB();
 
     /**
      * Adiciona uma entrega à base de dados
@@ -119,9 +120,10 @@ public class EntregaDB extends DataHandler {
 
         double energiaGasta = 0;
 
-        for (Caminho c : listCaminhos) {
-            graph.insertVertex(c.getEnd1());
-            graph.insertVertex(c.getEnd2());
+        List<Endereco> lst = new ArrayList<>(end.getLstEnderecos());
+
+        for (Endereco e : lst) {
+            graph.insertVertex(e);
         }
 
         for (Caminho caminho : listCaminhos) {
@@ -188,6 +190,7 @@ public class EntregaDB extends DataHandler {
 
     /**
      * Retorna a encomenda cuja morada do cliente é a recebida por parâmetro
+     *
      * @param morada morada do cliente
      * @return encomenda
      */
@@ -252,6 +255,7 @@ public class EntregaDB extends DataHandler {
 
     /**
      * Atualiza a entrega na base de dados
+     *
      * @param entrega entrega a ser utilizada
      * @return true se a entrega foi atualizada com sucesso, false se não
      * @throws SQLException
@@ -260,7 +264,7 @@ public class EntregaDB extends DataHandler {
     public boolean updateEntrega(Entrega entrega) throws SQLException, ParseException {
         boolean updated = false;
 
-        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateEntrega(?,?,?,?,?) }")) {
+        try (CallableStatement callSmt = getConnection().prepareCall("{ call updateEntrega(?,?,?,?,?) }")) {
 
             callSmt.setInt(1, entrega.getIdEntrega());
             callSmt.setInt(2, entrega.getidEstafeta());

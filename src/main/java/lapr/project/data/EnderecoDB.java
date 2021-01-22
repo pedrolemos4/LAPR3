@@ -161,7 +161,7 @@ public class EnderecoDB extends DataHandler {
      * @return endereço da farmacia
      */
     public Endereco getEnderecoByNifFarmacia(int nifFarmacia) {
-        String query = "SELECT * FROM endereco e INNER JOIN farmacia f ON e.morada = f.morada WHERE f.NIF = " + nifFarmacia;
+        String query = "SELECT e.morada, e.latitude, e.longitude, e.altitude FROM endereco e INNER JOIN farmacia f ON e.morada = f.morada WHERE f.NIF = " + nifFarmacia;
         return getQuery(query);
     }
 

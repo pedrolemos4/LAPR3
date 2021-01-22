@@ -14,11 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import lapr.project.model.*;
-
-import static lapr.project.model.GraphAlgorithms.shortestPath;
-
 import lapr.project.utils.CalculosFisica;
 
 /**
@@ -27,8 +23,8 @@ import lapr.project.utils.CalculosFisica;
  */
 public class FarmaciaDB extends DataHandler {
 
-    EnderecoDB end = new EnderecoDB();
-    CaminhoDB cam = new CaminhoDB();
+    private final EnderecoDB end = new EnderecoDB();
+    private final CaminhoDB cam = new CaminhoDB();
 
     /**
      * Cria uma nova farmácia
@@ -97,7 +93,7 @@ public class FarmaciaDB extends DataHandler {
             closeAll();
             res = true;
         } catch (SQLException e) {
-            
+
             e.printStackTrace();
         }
         return res;
@@ -213,8 +209,9 @@ public class FarmaciaDB extends DataHandler {
 
     /**
      * Devolve a farmacia pelo endereco
+     *
      * @param morada
-     * @return 
+     * @return
      */
     private Farmacia getFarmaciaByEndereco(String morada) {
 
@@ -244,44 +241,52 @@ public class FarmaciaDB extends DataHandler {
     public Graph<Endereco, Double> generateGrafo() {
 
         Graph<Endereco, Double> graph = new Graph<>(true);
-        List<Caminho> listCaminhos = new ArrayList<>(cam.getAllCaminhos());
-        
-        for(Caminho c : listCaminhos){
-            graph.insertVertex(c.getEnd1());
-            graph.insertVertex(c.getEnd2());
+        List<Endereco> lst = end.getLstEnderecos();
+
+        for (Endereco e : lst) {
+            graph.insertVertex(e);
         }
 
-        for(Caminho caminho : listCaminhos){
-            if (!caminho.getEnd1() .equals(caminho.getEnd2())) {
-                graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), null, CalculosFisica.calculoDistancia(caminho.getEnd1().getLatitude(), caminho.getEnd1().getLongitude(), caminho.getEnd1().getAltitude(),
-                        caminho.getEnd2().getLatitude(), caminho.getEnd2().getLongitude(), caminho.getEnd2().getAltitude()));
+        for (Endereco e1 : graph.vertices()) {
+            for (Endereco e : graph.vertices()) {
+                if (cam.getCaminhoByEnderecos(e.getMorada(), e1.getMorada()) != null) {
+                    graph.insertEdge(e, e1, CalculosFisica.calculoDistancia(e.getLatitude(), e.getLongitude(), e.getAltitude(),
+                            e1.getLatitude(), e1.getLongitude(), e1.getAltitude()), CalculosFisica.calculoDistancia(e.getLatitude(), e.getLongitude(), e.getAltitude(),
+                            e1.getLatitude(), e1.getLongitude(), e1.getAltitude()));
+                }
             }
         }
-
         return graph;
     }
 
     /**
-     * Devolve a farmácia mais próxima do endereco cliente recebido por parâmetro
+     * Devolve a farmácia mais próxima do endereco cliente recebido por
+     * parâmetro
      *
      * @param graph grafo com a lista de farmácias
      * @param enderecoCliente
      * @return farmácia mais próxima
      */
     public Farmacia getFarmaciaProxima(Graph<Endereco, Double> graph, Endereco enderecoCliente) {
-        LinkedList<Endereco> shortPath = new LinkedList<>();
+        
         double min = 999999999;
         Farmacia farmaciaByEndereco = null;
 
+        //boolean removeVertex = graph.removeVertex(endRemove);
+        //System.out.println("REMOVE?? " + removeVertex);
+
         for (Endereco f1 : graph.vertices()) {
-            if (getFarmaciaByEndereco(f1.getMorada()) != null){
-                double valor = shortestPath(graph, f1, enderecoCliente, shortPath);
+            if (getFarmaciaByEndereco(f1.getMorada()) != null  && !enderecoCliente.getMorada().equals(f1.getMorada())){
+                LinkedList<Endereco> shortPath = new LinkedList<>();
+                double valor = GraphAlgorithms.shortestPath(graph, enderecoCliente, f1, shortPath);
+                System.out.println("Valor: "+valor);
                 if (valor < min) {
                     min = valor;
                     farmaciaByEndereco = getFarmaciaByEndereco(f1.getMorada());
                 }
             }
         }
+
         return farmaciaByEndereco;
     }
 

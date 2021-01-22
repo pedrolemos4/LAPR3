@@ -256,12 +256,13 @@ public class ProdutosDB extends DataHandler {
                     String designacao = rSet.getString(2);
                     double peso2 = rSet.getDouble(3);
                     double precoBase = rSet.getDouble(4);
-                    Produto p = new Produto(id, designacao, peso2, precoBase);
+                    Produto p = new Produto(designacao, peso2, precoBase);
                     int stock = rSet.getInt(7);
                     if (map.containsKey(p)) {
-                        Integer get = map.get(p);
-                        map.replace(p, get + stock);
+                        p.setId(id);
+                        map.replace(p, map.get(p)+stock);
                     } else {
+                        p.setId(id);
                         map.put(p, stock);
                     }
                 }

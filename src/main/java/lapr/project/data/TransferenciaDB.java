@@ -12,7 +12,9 @@ public class TransferenciaDB extends DataHandler {
     ProdutosDB pdb = new ProdutosDB();
 
     /**
-     * Adiciona a transferência feita na base de dados e atualiza os stocks das farmácias
+     * Adiciona a transferência feita na base de dados e atualiza os stocks das
+     * farmácias
+     *
      * @param fOrig farmácia de origem
      * @param fDest farmácia de destino
      * @param produto produto a transferir
@@ -28,6 +30,7 @@ public class TransferenciaDB extends DataHandler {
 
     /**
      * Adiciona a transferência feita na base de dados
+     *
      * @param idRem farmácia de origem
      * @param idDes farmácia de destino
      * @param idProd produto a transferir
@@ -38,7 +41,7 @@ public class TransferenciaDB extends DataHandler {
         try {
             openConnection();
 
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addTransferencia(?,?,?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addTransferencia(?,?,?,?,?) }")) {
 
                 callStmt.setInt(1, idRem);
                 callStmt.setInt(2, idDes);
@@ -57,6 +60,7 @@ public class TransferenciaDB extends DataHandler {
 
     /**
      * Atualiza os stocks das farmácias
+     *
      * @param fOrig farmácia de origem
      * @param fDest farmácia de destino
      * @param produto produto a transferir
@@ -68,11 +72,16 @@ public class TransferenciaDB extends DataHandler {
         Map<Produto, Integer> stockFarmDest = pdb.getLista(fDest.getNIF());
 
         if (stockFarmOrig.containsKey(produto) && stockFarmOrig.get(produto) >= quantidade) {
-            stockFarmDest.replace(produto, stockFarmDest.get(produto) + quantidade);
+            if (!stockFarmDest.containsKey(produto)) {
+                stockFarmDest.put(produto, quantidade);
+            } else {
+                stockFarmDest.replace(produto, stockFarmDest.get(produto) + quantidade);
+            }
             pdb.atualizarStock(fDest.getNIF(), produto.getId(), stockFarmDest.get(produto));
             stockFarmOrig.replace(produto, stockFarmOrig.get(produto) - quantidade);
             pdb.atualizarStock(fOrig.getNIF(), produto.getId(), stockFarmOrig.get(produto));
             return true;
+
         }
         return false;
     }
