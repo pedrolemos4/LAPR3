@@ -165,9 +165,12 @@ public class EstacionamentoController {
         pathnames = f.list();
 
         String estimate = null;
+        String fileExtension = null;
         if (pathnames != null && pathnames.length > 0) {
             estimate = pathnames[0].substring(0,8);
-            if(estimate.equals("estimate")){
+            int length = pathnames[0].length();
+            fileExtension = pathnames[0].substring(length - 5, length);
+            if(estimate.equals("estimate") && fileExtension.equals(".data")){
                 return pathnames[0];
             }
         }
