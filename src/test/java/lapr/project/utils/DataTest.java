@@ -307,6 +307,28 @@ public class DataTest {
                 && instance.getDia()== outraData.getDia();
         assertEquals(expResult, result);
     }
+
+    @Test
+    public void testEquals7() {
+        System.out.println("equals7");
+        Object outroObjeto = new Data("01/02/2021");
+        Data instance = new Data("01/01/2021");
+        Data outraData = (Data) outroObjeto;
+        boolean expResult = false;
+        boolean result = instance.equals(outraData);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testEquals8() {
+        System.out.println("equals8");
+        Object outroObjeto = new Data("01/01/2121");
+        Data instance = new Data("01/01/2021");
+        Data outraData = (Data) outroObjeto;
+        boolean expResult = false;
+        boolean result = instance.equals(outraData);
+        assertEquals(expResult, result);
+    }
     
     @Test
     public void simpleEnumTest(){
