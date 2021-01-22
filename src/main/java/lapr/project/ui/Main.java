@@ -21,7 +21,7 @@ import lapr.project.data.EstafetaDB;
 import lapr.project.data.ProdutosDB;
 import lapr.project.data.UtilizadorDB;
 import lapr.project.data.EnderecoDB;
-import lapr.project.model.LerFicheiro;
+import lapr.project.data.LerFicheiro;
 
 /**
  * @author Nuno Bettencourt <nmb@isep.ipp.pt> on 24/05/16.

@@ -1,4 +1,4 @@
-package lapr.project.model;
+package lapr.project.data;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,18 +6,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Scanner;
 import lapr.project.controller.VeiculoController;
-import lapr.project.data.CaminhoDB;
-import lapr.project.data.CartaoDB;
-import lapr.project.data.ClienteDB;
-import lapr.project.data.DataHandler;
-import lapr.project.data.EnderecoDB;
-import lapr.project.data.EstacionamentosDB;
-import lapr.project.data.EstafetaDB;
-import lapr.project.data.FarmaciaDB;
-import lapr.project.data.ParqueDB;
-import lapr.project.data.ProdutosDB;
-import lapr.project.data.UtilizadorDB;
-import lapr.project.data.VeiculoDB;
+import lapr.project.model.Drone;
+import lapr.project.model.Scooter;
 
 public class LerFicheiro extends DataHandler {
 

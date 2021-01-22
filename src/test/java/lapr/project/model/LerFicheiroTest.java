@@ -5,6 +5,7 @@
  */
 package lapr.project.model;
 
+import lapr.project.data.LerFicheiro;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
