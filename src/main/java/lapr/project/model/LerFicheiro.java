@@ -68,7 +68,7 @@ public class LerFicheiro extends DataHandler {
                         case "docs/Dados_de_Leitura/cartoes.csv":
                             cdb.addCartao(Long.parseLong(items[0]), items[1], Integer.parseInt(items[2]));
                             break;
-                        case "docs/Dados_de_Leitura/enderecos.csv":;
+                        case "docs/Dados_de_Leitura/enderecos.csv":
                             endb.addEndereco(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]), Double.parseDouble(items[3]));
                             break;
                         case "docs/Dados_de_Leitura/utilizadores.csv":
@@ -99,6 +99,8 @@ public class LerFicheiro extends DataHandler {
                             break;
                         case "docs/Dados_de_Leitura/stock.csv":
                             proddb.addProdutoStock(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Integer.parseInt(items[2]));
+                            break;
+                        default :
                             break;
                     }
                 }
