@@ -166,14 +166,17 @@ public class EstacionamentoController {
 
         String estimate = null;
         String fileExtension = null;
-        if (pathnames != null && pathnames.length > 0) {
-            estimate = pathnames[0].substring(0,8);
-            int length = pathnames[0].length();
-            fileExtension = pathnames[0].substring(length - 5, length);
-            if(estimate.equals("estimate") && fileExtension.equals(".data")){
-                return pathnames[0];
+        boolean flag = true;
+        String filename = null;
+        for (int i = 0; i < pathnames.length && flag; i++) {
+            estimate = pathnames[i].substring(0, 8);
+            int length = pathnames[i].length();
+            fileExtension = pathnames[i].substring(length - 5, length);
+            if (estimate.equals("estimate") && fileExtension.equals(".data")) {
+                flag = false;
+                filename = pathnames[i];
             }
         }
-        return null;
+        return filename;
     }
 }
