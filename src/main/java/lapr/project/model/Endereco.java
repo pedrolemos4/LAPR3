@@ -5,6 +5,8 @@
  */
 package lapr.project.model;
 
+import java.util.Objects;
+
 /**
  *
  * @author pedro
@@ -120,5 +122,21 @@ public class Endereco {
     @Override
     public String toString() {
         return "Endereco{" + "morada=" + morada + ", latitude=" + latitude + ", longitude=" + longitude + ", altitude=" + altitude + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Endereco endereco = (Endereco) o;
+        return Double.compare(endereco.latitude, latitude) == 0 &&
+                Double.compare(endereco.longitude, longitude) == 0 &&
+                Double.compare(endereco.altitude, altitude) == 0 &&
+                morada.equals(endereco.morada);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(morada, latitude, longitude, altitude);
     }
 }

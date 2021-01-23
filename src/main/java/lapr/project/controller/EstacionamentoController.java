@@ -18,6 +18,7 @@ public class EstacionamentoController {
     private final VeiculoDB veiculoDB;
     private final ParqueDB parqueDB;
     private final EstafetaDB estafetaDB;
+    private final String adminEmail = "admlapr123@gmail.com";
 
     /**
      * Constroi uma instancia de EstacionamentoController recebendo uma
@@ -135,7 +136,7 @@ public class EstacionamentoController {
         } else {
             mensagem = "A scooter foi estacionada sem sucesso, tente novamente.";
         }
-        return emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem);
+        return emailDB.sendEmail(adminEmail, email, assunto, mensagem);
     }
 
     public boolean notificaAdministrador(boolean bemEstacionado, int estimativa, int IDVeiculo) {
@@ -146,7 +147,7 @@ public class EstacionamentoController {
         } else {
             mensagem = "O drone " + IDVeiculo + " foi acoplado sem sucesso.";
         }
-        return emailDB.sendEmail("admlapr123@gmail.com", "admlapr123@gmail.com", assunto, mensagem);
+        return emailDB.sendEmail(adminEmail, adminEmail, assunto, mensagem);
     }
 
     /**

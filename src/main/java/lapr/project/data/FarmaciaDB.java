@@ -5,6 +5,9 @@
  */
 package lapr.project.data;
 
+import lapr.project.model.*;
+import lapr.project.utils.CalculosFisica;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,8 +17,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lapr.project.model.*;
-import lapr.project.utils.CalculosFisica;
 
 /**
  *
@@ -238,13 +239,12 @@ public class FarmaciaDB extends DataHandler {
      *
      * @return grafo
      */
-    public Graph<Endereco, Double> generateGrafo() {
+    public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graph) {
 
-        Graph<Endereco, Double> graph = new Graph<>(true);
         List<Endereco> lst = end.getLstEnderecos();
 
-        for (Endereco e : lst) {
-            graph.insertVertex(e);
+        for(Endereco end: lst){
+            graph.insertVertex(end);
         }
 
         for (Endereco e1 : graph.vertices()) {
@@ -256,6 +256,7 @@ public class FarmaciaDB extends DataHandler {
                 }
             }
         }
+
         return graph;
     }
 
@@ -276,18 +277,17 @@ public class FarmaciaDB extends DataHandler {
         //System.out.println("REMOVE?? " + removeVertex);
 
         for (Endereco f1 : graph.vertices()) {
-            if (getFarmaciaByEndereco(f1.getMorada()) != null  && !enderecoCliente.getMorada().equals(f1.getMorada())){
                 LinkedList<Endereco> shortPath = new LinkedList<>();
                 double valor = GraphAlgorithms.shortestPath(graph, enderecoCliente, f1, shortPath);
                 System.out.println("Valor: "+valor);
-                if (valor < min) {
+                System.out.println("Endereço: " + enderecoCliente.getMorada());
+                System.out.println("F1: " + f1.getMorada());
+                if (valor < min && valor != 0) {
                     min = valor;
                     farmaciaByEndereco = getFarmaciaByEndereco(f1.getMorada());
                 }
-            }
-        }
 
+        }
         return farmaciaByEndereco;
     }
-
 }

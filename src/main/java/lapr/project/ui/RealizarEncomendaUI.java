@@ -1,10 +1,5 @@
 package lapr.project.ui;
 
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import lapr.project.controller.EnviarNotaTransferenciaController;
 import lapr.project.controller.PedirItemFarmaciaController;
 import lapr.project.controller.RealizaEncomendaController;
@@ -12,6 +7,14 @@ import lapr.project.data.*;
 import lapr.project.login.UserSession;
 import lapr.project.model.*;
 import lapr.project.utils.Data;
+
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  *
@@ -56,9 +59,14 @@ public class RealizarEncomendaUI {
 
         Endereco enderecoCliente = controller.getEnderecoByNifCliente(cliente.getClienteNIF());
 
-        Graph<Endereco, Double> generateGrafo = controller2.generateGrafo();
+        Graph<Endereco, Double> graph = new Graph<>(true);
+        graph = controller2.generateGrafo(graph);
 
-        Farmacia farm = controller2.getFarmaciaProxima(generateGrafo, enderecoCliente);
+        System.out.println("A BIA É BOOMER: " + graph.validVertex(enderecoCliente));
+
+        //System.out.println(generateGrafo.toString());
+
+        Farmacia farm = controller2.getFarmaciaProxima(graph, enderecoCliente);
         int nif = farm.getNIF();
         Map<Produto, Integer> stock = controller.getListStock(nif);
         int nifFarmacia1 = nif;
@@ -88,7 +96,7 @@ public class RealizarEncomendaUI {
                     aux = stock.get(prod);
                 }
                 qntd = qntd - aux;
-                Farmacia farm1 = controller2.getFarmaciaProxima(generateGrafo, controller.getEnderecoOrigem(nif));
+                Farmacia farm1 = controller2.getFarmaciaProxima(graph, controller.getEnderecoOrigem(nif));
                 int nif1 = farm1.getNIF();
                 System.out.println("FARMACIA + PERTO DA 1 FARMACIA: "+nif1);
                 while (qntd > 0) {
@@ -110,19 +118,19 @@ public class RealizarEncomendaUI {
                             controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(nif).getEmail(), controller2.getFarmaciaByNIF(nif1).getEmail());
                             qntd = qntd - controller.getListStock(nif1).get(prod);
                             controller.produtoEncomenda(nif1, prod, qntd);
-                            Farmacia farm2 = controller2.getFarmaciaProxima(generateGrafo, controller.getEnderecoOrigem(nif1));
+                            Farmacia farm2 = controller2.getFarmaciaProxima(graph, controller.getEnderecoOrigem(nif1));
                             nif1 = farm2.getNIF();
                         }
                         if (!controller.getListStock(nif1).containsKey(prod)) {
                             System.out.println("3 if");
-                            Farmacia farm2 = controller2.getFarmaciaProxima(generateGrafo, controller.getEnderecoOrigem(nif1));
+                            Farmacia farm2 = controller2.getFarmaciaProxima(graph, controller.getEnderecoOrigem(nif1));
                             nif1 = farm2.getNIF();
                             System.out.println("NIF: "+nif1);
                         }
                     }
 
                 }
-                if (generateGrafo.numVertices() == 0 && qntd > 0) {
+                if (graph.numVertices() == 0 && qntd > 0) {
                     System.out.println("Não havia a quantidade que pretende.");
                     String assunto = "Produto não disponível.";
                     String mensagem = "O produto não estava disponível na quantidade pretendida logo foi inserido a quantidade existente em stock.";

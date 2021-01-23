@@ -1,5 +1,6 @@
 package lapr.project.controller;
 
+import lapr.project.data.EmailDB;
 import lapr.project.data.FarmaciaDB;
 import lapr.project.data.TransferenciaDB;
 import lapr.project.model.*;
@@ -9,9 +10,8 @@ import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import lapr.project.data.EmailDB;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -89,8 +89,8 @@ class PedirItemFarmaciaControllerTest {
         System.out.println("generateGrafo");
         List<Farmacia> farms = new ArrayList<>();
         Graph<Endereco, Double> expResult = new Graph<>(false);
-        when(fdb.generateGrafo()).thenReturn(expResult);
-        Graph<Endereco, Double> result = instance.generateGrafo();
+        when(fdb.generateGrafo(expResult)).thenReturn(expResult);
+        Graph<Endereco, Double> result = instance.generateGrafo(expResult);
         assertEquals(expResult, result);
     }
 

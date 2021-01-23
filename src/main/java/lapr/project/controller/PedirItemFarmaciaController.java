@@ -1,7 +1,5 @@
 package lapr.project.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import lapr.project.data.EmailDB;
 import lapr.project.data.FarmaciaDB;
 import lapr.project.data.TransferenciaDB;
@@ -9,6 +7,9 @@ import lapr.project.model.Endereco;
 import lapr.project.model.Farmacia;
 import lapr.project.model.Graph;
 import lapr.project.model.Produto;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PedirItemFarmaciaController {
     FarmaciaDB fdb;
@@ -62,8 +63,9 @@ public class PedirItemFarmaciaController {
      * Devolve um grafo recebendo uma lista de farmacias
      * @return grafo
      */
-    public Graph<Endereco, Double> generateGrafo() {
-        return fdb.generateGrafo();
+    public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graph) {
+        Graph<Endereco, Double> graph1 = fdb.generateGrafo(graph);
+        return graph1;
     }
 
     /**
