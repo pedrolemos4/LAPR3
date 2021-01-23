@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -614,35 +613,5 @@ class RealizaEncomendaControllerTest {
         when(encDB.getTaxa(preco)).thenReturn(expResult);
         double result = instance.getTaxa(preco);
         assertEquals(expResult, result);
-    }
-
-    @Test
-    void shortestPath() {
-
-        Graph<Endereco, Double> grafoScooter = new Graph<>(true);
-
-        Endereco e1 = new Endereco("Rua do Candido 1",41.45,30.58,34.23);
-        Endereco e2 = new Endereco("Rua do Candido 2",41.65,30.78,34.43);
-        Endereco e3 = new Endereco("Rua do Candido 3",41.85,30.98,34.63);
-
-        grafoScooter.insertEdge(e1,e2,0.0,10);
-        grafoScooter.insertEdge(e2,e3,0.0,10);
-        grafoScooter.insertEdge(e3,e1,0.0,10);
-
-        LinkedList<Endereco> desiredPath = new LinkedList<>();
-
-        desiredPath.add(e1);
-        desiredPath.add(e2);
-        desiredPath.add(e3);
-
-        LinkedList<Endereco> shortPath = new LinkedList<>();
-
-        double energia = AdjacencyMapAlgorithms.shortestPath(grafoScooter,e1,e3,shortPath);
-
-        System.out.println(energia);
-        for (Endereco end: shortPath) {
-            System.out.println("aaaaaa: " + end.getMorada());
-        }
-
     }
 }
