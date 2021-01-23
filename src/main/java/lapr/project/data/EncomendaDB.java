@@ -108,17 +108,16 @@ public class EncomendaDB extends DataHandler {
      * @param estado estado da encomenda
      */
     private int addEncomenda(int nif, int nifFarmacia, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) throws SQLException, ParseException {
-        int id = 0;
-        openConnection();
-
+        int id;
+        System.out.println("nif: "+nif);
+        System.out.println("nifFarmacia: "+nifFarmacia);
         try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addEncomenda(?,?,?,?,?,?,?) }")) {
-
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
-            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             java.util.Date date = sdf1.parse(dataPedida);
-            java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
-
-            callStmt.setTimestamp(2, sqlStartDate);
+            java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+            System.out.println("SQL DATE: "+sqlStartDate.toString());
+            callStmt.setDate(2, sqlStartDate);
             callStmt.setInt(3, nifFarmacia);
             callStmt.setDouble(4, preco);
             callStmt.setDouble(5, pesoEncomenda);
@@ -127,15 +126,17 @@ public class EncomendaDB extends DataHandler {
             callStmt.setInt(8, nif);
             callStmt.execute();
             id = callStmt.getInt(1);
+
+            try {
+
+                closeAll();
+
+            } catch (NullPointerException ex) {
+
+                Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            }
         }
-        try {
 
-            closeAll();
-
-        } catch (NullPointerException ex) {
-
-            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
-        }
         return id;
     }
 

@@ -98,10 +98,13 @@ public class RealizarEncomendaUI {
 
                     if (listStockFarmacias.containsKey(prod) && listStockFarmacias.get(prod) >= qntd) {
                         System.out.println("If 1.");
+                        System.out.println(" 101 FarmaciaSeguinte: "+controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail() + " nifNextFarmacia: "+controller2.getFarmaciaByNIF(nifNextFarmacia).getEmail());
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nifNextFarmacia), prod, qntd);
+                        System.out.println(" 102 FarmaciaSeguinte: "+controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail() + " nifNextFarmacia: "+controller2.getFarmaciaByNIF(nifNextFarmacia).getEmail());
                         controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nifNextFarmacia), prod, qntd);
                         controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail(), controller2.getFarmaciaByNIF(nifNextFarmacia).getEmail());
                         controller.produtoEncomenda(farmaciaSeguinte, prod, qntd);
+                        qntd=0;
                         break;
                     }
 
@@ -145,11 +148,11 @@ public class RealizarEncomendaUI {
 
         if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             Date date1 = new Date(System.currentTimeMillis());
             String dataInicio = formatter.format(date1);
-
+           
             System.out.println("Possui " + controller.getCliente().getCreditos() + " creditos.");
             System.out.println("Deseja pagar com creditos? (S/N)");
             LER.nextLine();

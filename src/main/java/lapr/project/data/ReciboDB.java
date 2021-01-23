@@ -74,7 +74,7 @@ public class ReciboDB extends DataHandler {
         try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addRecibo(?,?,?,?) }")) {
 
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
-            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             java.util.Date date = sdf1.parse(data);
             java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
             callStmt.setTimestamp(2, sqlStartDate);

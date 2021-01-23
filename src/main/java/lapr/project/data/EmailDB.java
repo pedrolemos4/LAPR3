@@ -40,7 +40,7 @@ public class EmailDB {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication()
                     {
-                        return new PasswordAuthentication(emailOrig,
+                        return new PasswordAuthentication("admlapr123@gmail.com",
                                 "LAPR12345678");
                     }
                 });
