@@ -430,7 +430,7 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE FUNCTION addEncomenda(p_dataPedida "LAPR3_G23".encomenda.dataPedida%type, p_nifFarmacia "LAPR3_G23".encomenda.nifFarmacia%type,
+CREATE OR REPLACE FUNCTION addEncomenda(p_dataPedida DATE, p_nifFarmacia "LAPR3_G23".encomenda.nifFarmacia%type,
 p_preco "LAPR3_G23".encomenda.preco%type, p_pesoEncomenda "LAPR3_G23".encomenda.pesoEncomenda%type,p_taxa "LAPR3_G23".encomenda.taxa%type, 
 p_EstadoEncomendaidEstadoEncomenda "LAPR3_G23".encomenda.estadoEncomendaIdEstadoEncomenda%type,
 p_ClienteUtilizadorNIF "LAPR3_G23".encomenda.clienteutilizadornif%type) 
@@ -438,12 +438,13 @@ RETURN INTEGER
 IS
 v_idEncomenda INTEGER;
 BEGIN
-  INSERT INTO "LAPR3_G23".encomenda(dataPedida, nifFarmacia,preco,pesoEncomenda,taxa,EstadoEncomendaidEstadoEncomenda,ClienteUtilizadorNIF)
-  VALUES(p_dataPedida, p_nifFarmacia,p_preco,p_pesoEncomenda,p_taxa,p_EstadoEncomendaidEstadoEncomenda,p_ClienteUtilizadorNIF);
+  
+  INSERT INTO "LAPR3_G23".encomenda(dataPedida, preco,pesoEncomenda,taxa,EstadoEncomendaidEstadoEncomenda,ClienteUtilizadorNIF, nifFarmacia)
+  VALUES(p_dataPedida,p_preco,p_pesoEncomenda,p_taxa,p_EstadoEncomendaidEstadoEncomenda,p_ClienteUtilizadorNIF, p_nifFarmacia);
   SELECT "LAPR3_G23".encomenda.idEncomenda INTO v_idEncomenda
   FROM "LAPR3_G23".encomenda
-  WHERE "LAPR3_G23".encomenda.dataPedida = p_dataPedida
-  AND "LAPR3_G23".encomenda.nifFarmacia = p_nifFarmacia
+  WHERE --"LAPR3_G23".encomenda.dataPedida = p_dataPedida
+   "LAPR3_G23".encomenda.nifFarmacia = p_nifFarmacia
   AND "LAPR3_G23".encomenda.preco = p_preco
   AND "LAPR3_G23".encomenda.pesoEncomenda = p_pesoEncomenda
   AND "LAPR3_G23".encomenda.taxa = p_taxa
@@ -452,6 +453,8 @@ BEGIN
   return v_idEncomenda;
 END;
 /
+
+
 
 CREATE OR REPLACE FUNCTION addEntrega(p_EstafetaUtilizadorNIF "LAPR3_G23".entrega.EstafetaUtilizadorNIF%type,
 p_veiculoid "LAPR3_G23".entrega.veiculoid%type, p_dataInicio "LAPR3_G23".entrega.dataInicio%type, p_datafim "LAPR3_G23".entrega.dataFim%type)
@@ -846,6 +849,14 @@ SELECT "LAPR3_G23".encomenda.idEncomenda --INTO v_idEncomenda
   AND "LAPR3_G23".encomenda.clienteUtilizadorNif=123456789;
   
   
+  INSERT INTO "LAPR3_G23".encomenda(dataPedida, preco,pesoEncomenda,taxa,EstadoEncomendaidEstadoEncomenda,ClienteUtilizadorNIF, nifFarmacia)
+  VALUES(('2021-01-23 12:47:30'),10.1,12.1,0.1,1,226138330, 222222222);
+select * from encomenda; 
+delete from encomenda;
+  
+  select sysdate from utilizador;
+  
+  SELECT COUNT(*) FROM utilizador;
   
   INSERT INTO "LAPR3_G23".recibo(dataRecibo,preco,ClienteUtilizadorNif,EncomendaidEncomenda)
   VALUES(LOCALTIMESTAMP,10,111222333, 181);   
@@ -875,7 +886,7 @@ SELECT c.utilizadorNIF, c.creditos, c.enderecomorada, c.cartaonumerocartaocredit
 
   select * from produto inner join stockfarmacia on produto.idproduto = stockfarmacia.produtoidproduto;
   
-  update stockfarmacia set stock = 2 where produtoidproduto = 21;
+  select * from stockfarmacia;
   
   select * from farmacia ;
   select * from utilizador;
