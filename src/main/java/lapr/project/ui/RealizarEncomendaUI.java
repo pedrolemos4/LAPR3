@@ -98,13 +98,13 @@ public class RealizarEncomendaUI {
 
                     if (listStockFarmacias.containsKey(prod) && listStockFarmacias.get(prod) >= qntd) {
                         System.out.println("If 1.");
-                        System.out.println(" 101 FarmaciaSeguinte: "+controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail() + " nifNextFarmacia: "+controller2.getFarmaciaByNIF(nifNextFarmacia).getEmail());
+                        System.out.println(" 101 FarmaciaSeguinte: " + controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail() + " nifNextFarmacia: " + controller2.getFarmaciaByNIF(nifNextFarmacia).getEmail());
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nifNextFarmacia), prod, qntd);
-                        System.out.println(" 102 FarmaciaSeguinte: "+controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail() + " nifNextFarmacia: "+controller2.getFarmaciaByNIF(nifNextFarmacia).getEmail());
+                        System.out.println(" 102 FarmaciaSeguinte: " + controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail() + " nifNextFarmacia: " + controller2.getFarmaciaByNIF(nifNextFarmacia).getEmail());
                         controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nifNextFarmacia), prod, qntd);
                         controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail(), controller2.getFarmaciaByNIF(nifNextFarmacia).getEmail());
                         controller.produtoEncomenda(farmaciaSeguinte, prod, qntd);
-                        qntd=0;
+                        qntd = 0;
                         break;
                     }
 
@@ -130,16 +130,14 @@ public class RealizarEncomendaUI {
                     String email = UserSession.getInstance().getUser().getEmail();
                     controller.notificaCliente(email, assunto, mensagem);
                 }
-            } else {
-                controller.produtoEncomenda(nifNextFarmacia, prod, qntd);
             }
             System.out.println("Insira o id do produto que pretende ou 0 se pretender terminar a lista de produtos.");
         }
 
         System.out.println("Lista de Produtos selecionados: ");
 
-        for (Produto p : controller.getMapaEncomenda().keySet()) {
-            System.out.println("Produto: " + p.getDesignacao() + " Quantidade: " + controller.getMapaEncomenda().get(p));
+        for (Map.Entry<Produto, Integer> p : controller.getMapaEncomenda().entrySet()) {
+            System.out.println("Produto: " + p.getKey().getDesignacao() + " Quantidade: " + p.getValue());
         }
 
         System.out.println("Confirme os dados introduzidos: (S/N)");
@@ -152,7 +150,7 @@ public class RealizarEncomendaUI {
 
             Date date1 = new Date(System.currentTimeMillis());
             String dataInicio = formatter.format(date1);
-           
+
             System.out.println("Possui " + controller.getCliente().getCreditos() + " creditos.");
             System.out.println("Deseja pagar com creditos? (S/N)");
             LER.nextLine();

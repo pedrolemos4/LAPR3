@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,7 +92,7 @@ public class ProdutosDB extends DataHandler {
         try {
             openConnection();
 
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addProduto(?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addProduto(?,?,?) }")) {
                 callStmt.registerOutParameter(1, OracleTypes.INTEGER);
                 callStmt.setString(2, desig);
                 callStmt.setDouble(3, peso);
@@ -121,7 +120,7 @@ public class ProdutosDB extends DataHandler {
         try {
             openConnection();
 
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addProdutoStock(?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addProdutoStock(?,?,?) }")) {
 
                 callStmt.setInt(1, nif);
                 callStmt.setInt(2, prod);
@@ -165,7 +164,7 @@ public class ProdutosDB extends DataHandler {
         System.out.println("Preco Base = " + precoBase);
 
         // openConnection();
-        try ( CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?,?) }")) {
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?,?) }")) {
 
             callStmt.setString(1, desig);
             callStmt.setDouble(2, peso);
@@ -196,7 +195,7 @@ public class ProdutosDB extends DataHandler {
         try {
             openConnection();
 
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call procAtualizarStock(?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call procAtualizarStock(?,?,?) }")) {
 
                 callStmt.setInt(1, nif);
                 callStmt.setInt(2, idProduto);
@@ -221,8 +220,8 @@ public class ProdutosDB extends DataHandler {
     public Produto getProdutoByID(int id) {
         String query = "SELECT * FROM produto p WHERE p.idProduto= " + id;
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int id1 = rSet.getInt(1);
@@ -248,8 +247,8 @@ public class ProdutosDB extends DataHandler {
         Map<Produto, Integer> map = new HashMap<>();
         String query = "SELECT * FROM produto p INNER JOIN StockFarmacia s ON s.ProdutoidProduto = p.idProduto AND s.FarmaciaNIF = " + nif;
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int id = rSet.getInt(1);
@@ -260,7 +259,7 @@ public class ProdutosDB extends DataHandler {
                     int stock = rSet.getInt(7);
                     if (map.containsKey(p)) {
                         p.setId(id);
-                        map.replace(p, map.get(p)+stock);
+                        map.replace(p, map.get(p) + stock);
                     } else {
                         p.setId(id);
                         map.put(p, stock);
@@ -285,8 +284,9 @@ public class ProdutosDB extends DataHandler {
         if (mapEnc.containsKey(prod)) {
             Integer get = mapEnc.get(prod);
             mapEnc.replace(prod, get + qntd);
+        } else {
+            mapEnc.put(prod, qntd);
         }
-        mapEnc.put(prod, qntd);
         return true;
     }
 
