@@ -1,21 +1,18 @@
 package lapr.project.data;
 
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import lapr.project.model.Cliente;
+import lapr.project.model.Encomenda;
+import lapr.project.model.Produto;
+import lapr.project.utils.Data;
+import oracle.jdbc.OracleTypes;
+
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lapr.project.model.Cliente;
-import lapr.project.model.Encomenda;
-import lapr.project.model.Produto;
-import lapr.project.utils.Data;
-import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -109,14 +106,11 @@ public class EncomendaDB extends DataHandler {
      */
     private int addEncomenda(int nif, int nifFarmacia, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) throws SQLException, ParseException {
         int id;
-        System.out.println("nif: "+nif);
-        System.out.println("nifFarmacia: "+nifFarmacia);
         try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addEncomenda(?,?,?,?,?,?,?) }")) {
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             java.util.Date date = sdf1.parse(dataPedida);
             java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
-            System.out.println("SQL DATE: "+sqlStartDate.toString());
             callStmt.setDate(2, sqlStartDate);
             callStmt.setInt(3, nifFarmacia);
             callStmt.setDouble(4, preco);

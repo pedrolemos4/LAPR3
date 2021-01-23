@@ -12,7 +12,6 @@ package lapr.project.model;
 public class Scooter extends Veiculo {
 
     private int id;
-    private double areaFrontal;
 
     /**
      * Construtor completo
@@ -31,20 +30,17 @@ public class Scooter extends Veiculo {
             double pesoMaximo, double pesoVeiculo, double potencia, int estado,
             double areaFrontal, int id) {
         super(descricao, capacidade, percentagemBateria, pesoMaximo, pesoVeiculo,
-                potencia, estado);
+                potencia, estado, areaFrontal);
         this.id = id;
-        this.areaFrontal = areaFrontal;
     }
 
-    public Scooter(Veiculo ve, int id, double areaFrontal) {
+    public Scooter(Veiculo ve, int id) {
         super(ve);
         this.id = id;
-        this.areaFrontal = areaFrontal;
     }
 
-    public Scooter(int id,double areaFrontal){
+    public Scooter(int id){
         this.id=id;
-        this.areaFrontal=areaFrontal;
     }
     
     @Override
@@ -52,27 +48,11 @@ public class Scooter extends Veiculo {
         return this.id;
     }
     
-    /**
-     * Devolve a área frontal do veiculo
-     *
-     * @return
-     */
-    public double getAreaFrontal() {
-        return areaFrontal;
-    }
 
-    /**
-     * Modifica a área frontal do veículo
-     *
-     * @param areaFrontal
-     */
-    public void setAreaFrontal(double areaFrontal) {
-        this.areaFrontal = areaFrontal;
-    }
 
     @Override
     public String toString() {
         return super.toString()
-                + "\nÁrea frontal: \t" + areaFrontal;
+                + "\nID Scooter: \t" + id;
     }
 }

@@ -26,7 +26,7 @@ public class DroneTest {
     @Test
     public void testGetPowerPro() {
         System.out.println("getPowerPro");
-        Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1);
+        Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1,5);
         double expResult = 50.0;
         double result = instance.getPowerPro();
         assertEquals(expResult, result, 0.0);
@@ -39,7 +39,7 @@ public class DroneTest {
     public void testSetPowerPro() {
         System.out.println("setPowerPro");
         double powerPro = 30.0;
-        Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1);
+        Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1,5);
         instance.setPowerPro(powerPro);
         assertEquals(powerPro, instance.getPowerPro());
     }
@@ -50,7 +50,7 @@ public class DroneTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1);
+        Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1,5);
         String expResult = "Veiculo:"
                 + "\nDescrição: \t" + "descricao"
                 + "\nCapacidade: \t" + 100.0
@@ -69,7 +69,7 @@ public class DroneTest {
     @Test
     public void testGetId() {
         System.out.println("getId");
-        Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1);
+        Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1,5);
         instance.setId(1);
         int expResult = 1;
         int result = instance.getId();

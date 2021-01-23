@@ -5,19 +5,19 @@
  */
 package lapr.project.ui;
 
-import static java.lang.System.exit;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lapr.project.controller.VeiculoController;
 import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
 import lapr.project.model.Drone;
 import lapr.project.model.Scooter;
 import lapr.project.model.Veiculo;
+
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -131,8 +131,10 @@ public class AdminUI {
         System.out.println("Insira a potência do veículo:");
         double potencia = LER.nextDouble();
 
+        System.out.println("Insira a área frontal do seu veículo: ");
+        double areaFrontal = LER.nextDouble();
+
         double powerPro = 0.0;
-        double areaFrontal = 0.0;
         if (descricao.equalsIgnoreCase("drone")) {
             System.out.println("Insira a power pro do veículo");
             powerPro = LER.nextDouble();
@@ -153,7 +155,7 @@ public class AdminUI {
 
                 VeiculoController sc = new VeiculoController(new VeiculoDB());
                 try {
-                    Veiculo ve = sc.addVeiculo(descricao, capacidade, percentagemBateria, peso, pesoMaximo, potencia, idestado);
+                    Veiculo ve = sc.addVeiculo(descricao, capacidade, percentagemBateria, peso, pesoMaximo, potencia, idestado,areaFrontal);
                     Drone dr = sc.novoDrone(ve, ve.getId(), powerPro);
                     sc.registaDrone(dr);
                     System.out.println("\n\nVeículo adicionado com sucesso'");
@@ -165,10 +167,6 @@ public class AdminUI {
                 menu();
             }
         } else {
-
-            System.out.println("Insira a área frontal do veículo:");
-            areaFrontal = LER.nextDouble();
-
             System.out.println("Descrição:\t" + descricao
                     + "\nEstado:\t" + estado
                     + "\nCapacidade de Bateria:\t" + capacidade
@@ -186,8 +184,8 @@ public class AdminUI {
 
                 VeiculoController sc = new VeiculoController(new VeiculoDB());
                 try {
-                    Veiculo ve = sc.addVeiculo(descricao, capacidade, percentagemBateria, peso, pesoMaximo, potencia, idestado);
-                    Scooter sr = sc.novaScooter(ve, ve.getId(), areaFrontal);
+                    Veiculo ve = sc.addVeiculo(descricao, capacidade, percentagemBateria, peso, pesoMaximo, potencia, idestado, areaFrontal);
+                    Scooter sr = sc.novaScooter(ve, ve.getId());
                     sc.registaScooter(sr);
                     System.out.println("\n\nVeículo adicionado com sucesso'");
                 } catch (SQLException ex) {

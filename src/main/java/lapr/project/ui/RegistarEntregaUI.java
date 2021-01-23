@@ -1,35 +1,14 @@
 package lapr.project.ui;
 
+import lapr.project.controller.RegistarEntregaController;
+import lapr.project.data.*;
+import lapr.project.model.*;
+
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
-import lapr.project.controller.RegistarEntregaController;
-import lapr.project.data.ClienteDB;
-import lapr.project.data.EmailDB;
-import lapr.project.data.EncomendaDB;
-import lapr.project.data.EnderecoDB;
-import lapr.project.data.EntregaDB;
-import lapr.project.data.EstafetaDB;
-import lapr.project.data.FarmaciaDB;
-import lapr.project.data.UtilizadorDB;
-import lapr.project.data.VeiculoDB;
-import lapr.project.model.Cliente;
-import lapr.project.model.Drone;
-import lapr.project.model.Encomenda;
-import lapr.project.model.Endereco;
-import lapr.project.model.Entrega;
-import lapr.project.model.Estafeta;
-import lapr.project.model.Farmacia;
-import lapr.project.model.Graph;
-import lapr.project.model.Scooter;
-import lapr.project.model.Utilizador;
-import lapr.project.model.Veiculo;
+import java.util.*;
 
 /**
  *
@@ -184,9 +163,9 @@ public class RegistarEntregaUI {
         }
 
         Estafeta est = new Estafeta(123456789, "Tiago Sucks", "tiagosucks@gmail.com", 60, 12, "pass", 1);
-        Veiculo v = new Veiculo(SCOOTER, 123, 12, 100, 10, 25, 560);
+        Veiculo v = new Veiculo(SCOOTER, 123, 12, 100, 10, 25, 560,30);
         Scooter s = new Scooter(SCOOTER, 123, 12, 100, 10, 25, 560, 30, 1);
-        Drone d = new Drone(DRONE, 123, 12, 100, 10, 1, 560, 30, 1);
+        Drone d = new Drone(DRONE, 123, 12, 100, 10, 1, 560, 30, 1,30);
 
         Graph<Endereco, Double> graphScooter = new Graph<>(true);
         Graph<Endereco, Double> graphDrone = new Graph<>(true);

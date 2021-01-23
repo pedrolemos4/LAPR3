@@ -1,6 +1,8 @@
 package lapr.project.data;
 
+import lapr.project.model.Drone;
 import lapr.project.model.Estacionamento;
+import lapr.project.model.Scooter;
 import lapr.project.model.Veiculo;
 import oracle.jdbc.OracleTypes;
 
@@ -12,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lapr.project.model.Drone;
-import lapr.project.model.Scooter;
 
 /**
  *
@@ -105,8 +105,8 @@ public class VeiculoDB extends DataHandler {
         }
     }
 
-    public Scooter novaScooter(Veiculo ve, int id, double areaFrontal) {
-        return new Scooter(ve, id, areaFrontal);
+    public Scooter novaScooter(Veiculo ve, int id) {
+        return new Scooter(ve, id);
     }
 
     public boolean registaScooter(Scooter scooter) throws SQLException{
@@ -158,9 +158,10 @@ public class VeiculoDB extends DataHandler {
                     double pesoVeiculo = rSet.getDouble(6);
                     double potencia = rSet.getDouble(7);
                     int idEstado = rSet.getInt(8);
+                    double areaFrontal = rSet.getDouble(9);
 
                     Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria,
-                            pesoMaximo, pesoVeiculo, potencia, idEstado);
+                            pesoMaximo, pesoVeiculo, potencia, idEstado, areaFrontal);
                     v.setId(id);
                     list.add(v);
                 }
@@ -193,9 +194,10 @@ public class VeiculoDB extends DataHandler {
                     double pesoVeiculo = rSet.getDouble(6);
                     double potencia = rSet.getDouble(7);
                     int idEstado = rSet.getInt(8);
+                    double areaFrontal = rSet.getDouble(9);
 
                     Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria,
-                            pesoMaximo, pesoVeiculo, potencia, idEstado);
+                            pesoMaximo, pesoVeiculo, potencia, idEstado, areaFrontal);
                     v.setId(id);
                     return v;
                 }
@@ -223,7 +225,7 @@ public class VeiculoDB extends DataHandler {
                     double areaFrontal = rSet.getDouble(2);
                                  
                     Veiculo v = getVeiculoById(idVeiculo);
-                    Scooter s = new Scooter(v, id, areaFrontal);
+                    Scooter s = new Scooter(v, id);
                     s.setId(id);
                     return s;
                 }

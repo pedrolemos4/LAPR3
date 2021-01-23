@@ -26,7 +26,7 @@ public class CalculosFisicaTest {
         double road = 12.0;
         double velocidadeVento = 12.0;
         double direcaoVento = 15.0;
-        double expResult = 444718.3637051812;
+        double expResult = 444718.36370518134;
         double result = CalculosFisica.calculoEnergiaScooter(pesoEstafeta, pesoVeiculo, areaFrontal, pesoEncomenda, end1, end2, road, direcaoVento, velocidadeVento);
         assertEquals(expResult, result, 0.0);
 
@@ -121,7 +121,7 @@ public class CalculosFisicaTest {
         double end2Lat = 41.150171;
         double end2Lon = 8.645606;
         double end2Alt = 47.0;
-        double expResult = 93.59775514214645;
+        double expResult = 93.59775514214643;
         double result = CalculosFisica.calculoRoadSlope(pesoTotal, end1Lat, end1Lon, end1Alt, end2Lat, end2Lon, end2Alt);
         assertEquals(expResult, result, 0.0);
 
@@ -174,7 +174,7 @@ public class CalculosFisicaTest {
         double end2Lat = 41.150171;
         double end2Lon = 8.645606;
         double end2Alt = 47.0;
-        double expResult = 96.11768985631346;
+        double expResult = 96.11768985631349;
         double result = CalculosFisica.calculoDistancia(end1Lat, end1Lon, end1Alt, end2Lat, end2Lon, end2Alt);
         assertEquals(expResult, result, 0.0);
 

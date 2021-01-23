@@ -18,21 +18,21 @@ public class VeiculoTest {
 
     @Test
     void VeiculoConstructorTest() {
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
 
         assertEquals(instance, instance);
     }
 
     @Test
     void VeiculoCompleteConstructorTest() {
-        Veiculo instance = new Veiculo(1, "descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo(1, "descricao", 100, 85, 50, 30, 40, 1,5);
 
         assertEquals(instance, instance);
     }
 
     @Test
     void VeiculoCopyConstructorTest(){
-        Veiculo instance = new Veiculo(1, "descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo(1, "descricao", 100, 85, 50, 30, 40, 1,5);
         Veiculo instance2 = new Veiculo(instance);
         assertEquals(instance2.toString(),instance.toString());
     }
@@ -40,7 +40,7 @@ public class VeiculoTest {
     @Test
     public void testGetDescricao() {
         System.out.println("getDescrição");
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         String expResult = "descricao";
         String result = instance.getDescricao();
         assertEquals(expResult, result);
@@ -52,7 +52,7 @@ public class VeiculoTest {
     @Test
     public void testGetPercentagemBateria() {
         System.out.println("getPercentagemBateria");
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         double expResult = 85;
         double result = instance.getPercentagemBateria();
         assertEquals(expResult, result);
@@ -65,7 +65,7 @@ public class VeiculoTest {
     @Test
     public void testGetPesoMaximo() {
         System.out.println("getPesoMaximo");
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 2);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 2,5);
         double expResult = 50.0;
         double result = instance.getPesoMaximo();
         assertEquals(expResult, result, 0.0);
@@ -78,7 +78,7 @@ public class VeiculoTest {
     @Test
     public void testGetPesoVeiculo() {
         System.out.println("getPesoVeiculo");
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 2);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 2,5);
         double expResult = 30.0;
         double result = instance.getPesoVeiculo();
         assertEquals(expResult, result, 0.0);
@@ -91,7 +91,7 @@ public class VeiculoTest {
     @Test
     public void testGetPotencia() {
         System.out.println("getPotencia");
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         double expResult = 40.0;
         double result = instance.getPotencia();
         assertEquals(expResult, result, 0.0);
@@ -127,7 +127,7 @@ public class VeiculoTest {
     public void testSetPercentagemBateria() {
         System.out.println("setPercentagemBateria");
         double percentagemBateria = 75;
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         instance.setPercentagemBateria(percentagemBateria);
         assertEquals(percentagemBateria, instance.getPercentagemBateria(), 0.0);
     }
@@ -139,7 +139,7 @@ public class VeiculoTest {
     public void testSetPesoMaximo() {
         System.out.println("setPesoMaximo");
         double pesoMaximo = 36.0;
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         instance.setPesoMaximo(pesoMaximo);
         assertEquals(pesoMaximo, instance.getPesoMaximo(), 0.0);
     }
@@ -151,7 +151,7 @@ public class VeiculoTest {
     public void testSetPesoVeiculo() {
         System.out.println("setPesoVeiculo");
         double pesoVeiculo = 20.0;
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         instance.setPesoVeiculo(pesoVeiculo);
         assertEquals(pesoVeiculo, instance.getPesoVeiculo(), 0.0);
     }
@@ -163,7 +163,7 @@ public class VeiculoTest {
     public void testSetPotencia() {
         System.out.println("setPotencia");
         double potencia = 29.0;
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         instance.setPotencia(potencia);
         assertEquals(potencia, instance.getPotencia(), 0.0);
     }
@@ -174,7 +174,7 @@ public class VeiculoTest {
     @Test
     public void testGetEstadoVeiculo() {
         System.out.println("getEstadoVeiculo");
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         int expResult = 1;
         int result = instance.getEstadoVeiculo().getId();
         assertEquals(expResult, result);
@@ -187,7 +187,7 @@ public class VeiculoTest {
     public void testSetEstadoVeiculo() {
         System.out.println("setEstadoVeiculo");
         int estado = 2;
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         instance.setEstadoVeiculo(estado);
         assertEquals(estado, instance.getEstadoVeiculo().getId());
     }
@@ -198,7 +198,7 @@ public class VeiculoTest {
     @Test
     public void testGetId() {
         System.out.println("getId");
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         int expResult = 1;
         instance.setId(1);
         assertEquals(expResult, instance.getId());
@@ -211,7 +211,7 @@ public class VeiculoTest {
     public void testSetId() {
         System.out.println("setId");
         int id = 1;
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         instance.setId(1);
         assertEquals(id, instance.getId());
     }
@@ -220,7 +220,7 @@ public class VeiculoTest {
     public void testSetDescricao() {
         System.out.println("setDescrição");
         String descricao = "teste";
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         instance.setDescricao(descricao);
         assertEquals(descricao, instance.getDescricao());
     }
@@ -231,7 +231,7 @@ public class VeiculoTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         String expResult = "Veiculo:"
                 + "\nDescrição: \t" + "descricao"
                 + "\nCapacidade: \t" + 100.0
@@ -249,7 +249,7 @@ public class VeiculoTest {
     @Test
     public void testGetCapacidade() {
         System.out.println("getCapacidade");
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         double expResult = 100;
         double result = instance.getCapacidade();
         assertEquals(expResult, result);
@@ -263,7 +263,7 @@ public class VeiculoTest {
     public void testSetCapacidade() {
         System.out.println("setCapacidade");
         double capacidade = 10;
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,5);
         instance.setCapacidade(capacidade);
 
     }

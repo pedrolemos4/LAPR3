@@ -1,38 +1,23 @@
 package lapr.project.controller;
 
+import lapr.project.data.*;
+import lapr.project.login.UserSession;
+import lapr.project.model.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import lapr.project.data.ClienteDB;
-import lapr.project.data.EmailDB;
-import lapr.project.data.EncomendaDB;
-import lapr.project.data.EnderecoDB;
-import lapr.project.data.EntregaDB;
-import lapr.project.data.EstafetaDB;
-import lapr.project.data.FarmaciaDB;
-import lapr.project.data.UtilizadorDB;
-import lapr.project.data.VeiculoDB;
-import lapr.project.login.UserSession;
-import lapr.project.model.Cliente;
-import lapr.project.model.Drone;
-import lapr.project.model.Encomenda;
-import lapr.project.model.Endereco;
-import lapr.project.model.Entrega;
-import lapr.project.model.Estafeta;
-import lapr.project.model.Farmacia;
-import lapr.project.model.Graph;
-import lapr.project.model.Scooter;
-import lapr.project.model.Utilizador;
-import lapr.project.model.Veiculo;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 /**
  *
  * @author beatr
@@ -88,7 +73,7 @@ public class RegistarEntregaControllerTest {
     public void testGetListVeiculo() throws SQLException {
         System.out.println("getListVeiculo");
         List<Veiculo> expResult = new ArrayList<>();
-        expResult.add(new Veiculo("drone",100, 45, 89, 7, 52, 85));
+        expResult.add(new Veiculo("drone",100, 45, 89, 7, 52, 85,5.5));
         when(veiculoDB.getListaVeiculo()).thenReturn(expResult);
         assertEquals(expResult, instance.getListVeiculo());
 
@@ -117,7 +102,7 @@ public class RegistarEntregaControllerTest {
     public void testGetVeiculo() throws SQLException {
         System.out.println("getVeiculo");
         int idVeiculo = 1;
-        Veiculo expResult = new Veiculo(idVeiculo,"scooter",100, 12, 45, 48, 56, 89);
+        Veiculo expResult = new Veiculo(idVeiculo,"scooter",100, 12, 45, 48, 56, 89,2.3);
         when(veiculoDB.getVeiculoById(idVeiculo)).thenReturn(expResult);
         Veiculo result = instance.getVeiculo(idVeiculo);
         assertEquals(expResult, result);
@@ -269,7 +254,7 @@ public class RegistarEntregaControllerTest {
         Endereco e3 = new Endereco("rrs", 34, 111, 34);
         listEnderecos.add(e3);
         Estafeta est = new Estafeta(123456789, 1, 15);
-        Veiculo veiculo = new Veiculo(1, "scooter", 34, 12, 34, 45, 75, 54);
+        Veiculo veiculo = new Veiculo(1, "scooter", 34, 12, 34, 45, 75, 54,23);
         double pesoTotal = 24.0;
         Graph<Endereco, Double> expResult = new Graph<>(true) ;
         expResult.insertVertex(e1);
@@ -369,7 +354,7 @@ public class RegistarEntregaControllerTest {
         finalShortPath.add(e2);
         Endereco e3 = new Endereco("rrs", 34, 111, 34);
         finalShortPath.add(e3);
-        Veiculo veiculo = new Veiculo(1,"scooter", 34, 12, 34, 45, 75, 54);
+        Veiculo veiculo = new Veiculo(1,"scooter", 34, 12, 34, 45, 75, 54,5);
         String expResult = "17:06:00";
         when(entregaDB.getDuracaoPercurso(finalShortPath, veiculo)).thenReturn(expResult);
         String result = instance.getDuracaoPercurso(finalShortPath, veiculo);
@@ -487,7 +472,7 @@ public class RegistarEntregaControllerTest {
     public void testGetDroneById() {
         System.out.println("getDroneById");
         int idVeiculo = 1;
-        Drone expResult = new Drone("drone", 15, 21, 32, 2, 12, 34, 4, 1);
+        Drone expResult = new Drone("drone", 15, 21, 32, 2, 12, 34, 4, 1,5);
         when(veiculoDB.getDroneById(idVeiculo)).thenReturn(expResult);
         Drone result = instance.getDroneById(idVeiculo);
         assertEquals(expResult, result);

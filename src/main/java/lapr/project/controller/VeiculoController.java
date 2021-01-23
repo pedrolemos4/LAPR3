@@ -1,11 +1,12 @@
 package lapr.project.controller;
 
-import java.sql.SQLException;
-import java.util.List;
 import lapr.project.data.VeiculoDB;
 import lapr.project.model.Drone;
 import lapr.project.model.Scooter;
 import lapr.project.model.Veiculo;
+
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -31,7 +32,6 @@ public class VeiculoController {
      * e estado.
      *
      * @param descricao descriçao do veiculo
-     * @param tipo tipo do veiculo
      * @param capacidade capacidade do veiculo
      * @param percentagemBateria percentagem da bateria do veiculo
      * @param pesoMaximo peso maximo que o veiculo pode levar
@@ -44,9 +44,9 @@ public class VeiculoController {
      */
     public Veiculo addVeiculo(String descricao, double capacidade,
             double percentagemBateria, double pesoMaximo, double pesoVeiculo,
-            double potencia, int estado) throws SQLException {
+            double potencia, int estado, double areaFrontal) throws SQLException {
         Veiculo veiculo = new Veiculo(descricao, capacidade, percentagemBateria, pesoMaximo,
-                pesoVeiculo, potencia, estado);
+                pesoVeiculo, potencia, estado, areaFrontal);
 
         veiculo.setId(veiculoDB.addVeiculo(veiculo));
         return veiculo;
@@ -64,8 +64,8 @@ public class VeiculoController {
         return (veiculoDB.registaScooter(scooter) ? (true) : (false));
     }
 
-    public Scooter novaScooter(Veiculo ve, int id, double areaFrontal) {
-        return veiculoDB.novaScooter(ve, id, areaFrontal);
+    public Scooter novaScooter(Veiculo ve, int id) {
+        return veiculoDB.novaScooter(ve, id);
     }
 
     /**

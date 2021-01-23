@@ -177,7 +177,7 @@ public class RealizarEncomendaUI {
 
             Map<Produto, Integer> mapaEncomenda = controller.getMapaEncomenda();
 
-            controller.registaEncomenda(enc);
+            int idnovaencomenda = controller.registaEncomenda(enc);
 
             for (Produto p : mapaEncomenda.keySet()) {
                 controller.registaEncomendaProduto(enc, p, mapaEncomenda.get(p));

@@ -29,9 +29,9 @@ public class Drone extends Veiculo {
      */
     public Drone(String descricao, int capacidade, double percentagemBateria,
             double pesoMaximo, double pesoVeiculo, double potencia, int estado,
-            double powerPro, int id) {
+            double powerPro, int id, double areaFrontal) {
         super(descricao, capacidade, percentagemBateria, pesoMaximo, pesoVeiculo,
-                potencia, estado);
+                potencia, estado, areaFrontal);
         this.id = id;
         this.powerPro = powerPro;
     }

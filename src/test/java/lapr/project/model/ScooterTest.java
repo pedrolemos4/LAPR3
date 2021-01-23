@@ -23,15 +23,15 @@ public class ScooterTest {
 
     @Test
     void ScooterCopyConstructorTest() {
-        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1);
-        Scooter scooter = new Scooter(instance, 1, 50);
+        Veiculo instance = new Veiculo("descricao", 100, 85, 50, 30, 40, 1,50);
+        Scooter scooter = new Scooter(instance, 1);
 
         assertEquals(scooter, scooter);
     }
 
     @Test
     void ScooterConstructorTest() {
-        Scooter scooter = new Scooter(1, 50);
+        Scooter scooter = new Scooter(1);
         assertEquals(scooter, scooter);
     }
 
@@ -66,15 +66,15 @@ public class ScooterTest {
     public void testToString() {
         System.out.println("toString");
         Scooter instance = new Scooter("descricao", 100, 85, 50, 30, 40, 1, 50, 1);
-        String expResult = "Veiculo:"
-                + "\nDescrição: \t" + "descricao"
-                + "\nCapacidade: \t" + 100.0
-                + "\nPercentagem de Bateria= \t" + 85.0
-                + "\nPeso máximo= \t" + 50.0
-                + "\nPeso do Veiculo= \t" + 30.0
-                + "\nPotência= \t" + 40.0
-                + "\nEstado: \t" + "Disponível"
-                + "\nÁrea frontal: \t" + 50.0;
+        String expResult = "Veiculo:\n" +
+                "Descrição: \tdescricao\n" +
+                "Capacidade: \t100.0\n" +
+                "Percentagem de Bateria= \t85.0\n" +
+                "Peso máximo= \t50.0\n" +
+                "Peso do Veiculo= \t30.0\n" +
+                "Potência= \t40.0\n" +
+                "Estado: \tDisponível\n" +
+                "ID Scooter: \t1";
         assertEquals(expResult, instance.toString());
     }
 

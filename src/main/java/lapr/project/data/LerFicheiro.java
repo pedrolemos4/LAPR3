@@ -1,5 +1,9 @@
 package lapr.project.data;
 
+import lapr.project.controller.VeiculoController;
+import lapr.project.model.Drone;
+import lapr.project.model.Scooter;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.ResultSet;
@@ -9,9 +13,6 @@ import java.text.ParseException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lapr.project.controller.VeiculoController;
-import lapr.project.model.Drone;
-import lapr.project.model.Scooter;
 
 public class LerFicheiro extends DataHandler {
 
@@ -47,7 +48,7 @@ public class LerFicheiro extends DataHandler {
 
     public void read(String nameFile) throws ParseException, SQLException {
         try {
-            try (Scanner in = new Scanner(new File(nameFile))) {
+            try ( Scanner in = new Scanner(new File(nameFile))) {
                 while (in.hasNextLine()) {
                     String[] items = in.nextLine().split(";");
                     switch (nameFile) {
@@ -76,7 +77,7 @@ public class LerFicheiro extends DataHandler {
                             esdb.addEstafeta(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Double.parseDouble(items[2]));
                             break;
                         case "docs/Dados_de_Leitura/veiculos.csv":
-                            vctrl.addVeiculo(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]), Double.parseDouble(items[5]), Integer.parseInt(items[6]));
+                            vctrl.addVeiculo(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]), Double.parseDouble(items[5]), Integer.parseInt(items[6]), Double.parseDouble(items[7]));
                             break;
                         case "docs/Dados_de_Leitura/caminhos.csv":
                             pathdb.addCaminho(items[0], items[1], Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]));
@@ -86,7 +87,7 @@ public class LerFicheiro extends DataHandler {
                             vdb.addDrone(drone);
                             break;
                         case "docs/Dados_de_Leitura/scooters.csv":
-                            Scooter scooter = new Scooter(Integer.parseInt(items[0]), Double.parseDouble(items[1]));
+                            Scooter scooter = new Scooter(Integer.parseInt(items[0]));
                             vdb.addScooter(scooter);
                             break;
                         case "docs/Dados_de_Leitura/produtos.csv":
@@ -116,7 +117,6 @@ public class LerFicheiro extends DataHandler {
             try (ResultSet rSet = stm.executeQuery(query)) {
                 if (rSet.next()) {
                     int contador = rSet.getInt(1);
-                    System.out.println("Contador: " + contador);
                     if (contador == 0) {
                         bool = false;
                     }

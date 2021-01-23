@@ -15,6 +15,7 @@ public class Veiculo {
     private double pesoVeiculo;
     private double potencia;
     private EstadoVeiculo estado;
+    private double areaFrontal;
 
     /**
      * Constrói uma instância recebendo o id, a descrição,a percentagem da bateria, o
@@ -30,7 +31,7 @@ public class Veiculo {
      * @param estado 
      */
     public Veiculo(int id, String descricao,double capacidade, double percentagemBateria, 
-            double pesoMaximo, double pesoVeiculo, double potencia,int estado) {
+            double pesoMaximo, double pesoVeiculo, double potencia,int estado, double areaFrontal) {
         this.id = id;
         this.descricao = descricao;
         this.capacidade= capacidade;
@@ -39,6 +40,7 @@ public class Veiculo {
         this.pesoVeiculo = pesoVeiculo;
         this.potencia = potencia;
         this.estado = new EstadoVeiculo(estado);
+        this.areaFrontal = areaFrontal;
     }
 
     /**
@@ -56,7 +58,7 @@ public class Veiculo {
      * @param estado
      */
     public Veiculo(String descricao,double capacidade,double percentagemBateria, 
-            double pesoMaximo,double pesoVeiculo, double potencia,int estado) {
+            double pesoMaximo,double pesoVeiculo, double potencia,int estado, double areaFrontal) {
         this.descricao = descricao;
         this.capacidade = capacidade;
         this.percentagemBateria = percentagemBateria;
@@ -64,6 +66,7 @@ public class Veiculo {
         this.pesoVeiculo = pesoVeiculo;
         this.potencia = potencia;
         this.estado = new EstadoVeiculo(estado);
+        this.areaFrontal = areaFrontal;
     }
 
     public Veiculo(Veiculo outroVeiculo){
@@ -75,6 +78,7 @@ public class Veiculo {
         this.pesoVeiculo = outroVeiculo.pesoVeiculo;
         this.potencia = outroVeiculo.potencia;
         this.estado = new EstadoVeiculo(outroVeiculo.estado);
+        this.areaFrontal = outroVeiculo.areaFrontal;
     }
     
     /**
@@ -89,6 +93,7 @@ public class Veiculo {
         this.pesoVeiculo = 0;
         this.potencia = 0;
         this.estado = new EstadoVeiculo(0);
+        this.areaFrontal = 0;
     }
 
     /**
@@ -232,7 +237,15 @@ public class Veiculo {
     public void setCapacidade(double capacidade){
         this.capacidade=capacidade;
     }
-    
+
+    public double getAreaFrontal() {
+        return areaFrontal;
+    }
+
+    public void setAreaFrontal(double areaFrontal) {
+        this.areaFrontal = areaFrontal;
+    }
+
     /**
      * Devolve a instância de Veículo no formato String
      * @return string com a instância de veículo

@@ -2,6 +2,7 @@ package lapr.project.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Encomenda {
     private final String dataPedida;
@@ -171,5 +172,26 @@ public class Encomenda {
      */
     public void setEstado(EstadoEncomenda estado) {
         this.estado = estado;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Encomenda encomenda = (Encomenda) o;
+        return Double.compare(encomenda.preco, preco) == 0 &&
+                Double.compare(encomenda.pesoEncomenda, pesoEncomenda) == 0 &&
+                Double.compare(encomenda.taxa, taxa) == 0 &&
+                nifCliente == encomenda.nifCliente &&
+                nifFarmacia == encomenda.nifFarmacia &&
+                id == encomenda.id &&
+                dataPedida.equals(encomenda.dataPedida) &&
+                lst.equals(encomenda.lst) &&
+                estado.equals(encomenda.estado);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dataPedida, preco, pesoEncomenda, taxa, nifCliente, nifFarmacia, lst, estado, id);
     }
 }

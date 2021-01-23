@@ -53,7 +53,7 @@ class EstacionamentoControllerTest {
         System.out.println("checkParkingsTrue()");
 
         Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
-        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0);
+        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "scooter", 20);
 
@@ -82,7 +82,7 @@ class EstacionamentoControllerTest {
         System.out.println("simulateScooterMalEstacionada()");
 
         Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
-        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0);
+        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "scooter", 20);
 
@@ -105,7 +105,7 @@ class EstacionamentoControllerTest {
         System.out.println("simulateScooterMalEstacionada1()");
 
         Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
-        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0);
+        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "drone", 20);
 
@@ -124,7 +124,7 @@ class EstacionamentoControllerTest {
         System.out.println("simulateScooterMalEstacionada2()");
 
         Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
-        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0);
+        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         Parque parque = new Parque(0, 1, 1, "scooter", 20);
 
@@ -143,7 +143,7 @@ class EstacionamentoControllerTest {
         System.out.println("simulateDroneMalEstacionado()");
 
         Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
-        Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0);
+        Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "drone", 20);
 
@@ -166,7 +166,7 @@ class EstacionamentoControllerTest {
         System.out.println("simulateDroneMalEstacionado1()");
 
         Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
-        Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0);
+        Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "scooter", 20);
 
@@ -185,7 +185,7 @@ class EstacionamentoControllerTest {
         System.out.println("simulateDroneMalEstacionado2()");
 
         Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
-        Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0);
+        Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         Parque parque = new Parque(0, 1, 1, "drone", 20);
 
@@ -204,7 +204,7 @@ class EstacionamentoControllerTest {
         System.out.println("simulateScooterBemEstacionada()");
 
         Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
-        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0);
+        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "scooter", 20);
 
@@ -228,7 +228,7 @@ class EstacionamentoControllerTest {
         System.out.println("simulateDroneBemEstacionado()");
 
         Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
-        Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0);
+        Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "drone", 20);
 

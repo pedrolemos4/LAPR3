@@ -1,10 +1,7 @@
 package lapr.project.ui;
 
 import lapr.project.controller.EstacionamentoController;
-import lapr.project.data.EmailDB;
-import lapr.project.data.EstacionamentosDB;
-import lapr.project.data.ParqueDB;
-import lapr.project.data.VeiculoDB;
+import lapr.project.data.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,16 +10,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Properties;
 import java.util.logging.Logger;
-import lapr.project.data.FarmaciaDB;
-import lapr.project.data.CartaoDB;
-import lapr.project.data.CaminhoDB;
-import lapr.project.data.ClienteDB;
-import lapr.project.data.DataHandler;
-import lapr.project.data.EstafetaDB;
-import lapr.project.data.ProdutosDB;
-import lapr.project.data.UtilizadorDB;
-import lapr.project.data.EnderecoDB;
-import lapr.project.data.LerFicheiro;
 
 /**
  * @author Nuno Bettencourt <nmb@isep.ipp.pt> on 24/05/16.
