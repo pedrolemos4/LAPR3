@@ -2,9 +2,13 @@ package lapr.project.data;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lapr.project.controller.VeiculoController;
 import lapr.project.model.Drone;
 import lapr.project.model.Scooter;
@@ -43,10 +47,9 @@ public class LerFicheiro extends DataHandler {
 
     public void read(String nameFile) throws ParseException, SQLException {
         try {
-            try ( Scanner in = new Scanner(new File(nameFile))) {
+            try (Scanner in = new Scanner(new File(nameFile))) {
                 while (in.hasNextLine()) {
                     String[] items = in.nextLine().split(";");
-                    System.out.println("Items: " + items[0]);
                     switch (nameFile) {
                         case "docs/Dados_de_Leitura/farmacias.csv":
                             addFarmacia(Integer.parseInt(items[0]), items[1], items[2]);
@@ -104,5 +107,24 @@ public class LerFicheiro extends DataHandler {
 
     public boolean addFarmacia(int i, String s, String r) {
         return fdb.addFarmacia(i, s, r);
+    }
+
+    public boolean baseDadosCheia() {
+        String query = "SELECT COUNT(*) FROM utilizador";
+        boolean bool = true;
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
+                if (rSet.next()) {
+                    int contador = rSet.getInt(1);
+                    System.out.println("Contador: " + contador);
+                    if (contador == 0) {
+                        bool = false;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(LerFicheiro.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return bool;
     }
 }

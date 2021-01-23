@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Exemplo de classe cujas instâncias manipulam dados de BD Oracle.
@@ -11,7 +13,7 @@ import java.sql.*;
 public class DataHandler {
 
     private static DataHandler instance = null;
-    
+
     /**
      * O URL da BD.
      */
@@ -150,6 +152,7 @@ public class DataHandler {
 
     /**
      * Devolve a ligação à BD
+     *
      * @return ligação à BD
      */
     protected Connection getConnection() {
@@ -158,5 +161,4 @@ public class DataHandler {
         }
         return connection;
     }
-
 }

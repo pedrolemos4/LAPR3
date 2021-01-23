@@ -64,81 +64,73 @@ public class RealizarEncomendaUI {
 
         System.out.println("A BIA É BOOMER: " + graph.validVertex(enderecoCliente));
 
-        //System.out.println(generateGrafo.toString());
+        System.out.println(graph.toString());
 
         Farmacia farm = controller2.getFarmaciaProxima(graph, enderecoCliente);
         int nif = farm.getNIF();
         Map<Produto, Integer> stock = controller.getListStock(nif);
-        int nifFarmacia1 = nif;
+        int nif1Farmacia = nif;
 
         boolean bool = true;
-        
-        System.out.println("FARMACIA MAIS PERTO CLIENTE: "+nif);
+
+        System.out.println("FARMACIA MAIS PERTO CLIENTE: " + nif);
         while (bool) {
 
-            int id = LER.nextInt();
+            int idInserido = LER.nextInt();
 
-            if (id == 0) {
+            if (idInserido == 0) {
                 break;
             }
 
-            System.out.println("Introduza a quantidade que pretende comprar: ");
-
+            System.out.println("Insira a quantidade do produto que pretende.");
             int qntd = LER.nextInt();
+            Produto prod = controller.getProdutoByID(idInserido);
+            int nifNextFarmacia = nif1Farmacia;
 
-            Produto prod = controller.getProdutoByID(id);
-            System.out.println("Produto: " + prod);
-            if (!controller.produtoEncomenda(nif, prod, qntd)) {
-                int aux;
-                if (stock.get(prod) == null) {
-                    aux = 0;
-                } else {
-                    aux = stock.get(prod);
-                }
-                qntd = qntd - aux;
-                Farmacia farm1 = controller2.getFarmaciaProxima(graph, controller.getEnderecoOrigem(nif));
-                int nif1 = farm1.getNIF();
-                System.out.println("FARMACIA + PERTO DA 1 FARMACIA: "+nif1);
+            if (!controller.produtoEncomenda(nifNextFarmacia, prod, qntd)) {
+
                 while (qntd > 0) {
-                    System.out.println("Farmacia + proxima: " + farm1.toString());
-                    if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).get(prod) >= qntd) {
-                        System.out.println("1 if");
-                        controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
-                        controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
-                        controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(nif).getEmail(), controller2.getFarmaciaByNIF(nif1).getEmail());
-                        controller.produtoEncomenda(nif1, prod, qntd);
-                        qntd = 0;
-                        break;
 
-                    } else {
-                        if (controller.getListStock(nif1).containsKey(prod) && controller.getListStock(nif1).get(prod) < qntd) {
-                            System.out.println("2 if");
-                            controller2.realizaPedido(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
-                            controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(nif1), controller2.getFarmaciaByNIF(nif), prod, qntd);
-                            controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(nif).getEmail(), controller2.getFarmaciaByNIF(nif1).getEmail());
-                            qntd = qntd - controller.getListStock(nif1).get(prod);
-                            controller.produtoEncomenda(nif1, prod, qntd);
-                            Farmacia farm2 = controller2.getFarmaciaProxima(graph, controller.getEnderecoOrigem(nif1));
-                            nif1 = farm2.getNIF();
-                        }
-                        if (!controller.getListStock(nif1).containsKey(prod)) {
-                            System.out.println("3 if");
-                            Farmacia farm2 = controller2.getFarmaciaProxima(graph, controller.getEnderecoOrigem(nif1));
-                            nif1 = farm2.getNIF();
-                            System.out.println("NIF: "+nif1);
-                        }
+                    Farmacia farmaciaProximaFarmacia1 = controller2.getFarmaciaProxima(graph, controller.getEnderecoOrigem(nifNextFarmacia));
+                    int farmaciaSeguinte = farmaciaProximaFarmacia1.getNIF();
+
+                    Map<Produto, Integer> listStockFarmacias = controller.getListStock(farmaciaSeguinte);
+
+                    if (listStockFarmacias.containsKey(prod) && listStockFarmacias.get(prod) >= qntd) {
+                        System.out.println("If 1.");
+                        controller2.realizaPedido(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nifNextFarmacia), prod, qntd);
+                        controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nifNextFarmacia), prod, qntd);
+                        controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail(), controller2.getFarmaciaByNIF(nifNextFarmacia).getEmail());
+                        controller.produtoEncomenda(farmaciaSeguinte, prod, qntd);
+                        break;
                     }
 
+                    if (listStockFarmacias.containsKey(prod) && listStockFarmacias.get(prod) < qntd) {
+                        System.out.println("If 2.");
+                        qntd = qntd - listStockFarmacias.get(prod);
+                        controller2.realizaPedido(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nifNextFarmacia), prod, qntd);
+                        controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nifNextFarmacia), prod, qntd);
+                        controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail(), controller2.getFarmaciaByNIF(nifNextFarmacia).getEmail());
+                        controller.produtoEncomenda(farmaciaSeguinte, prod, qntd);
+                        nifNextFarmacia = farmaciaSeguinte;
+                    }
+
+                    if (!listStockFarmacias.containsKey(prod)) {
+                        System.out.println("If 3.");
+                        nifNextFarmacia = farmaciaSeguinte;
+                    }
                 }
-                if (graph.numVertices() == 0 && qntd > 0) {
+                if (qntd > 0) {
                     System.out.println("Não havia a quantidade que pretende.");
                     String assunto = "Produto não disponível.";
                     String mensagem = "O produto não estava disponível na quantidade pretendida logo foi inserido a quantidade existente em stock.";
                     String email = UserSession.getInstance().getUser().getEmail();
                     controller.notificaCliente(email, assunto, mensagem);
                 }
+            } else {
+                controller.produtoEncomenda(nifNextFarmacia, prod, qntd);
             }
-            System.out.println("Introduza o id de um produto apresentado ou 0 para terminar.");
+            System.out.println("Insira o id do produto que pretende ou 0 se pretender terminar a lista de produtos.");
         }
 
         System.out.println("Lista de Produtos selecionados: ");
@@ -158,6 +150,7 @@ public class RealizarEncomendaUI {
             Date date1 = new Date(System.currentTimeMillis());
             String dataInicio = formatter.format(date1);
 
+            System.out.println("Possui " + controller.getCliente().getCreditos() + " creditos.");
             System.out.println("Deseja pagar com creditos? (S/N)");
             LER.nextLine();
             String credsC = LER.nextLine();
@@ -165,11 +158,10 @@ public class RealizarEncomendaUI {
             if (credsC.equalsIgnoreCase("S") || credsC.equalsIgnoreCase("SIM")) {
                 Data date = Data.dataAtual();
                 double creditosData = controller.getCreditosData(date, controller.getPreco());
-
                 if (controller.getCliente().getCreditos() < creditosData) {
                     System.out.println("Creditos insuficientes.");
                 } else {
-                    controller.removerCreditos(controller.getCliente().getClienteNIF(), creditosData);
+                    controller.removerCreditos(controller.getCliente().getClienteNIF(), controller.getCliente().getCreditos() - creditosData);
                     System.out.println("Foram retirados: " + creditosData + " creditos.");
                 }
             }

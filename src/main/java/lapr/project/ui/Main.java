@@ -17,6 +17,7 @@ import lapr.project.data.FarmaciaDB;
 import lapr.project.data.CartaoDB;
 import lapr.project.data.CaminhoDB;
 import lapr.project.data.ClienteDB;
+import lapr.project.data.DataHandler;
 import lapr.project.data.EstafetaDB;
 import lapr.project.data.ProdutosDB;
 import lapr.project.data.UtilizadorDB;
@@ -72,28 +73,31 @@ class Main {
             e.printStackTrace();
         }
 
-        LerFicheiro readFile = new LerFicheiro(new FarmaciaDB(),new ParqueDB(),
-        new EstacionamentosDB(),new CartaoDB(),new EnderecoDB(),new UtilizadorDB(),
-        new ClienteDB(),new EstafetaDB(),new CaminhoDB(),new VeiculoDB(),
-        new ProdutosDB());
+        LerFicheiro readFile = new LerFicheiro(new FarmaciaDB(), new ParqueDB(),
+                new EstacionamentosDB(), new CartaoDB(), new EnderecoDB(), new UtilizadorDB(),
+                new ClienteDB(), new EstafetaDB(), new CaminhoDB(), new VeiculoDB(),
+                new ProdutosDB());
 
-//        readFile.read(ENDERECOS);
-//        readFile.read(CARTOES);
-//        readFile.read(VEICULOS);
-//        readFile.read(DRONES);
-//        readFile.read(SCOOTERS);
-//        readFile.read(UTILIZADORES);
-//        readFile.read(FARMACIAS);
-//        readFile.read(PARQUES);
-//        readFile.read(ESTACIONAMENTOS);
-//        readFile.read(PRODUTOS);
-//        readFile.read(STOCK);
-//        readFile.read(CLIENTES);
-//        readFile.read(ESTAFETAS);
-//        readFile.read(CAMINHOS);
-
-//        EstacionamentoController cont = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB());
-//        cont.checkParkings("src/main/java/lapr/project/parking/estacionamento");
+        if (!readFile.baseDadosCheia()) {
+            readFile.read(ENDERECOS);
+            readFile.read(CARTOES);
+            readFile.read(VEICULOS);
+            readFile.read(DRONES);
+            readFile.read(SCOOTERS);
+            readFile.read(UTILIZADORES);
+            readFile.read(FARMACIAS);
+            readFile.read(PARQUES);
+            readFile.read(ESTACIONAMENTOS);
+            readFile.read(PRODUTOS);
+            readFile.read(STOCK);
+            readFile.read(CLIENTES);
+            readFile.read(ESTAFETAS);
+            readFile.read(CAMINHOS);
+        }
+        
+        EstacionamentoController cont = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB(), new EstafetaDB());
+        cont.checkParkings("src/main/java/lapr/project/parking/estacionamento");
+        
         LoginUI login = new LoginUI();
         login.menu();
 
