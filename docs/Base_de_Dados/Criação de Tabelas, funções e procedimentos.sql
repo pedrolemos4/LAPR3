@@ -100,7 +100,7 @@ CREATE TABLE "LAPR3_G23".Encomenda
 (           idEncomenda number(10) GENERATED AS IDENTITY, 
             dataPedida timestamp NOT NULL,
             preco number(10,2) NOT NULL, 
-            pesoEncomenda number(10) NOT NULL, 
+            pesoEncomenda number(10,2) NOT NULL, 
             taxa number(10,2) NOT NULL,
             EstadoEncomendaidEstadoEncomenda number(10) NOT NULL, 
             ClienteUtilizadorNIF number(10) NOT NULL, 
@@ -430,7 +430,7 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE FUNCTION addEncomenda(p_dataPedida DATE, p_nifFarmacia "LAPR3_G23".encomenda.nifFarmacia%type,
+CREATE OR REPLACE FUNCTION addEncomenda(p_dataPedida TIMESTAMP, p_nifFarmacia "LAPR3_G23".encomenda.nifFarmacia%type,
 p_preco "LAPR3_G23".encomenda.preco%type, p_pesoEncomenda "LAPR3_G23".encomenda.pesoEncomenda%type,p_taxa "LAPR3_G23".encomenda.taxa%type, 
 p_EstadoEncomendaidEstadoEncomenda "LAPR3_G23".encomenda.estadoEncomendaIdEstadoEncomenda%type,
 p_ClienteUtilizadorNIF "LAPR3_G23".encomenda.clienteutilizadornif%type) 
@@ -853,6 +853,25 @@ SELECT "LAPR3_G23".encomenda.idEncomenda --INTO v_idEncomenda
   VALUES(('2021-01-23 12:47:30'),10.1,12.1,0.1,1,226138330, 222222222);
 select * from encomenda; 
 delete from encomenda;
+
+set serveroutput on;
+declare
+    novoid "LAPR3_G23".encomenda.idencomenda%type;
+begin
+    novoid := addEncomenda(TO_TIMESTAMP('2021-01-23 12:47:30','YYYY-MM-DD HH:MI:SS'),
+    222222222,
+    10,
+    12,
+    2,
+    1,
+    226138330);
+    dbms_output.put_line(novoid);
+end;
+/
+(p_dataPedida DATE, p_nifFarmacia "LAPR3_G23".encomenda.nifFarmacia%type,
+p_preco "LAPR3_G23".encomenda.preco%type, p_pesoEncomenda "LAPR3_G23".encomenda.pesoEncomenda%type,p_taxa "LAPR3_G23".encomenda.taxa%type, 
+p_EstadoEncomendaidEstadoEncomenda "LAPR3_G23".encomenda.estadoEncomendaIdEstadoEncomenda%type,
+p_ClienteUtilizadorNIF "LAPR3_G23".encomenda.clienteutilizadornif%type)
   
   select sysdate from utilizador;
   
