@@ -669,7 +669,7 @@ END;
 create or replace PROCEDURE procRemoverCreditos(p_nif "LAPR3_G23".cliente.utilizadornif%type, p_creditos "LAPR3_G23".cliente.creditos%type) IS
 BEGIN
     
-    UPDATE "LAPR3_G23".cliente SET "LAPR3_G23".cliente.creditos = "LAPR3_G23".cliente.creditos - p_creditos 
+    UPDATE "LAPR3_G23".cliente SET "LAPR3_G23".cliente.creditos = p_creditos 
     WHERE "LAPR3_G23".cliente.Utilizadornif = p_nif;
 END;
 /
@@ -800,7 +800,14 @@ where c.utilizadornif = u.nif;
 
 select * from stockfarmacia;
 --IVULFacKOHnE
+select * from cliente where utilizadornif = 226138330;
 
+update cliente set creditos = 2000 where utilizadornif = 226138330;
+
+select * from utilizador;
+
+
+select * from transferenciaproduto;
 
 SELECT * FROM produto p INNER JOIN StockFarmacia s ON s.ProdutoidProduto = p.idProduto AND s.FarmaciaNIF = 111111111;
 
