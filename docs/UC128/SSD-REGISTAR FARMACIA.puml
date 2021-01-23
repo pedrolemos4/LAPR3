@@ -5,7 +5,7 @@ actor "Administrador" as ADM
 activate ADM
 ADM -> ":Sistema" : inicia a criação de uma nova farmácia
 activate ":Sistema"
-":Sistema" --> ADM : solicita dados da farmácia (NIF, email, morada), endereço do farmácia \n(morada, latitude, longitude e altitude) e quantidade de parques \ne dados do parque (número máximo e tipo)
+":Sistema" --> ADM : solicita dados da farmácia (NIF, email, morada), endereço do farmácia \n(morada, latitude, longitude e altitude) e quantidade de parques \ne dados do parque (número máximo, tipo e capacidade máxima \nde carregamento)
 deactivate ":Sistema"
 
 ADM -> ":Sistema" : introduz os dados solicitados

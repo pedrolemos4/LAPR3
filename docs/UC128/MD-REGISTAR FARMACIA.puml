@@ -35,6 +35,7 @@ class Endereco {
 class Parque {
   -numeroMaximo
   -tipo
+  -maxCap
 }
 
 Administrador "1" -- "1" Utilizador: atua como >
