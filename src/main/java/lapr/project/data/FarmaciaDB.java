@@ -265,17 +265,16 @@ public class FarmaciaDB extends DataHandler {
      *
      * @param graph grafo com a lista de farmácias
      * @param enderecoCliente
+     * @param list
      * @return farmácia mais próxima
      */
-    public Farmacia getFarmaciaProxima(Graph<Endereco, Double> graph, Endereco enderecoCliente) {
+    public Farmacia getFarmaciaProxima(Graph<Endereco, Double> graph, Endereco enderecoCliente, List<Endereco> list) {
 
         double min = 999999999;
         Farmacia farmaciaByEndereco = null;
 
-        //boolean removeVertex = graph.removeVertex(endRemove);
-        //System.out.println("REMOVE?? " + removeVertex);
         for (Endereco f1 : graph.vertices()) {
-            if (getFarmaciaByEndereco(f1.getMorada()) != null && !enderecoCliente.getMorada().equals(f1.getMorada())) {
+            if (getFarmaciaByEndereco(f1.getMorada()) != null && /*!enderecoCliente.getMorada().equals(f1.getMorada()) &&*/  !list.contains(f1)) {
                 LinkedList<Endereco> shortPath = new LinkedList<>();
                 double valor = GraphAlgorithms.shortestPath(graph, enderecoCliente, f1, shortPath);
                 System.out.println("Valor: " + valor);
@@ -288,6 +287,8 @@ public class FarmaciaDB extends DataHandler {
             }
         }
         System.out.println("Farmacia que retorna: " + farmaciaByEndereco);
+
         return farmaciaByEndereco;
+
     }
 }
