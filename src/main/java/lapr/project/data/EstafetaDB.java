@@ -1,5 +1,8 @@
 package lapr.project.data;
 
+import lapr.project.model.Estafeta;
+import lapr.project.model.Utilizador;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import lapr.project.model.Estafeta;
 
 public class EstafetaDB extends DataHandler {
 
@@ -212,6 +213,28 @@ public class EstafetaDB extends DataHandler {
                     double peso = rSet.getDouble(3);
 
                     return new Estafeta(nif, idEstadoEstafeta, peso/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return null;
+    }
+
+    public Utilizador getUtilizadorEstafetaByNIF(int nif) {
+        String query = "SELECT * FROM estafeta e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.NIF= " + nif;
+
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
+
+                if (rSet.next()) {
+                    nif = rSet.getInt(1);
+                    String nome = rSet.getString(5);
+                    String email = rSet.getString(6);
+                    int nss = rSet.getInt(7);
+                    String password = rSet.getString(8);
+
+                    return new Utilizador(nif,nome,email,nss,password);
                 }
             }
         } catch (SQLException e) {

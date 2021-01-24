@@ -43,9 +43,27 @@ class EstacionamentoControllerTest {
         path = null;
         pathReserve = null;
         instance = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB(),new EstafetaDB());
-        System.out.println("getDiretory()");
+        System.out.println("getDiretoryTrue()");
         String expected = "estimate_1.data";
         assertEquals(expected, instance.getDiretory("src/main/java/lapr/project/parking/teste/getDirectory"));
+    }
+
+    @Test
+    void getDiretory1() {
+        path = null;
+        pathReserve = null;
+        instance = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB(),new EstafetaDB());
+        System.out.println("getDiretoryTrue1()");
+        assertNull(instance.getDiretory("src/main/java/lapr/project/parking/teste/getDirectory1"));
+    }
+
+    @Test
+    void getDiretory2() {
+        path = null;
+        pathReserve = null;
+        instance = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB(),new EstafetaDB());
+        System.out.println("getDiretoryTrue2()");
+        assertNull(instance.getDiretory("src/main/java/lapr/project/parking/teste/getDirectory2"));
     }
 
     @Test
@@ -70,10 +88,10 @@ class EstacionamentoControllerTest {
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
-        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo,estacionamento.getIdParque())).thenReturn(true);
         when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
-        when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
         String assunto = "Estacionamento Scooter";
         String mensagem = "A scooter foi estacionada sem sucesso, tente novamente.";
@@ -107,10 +125,10 @@ class EstacionamentoControllerTest {
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
-        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
         when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
-        when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
         String assunto = "Estacionamento Scooter";
         String mensagem = "A scooter foi estacionada sem sucesso, tente novamente.";
@@ -146,10 +164,10 @@ class EstacionamentoControllerTest {
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
-        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
         when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
-        when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
         assertFalse(instance.simulateParkingVeiculo(pathtest));
 
@@ -181,10 +199,10 @@ class EstacionamentoControllerTest {
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
-        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
         when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
-        when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
         assertFalse(instance.simulateParkingVeiculo(pathtest));
 
@@ -216,10 +234,10 @@ class EstacionamentoControllerTest {
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
-        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
         when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
-        when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
         String assunto = "Acoplagem Drone";
         String mensagem = "O drone " + 1 + " foi acoplado sem sucesso.";
@@ -255,10 +273,10 @@ class EstacionamentoControllerTest {
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
-        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo,estacionamento.getIdParque())).thenReturn(true);
         when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
-        when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
         assertFalse(instance.simulateParkingVeiculo(pathtest));
 
@@ -290,10 +308,10 @@ class EstacionamentoControllerTest {
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
-        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
         when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
-        when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
         assertFalse(instance.simulateParkingVeiculo(pathtest));
 
@@ -325,10 +343,10 @@ class EstacionamentoControllerTest {
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
-        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
         when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
-        when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
         when(veiculoDB.updateVeiculo(veiculo)).thenReturn(true);
 
         String assunto = "Estacionamento Scooter";
@@ -365,10 +383,10 @@ class EstacionamentoControllerTest {
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
-        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
         when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
-        when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
         when(veiculoDB.updateVeiculo(veiculo)).thenReturn(true);
 
         String assunto = "Acoplagem Drone";
@@ -475,6 +493,32 @@ class EstacionamentoControllerTest {
         when(emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem)).thenReturn(false);
 
         assertFalse(instance.notificaAdministrador(false, 3, 1));
+    }
+
+    @Test
+    void updateNotificacaoTrue(){
+        System.out.println("updateNotificacaoTrue()");
+        path = null;
+        pathReserve = null;
+        String email = "email";
+        String assunto = "Atualização de carregamento";
+        String mensagem = "Devido à quantidade de carregamentos a serem realizados em simultâneo, a nova estimativa de carregamento do seu veículo é de cerca de 3 horas.";
+        when(emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem)).thenReturn(true);
+
+        assertTrue(instance.updateEstimativa(3,email));
+    }
+
+    @Test
+    void updateNotificacaoFalse(){
+        System.out.println("updateNotificacaoFalse()");
+        path = null;
+        pathReserve = null;
+        String email = "email";
+        String assunto = "Atualização de carregamento";
+        String mensagem = "Devido à quantidade de carregamentos a serem realizados em simultâneo, a nova estimativa de carregamento do seu veículo é de cerca de 3 horas.";
+        when(emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem)).thenReturn(false);
+
+        assertFalse(instance.updateEstimativa(3,email));
     }
 
     @AfterEach

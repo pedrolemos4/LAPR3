@@ -176,14 +176,15 @@ public class EstacionamentosDB extends DataHandler {
      * @param veiculo veículo a estacionar
      * @return true se o veículo for colocado com sucessso, false se não
      */
-    public boolean addEstacionamentoVeiculo(Estacionamento estacionamento, Veiculo veiculo) {
+    public boolean addEstacionamentoVeiculo(Estacionamento estacionamento, Veiculo veiculo, int idParque) {
         try {
             openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoVeiculo(?,?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoVeiculo(?,?,?,?,?) }")) {
                 callStmt.setInt(1, veiculo.getId());
                 callStmt.setInt(2, estacionamento.getNumeroLote());
                 callStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
                 callStmt.setTimestamp(4, null);
+                callStmt.setInt(5,idParque);
                 callStmt.execute();
             }
             closeAll();
@@ -200,9 +201,9 @@ public class EstacionamentosDB extends DataHandler {
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {
                 if (rSet.next()) {
-                    return true;
-                }else{
                     return false;
+                }else{
+                    return true;
                 }
             }
         } catch (SQLException e) {

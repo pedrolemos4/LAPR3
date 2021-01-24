@@ -550,11 +550,13 @@ END;
 /
 
 CREATE OR REPLACE PROCEDURE addEstacionamentoveiculo(veiculoidveiculo "LAPR3_G23".estacionamentoveiculo.veiculoidveiculo%type, 
-EstacionamentonumeroLote "LAPR3_G23".estacionamentoveiculo.estacionamentonumerolote%type, datainicio "LAPR3_G23".estacionamentoveiculo.dataInicio%type,
-datafim "LAPR3_G23".estacionamentoveiculo.dataFim%type) 
+EstacionamentonumeroLote "LAPR3_G23".estacionamentoveiculo.estacionamentonumerolote%type,
+datainicio "LAPR3_G23".estacionamentoveiculo.dataInicio%type,
+datafim "LAPR3_G23".estacionamentoveiculo.dataFim%type,
+idParque "LAPR3_G23".estacionamentoveiculo.estacionamentoidparque%type)
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".estacionamentoveiculo(veiculoidveiculo,estacionamentonumerolote,datainicio,datafim) VALUES(veiculoidveiculo,EstacionamentonumeroLote, datainicio, datafim);   
+  INSERT INTO "LAPR3_G23".estacionamentoveiculo(veiculoidveiculo,estacionamentonumerolote,estacionamentoidparque,datainicio,datafim) VALUES(veiculoidveiculo,EstacionamentonumeroLote, idparque, datainicio, datafim);   
 END;
 /
 
@@ -695,9 +697,14 @@ END;
 /
 
 
-create or replace PROCEDURE updateVeiculo(p_id "LAPR3_G23".veiculo.idveiculo%type,p_descricao "LAPR3_G23".veiculo.descricao%type,
-p_capacidade "LAPR3_G23".veiculo.capacidade%type,p_pb "LAPR3_G23".veiculo.percentagemBateria%type,p_pm "LAPR3_G23".veiculo.pesoMaximo%type,
-p_ps "LAPR3_G23".veiculo.pesoveiculo%type,p_pot "LAPR3_G23".veiculo.potencia%type,p_eS "LAPR3_G23".veiculo.estadoveiculoid%type,
+create or replace PROCEDURE updateVeiculo(p_id "LAPR3_G23".veiculo.idveiculo%type,
+p_descricao "LAPR3_G23".veiculo.descricao%type,
+p_capacidade "LAPR3_G23".veiculo.capacidade%type,
+p_pb "LAPR3_G23".veiculo.percentagemBateria%type,
+p_pm "LAPR3_G23".veiculo.pesoMaximo%type,
+p_ps "LAPR3_G23".veiculo.pesoveiculo%type,
+p_pot "LAPR3_G23".veiculo.potencia%type,
+p_eS "LAPR3_G23".veiculo.estadoveiculoid%type,
 p_areaFrontal "LAPR3_G23".veiculo.areaFrontal%type) 
 AS
 BEGIN
@@ -947,3 +954,15 @@ SELECT c.utilizadorNIF, c.creditos, c.enderecomorada, c.cartaonumerocartaocredit
   
   UPDATE "LAPR3_G23".stockfarmacia SET  "LAPR3_G23".stockfarmacia.stock = 2
     WHERE "LAPR3_G23".stockfarmacia.farmacianif = 555666555 AND "LAPR3_G23".stockfarmacia.ProdutoidProduto  = 1;
+    
+    select * from parque;
+    select * from veiculo;
+    select * from estafeta;
+    select * from utilizador;
+    select * from estacionamento;
+    select * from estacionamentoveiculo;
+    
+        delete from estacionamentoveiculo;
+        select * from estadoveiculo;
+        
+        SELECT * FROM estafeta e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.NIF= 213360454;

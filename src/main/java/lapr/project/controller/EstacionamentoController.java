@@ -1,10 +1,7 @@
 package lapr.project.controller;
 
 import lapr.project.data.*;
-import lapr.project.model.Estacionamento;
-import lapr.project.model.Estafeta;
-import lapr.project.model.Parque;
-import lapr.project.model.Veiculo;
+import lapr.project.model.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -93,12 +90,12 @@ public class EstacionamentoController {
 
         Parque parque = parqueDB.getParqueByID(idParque);
 
-        Estafeta estafeta = estafetaDB.getEstafetaByNIF(nifEstafeta);
+        Utilizador estafeta = estafetaDB.getUtilizadorEstafetaByNIF(nifEstafeta);
 
-        newFile.delete();
-        newFileFlag.delete();
+        boolean data = newFile.delete();
+        boolean flag = newFileFlag.delete();
 
-        if (veiculo.getDescricao().equalsIgnoreCase(parque.getTipo()) && estac.getCarregador() == 1) {
+        if (veiculo.getDescricao().equalsIgnoreCase(parque.getTipo()) && estac.getCarregador() == 1 && data && flag) {
             if (estimativa == -1){
                 if(veiculo.getDescricao().equalsIgnoreCase("scooter")) {
                     return notificaEstafeta(false, estimativa, estafeta.getEmail());
@@ -107,9 +104,9 @@ public class EstacionamentoController {
                 }
             } else {
                 if(estacionamentosDB.getEstacionamentoVeiculo(estac,veiculo)){//implementar método estacionamentosDB.getEstacionamentoScooter) {
-                    estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo);
+                    estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo,estac.getIdParque());
                     try {
-                        veiculo.setEstadoVeiculo(0);
+                        veiculo.setEstadoVeiculo(2);
                         veiculoDB.updateVeiculo(veiculo);
 
                     } catch (SQLException throwables) {
@@ -167,7 +164,7 @@ public class EstacionamentoController {
 
     public boolean updateEstimativa(int estimativa, String email) {
         String assunto = "Atualização de carregamento";
-        String mensagem = "Devido à quantidade de carregamentos a serem realizados em simultâneo, a nova estimativa de carregamento do seu veículo é de cerca de " + estimativa + "horas.";
+        String mensagem = "Devido à quantidade de carregamentos a serem realizados em simultâneo, a nova estimativa de carregamento do seu veículo é de cerca de " + estimativa + " horas.";
         return emailDB.sendEmail(adminEmail, email, assunto, mensagem);
     }
 
