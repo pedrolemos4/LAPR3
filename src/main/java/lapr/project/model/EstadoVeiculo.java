@@ -49,6 +49,10 @@ public class EstadoVeiculo {
         }
     }
 
+    /**
+     * Constrói uma instância de estado do veículo recebendo outro estado por parâmetro
+     * @param outroEstado novo estado
+     */
     public EstadoVeiculo(EstadoVeiculo outroEstado) {
         this.idEstadoVeiculo = outroEstado.idEstadoVeiculo;
         this.designacao = outroEstado.designacao;

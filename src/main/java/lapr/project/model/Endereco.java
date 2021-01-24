@@ -124,6 +124,11 @@ public class Endereco {
         return "Endereco{" + "morada=" + morada + ", latitude=" + latitude + ", longitude=" + longitude + ", altitude=" + altitude + '}';
     }
 
+    /**
+     * Compara a instância de endereço com a recebida por parâmetro e verifica se são iguais
+     * @param o objeto a comparar
+     * @return true se forem iguais, false se não
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -135,6 +140,10 @@ public class Endereco {
                 morada.equals(endereco.morada);
     }
 
+    /**
+     * retorna o hash code de um objeto
+     * @return hash code do objeto
+     */
     @Override
     public int hashCode() {
         return Objects.hash(morada, latitude, longitude, altitude);

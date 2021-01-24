@@ -25,6 +25,16 @@ public class Parque {
         this.maxCap = maxCap;
     }
 
+    /**
+     * Constrói uma instância de parque com o nif do parque(igual ao nif da
+     * farmácia), morada do parque e número máximo de lugares
+     *
+     * @param id id do parque
+     * @param nif nif do parque
+     * @param numeroMaximo número máximo de lugares do parque
+     * @param tipo
+     * @param maxCap
+     */
     public Parque(int id, int nif, int numeroMaximo, String tipo, int maxCap) {
         this.nif = nif;
         this.numeroMaximo = numeroMaximo;
