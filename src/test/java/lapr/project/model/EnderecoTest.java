@@ -253,7 +253,51 @@ public class EnderecoTest {
     @Test
     public void testHashCode1() {
         System.out.println("hashCode1");
+        Endereco instance = new Endereco("Rua do ISEP", 0, 30.58, 34.23);
+        int expResult = instance.hashCode();
+        assertEquals(expResult, instance.hashCode());
+    }
+
+    /**
+     * Test of hashCode method, of class Endereco.
+     */
+    @Test
+    public void testHashCode2() {
+        System.out.println("hashCode2");
+        Endereco instance = new Endereco("Rua do ISEP", 41.45, 0, 34.23);
+        int expResult = instance.hashCode();
+        assertEquals(expResult, instance.hashCode());
+    }
+
+    /**
+     * Test of hashCode method, of class Endereco.
+     */
+    @Test
+    public void testHashCode3() {
+        System.out.println("hashCode3");
+        Endereco instance = new Endereco("Rua do ISEP", 41.45, 30.58, 0);
+        int expResult = instance.hashCode();
+        assertEquals(expResult, instance.hashCode());
+    }
+
+    /**
+     * Test of hashCode method, of class Endereco.
+     */
+    @Test
+    public void testHashCode4() {
+        System.out.println("hashCode4");
         Endereco instance = new Endereco("Rua do ISEP", 0, 0, 0);
+        int expResult = instance.hashCode();
+        assertEquals(expResult, instance.hashCode());
+    }
+
+    /**
+     * Test of hashCode method, of class Endereco.
+     */
+    @Test
+    public void testHashCode5() {
+        System.out.println("hashCode5");
+        Endereco instance = new Endereco(null, 0, 0, 0);
         int expResult = instance.hashCode();
         assertEquals(expResult, instance.hashCode());
     }
