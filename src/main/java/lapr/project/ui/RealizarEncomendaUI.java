@@ -95,7 +95,11 @@ public class RealizarEncomendaUI {
                     if (!listFarmaciasGrafo.contains(controller.getEnderecoOrigem(nif))) {
                         listFarmaciasGrafo.add(controller.getEnderecoOrigem(nif));
                     }
+                    
+                    if(farmaciaProximaFarmacia1 == null)break;
+                    
                     int farmaciaSeguinte = farmaciaProximaFarmacia1.getNIF();
+                    
                     listFarmaciasGrafo.add(controller.getEnderecoOrigem(farmaciaSeguinte));
                    
                     Map<Produto, Integer> listStockFarmacias = controller.getListStock(farmaciaSeguinte);
