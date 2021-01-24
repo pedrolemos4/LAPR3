@@ -431,7 +431,7 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE FUNCTION addEncomenda(p_dataPedida TIMESTAMP, p_nifFarmacia "LAPR3_G23".encomenda.nifFarmacia%type,
+CREATE OR REPLACE FUNCTION addEncomenda(p_dataPedida "LAPR3_G23".encomenda.dataPedida%type, p_nifFarmacia "LAPR3_G23".encomenda.nifFarmacia%type,
 p_preco "LAPR3_G23".encomenda.preco%type, p_pesoEncomenda "LAPR3_G23".encomenda.pesoEncomenda%type,p_taxa "LAPR3_G23".encomenda.taxa%type, 
 p_EstadoEncomendaidEstadoEncomenda "LAPR3_G23".encomenda.estadoEncomendaIdEstadoEncomenda%type,
 p_ClienteUtilizadorNIF "LAPR3_G23".encomenda.clienteutilizadornif%type) 
@@ -811,6 +811,8 @@ select * from cartao;
 select c.utilizadornif, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito
 from cliente c, utilizador u
 where c.utilizadornif = u.nif;
+
+select * from encomenda;
 
 select * from stockfarmacia;
 --IVULFacKOHnE
