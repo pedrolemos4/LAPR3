@@ -193,4 +193,21 @@ public class EstacionamentosDB extends DataHandler {
         }
         return false;
     }
+
+    public boolean getEstacionamentoScooter(Estacionamento estacionamento, Veiculo veiculo){
+        String query = "SELECT * FROM estacionamentoveiculo WHERE estacionamentonumerolote = " + estacionamento.getNumeroLote() + " and VEICULOIDVEICULO = " + veiculo.getId() + " and ESTACIONAMENTOIDPARQUE = " + estacionamento.getIdParque();
+
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
+                if (rSet.next()) {
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return false;
+    }
 }
