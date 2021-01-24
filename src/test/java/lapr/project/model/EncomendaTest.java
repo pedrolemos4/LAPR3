@@ -493,9 +493,8 @@ class EncomendaTest {
     public void testHashCode() {
         System.out.println("hashCode");
         Encomenda instance = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
-        int expResult =  -1961215339;
-        int result = instance.hashCode();
-        assertEquals(expResult, result);
+        Encomenda expResult = instance;
+        assertEquals(expResult.hashCode(), instance.hashCode());
     }
 
     /**
