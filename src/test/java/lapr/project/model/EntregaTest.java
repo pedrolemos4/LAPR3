@@ -233,5 +233,66 @@ public class EntregaTest {
 
     }
 
+    /**
+     * Test of getidEstafeta method, of class Entrega.
+     */
+    @Test
+    public void testGetidEstafeta() {
+        System.out.println("getidEstafeta");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1, 2);
+        int expResult = 1;
+        int result = instance.getidEstafeta();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of setEstafeta method, of class Entrega.
+     */
+    @Test
+    public void testSetEstafeta() {
+        System.out.println("setEstafeta");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1, 2);
+        int idEstafeta = 2;
+        instance.setEstafeta(idEstafeta);
+    }
+
+    /**
+     * Test of hashCode method, of class Entrega.
+     */
+    @Test
+    public void testHashCode() {
+        System.out.println("hashCode");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1, 2);
+        int expResult = 5;
+        int result = instance.hashCode();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Entrega.
+     */
+    @Test
+    public void testEquals() {
+        System.out.println("equals");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1, 2);
+        Entrega instance1 = instance;
+        boolean expResult = true;
+        boolean result = instance.equals(instance1);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Entrega.
+     */
+    @Test
+    public void testEquals1() {
+        System.out.println("equals1");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1, 2);
+        Entrega instance1 = new Entrega("25/12/2252", "26/12/2252",1, 1, 3);
+        boolean expResult = false;
+        boolean result = instance.equals(instance1);
+        assertEquals(expResult, result);
+    }
+
     
 }

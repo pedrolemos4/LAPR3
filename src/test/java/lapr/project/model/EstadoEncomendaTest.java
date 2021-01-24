@@ -121,4 +121,22 @@ class EstadoEncomendaTest {
         EstadoEncomenda instance = new EstadoEncomenda();
         instance.setEstado(estado);
     }
+
+    /**
+     * Test of toString method, of class EstadoEncomenda.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        
+        Encomenda instance1 = new Encomenda(111111111,12,"01-01-2000",10,10,10,1);
+        instance1.setId(1);
+        
+        EstadoEncomenda instance = new EstadoEncomenda(instance1.getEstado().getEstado());
+        instance.setIdEstadoEncomenda(1);
+        
+        String expResult = "EstadoEncomenda{" + "idEstadoEncomenda=" + 1 + ", designacao=" + "Encomendado" + ", estado=" + 1 + '}';
+        String result = instance.toString();
+        assertEquals(expResult, result);
+    }
 }

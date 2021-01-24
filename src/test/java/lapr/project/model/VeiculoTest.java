@@ -98,28 +98,29 @@ public class VeiculoTest {
 
     }
 
-//    /**
-//     * Test of getAreaFrontal method, of class Veiculo.
-//     */
-//    @Test
-//    public void testGetAreaFrontal() {
-//        System.out.println("getAreaFrontal");
-//        Veiculo instance = new Veiculo("descricao", "drone", 100, 85, 50, 30, 40, 50, 1);
-//        double expResult = 50.0;
-//        double result = instance.getAreaFrontal();
-//        assertEquals(expResult, result, 0.0);
-//    }
-//    /**
-//     * Test of setAreaFrontal method, of class Veiculo.
-//     */
-//    @Test
-//    public void testSetAreaFrontal() {
-//        System.out.println("setAreaFrontal");
-//        Veiculo instance = new Veiculo("descricao", "drone", 100, 85, 50, 30, 40, 50, 1);
-//        double expResult = 30.0;
-//        instance.setAreaFrontal(expResult);
-//        assertEquals(expResult, instance.getAreaFrontal(), 0.0);
-//    }
+    /**
+     * Test of getAreaFrontal method, of class Veiculo.
+     */
+    @Test
+    public void testGetAreaFrontal() {
+        System.out.println("getAreaFrontal");
+        Veiculo instance = new Veiculo(1, "drone", 100, 85, 50, 30, 40, 50, 1);
+        double expResult = 1.0;
+        double result = instance.getAreaFrontal();
+        assertEquals(expResult, result);
+    }
+    /**
+     * Test of setAreaFrontal method, of class Veiculo.
+     */
+    @Test
+    public void testSetAreaFrontal() {
+        System.out.println("setAreaFrontal");
+        Veiculo instance = new Veiculo(1, "drone", 100, 85, 50, 30, 40, 50, 1);
+        double expResult = 30.0;
+        instance.setAreaFrontal(expResult);
+        assertEquals(expResult, instance.getAreaFrontal(), 0.0);
+    }
+    
     /**
      * Test of setPercentagemBateria method, of class Veiculo.
      */

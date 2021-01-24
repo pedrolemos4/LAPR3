@@ -232,7 +232,7 @@ public class VeiculoControllerTest {
         Drone expResult = new Drone("", 100, 45, 56, 48, 486, 1, powerPro, id,3);
         VeiculoController vC = new VeiculoController(new VeiculoDB());
         assertEquals(expResult.toString(), vC.novoDrone(ve, expResult.getId(),
-                expResult.getPowerPro()).toString());
+                expResult.getLargura()).toString());
     }
 
     /**

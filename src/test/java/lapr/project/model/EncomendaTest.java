@@ -333,46 +333,60 @@ class EncomendaTest {
         Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
         instance.setNifFarmacia(nifFarmacia);
     }
-//
-//    /**
-//     * Test of equals method, of class Encomenda.
-//     */
-//    @Test
-//    public void testEquals() {
-//        System.out.println("equals");
-//        Object o = null;
-//        Encomenda instance = null;
-//        boolean expResult = false;
-//        boolean result = instance.equals(o);
-//        assertEquals(expResult, result);
-//
-//    }
-//
-//    /**
-//     * Test of hashCode method, of class Encomenda.
-//     */
-//    @Test
-//    public void testHashCode() {
-//        System.out.println("hashCode");
-//        Encomenda instance = null;
-//        int expResult = 0;
-//        int result = instance.hashCode();
-//        assertEquals(expResult, result);
-//
-//    }
 
-//    /**
-//     * Test of toString method, of class Encomenda.
-//     */
-//    @Test
-//    public void testToString() {
-//        System.out.println("toString");
-//        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
-//        String expResult = "Encomenda{dataPedida=01-01-2000, preco=10.0, pesoEncomenda=10.0, taxa=10.0, nifCliente=123456789, nifFarmacia=12, estado=lapr.project.model.EstadoEncomenda@6b26e945, id=0}";
-//        String result = instance.toString();
-//        System.out.println(result);
-//        assertEquals(expResult, result);
-//
-//    }
+    /**
+     * Test of equals method, of class Encomenda.
+     */
+    @Test
+    public void testEquals() {
+        System.out.println("equals");
+        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
+        Encomenda instance1 = instance;
+        boolean expResult = true;
+        boolean result = instance.equals(instance1);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
+     * Test of equals method, of class Encomenda.
+     */
+    @Test
+    public void testEquals1() {
+        System.out.println("equals1");
+        Encomenda instance = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
+        Encomenda instance1 = new Encomenda(123456779,12,"01-01-2000",10,10,10, 2);
+        boolean expResult = false;
+        boolean result = instance.equals(instance1);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of hashCode method, of class Encomenda.
+     */
+    @Test
+    public void testHashCode() {
+        System.out.println("hashCode");
+        Encomenda instance = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
+        int expResult = 675731390;
+        int result = instance.hashCode();
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of toString method, of class Encomenda.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
+        String expResult = "Encomenda{dataPedida=01-01-2000, preco=10.0, pesoEncomenda=10.0, taxa=10.0, nifCliente=123456789, nifFarmacia=12, estado=Encomendado, id=0}";
+        String result = instance.toString();
+        System.out.println(result);
+        assertEquals(expResult, result);
+
+    }
 
 }
