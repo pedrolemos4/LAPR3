@@ -81,12 +81,8 @@ class EstacionamentoControllerTest {
         File file = new File(path + "/estimate_1.data");
         File fileflag = new File(path + "/estimate_1.data.flag");
 
-        System.out.println(file.getPath());
-
-        System.out.println(fileflag.getPath());
-
-        File file1 = new File("src/main/java/lapr/project/parking/teste/casosJAVA/reserve/CheckParkingsTrue/estimate_1.data");
-        File fileflag1 = new File("src/main/java/lapr/project/parking/teste/casosJAVA/reserve/CheckParkingsTrue/estimate_1.data.flag");
+        File file1 = new File("src/main/java/lapr/project/parking/teste/casosJAVA/reserve/checkParkingsTrue/estimate_1.data");
+        File fileflag1 = new File("src/main/java/lapr/project/parking/teste/casosJAVA/reserve/checkParkingsTrue/estimate_1.data.flag");
 
         copyContent(file1,file);
         copyContent(fileflag1, fileflag);
