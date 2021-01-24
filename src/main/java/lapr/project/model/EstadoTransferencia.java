@@ -32,7 +32,10 @@ public class EstadoTransferencia {
         return idEstadoTransferencia;
     }
 
-
+    /**
+     * Modifica o valor do estado da transferência com o recebido por parâmetro
+     * @param idEstadoTransferencia novo estado da transferência
+     */
     public void setidEstadoTransferencia(int idEstadoTransferencia) {
         this.idEstadoTransferencia = idEstadoTransferencia;
     }

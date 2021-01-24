@@ -24,7 +24,7 @@ public class Drone extends Veiculo {
      * @param pesoVeiculo
      * @param potencia
      * @param estado
-     * @param powerPro
+     * @param largura
      * @param id
      */
     public Drone(String descricao, int capacidade, double percentagemBateria,
@@ -40,7 +40,7 @@ public class Drone extends Veiculo {
      * Construtor que recebe uma instância de veículo,o id e a powerpro
      * @param ve
      * @param id
-     * @param powerPro 
+     * @param largura
      */
     public Drone(Veiculo ve, int id, double largura) {
         super(ve);
@@ -51,7 +51,7 @@ public class Drone extends Veiculo {
     /**
      * Controi uma instância Drone com o id e a power pro
      * @param id
-     * @param powerPro 
+     * @param largura
      */
     public Drone(int id, double largura){
         this.id = id;
@@ -79,7 +79,7 @@ public class Drone extends Veiculo {
     /**
      * Modifica o atributo power pro do drone
      *
-     * @param powerPro
+     * @param largura
      */
     public void setLargura(double largura) {
         this.largura = largura;

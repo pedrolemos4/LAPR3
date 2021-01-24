@@ -69,6 +69,10 @@ public class Veiculo {
         this.areaFrontal = areaFrontal;
     }
 
+    /**
+     * Constrói umainstância de veículo recebendo outro veículo
+     * @param outroVeiculo novo veículo
+     */
     public Veiculo(Veiculo outroVeiculo){
         this.id = outroVeiculo.id;
         this.descricao = outroVeiculo.descricao;
