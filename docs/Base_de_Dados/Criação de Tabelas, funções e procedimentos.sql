@@ -445,7 +445,7 @@ BEGIN
   SELECT "LAPR3_G23".encomenda.idEncomenda INTO v_idEncomenda
   FROM "LAPR3_G23".encomenda
   WHERE "LAPR3_G23".encomenda.dataPedida = p_dataPedida
-  AND  "LAPR3_G23".encomenda.nifFarmacia = p_nifFarmacia
+  AND "LAPR3_G23".encomenda.nifFarmacia = p_nifFarmacia
   AND "LAPR3_G23".encomenda.preco = p_preco
   AND "LAPR3_G23".encomenda.pesoEncomenda = p_pesoEncomenda
   AND "LAPR3_G23".encomenda.taxa = p_taxa
@@ -454,7 +454,6 @@ BEGIN
   return v_idEncomenda;
 END;
 /
-select * from encomenda;
 
 
 
@@ -469,7 +468,11 @@ v_idEntrega INTEGER;
         VALUES(p_EstafetaUtilizadorNIF,p_veiculoid,p_dataInicio,p_datafim, p_pesoEntrega);
         SELECT "LAPR3_G23".entrega.idEntrega INTO v_idEntrega
         FROM "LAPR3_G23".entrega
-        WHERE "LAPR3_G23".entrega.EstafetaUtilizadorNIF = p_EstafetaUtilizadorNIF;
+        WHERE "LAPR3_G23".entrega.EstafetaUtilizadorNIF = p_EstafetaUtilizadorNIF
+        AND "LAPR3_G23".entrega.veiculoid = p_veiculoid
+        AND "LAPR3_G23".entrega.dataInicio = p_dataInicio
+        AND "LAPR3_G23".entrega.dataFim = p_datafim
+        AND "LAPR3_G23".entrega.pesoEntrega = p_pesoEntrega;
 RETURN v_idEntrega;
 END;
 /
@@ -730,11 +733,13 @@ END;
 /
 
 CREATE OR REPLACE PROCEDURE updateEntrega(p_idEntrega "LAPR3_G23".entrega.idEntrega%type, p_EstafetaUtilizadorNIF "LAPR3_G23".entrega.EstafetaUtilizadorNIF%type,
-p_veiculoid "LAPR3_G23".entrega.veiculoid%type, p_dataInicio "LAPR3_G23".entrega.dataInicio%type, p_datafim "LAPR3_G23".entrega.dataFim%type)
+p_veiculoid "LAPR3_G23".entrega.veiculoid%type, p_dataInicio "LAPR3_G23".entrega.dataInicio%type, p_datafim "LAPR3_G23".entrega.dataFim%type
+, p_pesoEntrega "LAPR3_G23".entrega.pesoEntrega%type)
 AS
 BEGIN
   UPDATE "LAPR3_G23".entrega SET "LAPR3_G23".entrega.EstafetaUtilizadorNIF = p_EstafetaUtilizadorNIF,
   "LAPR3_G23".entrega.veiculoid = p_veiculoid, "LAPR3_G23".entrega.dataInicio= p_dataInicio,"LAPR3_G23".entrega.dataFim = p_datafim
+  ,"LAPR3_G23".entrega.pesoEntrega = p_pesoEntrega
     WHERE "LAPR3_G23".entrega.idEntrega = p_idEntrega;
 END;
 /
@@ -801,7 +806,7 @@ select * from produto;
 order by numeroLote,idParque;
 select * from cartao;
 select * from caminho;
-INSERT INTO "LAPR3_G23".cartao VALUES(123123456,3,3);   
+INSERT INTO "LAPR3_G23".cartao VALUES(123123456,3,3);
 select * from cartao;
 select c.utilizadornif, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito
 from cliente c, utilizador u
@@ -837,6 +842,11 @@ AND s.FarmaciaNIF = 555666555;
 select * from farmacia;
 select * from utilizador;
 select * from encomenda;
+update "LAPR3_G23".encomenda SET "LAPR3_G23".encomenda.EstadoEncomendaidEstadoEncomenda = 1 where "LAPR3_G23".encomenda.EstadoEncomendaidEstadoEncomenda = 3;
+select * from entrega;
+delete from entrega where identrega = 101;
+select * from encomendaEntrega;
+delete from encomendaEntrega where encomendaidencomenda = 1;
 SELECT * FROM cliente e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.email= 'boomer@gmail.com';
 
 SELECT e.idEncomenda,e.datapedida,e.preco, e.pesoEncomenda, e.taxa, e.estadoencomendaidestadoencomenda, e.clienteutilizadornif FROM encomenda e INNER JOIN cliente c ON e.ClienteUtilizadorNIF = c.UtilizadorNIF WHERE c.Enderecomorada = 'rua we';
