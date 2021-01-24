@@ -1,10 +1,15 @@
 package lapr.project.controller;
 
 import lapr.project.data.*;
-import lapr.project.model.*;
+import lapr.project.model.Estacionamento;
+import lapr.project.model.Parque;
+import lapr.project.model.Utilizador;
+import lapr.project.model.Veiculo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -66,8 +71,6 @@ public class EstacionamentoController {
         File newFileFlag = new File(path + ".flag");
         Scanner scan = new Scanner(newFile);
 
-        System.out.println(path);
-
         String line = scan.nextLine();
 
         scan.close();
@@ -92,18 +95,23 @@ public class EstacionamentoController {
 
         Utilizador estafeta = estafetaDB.getUtilizadorEstafetaByNIF(nifEstafeta);
 
-        boolean data = newFile.delete();
-        boolean flag = newFileFlag.delete();
+        try {
+            java.nio.file.Files.delete(Paths.get(newFile.getPath()));
+            java.nio.file.Files.delete(Paths.get(newFileFlag.getPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        if (veiculo.getDescricao().equalsIgnoreCase(parque.getTipo()) && estac.getCarregador() == 1 && data && flag) {
+        if (veiculo.getDescricao().equalsIgnoreCase(parque.getTipo()) && estac.getCarregador() == 1) {
+            String SCOOTER = "scooter";
             if (estimativa == -1){
-                if(veiculo.getDescricao().equalsIgnoreCase("scooter")) {
+                if(veiculo.getDescricao().equalsIgnoreCase(SCOOTER)) {
                     return notificaEstafeta(false, estimativa, estafeta.getEmail());
                 }else{
                     return notificaAdministrador(false,estimativa,veiculo.getId());
                 }
             } else {
-                if(estacionamentosDB.getEstacionamentoVeiculo(estac,veiculo)){//implementar método estacionamentosDB.getEstacionamentoScooter) {
+                if(estacionamentosDB.getEstacionamentoVeiculo(estac,veiculo)){
                     estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo,estac.getIdParque());
                     try {
                         veiculo.setEstadoVeiculo(2);
@@ -112,13 +120,13 @@ public class EstacionamentoController {
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
-                    if (veiculo.getDescricao().equalsIgnoreCase("scooter")) {
+                    if (veiculo.getDescricao().equalsIgnoreCase(SCOOTER)) {
                         return notificaEstafeta(true, estimativa, estafeta.getEmail());
                     } else {
                         return notificaAdministrador(true, estimativa, veiculo.getId());
                     }
                 }else{
-                    if (veiculo.getDescricao().equalsIgnoreCase("scooter")) {
+                    if (veiculo.getDescricao().equalsIgnoreCase(SCOOTER)) {
                         return updateEstimativa(estimativa, estafeta.getEmail());
                     } else {
                         return updateEstimativa(estimativa, adminEmail);
@@ -151,13 +159,13 @@ public class EstacionamentoController {
         return emailDB.sendEmail(adminEmail, email, assunto, mensagem);
     }
 
-    public boolean notificaAdministrador(boolean bemEstacionado, int estimativa, int IDVeiculo) {
+    public boolean notificaAdministrador(boolean bemEstacionado, int estimativa, int IdVeiculo) {
         String assunto = "Acoplagem Drone";
         String mensagem;
         if (bemEstacionado) {
-            mensagem = "O drone " + IDVeiculo + " foi acoplado com sucesso, com uma estimativa de cerca de " + estimativa + " horas até estar completamente carregado.";
+            mensagem = "O drone " + IdVeiculo + " foi acoplado com sucesso, com uma estimativa de cerca de " + estimativa + " horas até estar completamente carregado.";
         } else {
-            mensagem = "O drone " + IDVeiculo + " foi acoplado sem sucesso.";
+            mensagem = "O drone " + IdVeiculo + " foi acoplado sem sucesso.";
         }
         return emailDB.sendEmail(adminEmail, adminEmail, assunto, mensagem);
     }

@@ -367,6 +367,35 @@ class EstacionamentoControllerTest {
         copyContent(fileflag1, fileflag);*/
     }
 
+    @Test
+    void simulateScooterBemEstacionada1() throws Exception {
+        System.out.println("simulateScooterBemEstacionada1()");
+
+        Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
+        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0, 5);
+        Estacionamento estacionamento = new Estacionamento(0, 1, 0);
+        Parque parque = new Parque(0, 1, 1, "scooter", 20);
+        path = "src/main/java/lapr/project/parking/teste/simulateScooterBemEstacionada";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateScooterBemEstacionada";
+
+        String pathtest = path + "/estimate_1.data";
+
+        when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
+        when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
+        when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(false);
+        when(parqueDB.getParqueByID(0)).thenReturn(parque);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+        when(veiculoDB.updateVeiculo(veiculo)).thenReturn(true);
+
+        String assunto = "Atualização de carregamento";
+        String mensagem = "Devido à quantidade de carregamentos a serem realizados em simultâneo, a nova estimativa de carregamento do seu veículo é de cerca de 2 horas.";
+
+        when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
+
+        assertTrue(instance.simulateParkingVeiculo(pathtest));
+    }
+
     //Estimativa 2 horas
     @Test
     void simulateDroneBemEstacionado() throws Exception {
@@ -405,6 +434,34 @@ class EstacionamentoControllerTest {
 
         copyContent(file1,file);
         copyContent(fileflag1, fileflag);*/
+    }
+
+    @Test
+    void simulateDroneBemEstacionado1() throws Exception {
+        System.out.println("simulateDroneBemEstacionado1()");
+
+        Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
+        Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0, 5);
+        Estacionamento estacionamento = new Estacionamento(0, 1, 0);
+        Parque parque = new Parque(0, 1, 1, "drone", 20);
+        path = "src/main/java/lapr/project/parking/teste/simulateDroneBemEstacionado";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateDroneBemEstacionado";
+
+        String pathtest = path + "/estimate_1.data";
+
+        when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
+        when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
+        when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(false);
+        when(parqueDB.getParqueByID(0)).thenReturn(parque);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+        when(veiculoDB.updateVeiculo(veiculo)).thenReturn(true);
+
+        String assunto = "Atualização de carregamento";
+        String mensagem = "Devido à quantidade de carregamentos a serem realizados em simultâneo, a nova estimativa de carregamento do seu veículo é de cerca de 2 horas.";
+        when(emailDB.sendEmail("admlapr123@gmail.com", "admlapr123@gmail.com", assunto, mensagem)).thenReturn(true);
+
+        assertTrue(instance.simulateParkingVeiculo(pathtest));
     }
 
     //Notifica estafeta da scooter bem estacionada
