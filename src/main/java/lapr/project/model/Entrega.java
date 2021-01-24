@@ -1,5 +1,7 @@
 package lapr.project.model;
 
+import java.util.Objects;
+
 /**
  *
  * @author beatr
@@ -140,6 +142,54 @@ public class Entrega {
     public void setPesoEntrega(double pesoEntrega) {
         this.pesoEntrega = pesoEntrega;
     }
+
+    /**
+     * Retorna o hashCode
+     * @return 
+     */
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    /**
+     * Compara o obj com a instância criada da Entrega
+     * @param obj
+     * @return 
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Entrega other = (Entrega) obj;
+        if (this.idEntrega != other.idEntrega) {
+            return false;
+        }
+        if (this.idVeiculo != other.idVeiculo) {
+            return false;
+        }
+        if (this.idEstafeta != other.idEstafeta) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.pesoEntrega) != Double.doubleToLongBits(other.pesoEntrega)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataInicio, other.dataInicio)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataFim, other.dataFim)) {
+            return false;
+        }
+        return true;
+    }
     
     /**
      * Devolve a descrição textual da entrega
@@ -149,6 +199,5 @@ public class Entrega {
     public String toString() {
         return "Entrega{" + "idEntrega=" + idEntrega + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + ", idVeiculo=" + idVeiculo + ", idEstafeta=" + idEstafeta + ", pesoEntrega=" + pesoEntrega + '}';
     }
-    
-           
+            
 }

@@ -12,7 +12,7 @@ package lapr.project.model;
 public class Drone extends Veiculo {
 
     private int id;
-    private double powerPro;
+    private double largura;
 
     /**
      * Construtor completo
@@ -29,11 +29,11 @@ public class Drone extends Veiculo {
      */
     public Drone(String descricao, int capacidade, double percentagemBateria,
             double pesoMaximo, double pesoVeiculo, double potencia, int estado,
-            double powerPro, int id, double areaFrontal) {
+            double largura, int id, double areaFrontal) {
         super(descricao, capacidade, percentagemBateria, pesoMaximo, pesoVeiculo,
                 potencia, estado, areaFrontal);
         this.id = id;
-        this.powerPro = powerPro;
+        this.largura = largura;
     }
 
     /**
@@ -42,17 +42,26 @@ public class Drone extends Veiculo {
      * @param id
      * @param powerPro 
      */
-    public Drone(Veiculo ve, int id, double powerPro) {
+    public Drone(Veiculo ve, int id, double largura) {
         super(ve);
         this.id = id;
-        this.powerPro = powerPro;
+        this.largura = largura;
     }
     
-    public Drone(int id, double powerPro){
+    /**
+     * Controi uma instância Drone com o id e a power pro
+     * @param id
+     * @param powerPro 
+     */
+    public Drone(int id, double largura){
         this.id = id;
-        this.powerPro = powerPro;
+        this.largura = largura;
     }
 
+    /**
+     * Devolve o id do Drone
+     * @return 
+     */
     @Override
     public int getId(){
         return this.id;
@@ -63,8 +72,8 @@ public class Drone extends Veiculo {
      *
      * @return
      */
-    public double getPowerPro() {
-        return powerPro;
+    public double getLargura() {
+        return largura;
     }
 
     /**
@@ -72,8 +81,8 @@ public class Drone extends Veiculo {
      *
      * @param powerPro
      */
-    public void setPowerPro(double powerPro) {
-        this.powerPro = powerPro;
+    public void setLargura(double largura) {
+        this.largura = largura;
     }
 
     /**
@@ -84,6 +93,6 @@ public class Drone extends Veiculo {
     @Override
     public String toString() {
         return super.toString()
-                + "\nPower pro: \t" + powerPro;
+                + "\nPower pro: \t" + largura;
     }
 }

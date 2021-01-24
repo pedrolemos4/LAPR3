@@ -238,10 +238,18 @@ public class Veiculo {
         this.capacidade=capacidade;
     }
 
+    /**
+     * Devolve a area frontal
+     * @return 
+     */
     public double getAreaFrontal() {
         return areaFrontal;
     }
 
+    /**
+     * Modifica a area frontal
+     * @param areaFrontal 
+     */
     public void setAreaFrontal(double areaFrontal) {
         this.areaFrontal = areaFrontal;
     }

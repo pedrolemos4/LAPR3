@@ -101,4 +101,16 @@ public class EstadoEncomenda {
     public void setEstado(int estado) {
         this.estado = estado;
     }
+
+    /**
+     * Método que retorna uma descrição escrita do estado encomenda
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "EstadoEncomenda{" + "idEstadoEncomenda=" + idEstadoEncomenda + ", designacao=" + designacao + ", estado=" + estado + '}';
+    }
+    
+    
 }

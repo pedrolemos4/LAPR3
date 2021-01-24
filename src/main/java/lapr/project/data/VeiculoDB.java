@@ -87,13 +87,13 @@ public class VeiculoDB extends DataHandler {
     }
 
     private boolean validaDrone(Drone drone) {
-        return !(drone.getPowerPro() < 0);
+        return !(drone.getLargura() < 0);
     }
 
     public void addDrone(Drone drone) throws SQLException {
         try ( CallableStatement callStmt = getConnection().prepareCall("{ call addDrone(?,?) }")) {
             callStmt.setInt(1, drone.getId());
-            callStmt.setDouble(2, drone.getPowerPro());
+            callStmt.setDouble(2, drone.getLargura());
             callStmt.execute();
             try {
 

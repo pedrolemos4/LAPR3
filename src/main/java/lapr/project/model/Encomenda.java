@@ -155,6 +155,11 @@ public class Encomenda {
         this.estado = estado;
     }
 
+    /**
+     * Compara o objeto o com a instância criada da Encomenda
+     * @param o
+     * @return 
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -170,14 +175,23 @@ public class Encomenda {
                 estado.equals(encomenda.estado);
     }
 
+    /**
+     * Retorna o hashCode da encomenda
+     * @return 
+     */
     @Override
     public int hashCode() {
         return Objects.hash(dataPedida, preco, pesoEncomenda, taxa, nifCliente, nifFarmacia, estado, id);
     }
 
+    /**
+     * Método que retorna uma descrição escrita de uma encomenda
+     *
+     * @return
+     */
     @Override
     public String toString() {
-        return "Encomenda{" + "dataPedida=" + dataPedida + ", preco=" + preco + ", pesoEncomenda=" + pesoEncomenda + ", taxa=" + taxa + ", nifCliente=" + nifCliente + ", nifFarmacia=" + nifFarmacia + ", estado=" + estado + ", id=" + id + '}';
+        return "Encomenda{" + "dataPedida=" + dataPedida + ", preco=" + preco + ", pesoEncomenda=" + pesoEncomenda + ", taxa=" + taxa + ", nifCliente=" + nifCliente + ", nifFarmacia=" + nifFarmacia + ", estado=" + estado.getDesignacao() + ", id=" + id + '}';
     }
     
     

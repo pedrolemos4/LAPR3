@@ -34,22 +34,41 @@ public class Scooter extends Veiculo {
         this.id = id;
     }
 
+    /**
+     * Cria instância da Scooter com o veiculo ve e o id
+     *
+     * @param ve
+     * @param id
+     */
     public Scooter(Veiculo ve, int id) {
         super(ve);
         this.id = id;
     }
 
-    public Scooter(int id){
-        this.id=id;
+    /**
+     * Controi uma instância da Scooter apenas com o id
+     *
+     * @param id
+     */
+    public Scooter(int id) {
+        this.id = id;
     }
-    
+
+    /**
+     * Devolve o id da scooter
+     *
+     * @return
+     */
     @Override
-    public int getId(){
+    public int getId() {
         return this.id;
     }
-    
 
-
+    /**
+     * Método que retorna uma descrição escrita de uma scooter
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return super.toString()
