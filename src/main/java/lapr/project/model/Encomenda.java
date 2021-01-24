@@ -24,13 +24,25 @@ public class Encomenda {
      */
     public Encomenda(int nifCliente, int nifFarmacia, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) {
         this.nifCliente=nifCliente;
-        this.nifFarmacia = nifFarmacia;
         this.dataPedida = dataPedida;
         this.preco = preco;
         this.pesoEncomenda = pesoEncomenda;
         this.taxa = taxa;
         this.estado = new EstadoEncomenda(estado);
         this.nifFarmacia = nifFarmacia;
+    }
+    
+    /**
+     * Constroi uma instancia de Encomenda vazia
+     */
+    public Encomenda() {
+        this.nifCliente=0;
+        this.dataPedida = null;
+        this.preco = 0;
+        this.pesoEncomenda = 0;
+        this.taxa = 0;
+        this.estado = new EstadoEncomenda();
+        this.nifFarmacia = 0;
     }
 
     /**
