@@ -2,7 +2,8 @@
 skinparam classAttributeIconSize 0
 
 class FarmaciaDB {
-    +getFarmaciaProximaByCliente(nif)
+    +generateGrafo()
+    +getFarmaciaProxima(graph, enderecoCliente)
 }
 
 class Farmacia {
@@ -13,7 +14,8 @@ class Farmacia {
 }
 
 class PedirItemFarmaciaController {
-    +getFarmaciaProximaByCliente(nif)
+    +generateGrafo()
+    +getFarmaciaProxima(graph,end)
 }
 
 class RealizarEncomendaUI {

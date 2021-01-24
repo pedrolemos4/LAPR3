@@ -13,27 +13,24 @@ class Encomenda {
   -idEncomenda
   -dataPedida
   -preco
+  -pesoEncomenda
+  -taxa
 }
 
 class Farmacia {
   -NIF
   -email
-  -morada
 }
 
 class Endereco {
   -morada
+  -latitude
+  -longitude
+  -altitude
 }
 
 class Cliente {
-  -numeroCartaoCredito
-  -dataDeValidade
-  -CCV
-  -NIF
-  -nome
-  -email
-  -numeroSegurancaSocial
-  -password
+  -creditos
 }
 
 class Produto {
@@ -45,7 +42,7 @@ class Produto {
 
 
 Cliente "1" -- "1" Endereco: tem >
-Cliente "1" -- "*" Encomenda: realiza e paga >~
+Cliente "1" -- "*" Encomenda: realiza e paga >
 Entrega "1" -- "*" Encomenda : possui >
 Farmacia "1" -- "*" Produto: tem >
 Encomenda "1" -- "*" Produto: tem >
