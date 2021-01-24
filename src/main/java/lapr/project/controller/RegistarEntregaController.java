@@ -2,6 +2,8 @@ package lapr.project.controller;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
@@ -175,10 +177,10 @@ public class RegistarEntregaController {
     
     /**
      * Devolve um grafo da scooter recebendo por parametro uma lista de endereços, o estafeta, o veiculo e o pesoTotal
-     * @param listEnderecos lista de endereços dos clientes que fizeram encomendas relativas à entrega
+     * @param listEnderecos lista de endereços
+     * @param listEnderecosEncomenda lista de endereços dos clientes que fizeram encomendas relativas à entrega
      * @param est estafeta associado à entrega
      * @param veiculo veiculo associado à entrega
-     * @param atributo atributo do veiculo
      * @param pesoTotal peso total da entrega
      * @return 
      */
@@ -188,7 +190,8 @@ public class RegistarEntregaController {
     
      /**
      * Devolve um grafo da scooter recebendo por parametro uma lista de endereços, o estafeta, o veiculo e o pesoTotal
-     * @param listEnderecos lista de endereços dos clientes que fizeram encomendas relativas à entrega
+     * @param listEnderecos lista de endereços
+     * @param listEnderecosEncomenda lista de endereços dos clientes que fizeram encomendas relativas à entrega
      * @param est estafeta associado à entrega
      * @param veiculo veiculo associado à entrega
      * @param atributo atributo do veiculo
@@ -206,10 +209,11 @@ public class RegistarEntregaController {
      * @param finalShortPath lista de endereços presentes no caminho com custo de energia mais baixo
      * @param origem endereço de origem
      * @param energia a energia inicial
+     * @param v veiculo usado no percurso
      * @return energia gasta no percurso
      */
-    public double getPath(Graph<Endereco, Double> graph, List<Endereco> listEnderecos, List<Endereco> finalShortPath, Endereco origem, double energia) {
-        return entregaDB.getPath(graph, listEnderecos, finalShortPath, origem, energia);
+    public double getPath(Graph<Endereco, Double> graph, ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia, Veiculo v) {
+        return entregaDB.getPath(graph, listEnderecos, finalShortPath, origem, energia, v);
     }
     
     /**

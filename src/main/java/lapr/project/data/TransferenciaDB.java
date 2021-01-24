@@ -22,12 +22,8 @@ public class TransferenciaDB extends DataHandler {
      * @return
      */
     public boolean realizaPedido(Farmacia fOrig, Farmacia fDest, Produto produto, int quantidade) {
-        System.out.println("1");
         addTransferencia(fOrig.getNIF(), fDest.getNIF(), produto.getId(), quantidade, 1);
-        System.out.println("2");
         enviarStock(fOrig, fDest, produto, quantidade);
-        System.out.println("3");
-
         return true;
     }
 
@@ -45,15 +41,12 @@ public class TransferenciaDB extends DataHandler {
             openConnection();
 
             try (CallableStatement callStmt = getConnection().prepareCall("{ call addTransferencia(?,?,?,?,?) }")) {
-
                 callStmt.setInt(1, idRem);
                 callStmt.setInt(2, idDes);
                 callStmt.setInt(3, idProd);
                 callStmt.setInt(4, qtd);
                 callStmt.setInt(5, estado);
-                System.out.println("exec before");
                 callStmt.execute();
-                System.out.println("exec after");
             }
             closeAll();
 
@@ -74,35 +67,28 @@ public class TransferenciaDB extends DataHandler {
     public boolean enviarStock(Farmacia fOrig, Farmacia fDest, Produto produto, int quantidade) {
         Map<Produto, Integer> stockFarmOrig = pdb.getLista(fOrig.getNIF());
         Map<Produto, Integer> stockFarmDest = pdb.getLista(fDest.getNIF());
-        System.out.println("ENTRASTE?");
+
         if (stockFarmOrig.containsKey(produto) && stockFarmOrig.get(produto) >= quantidade) {
-            System.out.println("4");
             if (!stockFarmDest.containsKey(produto)) {
-                System.out.println("5");
                 stockFarmDest.put(produto, 0);
                 stockFarmDest.put(produto, quantidade);
                 pdb.addProdutoStock(fDest.getNIF(), produto.getId(), stockFarmDest.get(produto));
             } else {
-                System.out.println("6");
                 stockFarmDest.replace(produto, stockFarmDest.get(produto) + quantidade);
                 pdb.atualizarStock(fDest.getNIF(), produto.getId(), stockFarmDest.get(produto));
             }
-            System.out.println("7");
             stockFarmOrig.replace(produto, stockFarmOrig.get(produto) - quantidade);
             pdb.atualizarStock(fOrig.getNIF(), produto.getId(), stockFarmOrig.get(produto));
-            System.out.println("8");
             return true;
 
         }
 
         if (stockFarmOrig.containsKey(produto) && stockFarmOrig.get(produto) < quantidade) {
             if (!stockFarmDest.containsKey(produto)) {
-                System.out.println("9");
                 stockFarmDest.put(produto, 0);
                 stockFarmDest.put(produto, stockFarmOrig.get(produto));
                 pdb.addProdutoStock(fDest.getNIF(), produto.getId(), stockFarmDest.get(produto));
             } else {
-                System.out.println("10");
                 stockFarmDest.replace(produto, stockFarmDest.get(produto) + stockFarmOrig.get(produto));
                 pdb.atualizarStock(fDest.getNIF(), produto.getId(), stockFarmDest.get(produto));
             }

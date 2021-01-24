@@ -63,16 +63,10 @@ public class RealizarEncomendaUI {
         Graph<Endereco, Double> graph = new Graph<>(true);
         graph = controller2.generateGrafo(graph);
 
-        System.out.println(graph.toString());
-
         Farmacia farm = controller2.getFarmaciaProxima(graph, enderecoCliente, new ArrayList<>());
         int nif = farm.getNIF();
 
-//        int nif1Farmacia = nif;
-        boolean bool = true;
-
-        System.out.println("FARMACIA MAIS PERTO CLIENTE: " + nif);
-        while (bool) {
+        while (true) {
 
             int idInserido = LER.nextInt();
 
@@ -105,11 +99,8 @@ public class RealizarEncomendaUI {
                     Map<Produto, Integer> listStockFarmacias = controller.getListStock(farmaciaSeguinte);
 
                     if (listStockFarmacias.containsKey(prod) && listStockFarmacias.get(prod) >= qntd) {
-                        System.out.println("If 1.");
-                        System.out.println(" 101 FarmaciaSeguinte: " + controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail() + " nifNextFarmacia: " + controller2.getFarmaciaByNIF(nif).getEmail());
                         controller.produtoEncomenda(farmaciaSeguinte, prod, qntd);
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nif), prod, qntd);
-                        System.out.println(" 102 FarmaciaSeguinte: " + controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail() + " nifNextFarmacia: " + controller2.getFarmaciaByNIF(nif).getEmail());
                         controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nif), prod, qntd);
                         controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail(), controller2.getFarmaciaByNIF(nif).getEmail());
                         qntd = 0;
@@ -117,17 +108,11 @@ public class RealizarEncomendaUI {
                     }
 
                     if (listStockFarmacias.containsKey(prod) && listStockFarmacias.get(prod) < qntd) {
-                        System.out.println("If 2.");
-
                         controller.produtoEncomenda(farmaciaSeguinte, prod, listStockFarmacias.get(prod));
                         controller2.realizaPedido(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nif), prod, qntd);
                         controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nif), prod, qntd);
                         controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail(), controller2.getFarmaciaByNIF(nif).getEmail());
                         qntd = qntd - listStockFarmacias.get(prod);
-                    }
-
-                    if (!listStockFarmacias.containsKey(prod)) {
-                        System.out.println("If 3.");
                     }
                 }
                 if (qntd > 0) {
@@ -187,10 +172,6 @@ public class RealizarEncomendaUI {
             Map<Produto, Integer> stock = controller.getListStock(nif);
 
             for (Produto p1 : mapaEncomenda.keySet()) {
-                System.out.println("Produtos: " + p1);
-                System.out.println("Nif: " + nif);
-                System.out.println("MapaEncomenda: " + mapaEncomenda.get(p1));
-                System.out.println("Stock: " + stock.get(p1));
                 controller.removerProdutosEncomenda(p1, nif, mapaEncomenda.get(p1), stock.get(p1));
             }
 
