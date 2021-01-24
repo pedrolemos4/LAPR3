@@ -5,6 +5,7 @@ import lapr.project.model.Estacionamento;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Parque;
 import lapr.project.model.Veiculo;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +25,8 @@ class EstacionamentoControllerTest {
     private ParqueDB parqueDB;
     private EstacionamentoController instance;
     private EstafetaDB estafetaDB;
+    private String path;
+    private String pathReserve;
 
     @BeforeEach
     void setUp() {
@@ -37,6 +40,8 @@ class EstacionamentoControllerTest {
 
     @Test
     void getDiretory() {
+        path = null;
+        pathReserve = null;
         instance = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB(),new EstafetaDB());
         System.out.println("getDiretory()");
         String expected = "estimate_1.data";
@@ -45,6 +50,8 @@ class EstacionamentoControllerTest {
 
     @Test
     void getDiretoryNull() {
+        path = null;
+        pathReserve = null;
         instance = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB(),new EstafetaDB());
         System.out.println("getDiretoryNull()");
         assertNull(instance.getDiretory("src/main/java/lapr/project/parking/teste/casos testes unitários JAVA/getDirectoryNull"));
@@ -58,7 +65,8 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "scooter", 20);
-        String path = "src/main/java/lapr/project/parking/teste/checkParkingsTrue";
+        path = "src/main/java/lapr/project/parking/teste/checkParkingsTrue";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/checkParkingsTrue";
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
@@ -73,21 +81,12 @@ class EstacionamentoControllerTest {
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
         assertTrue(instance.checkParkings(path));
 
-        new File(path + "/estimate_1.data").createNewFile();
-        new File(path + "/estimate_1.data.flag").createNewFile();
-
-        File file = new File(path + "/estimate_1.data");
-        File fileflag = new File(path + "/estimate_1.data.flag");
-
-        File file1 = new File("src/main/java/lapr/project/parking/teste/reserve/checkParkingsTrue/estimate_1.data");
-        File fileflag1 = new File("src/main/java/lapr/project/parking/teste/reserve/checkParkingsTrue/estimate_1.data.flag");
-
-        copyContent(file1,file);
-        copyContent(fileflag1, fileflag);
     }
 
     @Test
     void checkParkingsFalse() throws FileNotFoundException {
+        path = null;
+        pathReserve = null;
         System.out.println("checkParkingsFalse()");
         assertFalse(instance.checkParkings("src/main/java/lapr/project/parking/teste/casos testes unitários JAVA/getDirectoryNull"));
     }
@@ -101,7 +100,10 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "scooter", 20);
-        String path = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada/estimate_1.data";
+        path = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateScooterMalEstacionada";
+
+        String pathtest = path + "/estimate_1.data";
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
@@ -114,9 +116,9 @@ class EstacionamentoControllerTest {
         String mensagem = "A scooter foi estacionada sem sucesso, tente novamente.";
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
 
-        assertTrue(instance.simulateParkingVeiculo(path));
+        assertTrue(instance.simulateParkingVeiculo(pathtest));
 
-        new File(path).createNewFile();
+        /*new File(path).createNewFile();
         new File(path + ".flag").createNewFile();
 
         File file = new File(path);
@@ -125,7 +127,7 @@ class EstacionamentoControllerTest {
         File fileflag1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateScooterMalEstacionada/estimate_1.data.flag");
 
         copyContent(file1,file);
-        copyContent(fileflag1, fileflag);
+        copyContent(fileflag1, fileflag);*/
     }
 
     //Tipo de parque diferente de scooter
@@ -137,7 +139,10 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "drone", 20);
-        String path = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada/estimate_1.data";
+        path = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateScooterMalEstacionada";
+
+        String pathtest = path + "/estimate_1.data";
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
@@ -146,9 +151,9 @@ class EstacionamentoControllerTest {
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
         when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
-        assertFalse(instance.simulateParkingVeiculo(path));
+        assertFalse(instance.simulateParkingVeiculo(pathtest));
 
-        new File(path).createNewFile();
+        /*new File(path).createNewFile();
         new File(path + ".flag").createNewFile();
 
         File file = new File(path);
@@ -157,7 +162,7 @@ class EstacionamentoControllerTest {
         File fileflag1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateScooterMalEstacionada/estimate_1.data.flag");
 
         copyContent(file1,file);
-        copyContent(fileflag1, fileflag);
+        copyContent(fileflag1, fileflag);*/
     }
 
     //Parque sem carregador
@@ -169,7 +174,10 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         Parque parque = new Parque(0, 1, 1, "scooter", 20);
-        String path = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada/estimate_1.data";
+        path = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateScooterMalEstacionada";
+
+        String pathtest = path + "/estimate_1.data";
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
@@ -178,9 +186,9 @@ class EstacionamentoControllerTest {
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
         when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
-        assertFalse(instance.simulateParkingVeiculo(path));
+        assertFalse(instance.simulateParkingVeiculo(pathtest));
 
-        new File(path).createNewFile();
+        /*new File(path).createNewFile();
         new File(path + ".flag").createNewFile();
 
         File file = new File(path);
@@ -189,7 +197,7 @@ class EstacionamentoControllerTest {
         File fileflag1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateScooterMalEstacionada/estimate_1.data.flag");
 
         copyContent(file1,file);
-        copyContent(fileflag1, fileflag);
+        copyContent(fileflag1, fileflag);*/
     }
 
     //Estimativa = -1, falta de .flag
@@ -201,7 +209,10 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "drone", 20);
-        String path = "src/main/java/lapr/project/parking/teste/simulateDroneMalEstacionado/estimate_1.data";
+        path = "src/main/java/lapr/project/parking/teste/simulateDroneMalEstacionado";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateDroneMalEstacionado";
+
+        String pathtest = path + "/estimate_1.data";
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
@@ -214,9 +225,9 @@ class EstacionamentoControllerTest {
         String mensagem = "O drone " + 1 + " foi acoplado sem sucesso.";
         when(emailDB.sendEmail("admlapr123@gmail.com","admlapr123@gmail.com" , assunto, mensagem)).thenReturn(true);
 
-        assertTrue(instance.simulateParkingVeiculo(path));
+        assertTrue(instance.simulateParkingVeiculo(pathtest));
 
-        new File(path).createNewFile();
+        /*new File(path).createNewFile();
         new File(path + ".flag").createNewFile();
 
         File file = new File(path);
@@ -225,7 +236,7 @@ class EstacionamentoControllerTest {
         File fileflag1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateDroneMalEstacionado/estimate_1.data.flag");
 
         copyContent(file1,file);
-        copyContent(fileflag1, fileflag);
+        copyContent(fileflag1, fileflag);*/
     }
 
     //Tipo de parque diferente de drone
@@ -237,7 +248,10 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "scooter", 20);
-        String path = "src/main/java/lapr/project/parking/teste/simulateDroneMalEstacionado/estimate_1.data";
+        path = "src/main/java/lapr/project/parking/teste/simulateDroneMalEstacionado";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateDroneMalEstacionado";
+
+        String pathtest = path + "/estimate_1.data";
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
@@ -246,9 +260,9 @@ class EstacionamentoControllerTest {
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
         when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
-        assertFalse(instance.simulateParkingVeiculo(path));
+        assertFalse(instance.simulateParkingVeiculo(pathtest));
 
-        new File(path).createNewFile();
+        /*new File(path).createNewFile();
         new File(path + ".flag").createNewFile();
 
         File file = new File(path);
@@ -257,7 +271,7 @@ class EstacionamentoControllerTest {
         File fileflag1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateDroneMalEstacionado/estimate_1.data.flag");
 
         copyContent(file1,file);
-        copyContent(fileflag1, fileflag);
+        copyContent(fileflag1, fileflag);*/
     }
 
     //Parque sem carregador
@@ -269,7 +283,10 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         Parque parque = new Parque(0, 1, 1, "drone", 20);
-        String path = "src/main/java/lapr/project/parking/teste/simulateDroneMalEstacionado/estimate_1.data";
+        path = "src/main/java/lapr/project/parking/teste/simulateDroneMalEstacionado";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateDroneMalEstacionado";
+
+        String pathtest = path + "/estimate_1.data";
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
@@ -278,9 +295,9 @@ class EstacionamentoControllerTest {
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
         when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
-        assertFalse(instance.simulateParkingVeiculo(path));
+        assertFalse(instance.simulateParkingVeiculo(pathtest));
 
-        new File(path).createNewFile();
+        /*new File(path).createNewFile();
         new File(path + ".flag").createNewFile();
 
         File file = new File(path);
@@ -289,7 +306,7 @@ class EstacionamentoControllerTest {
         File fileflag1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateDroneMalEstacionado/estimate_1.data.flag");
 
         copyContent(file1,file);
-        copyContent(fileflag1, fileflag);
+        copyContent(fileflag1, fileflag);*/
     }
 
     //Estimativa 2 horas
@@ -301,7 +318,10 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "scooter", 20);
-        String path = "src/main/java/lapr/project/parking/teste/simulateScooterBemEstacionada/estimate_1.data";
+        path = "src/main/java/lapr/project/parking/teste/simulateScooterBemEstacionada";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateScooterBemEstacionada";
+
+        String pathtest = path + "/estimate_1.data";
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
@@ -315,9 +335,9 @@ class EstacionamentoControllerTest {
         String mensagem = "A scooter foi estacionada com sucesso, com uma estimativa de cerca de 2 horas até estar completamente carregada.";
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
 
-        assertTrue(instance.simulateParkingVeiculo(path));
+        assertTrue(instance.simulateParkingVeiculo(pathtest));
 
-        new File(path).createNewFile();
+        /*new File(path).createNewFile();
         new File(path + ".flag").createNewFile();
 
         File file = new File(path);
@@ -326,7 +346,7 @@ class EstacionamentoControllerTest {
         File fileflag1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateScooterBemEstacionada/estimate_1.data.flag");
 
         copyContent(file1,file);
-        copyContent(fileflag1, fileflag);
+        copyContent(fileflag1, fileflag);*/
     }
 
     //Estimativa 2 horas
@@ -338,7 +358,10 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 1, 0);
         Parque parque = new Parque(0, 1, 1, "drone", 20);
-        String path = "src/main/java/lapr/project/parking/teste/simulateDroneBemEstacionado/estimate_1.data";
+        path = "src/main/java/lapr/project/parking/teste/simulateDroneBemEstacionado";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateDroneBemEstacionado";
+
+        String pathtest = path + "/estimate_1.data";
 
         when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
         when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
@@ -352,9 +375,9 @@ class EstacionamentoControllerTest {
         String mensagem = "O drone 1 foi acoplado com sucesso, com uma estimativa de cerca de 2 horas até estar completamente carregado.";
         when(emailDB.sendEmail("admlapr123@gmail.com", "admlapr123@gmail.com", assunto, mensagem)).thenReturn(true);
 
-        assertTrue(instance.simulateParkingVeiculo(path));
+        assertTrue(instance.simulateParkingVeiculo(pathtest));
 
-        new File(path).createNewFile();
+        /*new File(path).createNewFile();
         new File(path + ".flag").createNewFile();
 
         File file = new File(path);
@@ -363,13 +386,15 @@ class EstacionamentoControllerTest {
         File fileflag1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateDroneBemEstacionado/estimate_1.data.flag");
 
         copyContent(file1,file);
-        copyContent(fileflag1, fileflag);
+        copyContent(fileflag1, fileflag);*/
     }
 
     //Notifica estafeta da scooter bem estacionada
     @Test
     void notificaEstafeta1() {
         System.out.println("notificaEstafeta1()");
+        path = null;
+        pathReserve = null;
         String email = "admlapr123@gmail.com";
         String assunto = "Estacionamento Scooter";
         String mensagem = "A scooter foi estacionada com sucesso, com uma estimativa de cerca de " + 3 + " horas até estar completamente carregada.";
@@ -383,6 +408,8 @@ class EstacionamentoControllerTest {
     @Test
     void notificaEstafeta2() {
         System.out.println("notificaEstafeta2()");
+        path = null;
+        pathReserve = null;
         String email = "admlapr123@gmail.com";
         String assunto = "Estacionamento Scooter";
         String mensagem = "A scooter foi estacionada sem sucesso, tente novamente.";
@@ -396,6 +423,8 @@ class EstacionamentoControllerTest {
     @Test
     void notificaEstafeta3() {
         System.out.println("notificaEstafeta3()");
+        path = null;
+        pathReserve = null;
         String email = "admlapr123@gmail.com";
         String assunto = "Estacionamento Scooter";
         String mensagem = "A scooter foi estacionada sem sucesso, tente novamente.";
@@ -409,6 +438,8 @@ class EstacionamentoControllerTest {
     @Test
     void notificaAdministrador1() {
         System.out.println("notificaAdministrador2()");
+        path = null;
+        pathReserve = null;
         String email = "admlapr123@gmail.com";
         String assunto = "Acoplagem Drone";
         String mensagem = "O drone 1 foi acoplado com sucesso, com uma estimativa de cerca de 3 horas até estar completamente carregado.";
@@ -421,6 +452,8 @@ class EstacionamentoControllerTest {
     @Test
     void notificaAdministrador2() {
         System.out.println("notificaAdministrador2()");
+        path = null;
+        pathReserve = null;
         String email = "admlapr123@gmail.com";
         String assunto = "Acoplagem Drone";
         String mensagem = "O drone 1 foi acoplado sem sucesso.";
@@ -433,6 +466,8 @@ class EstacionamentoControllerTest {
     @Test
     void notificaAdministrador3() {
         System.out.println("notificaAdministrador3()");
+        path = null;
+        pathReserve = null;
         String email = "admlapr123@gmail.com";
         String assunto = "Acoplagem Drone";
         String mensagem = "O drone 1 foi acoplado sem sucesso.";
@@ -440,6 +475,23 @@ class EstacionamentoControllerTest {
         when(emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem)).thenReturn(false);
 
         assertFalse(instance.notificaAdministrador(false, 3, 1));
+    }
+
+    @AfterEach
+    void afterUp() throws Exception {
+        if(path != null && pathReserve != null) {
+            new File(path + "/estimate_1.data").createNewFile();
+            new File(path + "/estimate_1.data.flag").createNewFile();
+
+            File file = new File(path + "/estimate_1.data");
+            File fileflag = new File(path + "/estimate_1.data.flag");
+
+            File file1 = new File(pathReserve + "/estimate_1.data");
+            File fileflag1 = new File(pathReserve + "/estimate_1.data.flag");
+
+            copyContent(file1, file);
+            copyContent(fileflag1, fileflag);
+        }
     }
 
     public static void copyContent(File a, File b)

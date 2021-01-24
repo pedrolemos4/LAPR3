@@ -69,6 +69,8 @@ public class EstacionamentoController {
         File newFileFlag = new File(path + ".flag");
         Scanner scan = new Scanner(newFile);
 
+        System.out.println(path);
+
         String line = scan.nextLine();
 
         scan.close();
