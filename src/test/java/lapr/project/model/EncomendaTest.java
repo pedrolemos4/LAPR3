@@ -469,6 +469,19 @@ class EncomendaTest {
      * Test of equals method, of class Encomenda.
      */
     @Test
+    public void testEquals10() {
+        System.out.println("equals10");
+        Produto p = new Produto();
+        Encomenda instance1 = new Encomenda(123456789,13,"01-02-2000",10,10,10, 2);
+        boolean expResult = false;
+        boolean result = instance1.equals(p);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of equals method, of class Encomenda.
+     */
+    @Test
     public void testEquals11() {
         System.out.println("equals11");
         Object outroObjeto = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
@@ -477,6 +490,27 @@ class EncomendaTest {
         boolean expResult = false;
         boolean result = instance1.getDataPedida().equals(o.getDataPedida())
                 && instance1.getEstado() == o.getEstado()
+                && instance1.getId() == o.getId()
+                && instance1.getNif() == o.getNif()
+                && instance1.getNifFarmacia() == o.getNifFarmacia()
+                && Double.compare(instance1.getPesoEncomenda(), o.getPesoEncomenda()) == 0
+                && Double.compare(instance1.getTaxa(), o.getTaxa()) == 0
+                && Double.compare(instance1.getPreco(), o.getPreco()) == 0;
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of equals method, of class Encomenda.
+     */
+    @Test
+    public void testEquals12() {
+        System.out.println("equals12");
+        Object outroObjeto = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
+        Encomenda instance1 = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
+        Encomenda o = (Encomenda) outroObjeto;
+        boolean expResult = true;
+        boolean result = instance1.getDataPedida().equals(o.getDataPedida())
+                && instance1.getEstado().getEstado() == o.getEstado().getEstado()
                 && instance1.getId() == o.getId()
                 && instance1.getNif() == o.getNif()
                 && instance1.getNifFarmacia() == o.getNifFarmacia()

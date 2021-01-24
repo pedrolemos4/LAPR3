@@ -177,9 +177,10 @@ public class Encomenda {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Encomenda encomenda = (Encomenda) o;
-        return Double.compare(encomenda.preco, preco) == 0 &&
-                Double.compare(encomenda.pesoEncomenda, pesoEncomenda) == 0 &&
-                Double.compare(encomenda.taxa, taxa) == 0 &&
+        int a = Double.compare(encomenda.preco, preco);
+        int b = Double.compare(encomenda.pesoEncomenda, pesoEncomenda);
+        int c = Double.compare(encomenda.taxa, taxa);
+        return a == 0 && b == 0 && c == 0 &&
                 nifCliente == encomenda.nifCliente &&
                 nifFarmacia == encomenda.nifFarmacia &&
                 id == encomenda.id &&
@@ -191,7 +192,7 @@ public class Encomenda {
      * Retorna o hashCode da encomenda
      * @return 
      */
-    @Override
+    @Override    
     public int hashCode() {
         return Objects.hash(dataPedida, preco, pesoEncomenda, taxa, nifCliente, nifFarmacia, estado, id);
     }
