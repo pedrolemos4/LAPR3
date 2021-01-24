@@ -143,7 +143,7 @@ public class RegistarEntregaUI {
                             System.out.println("4444444444");
                         }
                         Drone d = controller.getDroneById(v.getId());
-                        graphDrone = controller.generateGraphDrone(listEnderecosDrone, new ArrayList<>(listEnderecos), est, v, d.getPowerPro(), pesoEntrega);
+                        graphDrone = controller.generateGraphDrone(listEnderecosDrone, new ArrayList<>(listEnderecos), est, v, d.getLargura(), pesoEntrega);
                         if (listEnderecos.isEmpty()) {
                             System.out.println("55555555555555");
                         }

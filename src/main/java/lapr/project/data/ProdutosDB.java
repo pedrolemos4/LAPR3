@@ -201,7 +201,7 @@ public class ProdutosDB extends DataHandler {
             callStmt.setInt(2, idProduto);
             callStmt.setInt(3, quantidade);
             System.out.println("ANTES DO EXEC");
-            callStmt.execute();
+            System.out.println("jkejkfjkn" + callStmt.execute());
             System.out.println("DEPOIS DO EXEC");
             removed = true;
             try {
