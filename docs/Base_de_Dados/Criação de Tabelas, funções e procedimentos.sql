@@ -61,20 +61,20 @@ CREATE TABLE "LAPR3_G23".veiculo
             pesoveiculo number(5,2) NOT NULL,
             potencia number(10,2) NOT NULL,
             Estadoveiculoid number(10) NOT NULL, 
+            areaFrontal number(5,2) NOT NULL,
             PRIMARY KEY (idveiculo)
 );
 /
 
 CREATE TABLE "LAPR3_G23".drone
 (           idDrone number(10),
-            powerPro number(5,2),
+            largura number(5,2),
             PRIMARY KEY (idDrone)
 );
 /
 
 CREATE TABLE "LAPR3_G23".scooter
 (           idScooter number(10),
-            areaFrontal number(5,2),
             PRIMARY KEY (idScooter)
 );
 /
@@ -115,6 +115,7 @@ CREATE TABLE "LAPR3_G23".Entrega
             veiculoid number(10) NOT NULL, 
             dataInicio timestamp NOT NULL, 
             dataFim timestamp NOT NULL, 
+            pesoEntrega number(5,2) NOT NULL,
             PRIMARY KEY (idEntrega)
 );
 /
@@ -456,14 +457,15 @@ END;
 
 
 
-CREATE OR REPLACE FUNCTION addEntrega(p_EstafetaUtilizadorNIF "LAPR3_G23".entrega.EstafetaUtilizadorNIF%type,
-p_veiculoid "LAPR3_G23".entrega.veiculoid%type, p_dataInicio "LAPR3_G23".entrega.dataInicio%type, p_datafim "LAPR3_G23".entrega.dataFim%type)
+create or replace FUNCTION addEntrega(p_EstafetaUtilizadorNIF "LAPR3_G23".entrega.EstafetaUtilizadorNIF%type,
+p_veiculoid "LAPR3_G23".entrega.veiculoid%type, p_dataInicio "LAPR3_G23".entrega.dataInicio%type, p_datafim "LAPR3_G23".entrega.dataFim%type
+,p_pesoEntrega "LAPR3_G23".entrega.pesoEntrega%type)
 RETURN INTEGER
 IS
 v_idEntrega INTEGER;
     BEGIN
-        INSERT INTO "LAPR3_G23".entrega(EstafetaUtilizadorNIF,veiculoid,dataInicio,dataFim)
-        VALUES(p_EstafetaUtilizadorNIF,p_veiculoid,p_dataInicio,p_datafim);
+        INSERT INTO "LAPR3_G23".entrega(EstafetaUtilizadorNIF,veiculoid,dataInicio,dataFim,pesoEntrega)
+        VALUES(p_EstafetaUtilizadorNIF,p_veiculoid,p_dataInicio,p_datafim, p_pesoEntrega);
         SELECT "LAPR3_G23".entrega.idEntrega INTO v_idEntrega
         FROM "LAPR3_G23".entrega
         WHERE "LAPR3_G23".entrega.EstafetaUtilizadorNIF = p_EstafetaUtilizadorNIF;
@@ -600,15 +602,16 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE Function addveiculo(p_descricao "LAPR3_G23".veiculo.descricao%type,p_capacidade "LAPR3_G23".veiculo.capacidade%type,
+create or replace Function addveiculo(p_descricao "LAPR3_G23".veiculo.descricao%type,p_capacidade "LAPR3_G23".veiculo.capacidade%type,
 percentagemBateria "LAPR3_G23".veiculo.percentagemBateria%type, pesoMaximo "LAPR3_G23".veiculo.pesoMaximo%type, 
-pesoveiculo "LAPR3_G23".veiculo.pesoveiculo%type,potencia "LAPR3_G23".veiculo.potencia%type,estadoveiculoId "LAPR3_G23".veiculo.estadoveiculoId%type)
+pesoveiculo "LAPR3_G23".veiculo.pesoveiculo%type,potencia "LAPR3_G23".veiculo.potencia%type,estadoveiculoId "LAPR3_G23".veiculo.estadoveiculoId%type,
+p_areaFrontal "LAPR3_G23".veiculo.areaFrontal%type)
 RETURN INTEGER
 IS
 v_idveiculo INTEGER;
     BEGIN
-        INSERT INTO "LAPR3_G23".veiculo(descricao, capacidade,percentagemBateria,pesoMaximo,pesoveiculo,potencia,Estadoveiculoid)
-        VALUES(p_descricao,p_capacidade,percentagemBateria, pesoMaximo, pesoveiculo, potencia, estadoveiculoId);
+        INSERT INTO "LAPR3_G23".veiculo(descricao, capacidade,percentagemBateria,pesoMaximo,pesoveiculo,potencia,Estadoveiculoid, areaFrontal)
+        VALUES(p_descricao,p_capacidade,percentagemBateria, pesoMaximo, pesoveiculo, potencia, estadoveiculoId, p_areaFrontal);
         SELECT "LAPR3_G23".veiculo.idveiculo INTO v_idveiculo
         FROM "LAPR3_G23".veiculo
         --WHERE "LAPR3_G23".veiculo.descricao = p_descricao
@@ -688,33 +691,34 @@ END;
 /
 
 
-CREATE OR REPLACE PROCEDURE updateVeiculo(p_id "LAPR3_G23".veiculo.idveiculo%type,p_descricao "LAPR3_G23".veiculo.descricao%type,
+create or replace PROCEDURE updateVeiculo(p_id "LAPR3_G23".veiculo.idveiculo%type,p_descricao "LAPR3_G23".veiculo.descricao%type,
 p_capacidade "LAPR3_G23".veiculo.capacidade%type,p_pb "LAPR3_G23".veiculo.percentagemBateria%type,p_pm "LAPR3_G23".veiculo.pesoMaximo%type,
-p_ps "LAPR3_G23".veiculo.pesoveiculo%type,p_pot "LAPR3_G23".veiculo.potencia%type,p_eS "LAPR3_G23".veiculo.estadoveiculoid%type) 
+p_ps "LAPR3_G23".veiculo.pesoveiculo%type,p_pot "LAPR3_G23".veiculo.potencia%type,p_eS "LAPR3_G23".veiculo.estadoveiculoid%type,
+p_areaFrontal "LAPR3_G23".veiculo.areaFrontal%type) 
 AS
 BEGIN
   UPDATE "LAPR3_G23".veiculo SET "LAPR3_G23".veiculo.descricao = p_descricao,"LAPR3_G23".veiculo.capacidade = p_capacidade,
   "LAPR3_G23".veiculo.percentagemBateria=p_pm,"LAPR3_G23".veiculo.pesoMaximo = p_pm,"LAPR3_G23".veiculo.pesoveiculo = p_ps,
-  "LAPR3_G23".veiculo.potencia = p_pot,"LAPR3_G23".veiculo.estadoveiculoId = p_eS
+  "LAPR3_G23".veiculo.potencia = p_pot,"LAPR3_G23".veiculo.estadoveiculoId = p_eS, "LAPR3_G23".veiculo.areaFrontal = p_areaFrontal
  WHERE "LAPR3_G23".veiculo.idveiculo = p_id;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE updateDrone(p_id "LAPR3_G23".drone.idDrone%type,p_power "LAPR3_G23".drone.powerPro%type) 
+CREATE OR REPLACE PROCEDURE updateDrone(p_id "LAPR3_G23".drone.idDrone%type,p_largura "LAPR3_G23".drone.largura%type) 
 AS
 BEGIN
-  UPDATE "LAPR3_G23".drone SET "LAPR3_G23".drone.powerPro = p_power
+  UPDATE "LAPR3_G23".drone SET "LAPR3_G23".drone.largura = p_largura
  WHERE "LAPR3_G23".drone.idDrone = p_id;
 END;
 /
 
-CREATE OR REPLACE PROCEDURE updateScooter(p_id "LAPR3_G23".scooter.idScooter%type,p_area "LAPR3_G23".scooter.areaFrontal%type) 
-AS
-BEGIN
-  UPDATE "LAPR3_G23".scooter SET "LAPR3_G23".scooter.areaFrontal = p_area
- WHERE "LAPR3_G23".scooter.idScooter = p_id;
-END;
-/
+--CREATE OR REPLACE PROCEDURE updateScooter(p_id "LAPR3_G23".scooter.idScooter%type,p_area "LAPR3_G23".scooter.areaFrontal%type) 
+--AS
+--BEGIN
+ -- UPDATE "LAPR3_G23".scooter SET "LAPR3_G23".scooter.areaFrontal = p_area
+ --WHERE "LAPR3_G23".scooter.idScooter = p_id;
+--END;
+--/
 
 CREATE OR REPLACE PROCEDURE addCreditosCliente(p_nif "LAPR3_G23".cliente.UtilizadorNIF%type, p_creds "LAPR3_G23".cliente.creditos%type) 
 AS
@@ -763,18 +767,19 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addScooter (idScooter "LAPR3_G23".scooter.idScooter%type, areaFrontal "LAPR3_G23".scooter.areaFrontal%type)
+CREATE OR REPLACE PROCEDURE addScooter (idScooter "LAPR3_G23".scooter.idScooter%type)
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".scooter VALUES(idScooter,areaFrontal);
+  INSERT INTO "LAPR3_G23".scooter VALUES(idScooter);
 END;
 /
 
-CREATE OR REPLACE PROCEDURE addDrone (idDrone "LAPR3_G23".drone.idDrone%type, powerPro "LAPR3_G23".drone.powerPro%type)
+create or replace PROCEDURE addDrone (idDrone "LAPR3_G23".drone.idDrone%type, largura "LAPR3_G23".drone.largura%type)
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".drone VALUES (idDrone,powerPro);
+  INSERT INTO "LAPR3_G23".drone VALUES (idDrone,largura);
 END;
+
 /
 --------------------------------------------------------------------------------------------------------------------------------
 INSERT INTO drone VALUES (1,30);
