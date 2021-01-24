@@ -1,8 +1,5 @@
 package lapr.project.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author beatr
@@ -12,9 +9,9 @@ public class Entrega {
     private int idEntrega;
     private String dataInicio;
     private String dataFim;
-    private List<Encomenda> listEncomendas = new ArrayList<>();
     private int idVeiculo;
     private int idEstafeta;
+    private double pesoEntrega;
     
     /**
      * Constrói uma instância de Entrega recebendo a data de inicio da entrega, a
@@ -26,13 +23,13 @@ public class Entrega {
      * @param idVeiculo veiculo associado à entrega
      * @param idEstafeta estafeta associado à entrega
      */
-    public Entrega(String dataInicio, String dataFim, int idVeiculo, int idEstafeta) {
+    public Entrega(String dataInicio, String dataFim, int idVeiculo, int idEstafeta, double pesoEntrega) {
         this.idEntrega = 0;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
-        this.listEncomendas = new ArrayList<>();
         this.idVeiculo = idVeiculo;
         this.idEstafeta = idEstafeta;
+        this.pesoEntrega = pesoEntrega;
     }
     
     /**
@@ -42,9 +39,9 @@ public class Entrega {
         this.idEntrega = 0;
         this.dataInicio = null;
         this.dataFim = null;
-        this.listEncomendas = null;
         this.idVeiculo = 0;
         this.idEstafeta = 0;
+        this.pesoEntrega = 0;
     }
     
     /**
@@ -95,21 +92,6 @@ public class Entrega {
         this.dataFim = dataFim;
     }
     
-    /**
-     * Devolve a lista de encomendas da entrega
-     * @return lista de encomendas da entrega
-     */
-    public List<Encomenda> getListEncomendas() {
-        return new ArrayList<>(listEncomendas);
-    }
-    
-    /**
-     * Modifica a lista de encomendas da entrega
-     * @param listEncomendas a nova lista de encomendas da entrega
-     */
-    public void setListEncomendas(List<Encomenda> listEncomendas) {
-        this.listEncomendas = new ArrayList<>(listEncomendas);
-    }
     
     /**
      * Devolve a veículo associada à entrega
@@ -123,7 +105,7 @@ public class Entrega {
      * Modifica a veiculo associada à entrega
      * @param idVeiculo a nova veiculo associada à entrega
      */
-    public void setVeiculo(int idVeiculo) {
+    public void setIdVeiculo(int idVeiculo) {
         this.idVeiculo = idVeiculo;
     }
     
@@ -144,12 +126,29 @@ public class Entrega {
     }
     
     /**
+     * Devolve o peso de entrega
+     * @return peso de entrega
+     */
+    public double getPesoEntrega() {
+        return pesoEntrega;
+    }
+    
+    /**
+     * Modifica o peso de entrega
+     * @param pesoEntrega o novo peso de entrega
+     */
+    public void setPesoEntrega(double pesoEntrega) {
+        this.pesoEntrega = pesoEntrega;
+    }
+    
+    /**
      * Devolve a descrição textual da entrega
      * @return descrição textual da entrega
      */
     @Override
     public String toString() {
-        return "Entrega{" + "idEntrega=" + idEntrega + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + ", listEncomendas=" + listEncomendas + ", idVeiculo=" + idVeiculo + ", idEstafeta=" + idEstafeta + '}';
+        return "Entrega{" + "idEntrega=" + idEntrega + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + ", idVeiculo=" + idVeiculo + ", idEstafeta=" + idEstafeta + ", pesoEntrega=" + pesoEntrega + '}';
     }
+    
            
 }

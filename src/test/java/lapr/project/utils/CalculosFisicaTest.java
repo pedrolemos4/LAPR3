@@ -46,7 +46,7 @@ public class CalculosFisicaTest {
         Endereco end2 = new Endereco("tg", 41.150171, 8.645606, 47);
         double velocidadeVento = 12.0;
         double direcaoVento = 15.0;
-        double expResult = 943299.0092391216;
+        double expResult = 63461.78675174951;
         double result = CalculosFisica.calculoEnergiaDrone(pesoVeiculo, powerPro, potencia, pesoEncomenda, end1, end2, direcaoVento, velocidadeVento);
         assertEquals(expResult, result, 0.0);
 
@@ -157,7 +157,7 @@ public class CalculosFisicaTest {
         double velocidadeVento = 12.0;
         double direcaoVento = 15.0;
         double expResult = 16.103660093849353;
-        double result = CalculosFisica.calculoAerodynamicDragForce(areaFrontal, velocidadeVento, direcaoVento);
+        double result = CalculosFisica.calculoAerodynamicDragForce(areaFrontal, velocidadeVento, direcaoVento,2);
         assertEquals(expResult, result, 0.0);
 
     }

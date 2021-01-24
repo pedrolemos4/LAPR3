@@ -74,6 +74,7 @@ public class ScooterTest {
                 "Peso do Veiculo= \t30.0\n" +
                 "Potência= \t40.0\n" +
                 "Estado: \tDisponível\n" +
+                "Area Frontal: \t50.0\n" +
                 "ID Scooter: \t1";
         assertEquals(expResult, instance.toString());
     }

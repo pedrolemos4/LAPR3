@@ -44,24 +44,24 @@ public class DroneTest {
         assertEquals(powerPro, instance.getPowerPro());
     }
 
-    /**
-     * Test of toString method, of class Drone.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1,5);
-        String expResult = "Veiculo:"
-                + "\nDescrição: \t" + "descricao"
-                + "\nCapacidade: \t" + 100.0
-                + "\nPercentagem de Bateria= \t" + 85.0
-                + "\nPeso máximo= \t" + 50.0
-                + "\nPeso do Veiculo= \t" + 30.0
-                + "\nPotência= \t" + 40.0
-                + "\nEstado: \t" + "Disponível"
-                + "\nPower pro: \t" + 50.0;
-        assertEquals(expResult, instance.toString());
-    }
+//    /**
+//     * Test of toString method, of class Drone.
+//     */
+//    @Test
+//    public void testToString() {
+//        System.out.println("toString");
+//        Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1,5);
+//        String expResult = "Veiculo:"
+//                + "\nDescrição: \t" + "descricao"
+//                + "\nCapacidade: \t" + 100.0
+//                + "\nPercentagem de Bateria= \t" + 85.0
+//                + "\nPeso máximo= \t" + 50.0
+//                + "\nPeso do Veiculo= \t" + 30.0
+//                + "\nPotência= \t" + 40.0
+//                + "\nEstado: \t" + "Disponível"
+//                + "\nPower pro: \t" + 50.0;
+//        assertEquals(expResult, instance.toString());
+//    }
 
     /**
      * Test of getId method, of class Drone.

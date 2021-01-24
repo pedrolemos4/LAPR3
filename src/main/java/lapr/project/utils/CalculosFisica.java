@@ -48,8 +48,8 @@ public class CalculosFisica {
     /**
      * Devolve o calculo da energia gasta no percurso
      * @param pesoVeiculo peso do drone
-     * @param powerPro powerPro do drone
-     * @param potencia potencia do drone
+     * @param largura largura do drone
+     * @param areaFrontal area frontal do drone
      * @param pesoTotalEntrega o peso da encomenda
      * @param end1 o endereco de origem
      * @param end2 o endereco de destino
@@ -57,19 +57,19 @@ public class CalculosFisica {
      * @param velocidadeVento velocidade do vento no percurso
      * @return calculo da energia gasta no percurso
      */
-    public static double calculoEnergiaDrone(double pesoVeiculo, double powerPro, double potencia,
+    public static double calculoEnergiaDrone(double pesoVeiculo, double largura, double areaFrontal,
                         double pesoTotalEntrega, Endereco end1, Endereco end2,
                         double direcaoVento, double velocidadeVento) {
-        double pesoTotal = pesoTotalEntrega + pesoVeiculo;
-        double a = (potencia / 1000) / (SPEED * 3.6);
-        double b = pesoTotal / (370 * powerPro * LIFTTODRAG);
-        double c = a + b;
+        double pesoTotalQuadrado = Math.pow(pesoTotalEntrega + pesoVeiculo, 2);
+        double a = AIR_DENSITY_20DEGREES * Math.pow(largura,2) * calculoVelocidade(velocidadeVento, direcaoVento);
+        double lift = pesoTotalQuadrado / a;
         
-        double distancia = calculoDistancia(end1.getLatitude(), end1.getLongitude(),
-                end1.getAltitude(), end2.getLatitude(), 0, 0);
-        
-        double d = (distancia / 1000) / (1 - (calculoVelocidade(velocidadeVento * 3.6, direcaoVento)));
-        return d * c * 3600000;
+        double parasiticDrag = calculoAerodynamicDragForce(areaFrontal, velocidadeVento, direcaoVento, 3);
+        double power = lift + parasiticDrag;
+        double distancia = calculoDistancia(end1.getLatitude(), end1.getLongitude(), 0,
+                end2.getLatitude(), end2.getLongitude(), 0);
+        double tempo = calculoTempo(distancia, velocidadeVento, direcaoVento);
+        return power * tempo;        
     }
     
     /**
@@ -105,7 +105,7 @@ public class CalculosFisica {
                 end2Lat, end2Lon, end2Alt);
         double roadLoad = calculoRoadLoad(pesoTotal, end1Lat, end1Lon, end1Alt,
                 end2Lat, end2Lon, end2Alt, roadResistanceCoefficient);
-        double aerodynamicDragForce = calculoAerodynamicDragForce(areaFrontal, velocidadeVento, direcaoVento);
+        double aerodynamicDragForce = calculoAerodynamicDragForce(areaFrontal, velocidadeVento, direcaoVento,2);
         return roadSlope + roadLoad + aerodynamicDragForce;
     }
     
@@ -169,8 +169,8 @@ public class CalculosFisica {
      * @param direcaoVento direcao do vento
      * @return calculo da força de arrasto aerodinâmica
      */
-    public static double calculoAerodynamicDragForce(double areaFrontal, double velocidadeVento, double direcaoVento) {
-        return 0.5 * AIR_DENSITY_20DEGREES * AIR_DRAG_COEFFICIENT * areaFrontal * Math.pow(calculoVelocidade(velocidadeVento, direcaoVento), 2);
+    public static double calculoAerodynamicDragForce(double areaFrontal, double velocidadeVento, double direcaoVento, double potencia) {
+        return 0.5 * AIR_DENSITY_20DEGREES * AIR_DRAG_COEFFICIENT * areaFrontal * Math.pow(calculoVelocidade(velocidadeVento, direcaoVento), potencia);
     }
     
     /**

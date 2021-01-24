@@ -7,6 +7,10 @@ package lapr.project.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +21,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class EntregaTest {
     
-    private Entrega entrega = new Entrega("25/12/2252", "26/12/2252", 1, 2);
+    private Entrega entrega = new Entrega("25/12/2252", "26/12/2252", 1, 2, 2);
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
     @Test
     void EntregaEmptyConstructorTest(){
         Entrega instance = new Entrega();
@@ -27,7 +47,7 @@ public class EntregaTest {
 
     @Test
     void EntregaConstructorTest(){
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 1);
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 1, 2);
         
         assertEquals(instance,instance);
     }
@@ -38,7 +58,7 @@ public class EntregaTest {
     @Test
     public void testGetIdEntrega() {
         System.out.println("getIdEntrega");
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2, 2);
         
         int expResult = 1;
         instance.setIdEntrega(1);
@@ -54,7 +74,7 @@ public class EntregaTest {
     public void testSetIdEntrega() {
         System.out.println("setIdEntrega");
         int idEntrega = 8;
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2, 2);
         
         instance.setIdEntrega(idEntrega);
         assertEquals(idEntrega, instance.getIdEntrega());
@@ -66,7 +86,7 @@ public class EntregaTest {
     @Test
     public void testGetDataInicio() {
         System.out.println("getDataInicio");
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2, 2);
         
         String expResult = "25/12/2252";
         String result = instance.getDataInicio();
@@ -81,7 +101,7 @@ public class EntregaTest {
     public void testSetDataInicio() {
         System.out.println("setDataInicio");
         String dataInicio = "24/12/2252";
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2, 2);
         
         instance.setDataInicio(dataInicio);
         assertEquals(dataInicio, instance.getDataInicio());
@@ -94,7 +114,7 @@ public class EntregaTest {
     @Test
     public void testGetDataFim() {
         System.out.println("getDataFim");
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2, 1);
         
         String expResult = "26/12/2252";
         String result = instance.getDataFim();
@@ -109,48 +129,14 @@ public class EntregaTest {
     public void testSetDataFim() {
         System.out.println("setDataFim");
         String dataFim = "25/12/2252";
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2, 2);
         
         instance.setDataFim(dataFim);
         assertEquals(dataFim, instance.getDataFim());
     }
 
-    /**
-     * Test of getListEncomendas method, of class Entrega.
-     */
-    @Test
-    public void testGetListEncomendas() {
-        System.out.println("getListEncomendas");
-        List<Encomenda> expResult = new ArrayList<>();
-        Encomenda e = new Encomenda(2,12,"25/12/2252", 15, 20, 5, 1);
-        expResult.add(e);
-        
-        List<Encomenda> list = new ArrayList<>();
-        list.add(e);
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
 
-        instance.setListEncomendas(list);
-        
-        List<Encomenda> result = instance.getListEncomendas();
-        
-        assertEquals(expResult, result);
 
-    }
-
-    /**
-     * Test of setListEncomendas method, of class Entrega.
-     */
-    @Test
-    public void testSetListEncomendas() {
-        System.out.println("setListEncomendas");
-        List<Encomenda> expResult = new ArrayList<>();
-        expResult.add(new Encomenda(2,12,"25/12/2252", 15, 20, 5, 1));
-        expResult.add(new Encomenda(3,13,"25/12/2252", 10, 25, 6, 2));
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
-        
-        instance.setListEncomendas(expResult);
-        assertEquals(expResult, instance.getListEncomendas());
-    }
 
     /**
      * Test of getVeiculo method, of class Entrega.
@@ -159,7 +145,7 @@ public class EntregaTest {
     public void testGetIdVeiculo() {
         System.out.println("getIdVeiculo");
         int expResult = 1;
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2, 2);
         
         
         int result = instance.getIdVeiculo();
@@ -173,10 +159,10 @@ public class EntregaTest {
     @Test
     public void testSetIdVeiculo() {
         System.out.println("setIdVeiculo");
-        int veiculo = 2;
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2);
+        int veiculo = 3;
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 2, 2);
         
-        instance.setVeiculo(veiculo);
+        instance.setIdVeiculo(veiculo);
         assertEquals(veiculo, instance.getIdVeiculo());
     }
 
@@ -186,7 +172,7 @@ public class EntregaTest {
     @Test
     public void testGetIdEstafeta() {
         System.out.println("getIdEstafeta");
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 1);
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252", 1, 1, 2);
         int expResult = 1;
         int result = instance.getidEstafeta();
         assertEquals(expResult, result);
@@ -200,7 +186,7 @@ public class EntregaTest {
     public void testSetIdEstafeta() {
         System.out.println("setIdEstafeta");
         int estafeta = 2;
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1);
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1, 2);
         
         instance.setEstafeta(estafeta);
         assertEquals(estafeta, instance.getidEstafeta());
@@ -213,10 +199,37 @@ public class EntregaTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1);
-        String expResult = "Entrega{idEntrega=0, dataInicio=25/12/2252, dataFim=26/12/2252, listEncomendas=[], idVeiculo=1, idEstafeta=1}";
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1, 2);
+        String expResult = "Entrega{idEntrega=0, dataInicio=25/12/2252, dataFim=26/12/2252, idVeiculo=1, idEstafeta=1, pesoEntrega=2.0}";
         String result = instance.toString();
+        System.out.println(result);
         assertEquals(expResult, result);
+
+    }
+
+
+    /**
+     * Test of getPesoEntrega method, of class Entrega.
+     */
+    @Test
+    public void testGetPesoEntrega() {
+        System.out.println("getPesoEntrega");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1, 2);
+        double expResult = 2.0;
+        double result = instance.getPesoEntrega();
+        assertEquals(expResult, result, 0.0);
+
+    }
+
+    /**
+     * Test of setPesoEntrega method, of class Entrega.
+     */
+    @Test
+    public void testSetPesoEntrega() {
+        System.out.println("setPesoEntrega");
+        double pesoEntrega = 7.0;
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1, 2);
+        instance.setPesoEntrega(pesoEntrega);
 
     }
 

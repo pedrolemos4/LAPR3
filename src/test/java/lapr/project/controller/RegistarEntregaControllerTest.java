@@ -70,12 +70,13 @@ public class RegistarEntregaControllerTest {
      * @throws java.sql.SQLException
      */
     @Test
-    public void testGetListVeiculo() throws SQLException {
+    public void testGetListaVeiculoEntrega() throws SQLException {
         System.out.println("getListVeiculo");
         List<Veiculo> expResult = new ArrayList<>();
         expResult.add(new Veiculo("drone",100, 45, 89, 7, 52, 85,5.5));
-        when(veiculoDB.getListaVeiculo()).thenReturn(expResult);
-        assertEquals(expResult, instance.getListVeiculo());
+        int nif = 123456789;
+        when(veiculoDB.getListaVeiculoEntrega(nif)).thenReturn(expResult);
+        assertEquals(expResult, instance.getListaVeiculoEntrega(nif));
 
     }
 
@@ -137,9 +138,10 @@ public class RegistarEntregaControllerTest {
         String dataFim = null;
         int idVeiculo = 1;
         int idEstafeta = 3;
-        Entrega expResult = new Entrega(dataInicio, dataFim, idVeiculo, idEstafeta);
+        double pesoEntrega = 2;
+        Entrega expResult = new Entrega(dataInicio, dataFim, idVeiculo, idEstafeta, pesoEntrega);
         when(entregaDB.addEntrega(expResult)).thenReturn(1);
-        instance.addEntrega(expResult.getDataInicio(),expResult.getDataFim(), expResult.getIdVeiculo(), expResult.getidEstafeta());
+        instance.addEntrega(expResult.getDataInicio(),expResult.getDataFim(), expResult.getIdVeiculo(), expResult.getidEstafeta(), expResult.getPesoEntrega());
         expResult.setIdEntrega(1);
         assertEquals(1, expResult.getIdEntrega());
 
@@ -157,9 +159,10 @@ public class RegistarEntregaControllerTest {
         String dataFim = null;
         int idVeiculo = 1;
         int idEstafeta = 3;
-        Entrega expResult = new Entrega(dataInicio, dataFim, idVeiculo, idEstafeta);
+        double pesoEntrega = 2;
+        Entrega expResult = new Entrega(dataInicio, dataFim, idVeiculo, idEstafeta, pesoEntrega);
         when(entregaDB.addEntrega(expResult)).thenReturn(1);
-        Entrega entrega = instance.addEntrega(expResult.getDataInicio(),expResult.getDataFim(), expResult.getIdVeiculo(), expResult.getidEstafeta());
+        Entrega entrega = instance.addEntrega(expResult.getDataInicio(),expResult.getDataFim(), expResult.getIdVeiculo(), expResult.getidEstafeta(), expResult.getPesoEntrega());
         expResult.setIdEntrega(1);
         entrega.setIdEntrega(entregaDB.addEntrega(expResult));
         assertEquals(expResult.toString(), entrega.toString());
@@ -215,7 +218,7 @@ public class RegistarEntregaControllerTest {
     @Test
     public void testAddEncomendaEntrega() throws Exception {
         System.out.println("addEncomendaEntrega");
-        Entrega e = new Entrega("15/02/2001", "15/02/2001", 2, 34);
+        Entrega e = new Entrega("15/02/2001", "15/02/2001", 2, 34,2);
         Encomenda enc = new Encomenda(123456789, 12,"15/02/2001", 2, 3, 3, 2);
         boolean expResult = false;
         when(entregaDB.addEncomendaEntrega(e, enc)).thenReturn(expResult);
@@ -231,7 +234,7 @@ public class RegistarEntregaControllerTest {
     @Test
     public void testAddEncomendaEntrega1() throws Exception {
         System.out.println("addEncomendaEntrega1");
-        Entrega e = new Entrega("15/02/2001", "15/02/2001", 2, 34);
+        Entrega e = new Entrega("15/02/2001", "15/02/2001", 2, 34,2);
         Encomenda enc = new Encomenda(123456789, 12,"15/02/2001", 2, 3, 3, 2);
         boolean expResult = true;
         when(entregaDB.addEncomendaEntrega(e, enc)).thenReturn(expResult);
@@ -244,8 +247,8 @@ public class RegistarEntregaControllerTest {
      * Test of generateGraph method, of class RegistarEntregaController.
      */
     @Test
-    public void testGenerateGraph() {
-        System.out.println("generateGraph");
+    public void testGenerateGraphScooter() {
+        System.out.println("generateGraphScooter");
         List<Endereco> listEnderecos = new LinkedList<>();
         Endereco e1 = new Endereco("dfad", 23, 34, 1);
         listEnderecos.add(e1);
@@ -253,16 +256,46 @@ public class RegistarEntregaControllerTest {
         listEnderecos.add(e2);
         Endereco e3 = new Endereco("rrs", 34, 111, 34);
         listEnderecos.add(e3);
+        List<Endereco> listEnderecosEntrega = new LinkedList<>();
+        listEnderecosEntrega.add(e1);
         Estafeta est = new Estafeta(123456789, 1, 15);
         Veiculo veiculo = new Veiculo(1, "scooter", 34, 12, 34, 45, 75, 54,23);
         double pesoTotal = 24.0;
         Graph<Endereco, Double> expResult = new Graph<>(true) ;
-        expResult.insertVertex(e1);
-        expResult.insertVertex(e2);
-        expResult.insertVertex(e3);
-        when(entregaDB.generateGraph(listEnderecos, est, veiculo, 12, pesoTotal)).thenReturn(expResult);
-        Graph<Endereco, Double> result = instance.generateGraph(listEnderecos, est, veiculo, 12, pesoTotal);
+        expResult.insertEdge(e1, e2, 1.0, 2);
+        expResult.insertEdge(e2, e3, 1.0, 5);
+        expResult.insertEdge(e1, e3, 1.0, 1);
+        when(entregaDB.generateGraphScooter(listEnderecos,listEnderecosEntrega, est, veiculo, pesoTotal)).thenReturn(expResult);
+        Graph<Endereco, Double> result = instance.generateGraphScooter(listEnderecos,listEnderecosEntrega, est, veiculo, pesoTotal);
+        assertEquals(expResult, result);
 
+    }
+    
+    /**
+     * Test of generateGraph method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGenerateGraphDrone() {
+        System.out.println("generateGraphDrone");
+        List<Endereco> listEnderecos = new LinkedList<>();
+        Endereco e1 = new Endereco("dfad", 23, 34, 1);
+        listEnderecos.add(e1);
+        Endereco e2 = new Endereco("hte", 3, 5, 2);
+        listEnderecos.add(e2);
+        Endereco e3 = new Endereco("rrs", 34, 111, 34);
+        listEnderecos.add(e3);
+        List<Endereco> listEnderecosEntrega = new LinkedList<>();
+        listEnderecosEntrega.add(e1);
+        Estafeta est = new Estafeta(123456789, 1, 15);
+        Veiculo veiculo = new Veiculo(1, "scooter", 34, 12, 34, 45, 75, 54,23);
+        double pesoTotal = 24.0;
+        double largura = 12.0;
+        Graph<Endereco, Double> expResult = new Graph<>(true) ;
+        expResult.insertEdge(e1, e2, 1.0, 2);
+        expResult.insertEdge(e2, e3, 1.0, 5);
+        expResult.insertEdge(e1, e3, 1.0, 1);
+        when(entregaDB.generateGraphDrone(listEnderecos,listEnderecosEntrega, est, veiculo,largura, pesoTotal)).thenReturn(expResult);
+        Graph<Endereco, Double> result = instance.generateGraphDrone(listEnderecos,listEnderecosEntrega, est, veiculo,largura, pesoTotal);
         assertEquals(expResult, result);
 
     }
@@ -369,7 +402,7 @@ public class RegistarEntregaControllerTest {
     @Test
     public void testUpdateEntrega() throws Exception {
         System.out.println("updateEntrega");
-        Entrega entrega = new Entrega("15/02/2001", "15/02/2001", 2, 34);
+        Entrega entrega = new Entrega("15/02/2001", "15/02/2001", 2, 34, 2);
         boolean expResult = true;
         when(entregaDB.updateEntrega(entrega)).thenReturn(expResult);
         boolean result = instance.updateEntrega(entrega);
@@ -384,7 +417,7 @@ public class RegistarEntregaControllerTest {
     @Test
     public void testUpdateEntrega1() throws Exception {
         System.out.println("updateEntrega1");
-        Entrega entrega = new Entrega("15/02/2001", "15/02/2001", 2, 34);
+        Entrega entrega = new Entrega("15/02/2001", "15/02/2001", 2, 34, 2);
         boolean expResult = false;
         when(entregaDB.updateEntrega(entrega)).thenReturn(expResult);
         boolean result = instance.updateEntrega(entrega);

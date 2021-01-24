@@ -27,166 +27,247 @@ public class RegistarEntregaUI {
 
     public void introduzEntrega() throws SQLException, ParseException {
 
+        List<Encomenda> listAllEncomenda = new ArrayList<>();
         System.out.println("Lista de farmacias: ");
         List<Farmacia> listFarmacia = controller.getLstFarmacias();
         for (Farmacia f : listFarmacia) {
             System.out.println(f);
+            System.out.println("Lista de encomendas por fazer entrega: ");
+            listAllEncomenda = controller.getListaEncomenda(f.getNIF());
+            for (Encomenda e : listAllEncomenda) {
+                System.out.println(e.toString());
+            }
         }
-        System.out.println("Escolha a farmacia para a qual irá fazer uma entrega");
+        System.out.println("Escolha o nif da farmacia para a qual irá fazer uma entrega");
         int nifFarmacia = LER.nextInt();
         Farmacia farmacia = controller.getFarmaciaByNif(nifFarmacia);
 
-        System.out.println("Lista de veiculos: ");
-        List<Veiculo> list = controller.getListVeiculo();
-        for (Veiculo s : list) {
-            System.out.println(s);
-        }
-
-        System.out.println("Introduza o id de um veiculo apresentado: ");
-        int idVeiculo = LER.nextInt();
-        Veiculo veiculo = controller.getVeiculo(idVeiculo);
-
+//        System.out.println("Lista de veiculos: ");
+//        List<Veiculo> list = controller.getListVeiculo();
+//        for (Veiculo s : list) {
+//            System.out.println(s);
+//        }
+//
+//        System.out.println("Introduza o id de um veiculo apresentado: ");
+//        int idVeiculo = LER.nextInt();
+//        Veiculo veiculo = controller.getVeiculo(idVeiculo);
         Estafeta est = controller.getEstafeta();
         int nifEstafeta = est.getNIF();
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date date = new Date(System.currentTimeMillis());
         String dataInicio = formatter.format(date);
-        String dataFim = "0000-00-00 00:00:00.000";
 
-        double pesoMaximoPorEntrega = veiculo.getPesoMaximo();
+        System.out.println("Escolha o peso maximo para realizar a entrega");
+        double pesoMaximoEntrega = LER.nextDouble();
+
         double pesoEntrega = 0;
 
-        System.out.println("Scooter:\t" + veiculo
-                + "\nEstafeta:\t" + est
+        List<Encomenda> listEncomendaFarmacia = controller.getListaEncomenda(nifFarmacia);
+        List<Encomenda> listEncomendaByEntrega = new ArrayList<>();
+        List<Endereco> listEnderecos = new LinkedList<>();
+
+        for (Encomenda e : listEncomendaFarmacia) {
+            Endereco end1 = controller.getEnderecoByNifCliente(e.getNif());
+            if (e.getPesoEncomenda() + pesoEntrega < pesoMaximoEntrega) {
+                listEncomendaByEntrega.add(e);
+                pesoEntrega = pesoEntrega + e.getPesoEncomenda();
+                listEnderecos.add(end1);
+            }
+        }
+
+        System.out.println("\nEstafeta:\t" + est
                 + "\nDataInicio:\t" + dataInicio
-                + "\nDataFim:\t" + dataFim);
+                + "\nPeso maximo da entrega:\t" + pesoMaximoEntrega
+                + "\nLista das encomendas:\t");
+        for (Encomenda e : listEncomendaByEntrega) {
+            System.out.println(e.toString());
+        }
 
         System.out.println("Confirme os dados introduzidos: (S/N)");
         LER.nextLine();
         String confirm = LER.nextLine();
 
         if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
-            Entrega entr = controller.addEntrega(dataInicio, dataFim, idVeiculo, nifEstafeta);
-            List<Endereco> listEnderecos = new LinkedList<>();
 
-            System.out.println("Lista de encomendas por fazer entrega: ");
-            List<Encomenda> listAllEncomenda = controller.getListaEncomenda(nifFarmacia);
-            List<Encomenda> listEncomendaByEntrega = new ArrayList<>();
+            List<Endereco> listEnderecosScooter = controller.getLstEnderecosScooter();
+            List<Endereco> listEnderecosDrone = controller.getLstEnderecosDrone();
+            List<Endereco> finalShortPathScooter = new LinkedList<>();
+            List<Endereco> finalShortPathDrone = new LinkedList<>();
 
-            for (Encomenda e : listAllEncomenda) {
-                Endereco end1 = controller.getEnderecoByNifCliente(e.getNif());
-                if(veiculo.getDescricao().equals(DRONE) && end1.getAltitude()>150){
-                    System.out.println("Nao é possivel fazer uma entrega onde a altitude do ponto de entrega seja maior 150m.");    
-                } else if (e.getPesoEncomenda() + pesoEntrega < pesoMaximoPorEntrega) {
-                    controller.addEncomendaEntrega(entr, e);
-                    listEncomendaByEntrega.add(e);
+            List<Endereco> listMinScooter = new LinkedList<>();
+            List<Endereco> listMinDrone = new LinkedList<>();
+
+            Veiculo scooter = null;
+            Veiculo drone = null;
+
+            Graph<Endereco, Double> graphScooter = new Graph<>(true);
+            Graph<Endereco, Double> graphDrone = new Graph<>(true);
+
+            double minScooter = Double.MAX_VALUE;
+            double minDrone = Double.MAX_VALUE;
+
+            if (listEnderecos.isEmpty()) {
+                System.out.println("0000000");
+            }
+
+            List<Veiculo> listVeiculos = controller.getListaVeiculoEntrega(pesoMaximoEntrega);
+            for (Veiculo v : listVeiculos) {
+                if ((v.getDescricao()).equalsIgnoreCase(SCOOTER)) {
+                    if (listEnderecos.isEmpty()) {
+                        System.out.println("111111");
+                    }
+                    graphScooter = controller.generateGraphScooter(listEnderecosScooter, new ArrayList<>(listEnderecos), est, v, pesoEntrega);
+                    if (listEnderecos.isEmpty()) {
+                        System.out.println("2222222");
+                    }
+                    double energiaTotalGastaScooter = controller.getPath(graphScooter, new ArrayList<>(listEnderecos), finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0);
+                    System.out.println("energiaScooter1: " + energiaTotalGastaScooter);
+                    if (energiaTotalGastaScooter < minScooter) {
+                        minScooter = energiaTotalGastaScooter;
+                        System.out.println("minScooter2: " + minScooter);
+                        scooter = v;
+                        listMinScooter = finalShortPathScooter;
+                    }
+                } else if ((v.getDescricao()).equalsIgnoreCase(DRONE)) {
+                    boolean flag = false;
+                    for (Endereco e : listEnderecos) {
+                        if (e.getAltitude() > 150) {
+                            flag = true;
+                        }
+                    }
+                    if (flag) {
+                        break;
+                    } else {
+                        if (listEnderecos.isEmpty()) {
+                            System.out.println("4444444444");
+                        }
+                        Drone d = controller.getDroneById(v.getId());
+                        graphDrone = controller.generateGraphDrone(listEnderecosDrone, new ArrayList<>(listEnderecos), est, v, d.getPowerPro(), pesoEntrega);
+                        if (listEnderecos.isEmpty()) {
+                            System.out.println("55555555555555");
+                        }
+                        double energiaTotalGastaDrone = controller.getPath(graphDrone, new ArrayList<>(listEnderecos), finalShortPathDrone, controller.getEnderecoOrigem(nifFarmacia), 0);
+                        System.out.println("energiaDrone1: " + energiaTotalGastaDrone);
+                        if (energiaTotalGastaDrone < minDrone) {
+                            System.out.println("energiaDrone2: " + energiaTotalGastaDrone);
+                            minDrone = energiaTotalGastaDrone;
+                            drone = v;
+                            listMinDrone = finalShortPathDrone;
+                        }
+                    }
                 }
             }
-            double pesoTotal = 0;
 
-            for (Encomenda e : listEncomendaByEntrega) {
-                pesoTotal = pesoTotal + controller.getEncomenda(e.getId()).getPesoEncomenda();
-                Endereco end = controller.getEnderecoByNifCliente(e.getNif());
-                Cliente c = controller.getClienteByEndereco(end);
-                Utilizador u = controller.getUtilizadorByNif(c.getClienteNIF());
-                listEnderecos.add(end);
-                controller.enviarNotaCliente(farmacia, u);
-                controller.updateEncomenda(e.getId(), 3);
+            System.out.println("Tendo em conta que por meio terrestre a entrega tem um custo de: " + minScooter
+                    + "\ne por meio aereo a entrega tem um custo de: " + minDrone
+                    + "\nEscolha o meio por onde pretende realizar a entrega (terrestre/aereo)");
+            String escolha = LER.nextLine();
+            Veiculo v = null;
+            double energia = 0;
+            List<Endereco> listaFinal = new LinkedList<>();
+            if (escolha.equalsIgnoreCase("terrestre")) {
+                v = scooter;
+                listaFinal = listMinScooter;
+                energia = minScooter;
+            } else {
+                v = drone;
+                listaFinal = listMinDrone;
+                energia = minDrone;
             }
-            Graph<Endereco, Double> graph = new Graph<>(true);
-
-            if ((veiculo.getDescricao()).equalsIgnoreCase(SCOOTER)) {
-                Scooter s = controller.getScooterById(veiculo.getId());
-                graph = controller.generateGraph(listEnderecos, est, veiculo, s.getAreaFrontal(), pesoTotal);
-            } else if ((veiculo.getDescricao()).equalsIgnoreCase(DRONE)) {
-                Drone d = controller.getDroneById(veiculo.getId());
-                graph = controller.generateGraph(listEnderecos, est, veiculo, d.getPowerPro(), pesoTotal);
+            for (Endereco end : listaFinal) {
+                System.out.println("endre: " + end);
             }
-
-            LinkedList<Endereco> finalShortPath = new LinkedList<>();
-
-            double energiaTotalGasta = controller.getPath(graph, listEnderecos, finalShortPath, controller.getEnderecoOrigem(nifFarmacia), 0);
-
-            String data = controller.getDuracaoPercurso(finalShortPath, veiculo);
+            System.out.println("veiculo: " + v);
+            String data = controller.getDuracaoPercurso(listaFinal, v);
             DateFormat format1 = new SimpleDateFormat("HH:mm:ss");
             Date date2 = format1.parse(data);
             Date newDate = new Date(date.getTime() + date2.getTime() + 3600 * 1000);
 
-            Entrega entrega = new Entrega(dataInicio, formatter.format(newDate), idVeiculo, nifEstafeta);
+//            Entrega entrega = new Entrega(dataInicio, formatter.format(newDate), idVeiculo, nifEstafeta);
+//
+//            controller.updateEntrega(entrega);
+            Entrega entr = controller.addEntrega(dataInicio, formatter.format(newDate), v.getId(), nifEstafeta, pesoMaximoEntrega);
 
-            controller.updateEntrega(entrega);
+            for (Encomenda e : listEncomendaByEntrega) {
+                controller.addEncomendaEntrega(entr, e);
+                Endereco end = controller.getEnderecoByNifCliente(e.getNif());
+                Cliente c = controller.getClienteByEndereco(end);
+                Utilizador u = controller.getUtilizadorByNif(c.getClienteNIF());
+                controller.enviarNotaCliente(farmacia, u);
+                controller.updateEncomenda(e.getId(), 3);
+            }
 
             System.out.println("\n\nEntrega adicionada com sucesso");
-            System.out.println("\n\nCaminho com menor energia gasta: " + finalShortPath);
-            System.out.println("\n\nEnergia gasta: " + energiaTotalGasta);
+            System.out.println("\n\nCaminho com menor energia gasta: " + listaFinal);
+            System.out.println("\n\nEnergia gasta: " + energia);
 
         }
     }
-
-    public void checkEntregaEficiente() {
-        System.out.println("Lista de farmacias: ");
-        List<Farmacia> listFarmacia = controller.getLstFarmacias();
-        for (Farmacia f : listFarmacia) {
-            System.out.println(f);
-        }
-        System.out.println("Escolha a farmacia para a qual irá fazer uma entrega");
-        int nifFarmacia = LER.nextInt();
-        while (controller.getFarmaciaByNif(nifFarmacia) == null) {
-            System.out.println("Não existe farmácia com este nif.");
-            nifFarmacia = LER.nextInt();
-        }
-
-        System.out.println("Lista de encomendas por fazer entrega: ");
-        List<Encomenda> listAllEncomenda = controller.getListaEncomenda(nifFarmacia);
-        for (Encomenda e : listAllEncomenda) {
-            System.out.println(e);
-        }
-
-        boolean flag = true;
-        double pesoTotal = 0;
-        List<Encomenda> listEncomendas = new ArrayList<>();
-        List<Endereco> listEnderecos = new ArrayList<>();
-        System.out.println("Introduza o id das encomendas que pretende fazer entrega:");
-        while (flag) {
-            int idEncomenda = LER.nextInt();
-            Encomenda e = controller.getEncomenda(idEncomenda);
-            listEncomendas.add(e);
-            pesoTotal = pesoTotal + controller.getEncomenda(e.getId()).getPesoEncomenda();
-            Endereco end = controller.getEnderecoByNifCliente(e.getNif());
-            listEnderecos.add(end);
-            System.out.println("Deseja adicionar mais encomendas (S/N)?");
-            String resposta = LER.nextLine();
-            if (resposta.equalsIgnoreCase("N") || resposta.equalsIgnoreCase("NAO")) {
-                flag = false;
-            }
-        }
-
-        Estafeta est = new Estafeta(123456789, "Tiago Sucks", "tiagosucks@gmail.com", 60, 12, "pass", 1);
-        Veiculo v = new Veiculo(SCOOTER, 123, 12, 100, 10, 25, 560,30);
-        Scooter s = new Scooter(SCOOTER, 123, 12, 100, 10, 25, 560, 30, 1);
-        Drone d = new Drone(DRONE, 123, 12, 100, 10, 1, 560, 30, 1,30);
-
-        Graph<Endereco, Double> graphScooter = new Graph<>(true);
-        Graph<Endereco, Double> graphDrone = new Graph<>(true);
-
-        graphScooter = controller.generateGraph(listEnderecos, est, v, s.getAreaFrontal(), pesoTotal);
-        LinkedList<Endereco> finalShortPathScooter = new LinkedList<>();
-
-        double energiaTotalGastaScooter = controller.getPath(graphScooter, listEnderecos, finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0);
-
-        graphDrone = controller.generateGraph(listEnderecos, est, v, d.getPowerPro(), pesoTotal);
-        LinkedList<Endereco> finalShortPathDrone = new LinkedList<>();
-
-        double energiaTotalGastaDrone = controller.getPath(graphDrone, listEnderecos, finalShortPathDrone, controller.getEnderecoOrigem(nifFarmacia), 0);
-        
-        if(energiaTotalGastaDrone < energiaTotalGastaScooter){
-            System.out.println("A entrega por via aérea é mais eficiente");
-        } else if (energiaTotalGastaDrone > energiaTotalGastaScooter){
-            System.out.println("A entrega por via terrestre é mais eficiente");
-        }else{
-            System.out.println("O gasto energético é igual tanto por via terrestre como por via aérea ");
-        }
-}
+//
+//    public void checkEntregaEficiente() {
+//        System.out.println("Lista de farmacias: ");
+//        List<Farmacia> listFarmacia = controller.getLstFarmacias();
+//        for (Farmacia f : listFarmacia) {
+//            System.out.println(f);
+//        }
+//        System.out.println("Escolha a farmacia para a qual irá fazer uma entrega");
+//        int nifFarmacia = LER.nextInt();
+//        while (controller.getFarmaciaByNif(nifFarmacia) == null) {
+//            System.out.println("Não existe farmácia com este nif.");
+//            nifFarmacia = LER.nextInt();
+//        }
+//
+//        System.out.println("Lista de encomendas por fazer entrega: ");
+//        List<Encomenda> listAllEncomenda = controller.getListaEncomenda(nifFarmacia);
+//        for (Encomenda e : listAllEncomenda) {
+//            System.out.println(e);
+//        }
+//
+//        boolean flag = true;
+//        double pesoTotal = 0;
+//        List<Encomenda> listEncomendas = new ArrayList<>();
+//        List<Endereco> listEnderecos = new ArrayList<>();
+//        System.out.println("Introduza o id das encomendas que pretende fazer entrega:");
+//        while (flag) {
+//            int idEncomenda = LER.nextInt();
+//            Encomenda e = controller.getEncomenda(idEncomenda);
+//            listEncomendas.add(e);
+//            pesoTotal = pesoTotal + controller.getEncomenda(e.getId()).getPesoEncomenda();
+//            Endereco end = controller.getEnderecoByNifCliente(e.getNif());
+//            listEnderecos.add(end);
+//            System.out.println("Deseja adicionar mais encomendas (S/N)?");
+//            String resposta = LER.nextLine();
+//            if (resposta.equalsIgnoreCase("N") || resposta.equalsIgnoreCase("NAO")) {
+//                flag = false;
+//            }
+//        }
+//
+//        Estafeta est = new Estafeta(123456789, "Tiago Sucks", "tiagosucks@gmail.com", 60, 12, "pass", 1);
+//        Veiculo v = new Veiculo(SCOOTER, 123, 12, 100, 10, 25, 560, 30);
+//        Scooter s = new Scooter(SCOOTER, 123, 12, 100, 10, 25, 560, 30, 1);
+//        Drone d = new Drone(DRONE, 123, 12, 100, 10, 1, 560, 30, 1, 30);
+//
+//        Graph<Endereco, Double> graphScooter = new Graph<>(true);
+//        Graph<Endereco, Double> graphDrone = new Graph<>(true);
+//
+//        graphScooter = controller.generateGraph(listEnderecos, est, v, s.getAreaFrontal(), pesoTotal);
+//        LinkedList<Endereco> finalShortPathScooter = new LinkedList<>();
+//
+//        double energiaTotalGastaScooter = controller.getPath(graphScooter, listEnderecos, finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0);
+//
+//        graphDrone = controller.generateGraph(listEnderecos, est, v, d.getPowerPro(), pesoTotal);
+//        LinkedList<Endereco> finalShortPathDrone = new LinkedList<>();
+//
+//        double energiaTotalGastaDrone = controller.getPath(graphDrone, listEnderecos, finalShortPathDrone, controller.getEnderecoOrigem(nifFarmacia), 0);
+//
+//        if (energiaTotalGastaDrone < energiaTotalGastaScooter) {
+//            System.out.println("A entrega por via aérea é mais eficiente");
+//        } else if (energiaTotalGastaDrone > energiaTotalGastaScooter) {
+//            System.out.println("A entrega por via terrestre é mais eficiente");
+//        } else {
+//            System.out.println("O gasto energético é igual tanto por via terrestre como por via aérea ");
+//        }
+//    }
 
 }

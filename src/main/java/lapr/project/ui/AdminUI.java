@@ -308,9 +308,9 @@ public class AdminUI {
                 if(veiculo.getDescricao().equalsIgnoreCase("drone")){
                     sc.updateDrone(veiculo.getId(), powerPro);
                 }
-                if(veiculo.getDescricao().equalsIgnoreCase("scooter")){
-                    sc.updateScooter(veiculo.getId(), area);
-                }
+//                if(veiculo.getDescricao().equalsIgnoreCase("scooter")){
+//                    sc.updateScooter(veiculo.getId(), area);
+//                }
                 sc.updateVeiculo(veiculo);
                 System.out.println("Veículo atualizado com sucesso.");
             } catch (SQLException ex) {

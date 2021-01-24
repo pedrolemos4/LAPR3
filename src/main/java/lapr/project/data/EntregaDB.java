@@ -104,7 +104,44 @@ public class EntregaDB extends DataHandler {
     }
 
     /**
-     * Gera o grafo com os endereços existentes como vértices
+     * Gera o grafo da scooter com os endereços existentes como vértices
+     *
+     * @param listEnderecos lista de endereços
+     * @param listEnderecosEncomenda
+     * @param est estafeta
+     * @param veiculo veículo
+     * @param pesoTotalEntrega peso total de entrega
+     * @return grafo com os endereços e as ruas definidas
+     */
+    public Graph<Endereco, Double> generateGraphScooter(List<Endereco> listEnderecos,List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
+        Graph<Endereco, Double> graph = new Graph<>(true);
+
+        double energiaGasta = 0;
+
+        for (Endereco e : listEnderecos) {
+            graph.insertVertex(e);
+        }
+
+        for (Endereco e : graph.vertices()) {
+            for (Endereco end : graph.vertices()) {
+                if (caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()) != null) {
+                        energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(),
+                                pesoTotalEntrega, end, e, caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()).getRoadResistanceCoefficient(),
+                                caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()).getDirecaoVento(),
+                                caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()).getVelocidadeVento());
+                        graph.insertEdge(end, e, 1.0, energiaGasta);
+                    if (listEnderecosEncomenda.contains(end)) {
+                        pesoTotalEntrega = pesoTotalEntrega - getEncomendaByMorada(end.getMorada()).getPesoEncomenda();
+                        listEnderecosEncomenda.remove(e);
+                    }
+                }
+            }
+        }
+        return graph;
+    }
+
+    /**
+     * Gera o grafo do drone com os endereços existentes como vértices
      *
      * @param listEnderecos lista de endereços
      * @param est estafeta
@@ -113,37 +150,31 @@ public class EntregaDB extends DataHandler {
      * @param pesoTotalEntrega peso total de entrega
      * @return grafo com os endereços e as ruas definidas
      */
-    public Graph<Endereco, Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double atributo, double pesoTotalEntrega) {
-
+    public Graph<Endereco, Double> generateGraphDrone(List<Endereco> listEnderecos,List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double atributo, double pesoTotalEntrega) {
         Graph<Endereco, Double> graph = new Graph<>(true);
-        List<Caminho> listCaminhos = new ArrayList<>(caminhoDB.getAllCaminhos());
-
         double energiaGasta = 0;
 
-        List<Endereco> lst = new ArrayList<>(end.getLstEnderecos());
-
-        for (Endereco e : lst) {
+        for (Endereco e : listEnderecos) {
             graph.insertVertex(e);
         }
 
-        for (Caminho caminho : listCaminhos) {
-            for (Endereco end : listEnderecos) {
-                if ((veiculo.getDescricao()).equalsIgnoreCase(SCOOTER)) {
-                    energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), atributo,
-                            pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), caminho.getRoadResistanceCoefficient(), caminho.getDirecaoVento(), caminho.getVelocidadeVento());
-                    graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
+        for (Endereco e : graph.vertices()) {
+            for (Endereco end : graph.vertices()) {
+                if (caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()) != null) {
+                    energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), atributo, veiculo.getAreaFrontal(),
+                            pesoTotalEntrega, end, e, caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()).getDirecaoVento(),
+                            caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()).getVelocidadeVento());
+                    graph.insertEdge(end, e, 1.0, energiaGasta);
+                
+                if (listEnderecosEncomenda.contains(e)) {
+                    pesoTotalEntrega = pesoTotalEntrega - getEncomendaByMorada(e.getMorada()).getPesoEncomenda();
+                    listEnderecosEncomenda.remove(e);
                 }
-                if ((veiculo.getDescricao()).equalsIgnoreCase(DRONE)) {
-                    energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), atributo, veiculo.getPotencia(),
-                            pesoTotalEntrega, caminho.getEnd1(), caminho.getEnd2(), caminho.getDirecaoVento(), caminho.getVelocidadeVento());
-                    graph.insertEdge(caminho.getEnd1(), caminho.getEnd2(), 1.0, energiaGasta);
                 }
-                if (end.getMorada().equals(caminho.getEnd2().getMorada())) {
-                    Encomenda enc1 = getEncomendaByMorada(caminho.getEnd2().getMorada());
-                    pesoTotalEntrega = pesoTotalEntrega - encDB.getEncomenda(enc1.getId()).getPesoEncomenda();
-                }
+
             }
         }
+        System.out.println(graph.toString());
         return graph;
     }
 
@@ -167,15 +198,33 @@ public class EntregaDB extends DataHandler {
             for (Endereco c : listEnderecos) {
                 LinkedList<Endereco> shortPath = new LinkedList<>();
                 dist = GraphAlgorithms.shortestPath(graph, origem, c, shortPath);
+                System.out.println("dist: " + dist);
                 if (dist < min) {
+                    System.out.println("min1: " +min);
                     min = dist;
+                    System.out.println("min2: " + min);
                     end = c;
+                    System.out.println("end: " +end);
+//                    for(Endereco end: finalShortPath){
+//                        System.out.println("endereços1: " + end);
+//                    }
+//                    finalShortPath.addAll(shortPath.subList(1, shortPath.size()));
+//                    for(Endereco end: finalShortPath){
+//                        System.out.println("endereços2: " + end);
+//                    }
+//                    System.out.println("energia1: " +energia);
+//                    energia = energia + dist;
+//                    System.out.println("energia2: " +energia);
+//                    System.out.println("origem1: " +origem);
+//                    origem = c;
+//                    System.out.println("origem2: " +origem);
                 }
+                
             }
             listEnderecos.remove(end);
             LinkedList<Endereco> shortPath1 = new LinkedList<>();
             dist = GraphAlgorithms.shortestPath(graph, origem, end, shortPath1);
-
+            
             if (!shortPath1.isEmpty()) {
                 finalShortPath.addAll(shortPath1.subList(1, shortPath1.size()));
                 dFinal = getPath(graph, listEnderecos, finalShortPath, end, min);
@@ -195,7 +244,7 @@ public class EntregaDB extends DataHandler {
      * @return encomenda
      */
     public Encomenda getEncomendaByMorada(String morada) {
-        String query = "SELECT e.idEncomenda,e.datapedida,e.preco, e.pesoEncomenda, e.taxa, e.estadoencomendaidestadoencomenda, e.clienteutilizadornif FROM encomenda e INNER JOIN cliente c ON e.ClienteUtilizadorNIF = c.UtilizadorNIF WHERE c.Enderecomorada = '" + morada + "'";
+        String query = "SELECT e.idEncomenda,e.datapedida,e.preco, e.pesoEncomenda, e.taxa, e.estadoencomendaidestadoencomenda, e.clienteutilizadornif, e.nifFarmacia FROM encomenda e INNER JOIN cliente c ON e.ClienteUtilizadorNIF = c.UtilizadorNIF WHERE c.Enderecomorada = '" + morada + "'";
 
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
@@ -231,17 +280,22 @@ public class EntregaDB extends DataHandler {
     public String getDuracaoPercurso(List<Endereco> finalShortPath, Veiculo veiculo) throws ParseException {
         double distancia = 0;
         int aux = 0;
-        int i = finalShortPath.size() - 1;
+        int i = finalShortPath.size();
         double tempo = 0;
         for (aux = 0; aux < i; aux++) {
+            //ultimo caminho está null
             if ((veiculo.getDescricao()).equalsIgnoreCase(SCOOTER)) {
                 distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
-                Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
+                System.out.println("distancia: " + distancia);
+                Caminho c = caminhoDB.getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
+                System.out.println("caminho: " + c.toString());
                 tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
             }
             if ((veiculo.getDescricao()).equalsIgnoreCase(DRONE)) {
                 distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
-                Caminho c = new CaminhoDB().getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
+                System.out.println("distancia: " + distancia);
+                Caminho c = caminhoDB.getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
+                System.out.println("caminho: " + c.toString());
                 tempo = CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
             }
         }

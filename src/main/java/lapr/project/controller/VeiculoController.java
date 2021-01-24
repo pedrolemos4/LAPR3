@@ -91,17 +91,17 @@ public class VeiculoController {
         return (veiculoDB.updateDrone(id, powerPro) ? (true) : (false));
     }
     
-    /**
-     * Verifica se a scooter foi atualizado recebendo o id  e a area frontal do veiculo
-     *
-     * @param id id do veiculo
-     * @param areaFrontal area frontal do veiculo
-     * @return true se a scooter doi atualizado
-     * @throws SQLException
-     */
-    public boolean updateScooter(int id, double areaFrontal) throws SQLException {
-        return (veiculoDB.updateScooter(id, areaFrontal) ? (true) : (false));
-    }
+//    /**
+//     * Verifica se a scooter foi atualizado recebendo o id  e a area frontal do veiculo
+//     *
+//     * @param id id do veiculo
+//     * @param areaFrontal area frontal do veiculo
+//     * @return true se a scooter doi atualizado
+//     * @throws SQLException
+//     */
+//    public boolean updateScooter(int id, double areaFrontal) throws SQLException {
+//        return (veiculoDB.updateScooter(id, areaFrontal) ? (true) : (false));
+//    }
 
     /**
      * Devolve uma lista de veiculos

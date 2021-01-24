@@ -239,7 +239,8 @@ public class VeiculoTest {
                 + "\nPeso máximo= \t" + 50.0
                 + "\nPeso do Veiculo= \t" + 30.0
                 + "\nPotência= \t" + 40.0
-                + "\nEstado: \t" + "Disponível";
+                + "\nEstado: \t" + "Disponível"
+                + "\nArea Frontal: \t" + 5.0;
         assertEquals(expResult, instance.toString());
     }
 

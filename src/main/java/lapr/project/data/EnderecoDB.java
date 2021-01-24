@@ -117,6 +117,31 @@ public class EnderecoDB extends DataHandler {
         }
         return list;
     }
+    /**
+     * Retorna a lista de todos os endereços onde os drones possam ir
+     * @return lista dos endereços onde os drones possam ir
+     */
+    public List<Endereco> getLstEnderecosDrone() {
+        ArrayList<Endereco> list = new ArrayList<>();
+        String query = "SELECT * FROM endereco WHERE altitude < 150";
+
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
+                while (rSet.next()) {
+                    String morada = rSet.getString(1);
+                    double latitude = rSet.getDouble(2);
+                    double longitude = rSet.getDouble(3);
+                    double altitude = rSet.getDouble(4);
+                    list.add(new Endereco(morada, latitude, longitude, altitude));
+                }
+                return list;
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        }
+        return list;
+    }
+    
 
     /**
      * Retorna um endereço da base de dados

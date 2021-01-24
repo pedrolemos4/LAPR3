@@ -29,6 +29,7 @@ public class Veiculo {
      * @param pesoVeiculo
      * @param potencia
      * @param estado 
+     * @param areaFrontal 
      */
     public Veiculo(int id, String descricao,double capacidade, double percentagemBateria, 
             double pesoMaximo, double pesoVeiculo, double potencia,int estado, double areaFrontal) {
@@ -48,7 +49,6 @@ public class Veiculo {
      * peso máximo o peso da veículo,a potência do veículo e o estado do veículo
      *
      * @param descricao
-     * @param tipo
      * @param capacidade
      * @param percentagemBateria
      * @param pesoMaximo
@@ -259,7 +259,8 @@ public class Veiculo {
                 + "\nPeso máximo= \t" + pesoMaximo 
                 + "\nPeso do Veiculo= \t"+ pesoVeiculo 
                 + "\nPotência= \t" + potencia 
-                +"\nEstado: \t" + estado.getDesignacao();
+                +"\nEstado: \t" + estado.getDesignacao()
+                +"\nArea Frontal: \t" + areaFrontal;
     }
     
     

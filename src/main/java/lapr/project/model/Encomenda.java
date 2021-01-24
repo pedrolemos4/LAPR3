@@ -1,7 +1,5 @@
 package lapr.project.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Encomenda {
@@ -11,13 +9,13 @@ public class Encomenda {
     private double taxa;
     private int nifCliente;
     private int nifFarmacia;
-    private List<Produto> lst;
     private EstadoEncomenda estado;
     private int id;
 
     /**
      * Constrói uma instância de encomenda recebendo a lista de produtos, a data, o preco, o peso e a taxa da encomenda
-     * @param nifCliente
+     * @param nifCliente nif do cliente
+     * @param nifFarmacia nif da farmacia
      * @param dataPedida data em que foi pedida a encomenda
      * @param preco preco da encomenda
      * @param pesoEncomenda peso da encomenda
@@ -25,7 +23,6 @@ public class Encomenda {
      * @param estado estado atual da encomenda
      */
     public Encomenda(int nifCliente, int nifFarmacia, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) {
-        this.lst=new ArrayList<>();
         this.nifCliente=nifCliente;
         this.nifFarmacia = nifFarmacia;
         this.dataPedida = dataPedida;
@@ -33,6 +30,7 @@ public class Encomenda {
         this.pesoEncomenda = pesoEncomenda;
         this.taxa = taxa;
         this.estado = new EstadoEncomenda(estado);
+        this.nifFarmacia = nifFarmacia;
     }
 
     /**
@@ -84,15 +82,6 @@ public class Encomenda {
     public void setId(int id) {
         this.id = id;
     }
-
-    /**
-     * Devolve a lista de produtos
-     * @return 
-     */
-    public List<Produto> getLst() {
-        return new ArrayList<>(lst);
-    }
-    
     
     /**
      * Devolve o valor da data em que foi pedida a encomenda
@@ -124,14 +113,6 @@ public class Encomenda {
      */
     public double getPesoEncomenda() {
         return pesoEncomenda;
-    }
-
-    /**
-     * Modifica a lista de encomenda
-     * @param lst 
-     */
-    public void setLst(List<Produto> lst) {
-        this.lst = new ArrayList<>(lst);
     }
 
     /**
@@ -186,12 +167,18 @@ public class Encomenda {
                 nifFarmacia == encomenda.nifFarmacia &&
                 id == encomenda.id &&
                 dataPedida.equals(encomenda.dataPedida) &&
-                lst.equals(encomenda.lst) &&
                 estado.equals(encomenda.estado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(dataPedida, preco, pesoEncomenda, taxa, nifCliente, nifFarmacia, lst, estado, id);
+        return Objects.hash(dataPedida, preco, pesoEncomenda, taxa, nifCliente, nifFarmacia, estado, id);
     }
+
+    @Override
+    public String toString() {
+        return "Encomenda{" + "dataPedida=" + dataPedida + ", preco=" + preco + ", pesoEncomenda=" + pesoEncomenda + ", taxa=" + taxa + ", nifCliente=" + nifCliente + ", nifFarmacia=" + nifFarmacia + ", estado=" + estado + ", id=" + id + '}';
+    }
+    
+    
 }

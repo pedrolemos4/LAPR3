@@ -83,11 +83,12 @@ public class RegistarEntregaController {
     }
     
     /**
-     * Devolve uma lista de veiculos
+     * Devolve uma lista de veiculos cujo peso maximo seja menor ou igual ao peso maximo da entrega
+     * @param pesoMaximoEntrega peso maximo da entrega
      * @return lista de veiculos
      */
-    public List<Veiculo> getListVeiculo() {
-        return veiculoDB.getListaVeiculo();
+    public List<Veiculo> getListaVeiculoEntrega(double pesoMaximoEntrega) {
+        return veiculoDB.getListaVeiculoEntrega(pesoMaximoEntrega);
     }
     
     /**
@@ -132,12 +133,13 @@ public class RegistarEntregaController {
      * @param dataFim data de fim
      * @param idVeiculo id do veiculo
      * @param idEstafeta id do estafeta
+     * @param pesoEntrega peso da entrega
      * @return entrega
      * @throws SQLException
      * @throws ParseException 
      */
-    public Entrega addEntrega(String dataInicio, String dataFim, int idVeiculo, int idEstafeta) throws SQLException, ParseException {
-        Entrega en = new Entrega(dataInicio, dataFim, idVeiculo, idEstafeta);
+    public Entrega addEntrega(String dataInicio, String dataFim, int idVeiculo, int idEstafeta, double pesoEntrega) throws SQLException, ParseException {
+        Entrega en = new Entrega(dataInicio, dataFim, idVeiculo, idEstafeta, pesoEntrega);
         en.setIdEntrega(entregaDB.addEntrega(en));
         return en;
     }
@@ -172,15 +174,29 @@ public class RegistarEntregaController {
     }
     
     /**
-     * Devolve um grafo recebendo por parametro uma lista de endereços, o estafeta, o veiculo e o pesoTotal
+     * Devolve um grafo da scooter recebendo por parametro uma lista de endereços, o estafeta, o veiculo e o pesoTotal
      * @param listEnderecos lista de endereços dos clientes que fizeram encomendas relativas à entrega
      * @param est estafeta associado à entrega
      * @param veiculo veiculo associado à entrega
+     * @param atributo atributo do veiculo
      * @param pesoTotal peso total da entrega
      * @return 
      */
-    public Graph<Endereco, Double> generateGraph(List<Endereco> listEnderecos, Estafeta est, Veiculo veiculo, double atributo, double pesoTotal) {
-        return entregaDB.generateGraph(listEnderecos, est, veiculo, atributo, pesoTotal);
+    public Graph<Endereco, Double> generateGraphScooter(List<Endereco> listEnderecos,List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double pesoTotal) {
+        return entregaDB.generateGraphScooter(listEnderecos,listEnderecosEncomenda, est, veiculo, pesoTotal);
+    }
+    
+     /**
+     * Devolve um grafo da scooter recebendo por parametro uma lista de endereços, o estafeta, o veiculo e o pesoTotal
+     * @param listEnderecos lista de endereços dos clientes que fizeram encomendas relativas à entrega
+     * @param est estafeta associado à entrega
+     * @param veiculo veiculo associado à entrega
+     * @param atributo atributo do veiculo
+     * @param pesoTotal peso total da entrega
+     * @return 
+     */
+    public Graph<Endereco, Double> generateGraphDrone(List<Endereco> listEnderecos,List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double atributo, double pesoTotal) {
+        return entregaDB.generateGraphDrone(listEnderecos,listEnderecosEncomenda, est, veiculo, atributo, pesoTotal);
     }
     
     /**
@@ -273,6 +289,22 @@ public class RegistarEntregaController {
      */
     public Drone getDroneById(int idVeiculo){
         return veiculoDB.getDroneById(idVeiculo);
+    }
+    
+    /**
+     * Devolve uma lista de endereços por onde o drone pode ir
+     * @return lista de endereços por onde o drone pode ir
+     */
+    public List<Endereco> getLstEnderecosDrone(){
+        return enderecoDB.getLstEnderecosDrone();
+    }
+    
+    /**
+     * Devolve uma lista de endereços por onde a scooter pode ir
+     * @return lista de endereços por onde o drone pode ir
+     */
+    public List<Endereco> getLstEnderecosScooter(){
+        return enderecoDB.getLstEnderecos();
     }
 
 }
