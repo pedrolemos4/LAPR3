@@ -444,8 +444,8 @@ BEGIN
   VALUES(p_dataPedida,p_preco,p_pesoEncomenda,p_taxa,p_EstadoEncomendaidEstadoEncomenda,p_ClienteUtilizadorNIF, p_nifFarmacia);
   SELECT "LAPR3_G23".encomenda.idEncomenda INTO v_idEncomenda
   FROM "LAPR3_G23".encomenda
-  WHERE --"LAPR3_G23".encomenda.dataPedida = p_dataPedida
-   "LAPR3_G23".encomenda.nifFarmacia = p_nifFarmacia
+  WHERE "LAPR3_G23".encomenda.dataPedida = p_dataPedida
+  AND  "LAPR3_G23".encomenda.nifFarmacia = p_nifFarmacia
   AND "LAPR3_G23".encomenda.preco = p_preco
   AND "LAPR3_G23".encomenda.pesoEncomenda = p_pesoEncomenda
   AND "LAPR3_G23".encomenda.taxa = p_taxa
@@ -454,6 +454,7 @@ BEGIN
   return v_idEncomenda;
 END;
 /
+select * from encomenda;
 
 
 
@@ -808,6 +809,11 @@ where c.utilizadornif = u.nif;
 
 select * from stockfarmacia;
 --IVULFacKOHnE
+
+delete from stockfarmacia where stock = -1;
+
+select * from encomenda;
+
 select * from cliente where utilizadornif = 226138330;
 
 update cliente set creditos = 2000 where utilizadornif = 226138330;
