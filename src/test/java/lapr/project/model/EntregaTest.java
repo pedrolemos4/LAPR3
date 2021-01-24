@@ -294,5 +294,83 @@ public class EntregaTest {
         assertEquals(expResult, result);
     }
 
-    
+    /**
+     * Test of equals method, of class Entrega.
+     */
+    @Test
+    public void testEquals2() {
+        System.out.println("equals2");
+        Entrega instance = null;
+        Entrega instance1 = new Entrega("25/12/2252", "26/12/2252",1, 1, 3);
+        boolean expResult = false;
+        boolean result = instance1.equals(instance);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Entrega.
+     */
+    @Test
+    public void testEquals3() {
+        System.out.println("equals3");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1, 3);
+        Entrega instance1 = new Entrega("25/12/2252", "26/12/2252",2, 1, 3);
+        boolean expResult = false;
+        boolean result = instance.equals(instance1);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Entrega.
+     */
+    @Test
+    public void testEquals4() {
+        System.out.println("equals4");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 2, 3);
+        Entrega instance1 = new Entrega("25/12/2252", "26/12/2252",1, 1, 3);
+        boolean expResult = false;
+        boolean result = instance.equals(instance1);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Entrega.
+     */
+    @Test
+    public void testEquals5() {
+        System.out.println("equals5");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 2, 3);
+        Entrega instance1 = new Entrega("26/12/2252", "26/12/2252",1, 1, 3);
+        boolean expResult = false;
+        boolean result = instance.equals(instance1);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Entrega.
+     */
+    @Test
+    public void testEquals6() {
+        System.out.println("equals6");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 2, 3);
+        Entrega instance1 = new Entrega("25/12/2252", "28/12/2252",1, 1, 3);
+        boolean expResult = false;
+        boolean result = instance.equals(instance1);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Entrega.
+     */
+    @Test
+    public void testEquals7() {
+        System.out.println("equals7");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 2, 3);
+        Entrega instance1 = new Entrega("25/12/2252", "26/12/2252",1, 1, 3);
+        instance.setIdEntrega(12);
+        instance1.setIdEntrega(23);
+        boolean expResult = false;
+        boolean result = instance.equals(instance1);
+        assertEquals(expResult, result);
+    }
 }
