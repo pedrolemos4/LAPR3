@@ -66,14 +66,11 @@ class EstacionamentoControllerTest {
         when(parqueDB.getParqueByID(0)).thenReturn(parque);
         when(estafetaDB.getEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
-        //File file = new File(path + "/estimate_1.data");
-        //File fileflag = new File(path + "/estimate_1.data.flag");
-
         String assunto = "Estacionamento Scooter";
         String mensagem = "A scooter foi estacionada sem sucesso, tente novamente.";
 
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
-        assertTrue(instance.checkParkings(path));
+        assertEquals(true,instance.checkParkings(path));
 
         new File(path + "/estimate_1.data").createNewFile();
         new File(path + "/estimate_1.data.flag").createNewFile();
@@ -443,30 +440,18 @@ class EstacionamentoControllerTest {
         FileOutputStream out = new FileOutputStream(b);
 
         try {
-
             int n;
-
-            // read() function to read the
-            // byte of data
             while ((n = in.read()) != -1) {
-                // write() function to write
-                // the byte of data
                 out.write(n);
             }
         }
         finally {
             if (in != null) {
-
-                // close() function to close the
-                // stream
                 in.close();
             }
-            // close() function to close
-            // the stream
             if (out != null) {
                 out.close();
             }
         }
-        //System.out.println("File Copied");
     }
 }
