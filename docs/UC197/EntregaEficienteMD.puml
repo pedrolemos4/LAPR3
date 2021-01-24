@@ -3,31 +3,11 @@ skinparam classAttributeIconSize 0
 hide methods
 left to right direction
 
-
 class Entrega {
   -idEntrega
   -dataInicio
   -dataFim
-}
-
-class Encomenda {
-  -idEncomenda
-  -dataPedida
-  -preco
-  -pesoEncomenda
-  -taxa
-}
-
-class EstadoEncomenda {
-  -id_estado_encomenda
-  -designacao
-}
-
-class Produto {
-  -idProduto
-  -designacao
-  -peso
-  -precoBase
+  -pesoEntrega
 }
 
 class Estafeta {
@@ -40,17 +20,9 @@ class Estafeta {
 }
 
 
-class Endereco {
-  -morada
-  -latitude
-  -longitude
-  -altitude
-}
-
 class Veiculo {
   -idVeiculo
   -descricao
-  -tipo
   -percentagemBateria
   -pesoMaximo
   -pesoVeiculo
@@ -58,38 +30,7 @@ class Veiculo {
   -areaFrontal
 }
 
-class Parque {
-  -idParque
-  -numeroMaximo
-  -tipo
-}
-
-class Cliente {
-  -NIF
-  -nome
-  -email
-  -numeroSegurancaSocial
-  -password
-  -creditos
-}
-
-class Farmacia {
-  -NIF
-  -email
-  -morada
-}
-
-Encomenda "1" -- "1" EstadoEncomenda : tem >
-Entrega "1" -- "*" Encomenda : possui >
 Estafeta "1" -- "*" Entrega: realiza >
-Cliente "1" -- "1" Endereco: tem >
-Cliente "1" -- "*" Encomenda: realiza e paga >
 Entrega "*" -- "1" Veiculo: realiza <
-Encomenda "1" -- "*" Produto: tem >
-Parque "1" -- "*" Veiculo: possui >
-Farmacia "1" -- "1" Parque: possui >
-Farmacia "1" -- "*" Estafeta: tem >
-Farmacia "1" -- "1" Endereco: possui >
-
 
 @enduml

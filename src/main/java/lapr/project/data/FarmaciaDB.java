@@ -187,7 +187,7 @@ public class FarmaciaDB extends DataHandler {
      * @param p produto
      * @return lista de farmácias
      */
-    private ArrayList<Farmacia> getLstFarmaciasByProduto(Produto p) {
+    public ArrayList<Farmacia> getLstFarmaciasByProduto(Produto p) {
         ArrayList<Farmacia> list = new ArrayList<>();
         String query = "SELECT * FROM farmacia f INNER JOIN stockfarmacia s ON s.farmacianif = f.nif "
                 + "INNER JOIN produto p ON s.produtoidproduto = p.idProduto AND p.idProduto =" + p.getId();
@@ -214,7 +214,7 @@ public class FarmaciaDB extends DataHandler {
      * @param morada
      * @return
      */
-    private Farmacia getFarmaciaByEndereco(String morada) {
+    public Farmacia getFarmaciaByEndereco(String morada) {
 
         String query = "SELECT * FROM farmacia f WHERE f.morada = '" + morada + "'";
 
@@ -237,14 +237,15 @@ public class FarmaciaDB extends DataHandler {
      * Gera um grafo com a lista de enderecos das farmácias, das ruas e das ruas
      * dos clientes e a distância entre elas
      *
+     * @param graph
      * @return grafo
      */
     public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graph) {
 
         List<Endereco> lst = end.getLstEnderecos();
 
-        for (Endereco end : lst) {
-            graph.insertVertex(end);
+        for (Endereco endereco : lst) {
+            graph.insertVertex(endereco);
         }
 
         for (Endereco e1 : graph.vertices()) {
@@ -270,23 +271,19 @@ public class FarmaciaDB extends DataHandler {
      */
     public Farmacia getFarmaciaProxima(Graph<Endereco, Double> graph, Endereco enderecoCliente, List<Endereco> list) {
 
-        double min = 999999999;
+        double min = Double.MAX_VALUE;
         Farmacia farmaciaByEndereco = null;
 
         for (Endereco f1 : graph.vertices()) {
-            if (getFarmaciaByEndereco(f1.getMorada()) != null && /*!enderecoCliente.getMorada().equals(f1.getMorada()) &&*/  !list.contains(f1)) {
+            if (getFarmaciaByEndereco(f1.getMorada()) != null && !list.contains(f1)) {
                 LinkedList<Endereco> shortPath = new LinkedList<>();
                 double valor = GraphAlgorithms.shortestPath(graph, enderecoCliente, f1, shortPath);
-                System.out.println("Valor: " + valor);
-                System.out.println("Endereço: " + enderecoCliente.getMorada());
-                System.out.println("F1: " + f1.getMorada());
                 if (valor < min && valor != 0) {
                     min = valor;
                     farmaciaByEndereco = getFarmaciaByEndereco(f1.getMorada());
                 }
             }
         }
-        System.out.println("Farmacia que retorna: " + farmaciaByEndereco);
 
         return farmaciaByEndereco;
 

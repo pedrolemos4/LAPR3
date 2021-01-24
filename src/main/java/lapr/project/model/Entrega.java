@@ -144,13 +144,12 @@ public class Entrega {
     }
 
     /**
-     * Retorna o hashCode
-     * @return 
+     * Devolve o hash code da instância de entrega
+     * @return hash code
      */
     @Override
     public int hashCode() {
-        int hash = 5;
-        return hash;
+        return Objects.hash(idEntrega, dataInicio, dataFim, idVeiculo, idEstafeta, pesoEntrega);
     }
 
     /**

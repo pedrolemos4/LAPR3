@@ -158,12 +158,6 @@ public class ProdutosDB extends DataHandler {
      * @param id id do produto
      */
     private void atualizarProduto(String desig, double peso, double precoBase, int id) throws SQLException {
-        System.out.println("ID = " + id);
-        System.out.println("DESIGNAÇÃO = " + desig);
-        System.out.println("Peso = " + peso);
-        System.out.println("Preco Base = " + precoBase);
-
-        // openConnection();
         try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?,?) }")) {
 
             callStmt.setString(1, desig);
@@ -192,17 +186,11 @@ public class ProdutosDB extends DataHandler {
      */
     public boolean atualizarStock(int nif, int idProduto, int quantidade) {
         boolean removed = false;
-//        try {
-//            openConnection();
-
         try (CallableStatement callStmt = getConnection().prepareCall("{ call procAtualizarStock(?,?,?) }")) {
-            System.out.println("ENTROU");
             callStmt.setInt(1, nif);
             callStmt.setInt(2, idProduto);
             callStmt.setInt(3, quantidade);
-            System.out.println("ANTES DO EXEC");
-            System.out.println("jkejkfjkn" + callStmt.execute());
-            System.out.println("DEPOIS DO EXEC");
+            callStmt.execute();
             removed = true;
             try {
 
@@ -316,7 +304,6 @@ public class ProdutosDB extends DataHandler {
      */
     public boolean removerProdutosEncomenda(Produto prod, int nif, int qtd, int qtdStock) {
         int c = qtdStock - qtd;
-        System.out.println("Stock . encomenda: " + c);
         return atualizarStock(nif, prod.getId(), c);
     }
 
@@ -328,13 +315,10 @@ public class ProdutosDB extends DataHandler {
      * @return preço total
      */
     public double getPrecoTotal(Map<Produto, Integer> mapaEncomenda, double taxa) {
-
         double preco = 0.0;
-
         for (Produto prod : mapaEncomenda.keySet()) {
             preco = preco + prod.getPrecoBase();
         }
-
         return preco + preco * taxa;
     }
 

@@ -307,7 +307,7 @@ public class RegistarEntregaControllerTest {
     public void testGetPath() {
         System.out.println("getPath");
         Graph<Endereco, Double> graph = new Graph<>(true) ;
-        List<Endereco> listEnderecos = new LinkedList<>();
+        ArrayList<Endereco> listEnderecos = new ArrayList<>();
         Endereco e1 = new Endereco("dfad", 23, 34, 1);
         listEnderecos.add(e1);
         Endereco e2 = new Endereco("hte", 3, 5, 2);
@@ -320,12 +320,14 @@ public class RegistarEntregaControllerTest {
         graph.insertEdge(e1, e2, 1.0, 34);
         graph.insertEdge(e2, e3, 1.0, 12);
         graph.insertEdge(e1, e3, 1.0, 23);
-        List<Endereco> finalShortPath = new LinkedList<>();
+        LinkedList<Endereco> finalShortPath = new LinkedList<>();
+        finalShortPath.add(e3);
         Endereco origem = e1;
         double energia = 48.0;
         double expResult = 48.0;
+        Veiculo veiculo = new Veiculo(1, "scooter", 34, 12, 34, 45, 75, 54,23);
         RegistarEntregaController teste = new RegistarEntregaController(new UtilizadorDB(), new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
-        double result = teste.getPath(graph, listEnderecos, finalShortPath, origem, energia);
+        double result = teste.getPath(graph, listEnderecos, finalShortPath, origem, energia, veiculo);
         assertEquals(expResult, result, 0.0);
 
     }
@@ -508,6 +510,36 @@ public class RegistarEntregaControllerTest {
         Drone expResult = new Drone("drone", 15, 21, 32, 2, 12, 34, 4, 1,5);
         when(veiculoDB.getDroneById(idVeiculo)).thenReturn(expResult);
         Drone result = instance.getDroneById(idVeiculo);
+        assertEquals(expResult, result);
+
+    }
+    
+    /**
+     * Test of getLstEnderecosDrone method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetLstEnderecosDrone() {
+        System.out.println("getLstEnderecosDrone");
+        List<Endereco> expResult = new LinkedList<>();
+        expResult.add(new Endereco("vdvd", 45, 48, 45));
+        expResult.add(new Endereco("qwe", 23, 43, 43));
+        when(enderecoDB.getLstEnderecosDrone()).thenReturn(expResult);
+        List<Endereco> result = instance.getLstEnderecosDrone();
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of getLstEnderecosScooter method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetLstEnderecosScooter() {
+        System.out.println("getLstEnderecosScooter");
+        List<Endereco> expResult = new LinkedList<>();
+        expResult.add(new Endereco("vdvd", 45, 48, 45));
+        expResult.add(new Endereco("qwe", 23, 43, 43));
+        when(enderecoDB.getLstEnderecos()).thenReturn(expResult);
+        List<Endereco> result = instance.getLstEnderecosScooter();
         assertEquals(expResult, result);
 
     }

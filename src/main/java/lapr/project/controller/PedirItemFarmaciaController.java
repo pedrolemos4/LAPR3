@@ -78,7 +78,6 @@ public class PedirItemFarmaciaController {
     public Farmacia getFarmaciaProxima(Graph<Endereco, Double> generateGrafo, Endereco end, List<Endereco> list) {
         return fdb.getFarmaciaProxima(generateGrafo,end, list);
     }
-    //COPIAR MÉTODO ACIMA SO Q É UM GRAFO<ENDERECO, DOUBLE>
 
     /**
      * Verifica se a nota de entrega é enviada

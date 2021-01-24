@@ -21,6 +21,7 @@ import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Graph;
 import lapr.project.model.GraphAlgorithms;
+import lapr.project.model.Parque;
 import lapr.project.model.Veiculo;
 import lapr.project.utils.CalculosFisica;
 import oracle.jdbc.OracleTypes;
@@ -33,9 +34,9 @@ public class EntregaDB extends DataHandler {
 
     private static final String DRONE = "drone";
     private static final String SCOOTER = "scooter";
-    private final EncomendaDB encDB = new EncomendaDB();
+    private final ParqueDB parqueDB = new ParqueDB();
     private final CaminhoDB caminhoDB = new CaminhoDB();
-    private final EnderecoDB end = new EnderecoDB();
+    private final FarmaciaDB far = new FarmaciaDB();
 
     /**
      * Adiciona uma entrega à base de dados
@@ -54,16 +55,10 @@ public class EntregaDB extends DataHandler {
 
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             java.util.Date date = sdf1.parse(entrega.getDataInicio());
-            System.out.println("dateInicio: " + entrega.getDataInicio());
-            System.out.println("INICIO: " + date);
             java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
-            System.out.println("dateInicio1: " +sqlStartDate);
             callStmt.setTimestamp(4, sqlStartDate);
             java.util.Date date1 = sdf1.parse(entrega.getDataFim());
-            System.out.println("dateFim: " + entrega.getDataFim());
-            System.out.println("FIM: " + date1);
             java.sql.Timestamp sqlEndDate = new java.sql.Timestamp(date1.getTime());
-            System.out.println("dateFIM1: " +sqlEndDate);
             callStmt.setTimestamp(5, sqlEndDate);
             callStmt.setInt(3, entrega.getIdVeiculo());
             callStmt.setInt(2, entrega.getidEstafeta());
@@ -120,7 +115,7 @@ public class EntregaDB extends DataHandler {
      * @param pesoTotalEntrega peso total de entrega
      * @return grafo com os endereços e as ruas definidas
      */
-    public Graph<Endereco, Double> generateGraphScooter(List<Endereco> listEnderecos,List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
+    public Graph<Endereco, Double> generateGraphScooter(List<Endereco> listEnderecos, List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
         Graph<Endereco, Double> graph = new Graph<>(true);
 
         double energiaGasta = 0;
@@ -132,11 +127,11 @@ public class EntregaDB extends DataHandler {
         for (Endereco e : graph.vertices()) {
             for (Endereco end : graph.vertices()) {
                 if (caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()) != null) {
-                        energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(),
-                                pesoTotalEntrega, end, e, caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()).getRoadResistanceCoefficient(),
-                                caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()).getDirecaoVento(),
-                                caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()).getVelocidadeVento());
-                        graph.insertEdge(end, e, 1.0, energiaGasta);
+                    energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(), veiculo.getAreaFrontal(),
+                            pesoTotalEntrega, end, e, caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()).getRoadResistanceCoefficient(),
+                            caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()).getDirecaoVento(),
+                            caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()).getVelocidadeVento());
+                    graph.insertEdge(end, e, 1.0, energiaGasta);
                     if (listEnderecosEncomenda.contains(end)) {
                         pesoTotalEntrega = pesoTotalEntrega - getEncomendaByMorada(end.getMorada()).getPesoEncomenda();
                         listEnderecosEncomenda.remove(e);
@@ -151,14 +146,15 @@ public class EntregaDB extends DataHandler {
      * Gera o grafo do drone com os endereços existentes como vértices
      *
      * @param listEnderecos lista de endereços
-     * @param listEnderecosEncomenda lista dos endereços das encomendas realizadas
+     * @param listEnderecosEncomenda lista dos endereços das encomendas
+     * realizadas
      * @param est estafeta
      * @param veiculo veículo
      * @param atributo atributo
      * @param pesoTotalEntrega peso total de entrega
      * @return grafo com os endereços e as ruas definidas
      */
-    public Graph<Endereco, Double> generateGraphDrone(List<Endereco> listEnderecos,List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double atributo, double pesoTotalEntrega) {
+    public Graph<Endereco, Double> generateGraphDrone(List<Endereco> listEnderecos, List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double atributo, double pesoTotalEntrega) {
         Graph<Endereco, Double> graph = new Graph<>(true);
         double energiaGasta = 0;
 
@@ -173,16 +169,15 @@ public class EntregaDB extends DataHandler {
                             pesoTotalEntrega, endereco, e, caminhoDB.getCaminhoByEnderecos(endereco.getMorada(), e.getMorada()).getDirecaoVento(),
                             caminhoDB.getCaminhoByEnderecos(endereco.getMorada(), e.getMorada()).getVelocidadeVento());
                     graph.insertEdge(endereco, e, 1.0, energiaGasta);
-                
-                if (listEnderecosEncomenda.contains(e)) {
-                    pesoTotalEntrega = pesoTotalEntrega - getEncomendaByMorada(e.getMorada()).getPesoEncomenda();
-                    listEnderecosEncomenda.remove(e);
-                }
+
+                    if (listEnderecosEncomenda.contains(e)) {
+                        pesoTotalEntrega = pesoTotalEntrega - getEncomendaByMorada(e.getMorada()).getPesoEncomenda();
+                        listEnderecosEncomenda.remove(e);
+                    }
                 }
 
             }
         }
-        //System.out.println(graph.toString());
         return graph;
     }
 
@@ -191,12 +186,14 @@ public class EntregaDB extends DataHandler {
      *
      * @param graph grafo a ver o caminho
      * @param listEnderecos lista de endereços do grafo
-     * @param finalShortPath lista de endereços com o caminho com menos energia gasta
+     * @param finalShortPath lista de endereços com o caminho com menos energia
+     * gasta
      * @param origem vértice de origem
      * @param energia energia gasta nessa rua
+     * @param v veiculo usado no percurso
      * @return valor da energia
      */
-    public double getPath(Graph<Endereco, Double> graph, List<Endereco> listEnderecos, List<Endereco> finalShortPath, Endereco origem, double energia) {
+    public double getPath(Graph<Endereco, Double> graph, ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia, Veiculo v) {
         double dFinal;
         if (!listEnderecos.isEmpty()) {
             double dist;
@@ -205,36 +202,19 @@ public class EntregaDB extends DataHandler {
             for (Endereco c : listEnderecos) {
                 LinkedList<Endereco> shortPath = new LinkedList<>();
                 dist = GraphAlgorithms.shortestPath(graph, origem, c, shortPath);
-                //System.out.println("dist: " + dist);
                 if (dist < min) {
-                    //System.out.println("min1: " +min);
                     min = dist;
-                    //System.out.println("min2: " + min);
                     endereco = c;
-                    //System.out.println("end: " +end);
-//                    for(Endereco end: finalShortPath){
-//                        System.out.println("endereços1: " + end);
-//                    }
-//                    finalShortPath.addAll(shortPath.subList(1, shortPath.size()));
-//                    for(Endereco end: finalShortPath){
-//                        System.out.println("endereços2: " + end);
-//                    }
-//                    System.out.println("energia1: " +energia);
-//                    energia = energia + dist;
-//                    System.out.println("energia2: " +energia);
-//                    System.out.println("origem1: " +origem);
-//                    origem = c;
-//                    System.out.println("origem2: " +origem);
                 }
-                
             }
             listEnderecos.remove(endereco);
             LinkedList<Endereco> shortPath1 = new LinkedList<>();
             dist = GraphAlgorithms.shortestPath(graph, origem, endereco, shortPath1);
-            
+
             if (!shortPath1.isEmpty()) {
                 finalShortPath.addAll(shortPath1.subList(1, shortPath1.size()));
-                dFinal = getPath(graph, listEnderecos, finalShortPath, endereco, min);
+                LinkedList<Endereco> l = checkCaminho(graph, finalShortPath, v);
+                dFinal = getPath(graph, listEnderecos, l, endereco, min, v);
                 energia = energia + dFinal;
             } else {
                 finalShortPath.clear();
@@ -242,6 +222,64 @@ public class EntregaDB extends DataHandler {
             }
         }
         return energia;
+    }
+
+    public LinkedList<Endereco> checkCaminho(Graph<Endereco, Double> graph, List<Endereco> finalShortPath, Veiculo v) {
+        double distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(), v.getPercentagemBateria(), v.getPotencia());
+        double distancia = 0;
+        LinkedList<Endereco> list = new LinkedList<>();
+        int i = finalShortPath.size() - 1;
+        list.add(finalShortPath.get(0));
+        for (int aux = 0; aux < i; aux++) {
+            if (v.getDescricao().equalsIgnoreCase(SCOOTER)) {
+                distancia = distancia + CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
+                if (distanciaVeiculo < distancia) {
+                    List<Endereco> lista = getListComParqueMaisProximo(graph, list, v);
+                    list.addAll(lista);
+                    break;
+                }
+                list.add(finalShortPath.get(aux + 1));
+            }
+            if (v.getDescricao().equalsIgnoreCase(DRONE)) {
+                distancia = distancia + CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
+                if (distanciaVeiculo < distancia) {
+                    List<Endereco> lista = getListComParqueMaisProximo(graph, list, v);
+                    list.addAll(lista);
+                    break;
+                }
+                list.add(finalShortPath.get(aux + 1));
+            }
+        }
+        return list;
+    }
+
+    private List<Endereco> getListComParqueMaisProximo(Graph<Endereco, Double> graph, LinkedList<Endereco> list, Veiculo v) {
+        double min = Double.MAX_VALUE;
+        LinkedList<Endereco> listaFinal = new LinkedList<>();
+
+        for (Endereco f1 : graph.vertices()) {
+            if (far.getFarmaciaByEndereco(f1.getMorada()) != null) {
+                for (Parque p : parqueDB.getLstParquesByFarmaciaNif(far.getFarmaciaByEndereco(f1.getMorada()).getNIF())) {
+                    if (v.getDescricao().equalsIgnoreCase(SCOOTER) && p.getTipo().equalsIgnoreCase(SCOOTER)) {
+                        LinkedList<Endereco> shortPath = new LinkedList<>();
+                        double valor = GraphAlgorithms.shortestPath(graph, list.getLast(), f1, shortPath);
+                        if (valor < min /*&& valor != 0*/) {
+                            min = valor;
+                            listaFinal = shortPath;
+                        }
+                    }
+                    if(v.getDescricao().equalsIgnoreCase(DRONE) && p.getTipo().equalsIgnoreCase(DRONE)) {
+                        LinkedList<Endereco> shortPath = new LinkedList<>();
+                        double valor = GraphAlgorithms.shortestPath(graph, list.getLast(), f1, shortPath);
+                        if (valor < min /*&& valor != 0*/) {
+                            min = valor;
+                            listaFinal = shortPath;
+                        }
+                    }
+                }
+            }
+        }
+        return listaFinal;
     }
 
     /**
@@ -278,8 +316,7 @@ public class EntregaDB extends DataHandler {
     /**
      * Retorna o valor da duração do percurso
      *
-     * @param finalShortPath lista de endereços com o caminho com menos energia
-     * gasta
+     * @param finalShortPath lista de endereços com o caminho com menos energia gasta
      * @param veiculo veículo utilizado
      * @return duração do percurso
      * @throws ParseException
@@ -288,34 +325,23 @@ public class EntregaDB extends DataHandler {
         double distancia = 0;
         int aux = 0;
         int i = finalShortPath.size() - 1;
-        double tempo = 0;       
+        double tempo = 0;
         for (aux = 0; aux < i; aux++) {
             if ((veiculo.getDescricao()).equalsIgnoreCase(SCOOTER)) {
-                System.out.println("EnderecoN1Scooter: " +finalShortPath.get(aux));
-                System.out.println("EnderecoN2Scooter: " +finalShortPath.get(aux + 1));
                 distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
-                System.out.println("distanciaScooter: " + distancia);
                 Caminho c = caminhoDB.getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
-                System.out.println("caminhoScooter: " + c.toString());
                 tempo = tempo + CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
             }
             if ((veiculo.getDescricao()).equalsIgnoreCase(DRONE)) {
-                System.out.println("EnderecoN1Drone: " +finalShortPath.get(aux));
-                System.out.println("EnderecoN2Drone: " +finalShortPath.get(aux + 1));
                 distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
-                System.out.println("distanciaDrone: " + distancia);
                 Caminho c = caminhoDB.getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(), finalShortPath.get(aux + 1).getMorada());
-                System.out.println("caminhoDrone: " + c.toString());
                 tempo = tempo + CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
-                System.out.println("tempo: " +tempo);
             }
         }
         String s = String.format("%06d", (int) tempo);
-        System.out.println("tempoFinal: " +s); 
-       DateFormat format = new SimpleDateFormat("HHmmss");
+        DateFormat format = new SimpleDateFormat("HHmmss");
         DateFormat format1 = new SimpleDateFormat("HH:mm:ss");
         Date date2 = format.parse(s);
-        System.out.println("dateGetPercurso: " + format1.format(date2));
 
         return format1.format(date2);
     }
@@ -339,17 +365,11 @@ public class EntregaDB extends DataHandler {
 
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             java.util.Date date = sdf1.parse(entrega.getDataInicio());
-            System.out.println("dateInicio: " + entrega.getDataFim());
-            System.out.println("INICIO: " + date);
             java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
-            System.out.println("dateINICIO1: " +sqlStartDate);
             callSmt.setTimestamp(4, sqlStartDate);
 
             java.util.Date date1 = sdf1.parse(entrega.getDataFim());
-            System.out.println("dateFim: " + entrega.getDataFim());
-            System.out.println("FIM: " + date1);
             java.sql.Timestamp sqlEndDate = new java.sql.Timestamp(date1.getTime());
-            System.out.println("dateFim1: " +sqlEndDate);
             callSmt.setTimestamp(5, sqlEndDate);
             callSmt.setDouble(6, entrega.getPesoEntrega());
 

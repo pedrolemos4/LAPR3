@@ -1,11 +1,11 @@
 @startuml
 autonumber
 
-actor "Administrador" as ADMIN
+actor "Estafeta" as ADMIN
 
-participant ":AdminUI" as UI
+participant ":RegistarEntregUI" as UI
 participant ":RegistarEntregaController" as CTRL
-participant ":EncomendaDB" as DRDB
+participant ":VeiculoDB" as DRDB
 participant ":EntregaDB" as ENDB
 
 
@@ -13,24 +13,26 @@ participant ":EntregaDB" as ENDB
 activate ADMIN
 ADMIN -> UI : pretende saber qual a entrega mais eficiente
 activate UI
-UI -> CTRL : getListaEncomenda()
+UI -> CTRL : getListaVeiculoEntrega(pesoMaximoEntrega)
 activate CTRL
-CTRL -> DRDB : listaEncomenda = getListaEncomenda()
+CTRL -> DRDB : listaVeiculos = getListaVeiculoEntrega(pesoMaximoEntrega)
 activate DRDB
 deactivate DRDB
 deactivate CTRL
-  
-UI --> ADMIN : solicita uma lista de encomendas
-deactivate UI
-
-ADMIN -> UI : introduz os dados solicitados
-activate UI 
-UI -> CTRL : getEntregaEficiente(listaEncomendas)
+loop
+UI -> CTRL : generateGraphScooter(listEnderecosScooter, listEnderecos, est, v, pesoEntrega)
 activate CTRL
-CTRL -> ENDB : getEntregaEficiente(listaEncomendas)
+CTRL -> ENDB : generateGraphScooter(listEnderecosScooter, listEnderecos, est, v, pesoEntrega)
 activate ENDB
 deactivate ENDB
 deactivate CTRL
+UI -> CTRL : getPath(graphScooter, listEnderecos, finalShortPathScooter, endereco, 0, v)
+activate CTRL
+CTRL -> ENDB : getPath(graphScooter, listEnderecos, finalShortPathScooter, endereco, 0, v)
+activate ENDB
+deactivate ENDB
+deactivate CTRL
+end loop
 UI --> ADMIN : apresenta os dados
 deactivate UI
 
