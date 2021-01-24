@@ -118,13 +118,9 @@ public class Data implements Comparable<Data>{
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + this.ano;
-        hash = 97 * hash + Objects.hashCode(this.mes);
-        hash = 97 * hash + this.dia;
-        return hash;
-
+        return Objects.hash(ano, mes, dia);
     }
+
     public boolean isMaior(Data outraData) {
         int totalDias = contaDias();
         int totalDias1 = outraData.contaDias();

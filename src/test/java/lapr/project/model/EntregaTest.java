@@ -263,7 +263,7 @@ public class EntregaTest {
     public void testHashCode() {
         System.out.println("hashCode");
         Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 1, 2);
-        int expResult = 5;
+        int expResult = instance.hashCode();
         int result = instance.hashCode();
         assertEquals(expResult, result);
     }
