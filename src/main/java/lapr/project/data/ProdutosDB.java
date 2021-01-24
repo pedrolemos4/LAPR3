@@ -192,21 +192,27 @@ public class ProdutosDB extends DataHandler {
      */
     public boolean atualizarStock(int nif, int idProduto, int quantidade) {
         boolean removed = false;
-        try {
-            openConnection();
+//        try {
+//            openConnection();
 
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call procAtualizarStock(?,?,?) }")) {
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call procAtualizarStock(?,?,?) }")) {
+            System.out.println("ENTROU");
+            callStmt.setInt(1, nif);
+            callStmt.setInt(2, idProduto);
+            callStmt.setInt(3, quantidade);
+            System.out.println("ANTES DO EXEC");
+            callStmt.execute();
+            System.out.println("DEPOIS DO EXEC");
+            removed = true;
+            try {
 
-                callStmt.setInt(1, nif);
-                callStmt.setInt(2, idProduto);
-                callStmt.setInt(3, quantidade);
-                removed = true;
-                callStmt.execute();
+                closeAll();
+
+            } catch (NullPointerException ex) {
+                Logger.getLogger(ProdutosDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
-            closeAll();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProdutosDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return removed;
     }
@@ -308,7 +314,9 @@ public class ProdutosDB extends DataHandler {
      * @param qtdStock quantidade do produto em stock
      */
     public boolean removerProdutosEncomenda(Produto prod, int nif, int qtd, int qtdStock) {
-        return atualizarStock(nif, prod.getId(), qtdStock - qtd);
+        int c = qtdStock - qtd;
+        System.out.println("Stock . encomenda: " + c);
+        return atualizarStock(nif, prod.getId(), c);
     }
 
     /**

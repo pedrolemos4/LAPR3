@@ -6,7 +6,7 @@ import lapr.project.model.Produto;
 
 public class EnviarNotaTransferenciaController {
     private final EmailDB edb;
-    
+     
     /**
      * Constroi uma instancia de EnviarNotaTransferenciaController recebendo uma instancia de EmailDB
      * @param edb instancia de EmailDB

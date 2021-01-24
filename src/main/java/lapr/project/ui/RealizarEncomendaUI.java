@@ -62,8 +62,6 @@ public class RealizarEncomendaUI {
         Graph<Endereco, Double> graph = new Graph<>(true);
         graph = controller2.generateGrafo(graph);
 
-        System.out.println("A BIA É BOOMER: " + graph.validVertex(enderecoCliente));
-
         System.out.println(graph.toString());
 
         Farmacia farm = controller2.getFarmaciaProxima(graph, enderecoCliente);
@@ -177,12 +175,18 @@ public class RealizarEncomendaUI {
 
             int idnovaencomenda = controller.registaEncomenda(enc);
 
-            for (Produto p : mapaEncomenda.keySet()) {
-                controller.registaEncomendaProduto(enc, p, mapaEncomenda.get(p));
-            }
+            stock = controller.getListStock(nif);
 
             for (Produto p1 : mapaEncomenda.keySet()) {
+                System.out.println("Produtos: " + p1);
+                System.out.println("Nif: " + nif);
+                System.out.println("MapaEncomenda: " + mapaEncomenda.get(p1));
+                System.out.println("Stock: " + stock.get(p1));
                 controller.removerProdutosEncomenda(p1, nif, mapaEncomenda.get(p1), stock.get(p1));
+            }
+
+            for (Produto p : mapaEncomenda.keySet()) {
+                controller.registaEncomendaProduto(enc, p, mapaEncomenda.get(p));
             }
 
             double precoTotal = controller.getPrecoTotal(mapaEncomenda, enc.getTaxa());

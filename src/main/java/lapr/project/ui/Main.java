@@ -82,8 +82,8 @@ class Main {
             readFile.read(CAMINHOS);
         }
         
-        EstacionamentoController cont = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB(), new EstafetaDB());
-        cont.checkParkings("src/main/java/lapr/project/parking/estacionamento");
+//        EstacionamentoController cont = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB(), new EstafetaDB());
+//        cont.checkParkings("src/main/java/lapr/project/parking/estacionamento");
         
         LoginUI login = new LoginUI();
         login.menu();

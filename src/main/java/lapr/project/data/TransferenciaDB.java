@@ -22,8 +22,11 @@ public class TransferenciaDB extends DataHandler {
      * @return
      */
     public boolean realizaPedido(Farmacia fOrig, Farmacia fDest, Produto produto, int quantidade) {
+        System.out.println("1");
         addTransferencia(fOrig.getNIF(), fDest.getNIF(), produto.getId(), quantidade, 1);
+        System.out.println("2");
         enviarStock(fOrig, fDest, produto, quantidade);
+        System.out.println("3");
 
         return true;
     }
@@ -72,14 +75,21 @@ public class TransferenciaDB extends DataHandler {
         Map<Produto, Integer> stockFarmDest = pdb.getLista(fDest.getNIF());
 
         if (stockFarmOrig.containsKey(produto) && stockFarmOrig.get(produto) >= quantidade) {
+            System.out.println("4");
             if (!stockFarmDest.containsKey(produto)) {
+                System.out.println("5");
+                stockFarmDest.put(produto, 0);
                 stockFarmDest.put(produto, quantidade);
+                pdb.addProdutoStock(fDest.getNIF(), produto.getId(), stockFarmDest.get(produto));
             } else {
+                System.out.println("6");
                 stockFarmDest.replace(produto, stockFarmDest.get(produto) + quantidade);
+                pdb.atualizarStock(fDest.getNIF(), produto.getId(), stockFarmDest.get(produto));
             }
-            pdb.atualizarStock(fDest.getNIF(), produto.getId(), stockFarmDest.get(produto));
+            System.out.println("7");
             stockFarmOrig.replace(produto, stockFarmOrig.get(produto) - quantidade);
             pdb.atualizarStock(fOrig.getNIF(), produto.getId(), stockFarmOrig.get(produto));
+            System.out.println("8");
             return true;
 
         }
