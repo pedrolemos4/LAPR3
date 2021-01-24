@@ -104,8 +104,7 @@ public class EstacionamentoController {
                     return notificaAdministrador(false,estimativa,veiculo.getId());
                 }
             } else {
-                boolean uga = true;
-                if(uga){//implementar método estacionamentosDB.getEstacionamentoScooter) {
+                if(estacionamentosDB.getEstacionamentoVeiculo(estac,veiculo)){//implementar método estacionamentosDB.getEstacionamentoScooter) {
                     estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo);
                     try {
                         veiculo.setEstadoVeiculo(0);

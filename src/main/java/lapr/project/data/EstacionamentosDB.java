@@ -194,7 +194,7 @@ public class EstacionamentosDB extends DataHandler {
         return false;
     }
 
-    public boolean getEstacionamentoScooter(Estacionamento estacionamento, Veiculo veiculo){
+    public boolean getEstacionamentoVeiculo(Estacionamento estacionamento, Veiculo veiculo){
         String query = "SELECT * FROM estacionamentoveiculo WHERE estacionamentonumerolote = " + estacionamento.getNumeroLote() + " and VEICULOIDVEICULO = " + veiculo.getId() + " and ESTACIONAMENTOIDPARQUE = " + estacionamento.getIdParque();
 
         try ( Statement stm = getConnection().createStatement()) {
