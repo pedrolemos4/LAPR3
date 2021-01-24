@@ -159,35 +159,36 @@ public class Entrega {
      */
     @Override
     public boolean equals(Object obj) {
+        boolean flag = true;
         if (this == obj) {
-            return true;
+            return flag;
         }
         if (obj == null) {
-            return false;
+            return !flag;
         }
         if (getClass() != obj.getClass()) {
-            return false;
+            return !flag;
         }
         final Entrega other = (Entrega) obj;
         if (this.idEntrega != other.idEntrega) {
-            return false;
+            return !flag;
         }
         if (this.idVeiculo != other.idVeiculo) {
-            return false;
+            return !flag;
         }
         if (this.idEstafeta != other.idEstafeta) {
-            return false;
+            return !flag;
         }
         if (Double.doubleToLongBits(this.pesoEntrega) != Double.doubleToLongBits(other.pesoEntrega)) {
-            return false;
+            return !flag;
         }
         if (!Objects.equals(this.dataInicio, other.dataInicio)) {
-            return false;
+            return !flag;
         }
         if (!Objects.equals(this.dataFim, other.dataFim)) {
-            return false;
+            return !flag;
         }
-        return true;
+        return flag;
     }
     
     /**

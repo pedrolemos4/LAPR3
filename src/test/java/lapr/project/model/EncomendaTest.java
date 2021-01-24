@@ -382,7 +382,7 @@ class EncomendaTest {
     public void testEquals3() {
         System.out.println("equals3");
         Encomenda outroObjeto = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
-        Encomenda instance1 = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
+        Encomenda instance1 = new Encomenda(123456789,13,"01-02-2000",10,10,10, 1);
         boolean expResult = false;
         boolean result = instance1.equals(outroObjeto);
         assertEquals(expResult, result);
