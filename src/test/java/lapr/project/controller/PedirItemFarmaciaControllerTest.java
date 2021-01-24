@@ -106,6 +106,7 @@ class PedirItemFarmaciaControllerTest {
         Endereco f = new Endereco("",123,4,12);
         Endereco f1 = new Endereco("a",123,4,12);
         Endereco f2 = new Endereco("3",123413123,412121,123333);
+        Endereco f3 = new Endereco("4",153413123,42121,12333);
         
         Farmacia f5 = new Farmacia();
         f5.setMorada("a");
@@ -113,14 +114,55 @@ class PedirItemFarmaciaControllerTest {
         generateGrafo.insertVertex(f);
         generateGrafo.insertVertex(f1);
         generateGrafo.insertVertex(f2);
+        generateGrafo.insertVertex(f3);
         
         double as = 2;
         double asd = 3;
         
+        List<Endereco> lista = new ArrayList<>();
+        lista.add(f3);
+        
         generateGrafo.insertEdge(f, f1, as, 12);
         generateGrafo.insertEdge(f, f2, asd, 13);
-        when(fdb.getFarmaciaProxima(generateGrafo,f)).thenReturn(f5);
-        assertEquals(f5, instance.getFarmaciaProxima(generateGrafo, f));
+        generateGrafo.insertEdge(f, f3, asd, 11);
+        
+        when(fdb.getFarmaciaProxima(generateGrafo,f,lista)).thenReturn(f5);
+        assertEquals(f5, instance.getFarmaciaProxima(generateGrafo, f, lista));
+    }
+    
+    /**
+     * Test of getFarmaciaProxima method, of class PedirItemFarmaciaController.
+     */
+    @Test
+    public void testGetFarmaciaProxima1() {
+        System.out.println("getFarmaciaProxima");
+        Graph<Endereco, Double> generateGrafo = new Graph<>(false);
+        int nif = 123;
+        
+        Endereco f = new Endereco("",123,4,12);
+        Endereco f1 = new Endereco("a",123,4,12);
+        Endereco f2 = new Endereco("3",123413123,412121,123333);
+        Endereco f3 = new Endereco("4",153413123,42121,12333);
+        
+        Farmacia f5 = new Farmacia();
+        f5.setMorada("a");
+        
+        generateGrafo.insertVertex(f);
+        generateGrafo.insertVertex(f1);
+        generateGrafo.insertVertex(f2);
+        generateGrafo.insertVertex(f3);
+        
+        double as = 2;
+        double asd = 3;
+        
+        List<Endereco> lista = new ArrayList<>();
+        
+        generateGrafo.insertEdge(f, f1, as, 12);
+        generateGrafo.insertEdge(f, f2, asd, 13);
+        generateGrafo.insertEdge(f, f3, asd, 15);
+        
+        when(fdb.getFarmaciaProxima(generateGrafo,f,lista)).thenReturn(f5);
+        assertEquals(f5, instance.getFarmaciaProxima(generateGrafo, f, lista));
     }
 
     /**

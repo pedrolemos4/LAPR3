@@ -9,10 +9,20 @@ participant ":FarmaciaDB" as FDB
 activate CLI
 CLI -> UI : pretende realizar a encomenda
 activate UI
-UI -> CTL : getFarmaciaProximaByCliente(nif)
+
+UI -> CTL : graph = generateGrafo()
 activate CTL
 
-CTL -> FDB : getFarmaciaProximaByCliente(nif)
+CTL -> FDB : generateGrafo()
+activate FDB
+
+deactivate FDB
+deactivate CTL
+
+UI -> CTL : getFarmaciaProxima(graph, end)
+activate CTL
+
+CTL -> FDB : getFarmaciaProxima(graph, enderecoCliente)
 activate FDB
 
 deactivate FDB

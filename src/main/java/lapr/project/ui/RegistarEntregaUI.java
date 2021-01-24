@@ -92,11 +92,11 @@ public class RegistarEntregaUI {
 
             List<Endereco> listEnderecosScooter = controller.getLstEnderecosScooter();
             List<Endereco> listEnderecosDrone = controller.getLstEnderecosDrone();
-            List<Endereco> finalShortPathScooter = new LinkedList<>();
-            List<Endereco> finalShortPathDrone = new LinkedList<>();
+            LinkedList<Endereco> finalShortPathScooter = new LinkedList<>();
+            LinkedList<Endereco> finalShortPathDrone = new LinkedList<>();
 
-            List<Endereco> listMinScooter = new LinkedList<>();
-            List<Endereco> listMinDrone = new LinkedList<>();
+            LinkedList<Endereco> listMinScooter = new LinkedList<>();
+            LinkedList<Endereco> listMinDrone = new LinkedList<>();
 
             Veiculo scooter = null;
             Veiculo drone = null;
@@ -129,6 +129,7 @@ public class RegistarEntregaUI {
                         scooter = v;
                         listMinScooter = finalShortPathScooter;
                     }
+                    finalShortPathScooter = new LinkedList<>();
                 } else if ((v.getDescricao()).equalsIgnoreCase(DRONE)) {
                     boolean flag = false;
                     for (Endereco e : listEnderecos) {
@@ -155,6 +156,7 @@ public class RegistarEntregaUI {
                             drone = v;
                             listMinDrone = finalShortPathDrone;
                         }
+                        finalShortPathDrone = new LinkedList<>();
                     }
                 }
             }
@@ -165,7 +167,11 @@ public class RegistarEntregaUI {
             String escolha = LER.nextLine();
             Veiculo v = null;
             double energia = 0;
-            List<Endereco> listaFinal = new LinkedList<>();
+            LinkedList<Endereco> listaFinal = new LinkedList<>();
+//            while (!escolha.equalsIgnoreCase("terrestre") || !escolha.equalsIgnoreCase("aereo")) {
+//                System.out.println("Essa escolha nao é possivel. Introduza novamente uma opçao");
+//                escolha = LER.nextLine();
+//            }
             if (escolha.equalsIgnoreCase("terrestre")) {
                 v = scooter;
                 listaFinal = listMinScooter;
@@ -178,15 +184,22 @@ public class RegistarEntregaUI {
             for (Endereco end : listaFinal) {
                 System.out.println("endre: " + end);
             }
+            //tenho que adicionar à lista o endereço inicial
+            //CERTO????
+            listaFinal.addFirst(controller.getEnderecoOrigem(nifFarmacia));
+
             System.out.println("veiculo: " + v);
             String data = controller.getDuracaoPercurso(listaFinal, v);
+            System.out.println("StringUIdate: " +data);
             DateFormat format1 = new SimpleDateFormat("HH:mm:ss");
             Date date2 = format1.parse(data);
             Date newDate = new Date(date.getTime() + date2.getTime() + 3600 * 1000);
-
+            System.out.println("UIDate1: " +date.getTime());
+            System.out.println("UIdate2: " +date2.getTime() + 3600 * 1000);
 //            Entrega entrega = new Entrega(dataInicio, formatter.format(newDate), idVeiculo, nifEstafeta);
 //
 //            controller.updateEntrega(entrega);
+            System.out.println("UIDATE: " + formatter.format(newDate));
             Entrega entr = controller.addEntrega(dataInicio, formatter.format(newDate), v.getId(), nifEstafeta, pesoMaximoEntrega);
 
             for (Encomenda e : listEncomendaByEntrega) {
@@ -199,8 +212,12 @@ public class RegistarEntregaUI {
             }
 
             System.out.println("\n\nEntrega adicionada com sucesso");
-            System.out.println("\n\nCaminho com menor energia gasta: " + listaFinal);
-            System.out.println("\n\nEnergia gasta: " + energia);
+            System.out.println("\n\nCaminho com menor energia gasta: ");
+            for(Endereco endereco :  listaFinal){
+                System.out.println(endereco.toString());
+            }
+            System.out.println();
+            System.out.println("\n\nEnergia gasta: " + energia + "J");
 
         }
     }

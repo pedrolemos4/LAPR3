@@ -150,7 +150,7 @@ public class VeiculoDB extends DataHandler {
                 while (rSet.next()) {
                     int id = rSet.getInt(1);
                     String descricao = rSet.getString(2);
-                    int capacidade = rSet.getInt(3);
+                    double capacidade = rSet.getDouble(3);
                     double percentagemBateria = rSet.getDouble(4);
                     double pesoMaximo = rSet.getDouble(5);
                     double pesoVeiculo = rSet.getDouble(6);

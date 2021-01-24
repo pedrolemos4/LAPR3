@@ -7,16 +7,19 @@ class Entrega {
   -idEntrega
   -dataInicio
   -dataFim
+  -pesoEntrega
 }
 
 class Encomenda {
   -idEncomenda
   -dataPedida
   -preco
+  -pesoEncomenda
+  -taxa
 }
 
 class EstadoEncomenda {
-  -id_estado_encomenda
+  -idEstadoEncomenda
   -designacao
 }
 
@@ -30,7 +33,12 @@ class Produto {
 class Farmacia {
   -NIF
   -email
-  -morada
+}
+
+class Recibo {
+  -idRecibo
+  -dataRecibo
+  -preco
 }
 
 class Estacionamento {
@@ -39,16 +47,7 @@ class Estacionamento {
 }
 
 class Estafeta {
-  -NIF
-  -nome
-  -email
-  -numeroSegurancaSocial
-  -password
-}
-
-class EstadoEstafeta {
-  -id_estado_estafeta
-  -designacao
+  -pesoEstafeta
 }
 
 class Utilizador {
@@ -60,42 +59,52 @@ class Utilizador {
 }
 
 class Administrador {
-  -NIF
-  -nome
-  -email
-  -numeroSegurancaSocial
-  -password
+
 }
 
 class Endereco {
   -morada
-}
-
-class LocalizacaoGPS {
   -latitude
   -longitude
+  -altitude
 }
-
 
 class Scooter {
   -idScooter
-  -percentagemBateria
-  -pesoMaximo
 }
 
+class Veiculo {
+  -idveiculo
+  -descricao
+  -capacidade
+  -percentagemBateria
+  -pesoMaximo
+  -pesoVeiculo
+  -potencia
+  -areaFrontal
+}
+
+class Drone {
+  -idDrone
+  -largura
+}
+
+
 class Parque {
+  -idParque
   -numeroMaximo
+  -tipo
+  -maxCap
 }
 
 class Cliente {
+  -creditos
+}
+
+class Cartao{
   -numeroCartaoCredito
   -dataDeValidade
   -CCV
-  -NIF
-  -nome
-  -email
-  -numeroSegurancaSocial
-  -password
 }
 
 class TransferenciaProduto {
@@ -108,6 +117,27 @@ class EstadoTransferencia {
   -designacao
 }
 
+class EstadoVeiculo {
+  -idEstadoVeiculo
+  -designacao
+}
+
+class EstadoEstafeta {
+  -id
+  -designacao
+}
+
+class Pagamento {
+  -idPagamento
+  -precoTotal
+}
+
+class Caminho {
+  -roadResistanceCoefficient
+  -velocidadeVento
+  -direcaoVento
+}
+
 Encomenda "1" -- "1" EstadoEncomenda : tem >
 Entrega "1" -- "*" Encomenda : possui >
 Estafeta "1" -- "*" Entrega: realiza >
@@ -116,25 +146,36 @@ Estafeta "1" -- "1" Utilizador: atua como >
 Administrador "1" -- "1" Utilizador: atua como >
 Administrador "1" -- "*" Estafeta: regista >
 Administrador "1" -- "*" Produto: insere no stock >
-Administrador "1" -- "*" Scooter: adiciona, remove ou atualiza e cria QR code >
+Administrador "1" -- "*" Veiculo: adiciona, remove ou atualiza e cria QR code >
 Administrador "1" -- "1" Parque: define numeroMaximo >
-Endereco "1" -- "1" LocalizacaoGPS: tem >
 Cliente "1" -- "1" Endereco: tem >
 Cliente "1" -- "1" Utilizador: atua como >
 Cliente "1" -- "*" Encomenda: realiza e paga >
-Entrega "*" -- "1" Scooter: realiza <
+Cliente "1" -- "1" Cartao: possui >
+Cliente "1" -- "*" Recibo: possui >
+Encomenda "1" -- "1" Pagamento: tem >
+Encomenda "1" -- "1" Recibo: possui >
+Entrega "*" -- "1" Veiculo: realiza <
+Veiculo "1" -- "1" Drone: é <
+Veiculo "1" -- "1" Scooter: é <
+Veiculo "1" -- "1" EstadoVeiculo: tem <
 Farmacia "1" -- "*" Produto: tem >
 Encomenda "1" -- "*" Produto: tem >
-Farmacia "1" -- "1" Parque: possui >
-Parque "1" -- "*" Scooter: possui >
-Farmacia "1" -- "*" Scooter: possui >
-Parque "1" -- "1" Endereco: tem >
+Farmacia "1" -- "*" Encomenda: tem >
+Farmacia "1" -- "*" Parque: possui >
+Parque "1" -- "*" Veiculo: possui >
+Farmacia "1" -- "*" Veiculo: possui >
+Farmacia "1" -- "1" Endereco: tem >
 Parque "1" -- "*" Estacionamento: tem >
-Estacionamento "1" -- "1" Scooter: tem >
+Estacionamento "1" -- "1" Veiculo: tem >
 Farmacia "1" -- "*" Estafeta: tem >
 Farmacia "1" -- "1" Administrador: tem >
 Farmacia "1" -- "*" TransferenciaProduto: realiza >
 TransferenciaProduto "1" -- "*" EstadoTransferencia: tem >
 TransferenciaProduto "1" -- "1" Produto: referente a >
+Caminho "1" -- "1" Endereco: referente a >
+Caminho "1" -- "1" Endereco: referente a >
+
+
 
 @enduml

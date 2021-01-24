@@ -284,6 +284,7 @@ public class ProdutosDB extends DataHandler {
      *
      * @param prod produto a adicionar
      * @param qntd quantidade do produto
+     * @return 
      */
     public boolean addListaProdutos(Produto prod, int qntd) {
 
