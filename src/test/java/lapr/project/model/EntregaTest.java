@@ -340,7 +340,7 @@ public class EntregaTest {
     public void testEquals5() {
         System.out.println("equals5");
         Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 2, 3);
-        Entrega instance1 = new Entrega("26/12/2252", "26/12/2252",1, 1, 3);
+        Entrega instance1 = new Entrega("26/12/2252", "26/12/2252",1, 2, 3);
         boolean expResult = false;
         boolean result = instance.equals(instance1);
         assertEquals(expResult, result);
@@ -353,7 +353,7 @@ public class EntregaTest {
     public void testEquals6() {
         System.out.println("equals6");
         Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 2, 3);
-        Entrega instance1 = new Entrega("25/12/2252", "28/12/2252",1, 1, 3);
+        Entrega instance1 = new Entrega("25/12/2252", "28/12/2252",1, 2, 3);
         boolean expResult = false;
         boolean result = instance.equals(instance1);
         assertEquals(expResult, result);
@@ -366,9 +366,22 @@ public class EntregaTest {
     public void testEquals7() {
         System.out.println("equals7");
         Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 2, 3);
-        Entrega instance1 = new Entrega("25/12/2252", "26/12/2252",1, 1, 3);
+        Entrega instance1 = new Entrega("25/12/2252", "26/12/2252",1, 2, 3);
         instance.setIdEntrega(12);
         instance1.setIdEntrega(23);
+        boolean expResult = false;
+        boolean result = instance.equals(instance1);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Entrega.
+     */
+    @Test
+    public void testEquals8() {
+        System.out.println("equals7");
+        Entrega instance = new Entrega("25/12/2252", "26/12/2252",1, 2, 3);
+        Object instance1 = new Produto();
         boolean expResult = false;
         boolean result = instance.equals(instance1);
         assertEquals(expResult, result);
