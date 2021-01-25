@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import lapr.project.utils.CalculosFisica;
 
 /**
  *
@@ -101,9 +102,12 @@ public class RegistarEntregaUI {
             List<Veiculo> listVeiculos = controller.getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia);
             for (Veiculo v : listVeiculos) {
                 if ((v.getDescricao()).equalsIgnoreCase(SCOOTER)) {
-                    System.out.println("veiculo: " +v.toString());
+                    System.out.println("veiculo: " + v.toString());
                     graphScooter = controller.generateGraphScooter(listEnderecosScooter, new ArrayList<>(listEnderecos), est, v, pesoEntrega);
                     double energiaTotalGastaScooter = controller.getPath(graphScooter, new ArrayList<>(listEnderecos), finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0, v);
+                    for (Endereco endereco : finalShortPathScooter) {
+                        System.out.println("FINALUI : " + endereco.getMorada());
+                    }
                     System.out.println("energiaScooter1: " + energiaTotalGastaScooter);
                     if (energiaTotalGastaScooter < minScooter) {
                         minScooter = energiaTotalGastaScooter;
@@ -137,17 +141,27 @@ public class RegistarEntregaUI {
                 }
             }
 
-            System.out.println("Tendo em conta que por meio terrestre a entrega tem um custo de: " + minScooter
-                    + "\ne por meio aereo a entrega tem um custo de: " + minDrone
-                    + "\nEscolha o meio por onde pretende realizar a entrega (terrestre/aereo)");
+            System.out.println("\n\nTendo em conta que por meio terrestre a entrega tem um custo de: ");
+            if (minScooter == Double.MAX_VALUE) {
+                System.out.println("Não é possivel realizar a encomenda por este meio.");
+            } else {
+                System.out.println(minScooter + " J");
+            }
+            System.out.println("Por meio aereo a entrega tem um custo de: ");
+            if (minDrone == Double.MAX_VALUE) {
+                System.out.println("Não é possivel realizar a encomenda por este meio.");
+            } else {
+                System.out.println(minDrone + " J");
+            }
+            System.out.println("Escolha o meio por onde pretende realizar a entrega (terrestre/aereo)");
             String escolha = LER.nextLine();
             Veiculo v = null;
             double energia = 0;
             LinkedList<Endereco> listaFinal = new LinkedList<>();
-//            while (!escolha.equalsIgnoreCase("terrestre") || !escolha.equalsIgnoreCase("aereo")) {
-//                System.out.println("Essa escolha nao é possivel. Introduza novamente uma opçao");
-//                escolha = LER.nextLine();
-//            }
+            while (!escolha.equalsIgnoreCase("terrestre") && !escolha.equalsIgnoreCase("aereo")) {
+                System.out.println("Essa escolha nao é possivel. Introduza novamente uma opçao");
+                escolha = LER.nextLine();
+            }
             if (escolha.equalsIgnoreCase("terrestre")) {
                 v = scooter;
                 listaFinal = listMinScooter;
@@ -157,15 +171,7 @@ public class RegistarEntregaUI {
                 listaFinal = listMinDrone;
                 energia = minDrone;
             }
-            for (Endereco end : listMinScooter) {
-                System.out.println("EndScooter: " + end);
-            }
-            
-            for (Endereco end : listaFinal) {
-                System.out.println("endre: " + end);
-            }
-            //tenho que adicionar à lista o endereço inicial
-            //CERTO????
+
             listaFinal.addFirst(controller.getEnderecoOrigem(nifFarmacia));
 
             String data = controller.getDuracaoPercurso(listaFinal, v);
@@ -173,7 +179,6 @@ public class RegistarEntregaUI {
             Date date2 = format1.parse(data);
             Date newDate = new Date(date.getTime() + date2.getTime() + 3600 * 1000);
 
-            
             Entrega entr = controller.addEntrega(dataInicio, formatter.format(newDate), v.getId(), nifEstafeta, pesoMaximoEntrega);
 
             for (Encomenda e : listEncomendaByEntrega) {
@@ -187,14 +192,19 @@ public class RegistarEntregaUI {
 
             System.out.println("\n\nEntrega adicionada com sucesso");
             System.out.println("\n\nCaminho com menor energia gasta: ");
-            
+
             int i = listaFinal.size() - 1;
-            for(int aux = 0; aux < i; i++){ 
+            for (int aux = 0; aux < i; aux++) {
                 System.out.println(controller.getCaminhoByEnderecos(listaFinal.get(aux).getMorada(), listaFinal.get(aux + 1).getMorada()));
             }
             System.out.println();
+            System.out.println("Densidade do Ar utilizada: " + CalculosFisica.AIR_DENSITY_20DEGREES + " Kg/m^3");
+            System.out.println("Coeficiente de Resistência do Ar utilizado: " + CalculosFisica.AIR_DRAG_COEFFICIENT);
+            System.out.println("Raio da Terra utilizado: " + CalculosFisica.EARTHRADIUS + " Km");
+            System.out.println("Eficiencia da Carga utilizada: " + CalculosFisica.EFICIENCIA * 100 + " %");
+            System.out.println("Gravidade na Superficie da Terra utilizada: " + CalculosFisica.GRAVITATIONAL_ACCELERATION + " m/s^2");
+            System.out.println("Velocidade do veiculo utilizado: " + CalculosFisica.SPEED + " m/s");
             System.out.println("\n\nEnergia gasta: " + energia + " J");
-
         } else {
             System.out.println("\n\nEntrega cancelada.");
         }

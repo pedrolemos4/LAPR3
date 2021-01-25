@@ -17,7 +17,6 @@ public class CalculosFisica {
     public static final double AIR_DRAG_COEFFICIENT = 0.3;
     public static final double SPEED = 13.56; // m/s
     public static final double EARTHRADIUS = 6371; // km
-    public static final double LIFTTODRAG = 15; 
     public static final double EFICIENCIA = 0.70; 
     
     /**

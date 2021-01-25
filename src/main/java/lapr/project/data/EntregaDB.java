@@ -213,9 +213,20 @@ public class EntregaDB extends DataHandler {
 
             if (!shortPath1.isEmpty()) {
                 finalShortPath.addAll(shortPath1.subList(1, shortPath1.size()));
-                LinkedList<Endereco> l = checkCaminho(graph, finalShortPath, v);
-                dFinal = getPath(graph, listEnderecos, l, endereco, min, v);
-                energia = energia + dFinal;
+                for (Endereco e : finalShortPath) {
+                    System.out.println("getPath: " + e.getMorada());
+                }
+                LinkedList<Endereco> list = new LinkedList<>();
+                boolean l = checkCaminho(graph, finalShortPath, v, list);
+                if (!l) {
+                    dFinal = getPath(graph, listEnderecos, list, endereco, min, v);
+                    energia = energia + dFinal;
+                } else {
+//                finalShortPath.addAll(l);
+                    dFinal = getPath(graph, listEnderecos, finalShortPath, endereco, min, v);
+                    energia = energia + dFinal;
+                }
+                
             } else {
                 finalShortPath.clear();
                 return 0;
@@ -224,27 +235,28 @@ public class EntregaDB extends DataHandler {
         return energia;
     }
 
-    public LinkedList<Endereco> checkCaminho(Graph<Endereco, Double> graph, List<Endereco> finalShortPath, Veiculo v) {
+    public boolean checkCaminho(Graph<Endereco, Double> graph, List<Endereco> finalShortPath, Veiculo v, LinkedList<Endereco> list) {
         double distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(), v.getPercentagemBateria(), v.getPotencia());
         double distancia = 0;
-        LinkedList<Endereco> list = new LinkedList<>();
+        boolean flag = true;
         int i = finalShortPath.size() - 1;
         list.add(finalShortPath.get(0));
-        for(Endereco e : finalShortPath){
+        for (Endereco e : finalShortPath) {
             System.out.println("listainicial : " + e);
         }
-        for(Endereco e : list){
+        for (Endereco e : list) {
             System.out.println("lista que vou adicionar endereco: " + e);
         }
         for (int aux = 0; aux < i; aux++) {
             if (v.getDescricao().equalsIgnoreCase(SCOOTER)) {
                 distancia = distancia + CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
-                System.out.println("distancia: " +distancia);
-                System.out.println("diatanciaVeiculo: " +distanciaVeiculo);
+                System.out.println("distancia: " + distancia);
+                System.out.println("diatanciaVeiculo: " + distanciaVeiculo);
                 if (distanciaVeiculo < distancia) {
                     List<Endereco> lista = getListComParqueMaisProximo(graph, list, v);
                     list.addAll(lista);
-                    System.out.println("lista1: " +list);
+                    System.out.println("lista1: " + list);
+                    flag = false;
                     break;
                 }
                 list.add(finalShortPath.get(aux + 1));
@@ -254,16 +266,17 @@ public class EntregaDB extends DataHandler {
                 if (distanciaVeiculo < distancia) {
                     List<Endereco> lista = getListComParqueMaisProximo(graph, list, v);
                     list.addAll(lista);
+                    flag = false;
                     break;
                 }
                 list.add(finalShortPath.get(aux + 1));
             }
         }
-        for(Endereco e : list){
+        for (Endereco e : list) {
             System.out.println("ListaEnderecoFINAL: " + e);
         }
-        
-        return list;
+
+        return flag;
     }
 
     private List<Endereco> getListComParqueMaisProximo(Graph<Endereco, Double> graph, LinkedList<Endereco> list, Veiculo v) {
@@ -281,7 +294,7 @@ public class EntregaDB extends DataHandler {
                             listaFinal = shortPath;
                         }
                     }
-                    if(v.getDescricao().equalsIgnoreCase(DRONE) && p.getTipo().equalsIgnoreCase(DRONE)) {
+                    if (v.getDescricao().equalsIgnoreCase(DRONE) && p.getTipo().equalsIgnoreCase(DRONE)) {
                         LinkedList<Endereco> shortPath = new LinkedList<>();
                         double valor = GraphAlgorithms.shortestPath(graph, list.getLast(), f1, shortPath);
                         if (valor < min /*&& valor != 0*/) {
