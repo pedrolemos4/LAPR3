@@ -138,11 +138,16 @@ public class VeiculoDB extends DataHandler {
     /**
      * Devolve a lista de veiculos cujo peso maximo é inferior ou igual ao peso maximo da entrega
      * @param pesoMaximoEntrega peso maximo da entrega
+     * @param nifFarmacia nif da farmacia
      * @return lista de veículos
      */
-    public List<Veiculo> getListaVeiculoEntrega(double pesoMaximoEntrega) {
+    public List<Veiculo> getListaVeiculoEntrega(double pesoMaximoEntrega, int nifFarmacia) {
         ArrayList<Veiculo> list = new ArrayList<>();
-        String query = "SELECT * FROM veiculo WHERE EstadoVeiculoid = 1 AND percentagemBateria = 100 AND pesoMaximo >= " + pesoMaximoEntrega;
+        String query = "SELECT v.idveiculo, v.descricao, v.capacidade, v.percentagemBateria, v.pesoMaximo, v.pesoVeiculo, v.potencia, v.estadoveiculoid, v.areaFrontal "
+                + " FROM veiculo v INNER JOIN estacionamentoveiculo e ON e.veiculoidveiculo = v.idveiculo"
+                + " INNER JOIN parque p ON p.idparque = e.estacionamentoidparque WHERE"
+                + " v.EstadoVeiculoid = 1 AND p.farmacianif = " + nifFarmacia + 
+                " AND v.percentagemBateria = 100 AND e.datafim is null AND v.pesoMaximo >= " + pesoMaximoEntrega;
 
         try ( Statement stm = getConnection().createStatement()) {
             try ( ResultSet rSet = stm.executeQuery(query)) {

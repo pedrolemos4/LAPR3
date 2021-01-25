@@ -111,7 +111,7 @@ public class LerFicheiro extends DataHandler {
     }
 
     public boolean baseDadosCheia() {
-        String query = "SELECT COUNT(*) FROM caminhos";
+        String query = "SELECT COUNT(*) FROM caminho";
         boolean bool = true;
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {

@@ -33,6 +33,7 @@ public class RegistarEntregaControllerTest {
     private EnderecoDB enderecoDB;
     private EmailDB emailDB;
     private ClienteDB clienteDB;
+    private CaminhoDB caminhoDB;
     private RegistarEntregaController instance;
     
     public RegistarEntregaControllerTest() {
@@ -57,7 +58,8 @@ public class RegistarEntregaControllerTest {
         enderecoDB = mock(EnderecoDB.class);
         emailDB = mock(EmailDB.class);
         clienteDB = mock(ClienteDB.class);
-        instance = new RegistarEntregaController(utilizadorDB, farmaciaDB, estafetaDB, entregaDB, encomendaDB, veiculoDB, enderecoDB, emailDB, clienteDB);
+        caminhoDB = mock(CaminhoDB.class);
+        instance = new RegistarEntregaController(utilizadorDB, farmaciaDB, estafetaDB, entregaDB, encomendaDB, veiculoDB, enderecoDB, emailDB, clienteDB, caminhoDB);
         
     }
 
@@ -65,20 +67,20 @@ public class RegistarEntregaControllerTest {
     public void tearDown() throws Exception {
     }
 
-    /**
-     * Test of getListVeiculo method, of class RegistarEntregaController.
-     * @throws java.sql.SQLException
-     */
-    @Test
-    public void testGetListaVeiculoEntrega() throws SQLException {
-        System.out.println("getListVeiculo");
-        List<Veiculo> expResult = new ArrayList<>();
-        expResult.add(new Veiculo("drone",100, 45, 89, 7, 52, 85,5.5));
-        int nif = 123456789;
-        when(veiculoDB.getListaVeiculoEntrega(nif)).thenReturn(expResult);
-        assertEquals(expResult, instance.getListaVeiculoEntrega(nif));
-
-    }
+//    /**
+//     * Test of getListVeiculo method, of class RegistarEntregaController.
+//     * @throws java.sql.SQLException
+//     */
+//    @Test
+//    public void testGetListaVeiculoEntrega() throws SQLException {
+//        System.out.println("getListVeiculo");
+//        List<Veiculo> expResult = new ArrayList<>();
+//        expResult.add(new Veiculo("drone",100, 45, 89, 7, 52, 85,5.5));
+//        int nif = 123456789;
+//        when(veiculoDB.getListaVeiculoEntrega(nif)).thenReturn(expResult);
+//        assertEquals(expResult, instance.getListaVeiculoEntrega(nif));
+//
+//    }
 
     /**
      * Test of getEstafeta method, of class RegistarEntregaController.
@@ -326,7 +328,7 @@ public class RegistarEntregaControllerTest {
         double energia = 48.0;
         double expResult = 48.0;
         Veiculo veiculo = new Veiculo(1, "scooter", 34, 12, 34, 45, 75, 54,23);
-        RegistarEntregaController teste = new RegistarEntregaController(new UtilizadorDB(), new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
+        RegistarEntregaController teste = new RegistarEntregaController(new UtilizadorDB(), new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB(), new CaminhoDB());
         double result = teste.getPath(graph, listEnderecos, finalShortPath, origem, energia, veiculo);
         assertEquals(expResult, result, 0.0);
 
@@ -486,19 +488,19 @@ public class RegistarEntregaControllerTest {
     }
     
 
-    /**
-     * Test of getScooterById method, of class RegistarEntregaController.
-     */
-    @Test
-    public void testGetScooterById() {
-        System.out.println("getScooterById");
-        int idVeiculo = 1;
-        Scooter expResult = new Scooter("scooter", 12, 2, 43, 34, 5, 54, 45, 65);
-        when(veiculoDB.getScooterById(idVeiculo)).thenReturn(expResult);
-        Scooter result = instance.getScooterById(idVeiculo);
-        assertEquals(expResult, result);
-
-    }
+//    /**
+//     * Test of getScooterById method, of class RegistarEntregaController.
+//     */
+//    @Test
+//    public void testGetScooterById() {
+//        System.out.println("getScooterById");
+//        int idVeiculo = 1;
+//        Scooter expResult = new Scooter("scooter", 12, 2, 43, 34, 5, 54, 45, 65);
+//        when(veiculoDB.getScooterById(idVeiculo)).thenReturn(expResult);
+//        Scooter result = instance.getScooterById(idVeiculo);
+//        assertEquals(expResult, result);
+//
+//    }
 
     /**
      * Test of getDroneById method, of class RegistarEntregaController.
@@ -542,5 +544,21 @@ public class RegistarEntregaControllerTest {
         List<Endereco> result = instance.getLstEnderecosScooter();
         assertEquals(expResult, result);
 
+    }
+
+    /**
+     * Test of getCaminhoByEnderecos method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetCaminhoByEnderecos() {
+        System.out.println("getCaminhoByEnderecos");
+        String morada1 = "morada1";
+        String morada2 = "morada2";
+        Endereco end1 = new Endereco(morada1,12,54, 5);
+        Endereco end2 = new Endereco(morada2,23,45, 32);
+        Caminho expResult = new Caminho(end1, end2, 12, 32, 3);
+        when(caminhoDB.getCaminhoByEnderecos(morada1, morada2)).thenReturn(expResult);
+        Caminho result = instance.getCaminhoByEnderecos(morada1, morada2);
+        assertEquals(expResult, result);
     }
 }

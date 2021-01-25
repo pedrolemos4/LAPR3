@@ -22,7 +22,7 @@ public class RegistarEntregaUI {
     private static final String SCOOTER = "scooter";
 
     public RegistarEntregaUI() {
-        this.controller = new RegistarEntregaController(new UtilizadorDB(), new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB());
+        this.controller = new RegistarEntregaController(new UtilizadorDB(), new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB(), new CaminhoDB());
     }
 
     public void introduzEntrega() throws SQLException, ParseException {
@@ -98,9 +98,10 @@ public class RegistarEntregaUI {
             double minScooter = Double.MAX_VALUE;
             double minDrone = Double.MAX_VALUE;
 
-            List<Veiculo> listVeiculos = controller.getListaVeiculoEntrega(pesoMaximoEntrega);
+            List<Veiculo> listVeiculos = controller.getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia);
             for (Veiculo v : listVeiculos) {
                 if ((v.getDescricao()).equalsIgnoreCase(SCOOTER)) {
+                    System.out.println("veiculo: " +v.toString());
                     graphScooter = controller.generateGraphScooter(listEnderecosScooter, new ArrayList<>(listEnderecos), est, v, pesoEntrega);
                     double energiaTotalGastaScooter = controller.getPath(graphScooter, new ArrayList<>(listEnderecos), finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0, v);
                     System.out.println("energiaScooter1: " + energiaTotalGastaScooter);
@@ -156,6 +157,10 @@ public class RegistarEntregaUI {
                 listaFinal = listMinDrone;
                 energia = minDrone;
             }
+            for (Endereco end : listMinScooter) {
+                System.out.println("EndScooter: " + end);
+            }
+            
             for (Endereco end : listaFinal) {
                 System.out.println("endre: " + end);
             }
@@ -182,12 +187,16 @@ public class RegistarEntregaUI {
 
             System.out.println("\n\nEntrega adicionada com sucesso");
             System.out.println("\n\nCaminho com menor energia gasta: ");
-            for(Endereco endereco :  listaFinal){
-                System.out.println(endereco.toString());
+            
+            int i = listaFinal.size() - 1;
+            for(int aux = 0; aux < i; i++){ 
+                System.out.println(controller.getCaminhoByEnderecos(listaFinal.get(aux).getMorada(), listaFinal.get(aux + 1).getMorada()));
             }
             System.out.println();
             System.out.println("\n\nEnergia gasta: " + energia + " J");
 
+        } else {
+            System.out.println("\n\nEntrega cancelada.");
         }
     }
 }

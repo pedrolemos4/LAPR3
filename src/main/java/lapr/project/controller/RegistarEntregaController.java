@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import lapr.project.data.CaminhoDB;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
 import lapr.project.data.EncomendaDB;
@@ -15,6 +16,7 @@ import lapr.project.data.FarmaciaDB;
 import lapr.project.data.UtilizadorDB;
 import lapr.project.data.VeiculoDB;
 import lapr.project.login.UserSession;
+import lapr.project.model.Caminho;
 import lapr.project.model.Cliente;
 import lapr.project.model.Drone;
 import lapr.project.model.Encomenda;
@@ -23,7 +25,6 @@ import lapr.project.model.Entrega;
 import lapr.project.model.Estafeta;
 import lapr.project.model.Farmacia;
 import lapr.project.model.Graph;
-import lapr.project.model.Scooter;
 import lapr.project.model.Utilizador;
 import lapr.project.model.Veiculo;
 
@@ -42,9 +43,10 @@ public class RegistarEntregaController {
     private final EnderecoDB enderecoDB;
     private final EmailDB emailDB;
     private final ClienteDB clienteDB;
+    private final CaminhoDB caminhoDB;
     
     /**
-     * Constroi uma instancia de RegistarClienteController recebendo uma instancia de UtilizadorDB, FarmaciaDB, EstafetaDB, EntregaDB, EncomendaDB, VeiculoDB, EnderecoDB, EmailDB, ClienteDB
+     * Constroi uma instancia de RegistarClienteController recebendo uma instancia de UtilizadorDB, FarmaciaDB, EstafetaDB, EntregaDB, EncomendaDB, VeiculoDB, EnderecoDB, EmailDB, ClienteDB e CaminhoDB
      * @param utilizadorDB instancia de UtilizadorDB
      * @param farmaciaDB instancia de FarmaciaDB
      * @param estafetaDB instancia de EstafetaDB
@@ -54,8 +56,9 @@ public class RegistarEntregaController {
      * @param enderecoDB instancia de EnderecoDB
      * @param emailDB instancia de EmailDB
      * @param clienteDB instancia de ClienteDB
+     * @param caminhoDB instancia de CaminhoDB
      */
-    public RegistarEntregaController(UtilizadorDB utilizadorDB, FarmaciaDB farmaciaDB, EstafetaDB estafetaDB, EntregaDB entregaDB, EncomendaDB encomendaDB, VeiculoDB veiculoDB, EnderecoDB enderecoDB, EmailDB emailDB, ClienteDB clienteDB) {
+    public RegistarEntregaController(UtilizadorDB utilizadorDB, FarmaciaDB farmaciaDB, EstafetaDB estafetaDB, EntregaDB entregaDB, EncomendaDB encomendaDB, VeiculoDB veiculoDB, EnderecoDB enderecoDB, EmailDB emailDB, ClienteDB clienteDB, CaminhoDB caminhoDB) {
         this.utilizadorDB = utilizadorDB;
         this.farmaciaDB = farmaciaDB;
         this.estafetaDB = estafetaDB;
@@ -65,6 +68,7 @@ public class RegistarEntregaController {
         this.enderecoDB = enderecoDB;
         this.emailDB = emailDB;
         this.clienteDB = clienteDB;
+        this.caminhoDB = caminhoDB;
     }
     
     /**
@@ -87,10 +91,11 @@ public class RegistarEntregaController {
     /**
      * Devolve uma lista de veiculos cujo peso maximo seja menor ou igual ao peso maximo da entrega
      * @param pesoMaximoEntrega peso maximo da entrega
+     * @param nifFarmacia nif da faramcia
      * @return lista de veiculos
      */
-    public List<Veiculo> getListaVeiculoEntrega(double pesoMaximoEntrega) {
-        return veiculoDB.getListaVeiculoEntrega(pesoMaximoEntrega);
+    public List<Veiculo> getListaVeiculoEntrega(double pesoMaximoEntrega, int nifFarmacia) {
+        return veiculoDB.getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia);
     }
     
     /**
@@ -277,14 +282,14 @@ public class RegistarEntregaController {
         return encomendaDB.getEncomenda(id);
     }
     
-    /**
-     * Devolve o scooter recebendo por parametro o id do veiculo
-     * @param idVeiculo id do veiculo
-     * @return scooter
-     */
-    public Scooter getScooterById(int idVeiculo){
-        return veiculoDB.getScooterById(idVeiculo);
-    }
+//    /**
+//     * Devolve o scooter recebendo por parametro o id do veiculo
+//     * @param idVeiculo id do veiculo
+//     * @return scooter
+//     */
+//    public Scooter getScooterById(int idVeiculo){
+//        return veiculoDB.getScooterById(idVeiculo);
+//    }
     
     /**
      * Devolve o drone recebendo por parametro o id do veiculo
@@ -310,5 +315,14 @@ public class RegistarEntregaController {
     public List<Endereco> getLstEnderecosScooter(){
         return enderecoDB.getLstEnderecos();
     }
-
+    
+    /**
+     * Devolve o caminho entre duas moradas
+     * @param morada1
+     * @param morada2
+     * @return caminho entre duas moradas
+     */
+    public Caminho getCaminhoByEnderecos(String morada1, String morada2){
+        return caminhoDB.getCaminhoByEnderecos(morada1, morada2);
+    }
 }

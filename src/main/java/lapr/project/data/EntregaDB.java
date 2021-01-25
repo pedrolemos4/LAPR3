@@ -230,12 +230,21 @@ public class EntregaDB extends DataHandler {
         LinkedList<Endereco> list = new LinkedList<>();
         int i = finalShortPath.size() - 1;
         list.add(finalShortPath.get(0));
+        for(Endereco e : finalShortPath){
+            System.out.println("listainicial : " + e);
+        }
+        for(Endereco e : list){
+            System.out.println("lista que vou adicionar endereco: " + e);
+        }
         for (int aux = 0; aux < i; aux++) {
             if (v.getDescricao().equalsIgnoreCase(SCOOTER)) {
                 distancia = distancia + CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
+                System.out.println("distancia: " +distancia);
+                System.out.println("diatanciaVeiculo: " +distanciaVeiculo);
                 if (distanciaVeiculo < distancia) {
                     List<Endereco> lista = getListComParqueMaisProximo(graph, list, v);
                     list.addAll(lista);
+                    System.out.println("lista1: " +list);
                     break;
                 }
                 list.add(finalShortPath.get(aux + 1));
@@ -250,6 +259,10 @@ public class EntregaDB extends DataHandler {
                 list.add(finalShortPath.get(aux + 1));
             }
         }
+        for(Endereco e : list){
+            System.out.println("ListaEnderecoFINAL: " + e);
+        }
+        
         return list;
     }
 
