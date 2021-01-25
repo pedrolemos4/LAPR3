@@ -297,7 +297,7 @@ public class EnderecoTest {
     @Test
     public void testHashCode5() {
         System.out.println("hashCode5");
-        Endereco instance = new Endereco(null, 0, 0, 0);
+        Endereco instance = new Endereco("", 0, 0, 0);
         int expResult = instance.hashCode();
         assertEquals(expResult, instance.hashCode());
     }

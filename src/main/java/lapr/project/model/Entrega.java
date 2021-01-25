@@ -7,19 +7,19 @@ import java.util.Objects;
  * @author beatr
  */
 public class Entrega {
-    
+
     private int idEntrega;
     private String dataInicio;
     private String dataFim;
     private int idVeiculo;
     private int idEstafeta;
     private double pesoEntrega;
-    
+
     /**
-     * Constrói uma instância de Entrega recebendo a data de inicio da entrega, a
-     * data final da entrega, o veiculo associado à entrega,
-     * o estafeta asscociado à entrega.
-     * 
+     * Constrói uma instância de Entrega recebendo a data de inicio da entrega,
+     * a data final da entrega, o veiculo associado à entrega, o estafeta
+     * asscociado à entrega.
+     *
      * @param dataInicio data de incio da entrega
      * @param dataFim data de fim da entrega
      * @param idVeiculo veiculo associado à entrega
@@ -33,7 +33,7 @@ public class Entrega {
         this.idEstafeta = idEstafeta;
         this.pesoEntrega = pesoEntrega;
     }
-    
+
     /**
      * Constrói uma instância de Entrega com a entrega por omissão.
      */
@@ -45,98 +45,109 @@ public class Entrega {
         this.idEstafeta = 0;
         this.pesoEntrega = 0;
     }
-    
+
     /**
      * Devolve o id da entrega
+     *
      * @return id da entrega
      */
     public int getIdEntrega() {
         return idEntrega;
     }
-    
+
     /**
      * Modifica o id da entrega
+     *
      * @param idEntrega o novo id da entrega
      */
     public void setIdEntrega(int idEntrega) {
         this.idEntrega = idEntrega;
     }
-    
+
     /**
      * Devolve a data de inicio da entrega
+     *
      * @return data de inicio da entrega
      */
     public String getDataInicio() {
         return dataInicio;
     }
-    
+
     /**
      * Modifica a data de inicio da entrega
+     *
      * @param dataInicio a nova data de inicio de entrega
      */
     public void setDataInicio(String dataInicio) {
         this.dataInicio = dataInicio;
     }
-    
+
     /**
      * Devolve a data de fim da entrega
+     *
      * @return data de fim da entrega
      */
     public String getDataFim() {
         return dataFim;
     }
-    
+
     /**
      * Modifica a data de fim da entrega
+     *
      * @param dataFim a nova data de fim da entrega
      */
     public void setDataFim(String dataFim) {
         this.dataFim = dataFim;
     }
-    
-    
+
     /**
      * Devolve a veículo associada à entrega
+     *
      * @return veículo asscoiada à entrega
      */
     public int getIdVeiculo() {
         return idVeiculo;
     }
-    
+
     /**
      * Modifica a veiculo associada à entrega
+     *
      * @param idVeiculo a nova veiculo associada à entrega
      */
     public void setIdVeiculo(int idVeiculo) {
         this.idVeiculo = idVeiculo;
     }
-    
+
     /**
      * Devolve o estafeta associado à entrega
+     *
      * @return estafeta associado à entrega
      */
     public int getidEstafeta() {
         return idEstafeta;
     }
-    
+
     /**
      * Modifica o estafeta associado à entrega
+     *
      * @param idEstafeta o novo estafeta associado à entrega
      */
     public void setEstafeta(int idEstafeta) {
         this.idEstafeta = idEstafeta;
     }
-    
+
     /**
      * Devolve o peso de entrega
+     *
      * @return peso de entrega
      */
     public double getPesoEntrega() {
         return pesoEntrega;
     }
-    
+
     /**
      * Modifica o peso de entrega
+     *
      * @param pesoEntrega o novo peso de entrega
      */
     public void setPesoEntrega(double pesoEntrega) {
@@ -145,6 +156,7 @@ public class Entrega {
 
     /**
      * Devolve o hash code da instância de entrega
+     *
      * @return hash code
      */
     @Override
@@ -154,8 +166,9 @@ public class Entrega {
 
     /**
      * Compara o obj com a instância criada da Entrega
+     *
      * @param obj
-     * @return 
+     * @return
      */
     @Override
     public boolean equals(Object obj) {
@@ -184,19 +197,17 @@ public class Entrega {
         if (!Objects.equals(this.dataInicio, other.dataInicio)) {
             return false;
         }
-        if (!Objects.equals(this.dataFim, other.dataFim)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.dataFim, other.dataFim);
     }
-    
+
     /**
      * Devolve a descrição textual da entrega
+     *
      * @return descrição textual da entrega
      */
     @Override
     public String toString() {
         return "Entrega{" + "idEntrega=" + idEntrega + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + ", idVeiculo=" + idVeiculo + ", idEstafeta=" + idEstafeta + ", pesoEntrega=" + pesoEntrega + '}';
     }
-            
+
 }
