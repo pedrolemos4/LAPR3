@@ -81,7 +81,7 @@ quanto tempo este demora a ter a carga completa.
 * [UC9 - Notificar Estafeta](docs/UC9/UC9.md)
 * [UC10 - Registar Estafeta](docs/UC10/UC10.md)
 * [UC11 - Inicia Entrega](docs/UC11/UC11.md)
-* [UC12 - xxxxxxxxxx](docs/UC12/UC12.md)
+* [UC12 - Estaciona Veículo](docs/UC12/UC12.md)
 * [UC13 - Inserir Itens Stock](docs/UC13/UC13.md)
 * [UC14 - Realiza Encomenda](docs/UC14/UC14.md)
 * [UC15 - Farmácia Mais Próxima Cliente](docs/UC15/UC15.md)
@@ -93,10 +93,9 @@ quanto tempo este demora a ter a carga completa.
 * [UC21 - Registar Farmácia](docs/UC21/UC21.md)
 * [UC22 - Enviar Nota Transferência](docs/UC22/UC22.md)
 * [UC23 - Enviar Nota Entrega](docs/UC23/UC23.md)
-* [UC24 - Inserir Itens Stock](docs/UC24/UC24.md)
-* [UC25 - Atualizar Drone](docs/UC25/UC25.md)
-* [UC26 - Entrega Eficiente](docs/UC26/UC26.md)
-* [UC27 - Leitura de Dados](docs/UC27/UC27.md)
+* [UC24 - Atualizar Drone](docs/UC24/UC24.md)
+* [UC25 - Entrega Eficiente](docs/UC25/UC25.md)
+* [UC26 - Leitura de Dados](docs/UC26/UC26.md)
 
 ## Java source files
 

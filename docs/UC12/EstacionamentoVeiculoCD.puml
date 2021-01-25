@@ -1,0 +1,99 @@
+@startuml
+skinparam classAttributeIconSize 0
+left to right direction
+
+class EstacionamentoController{
+    +checkParkings(path)
+    +simulateParkingVeiculo(path)
+    +notificaEstafeta(bemEstacionado,estimativa,email)
+    +notificaAdministrador(bemEstacionado, estimativa, IdVeiculo)
+    +updateEstimativa(estimativa,email)
+    +getDiretory(path)
+}
+
+class EmailDB{
+    +sendEmail(emailOrig, emailDest, assunto, mensagem)
+}
+
+class EstacionamentosDB{
+    -static String adminEmail
+    +getEstacionamentoById(loteEstacionameto)
+    +getEstacionamentoVeiculo(estacionamento, veiculo)
+    +addEstacionamentoVeiculo(estacionamento, veiculo, idParque)
+}
+
+class VeiculoDB{
+    +getVeiculoById(idVeiculo)
+    +updateVeiculo(veiculo)
+}
+
+class ParqueDB{
+    +getParqueByID(idParque)
+}
+
+class EstafetaDB{
+    +getUtilizadorEstafetaByNIF(nifEstafeta)
+}
+
+class Estacionamento{
+    -int numeroLote;
+    -int carregador;
+    -int idParque;
+}
+
+class Veiculo{
+    -int id;
+    -String descricao;
+    -double capacidade;
+    -double percentagemBateria;
+    -double pesoMaximo;
+    -double pesoVeiculo;
+    -double potencia;
+    -double areaFrontal;
+}
+
+class EstadoVeiculo{
+    -final int idEstadoVeiculo;
+    -String designacao;
+}
+
+class Parque{
+    -int nif;
+    -int numeroMaximo;
+    -String tipo;
+    -int idParque;
+    -int maxCap;
+}
+
+class Estafeta{
+    -double pesoEstafeta;
+    -int idEstado;
+}
+
+class Utilizador{
+    -int nif;
+    -String nome;
+    -String email;
+    -int numeroSegurancaSocial;
+    -String password;
+}
+
+
+EstacionamentoController ..> EstacionamentosDB
+EstacionamentoController ..> EmailDB
+EstacionamentoController ..> VeiculoDB
+EstacionamentoController ..> ParqueDB
+EstacionamentoController ..> EstafetaDB
+
+EstacionamentosDB -> Estacionamento: tem registados
+
+VeiculoDB -> Veiculo: tem registados
+Veiculo -> EstadoVeiculo
+
+ParqueDB -> Parque: tem registados
+
+EstafetaDB -> Estafeta: tem registados
+
+Estafeta - Utilizador
+
+@enduml
