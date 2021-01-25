@@ -54,6 +54,17 @@ class EstadoEncomenda {
   -designacao
 }
 
+class Caminho {
+  -roadResistanceCoefficient
+  -velocidadeVento
+  -direcaoVento
+}
+
+class Farmacia {
+  -NIF
+  -email
+}
+
 
 Encomenda "1" -- "1" EstadoEncomenda : tem >
 Cliente "1" -- "1" Utilizador: atua como >
@@ -62,5 +73,7 @@ Encomenda "1" -- "1..*" Produto: tem >
 Cliente "1" -- "1" Endereco: tem >
 Recibo "1" -- "1" Encomenda: referente a >
 Recibo "1" -- "1" Cliente: referente a >
+Farmacia "1" -- "*" Produto: tem >
+Caminho "1" -- "1" Endereco: referente a >
 
 @enduml

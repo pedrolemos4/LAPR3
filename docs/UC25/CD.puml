@@ -9,22 +9,32 @@ class RealizaEncomendaUI {
 
 class RealizaEncomendaController {
     +getCliente()
-    +produtoEncomenda(produto)
+    +produtoEncomenda(nif,produto,quantidade)
     +registaEncomenda(enc)
     +novoRecibo(nifCliente, lista, precoTotal, dataRecibo)
-    +verificaProdutoStock(prod)
+    +verificaProdutoStock(prod,quantidade)
     +getPrecoTotal()
     +removeCreditos(nifCliente, precoTotal)
     +getCreditosData(dataPedida, precoTotal)
     +geraCreditos(c,precoTotal)
     +getFarmaciaByNif(nif)
     +getFarmaciaMaisProxima(nif)
+    +getCliente()
+    +getEnderecoByCliente(nif)
+}
+
+class UserSession {
+    +getUser()
 }
 
 class ClienteDataHandler {
     +Cliente getClienteByEmail()
     +getEnderecoCliente(cliente)
     +removeCreditos(nifCliente, precoTotal)
+}
+
+class EnderecoDB {
+    +getEnderecoByCliente(nif)
 }
 
 class EmailDB {
@@ -41,6 +51,7 @@ class ProdutoDataHandler {
     +List<Produto> getListaStock()
     +List<Produto> getListaProdutos()
     +addNovoProduto(produto)
+    +getLista(nif)
 }
 
 class EncomendaDataHandler {
@@ -58,10 +69,12 @@ class FarmaciaDB {
     +addTransferencia(nif1, nif2, id, quantidade, 1)
     +enviarStock(fOrig, fDest, prod, quantidade)
     +getFarmaciaByNif(nif)
+    +generateGraph()
 }
 
 class PedirItemFarmaciaDB {
     +realizaPedido(farmacia1, farmacia2, produto, quantidade)
+    +generateGraph()
 }
 
 class Recibo {
@@ -104,6 +117,7 @@ class Cliente {
   -numeroSegurancaSocial
   -password
   -credito
+  +getNif()
 }
 
 RealizaEncomendaUI .> RealizaEncomendaController
@@ -113,6 +127,12 @@ RealizaEncomendaController .> ProdutoDataHandler
 RealizaEncomendaController .> EncomendaDataHandler
 RealizaEncomendaController .> ReciboDataHandler
 RealizaEncomendaController .> EmailDB
+
+RealizaEncomendaController .> EnderecoDB
+
+EnderecoDB .> Endereco
+
+RealizaEncomendaController .> UserSession
 
 RealizaEncomendaUI .> PedirItemFarmaciaDB
 

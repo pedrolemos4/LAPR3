@@ -5,9 +5,12 @@ actor "Cliente" as CLI
 
 participant ":RealizaEncomendaUI" as UI
 participant ":RealizaEncomendaController" as CTRL
+participant ":PedirItemFarmaciaController" as CTRL1
+participant ":UserSession" as USS
 participant ":ClienteDB" as DH
 participant ":Cliente" as CLIEN
 participant ":ProdutoDB" as PDH
+participant ":Farmacia" as FAR
 participant ":Produto" as PRO
 participant ":EncomendaDB" as EDH
 participant ":FarmaciaDB" as FDB
@@ -26,29 +29,41 @@ activate CLI
 activate UI
 
 
+LOOP
 activate CTRL
+UI --> CTRL : getListStock(nif)
+
+CTRL --> PDH : getLista(nif)
+activate PDH
+deactivate PDH
+END LOOP
+
 UI --> CTRL : getCliente()
 
-CTRL --> DH : cliente = getCliente()
-activate DH
-deactivate DH
+CTRL --> USS : getUser()
+activate USS
+deactivate USS
 
-CTRL --> CLIEN : nifCLiente = getNif()
+CTRL --> CLIEN : nif = getNIF()
 activate CLIEN
 deactivate CLIEN
 
-UI --> CTRL : getFarmaciaMaisProxima(nif)
+UI --> CTRL : enderecoCliente = getEnderecoByNifCliente(nif)
 
-CTRL --> FDB : nif = getFarmaciaByNif(nif)
+CTRL --> END : getEnderecoByNifCliente(nif)
+activate END
+deactivate END
+deactivate CTRL
+
+activate CTRL1
+UI --> CTRL1 : generateGraph(graph)
+
+CTRL1 --> FDB : generateGraph(graph)
 activate FDB
 deactivate FDB
 
-deactivate DH
-CTRL --> PDH : getListaStock(nif)
-activate PDH
-deactivate PDH
+deactivate CTRL1
 
-deactivate DH
 deactivate CTRL
 
 UI --> CLI : apresenta lista de produtos e pede para selecionar os produtos para a encomenda
@@ -59,17 +74,30 @@ LOOP
 CLI --> UI : introduz o produto e a quantidade que pretende
 activate UI
 
-UI --> CTRL : produtoEncomenda(produto,quant)
+UI --> CTRL : produtoEncomenda(nif,produto,quant)
 activate CTRL
 
 CTRL --> CTRL : verificaProdutoStock(produto,quant)
 
 OPT
-note  over CTRL : Se nao houver o produto no stock na 1 farmacia (farmacia1) percorre a lista de farmacias para encontrar outra farmacia com o stock (farmacia2)
+note  over CTRL : Se nao houver o produto no stock na 1 farmacia percorre a lista de farmacias para encontrar outra farmacia com o stock 
 
 LOOP 
+
+activate CTRL1
+UI --> CTRL1 : getFarmaciaProxima(graph,enderecoCliente, lista)
+
+CTRL1 --> FDB : farmciaProximaCliente = getFarmaciaProxima(graph,enderecoCliente, lista)
+activate FDB
+deactivate FDB
+
+CTRL1 --> FAR : nifFarmProx = getNIF()
+activate FAR 
+deactivate FAR
+
+deactivate CTRL1
 deactivate CTRL
-UI --> PEIC : realizaPedido(farmacia1, famacia2, produto, quantidade)
+UI --> PEIC : realizaPedido(farmacia1, farmciaProximaCliente, produto, quantidade)
 activate PEIC
 
 PEIC --> TDB : realizaPedido(fOrig, fDest, prod, quantidade)
