@@ -28,10 +28,11 @@ public class LerFicheiro extends DataHandler {
     private final VeiculoDB vdb;
     private final CaminhoDB pathdb;
     private final ProdutosDB proddb;
+    private final EncomendaDB encdb;
 
     public LerFicheiro(FarmaciaDB far, ParqueDB par, EstacionamentosDB est, CartaoDB car,
             EnderecoDB end, UtilizadorDB uti, ClienteDB cli, EstafetaDB estDB, CaminhoDB cam,
-            VeiculoDB vei, ProdutosDB prod) {
+            VeiculoDB vei, ProdutosDB prod, EncomendaDB encDB) {
         this.fdb = far;
         this.pdb = par;
         this.edb = est;
@@ -44,6 +45,7 @@ public class LerFicheiro extends DataHandler {
         this.pathdb = cam;
         this.vdb = vei;
         this.proddb = prod;
+        this.encdb = encDB;
     }
 
     public void read(String nameFile) throws ParseException, SQLException {
@@ -53,7 +55,7 @@ public class LerFicheiro extends DataHandler {
                     String[] items = in.nextLine().split(";");
                     switch (nameFile) {
                         case "docs/Dados_de_Leitura/farmacias.csv":
-                            addFarmacia(Integer.parseInt(items[0]), items[1], items[2]);
+                            fdb.addFarmacia(Integer.parseInt(items[0]), items[1], items[2]);
                             break;
                         case "docs/Dados_de_Leitura/parques.csv":
                             pdb.addParque(Integer.parseInt(items[0]), Integer.parseInt(items[1]), items[2], Integer.parseInt(items[3]));
@@ -96,6 +98,9 @@ public class LerFicheiro extends DataHandler {
                         case "docs/Dados_de_Leitura/stock.csv":
                             proddb.addProdutoStock(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Integer.parseInt(items[2]));
                             break;
+                        case "docs/Dados_de_Leitura/encomendas.csv":
+                            encdb.addEncomenda(Integer.parseInt(items[0]), Integer.parseInt(items[1]), items[2], Double.parseDouble(items[3]), Double.parseDouble(items[4]), Double.parseDouble(items[5]), Integer.parseInt(items[6]));
+                            break;
                         default:
                             break;
                     }
@@ -106,15 +111,11 @@ public class LerFicheiro extends DataHandler {
         }
     }
 
-    public boolean addFarmacia(int i, String s, String r) {
-        return fdb.addFarmacia(i, s, r);
-    }
-
     public boolean baseDadosCheia() {
         String query = "SELECT COUNT(*) FROM caminho";
         boolean bool = true;
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
                 if (rSet.next()) {
                     int contador = rSet.getInt(1);
                     if (contador == 0) {

@@ -34,6 +34,7 @@ class Main {
     private static final String CAMINHOS = "docs/Dados_de_Leitura/caminhos.csv";
     private static final String PRODUTOS = "docs/Dados_de_Leitura/produtos.csv";
     private static final String STOCK = "docs/Dados_de_Leitura/stock.csv";
+    private static final String ENCOMENDAS = "docs/Dados_de_Leitura/encomendas.csv";
 
     /**
      * Private constructor to hide implicit public one.
@@ -63,7 +64,7 @@ class Main {
         LerFicheiro readFile = new LerFicheiro(new FarmaciaDB(), new ParqueDB(),
                 new EstacionamentosDB(), new CartaoDB(), new EnderecoDB(), new UtilizadorDB(),
                 new ClienteDB(), new EstafetaDB(), new CaminhoDB(), new VeiculoDB(),
-                new ProdutosDB());
+                new ProdutosDB(), new EncomendaDB());
 
         if (!readFile.baseDadosCheia()) {
             readFile.read(ENDERECOS);
@@ -80,11 +81,12 @@ class Main {
             readFile.read(CLIENTES);
             readFile.read(ESTAFETAS);
             readFile.read(CAMINHOS);
+            readFile.read(ENCOMENDAS);
         }
-        
+
         EstacionamentoController cont = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB(), new EstafetaDB());
         cont.checkParkings("src/main/java/lapr/project/parking/estacionamento");
-        
+
         LoginUI login = new LoginUI();
         login.menu();
 

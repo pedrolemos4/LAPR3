@@ -34,9 +34,8 @@ public class EncomendaDB extends DataHandler {
      */
     public Encomenda getEncomenda(int id) {
         String query = "SELECT * FROM encomenda WHERE idEncomenda = " + id;
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
-
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int idEncomenda = rSet.getInt(1);
                     Timestamp dataPedida = rSet.getTimestamp(2);
@@ -98,15 +97,20 @@ public class EncomendaDB extends DataHandler {
     /**
      * Adiciona a encomenda à base de dados
      *
+     * @param nif nif do cliente
+     * @param nifFarmacia nif da farmácia
      * @param dataPedida data em que a encomenda foi pedida
      * @param preco preço da encomenda
      * @param pesoEncomenda peso da encomenda
      * @param taxa taxa da encomenda
      * @param estado estado da encomenda
+     * @return
+     * @throws java.sql.SQLException
+     * @throws java.text.ParseException
      */
-    private int addEncomenda(int nif, int nifFarmacia, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) throws SQLException, ParseException {
+    public int addEncomenda(int nif, int nifFarmacia, String dataPedida, double preco, double pesoEncomenda, double taxa, int estado) throws SQLException, ParseException {
         int id;
-        try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addEncomenda(?,?,?,?,?,?,?) }")) {
+        try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addEncomenda(?,?,?,?,?,?,?) }")) {
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             java.util.Date date = sdf1.parse(dataPedida);
@@ -120,17 +124,12 @@ public class EncomendaDB extends DataHandler {
             callStmt.setInt(8, nif);
             callStmt.execute();
             id = callStmt.getInt(1);
-
             try {
-
                 closeAll();
-
             } catch (NullPointerException ex) {
-
                 Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
         }
-
         return id;
     }
 
@@ -160,18 +159,14 @@ public class EncomendaDB extends DataHandler {
         boolean aux = false;
         try {
             openConnection();
-
-            try (CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?,?) }")) {
-
+            try ( CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?,?) }")) {
                 callStmt1.setInt(1, enc);
                 callStmt1.setInt(2, p);
                 callStmt1.setInt(3, stock);
-
                 callStmt1.execute();
                 aux = true;
             }
             closeAll();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -186,7 +181,6 @@ public class EncomendaDB extends DataHandler {
      */
     public List<Encomenda> getListaEncomenda(int nifFarmacia) {
         String query = "SELECT * FROM encomenda WHERE EstadoEncomendaidEstadoEncomenda = 1 AND nifFarmacia = " + nifFarmacia;
-
         return getFromDatabase(query);
     }
 
@@ -209,8 +203,8 @@ public class EncomendaDB extends DataHandler {
      */
     public List<Encomenda> getFromDatabase(String query) {
         ArrayList<Encomenda> list = new ArrayList<>();
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int idEncomenda = rSet.getInt(1);
@@ -286,24 +280,17 @@ public class EncomendaDB extends DataHandler {
      */
     public boolean updateEncomenda(int idEncomenda, int estado) throws SQLException {
         boolean updated = false;
-
-        try (CallableStatement callSmt = getConnection().prepareCall("{ call updateEncomenda(?,?) }")) {
-
+        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateEncomenda(?,?) }")) {
             callSmt.setInt(2, estado);
             callSmt.setInt(1, idEncomenda);
-
             callSmt.execute();
-
             updated = true;
             try {
-
                 closeAll();
-
             } catch (NullPointerException ex) {
                 Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
         }
-
         return updated;
     }
 
