@@ -32,9 +32,9 @@ class Main {
     private static final String DRONES = "docs/Dados_de_Leitura/drones.csv";
     private static final String SCOOTERS = "docs/Dados_de_Leitura/scooters.csv";
     private static final String CAMINHOS = "docs/Dados_de_Leitura/caminhos.csv";
+    private static final String ENCOMENDAS = "docs/Dados_de_Leitura/encomendas.csv";
     private static final String PRODUTOS = "docs/Dados_de_Leitura/produtos.csv";
     private static final String STOCK = "docs/Dados_de_Leitura/stock.csv";
-    private static final String ENCOMENDAS = "docs/Dados_de_Leitura/encomendas.csv";
 
     /**
      * Private constructor to hide implicit public one.
@@ -80,8 +80,8 @@ class Main {
             readFile.read(STOCK);
             readFile.read(CLIENTES);
             readFile.read(ESTAFETAS);
-            readFile.read(CAMINHOS);
             readFile.read(ENCOMENDAS);
+            readFile.read(CAMINHOS);
         }
 
         EstacionamentoController cont = new EstacionamentoController(new EmailDB(), new EstacionamentosDB(), new VeiculoDB(), new ParqueDB(), new EstafetaDB());
