@@ -71,7 +71,7 @@ public class EstafetaTest extends UtilizadorTest{
         System.out.println("toString");
         Estafeta instance = new Estafeta(58,"ss", "dd",123,55, "sd", 1);
         System.out.println(instance.toString());
-        String expResult = "Estafeta{pesoEstafeta=123.0, idEstado=1}";
+        String expResult = "Estafeta{Nif=58, Peso=123.0, Id estado=1}";
         String result = instance.toString();
         assertEquals(expResult, result);
 
