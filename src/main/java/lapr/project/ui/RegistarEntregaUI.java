@@ -68,6 +68,8 @@ public class RegistarEntregaUI {
             }
         }
 
+        System.out.println("Lista de enderecos UI: " +new ArrayList<>(listEnderecos).toString());
+
         System.out.println("\nEstafeta:\t" + est
                 + "\nDataInicio:\t" + dataInicio
                 + "\nPeso maximo da entrega:\t" + pesoMaximoEntrega
@@ -90,6 +92,8 @@ public class RegistarEntregaUI {
             LinkedList<Endereco> listMinScooter = new LinkedList<>();
             LinkedList<Endereco> listMinDrone = new LinkedList<>();
 
+            LinkedList<Endereco> list = new LinkedList<>();
+
             Veiculo scooter = null;
             Veiculo drone = null;
 
@@ -104,11 +108,9 @@ public class RegistarEntregaUI {
                 if ((v.getDescricao()).equalsIgnoreCase(SCOOTER)) {
                     System.out.println("veiculo: " + v.toString());
                     graphScooter = controller.generateGraphScooter(listEnderecosScooter, new ArrayList<>(listEnderecos), est, v, pesoEntrega);
-                    double energiaTotalGastaScooter = controller.getPath(graphScooter, new ArrayList<>(listEnderecos), finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0, v);
+                    double energiaTotalGastaScooter = controller.getPath(graphScooter, new ArrayList<>(listEnderecos), finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0, v, 0, list);
                     System.out.println();
-                    for (Endereco endereco : finalShortPathScooter) {
-                        System.out.println("FINALUI : " + endereco.getMorada());
-                    }
+
                     System.out.println("energiaScooter1: " + energiaTotalGastaScooter);
                     if (energiaTotalGastaScooter < minScooter) {
                         minScooter = energiaTotalGastaScooter;
@@ -117,6 +119,7 @@ public class RegistarEntregaUI {
                         listMinScooter = finalShortPathScooter;
                     }
                     finalShortPathScooter = new LinkedList<>();
+                    list = new LinkedList<>();
                 } else if ((v.getDescricao()).equalsIgnoreCase(DRONE)) {
                     boolean flag = false;
                     for (Endereco e : listEnderecos) {
@@ -129,7 +132,7 @@ public class RegistarEntregaUI {
                     } else {
                         Drone d = controller.getDroneById(v.getId());
                         graphDrone = controller.generateGraphDrone(listEnderecosDrone, new ArrayList<>(listEnderecos), est, v, d.getLargura(), pesoEntrega);
-                        double energiaTotalGastaDrone = controller.getPath(graphDrone, new ArrayList<>(listEnderecos), finalShortPathDrone, controller.getEnderecoOrigem(nifFarmacia), 0, v);
+                        double energiaTotalGastaDrone = controller.getPath(graphDrone, new ArrayList<>(listEnderecos), finalShortPathDrone, controller.getEnderecoOrigem(nifFarmacia), 0, v, 0, list);
                         System.out.println("energiaDrone1: " + energiaTotalGastaDrone);
                         if (energiaTotalGastaDrone < minDrone) {
                             System.out.println("energiaDrone2: " + energiaTotalGastaDrone);
@@ -138,9 +141,15 @@ public class RegistarEntregaUI {
                             listMinDrone = finalShortPathDrone;
                         }
                         finalShortPathDrone = new LinkedList<>();
+                        list = new LinkedList<>();
                     }
                 }
             }
+
+            for (Endereco endereco : listMinScooter) {
+                System.out.println("FINALUI : " + endereco.getMorada());
+            }
+
             boolean a = true, b = true;
             System.out.println("\n\nTendo em conta que por meio terrestre a entrega tem um custo de: ");
             if (minScooter == Double.MAX_VALUE) {

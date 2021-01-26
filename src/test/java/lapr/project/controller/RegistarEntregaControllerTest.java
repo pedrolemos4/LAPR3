@@ -324,12 +324,14 @@ public class RegistarEntregaControllerTest {
         graph.insertEdge(e1, e3, 1.0, 23);
         LinkedList<Endereco> finalShortPath = new LinkedList<>();
         finalShortPath.add(e3);
+        LinkedList<Endereco> list = new LinkedList<>();
         Endereco origem = e1;
         double energia = 48.0;
         double expResult = 48.0;
+        int contador = 0;
         Veiculo veiculo = new Veiculo(1, "scooter", 34, 12, 34, 45, 75, 54,23);
         RegistarEntregaController teste = new RegistarEntregaController(new UtilizadorDB(), new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB(), new CaminhoDB());
-        double result = teste.getPath(graph, listEnderecos, finalShortPath, origem, energia, veiculo);
+        double result = teste.getPath(graph, listEnderecos, finalShortPath, origem, energia, veiculo,contador, list);
         assertEquals(expResult, result, 0.0);
 
     }

@@ -217,8 +217,8 @@ public class RegistarEntregaController {
      * @param v veiculo usado no percurso
      * @return energia gasta no percurso
      */
-    public double getPath(Graph<Endereco, Double> graph, ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia, Veiculo v) {
-        return entregaDB.getPath(graph, listEnderecos, finalShortPath, origem, energia, v);
+    public double getPath(Graph<Endereco, Double> graph, ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia, Veiculo v, int contador, LinkedList<Endereco> list) {
+        return entregaDB.getPath(graph, listEnderecos, finalShortPath, origem, energia, v, contador, list);
     }
     
     /**
