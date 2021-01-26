@@ -1,0 +1,54 @@
+@startuml
+autonumber
+
+participant ":EstacionamentoController" as NCONT
+participant "EstacionamentoDB"
+participant "VeiculoDB"
+
+
+activate NCONT
+NCONT -> "EstacionamentoDB": getEstacionamentoVeiculo(estac,veiculo)
+activate "EstacionamentoDB"
+deactivate "EstacionamentoDB"
+
+alt getEstacionamentoVeiculo == true
+    NCONT -> "estac:\nEstacionamento": estacID = getIdParque
+
+    activate "estac:\nEstacionamento"
+    deactivate "estac:\nEstacionamento"
+
+    NCONT -> "EstacionamentoDB": addEstacionamentoVeiculo(estac, veiculo,estacID)
+    activate "EstacionamentoDB"
+    deactivate "EstacionamentoDB"
+
+    NCONT -> "estac:\nEstacionamento": setEstadoVeiculo(2)
+    activate "estac:\nEstacionamento"
+    deactivate "estac:\nEstacionamento"
+
+    NCONT -> "VeiculoDB" :updateVeiculo(veiculo)
+    activate "VeiculoDB"
+    deactivate "VeiculoDB"
+
+    alt "scooter"
+        NCONT -> "estafeta:\nUtilizador": email = getEmail()
+        activate "estafeta:\nUtilizador"
+        deactivate "estafeta:\nUtilizador"
+        NCONT -> NCONT: notificaEstafeta(true, estimativa, email);
+    else "drone"
+        NCONT -> "VeiculoDB": veiculoID = getId()
+        activate "VeiculoDB"
+        deactivate "VeiculoDB"
+        NCONT -> NCONT: notificaAdministrador(true, estimativa, veiculoID)
+    end
+else getEstacionamentoVeiculo == false
+    alt "scooter"
+         NCONT -> "estafeta:\nUtilizador": email = getEmail()
+         activate "estafeta:\nUtilizador"
+         deactivate "estafeta:\nUtilizador"
+         NCONT -> NCONT: updateEstimativa(estimativa, email)
+    else "drone"
+         NCONT -> NCONT: updateEstimativa(estimativa, adminEmail);
+    end
+
+deactivate NCONT
+@enduml

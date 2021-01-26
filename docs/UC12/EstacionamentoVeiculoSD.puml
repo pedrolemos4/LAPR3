@@ -1,18 +1,27 @@
 @startuml
 autonumber
 
+actor "Plataforma" as MAIN
 participant ":EstacionamentoController" as NCONT
 
--> NCONT: checkParkings(String path)
+MAIN -> NCONT: checkParkings(String path)
+activate MAIN
 activate NCONT
 
+NCONT -> NCONT: checkDirectory(String path)
 NCONT -> NCONT: simulateParkingVeiculo(String path)
-NCONT -> "VeiculoDB": getVeiculoById(VeiculoId)
+NCONT -> "VeiculoDB": veiculo = getVeiculoById(VeiculoId)
 activate "VeiculoDB"
 deactivate "VeiculoDB"
-NCONT -> "EstacionamentoDB": getEstacionamentoById(numeroLote)
+NCONT -> "EstacionamentoDB": estacionamento = getEstacionamentoById(numeroLote)
 activate "EstacionamentoDB"
 deactivate "EstacionamentoDB"
+NCONT -> "ParqueDB": parque = getParqueByID(idParque)
+activate "ParqueDB"
+deactivate "ParqueDB"
+NCONT -> "EstafetaDB": estafeta = getUtilizadorEstafetaByNIF(nifEstafeta)
+activate "EstafetaDB"
+deactivate "EstafetaDB"
 
 alt estimativa = -1
     NCONT -> NCONT: notificaEstafeta(false,estimativa,emailEstafeta)
@@ -20,7 +29,9 @@ alt estimativa = -1
     NCONT -> "EmailDB": sendEmail(emailOrig, email, assunto, mensagem);
 else
     ref over NCONT
-    SendEmail
+    SimulaçãoBemEfetuada
     end ref
 end
+deactivate MAIN
+deactivate NCONT
 @enduml

@@ -20,7 +20,7 @@ public class EstacionamentoController {
     private final VeiculoDB veiculoDB;
     private final ParqueDB parqueDB;
     private final EstafetaDB estafetaDB;
-    private final String adminEmail = "admlapr123@gmail.com";
+    private final static String adminEmail = "admlapr123@gmail.com";
 
     /**
      * Constroi uma instancia de EstacionamentoController recebendo uma

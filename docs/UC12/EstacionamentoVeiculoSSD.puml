@@ -1,0 +1,14 @@
+@startuml
+autonumber
+
+actor "Utilizador" as EST
+participant ":Sistema" as SYS
+
+activate EST
+EST -> SYS: simula o estacionamento de um veículo
+activate SYS
+SYS -> EST: envia email com os dados relativos à simulação (estimativa)
+deactivate SYS
+deactivate EST
+
+@enduml
