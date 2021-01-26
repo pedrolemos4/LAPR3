@@ -3,9 +3,9 @@ autonumber
 actor "Estafeta" as EST
 
 activate EST
-EST -> ":Sistema" : inicia entrega 
+EST -> ":Sistema" : inicia entrega
 activate ":Sistema"
-":Sistema" --> EST : mostra a lista de entregas do estafeta e solicita escolha de uma entrega
+":Sistema" --> EST : mostra uma lista de farmacia e solicita a escolha de uma farmacia
 deactivate ":Sistema"
 
 EST -> ":Sistema" : introduz dados solicitados

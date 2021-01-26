@@ -4,61 +4,43 @@ actor "Estafeta" as EST
 
 participant ":RegistarEntregaUI" as UI
 participant ":RegistarEntregaController" as CTRL
-participant "AplicacaoPOT" as _APP
-participant "app\n:AplicacaoPOT" as APP
 participant "sessao\n:SessaoUtilizador" as SESSAO
-
 participant ":EstafetaDB" as ESTDB
 participant ":EntregaDB" as ENTRDB
 participant "entr:Entrega" as ENTR
-
-participant ":ScooterDB" as RS
-
 
 activate EST
 EST -> UI : inicia registo de entrega
 activate UI
 UI -> CTRL : getEstafeta()
 activate CTRL
-CTRL -> _APP: app = getInstance()
-activate _APP
-|||
-deactivate _APP
-CTRL -> APP: sessao = getSessaoAtual()
-activate APP
-|||
-deactivate APP
-
-CTRL -> SESSAO: email = getEmailUtilizador()
+CTRL -> SESSAO: app = getInstance()
 activate SESSAO
 |||
 deactivate SESSAO
-CTRL -> ESTDB : est=getEstafetaByEmail(email)
+CTRL -> SESSAO: sessao = getSessaoAtual()
+activate SESSAO
+|||
+deactivate SESSAO
+
+CTRL -> SESSAO: nif = getNif()
+activate SESSAO
+|||
+deactivate SESSAO
+CTRL -> ESTDB : est = getEstafetaByNIF(nif)
 activate ESTDB
 deactivate ESTDB
 deactivate CTRL
-UI -> CTRL : getListScooter()
-activate CTRL
-CTRL -> RS : list=getListScooter()
-activate RS
-deactivate RS
-deactivate CTRL
-UI --> EST : mostra lista de scooters e solicita o id da scooter
+UI --> EST : solicita o nif da farmacia e o peso maximo da entrega
 deactivate UI
 
 EST -> UI : introduz dados solicitados
 activate UI
-UI -> CTRL : getScooter(idScooter)
+UI -> CTRL: addEntrega(dataInicio, dataFim, veiculo, nif, pesoMaximo)
 activate CTRL
-CTRL -> RS : scooter=getScooter(idScooter)
-activate RS
-deactivate RS
-deactivate CTRL
-UI -> CTRL: novaEntrega(dataInicio, dataFim, scooter, est)
-activate CTRL
-CTRL -> ENTRDB : entr=novaEntrega(idEntrega, dataInicio, dataFim, scooter, est)
+CTRL -> ENTRDB : entr = addEntrega(dataInicio, dataFim, veiculo, nif, pesoMaximo)
 activate ENTRDB
-ENTRDB -> ENTR ** : create(idEntrega, dataInicio, dataFim, scooter, est)
+ENTRDB -> ENTR ** : create(dataInicio, dataFim, veiculo, nif, pesoMaximo)
 
 deactivate ENTRDB
 deactivate CTRL

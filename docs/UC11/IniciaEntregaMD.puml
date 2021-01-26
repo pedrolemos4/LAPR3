@@ -7,6 +7,7 @@ class Entrega {
   -idEntrega
   -dataInicio
   -dataFim
+  -pesoEntrega
 }
 
 class Encomenda {
@@ -17,13 +18,7 @@ class Encomenda {
   -taxa
 }
 
-
 class Estafeta {
-  -NIF
-  -nome
-  -email
-  -numeroSegurancaSocial
-  -password
   -pesoEstafeta
 }
 
@@ -36,31 +31,12 @@ class Endereco {
 
 class Scooter {
   -idScooter
-  -percentagemBateria
-  -pesoMaximo
-  -pesoScooter
-  -potencia
-  -areaFrontal
-}
-
-class Parque {
-  -numeroMaximo
 }
 
 class Cliente {
-  -NIF
-  -nome
-  -email
-  -numeroSegurancaSocial
-  -password
   -creditos
 }
 
-class Cartao {
-  -numeroCartao
-  -dataDeValidade
-  -CCV
-}
 
 class EstadoEncomenda {
   -idEstadoEncomenda
@@ -74,15 +50,48 @@ class Produto {
   -precoBase
 }
 
+class Utilizador {
+  -NIF
+  -nome
+  -email
+  -numeroSegurancaSocial
+  -password
+}
+
+class Veiculo {
+  -idveiculo
+  -descricao
+  -capacidade
+  -percentagemBateria
+  -pesoMaximo
+  -pesoVeiculo
+  -potencia
+  -areaFrontal
+}
+
+class Drone {
+  -idDrone
+  -largura
+}
+
+class Farmacia {
+  -NIF
+  -email
+}
+
 Encomenda "1" -- "1" EstadoEncomenda : tem >
-Cliente "1" -- "1" Cartao : tem >
 Entrega "1" -- "*" Encomenda : possui >
 Estafeta "1" -- "*" Entrega: realiza >
 Cliente "1" -- "1" Endereco: tem >
 Cliente "1" -- "*" Encomenda: realiza e paga >
-Entrega "*" -- "1" Scooter: realiza <
+Entrega "*" -- "1" Veiculo: realiza <
 Encomenda "1" -- "*" Produto: tem >
-Parque "1" -- "*" Scooter: possui >
-Parque "1" -- "1" Endereco: tem >
+Estafeta "1" -- "1" Utilizador: atua como >
+Cliente "1" -- "1" Utilizador: atua como >
+Veiculo "1" -- "1" Drone: é <
+Veiculo "1" -- "1" Scooter: é <
+Farmacia "1" -- "*" Encomenda: tem >
+Farmacia "1" -- "*" Veiculo: possui >
+Farmacia "1" -- "1" Endereco: tem >
 
 @enduml

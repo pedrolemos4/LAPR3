@@ -1,45 +1,34 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class AplicacaoPOT{
+class SessaoUtilizador{
   +static getInstance()
   +getSessaoAtual()
+  +getNif()
 }
-
-class SessaoUtilizador{
-  +getEmailUtilizador()
-}
-
-class ScooterDB {
-  +getListScooter()
-  +getScooter(idScooter)
-}
-
 
 class Entrega {
   -Integer idEntrega
   -String dataInicio
   -String dataFim
-  +create(idEntrega, dataInicio, dataFim, scooter, est)
-  +addScooter(s)
+  -Double pesoEntrega
+  +create(dataInicio, dataFim, veiculo, nif, pesoMaximo)
 }
 
 class EntregaDB {
-  +novaEntrega(idEntrega, dataInicio, dataFim, scooter, est)
+  +addEntrega(dataInicio, dataFim, veiculo, nif, pesoMaximo)
   +registaEntrega(entr)
   +validaEntrega(entr)
   +addEntrega(entr)
 }
 
 class EstafetaDB {
-  +getEstafetaByEmail(email)
+  +getEstafetaByNIF(nif)
 }
 
 class RegistarEntregaController {
   +getEstafeta()
-  +getListScooter()
-  +getScooter(idScooter)
-  +novaEntrega(dataInicio, dataFim, scooter, est)
+  +addEntrega(dataInicio, dataFim, veiculo, nif, pesoMaximo)
   +registaEntrega()
 }
 
@@ -55,50 +44,57 @@ class Encomenda {
 }
 
 class Estafeta {
+  -Double pesoEstafeta
+}
+
+class Veiculo {
+  -Integer idveiculo
+  -String descricao
+  -Double capacidade
+  -Double percentagemBateria
+  -Double pesoMaximo
+  -Double pesoVeiculo
+  -Double potencia
+  -Double areaFrontal
+}
+
+class Drone {
+  -Integer idDrone
+  -Double largura
+}
+
+class Scooter {
+  -Integer idScooter
+}
+
+class EstadoEncomenda {
+  -Integer idEstadoEncomenda
+  -String designacao
+}
+
+class Utilizador{
   -String NIF
   -String nome
   -String email
   -Integer numeroSegurancaSocial
   -String password
-  -Double pesoEstafeta
-}
-
-class Scooter {
-  -Integer idScooter
-  -Double percentagemBateria
-  -Double pesoMaximo
-  -Double pesoScooter
-  -Double potencia
-  -Double areaFrontal
-}
-
-class EstadoEncomenda {
-  -Integer id_estado_encomenda
-  -String designacao
-}
-
-class Produto {
-  -Integer idProduto
-  -String designacao
-  -Double peso
-  -Double precoBase
-}
+  }
 
 RegistarEntregaUI ..> RegistarEntregaController
 
 RegistarEntregaController ..> EstafetaDB
 RegistarEntregaController ..> EntregaDB
-RegistarEntregaController ..> ScooterDB
 RegistarEntregaController ..> AplicacaoPOT
 RegistarEntregaController ..> SessaoUtilizador
 
 EntregaDB "1" --> "*" Entrega : tem registadas
 EstafetaDB "1" --> "*" Estafeta : tem registadas
-ScooterDB "1" --> "*" Scooter : tem registadas
 Encomenda "1" -- "1" EstadoEncomenda : tem >
 Entrega "1" -- "*" Encomenda : possui >
 Estafeta "1" -- "*" Entrega: realiza >
-Entrega "*" -- "1" Scooter: realiza <
-Encomenda "1" -- "*" Produto: tem >
+Entrega "*" -- "1" Veiculo: realiza <
+Estafeta "1" -- "1" Utilizador: atua como >
+Veiculo "1" -- "1" Drone: é <
+Veiculo "1" -- "1" Scooter: é <
 
 @enduml

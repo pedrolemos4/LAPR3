@@ -5,7 +5,7 @@ actor "Estafeta" as EST
 activate EST
 EST -> ":Sistema" : inicia registo de entrega
 activate ":Sistema"
-":Sistema" --> EST : mostra lista de scooters e solicita o id da scooter
+":Sistema" --> EST : solicita o nif da farmacia e o peso maximo da entrega
 deactivate ":Sistema"
 
 EST -> ":Sistema" : introduz os dados solicitados
