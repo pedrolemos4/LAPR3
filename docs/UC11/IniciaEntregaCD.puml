@@ -1,56 +1,59 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class AplicacaoPOT{
+class SessaoUtilizador{
+  +getNif()
   +static getInstance()
   +getSessaoAtual()
 }
 
-class SessaoUtilizador{
-  +getEmailUtilizador()
+class FarmaciaDB{
+  +getLstFarmacias()
+}
+
+class VeiculoDB{
+  +getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia)
 }
 
 class EnderecoDB {
-  +getEnderecoParque()
   +getEnderecoByNifCliente(nif)
-}
-
-class ScooterDB {
-  +getScooterById(idScooter)
+  +getEnderecoOrigem(nifFarmacia)
+  +getLstEnderecosScooter()
 }
 
 class EncomendaDB {
-  +getListaEncomendaById(idEntrega)
+  +getListaEncomenda(nifFarmacia)
 }
 
 class Entrega {
   -Integer idEntrega
   -String dataInicio
   -String dataFim
+  -Double pesoEntrega
 }
 
 class EntregaDB {
-  +getListaEntregaByNifEstafeta(nifEstafeta)
-  +getEntregaById(int idEntrega)
-  +generateGraph(listEnderecos, est, scooter, pesoTotal)
+  +generateGraphScooter(listEnderecosScooter, listEnderecos, est, veiculo, pesoEntrega)
+  +getPath(graphScooter, listEnderecos, finalShortPathScooter, endereco, 0, veiculo, 0, list)
 }
 
 class EstafetaDB {
-  +getEstafetaByEmail(email)
+  +getEstafetaByNIF(nif)
 }
 
-class IniciarEntregaController {
+class RegistarEntregaController {
   +getEstafeta()
-  +getListaEntregaByNifEstafeta(nifEstafeta)
-  +getListaEncomendaById(idEntrega)
-  +getEntregaById(int idEntrega)
-  +getScooterById(idScooter)
-  +getEnderecoParque()
+  +getLstFarmacias()
+  +getListaEncomenda(nifFarmacia)
   +getEnderecoByNifCliente(nif)
-  +generateGraph(listEnderecos, est, scooter, pesoTotal)
+  +getEnderecoOrigem(nifFarmacia)
+  +getLstEnderecosScooter()
+  +getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia)
+  +generateGraphScooter(listEnderecosScooter, listEnderecos, est, veiculo, pesoEntrega)
+  +getPath(graphScooter, listEnderecos, finalShortPathScooter, endereco, 0, veiculo, 0, list)
 }
 
-class IniciarEntregaUI {
+class RegistarEntregaUI {
 }
 
 class Encomenda {
@@ -62,21 +65,11 @@ class Encomenda {
 }
 
 class Estafeta {
-  -Integer NIF
-  -String nome
-  -String email
-  -Integer numeroSegurancaSocial
-  -String password
   -Double pesoEstafeta
 }
 
 class Scooter {
   -Integer idScooter
-  -Double percentagemBateria
-  -Double pesoMaximo
-  -Double pesoScooter
-  -Double potencia
-  -Double areaFrontal
 }
 
 class Endereco {
@@ -86,28 +79,12 @@ class Endereco {
   -Double altitude
 }
 
-class Parque {
-  -Integer numeroMaximo
-}
-
 class Cliente {
-  -Integer NIF
-  -String nome
-  -String email
-  -Integer numeroSegurancaSocial
-  -String password
   -Integer creditos
 }
 
-
-class Cartao {
-  -Integer numeroCartao
-  -String dataDeValidade
-  -Integer CCV
-}
-
 class EstadoEncomenda {
-  -Integer id_estado_encomenda
+  -Integer idEstadoEncomenda
   -String designacao
 }
 
@@ -118,31 +95,65 @@ class Produto {
   -Double precoBase
 }
 
-IniciarEntregaUI ..> IniciarEntregaController
+class Utilizador {
+  -Integer NIF
+  -String nome
+  -String email
+  -Integer numeroSegurancaSocial
+  -String password
+}
 
-IniciarEntregaController ..> EstafetaDB
-IniciarEntregaController ..> EnderecoDB
-IniciarEntregaController ..> ScooterDB
-IniciarEntregaController ..> EntregaDB
-IniciarEntregaController ..> EncomendaDB
-IniciarEntregaController ..> AplicacaoPOT
-IniciarEntregaController ..> SessaoUtilizador
+class Veiculo {
+  -Integer idveiculo
+  -String descricao
+  -Double capacidade
+  -Double percentagemBateria
+  -Double pesoMaximo
+  -Double pesoVeiculo
+  -Double potencia
+  -Double areaFrontal
+}
+
+class Drone {
+  -Integer idDrone
+  -Double largura
+}
+
+class Farmacia {
+  -Integer NIF
+  -String email
+}
+
+RegistarEntregaUI ..> RegistarEntregaController
+
+RegistarEntregaController ..> EstafetaDB
+RegistarEntregaController ..> EnderecoDB
+RegistarEntregaController ..> FarmaciaDB
+RegistarEntregaController ..> EntregaDB
+RegistarEntregaController ..> EncomendaDB
+RegistarEntregaController ..> VeiculoDB
+RegistarEntregaController ..> SessaoUtilizador
 
 EntregaDB "1" --> "*" Entrega : tem registadas
 EstafetaDB "1" --> "*" Estafeta : tem registadas
 EncomendaDB "1" --> "*" Encomenda : tem registadas
 EnderecoDB "1" --> "*" Endereco : tem registadas
-ScooterDB "1" --> "*" Scooter : tem registadas
+FarmaciaDB "1" --> "*" Farmacia : tem registadas
+VeiculoDB "1" --> "*" Veiculo : tem registadas
 
-Cliente "1" -- "1" Cartao : tem >
-Parque "1" --> "*" Scooter: possui >
-Parque "1" --> "1" Endereco: tem >
-Entrega "1" --> "*" Encomenda : possui >
-Estafeta "1" --> "*" Entrega: realiza >
-Entrega "*" --> "1" Scooter: realiza <
-Cliente "1" --> "1" Endereco: tem >
-Cliente "1" --> "*" Encomenda: realiza e paga >
-Encomenda "1" -- "1" EstadoEncomenda : tem >
+Estafeta "1" -- "1" Utilizador: atua como >
+Cliente "1" -- "1" Utilizador: atua como >
+Veiculo "1" -- "1" Drone: é <
+Veiculo "1" -- "1" Scooter: é <
+Entrega "*" -- "1" Veiculo: realiza <
 Encomenda "1" -- "*" Produto: tem >
+Entrega "1" -- "*" Encomenda : possui >
+Estafeta "1" -- "*" Entrega: realiza >
+Cliente "1" -- "1" Endereco: tem >
+Cliente "1" -- "*" Encomenda: realiza e paga >
+Farmacia "1" -- "*" Encomenda: tem >
+Farmacia "1" -- "*" Veiculo: possui >
+Farmacia "1" -- "1" Endereco: tem >
+Encomenda "1" -- "1" EstadoEncomenda : tem >
 
 @enduml

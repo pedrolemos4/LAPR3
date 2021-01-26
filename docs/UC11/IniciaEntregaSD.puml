@@ -4,15 +4,13 @@ actor "Estafeta" as EST
 
 participant ":RegistarEntregaUI" as UI
 participant ":RegistarEntregaController" as CTRL
-participant "AplicacaoPOT" as _APP
-participant "app\n:AplicacaoPOT" as APP
 participant "sessao\n:SessaoUtilizador" as SESSAO
 
 participant ":EstafetaDB" as ESTDB
 participant ":EntregaDB" as ENTRDB
-
+participant ":FarmaciaDB" as FARDB
 participant ":EncomendaDB" as RENC
-participant ":ScooterDB" as RS
+participant ":VeiculoDB" as RS
 participant ":EnderecoDB" as END
 
 activate EST
@@ -20,52 +18,48 @@ EST -> UI : inicia entrega
 activate UI
 UI -> CTRL : getEstafeta()
 activate CTRL
-CTRL -> _APP: app = getInstance()
-activate _APP
-|||
-deactivate _APP
-CTRL -> APP: sessao = getSessaoAtual()
-activate APP
-|||
-deactivate APP
-
-CTRL -> SESSAO: email = getEmailUtilizador()
+CTRL -> SESSAO: app = getInstance()
 activate SESSAO
 |||
 deactivate SESSAO
-CTRL -> ESTDB : est=getEstafetaByEmail(email)
+CTRL -> SESSAO: sessao = getSessaoAtual()
+activate SESSAO
+|||
+deactivate SESSAO
+
+CTRL -> SESSAO: nif = getNif()
+activate SESSAO
+|||
+deactivate SESSAO
+CTRL -> ESTDB : est = getEstafetaByNIF(nif)
 activate ESTDB
 deactivate ESTDB
 deactivate CTRL
-UI -> CTRL : getListaEntregaByNifEstafeta(nifEstafeta)
+UI -> CTRL : getLstFarmacias()
 activate CTRL
-CTRL -> ENTRDB : listaEntregas=getListaEntregaByNifEstafeta(nifEstafeta)
-activate ENTRDB
-deactivate ENTRDB
+CTRL -> FARDB : listaFarmacia = getLstFarmacias()
+activate FARDB
+deactivate FARDB
 deactivate CTRL
-UI --> EST : mostra a lista de entregas do estafeta e solicita escolha de uma entrega
+UI --> EST : mostra uma lista de farmacia e solicita a escolha de uma farmacia
 deactivate UI
 
 EST -> UI : introduz dados solicitados
 activate UI
-UI -> CTRL : getListaEncomendaById(idEntrega)
+UI -> CTRL : getListaEncomenda(nifFarmacia)
 activate CTRL
-CTRL -> RENC : listaEncomendas=getListaEncomendaById(idEntrega)
+CTRL -> RENC : listaEncomendas=getListaEncomenda(nifFarmacia)
 activate RENC
 deactivate RENC
 deactivate CTRL
-UI -> CTRL : getEntregaById(int idEntrega)
+loop
+UI -> CTRL : getEnderecoByNifCliente(nif)
 activate CTRL
-CTRL -> ENTRDB : entr=getEntregaById(int idEntrega)
-activate ENTRDB
-deactivate ENTRDB
+CTRL -> END : end = getEnderecoByNifCliente(nif)
+activate END
+deactivate END
 deactivate CTRL
-UI -> CTRL : getScooterById(idScooter)
-activate CTRL
-CTRL -> RS : scooter=getScooterById(idScooter)
-activate RS
-deactivate RS
-deactivate CTRL
+end loop
 
 
 UI --> EST : apresenta dados e solicita confirmação
@@ -73,27 +67,38 @@ deactivate UI
 
 EST -> UI : confirma os dados
 activate UI
-UI -> CTRL : getEnderecoParque()
+UI -> CTRL : getEnderecoOrigem(nifFarmacia)
 activate CTRL
-CTRL-> END : origem=getEnderecoParque()
+CTRL -> END : endereco = getEnderecoOrigem(nifFarmacia)
 activate END
 deactivate END
+deactivate CTRL
+UI -> CTRL : getLstEnderecosScooter()
+activate CTRL
+CTRL-> END : listaEnderecos = getLstEnderecosScooter()
+activate END
+deactivate END
+deactivate CTRL
+UI -> CTRL : getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia)
+activate CTRL
+CTRL -> RS : listaVeiculos = getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia)
+activate RS
+deactivate RS
 deactivate CTRL
 loop
-UI -> CTRL : getEnderecoByNifCliente(int nif)
+UI -> CTRL : generateGraphScooter(listEnderecosScooter, listEnderecos, est, veiculo, pesoEntrega)
 activate CTRL
-CTRL -> END : endereco=getEnderecoByNifCliente(nif)
-activate END
-deactivate END
-deactivate CTRL
-end loop
-
-UI -> CTRL : generateGraph(listEnderecos, est, scooter, pesoTotal)
-activate CTRL
-CTRL -> ENTRDB : generateGraph(listEnderecos, est, scooter, pesoTotal)
+CTRL -> ENTRDB : graphScooter = generateGraphScooter(listEnderecosScooter, listEnderecos, est, veiculo, pesoEntrega)
 activate ENTRDB
 deactivate ENTRDB
 deactivate CTRL
+UI -> CTRL : getPath(graphScooter, listEnderecos, finalShortPathScooter, endereco, 0, veiculo, 0, list)
+activate CTRL
+CTRL -> ENTRDB : getPath(graphScooter, listEnderecos, finalShortPathScooter, endereco, 0, veiculo, 0, list)
+activate ENTRDB
+deactivate ENTRDB
+deactivate CTRL
+end loop
 UI --> EST : informa operação bem sucedida
 deactivate CTRL
 deactivate UI

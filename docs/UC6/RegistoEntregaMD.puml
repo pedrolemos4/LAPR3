@@ -7,6 +7,7 @@ class Entrega {
   -idEntrega
   -dataInicio
   -dataFim
+  -pesoEntrega
 }
 
 class Encomenda {
@@ -18,21 +19,17 @@ class Encomenda {
 }
 
 class Estafeta {
-  -NIF
-  -nome
-  -email
-  -numeroSegurancaSocial
-  -password
   -pesoEstafeta
 }
 
+
 class Scooter {
   -idScooter
-  -percentagemBateria
-  -pesoMaximo
-  -pesoScooter
-  -potencia
-  -areaFrontal
+}
+
+class EstadoEncomenda {
+  -idEstadoEncomenda
+  -designacao
 }
 
 class Utilizador {
@@ -43,23 +40,28 @@ class Utilizador {
   -password
 }
 
-class EstadoEncomenda {
-  -id_estado_encomenda
-  -designacao
+class Veiculo {
+  -idveiculo
+  -descricao
+  -capacidade
+  -percentagemBateria
+  -pesoMaximo
+  -pesoVeiculo
+  -potencia
+  -areaFrontal
 }
 
-class Produto {
-  -idProduto
-  -designacao
-  -peso
-  -precoBase
+class Drone {
+  -idDrone
+  -largura
 }
 
-Estafeta "1" -- "1" Utilizador: atua como >
+Encomenda "1" -- "1" EstadoEncomenda : tem >
 Entrega "1" -- "*" Encomenda : possui >
 Estafeta "1" -- "*" Entrega: realiza >
-Entrega "*" -- "1" Scooter: realiza <
-Encomenda "1" -- "*" Produto: tem >
-Encomenda "1" -- "1" EstadoEncomenda : tem >
+Entrega "*" -- "1" Veiculo: realiza <
+Estafeta "1" -- "1" Utilizador: atua como >
+Veiculo "1" -- "1" Drone: é <
+Veiculo "1" -- "1" Scooter: é <
 
 @enduml
