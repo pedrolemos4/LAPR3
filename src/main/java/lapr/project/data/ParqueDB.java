@@ -37,7 +37,7 @@ public class ParqueDB extends DataHandler {
     }
 
     /**
-     * Regista o parque
+     * Regista os parques
      *
      * @param lparks lista dos parques a serem registados
      * @return
@@ -47,6 +47,19 @@ public class ParqueDB extends DataHandler {
             if (validaParque(park)) {
                 park.setIdParque(addParque(park));
             }
+        }
+        return true;
+    }
+
+    /**
+     * Regista o parque
+     *
+     * @param park parque a ser registado
+     * @return
+     */
+    public boolean registaParque(Parque park) {
+        if (validaParque(park)) {
+            park.setIdParque(addParque(park));
         }
         return true;
     }

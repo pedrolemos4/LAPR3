@@ -31,7 +31,7 @@ drop table "LAPR3_G23".caminho CASCADE CONSTRAINTS PURGE;
 
 CREATE TABLE "LAPR3_G23".Farmacia 
 (           NIF number(10),
-            email varchar(255) NOT NULL,
+            email varchar(255) NOT NULL UNIQUE,
             Morada varchar(255) NOT NULL,
             PRIMARY KEY (NIF)
 );

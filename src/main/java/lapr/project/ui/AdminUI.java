@@ -49,8 +49,9 @@ public class AdminUI {
                 + "\n 6 - Adicionar item ao stock"
                 + "\n 7 - Atualizar item"
                 + "\n 8 - Registar farmácia"
-                //+ "\n 8 - Report about unlocked vehicles"
-                //+ "\n 9 - Add path"
+                + "\n 9 - Adicionar parque"
+                //+ "\n 9 - Report about unlocked vehicles"
+                //+ "\n 10 - Add path"
                 + "\n 0 - Exit"
                 + "\n Escolha uma das opções.");
     }
@@ -85,6 +86,9 @@ public class AdminUI {
                     break;
                 case "8":
                     registarFarmacia();
+                    break;
+                case "9":
+                    adicionarParque();
                     break;
                 case "0":
                     UserSession.getInstance().doLogout();
@@ -155,7 +159,7 @@ public class AdminUI {
 
                 VeiculoController sc = new VeiculoController(new VeiculoDB());
                 try {
-                    Veiculo ve = sc.addVeiculo(descricao, capacidade, percentagemBateria, peso, pesoMaximo, potencia, idestado,areaFrontal);
+                    Veiculo ve = sc.addVeiculo(descricao, capacidade, percentagemBateria, peso, pesoMaximo, potencia, idestado, areaFrontal);
                     Drone dr = sc.novoDrone(ve, ve.getId(), largura);
                     sc.registaDrone(dr);
                     System.out.println("\n\nVeículo adicionado com sucesso'");
@@ -297,7 +301,7 @@ public class AdminUI {
 
         if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
             try {
-                if(veiculo.getDescricao().equalsIgnoreCase("drone")){
+                if (veiculo.getDescricao().equalsIgnoreCase("drone")) {
                     sc.updateDrone(veiculo.getId(), largura);
                 }
 //                if(veiculo.getDescricao().equalsIgnoreCase("scooter")){
@@ -341,6 +345,12 @@ public class AdminUI {
     public void registarFarmacia() throws ClassNotFoundException, SQLException, ParseException {
         RegistarFarmaciaUI regFarUI = new RegistarFarmaciaUI();
         regFarUI.registaFarmacia();
+        menu();
+    }
+
+    public void adicionarParque() throws ClassNotFoundException, SQLException, ParseException {
+        AdicionarParqueUI adcParkUI = new AdicionarParqueUI();
+        adcParkUI.AdicionaParque();
         menu();
     }
 }
