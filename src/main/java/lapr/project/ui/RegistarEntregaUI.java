@@ -106,17 +106,12 @@ public class RegistarEntregaUI {
             List<Veiculo> listVeiculos = controller.getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia);
             for (Veiculo v : listVeiculos) {
                 if ((v.getDescricao()).equalsIgnoreCase(SCOOTER)) {
-                    System.out.println("veiculo: " + v.toString());
                     graphScooter = controller.generateGraphScooter(listEnderecosScooter, new ArrayList<>(listEnderecos), est, v, pesoEntrega);
                     double energiaTotalGastaScooter = controller.getPath(graphScooter, new ArrayList<>(listEnderecos), finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0, v, 0, list);
-                    System.out.println();
-
-                    System.out.println("energiaScooter1: " + energiaTotalGastaScooter);
                     if (energiaTotalGastaScooter < minScooter) {
                         minScooter = energiaTotalGastaScooter;
-                        System.out.println("minScooter2: " + minScooter);
                         scooter = v;
-                        listMinScooter = finalShortPathScooter;
+                        listMinScooter = list;
                     }
                     finalShortPathScooter = new LinkedList<>();
                     list = new LinkedList<>();
@@ -133,12 +128,10 @@ public class RegistarEntregaUI {
                         Drone d = controller.getDroneById(v.getId());
                         graphDrone = controller.generateGraphDrone(listEnderecosDrone, new ArrayList<>(listEnderecos), est, v, d.getLargura(), pesoEntrega);
                         double energiaTotalGastaDrone = controller.getPath(graphDrone, new ArrayList<>(listEnderecos), finalShortPathDrone, controller.getEnderecoOrigem(nifFarmacia), 0, v, 0, list);
-                        System.out.println("energiaDrone1: " + energiaTotalGastaDrone);
                         if (energiaTotalGastaDrone < minDrone) {
-                            System.out.println("energiaDrone2: " + energiaTotalGastaDrone);
                             minDrone = energiaTotalGastaDrone;
                             drone = v;
-                            listMinDrone = finalShortPathDrone;
+                            listMinDrone = list;
                         }
                         finalShortPathDrone = new LinkedList<>();
                         list = new LinkedList<>();
@@ -184,8 +177,6 @@ public class RegistarEntregaUI {
                     listaFinal = listMinDrone;
                     energia = minDrone;
                 }
-
-                listaFinal.addFirst(controller.getEnderecoOrigem(nifFarmacia));
 
                 String data = controller.getDuracaoPercurso(listaFinal, v);
                 DateFormat format1 = new SimpleDateFormat("HH:mm:ss");

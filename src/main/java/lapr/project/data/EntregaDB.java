@@ -62,15 +62,11 @@ public class EntregaDB extends DataHandler {
             callStmt.execute();
             id = callStmt.getInt(1);
             try {
-
                 closeAll();
-
             } catch (NullPointerException ex) {
-
                 Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
         }
-
         return id;
     }
 
@@ -190,7 +186,7 @@ public class EntregaDB extends DataHandler {
      */
     public double getPath(Graph<Endereco, Double> graph, ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia, Veiculo v, int contador, LinkedList<Endereco> list) {
         double dFinal;
-        if(finalShortPath.isEmpty()){
+        if (finalShortPath.isEmpty()) {
             finalShortPath.addFirst(origem);
         }
         if (!listEnderecos.isEmpty()) {
@@ -208,34 +204,26 @@ public class EntregaDB extends DataHandler {
             listEnderecos.remove(endereco);
             LinkedList<Endereco> shortPath1 = new LinkedList<>();
 
-            GraphAlgorithms.shortestPath(graph, origem, endereco, shortPath1);
+            dist = GraphAlgorithms.shortestPath(graph, origem, endereco, shortPath1);
 
             if (!shortPath1.isEmpty()) {
-//                for(Endereco y : shortPath1){
-//                        if (!finalShortPath.getLast().equals(y)) {
-//                            finalShortPath.add(y);
-//                        }
-//                }
-                //finalShortPath.add(origem);
-                //finalShortPath.addAll(shortPath1.subList(1, shortPath1.size()));
-//                for (Endereco e : finalShortPath) {
-//                    System.out.println("getPath: " + e.getMorada());
-//                }
                 finalShortPath.addAll(shortPath1.subList(1, shortPath1.size()));
-                boolean l = checkCaminho(graph, finalShortPath, v, list, contador);
-                contador++;
-                if (!l) {
-                    //finalShortPath.addAll(shortPath1);
-                    dFinal = getPath(graph, listEnderecos, finalShortPath, endereco, min, v, contador, list);
-                    energia = energia + dFinal;
-                } else {
-//                finalShortPath.addAll(l);
-                    dFinal = getPath(graph, listEnderecos, finalShortPath, endereco, min, v, contador, list);
-                    energia = energia + dFinal;
+                if(!listEnderecos.isEmpty()) {
+                    boolean l = checkCaminho(graph, finalShortPath, v, list, contador);
+                        contador++;
+                        if (!l) {
+                            list.add(endereco);
+                            dFinal = getPath(graph, listEnderecos, list, endereco, min, v, contador, list);
+                            energia = energia + dFinal;
+                        } else {
+                            dFinal = getPath(graph, listEnderecos, finalShortPath, endereco, min, v, contador, list);
+                            energia = energia + dFinal;
+                        }
+                    } else{
+                    energia = energia + dist;
                 }
-
             } else {
-                //finalShortPath.clear();
+                finalShortPath.clear();
                 return 0;
             }
         }
@@ -247,9 +235,9 @@ public class EntregaDB extends DataHandler {
         double distancia = 0;
         boolean flag = true;
         int i = finalShortPath.size() - 1;
-        if(contador == 0){
+        if (contador == 0) {
             nova.add(finalShortPath.get(contador));
-        }else if(contador > 0) {
+        } else if (contador > 0) {
             if (!finalShortPath.get(contador).equals(nova.get(contador))) {
                 nova.add(finalShortPath.get(contador));
             }
@@ -263,11 +251,11 @@ public class EntregaDB extends DataHandler {
                     flag = false;
                     break;
                 }
-                if(nova.size() > 1) {
+                if (nova.size() > 1) {
                     if (!nova.get(aux + 1).equals(finalShortPath.get(aux + 1))) {
                         nova.add(finalShortPath.get(aux + 1));
                     }
-                }else{
+                } else {
                     nova.add(finalShortPath.get(aux + 1));
                 }
             }
@@ -279,7 +267,7 @@ public class EntregaDB extends DataHandler {
                     flag = false;
                     break;
                 }
-                if(nova.get(aux).equals(nova.get(aux + 1))) {
+                if (nova.get(aux).equals(nova.get(aux + 1))) {
                     nova.add(finalShortPath.get(aux + 1));
                 }
             }
@@ -297,7 +285,7 @@ public class EntregaDB extends DataHandler {
                     if (v.getDescricao().equalsIgnoreCase(SCOOTER) && p.getTipo().equalsIgnoreCase(SCOOTER)) {
                         LinkedList<Endereco> shortPath = new LinkedList<>();
                         double valor = GraphAlgorithms.shortestPath(graph, list.getLast(), f1, shortPath);
-                        if(!shortPath.contains(endDestino)) {
+                        if (!shortPath.contains(endDestino)) {
                             if (valor < min && valor != 0) {
                                 min = valor;
                                 for (int i = 0; i < shortPath.size(); i++) {
@@ -311,7 +299,7 @@ public class EntregaDB extends DataHandler {
                     if (v.getDescricao().equalsIgnoreCase(DRONE) && p.getTipo().equalsIgnoreCase(DRONE)) {
                         LinkedList<Endereco> shortPath = new LinkedList<>();
                         double valor = GraphAlgorithms.shortestPath(graph, list.getLast(), f1, shortPath);
-                        if(!shortPath.contains(endDestino)) {
+                        if (!shortPath.contains(endDestino)) {
                             if (valor < min && valor != 0) {
                                 min = valor;
                                 listaFinal = shortPath;
@@ -388,43 +376,4 @@ public class EntregaDB extends DataHandler {
         return format1.format(date2);
     }
 
-    /**
-     * Atualiza a entrega na base de dados
-     *
-     * @param entrega entrega a ser utilizada
-     * @return true se a entrega foi atualizada com sucesso, false se não
-     * @throws SQLException
-     * @throws ParseException
-     */
-    public boolean updateEntrega(Entrega entrega) throws SQLException, ParseException {
-        boolean updated = false;
-
-        try (CallableStatement callSmt = getConnection().prepareCall("{ call updateEntrega(?,?,?,?,?,?) }")) {
-
-            callSmt.setInt(1, entrega.getIdEntrega());
-            callSmt.setInt(2, entrega.getidEstafeta());
-            callSmt.setInt(3, entrega.getIdVeiculo());
-
-            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-            java.util.Date date = sdf1.parse(entrega.getDataInicio());
-            java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
-            callSmt.setTimestamp(4, sqlStartDate);
-
-            java.util.Date date1 = sdf1.parse(entrega.getDataFim());
-            java.sql.Timestamp sqlEndDate = new java.sql.Timestamp(date1.getTime());
-            callSmt.setTimestamp(5, sqlEndDate);
-            callSmt.setDouble(6, entrega.getPesoEntrega());
-
-            callSmt.execute();
-
-            updated = true;
-            try {
-                closeAll();
-
-            } catch (NullPointerException ex) {
-                Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, ex.getMessage());
-            }
-        }
-        return updated;
-    }
 }

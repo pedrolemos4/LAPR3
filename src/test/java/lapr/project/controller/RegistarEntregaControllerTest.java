@@ -67,20 +67,21 @@ public class RegistarEntregaControllerTest {
     public void tearDown() throws Exception {
     }
 
-//    /**
-//     * Test of getListVeiculo method, of class RegistarEntregaController.
-//     * @throws java.sql.SQLException
-//     */
-//    @Test
-//    public void testGetListaVeiculoEntrega() throws SQLException {
-//        System.out.println("getListVeiculo");
-//        List<Veiculo> expResult = new ArrayList<>();
-//        expResult.add(new Veiculo("drone",100, 45, 89, 7, 52, 85,5.5));
-//        int nif = 123456789;
-//        when(veiculoDB.getListaVeiculoEntrega(nif)).thenReturn(expResult);
-//        assertEquals(expResult, instance.getListaVeiculoEntrega(nif));
-//
-//    }
+    /**
+     * Test of getListVeiculo method, of class RegistarEntregaController.
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testGetListaVeiculoEntrega() throws SQLException {
+        System.out.println("getListVeiculo");
+        List<Veiculo> expResult = new ArrayList<>();
+        expResult.add(new Veiculo("drone",100, 45, 89, 7, 52, 85,5.5));
+        int nif = 123456789;
+        double pesoMaximo = 3.0;
+        when(veiculoDB.getListaVeiculoEntrega(pesoMaximo,nif)).thenReturn(expResult);
+        assertEquals(expResult, instance.getListaVeiculoEntrega(pesoMaximo, nif));
+
+    }
 
     /**
      * Test of getEstafeta method, of class RegistarEntregaController.
@@ -325,6 +326,7 @@ public class RegistarEntregaControllerTest {
         LinkedList<Endereco> finalShortPath = new LinkedList<>();
         finalShortPath.add(e3);
         LinkedList<Endereco> list = new LinkedList<>();
+        list.add(e1);
         Endereco origem = e1;
         double energia = 48.0;
         double expResult = 48.0;
@@ -401,35 +403,6 @@ public class RegistarEntregaControllerTest {
 
     }
 
-    /**
-     * Test of updateEntrega method, of class RegistarEntregaController.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testUpdateEntrega() throws Exception {
-        System.out.println("updateEntrega");
-        Entrega entrega = new Entrega("15/02/2001", "15/02/2001", 2, 34, 2);
-        boolean expResult = true;
-        when(entregaDB.updateEntrega(entrega)).thenReturn(expResult);
-        boolean result = instance.updateEntrega(entrega);
-        assertEquals(expResult, result);
-
-    }
-    
-    /**
-     * Test of updateEntrega method, of class RegistarEntregaController.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testUpdateEntrega1() throws Exception {
-        System.out.println("updateEntrega1");
-        Entrega entrega = new Entrega("15/02/2001", "15/02/2001", 2, 34, 2);
-        boolean expResult = false;
-        when(entregaDB.updateEntrega(entrega)).thenReturn(expResult);
-        boolean result = instance.updateEntrega(entrega);
-        assertEquals(expResult, result);
-
-    }
 
     /**
      * Test of updateEncomenda method, of class RegistarEntregaController.

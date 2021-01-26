@@ -261,17 +261,7 @@ public class RegistarEntregaController {
     public boolean updateEncomenda(int idEncomenda, int estado) throws SQLException {
         return (encomendaDB.updateEncomenda(idEncomenda, estado) ? (true) : (false));
     }
-    
-    /**
-     * Verifica se a entrega foi atualizada recebendo por parametro a entrega
-     * @param entrega entrega
-     * @return true se a entrega foi atualizada
-     * @throws SQLException
-     * @throws ParseException 
-     */
-    public boolean updateEntrega(Entrega entrega) throws SQLException, ParseException {
-        return (entregaDB.updateEntrega(entrega) ? (true) : (false));
-    }
+
     
     /**
      * Devolve a encomenda recebendo por parametro o id da encomenda
