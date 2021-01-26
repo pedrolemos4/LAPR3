@@ -81,14 +81,13 @@ public class RealizarEncomendaUI {
             List<Endereco> listFarmaciasGrafo = new ArrayList<>();
 
             if (!controller.produtoEncomenda(nif, prod, qntd)) {
+                if(controller.getListStock(nif).containsKey(prod)) {
+                    controller.produtoEncomenda(nif, prod, controller.getListStock(nif).get(prod));
+                    qntd = qntd - controller.getListStock(nif).get(prod);
+                }
 
                 while (qntd > 0) {
-
                     Farmacia farmaciaProximaFarmacia1 = controller2.getFarmaciaProxima(graph, controller.getEnderecoOrigem(nif), listFarmaciasGrafo);
-
-                    if (!listFarmaciasGrafo.contains(controller.getEnderecoOrigem(nif))) {
-                        listFarmaciasGrafo.add(controller.getEnderecoOrigem(nif));
-                    }
                     
                     if(farmaciaProximaFarmacia1 == null)break;
                     

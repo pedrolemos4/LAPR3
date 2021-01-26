@@ -2,7 +2,9 @@ package lapr.project.data;
 
 import lapr.project.controller.VeiculoController;
 import lapr.project.model.Drone;
+import lapr.project.model.Estacionamento;
 import lapr.project.model.Scooter;
+import lapr.project.model.Veiculo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,8 +33,8 @@ public class LerFicheiro extends DataHandler {
     private final EncomendaDB encdb;
 
     public LerFicheiro(FarmaciaDB far, ParqueDB par, EstacionamentosDB est, CartaoDB car,
-            EnderecoDB end, UtilizadorDB uti, ClienteDB cli, EstafetaDB estDB, CaminhoDB cam,
-            VeiculoDB vei, ProdutosDB prod, EncomendaDB encDB) {
+                       EnderecoDB end, UtilizadorDB uti, ClienteDB cli, EstafetaDB estDB, CaminhoDB cam,
+                       VeiculoDB vei, ProdutosDB prod, EncomendaDB encDB) {
         this.fdb = far;
         this.pdb = par;
         this.edb = est;
@@ -50,9 +52,10 @@ public class LerFicheiro extends DataHandler {
 
     public void read(String nameFile) throws ParseException, SQLException {
         try {
-            try ( Scanner in = new Scanner(new File(nameFile))) {
+            try (Scanner in = new Scanner(new File(nameFile))) {
                 while (in.hasNextLine()) {
                     String[] items = in.nextLine().split(";");
+                    System.out.println("Ficheiro: "+nameFile);
                     switch (nameFile) {
                         case "docs/Dados_de_Leitura/farmacias.csv":
                             fdb.addFarmacia(Integer.parseInt(items[0]), items[1], items[2]);
@@ -101,6 +104,13 @@ public class LerFicheiro extends DataHandler {
                         case "docs/Dados_de_Leitura/encomendas.csv":
                             encdb.addEncomenda(Integer.parseInt(items[0]), Integer.parseInt(items[1]), items[2], Double.parseDouble(items[3]), Double.parseDouble(items[4]), Double.parseDouble(items[5]), Integer.parseInt(items[6]));
                             break;
+                        case "docs/Dados_de_Leitura/estacionamentoveiculo.csv":
+                            Estacionamento e = new Estacionamento();
+                            Veiculo v = new Veiculo();
+                            e.setNumeroLote(Integer.parseInt(items[2]));
+                            v.setId(Integer.parseInt(items[1]));
+                            edb.addEstacionamentoVeiculo(e, v, Integer.parseInt(items[0]));
+                            break;
                         default:
                             break;
                     }
@@ -114,8 +124,8 @@ public class LerFicheiro extends DataHandler {
     public boolean baseDadosCheia() {
         String query = "SELECT COUNT(*) FROM caminho";
         boolean bool = true;
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
                 if (rSet.next()) {
                     int contador = rSet.getInt(1);
                     if (contador == 0) {

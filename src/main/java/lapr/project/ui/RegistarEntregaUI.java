@@ -9,10 +9,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 import lapr.project.utils.CalculosFisica;
 
 /**
- *
  * @author beatr
  */
 public class RegistarEntregaUI {
@@ -105,6 +105,7 @@ public class RegistarEntregaUI {
                     System.out.println("veiculo: " + v.toString());
                     graphScooter = controller.generateGraphScooter(listEnderecosScooter, new ArrayList<>(listEnderecos), est, v, pesoEntrega);
                     double energiaTotalGastaScooter = controller.getPath(graphScooter, new ArrayList<>(listEnderecos), finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0, v);
+                    System.out.println();
                     for (Endereco endereco : finalShortPathScooter) {
                         System.out.println("FINALUI : " + endereco.getMorada());
                     }
@@ -140,73 +141,77 @@ public class RegistarEntregaUI {
                     }
                 }
             }
-
+            boolean a = true, b = true;
             System.out.println("\n\nTendo em conta que por meio terrestre a entrega tem um custo de: ");
             if (minScooter == Double.MAX_VALUE) {
                 System.out.println("Não é possivel realizar a encomenda por este meio.");
+                a = false;
             } else {
                 System.out.println(minScooter + " J");
             }
             System.out.println("Por meio aereo a entrega tem um custo de: ");
             if (minDrone == Double.MAX_VALUE) {
                 System.out.println("Não é possivel realizar a encomenda por este meio.");
+                b = false;
             } else {
                 System.out.println(minDrone + " J");
             }
-            System.out.println("Escolha o meio por onde pretende realizar a entrega (terrestre/aereo)");
-            String escolha = LER.nextLine();
-            Veiculo v = null;
-            double energia = 0;
-            LinkedList<Endereco> listaFinal = new LinkedList<>();
-            while (!escolha.equalsIgnoreCase("terrestre") && !escolha.equalsIgnoreCase("aereo")) {
-                System.out.println("Essa escolha nao é possivel. Introduza novamente uma opçao");
-                escolha = LER.nextLine();
-            }
-            if (escolha.equalsIgnoreCase("terrestre")) {
-                v = scooter;
-                listaFinal = listMinScooter;
-                energia = minScooter;
+            if (a == true || b == true) {
+                System.out.println("Escolha o meio por onde pretende realizar a entrega (terrestre/aereo)");
+                String escolha = LER.nextLine();
+                Veiculo v = null;
+                double energia = 0;
+                LinkedList<Endereco> listaFinal = new LinkedList<>();
+                while (!escolha.equalsIgnoreCase("terrestre") && !escolha.equalsIgnoreCase("aereo")) {
+                    System.out.println("Essa escolha nao é possivel. Introduza novamente uma opçao");
+                    escolha = LER.nextLine();
+                }
+                if (escolha.equalsIgnoreCase("terrestre")) {
+                    v = scooter;
+                    listaFinal = listMinScooter;
+                    energia = minScooter;
+                } else {
+                    v = drone;
+                    listaFinal = listMinDrone;
+                    energia = minDrone;
+                }
+
+                listaFinal.addFirst(controller.getEnderecoOrigem(nifFarmacia));
+
+                String data = controller.getDuracaoPercurso(listaFinal, v);
+                DateFormat format1 = new SimpleDateFormat("HH:mm:ss");
+                Date date2 = format1.parse(data);
+                Date newDate = new Date(date.getTime() + date2.getTime() + 3600 * 1000);
+
+                Entrega entr = controller.addEntrega(dataInicio, formatter.format(newDate), v.getId(), nifEstafeta, pesoMaximoEntrega);
+
+                for (Encomenda e : listEncomendaByEntrega) {
+                    controller.addEncomendaEntrega(entr, e);
+                    Endereco end = controller.getEnderecoByNifCliente(e.getNif());
+                    Cliente c = controller.getClienteByEndereco(end);
+                    Utilizador u = controller.getUtilizadorByNif(c.getClienteNIF());
+                    controller.enviarNotaCliente(farmacia, u);
+                    controller.updateEncomenda(e.getId(), 3);
+                }
+
+                System.out.println("\n\nEntrega adicionada com sucesso");
+                System.out.println("\n\nCaminho com menor energia gasta: ");
+
+                int i = listaFinal.size() - 1;
+                for (int aux = 0; aux < i; aux++) {
+                    System.out.println(controller.getCaminhoByEnderecos(listaFinal.get(aux).getMorada(), listaFinal.get(aux + 1).getMorada()));
+                }
+                System.out.println();
+                System.out.println("Densidade do Ar utilizada: " + CalculosFisica.AIR_DENSITY_20DEGREES + " Kg/m^3");
+                System.out.println("Coeficiente de Resistência do Ar utilizado: " + CalculosFisica.AIR_DRAG_COEFFICIENT);
+                System.out.println("Raio da Terra utilizado: " + CalculosFisica.EARTHRADIUS + " Km");
+                System.out.println("Eficiencia da Carga utilizada: " + CalculosFisica.EFICIENCIA * 100 + " %");
+                System.out.println("Gravidade na Superficie da Terra utilizada: " + CalculosFisica.GRAVITATIONAL_ACCELERATION + " m/s^2");
+                System.out.println("Velocidade do veiculo utilizado: " + CalculosFisica.SPEED + " m/s");
+                System.out.println("\n\nEnergia gasta: " + energia + " J");
             } else {
-                v = drone;
-                listaFinal = listMinDrone;
-                energia = minDrone;
+                System.out.println("\n\nEntrega cancelada.");
             }
-
-            listaFinal.addFirst(controller.getEnderecoOrigem(nifFarmacia));
-
-            String data = controller.getDuracaoPercurso(listaFinal, v);
-            DateFormat format1 = new SimpleDateFormat("HH:mm:ss");
-            Date date2 = format1.parse(data);
-            Date newDate = new Date(date.getTime() + date2.getTime() + 3600 * 1000);
-
-            Entrega entr = controller.addEntrega(dataInicio, formatter.format(newDate), v.getId(), nifEstafeta, pesoMaximoEntrega);
-
-            for (Encomenda e : listEncomendaByEntrega) {
-                controller.addEncomendaEntrega(entr, e);
-                Endereco end = controller.getEnderecoByNifCliente(e.getNif());
-                Cliente c = controller.getClienteByEndereco(end);
-                Utilizador u = controller.getUtilizadorByNif(c.getClienteNIF());
-                controller.enviarNotaCliente(farmacia, u);
-                controller.updateEncomenda(e.getId(), 3);
-            }
-
-            System.out.println("\n\nEntrega adicionada com sucesso");
-            System.out.println("\n\nCaminho com menor energia gasta: ");
-
-            int i = listaFinal.size() - 1;
-            for (int aux = 0; aux < i; aux++) {
-                System.out.println(controller.getCaminhoByEnderecos(listaFinal.get(aux).getMorada(), listaFinal.get(aux + 1).getMorada()));
-            }
-            System.out.println();
-            System.out.println("Densidade do Ar utilizada: " + CalculosFisica.AIR_DENSITY_20DEGREES + " Kg/m^3");
-            System.out.println("Coeficiente de Resistência do Ar utilizado: " + CalculosFisica.AIR_DRAG_COEFFICIENT);
-            System.out.println("Raio da Terra utilizado: " + CalculosFisica.EARTHRADIUS + " Km");
-            System.out.println("Eficiencia da Carga utilizada: " + CalculosFisica.EFICIENCIA * 100 + " %");
-            System.out.println("Gravidade na Superficie da Terra utilizada: " + CalculosFisica.GRAVITATIONAL_ACCELERATION + " m/s^2");
-            System.out.println("Velocidade do veiculo utilizado: " + CalculosFisica.SPEED + " m/s");
-            System.out.println("\n\nEnergia gasta: " + energia + " J");
-        } else {
-            System.out.println("\n\nEntrega cancelada.");
         }
     }
 }

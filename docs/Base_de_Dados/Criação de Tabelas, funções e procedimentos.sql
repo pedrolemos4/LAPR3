@@ -798,6 +798,9 @@ END;
 INSERT INTO drone VALUES (1,30);
 delete from "LAPR3_G23".veiculo where idveiculo = 181;
 
+select * from entrega;
+
+select * from estacionamentoveiculo;
 select * from scooter;
 select * from drone;
 select * from endereco;
@@ -810,7 +813,6 @@ select * from estafeta;
 select * from estacionamento;
 select * from utilizador;
 select * from produto;
-order by numeroLote,idParque;
 select * from cartao;
 select * from caminho;
 INSERT INTO "LAPR3_G23".cartao VALUES(123123456,3,3);

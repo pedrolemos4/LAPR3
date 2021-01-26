@@ -1,10 +1,6 @@
 package lapr.project.data;
 
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import lapr.project.model.Caminho;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
@@ -27,7 +24,6 @@ import lapr.project.utils.CalculosFisica;
 import oracle.jdbc.OracleTypes;
 
 /**
- *
  * @author beatr
  */
 public class EntregaDB extends DataHandler {
@@ -81,7 +77,7 @@ public class EntregaDB extends DataHandler {
     /**
      * Adiciona uma encomenda à entrega
      *
-     * @param e entrega onde se vão adicionar as encomendas
+     * @param e   entrega onde se vão adicionar as encomendas
      * @param enc encomenda a adicionar
      * @return true se for adicionada com sucesso, falso se não
      * @throws SQLException
@@ -108,11 +104,11 @@ public class EntregaDB extends DataHandler {
     /**
      * Gera o grafo da scooter com os endereços existentes como vértices
      *
-     * @param listEnderecos lista de endereços
+     * @param listEnderecos          lista de endereços
      * @param listEnderecosEncomenda
-     * @param est estafeta
-     * @param veiculo veículo
-     * @param pesoTotalEntrega peso total de entrega
+     * @param est                    estafeta
+     * @param veiculo                veículo
+     * @param pesoTotalEntrega       peso total de entrega
      * @return grafo com os endereços e as ruas definidas
      */
     public Graph<Endereco, Double> generateGraphScooter(List<Endereco> listEnderecos, List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
@@ -145,13 +141,13 @@ public class EntregaDB extends DataHandler {
     /**
      * Gera o grafo do drone com os endereços existentes como vértices
      *
-     * @param listEnderecos lista de endereços
+     * @param listEnderecos          lista de endereços
      * @param listEnderecosEncomenda lista dos endereços das encomendas
-     * realizadas
-     * @param est estafeta
-     * @param veiculo veículo
-     * @param atributo atributo
-     * @param pesoTotalEntrega peso total de entrega
+     *                               realizadas
+     * @param est                    estafeta
+     * @param veiculo                veículo
+     * @param atributo               atributo
+     * @param pesoTotalEntrega       peso total de entrega
      * @return grafo com os endereços e as ruas definidas
      */
     public Graph<Endereco, Double> generateGraphDrone(List<Endereco> listEnderecos, List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double atributo, double pesoTotalEntrega) {
@@ -184,13 +180,13 @@ public class EntregaDB extends DataHandler {
     /**
      * Retorna o caminho
      *
-     * @param graph grafo a ver o caminho
-     * @param listEnderecos lista de endereços do grafo
+     * @param graph          grafo a ver o caminho
+     * @param listEnderecos  lista de endereços do grafo
      * @param finalShortPath lista de endereços com o caminho com menos energia
-     * gasta
-     * @param origem vértice de origem
-     * @param energia energia gasta nessa rua
-     * @param v veiculo usado no percurso
+     *                       gasta
+     * @param origem         vértice de origem
+     * @param energia        energia gasta nessa rua
+     * @param v              veiculo usado no percurso
      * @return valor da energia
      */
     public double getPath(Graph<Endereco, Double> graph, ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia, Veiculo v) {
@@ -209,7 +205,8 @@ public class EntregaDB extends DataHandler {
             }
             listEnderecos.remove(endereco);
             LinkedList<Endereco> shortPath1 = new LinkedList<>();
-            dist = GraphAlgorithms.shortestPath(graph, origem, endereco, shortPath1);
+
+            GraphAlgorithms.shortestPath(graph, origem, endereco, shortPath1);
 
             if (!shortPath1.isEmpty()) {
                 finalShortPath.addAll(shortPath1.subList(1, shortPath1.size()));
@@ -226,7 +223,7 @@ public class EntregaDB extends DataHandler {
                     dFinal = getPath(graph, listEnderecos, finalShortPath, endereco, min, v);
                     energia = energia + dFinal;
                 }
-                
+
             } else {
                 finalShortPath.clear();
                 return 0;
@@ -242,20 +239,21 @@ public class EntregaDB extends DataHandler {
         int i = finalShortPath.size() - 1;
         list.add(finalShortPath.get(0));
         for (Endereco e : finalShortPath) {
-            System.out.println("listainicial : " + e);
+            System.out.println("CheckCaminhos listainicial : " + e);
         }
         for (Endereco e : list) {
-            System.out.println("lista que vou adicionar endereco: " + e);
+            System.out.println("CheckCaminhos lista que vou adicionar endereco: " + e);
         }
         for (int aux = 0; aux < i; aux++) {
             if (v.getDescricao().equalsIgnoreCase(SCOOTER)) {
                 distancia = distancia + CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
-                System.out.println("distancia: " + distancia);
-                System.out.println("diatanciaVeiculo: " + distanciaVeiculo);
+                System.out.println("CheckCaminhos distancia: " + distancia);
+                System.out.println("CheckCaminhos diatanciaVeiculo: " + distanciaVeiculo);
                 if (distanciaVeiculo < distancia) {
                     List<Endereco> lista = getListComParqueMaisProximo(graph, list, v);
-                    list.addAll(lista);
-                    System.out.println("lista1: " + list);
+                    System.out.println("lista do getParque retorno " + lista.toString());
+                    list.addAll(lista.subList(1, lista.size()));
+                    System.out.println("CheckCaminhos lista1: " + list);
                     flag = false;
                     break;
                 }
@@ -273,7 +271,7 @@ public class EntregaDB extends DataHandler {
             }
         }
         for (Endereco e : list) {
-            System.out.println("ListaEnderecoFINAL: " + e);
+            System.out.println("CheckCaminhos ListaEnderecoFINAL: " + e);
         }
 
         return flag;
@@ -282,22 +280,30 @@ public class EntregaDB extends DataHandler {
     private List<Endereco> getListComParqueMaisProximo(Graph<Endereco, Double> graph, LinkedList<Endereco> list, Veiculo v) {
         double min = Double.MAX_VALUE;
         LinkedList<Endereco> listaFinal = new LinkedList<>();
-
+        System.out.println("Entra no getListParque");
+        System.out.println("List getParque: " + list.toString());
         for (Endereco f1 : graph.vertices()) {
             if (far.getFarmaciaByEndereco(f1.getMorada()) != null) {
+                System.out.println("FARMACIAS: " + far.getFarmaciaByEndereco(f1.getMorada()));
                 for (Parque p : parqueDB.getLstParquesByFarmaciaNif(far.getFarmaciaByEndereco(f1.getMorada()).getNIF())) {
                     if (v.getDescricao().equalsIgnoreCase(SCOOTER) && p.getTipo().equalsIgnoreCase(SCOOTER)) {
+                        System.out.println("PARQUE: " + p.toString());
                         LinkedList<Endereco> shortPath = new LinkedList<>();
                         double valor = GraphAlgorithms.shortestPath(graph, list.getLast(), f1, shortPath);
-                        if (valor < min /*&& valor != 0*/) {
+                        if (valor < min && valor != 0) {
                             min = valor;
-                            listaFinal = shortPath;
+                            for (int i = 0; i < shortPath.size(); i++) {
+                                if (!listaFinal.contains(shortPath.get(i))) {
+                                    listaFinal.add(shortPath.get(i));
+                                }
+                            }
+                            System.out.println("LISTA FINAL DENTRO FOR: " + listaFinal.toString());
                         }
                     }
                     if (v.getDescricao().equalsIgnoreCase(DRONE) && p.getTipo().equalsIgnoreCase(DRONE)) {
                         LinkedList<Endereco> shortPath = new LinkedList<>();
                         double valor = GraphAlgorithms.shortestPath(graph, list.getLast(), f1, shortPath);
-                        if (valor < min /*&& valor != 0*/) {
+                        if (valor < min && valor != 0) {
                             min = valor;
                             listaFinal = shortPath;
                         }
@@ -343,7 +349,7 @@ public class EntregaDB extends DataHandler {
      * Retorna o valor da duração do percurso
      *
      * @param finalShortPath lista de endereços com o caminho com menos energia gasta
-     * @param veiculo veículo utilizado
+     * @param veiculo        veículo utilizado
      * @return duração do percurso
      * @throws ParseException
      */

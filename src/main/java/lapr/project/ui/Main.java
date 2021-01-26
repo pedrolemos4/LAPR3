@@ -23,6 +23,7 @@ class Main {
     private static final String FARMACIAS = "docs/Dados_de_Leitura/farmacias.csv";
     private static final String PARQUES = "docs/Dados_de_Leitura/parques.csv";
     private static final String ESTACIONAMENTOS = "docs/Dados_de_Leitura/estacionamentos.csv";
+    private static final String ESTACIONAMENTOVEICULO = "docs/Dados_de_Leitura/estacionamentoveiculo.csv";
     private static final String CARTOES = "docs/Dados_de_Leitura/cartoes.csv";
     private static final String ENDERECOS = "docs/Dados_de_Leitura/enderecos.csv";
     private static final String UTILIZADORES = "docs/Dados_de_Leitura/utilizadores.csv";
@@ -81,6 +82,7 @@ class Main {
             readFile.read(CLIENTES);
             readFile.read(ESTAFETAS);
             readFile.read(ENCOMENDAS);
+            readFile.read(ESTACIONAMENTOVEICULO);
             readFile.read(CAMINHOS);
         }
 
