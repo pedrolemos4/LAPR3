@@ -134,10 +134,10 @@ public class AdminUI {
         System.out.println("Insira a área frontal do seu veículo: ");
         double areaFrontal = LER.nextDouble();
 
-        double powerPro = 0.0;
+        double largura = 0.0;
         if (descricao.equalsIgnoreCase("drone")) {
-            System.out.println("Insira a power pro do veículo");
-            powerPro = LER.nextDouble();
+            System.out.println("Insira a largura do veículo");
+            largura = LER.nextDouble();
             System.out.println("Descrição:\t" + descricao
                     + "\nEstado:\t" + estado
                     + "\nCapacidade de Bateria:\t" + capacidade
@@ -145,7 +145,7 @@ public class AdminUI {
                     + "\nPeso:\t" + peso
                     + "\nPeso máximo:\t" + pesoMaximo
                     + "\nPotencia:\t" + potencia
-                    + "\nPower pro:\t" + powerPro);
+                    + "\nLargura:\t" + largura);
 
             System.out.println("\nConfirme a informação relativa ao veículo(S/N)");
             LER.nextLine();
@@ -156,7 +156,7 @@ public class AdminUI {
                 VeiculoController sc = new VeiculoController(new VeiculoDB());
                 try {
                     Veiculo ve = sc.addVeiculo(descricao, capacidade, percentagemBateria, peso, pesoMaximo, potencia, idestado,areaFrontal);
-                    Drone dr = sc.novoDrone(ve, ve.getId(), powerPro);
+                    Drone dr = sc.novoDrone(ve, ve.getId(), largura);
                     sc.registaDrone(dr);
                     System.out.println("\n\nVeículo adicionado com sucesso'");
                 } catch (SQLException ex) {
@@ -231,7 +231,7 @@ public class AdminUI {
         VeiculoController sc = new VeiculoController(new VeiculoDB());
         List<Veiculo> lista = sc.getListaVeiculo();
 
-        double cap, pesoMaximo, peso, potencia, powerPro = 0, area = 0;
+        double cap, pesoMaximo, peso, potencia, largura = 0;
         for (Veiculo s : lista) {
             System.out.println();
             System.out.println(s.toString());
@@ -286,16 +286,8 @@ public class AdminUI {
             System.out.println("Pretende atualizar o valor do power pro do veículo? (S/N)");
             resposta = LER.nextLine();
             if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
-                System.out.println("Insira o valor do power pro atualizado do veículo:");
-                powerPro = LER.nextDouble();
-            }
-        }
-        if (veiculo.getDescricao().equalsIgnoreCase("scooter")) {
-            System.out.println("Pretende atualizar o valor da area frontal do veículo? (S/N)");
-            resposta = LER.nextLine();
-            if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
-                System.out.println("Insira o valor da area frontal atualizado do veículo:");
-                area = LER.nextDouble();
+                System.out.println("Insira o valor da largura atualizado do veículo:");
+                largura = LER.nextDouble();
             }
         }
 
@@ -306,10 +298,10 @@ public class AdminUI {
         if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
             try {
                 if(veiculo.getDescricao().equalsIgnoreCase("drone")){
-                    sc.updateDrone(veiculo.getId(), powerPro);
+                    sc.updateDrone(veiculo.getId(), largura);
                 }
 //                if(veiculo.getDescricao().equalsIgnoreCase("scooter")){
-//                    sc.updateScooter(veiculo.getId(), area);
+//                    sc.updateScooter(veiculo.getId());
 //                }
                 sc.updateVeiculo(veiculo);
                 System.out.println("Veículo atualizado com sucesso.");

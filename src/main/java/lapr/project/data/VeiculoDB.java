@@ -366,15 +366,13 @@ public class VeiculoDB extends DataHandler {
 //     * Atualiza a informação de uma scooter na base de dados
 //     *
 //     * @param id id da scooter
-//     * @param areaFrontal areaFrontal da scooter
 //     * @return true se a scooter foi alterado com sucesso, false se não
 //     * @throws SQLException
 //     */
-//    public boolean updateScooter(int id, double areaFrontal) throws SQLException {
+//    public boolean updateScooter(int id) throws SQLException {
 //        boolean removed = false;
-//        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateScooter(?,?) }")) {
+//        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateScooter(?) }")) {
 //            callSmt.setInt(1, id);
-//            callSmt.setDouble(2, areaFrontal);
 //            callSmt.execute();
 //            removed = true;
 //            try {

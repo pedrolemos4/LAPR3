@@ -195,8 +195,8 @@ public class VeiculoControllerTest {
         System.out.println("registaDrone");
         Veiculo ve = new Veiculo(1, "", 100, 45, 56, 48, 486, 1,3);
         int id = 1;
-        double powerPro = 42;
-        Drone dr = new Drone(ve, id, powerPro);
+        double largura = 42;
+        Drone dr = new Drone(ve, id, largura);
         Drone dr1 = new Drone(ve, 4, 56);
         boolean expResult = false;
         boolean result = instance.registaDrone(dr);
@@ -212,8 +212,8 @@ public class VeiculoControllerTest {
         System.out.println("registaDrone1");
         Veiculo ve = new Veiculo(1, "", 100, 45, 56, 48, 486, 1,5);
         int id = 1;
-        double powerPro = 42;
-        Drone dr = new Drone(ve, id, powerPro);
+        double largura = 42;
+        Drone dr = new Drone(ve, id, largura);
         boolean expResult = true;
         boolean result = instance.registaDrone(dr);
         when(veiculoDBMock.registaDrone(dr)).thenReturn(true);
@@ -228,8 +228,9 @@ public class VeiculoControllerTest {
         System.out.println("novoDrone");
         Veiculo ve = new Veiculo(1, "", 100, 45, 56, 48, 486, 1,3);
         int id = 1;
-        double powerPro = 42;
-        Drone expResult = new Drone("", 100, 45, 56, 48, 486, 1, powerPro, id,3);
+        double largura = 42;
+        Drone expResult = new Drone("", 100, 45, 56, 48, 486, 1, largura, id,3);
+        expResult.setId(1);
         VeiculoController vC = new VeiculoController(new VeiculoDB());
         assertEquals(expResult.toString(), vC.novoDrone(ve, expResult.getId(),
                 expResult.getLargura()).toString());
@@ -259,7 +260,6 @@ public class VeiculoControllerTest {
         System.out.println("registaScooter1");
         Veiculo ve = new Veiculo(1, "", 100, 45, 56, 48, 486, 1,5);
         int id = 1;
-        double areaFrontal = 5.0;
         Scooter scooter = new Scooter(ve, id);
         Scooter scooter1 = new Scooter(ve, 4);
         boolean expResult = false;
@@ -276,7 +276,6 @@ public class VeiculoControllerTest {
         System.out.println("novaScooter");
         Veiculo ve = new Veiculo(1, "", 100, 45, 56, 48, 486, 1,3);
         int id = 1;
-        double areaFrontal = 3.0;
         Scooter expResult = new Scooter(ve, id);
         VeiculoController vC = new VeiculoController(new VeiculoDB());
         assertEquals(expResult.toString(), vC.novaScooter(ve, id).toString());

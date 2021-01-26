@@ -264,7 +264,8 @@ public class Veiculo {
      */
     @Override
     public String toString() {
-        return "Veiculo:" 
+        return "Veiculo:"
+                + "\nId: \t" + id
                 + "\nDescrição: \t" + descricao 
                 + "\nCapacidade: \t" + capacidade
                 + "\nPercentagem de Bateria= \t" + percentagemBateria 

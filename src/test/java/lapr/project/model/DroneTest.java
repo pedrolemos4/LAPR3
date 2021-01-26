@@ -51,7 +51,9 @@ public class DroneTest {
     public void testToString() {
         System.out.println("toString");
         Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1,5);
+        instance.setId(1);
         String expResult = "Veiculo:"
+                + "\nId: \t" + instance.getId()
                 + "\nDescrição: \t" + instance.getDescricao()
                 + "\nCapacidade: \t" + instance.getCapacidade()
                 + "\nPercentagem de Bateria= \t" + instance.getPercentagemBateria()
@@ -60,7 +62,7 @@ public class DroneTest {
                 + "\nPotência= \t" + instance.getPotencia()
                 +"\nEstado: \t" + instance.getEstadoVeiculo().getDesignacao()
                 +"\nArea Frontal: \t" + instance.getAreaFrontal()
-                + "\nPower pro: \t" + instance.getLargura();
+                + "\nLargura: \t" + instance.getLargura();
         assertEquals(expResult, instance.toString());
     }
 

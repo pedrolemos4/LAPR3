@@ -93,6 +93,6 @@ public class Drone extends Veiculo {
     @Override
     public String toString() {
         return super.toString()
-                + "\nPower pro: \t" + largura;
+                + "\nLargura: \t" + largura;
     }
 }

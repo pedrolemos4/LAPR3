@@ -66,7 +66,9 @@ public class ScooterTest {
     public void testToString() {
         System.out.println("toString");
         Scooter instance = new Scooter("descricao", 100, 85, 50, 30, 40, 1, 50, 1);
+        instance.setId(1);
         String expResult = "Veiculo:\n" +
+                "Id: \t1\n" +
                 "Descrição: \tdescricao\n" +
                 "Capacidade: \t100.0\n" +
                 "Percentagem de Bateria= \t85.0\n" +
