@@ -120,7 +120,7 @@ public class RegistarFarmaciaControllerTest {
     }
 
     /**
-     * Test of registaParque method, of class RegistarFarmaciaController.
+     * Test of registaParques method, of class RegistarFarmaciaController.
      *
      * @throws java.sql.SQLException
      */
@@ -135,7 +135,7 @@ public class RegistarFarmaciaControllerTest {
     }
 
     /**
-     * Test of registaParque method, of class RegistarFarmaciaController.
+     * Test of registaParques method, of class RegistarFarmaciaController.
      *
      * @throws java.sql.SQLException
      */
@@ -147,6 +147,32 @@ public class RegistarFarmaciaControllerTest {
         expResult.add(parque);
         when(parqueMock.registaParques(expResult)).thenReturn(false);
         assertEquals(false, instance1.registaParques(expResult));
+    }
+
+    /**
+     * Test of registaParque method, of class RegistarFarmaciaController.
+     *
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testRegistaParque() throws SQLException {
+        System.out.println("registaParque");
+        Parque expResult = new Parque(111111111, 20, "drones", 1000);
+        when(parqueMock.registaParque(expResult)).thenReturn(true);
+        assertEquals(true, instance1.registaParque(expResult));
+    }
+
+    /**
+     * Test of registaParque method, of class RegistarFarmaciaController.
+     *
+     * @throws java.sql.SQLException
+     */
+    @Test
+    public void testRegistaParque1() throws SQLException {
+        System.out.println("registaParque1");
+        Parque expResult = new Parque(111111111, 20, "drones", 1000);
+        when(parqueMock.registaParque(expResult)).thenReturn(false);
+        assertEquals(false, instance1.registaParque(expResult));
     }
 
     /**

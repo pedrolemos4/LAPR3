@@ -24,7 +24,9 @@ public class RegistarFarmaciaController {
     private final EnderecoDB enderecoDB;
 
     /**
-     * Constroi uma instancia de RegistarFarmaciaController recebendo uma instancia de FarmaciaDB, ParqueDB e EnderecoDB
+     * Constroi uma instancia de RegistarFarmaciaController recebendo uma
+     * instancia de FarmaciaDB, ParqueDB e EnderecoDB
+     *
      * @param fdb uma instancia de FarmaciaDB
      * @param pdb uma instancia de ParqueDB
      * @param edb uma instancia de EnderecoDB
@@ -37,6 +39,7 @@ public class RegistarFarmaciaController {
 
     /**
      * Retorna lista com todas as farmácias
+     *
      * @return lista das farmácias
      */
     public List<Farmacia> getListaFarmacias() {
@@ -45,26 +48,30 @@ public class RegistarFarmaciaController {
 
     /**
      * Retorna lista com todas os parques de uma determinada farmácia
+     *
      * @param nif da farmacia
      * @return lista dos parques da farmácia
      */
     public List<Parque> getListaParquesByFarmaciaNif(int nif) {
         return parqueDB.getLstParquesByFarmaciaNif(nif);
     }
-    
+
     /**
      * Devolve uma farmacia recebendo por parametro o nif da farmacia
+     *
      * @param nif nif da farmacia
      * @return farmacia
      */
     public Farmacia getFarmaciaByNIF(int nif) {
         return farmaciaDB.getFarmaciaByNIF(nif);
     }
-    
+
     /**
-     * Devolve um endereço da farmacia recebendo por parametro a morada da farmacia
+     * Devolve um endereço da farmacia recebendo por parametro a morada da
+     * farmacia
+     *
      * @param farmMorada morada da farmacia
-     * @return endereço da farmacia 
+     * @return endereço da farmacia
      */
     public Endereco getEnderecoByMorada(String farmMorada) {
         return enderecoDB.getEnderecoByMorada(farmMorada);
@@ -72,6 +79,7 @@ public class RegistarFarmaciaController {
 
     /**
      * Cria uma nova farmácia recebendo por parametro o nif, email e morada
+     *
      * @param nif nif da farmácia
      * @param email nif da farmácia
      * @param morada morada da farmácia
@@ -83,6 +91,7 @@ public class RegistarFarmaciaController {
 
     /**
      * Cria um novo parque recebendo o nif, numero maximo e tipo
+     *
      * @param nif nif do parque/farmácia
      * @param numMax limite máximo de veiculos do parque
      * @param tipo tipo de veículos do parque
@@ -94,7 +103,9 @@ public class RegistarFarmaciaController {
     }
 
     /**
-     * Cria um novo endereço recebendo por parametro a morada, latitude, longitude e altitude
+     * Cria um novo endereço recebendo por parametro a morada, latitude,
+     * longitude e altitude
+     *
      * @param morada morada do endereço
      * @param latitude latitude do endereço
      * @param longitude longitude do endereço
@@ -107,6 +118,7 @@ public class RegistarFarmaciaController {
 
     /**
      * Verifica se a farmacia foi registada recebendo a farmacia
+     *
      * @param farm farmacia
      * @return true se a farmacia foi registada
      */
@@ -115,7 +127,8 @@ public class RegistarFarmaciaController {
     }
 
     /**
-     * Verifica se o parque foi registado recebendo uma lista de parques
+     * Verifica se os parques foram registados recebendo uma lista de parques
+     *
      * @param lparks lista dos parques a serem registados
      * @return true se os parques forem todos adicionados
      */
@@ -124,7 +137,18 @@ public class RegistarFarmaciaController {
     }
 
     /**
+     * Verifica se o parque foi registado
+     *
+     * @param park parque a ser registado
+     * @return true se o parque for adicionado
+     */
+    public boolean registaParque(Parque park) {
+        return (parqueDB.registaParque(park) ? (true) : (false));
+    }
+
+    /**
      * Verifica se o endereço foi registado recebendo o endereço por parametro
+     *
      * @param end endereço
      * @return true se o endereço foi registado
      */
