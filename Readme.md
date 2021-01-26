@@ -62,11 +62,11 @@ quanto tempo este demora a ter a carga completa.
 
 # Modelo de Domínio
 
-![docs/Base_de_Dados/Modelo_Relacional.vpp](docs/Base_de_Dados/Modelo_Relacional.vpp)
+![docs/ModeloDominio/MD.svg](docs/ModeloDominio/MD.svg)
 
 # Modelo Relacional
 
-![docs/ModeloDominio/MD.svg](docs/ModeloDominio/MD.svg)
+![docs/Base_de_Dados/ModeloRelacional.svg](docs/Base_de_Dados/ModeloRelacional.svg)
 
 # Casos de Uso
 
