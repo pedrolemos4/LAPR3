@@ -1,9 +1,12 @@
 package lapr.project.data;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -310,16 +313,13 @@ public class ProdutosDB extends DataHandler {
     /**
      * Devolve o preco total tendo em conta a taxa
      *
-     * @param mapaEncomenda mapa da encomendas
+     * @param preco
      * @param taxa taxa da encomenda
      * @return preço total
      */
-    public double getPrecoTotal(Map<Produto, Integer> mapaEncomenda, double taxa) {
-        double preco = 0.0;
-        for (Produto prod : mapaEncomenda.keySet()) {
-            preco = preco + prod.getPrecoBase();
-        }
-        return preco + preco * taxa;
+    public double getPrecoTotal(double preco, double taxa) {
+        BigDecimal bd = new BigDecimal(preco + preco*taxa).setScale(2,RoundingMode.HALF_EVEN);
+        return bd.doubleValue();
     }
 
     /**
@@ -336,7 +336,10 @@ public class ProdutosDB extends DataHandler {
                 preco = preco + entry.getKey().getPrecoBase();
             }
         }
-        return preco;
+//        System.out.println("PRECO: "+Math.floor(preco));
+        BigDecimal bd = new BigDecimal(preco).setScale(2,RoundingMode.HALF_EVEN);
+        return bd.doubleValue();
+
     }
 
     /**
@@ -353,7 +356,8 @@ public class ProdutosDB extends DataHandler {
                 peso = peso + entry.getKey().getPeso();
             }
         }
-        return peso;
+        BigDecimal bd = new BigDecimal(peso).setScale(2,RoundingMode.HALF_EVEN);
+        return bd.doubleValue();
     }
 
 }

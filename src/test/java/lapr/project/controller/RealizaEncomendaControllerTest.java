@@ -402,10 +402,8 @@ class RealizaEncomendaControllerTest {
         System.out.println("getPrecoTotal");
         double taxa = 0.1;
         double expResult = 1.1;
-        Map<Produto, Integer> map = new HashMap<>();
-        map.put(new Produto("asd",1,1), 1);
-        when(produtoDB.getPrecoTotal(map, taxa)).thenReturn(expResult);
-        double result = instance.getPrecoTotal(map, taxa);
+        when(produtoDB.getPrecoTotal(1, taxa)).thenReturn(expResult);
+        double result = instance.getPrecoTotal(1, taxa);
         assertEquals(expResult, result);
     }
     
@@ -415,11 +413,10 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testGetPrecoTotal1() {
         System.out.println("getPrecoTotal1");
-        double taxa = 0.0;
-        double expResult = 0.0;
-        Map<Produto, Integer> map = new HashMap<>();
-        when(produtoDB.getPrecoTotal(map, taxa)).thenReturn(expResult);
-        double result = instance.getPrecoTotal(map, taxa);
+        double taxa = 0.15;
+        double expResult = 1.15;
+        when(produtoDB.getPrecoTotal(1, taxa)).thenReturn(expResult);
+        double result = instance.getPrecoTotal(1, taxa);
         assertEquals(expResult, result);
     }
 

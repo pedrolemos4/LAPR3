@@ -11,7 +11,6 @@ drop table "LAPR3_G23".entrega CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".parque CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".endereco CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".utilizador CASCADE CONSTRAINTS PURGE;
------------------------------------------------------------------------------------
 drop table "LAPR3_G23".estadoveiculo CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".estadoencomenda CASCADE CONSTRAINTS PURGE;
 drop table "LAPR3_G23".estadoestafeta CASCADE CONSTRAINTS PURGE;
@@ -523,7 +522,6 @@ BEGIN
     WHERE "LAPR3_G23".utilizador.NIF = NIF;
 END;
 /
-------------------------------------------------------------------------------------
 
 CREATE OR REPLACE PROCEDURE addStockFarmacia(FarmaciaNIF "LAPR3_G23".stockfarmacia.farmacianif%type, ProdutoidProduto "LAPR3_G23".stockfarmacia.produtoidproduto%type, 
 stock "LAPR3_G23".stockfarmacia.stock%type) 
@@ -620,7 +618,6 @@ v_idveiculo INTEGER;
         VALUES(p_descricao,p_capacidade,percentagemBateria, pesoMaximo, pesoveiculo, potencia, estadoveiculoId, p_areaFrontal);
         SELECT "LAPR3_G23".veiculo.idveiculo INTO v_idveiculo
         FROM "LAPR3_G23".veiculo
-        --WHERE "LAPR3_G23".veiculo.descricao = p_descricao
         order by veiculo.idveiculo desc FETCH next 1 rows only;
 RETURN v_idveiculo;
 END;
@@ -723,14 +720,6 @@ BEGIN
 END;
 /
 
---CREATE OR REPLACE PROCEDURE updateScooter(p_id "LAPR3_G23".scooter.idScooter%type,p_area "LAPR3_G23".scooter.areaFrontal%type) 
---AS
---BEGIN
- -- UPDATE "LAPR3_G23".scooter SET "LAPR3_G23".scooter.areaFrontal = p_area
- --WHERE "LAPR3_G23".scooter.idScooter = p_id;
---END;
---/
-
 CREATE OR REPLACE PROCEDURE addCreditosCliente(p_nif "LAPR3_G23".cliente.UtilizadorNIF%type, p_creds "LAPR3_G23".cliente.creditos%type) 
 AS
 BEGIN
@@ -792,14 +781,14 @@ AS
 BEGIN
   INSERT INTO "LAPR3_G23".drone VALUES (idDrone,largura);
 END;
-
 /
+
 --------------------------------------------------------------------------------------------------------------------------------
 INSERT INTO drone VALUES (1,30);
 delete from "LAPR3_G23".veiculo where idveiculo = 181;
 
 select * from entrega;
-
+select * from veiculo;
 select * from estacionamentoveiculo;
 select * from scooter;
 select * from drone;
@@ -811,8 +800,8 @@ select * from farmacia;
 select * from cliente;
 select * from estafeta;
 select * from estacionamento;
-select * from utilizador;
-select * from produto;
+select * from utilizador; 
+select * from transferenciaproduto;
 select * from cartao;
 select * from caminho;
 INSERT INTO "LAPR3_G23".cartao VALUES(123123456,3,3);
@@ -836,6 +825,7 @@ update cliente set creditos = 2000 where utilizadornif = 226138330;
 
 select * from utilizador;
 
+select * from estafeta;
 
 select * from transferenciaproduto;
 

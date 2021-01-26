@@ -30,8 +30,8 @@ public class EstafetaDB extends DataHandler {
         ArrayList<Estafeta> list = new ArrayList<>();
         String query = "SELECT * FROM estafeta";
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
@@ -51,12 +51,12 @@ public class EstafetaDB extends DataHandler {
     /**
      * Cria um novo estafeta
      *
-     * @param nif nif do estafeta
-     * @param nome nome do estafeta
+     * @param nif   nif do estafeta
+     * @param nome  nome do estafeta
      * @param email email do estafeta
-     * @param peso peso do estafeta
-     * @param nss número de segurança social do estafeta
-     * @param pwd password do estafeta
+     * @param peso  peso do estafeta
+     * @param nss   número de segurança social do estafeta
+     * @param pwd   password do estafeta
      * @return novo estafeta
      */
     public Estafeta novoEstafeta(int nif, String nome, String email, double peso, int nss, String pwd) {
@@ -105,14 +105,14 @@ public class EstafetaDB extends DataHandler {
     /**
      * Adiciona o estafeta à base de dados
      *
-     * @param nif nif do estafeta
+     * @param nif            nif do estafeta
      * @param estadoEstafeta estado do estafeta
-     * @param peso peso do estafeta
+     * @param peso           peso do estafeta
      */
     public void addEstafeta(int nif, int estadoEstafeta, double peso) {
         try {
             openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstafeta(?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addEstafeta(?,?,?) }")) {
                 callStmt.setInt(1, nif);
                 callStmt.setInt(2, estadoEstafeta);
                 callStmt.setDouble(3, peso);
@@ -142,43 +142,47 @@ public class EstafetaDB extends DataHandler {
     /**
      * Atualiza as informações de um estafeta na base de dados
      *
-     * @param nif nif do estafeta
+     * @param nif            nif do estafeta
      * @param estadoEstafeta estado do estafeta
-     * @param peso peso do estafeta
+     * @param peso           peso do estafeta
      */
     private void atualizarEstafeta(int nif, int estadoEstafeta, double peso) {
-        try {
-            openConnection();
 
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call atualizarEstafeta(?,?,?) }")) {
 
-                callStmt.setInt(1, nif);
-                callStmt.setInt(2, estadoEstafeta);
-                callStmt.setDouble(3, peso);
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarEstafeta(?,?,?) }")) {
 
-                callStmt.execute();
+            callStmt.setInt(1, nif);
+            callStmt.setInt(2, estadoEstafeta);
+            callStmt.setDouble(3, peso);
+
+            callStmt.execute();
+            try {
+                closeAll();
+
+            } catch (NullPointerException ex) {
+                Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, ex.getMessage());
             }
-            closeAll();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
+
     }
 
     /**
      * Atualiza as informações de um utilizador na base de dados
      *
-     * @param nif nif do utilizador
-     * @param nome nome do utilizador
-     * @param email email do utilzador
+     * @param nif                   nif do utilizador
+     * @param nome                  nome do utilizador
+     * @param email                 email do utilzador
      * @param numeroSegurancaSocial número de segurança social do utilizador
-     * @param password password do utilizador
+     * @param password              password do utilizador
      */
     private void atualizarUtilizador(int nif, String nome, String email, int numeroSegurancaSocial, String password) {
-        try {
-            openConnection();
-
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call atualizarUtilizador(?,?,?,?,?) }")) {
+        System.out.println(nif);
+        System.out.println(nome);
+        System.out.println(numeroSegurancaSocial);
+        System.out.println(password);
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarUtilizador(?,?,?,?,?) }")) {
 
                 callStmt.setInt(1, nif);
                 callStmt.setString(2, nome);
@@ -187,12 +191,15 @@ public class EstafetaDB extends DataHandler {
                 callStmt.setString(5, password);
 
                 callStmt.execute();
+            try {
+                closeAll();
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
-            closeAll();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -204,15 +211,15 @@ public class EstafetaDB extends DataHandler {
     public Estafeta getEstafetaByNIF(int nif) {
         String query = "SELECT * FROM estafeta e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.NIF= " + nif;
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     nif = rSet.getInt(1);
                     int idEstadoEstafeta = rSet.getInt(2);
                     double peso = rSet.getDouble(3);
 
-                    return new Estafeta(nif, idEstadoEstafeta, peso/*new EstadoEstafeta(id_estado_estafeta, designacao)*/);
+                    return new Estafeta(nif, idEstadoEstafeta, peso);
                 }
             }
         } catch (SQLException e) {
@@ -224,8 +231,8 @@ public class EstafetaDB extends DataHandler {
     public Utilizador getUtilizadorEstafetaByNIF(int nif) {
         String query = "SELECT * FROM estafeta e INNER JOIN utilizador u ON e.UtilizadorNIF = u.NIF WHERE u.NIF= " + nif;
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     nif = rSet.getInt(1);
@@ -234,7 +241,7 @@ public class EstafetaDB extends DataHandler {
                     int nss = rSet.getInt(7);
                     String password = rSet.getString(8);
 
-                    return new Utilizador(nif,nome,email,nss,password);
+                    return new Utilizador(nif, nome, email, nss, password);
                 }
             }
         } catch (SQLException e) {

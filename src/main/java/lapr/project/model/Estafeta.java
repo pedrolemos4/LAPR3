@@ -85,7 +85,7 @@ public class Estafeta extends Utilizador{
      */
     @Override
     public String toString() {
-        return "Estafeta{" + "pesoEstafeta=" + pesoEstafeta + ", idEstado=" + idEstado + '}';
+        return "Estafeta{" + "Nif=" + super.getNIF() + ", Peso=" + pesoEstafeta + ", Id estado=" + idEstado + '}';
     }
      
 }

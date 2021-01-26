@@ -7,6 +7,7 @@ import lapr.project.model.Produto;
 
 import java.util.Map;
 import java.util.Scanner;
+
 import lapr.project.controller.PedirItemFarmaciaController;
 import lapr.project.data.EmailDB;
 import lapr.project.data.FarmaciaDB;
@@ -21,12 +22,12 @@ public class InserirItensStockUI {
 
     public InserirItensStockUI() {
         this.controller = new InserirItensStockController(new ProdutosDB());
-        controller2 = new PedirItemFarmaciaController(new FarmaciaDB(),  new TransferenciaDB(), new EmailDB());
+        controller2 = new PedirItemFarmaciaController(new FarmaciaDB(), new TransferenciaDB(), new EmailDB());
     }
 
     public void registaProduto() {
         System.out.println("--Lista de farmácias existentes--");
-        for (Farmacia f : controller2.getLstFarmacias()){
+        for (Farmacia f : controller2.getLstFarmacias()) {
             System.out.println(f.toString());
         }
 
@@ -41,7 +42,9 @@ public class InserirItensStockUI {
         Map<Produto, Integer> map = controller.getListaProdutos(nif);
         System.out.println("Stock da farmácia: ");
         for (Produto prod : map.keySet()) {
-            System.out.println(prod.getDesignacao() + " " + map.get(prod));
+            System.out.println("Id produto: " + prod.getId() + ", Designacao: "+prod.getDesignacao() + ", Quantidade: " + map.get(prod)
+                    + ", Preco: " + prod.getPrecoBase()
+                    + ", Peso: " + prod.getPeso());
         }
 
         System.out.println("--Registo de Novo Produto--");

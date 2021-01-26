@@ -2,7 +2,13 @@ package lapr.project.ui;
 
 import java.sql.SQLException;
 import lapr.project.controller.AtualizarItensStockController;
+import lapr.project.controller.InserirItensStockController;
+import lapr.project.controller.PedirItemFarmaciaController;
+import lapr.project.data.EmailDB;
+import lapr.project.data.FarmaciaDB;
 import lapr.project.data.ProdutosDB;
+import lapr.project.data.TransferenciaDB;
+import lapr.project.model.Farmacia;
 import lapr.project.model.Produto;
 
 import java.util.Map;
@@ -13,22 +19,30 @@ public class AtualizarItensStockUI {
     public static final Scanner LER = new Scanner(System.in);
 
     AtualizarItensStockController controller;
+    PedirItemFarmaciaController controller2 = new PedirItemFarmaciaController(new FarmaciaDB(), new TransferenciaDB(), new EmailDB());
 
     public AtualizarItensStockUI() {
         this.controller = new AtualizarItensStockController(new ProdutosDB());
     }
 
     public void atualizarProduto() throws SQLException {
-        System.out.println("NIF da farmácia onde enviar:");
+        System.out.println("--Lista de farmácias existentes--");
+        for (Farmacia f : controller2.getLstFarmacias()) {
+            System.out.println(f.toString());
+        }
+
+        System.out.println("NIF da farmácia que pretende atualizar:");
         int farm = LER.nextInt();
 
         System.out.println("Stock da farmácia:");
         Map<Produto, Integer> map = controller.getListaProdutos(farm);
 
         for (Produto prod : map.keySet()) {
-            System.out.println("Id produto: \t" + prod.getId()
-                    + "\nDesignação: \t" + prod.getDesignacao()
-                    + "\nQuantidade: \t" + map.get(prod));
+            System.out.println("Id produto: " + prod.getId()
+                    + ", Designação: " + prod.getDesignacao()
+                    + ", Quantidade: " + map.get(prod)
+                    + ", Preco: " + prod.getPrecoBase()
+                    + ", Peso: " + prod.getPeso());
         }
 
         System.out.println("Insira o id do produto a atualizar:");

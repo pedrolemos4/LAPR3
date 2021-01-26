@@ -108,8 +108,8 @@ public class RealizarEncomendaUI {
 
                     if (listStockFarmacias.containsKey(prod) && listStockFarmacias.get(prod) < qntd) {
                         controller.produtoEncomenda(farmaciaSeguinte, prod, listStockFarmacias.get(prod));
-                        controller2.realizaPedido(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nif), prod, qntd);
-                        controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nif), prod, qntd);
+                        controller2.realizaPedido(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nif), prod, listStockFarmacias.get(prod));
+                        controller3.enviarNotaTransferencia(controller2.getFarmaciaByNIF(farmaciaSeguinte), controller2.getFarmaciaByNIF(nif), prod, listStockFarmacias.get(prod));
                         controller2.enviaNotaEntrega(controller2.getFarmaciaByNIF(farmaciaSeguinte).getEmail(), controller2.getFarmaciaByNIF(nif).getEmail());
                         qntd = qntd - listStockFarmacias.get(prod);
                     }
@@ -178,7 +178,7 @@ public class RealizarEncomendaUI {
                 controller.registaEncomendaProduto(enc, p, mapaEncomenda.get(p));
             }
 
-            double precoTotal = controller.getPrecoTotal(mapaEncomenda, enc.getTaxa());
+            double precoTotal = controller.getPrecoTotal(controller.getPreco(), enc.getTaxa());
 
             Recibo rec = new Recibo(controller.getCliente().getClienteNIF(), precoTotal,
                     dataInicio, enc.getId());

@@ -215,7 +215,7 @@ public class RealizaEncomendaController {
      * @param taxa taxa
      * @return preco de uma encomenda
      */
-    public double getPrecoTotal(Map<Produto,Integer>map,double taxa) {
+    public double getPrecoTotal(double map,double taxa) {
         return produtoDB.getPrecoTotal(map,taxa);
     }
     

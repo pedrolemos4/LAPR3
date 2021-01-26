@@ -29,14 +29,13 @@ public class AtualizarEstafetaUI {
 
         Estafeta est = controller.getEstafetaByNIF(nif);
 
-        if (!controller.getListaEstafetas().contains(est)){
+        if (est == null){
             System.out.println("O estafeta não existe!");
         } else {
             System.out.println("--Atualização do Estafeta--");
             System.out.println("Introduza os novos dados relativos ao estafeta");
-            System.out.println("NIF:");
-            int newNif = LER.nextInt();
             System.out.println("Nome:");
+            LER.nextLine();
             String nome = LER.nextLine();
             System.out.println("Email:");
             String email1 = LER.nextLine();
@@ -45,9 +44,10 @@ public class AtualizarEstafetaUI {
             System.out.println("Número de Segurança Social:");
             int nss = LER.nextInt();
             System.out.println("Password:");
+            LER.nextLine();
             String pwd = LER.nextLine();
 
-            Estafeta newEst = new Estafeta(newNif,nome,email1,peso,nss,pwd,1);
+            Estafeta newEst = new Estafeta(nif,nome,email1,peso,nss,pwd,1);
 
             System.out.println("--Novos Dados do Estafeta--");
             System.out.println(newEst.getNIF());
@@ -60,7 +60,6 @@ public class AtualizarEstafetaUI {
             String confirm = LER.next();
 
             if(confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")){
-                est.setNIF(newNif);
                 est.setNome(nome);
                 est.setEmail(email1);
                 est.setPesoEstafeta(peso);

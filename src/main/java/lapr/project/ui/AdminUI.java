@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 public class AdminUI {
 
     private static final int PERCENTAGEM = 100;
+
     /**
      * Scanner para leitura de teclado
      */
@@ -105,8 +106,6 @@ public class AdminUI {
      */
     public void addVeiculo() throws ClassNotFoundException, SQLException, ParseException {
         System.out.println("Pretende adicionar uma scooter ou um drone?");
-        //String veiculo = LER.nextLine();
-        // System.out.println("Insira uma descrição única do veículo:");
         String descricao = LER.nextLine();
         System.out.println("Insira a capacidade máxima da bateria:");
         int capacidade = LER.nextInt();
@@ -239,7 +238,6 @@ public class AdminUI {
         for (Veiculo s : lista) {
             System.out.println();
             System.out.println(s.toString());
-            //lista n tem id a mostrar
         }
         System.out.println("Insira o id do veículo que pretende atualizar");
         int id = LER.nextInt();
@@ -261,6 +259,7 @@ public class AdminUI {
             veiculo.setPesoMaximo(pesoMaximo);
         }
         System.out.println("Pretende atualizar o valor do peso do veículo? (S/N)");
+        LER.nextLine();
         resposta = LER.nextLine();
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
             System.out.println("Insira o peso atualizado do veículo:");
@@ -304,9 +303,6 @@ public class AdminUI {
                 if (veiculo.getDescricao().equalsIgnoreCase("drone")) {
                     sc.updateDrone(veiculo.getId(), largura);
                 }
-//                if(veiculo.getDescricao().equalsIgnoreCase("scooter")){
-//                    sc.updateScooter(veiculo.getId());
-//                }
                 sc.updateVeiculo(veiculo);
                 System.out.println("Veículo atualizado com sucesso.");
             } catch (SQLException ex) {
