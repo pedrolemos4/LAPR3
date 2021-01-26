@@ -1,0 +1,63 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide methods
+left to right direction
+
+class Parque {
+  -idParque
+  -numeroMaximo
+  -tipo
+  -maxCap
+}
+
+class EstadoVeiculo {
+  -idEstadoVeiculo
+  -designacao
+}
+
+class Scooter {
+  -idScooter
+}
+
+class Veiculo {
+  -idveiculo
+  -descricao
+  -capacidade
+  -percentagemBateria
+  -pesoMaximo
+  -pesoVeiculo
+  -potencia
+  -areaFrontal
+}
+
+class Drone {
+  -idDrone
+  -largura
+}
+
+class Estafeta {
+  -pesoEstafeta
+}
+
+class Estacionamento {
+  -numeroLote
+  -carregador
+}
+
+class Farmacia {
+  -NIF
+  -email
+}
+
+Veiculo "1" -- "1" Drone: é <
+Veiculo "1" -- "1" Scooter: é <
+Veiculo "1" -- "1" EstadoVeiculo: tem <
+Parque "1" -- "*" Veiculo: possui >
+Parque "1" -- "*" Estacionamento: tem >
+Estacionamento "1" -- "1" Veiculo: tem >
+Farmacia "1" -- "*" Veiculo: possui >
+Farmacia "1" -- "*" Parque: possui >
+Estafeta "1" -- "*" Scooter: conduz >
+Farmacia "1" -- "*" Estafeta: tem >
+
+@enduml
