@@ -19,7 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author josep
  */
 public class FarmaciaDB extends DataHandler {
@@ -83,14 +82,12 @@ public class FarmaciaDB extends DataHandler {
      */
     public boolean addFarmacia(int nif, String email, String morada) {
         boolean res = false;
-        try {
-            openConnection();
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?,?,?) }")) {
-                callStmt.setInt(1, nif);
-                callStmt.setString(2, email);
-                callStmt.setString(3, morada);
-                callStmt.execute();
-            }
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?,?,?) }")) {
+            callStmt.setInt(1, nif);
+            callStmt.setString(2, email);
+            callStmt.setString(3, morada);
+            callStmt.execute();
+
             closeAll();
             res = true;
         } catch (SQLException e) {

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import jdk.internal.net.http.common.Pair;
 import lapr.project.model.Caminho;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
@@ -206,7 +207,9 @@ public class EntregaDB extends DataHandler {
             // remover da lista de endereços por onde tem q passar o endereço para onde vai
             listEnderecos.remove(endereco);
             // retorna lista de endereços do caminho tendo que fazer paragem ou n
-            LinkedList<Endereco> list = checkCaminho(graphDistancia, caminhoAVerificar, v, distanciaVeiculo);
+            Pair<LinkedList<Endereco>,Double> list1 = checkCaminho(graphDistancia, caminhoAVerificar, v, distanciaVeiculo);
+            LinkedList<Endereco> list = list1.first;
+            double veiculoCapacidade = list1.second;
             // remove o 1 elemento da lista por causa da segunda volta
             list.remove(list.getFirst());
             // adiciona a energia
@@ -216,12 +219,12 @@ public class EntregaDB extends DataHandler {
 
             finalShortPath.addAll(list);
             // mandar para a 2 volta
-            getPath(graphEnergia, graphDistancia, listEnderecos, finalShortPath, endereco, energia, v, distanciaVeiculo);
+            getPath(graphEnergia, graphDistancia, listEnderecos, finalShortPath, endereco, energia, v, veiculoCapacidade);
         }
         return energia;
     }
 
-    public LinkedList<Endereco> checkCaminho(Graph<Endereco, Double> graphDistancia, LinkedList<Endereco> finalShortPath, Veiculo v, double distanciaVeiculo) {
+    public Pair<LinkedList<Endereco>,Double> checkCaminho(Graph<Endereco, Double> graphDistancia, LinkedList<Endereco> finalShortPath, Veiculo v, double distanciaVeiculo) {
         double distancia = 0;
         int i = finalShortPath.size() - 1;
         // lista que vamos retornar tendo ou n as paragens
@@ -261,7 +264,7 @@ public class EntregaDB extends DataHandler {
             novaLista = finalShortPath;
         }
 
-        return novaLista;
+        return new Pair<>(novaLista,distanciaVeiculo);
     }
 
     private double getListComParqueMaisProximo(Graph<Endereco, Double> graph, LinkedList<Endereco> list, Veiculo v, Endereco enderecoInicial, Endereco enderecoPorOndeNaoPodePassar, double distanciaVeiculo) {

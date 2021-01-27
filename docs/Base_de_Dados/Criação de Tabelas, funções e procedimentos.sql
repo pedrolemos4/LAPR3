@@ -784,33 +784,41 @@ END;
 /
 
 --------------------------------------------------------------------------------------------------------------------------------
-INSERT INTO drone VALUES (1,30);
-delete from "LAPR3_G23".veiculo where idveiculo = 181;
 
-select * from entrega;
-select * from veiculo;
-select * from estacionamentoveiculo;
-select * from scooter;
-select * from drone;
-select * from endereco;
-select * from veiculo;
-select * from utilizador;
-select * from parque;
-select * from farmacia;
-select * from cliente;
-select * from estafeta;
-select * from estacionamento;
-select * from utilizador; 
-select * from transferenciaproduto;
-select * from cartao;
-select * from caminho;
-INSERT INTO "LAPR3_G23".cartao VALUES(123123456,3,3);
-select * from cartao;
-select c.utilizadornif, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito
-from cliente c, utilizador u
-where c.utilizadornif = u.nif;
+delete from "LAPR3_G23".farmacia;
+delete from "LAPR3_G23".cliente;
+delete from "LAPR3_G23".administrador;
+delete from "LAPR3_G23".veiculo;
+delete from "LAPR3_G23".drone;
+delete from "LAPR3_G23".scooter;
+delete from "LAPR3_G23".estafeta;
+delete from "LAPR3_G23".produto;
+delete from "LAPR3_G23".encomenda;
+delete from "LAPR3_G23".entrega;
+delete from "LAPR3_G23".parque;
+delete from "LAPR3_G23".endereco;
+delete from "LAPR3_G23".utilizador;
+delete from "LAPR3_G23".estadoveiculo;
+delete from "LAPR3_G23".estadoencomenda;
+delete from "LAPR3_G23".estadoestafeta;
+delete from "LAPR3_G23".stockfarmacia;
+delete from "LAPR3_G23".encomendaproduto;
+delete from "LAPR3_G23".estacionamento;
+delete from "LAPR3_G23".estacionamentoveiculo;
+delete from "LAPR3_G23".recibo;
+delete from "LAPR3_G23".linharecibo;
+delete from "LAPR3_G23".pagamento;
+delete from "LAPR3_G23".cartao;
+delete from "LAPR3_G23".encomendaEntrega;
+delete from "LAPR3_G23".transferenciaproduto;
+delete from "LAPR3_G23".estadoTransferencia;
+delete from "LAPR3_G23".caminho;
 
-select * from encomenda;
+--------------------------------------------------------------------------------------------------------------------------------
+
+update "LAPR3_G23".veiculo set capacidade = 65 where idveiculo = 21;
+
+select * from veiculo order by idveiculo;
 
 select * from stockfarmacia;
 --IVULFacKOHnE
@@ -914,8 +922,8 @@ INSERT INTO veiculo(descricao, capacidade,percentagemBateria,pesoMaximo,pesoveic
         VALUES('Matternet M2 Drone',12,100, 2, 9.5, 3500, 1);
                                     
 
-  SELECT * FROM produto;
-  
+  SELECT * FROM utilizador where email = 'paulo@gmail.com';
+  select * from veiculo;
   select * from cliente;
   
   select * from entrega;
