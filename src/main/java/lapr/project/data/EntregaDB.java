@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import jdk.internal.net.http.common.Pair;
+import oracle.ucp.util.Pair;
 import lapr.project.model.Caminho;
 import lapr.project.model.Encomenda;
 import lapr.project.model.Endereco;
@@ -45,7 +45,7 @@ public class EntregaDB extends DataHandler {
      */
     public int addEntrega(Entrega entrega) throws SQLException, ParseException {
 
-        int id = 0;
+        int id;
 
         try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call AddEntrega(?,?,?,?,?) }")) {
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
@@ -80,7 +80,7 @@ public class EntregaDB extends DataHandler {
      * @throws SQLException
      */
     public boolean addEncomendaEntrega(Entrega e, Encomenda enc) throws SQLException {
-        boolean flag = false;
+        boolean flag;
 
         try (CallableStatement callSmt = getConnection().prepareCall("{ call AddEncomendaEntrega(?,?) }")) {
             callSmt.setInt(1, e.getIdEntrega());
@@ -112,7 +112,7 @@ public class EntregaDB extends DataHandler {
     public Graph<Endereco, Double> generateGraphScooter(List<Endereco> listEnderecos, List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
         Graph<Endereco, Double> graph = new Graph<>(true);
 
-        double energiaGasta = 0;
+        double energiaGasta;
 
         for (Endereco e : listEnderecos) {
             graph.insertVertex(e);
@@ -150,7 +150,7 @@ public class EntregaDB extends DataHandler {
      */
     public Graph<Endereco, Double> generateGraphDrone(List<Endereco> listEnderecos, List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double atributo, double pesoTotalEntrega) {
         Graph<Endereco, Double> graph = new Graph<>(true);
-        double energiaGasta = 0;
+        double energiaGasta;
 
         for (Endereco e : listEnderecos) {
             graph.insertVertex(e);
@@ -208,8 +208,8 @@ public class EntregaDB extends DataHandler {
             listEnderecos.remove(endereco);
             // retorna lista de endereços do caminho tendo que fazer paragem ou n
             Pair<LinkedList<Endereco>,Double> list1 = checkCaminho(graphDistancia, caminhoAVerificar, v, distanciaVeiculo);
-            LinkedList<Endereco> list = list1.first;
-            double veiculoCapacidade = list1.second;
+            LinkedList<Endereco> list = list1.get1st();
+            double veiculoCapacidade = list1.get2nd();
             // remove o 1 elemento da lista por causa da segunda volta
             list.remove(list.getFirst());
             // adiciona a energia
@@ -340,8 +340,8 @@ public class EntregaDB extends DataHandler {
      * @throws ParseException
      */
     public String getDuracaoPercurso(List<Endereco> finalShortPath, Veiculo veiculo) throws ParseException {
-        double distancia = 0;
-        int aux = 0;
+        double distancia;
+        int aux;
         int i = finalShortPath.size() - 1;
         double tempo = 0;
         for (aux = 0; aux < i; aux++) {
