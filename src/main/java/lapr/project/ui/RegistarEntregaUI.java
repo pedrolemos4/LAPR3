@@ -88,6 +88,8 @@ public class RegistarEntregaUI {
             List<Endereco> listEnderecosDrone = controller.getLstEnderecosDrone();
             LinkedList<Endereco> finalShortPathScooter = new LinkedList<>();
             LinkedList<Endereco> finalShortPathDrone = new LinkedList<>();
+            Graph<Endereco, Double> graphDistancia = new Graph<>(true);
+            controller.generateGrafo(graphDistancia, listEnderecosScooter);
 
             LinkedList<Endereco> listMinScooter = new LinkedList<>();
             LinkedList<Endereco> listMinDrone = new LinkedList<>();
@@ -106,8 +108,9 @@ public class RegistarEntregaUI {
             List<Veiculo> listVeiculos = controller.getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia);
             for (Veiculo v : listVeiculos) {
                 if ((v.getDescricao()).equalsIgnoreCase(SCOOTER)) {
+                    double distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(), v.getPercentagemBateria(), v.getPotencia());
                     graphScooter = controller.generateGraphScooter(listEnderecosScooter, new ArrayList<>(listEnderecos), est, v, pesoEntrega);
-                    double energiaTotalGastaScooter = controller.getPath(graphScooter, new ArrayList<>(listEnderecos), finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0, v, 0, list);
+                    double energiaTotalGastaScooter = controller.getPath(graphScooter, graphDistancia, new ArrayList<>(listEnderecos), finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0, v, distanciaVeiculo);
                     if (energiaTotalGastaScooter < minScooter) {
                         minScooter = energiaTotalGastaScooter;
                         scooter = v;
@@ -125,9 +128,10 @@ public class RegistarEntregaUI {
                     if (flag) {
                         break;
                     } else {
+                        double distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(), v.getPercentagemBateria(), v.getPotencia());
                         Drone d = controller.getDroneById(v.getId());
                         graphDrone = controller.generateGraphDrone(listEnderecosDrone, new ArrayList<>(listEnderecos), est, v, d.getLargura(), pesoEntrega);
-                        double energiaTotalGastaDrone = controller.getPath(graphDrone, new ArrayList<>(listEnderecos), finalShortPathDrone, controller.getEnderecoOrigem(nifFarmacia), 0, v, 0, list);
+                        double energiaTotalGastaDrone = controller.getPath(graphDrone, graphDistancia, new ArrayList<>(listEnderecos), finalShortPathDrone, controller.getEnderecoOrigem(nifFarmacia), 0, v, distanciaVeiculo);
                         if (energiaTotalGastaDrone < minDrone) {
                             minDrone = energiaTotalGastaDrone;
                             drone = v;

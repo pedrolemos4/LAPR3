@@ -7,6 +7,7 @@ package lapr.project.controller;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 import lapr.project.data.ClienteDB;
 import lapr.project.data.EmailDB;
@@ -265,6 +266,14 @@ public class RealizaEncomendaController {
      */
     public double getTaxa(double preco) {
         return encDB.getTaxa(preco);
+    }
+
+    /**
+     * Devolve uma lista de endereços
+     * @return lista de endereços
+     */
+    public List<Endereco> getLstEnderecos(){
+        return edb.getLstEnderecos();
     }
 
 }

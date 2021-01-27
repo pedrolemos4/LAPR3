@@ -206,10 +206,15 @@ public class RegistarEntregaController {
     public Graph<Endereco, Double> generateGraphDrone(List<Endereco> listEnderecos,List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double atributo, double pesoTotal) {
         return entregaDB.generateGraphDrone(listEnderecos,listEnderecosEncomenda, est, veiculo, atributo, pesoTotal);
     }
+
+    public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graphDistancia,List<Endereco> listEnderecos) {
+        return farmaciaDB.generateGrafo(graphDistancia, listEnderecos);
+    }
     
     /**
      * Devolve a energia gasta no percurso
-     * @param graph o grafo
+     * @param graphEnergia o grafo de energia
+     * @param graphDistancia o grafo de energia
      * @param listEnderecos lista de endereços dos clientes que fizeram encomendas relativas à entrega
      * @param finalShortPath lista de endereços presentes no caminho com custo de energia mais baixo
      * @param origem endereço de origem
@@ -217,8 +222,8 @@ public class RegistarEntregaController {
      * @param v veiculo usado no percurso
      * @return energia gasta no percurso
      */
-    public double getPath(Graph<Endereco, Double> graph, ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia, Veiculo v, int contador, LinkedList<Endereco> list) {
-        return entregaDB.getPath(graph, listEnderecos, finalShortPath, origem, energia, v, contador, list);
+    public double getPath(Graph<Endereco, Double> graphEnergia,Graph<Endereco, Double> graphDistancia, ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia, Veiculo v, double distanciaVeiculo) {
+        return entregaDB.getPath(graphEnergia, graphDistancia, listEnderecos, finalShortPath, origem, energia, v, distanciaVeiculo);
     }
     
     /**
@@ -271,15 +276,6 @@ public class RegistarEntregaController {
     public Encomenda getEncomenda(int id) {
         return encomendaDB.getEncomenda(id);
     }
-    
-//    /**
-//     * Devolve o scooter recebendo por parametro o id do veiculo
-//     * @param idVeiculo id do veiculo
-//     * @return scooter
-//     */
-//    public Scooter getScooterById(int idVeiculo){
-//        return veiculoDB.getScooterById(idVeiculo);
-//    }
     
     /**
      * Devolve o drone recebendo por parametro o id do veiculo

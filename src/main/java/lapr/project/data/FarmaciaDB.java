@@ -253,9 +253,7 @@ public class FarmaciaDB extends DataHandler {
      * @param graph
      * @return grafo
      */
-    public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graph) {
-
-        List<Endereco> lst = end.getLstEnderecos();
+    public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graph, List<Endereco> lst) {
 
         for (Endereco endereco : lst) {
             graph.insertVertex(endereco);

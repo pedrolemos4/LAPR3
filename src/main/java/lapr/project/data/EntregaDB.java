@@ -177,7 +177,7 @@ public class EntregaDB extends DataHandler {
     /**
      * Retorna o caminho
      *
-     * @param graph          grafo a ver o caminho
+     * @param graphEnergia   grafo a ver o caminho
      * @param listEnderecos  lista de endereços do grafo
      * @param finalShortPath lista de endereços com o caminho com menos energia gasta
      * @param origem         vértice de origem
@@ -185,8 +185,8 @@ public class EntregaDB extends DataHandler {
      * @param v              veiculo usado no percurso
      * @return valor da energia
      */
-    public double getPath(Graph<Endereco, Double> graph, ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia, Veiculo v, int contador, LinkedList<Endereco> list) {
-        double dFinal;
+    public double getPath(Graph<Endereco, Double> graphEnergia, Graph<Endereco, Double> graphDistancia, ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia, Veiculo v, double distanciaVeiculo) {
+        LinkedList<Endereco> caminhoAVerificar = new LinkedList<>();
         if (finalShortPath.isEmpty()) {
             finalShortPath.addFirst(origem);
         }
@@ -196,121 +196,103 @@ public class EntregaDB extends DataHandler {
             double min = Double.MAX_VALUE;
             for (Endereco c : listEnderecos) {
                 LinkedList<Endereco> shortPath = new LinkedList<>();
-                dist = GraphAlgorithms.shortestPath(graph, origem, c, shortPath);
+                dist = GraphAlgorithms.shortestPath(graphEnergia, origem, c, shortPath);
                 if (dist < min) {
                     min = dist;
                     endereco = c;
+                    caminhoAVerificar = shortPath;
                 }
             }
+            // remover da lista de endereços por onde tem q passar o endereço para onde vai
             listEnderecos.remove(endereco);
-            LinkedList<Endereco> shortPath1 = new LinkedList<>();
-
-            dist = GraphAlgorithms.shortestPath(graph, origem, endereco, shortPath1);
-
-            if (!shortPath1.isEmpty()) {
-                finalShortPath.addAll(shortPath1.subList(1, shortPath1.size()));
-                if(!listEnderecos.isEmpty()) {
-                    boolean l = checkCaminho(graph, finalShortPath, v, list, contador);
-                        contador++;
-                        if (!l) {
-                            list.add(endereco);
-                            dFinal = getPath(graph, listEnderecos, list, endereco, min, v, contador, list);
-                            energia = energia + dFinal;
-                        } else {
-                            dFinal = getPath(graph, listEnderecos, finalShortPath, endereco, min, v, contador, list);
-                            energia = energia + dFinal;
-                        }
-                    } else{
-                    energia = energia + dist;
-                }
-            } else {
-                finalShortPath.clear();
-                return 0;
+            // retorna lista de endereços do caminho tendo que fazer paragem ou n
+            LinkedList<Endereco> list = checkCaminho(graphDistancia, caminhoAVerificar, v, distanciaVeiculo);
+            // remove o 1 elemento da lista por causa da segunda volta
+            list.remove(list.getFirst());
+            // adiciona a energia
+            for (int i = 0; i < list.size() - 1; i++) {
+                energia = energia + GraphAlgorithms.shortestPath(graphEnergia, list.get(i), list.get(i + 1), new LinkedList<>());
             }
+
+            finalShortPath.addAll(list);
+            // mandar para a 2 volta
+            getPath(graphEnergia, graphDistancia, listEnderecos, finalShortPath, endereco, energia, v, distanciaVeiculo);
         }
         return energia;
     }
 
-    public boolean checkCaminho(Graph<Endereco, Double> graph, List<Endereco> finalShortPath, Veiculo v, LinkedList<Endereco> nova, int contador) {
-        double distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(), v.getPercentagemBateria(), v.getPotencia());
+    public LinkedList<Endereco> checkCaminho(Graph<Endereco, Double> graphDistancia, LinkedList<Endereco> finalShortPath, Veiculo v, double distanciaVeiculo) {
         double distancia = 0;
-        boolean flag = true;
         int i = finalShortPath.size() - 1;
-        if (contador == 0) {
-            nova.add(finalShortPath.get(contador));
-        } else if (contador > 0) {
-            if (!finalShortPath.get(contador).equals(nova.get(contador))) {
-                nova.add(finalShortPath.get(contador));
-            }
-        }
+        // lista que vamos retornar tendo ou n as paragens
+        LinkedList<Endereco> novaLista = new LinkedList<>();
         for (int aux = 0; aux < i; aux++) {
             if (v.getDescricao().equalsIgnoreCase(SCOOTER)) {
                 distancia = distancia + CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
+                // entra se precisar de fazer paragem
                 if (distanciaVeiculo < distancia) {
-                    List<Endereco> lista = getListComParqueMaisProximo(graph, nova, v, finalShortPath.get(aux + 1));
-                    nova.addAll(lista.subList(1, lista.size()));
-                    flag = false;
-                    break;
-                }
-                if (nova.size() > 1) {
-                    if (!nova.get(aux + 1).equals(finalShortPath.get(aux + 1))) {
-                        nova.add(finalShortPath.get(aux + 1));
-                    }
+                    // retira à distancia a distancia calculada anteriormente visto q n consegue fazer esse caminho
+                    distancia = distancia - CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), finalShortPath.get(aux).getAltitude(), finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), finalShortPath.get(aux + 1).getAltitude());
+                    // adiciona à distancia a distancia q o veiculo percorre até À farmacia com parque do veiculo mais proxima
+                    // novaLista é preenchida com o caminho até à farmacia
+                    // finalShortPath.get(aux) é o endereco de origem
+                    // finalShortPath.get(aux + 1) é o endereco por onde ele n pode passar na listaNova que vamos retornar
+                    // uma vez q o caminho entre finalShortPath.get(aux) e finalShortPath.get(aux + 1) n é possivel
+                    distancia = distancia + getListComParqueMaisProximo(graphDistancia, novaLista, v, finalShortPath.get(aux), finalShortPath.get(aux + 1), distanciaVeiculo);
+                    // uma vez que já chegou à farmacia repomos a distancia do veiculo
+                    distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(), v.getPercentagemBateria(), v.getPotencia());
                 } else {
-                    nova.add(finalShortPath.get(aux + 1));
+                    // só chega aqui se n houver paragem pelo caminho
+                    distanciaVeiculo = distanciaVeiculo - distancia;
                 }
             }
             if (v.getDescricao().equalsIgnoreCase(DRONE)) {
                 distancia = distancia + CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
                 if (distanciaVeiculo < distancia) {
-                    List<Endereco> lista = getListComParqueMaisProximo(graph, nova, v, finalShortPath.get(aux + 1));
-                    nova.addAll(lista);
-                    flag = false;
-                    break;
-                }
-                if (nova.get(aux).equals(nova.get(aux + 1))) {
-                    nova.add(finalShortPath.get(aux + 1));
+                    distancia = distancia - CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(), finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(), finalShortPath.get(aux + 1).getLongitude(), 0);
+                    distancia = distancia + getListComParqueMaisProximo(graphDistancia, novaLista, v, finalShortPath.get(aux), finalShortPath.get(aux + 1), distanciaVeiculo);
+                    distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(), v.getPercentagemBateria(), v.getPotencia());
+                } else {
+                    distanciaVeiculo = distanciaVeiculo - distancia;
                 }
             }
         }
+        if (novaLista.isEmpty()) {
+            novaLista = finalShortPath;
+        }
 
-        return flag;
+        return novaLista;
     }
 
-    private List<Endereco> getListComParqueMaisProximo(Graph<Endereco, Double> graph, LinkedList<Endereco> list, Veiculo v, Endereco endDestino) {
+    private double getListComParqueMaisProximo(Graph<Endereco, Double> graph, LinkedList<Endereco> list, Veiculo v, Endereco enderecoInicial, Endereco enderecoPorOndeNaoPodePassar, double distanciaVeiculo) {
         double min = Double.MAX_VALUE;
-        LinkedList<Endereco> listaFinal = new LinkedList<>();
         for (Endereco f1 : graph.vertices()) {
             if (far.getFarmaciaByEndereco(f1.getMorada()) != null) {
                 for (Parque p : parqueDB.getLstParquesByFarmaciaNif(far.getFarmaciaByEndereco(f1.getMorada()).getNIF())) {
                     if (v.getDescricao().equalsIgnoreCase(SCOOTER) && p.getTipo().equalsIgnoreCase(SCOOTER)) {
                         LinkedList<Endereco> shortPath = new LinkedList<>();
-                        double valor = GraphAlgorithms.shortestPath(graph, list.getLast(), f1, shortPath);
-                        if (!shortPath.contains(endDestino)) {
-                            if (valor < min && valor != 0) {
+                        double valor = GraphAlgorithms.shortestPath(graph, enderecoInicial, f1, shortPath);
+                        if (!shortPath.contains(enderecoPorOndeNaoPodePassar)) {
+                            if (valor < min && valor != 0 && valor < distanciaVeiculo) {
                                 min = valor;
-                                for (int i = 0; i < shortPath.size(); i++) {
-                                    if (!listaFinal.contains(shortPath.get(i))) {
-                                        listaFinal.add(shortPath.get(i));
-                                    }
-                                }
+                                list.addAll(shortPath);
                             }
                         }
                     }
                     if (v.getDescricao().equalsIgnoreCase(DRONE) && p.getTipo().equalsIgnoreCase(DRONE)) {
                         LinkedList<Endereco> shortPath = new LinkedList<>();
-                        double valor = GraphAlgorithms.shortestPath(graph, list.getLast(), f1, shortPath);
-                        if (!shortPath.contains(endDestino)) {
-                            if (valor < min && valor != 0) {
+                        double valor = GraphAlgorithms.shortestPath(graph, enderecoInicial, f1, shortPath);
+                        if (!shortPath.contains(enderecoPorOndeNaoPodePassar)) {
+                            if (valor < min && valor != 0 && valor < distanciaVeiculo) {
                                 min = valor;
-                                listaFinal = shortPath;
+                                list.addAll(shortPath);
                             }
                         }
                     }
                 }
             }
         }
-        return listaFinal;
+        return min;
     }
 
     /**

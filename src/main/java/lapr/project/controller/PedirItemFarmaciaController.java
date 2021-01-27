@@ -63,8 +63,8 @@ public class PedirItemFarmaciaController {
      * Devolve um grafo recebendo uma lista de farmacias
      * @return grafo
      */
-    public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graph) {
-        Graph<Endereco, Double> graph1 = fdb.generateGrafo(graph);
+    public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graph, List<Endereco> lst) {
+        Graph<Endereco, Double> graph1 = fdb.generateGrafo(graph, lst);
         return graph1;
     }
 
