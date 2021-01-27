@@ -91,6 +91,7 @@ public class EntregaDB extends DataHandler {
                 closeAll();
             } catch (NullPointerException ex) {
                 Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, ex.getMessage());
+                closeAll();
             }
         }
         return flag;
@@ -336,9 +337,11 @@ public class EntregaDB extends DataHandler {
                     en.setId(idEncomenda);
                     return en;
                 }
+                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
         return null;
     }

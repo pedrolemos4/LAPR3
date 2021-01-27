@@ -68,11 +68,7 @@ public class ReciboDB extends DataHandler {
      */
     private int addRecibo(String data, double preco, int nif, int idEncomenda) throws SQLException, ParseException {
         int id = 0;
-
-        openConnection();
-
         try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addRecibo(?,?,?,?) }")) {
-
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             java.util.Date date = sdf1.parse(data);
@@ -120,8 +116,6 @@ public class ReciboDB extends DataHandler {
     private boolean registaRecibo(int rec, int prod, int quant) {
         boolean bo = false;
         try {
-            openConnection();
-
             try ( CallableStatement callStmt1 = getConnection().prepareCall("{ call addLinhaRecibo(?,?,?) }")) {
 
                 callStmt1.setInt(1, rec);
@@ -135,6 +129,7 @@ public class ReciboDB extends DataHandler {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
         return bo;
     }

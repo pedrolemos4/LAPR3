@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 public class VeiculoDB extends DataHandler {
 
     public VeiculoDB() {
-        //dummy constructor
+        // dummy constructor
     }
 
     public boolean registaVeiculo(Veiculo ve) throws SQLException {
@@ -48,7 +48,7 @@ public class VeiculoDB extends DataHandler {
     public int addVeiculo(Veiculo veiculo) throws SQLException {
         int id = 0;
 
-        try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addVeiculo(?,?,?,?,?,?,?,?) }")) {
+        try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addVeiculo(?,?,?,?,?,?,?,?) }")) {
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
             callStmt.setString(2, veiculo.getDescricao());
             callStmt.setDouble(3, veiculo.getCapacidade());
@@ -91,7 +91,7 @@ public class VeiculoDB extends DataHandler {
     }
 
     public void addDrone(Drone drone) throws SQLException {
-        try ( CallableStatement callStmt = getConnection().prepareCall("{ call addDrone(?,?) }")) {
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call addDrone(?,?) }")) {
             callStmt.setInt(1, drone.getId());
             callStmt.setDouble(2, drone.getLargura());
             callStmt.execute();
@@ -110,22 +110,22 @@ public class VeiculoDB extends DataHandler {
         return new Scooter(ve, id);
     }
 
-    public boolean registaScooter(Scooter scooter) throws SQLException{
-        if(validaScooter(scooter)){
+    public boolean registaScooter(Scooter scooter) throws SQLException {
+        if (validaScooter(scooter)) {
             addScooter(scooter);
             return true;
         }
         return false;
     }
-    
-    private boolean validaScooter(Scooter scooter){
-        return !(scooter.getAreaFrontal()<0);
+
+    private boolean validaScooter(Scooter scooter) {
+        return !(scooter.getAreaFrontal() < 0);
     }
-    
+
     public void addScooter(Scooter scooter) throws SQLException {
-        try ( CallableStatement callStmt = getConnection().prepareCall("{ call addScooter(?) }")) {
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call addScooter(?) }")) {
             callStmt.setInt(1, scooter.getId());
-//            callStmt.setDouble(2, scooter.getAreaFrontal());
+            // callStmt.setDouble(2, scooter.getAreaFrontal());
             callStmt.execute();
             try {
                 closeAll();
@@ -136,9 +136,11 @@ public class VeiculoDB extends DataHandler {
     }
 
     /**
-     * Devolve a lista de veiculos cujo peso maximo é inferior ou igual ao peso maximo da entrega
+     * Devolve a lista de veiculos cujo peso maximo é inferior ou igual ao peso
+     * maximo da entrega
+     * 
      * @param pesoMaximoEntrega peso maximo da entrega
-     * @param nifFarmacia nif da farmacia
+     * @param nifFarmacia       nif da farmacia
      * @return lista de veículos
      */
     public List<Veiculo> getListaVeiculoEntrega(double pesoMaximoEntrega, int nifFarmacia) {
@@ -146,11 +148,11 @@ public class VeiculoDB extends DataHandler {
         String query = "SELECT v.idveiculo, v.descricao, v.capacidade, v.percentagemBateria, v.pesoMaximo, v.pesoVeiculo, v.potencia, v.estadoveiculoid, v.areaFrontal "
                 + " FROM veiculo v INNER JOIN estacionamentoveiculo e ON e.veiculoidveiculo = v.idveiculo"
                 + " INNER JOIN parque p ON p.idparque = e.estacionamentoidparque WHERE"
-                + " v.EstadoVeiculoid = 1 AND p.farmacianif = " + nifFarmacia + 
-                " AND v.percentagemBateria = 100 AND e.datafim is null AND v.pesoMaximo >= " + pesoMaximoEntrega;
+                + " v.EstadoVeiculoid = 1 AND p.farmacianif = " + nifFarmacia
+                + " AND v.percentagemBateria = 100 AND e.datafim is null AND v.pesoMaximo >= " + pesoMaximoEntrega;
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int id = rSet.getInt(1);
@@ -163,30 +165,33 @@ public class VeiculoDB extends DataHandler {
                     int idEstado = rSet.getInt(8);
                     double areaFrontal = rSet.getDouble(9);
 
-                    Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria,
-                            pesoMaximo, pesoVeiculo, potencia, idEstado, areaFrontal);
+                    Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria, pesoMaximo, pesoVeiculo,
+                            potencia, idEstado, areaFrontal);
                     v.setId(id);
                     list.add(v);
                 }
+                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
+        closeAll();
         return list;
     }
-    
-    
+
     /**
      * Devolve a lista de veiculos
+     * 
      * @return lista de veículos
      */
     public List<Veiculo> getListaVeiculo() {
         ArrayList<Veiculo> list = new ArrayList<>();
         String query = "SELECT * FROM veiculo";
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int id = rSet.getInt(1);
@@ -199,16 +204,19 @@ public class VeiculoDB extends DataHandler {
                     int idEstado = rSet.getInt(8);
                     double areaFrontal = rSet.getDouble(9);
 
-                    Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria,
-                            pesoMaximo, pesoVeiculo, potencia, idEstado, areaFrontal);
+                    Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria, pesoMaximo, pesoVeiculo,
+                            potencia, idEstado, areaFrontal);
                     v.setId(id);
                     list.add(v);
                 }
+                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
+        closeAll();
         return list;
     }
 
@@ -221,8 +229,8 @@ public class VeiculoDB extends DataHandler {
     public Veiculo getVeiculoById(int idVeiculo) {
         String query = "SELECT * FROM veiculo WHERE idVeiculo = " + idVeiculo;
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int id = rSet.getInt(1);
@@ -235,18 +243,20 @@ public class VeiculoDB extends DataHandler {
                     int idEstado = rSet.getInt(8);
                     double areaFrontal = rSet.getDouble(9);
 
-                    Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria,
-                            pesoMaximo, pesoVeiculo, potencia, idEstado, areaFrontal);
+                    Veiculo v = new Veiculo(descricao, capacidade, percentagemBateria, pesoMaximo, pesoVeiculo,
+                            potencia, idEstado, areaFrontal);
                     v.setId(id);
                     return v;
                 }
+                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
         return null;
     }
-    
+
     /**
      * Devolve o scooter de acordo com o id recebido por parâmetro
      *
@@ -254,26 +264,29 @@ public class VeiculoDB extends DataHandler {
      * @return veículo
      */
     public Scooter getScooterById(int idVeiculo) {
-        String query = "SELECT * FROM scooter s INNER JOIN veiculo v ON v.idveiculo = s.id WHERE v.idVeiculo = " + idVeiculo;
+        String query = "SELECT * FROM scooter s INNER JOIN veiculo v ON v.idveiculo = s.id WHERE v.idVeiculo = "
+                + idVeiculo;
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
-                    int id = rSet.getInt(1);                                 
+                    int id = rSet.getInt(1);
                     Veiculo v = getVeiculoById(idVeiculo);
                     Scooter s = new Scooter(v, id);
                     s.setId(id);
                     return s;
                 }
+                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
+        closeAll();
         return null;
     }
-    
-    
+
     /**
      * Devolve o drone de acordo com o id recebido por parâmetro
      *
@@ -281,24 +294,28 @@ public class VeiculoDB extends DataHandler {
      * @return veículo
      */
     public Drone getDroneById(int idVeiculo) {
-        String query = "SELECT * FROM drone d INNER JOIN veiculo v ON v.idveiculo = d.idDrone WHERE v.idVeiculo = " + idVeiculo;
+        String query = "SELECT * FROM drone d INNER JOIN veiculo v ON v.idveiculo = d.idDrone WHERE v.idVeiculo = "
+                + idVeiculo;
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int id = rSet.getInt(1);
                     double powerPro = rSet.getDouble(2);
-                                 
+
                     Veiculo v = getVeiculoById(idVeiculo);
                     Drone d = new Drone(v, id, powerPro);
                     d.setId(id);
                     return d;
                 }
+                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
+        closeAll();
         return null;
     }
 
@@ -312,7 +329,7 @@ public class VeiculoDB extends DataHandler {
     public boolean updateVeiculo(Veiculo veiculo) throws SQLException {
         boolean removed = false;
 
-        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateVeiculo(?,?,?,?,?,?,?,?,?) }")) {
+        try (CallableStatement callSmt = getConnection().prepareCall("{ call updateVeiculo(?,?,?,?,?,?,?,?,?) }")) {
 
             callSmt.setInt(1, veiculo.getId());
             callSmt.setString(2, veiculo.getDescricao());
@@ -337,18 +354,18 @@ public class VeiculoDB extends DataHandler {
 
         return removed;
     }
-    
+
     /**
      * Atualiza a informação de um drone na base de dados
      *
-     * @param id id do drone
+     * @param id       id do drone
      * @param powerPro power pro do drone
      * @return true se o drone foi alterado com sucesso, false se não
      * @throws SQLException
      */
     public boolean updateDrone(int id, double powerPro) throws SQLException {
         boolean removed = false;
-        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateDrone(?,?) }")) {
+        try (CallableStatement callSmt = getConnection().prepareCall("{ call updateDrone(?,?) }")) {
             callSmt.setInt(1, id);
             callSmt.setDouble(2, powerPro);
             callSmt.execute();
@@ -361,28 +378,30 @@ public class VeiculoDB extends DataHandler {
         }
         return removed;
     }
-    
-//    /**
-//     * Atualiza a informação de uma scooter na base de dados
-//     *
-//     * @param id id da scooter
-//     * @return true se a scooter foi alterado com sucesso, false se não
-//     * @throws SQLException
-//     */
-//    public boolean updateScooter(int id) throws SQLException {
-//        boolean removed = false;
-//        try ( CallableStatement callSmt = getConnection().prepareCall("{ call updateScooter(?) }")) {
-//            callSmt.setInt(1, id);
-//            callSmt.execute();
-//            removed = true;
-//            try {
-//                closeAll();
-//            } catch (NullPointerException ex) {
-//                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
-//            }
-//        }
-//        return removed;
-//    }
+
+    // /**
+    // * Atualiza a informação de uma scooter na base de dados
+    // *
+    // * @param id id da scooter
+    // * @return true se a scooter foi alterado com sucesso, false se não
+    // * @throws SQLException
+    // */
+    // public boolean updateScooter(int id) throws SQLException {
+    // boolean removed = false;
+    // try ( CallableStatement callSmt = getConnection().prepareCall("{ call
+    // updateScooter(?) }")) {
+    // callSmt.setInt(1, id);
+    // callSmt.execute();
+    // removed = true;
+    // try {
+    // closeAll();
+    // } catch (NullPointerException ex) {
+    // Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING,
+    // ex.getMessage());
+    // }
+    // }
+    // return removed;
+    // }
 
     /**
      * Remove o veículo da base de dados
@@ -393,7 +412,7 @@ public class VeiculoDB extends DataHandler {
      */
     public boolean removeVeiculo(int id) throws SQLException {
         boolean removed = false;
-        try ( CallableStatement callV = getConnection().prepareCall("{ call procRemoveveiculo(?) }")) {
+        try (CallableStatement callV = getConnection().prepareCall("{ call procRemoveveiculo(?) }")) {
             callV.setInt(1, id);
             callV.execute();
             removed = true;
@@ -405,7 +424,7 @@ public class VeiculoDB extends DataHandler {
         }
         return removed;
     }
-    
+
     /**
      * Remove o drone da base de dados
      *
@@ -413,9 +432,9 @@ public class VeiculoDB extends DataHandler {
      * @return true se o veículo foi removido com sucesso, false se não
      * @throws SQLException
      */
-    public boolean removeDrone (int id) throws SQLException {
+    public boolean removeDrone(int id) throws SQLException {
         boolean removed = false;
-        try ( CallableStatement callV = getConnection().prepareCall("{ call procRemovedrone(?) }")) {
+        try (CallableStatement callV = getConnection().prepareCall("{ call procRemovedrone(?) }")) {
             callV.setInt(1, id);
             callV.execute();
             removed = true;
@@ -427,7 +446,7 @@ public class VeiculoDB extends DataHandler {
         }
         return removed;
     }
-    
+
     /**
      * Remove o scooter da base de dados
      *
@@ -435,9 +454,9 @@ public class VeiculoDB extends DataHandler {
      * @return true se o veículo foi removido com sucesso, false se não
      * @throws SQLException
      */
-        public boolean removeScooter (int id) throws SQLException {
+    public boolean removeScooter(int id) throws SQLException {
         boolean removed = false;
-        try ( CallableStatement callV = getConnection().prepareCall("{ call procRemovescooter(?) }")) {
+        try (CallableStatement callV = getConnection().prepareCall("{ call procRemovescooter(?) }")) {
             callV.setInt(1, id);
             callV.execute();
             removed = true;
@@ -449,7 +468,7 @@ public class VeiculoDB extends DataHandler {
         }
         return removed;
     }
-    
+
     public void addEstacionamentoVeiculo(Estacionamento estac, Veiculo scoot) {
         addEstacionamentoVeiculo(estac.getNumeroLote(), scoot.getId());
     }
@@ -457,24 +476,21 @@ public class VeiculoDB extends DataHandler {
     /**
      * Adiciona um veículo ao estacionamento
      *
-     * @param numLote id do estacionamento onde irá ficar o veículo
+     * @param numLote   id do estacionamento onde irá ficar o veículo
      * @param idVeiculo veículo a estacionar
      */
     private void addEstacionamentoVeiculo(int numLote, int idVeiculo) {
-
         try {
-            openConnection();
-
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call AddEstacionamentoVeiculo(?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call AddEstacionamentoVeiculo(?,?) }")) {
                 callStmt.setInt(1, numLote);
                 callStmt.setInt(2, idVeiculo);
 
                 callStmt.execute();
             }
-
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
     }
 

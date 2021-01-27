@@ -30,8 +30,8 @@ public class FarmaciaDB extends DataHandler {
     /**
      * Cria uma nova farmácia
      *
-     * @param nif nif da farmácia
-     * @param email email da farmácia
+     * @param nif    nif da farmácia
+     * @param email  email da farmácia
      * @param morada morada da farmácia
      * @return nova farmacia criada
      */
@@ -77,8 +77,8 @@ public class FarmaciaDB extends DataHandler {
     /**
      * Adiciona a farmacia à base de dados
      *
-     * @param nif nif da farmácia
-     * @param email email da farmácia
+     * @param nif    nif da farmácia
+     * @param email  email da farmácia
      * @param morada morada da farmácia
      */
     public boolean addFarmacia(int nif, String email, String morada) {
@@ -94,8 +94,8 @@ public class FarmaciaDB extends DataHandler {
             closeAll();
             res = true;
         } catch (SQLException e) {
-
             e.printStackTrace();
+            closeAll();
         }
         return res;
     }
@@ -117,11 +117,14 @@ public class FarmaciaDB extends DataHandler {
                     String morada = rSet.getString(3);
                     list.add(new Farmacia(nif, email, morada));
                 }
+                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
+        closeAll();
         return list;
     }
 
@@ -144,9 +147,11 @@ public class FarmaciaDB extends DataHandler {
 
                     return new Farmacia(nif, email, morada);
                 }
+                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
         return null;
     }
@@ -158,8 +163,8 @@ public class FarmaciaDB extends DataHandler {
      */
     public List<Farmacia> getLstFarmaciasByProdutos(Produto p, int quant) {
         ArrayList<Farmacia> list = new ArrayList<>();
-        String query = "SELECT * FROM farmacia f INNER JOIN stockfarmacia s ON s.farmacianif = f.nif AND s.stock >= " + quant
-                + "INNER JOIN produto p ON s.produtoidproduto = p.idProduto AND p.idProduto =" + p.getId();
+        String query = "SELECT * FROM farmacia f INNER JOIN stockfarmacia s ON s.farmacianif = f.nif AND s.stock >= "
+                + quant + "INNER JOIN produto p ON s.produtoidproduto = p.idProduto AND p.idProduto =" + p.getId();
 
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
@@ -172,12 +177,14 @@ public class FarmaciaDB extends DataHandler {
                 if (list.isEmpty()) {
                     list = new ArrayList<>(getLstFarmaciasByProduto(p));
                 }
+                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
-
+        closeAll();
         return list;
     }
 
@@ -200,11 +207,14 @@ public class FarmaciaDB extends DataHandler {
                     String morada = rSet.getString(3);
                     list.add(new Farmacia(nif, email, morada));
                 }
+                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
+        closeAll();
         return list;
     }
 
@@ -227,15 +237,18 @@ public class FarmaciaDB extends DataHandler {
                     return (new Farmacia(nif, email, morada1));
                 }
             }
+            closeAll();
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
+        closeAll();
         return null;
     }
 
     /**
-     * Gera um grafo com a lista de enderecos das farmácias, das ruas e das ruas
-     * dos clientes e a distância entre elas
+     * Gera um grafo com a lista de enderecos das farmácias, das ruas e das ruas dos
+     * clientes e a distância entre elas
      *
      * @param graph
      * @return grafo
@@ -251,8 +264,8 @@ public class FarmaciaDB extends DataHandler {
         for (Endereco e1 : graph.vertices()) {
             for (Endereco e : graph.vertices()) {
                 if (cam.getCaminhoByEnderecos(e.getMorada(), e1.getMorada()) != null) {
-                    graph.insertEdge(e, e1, 1.0, CalculosFisica.calculoDistancia(e.getLatitude(), e.getLongitude(), e.getAltitude(),
-                            e1.getLatitude(), e1.getLongitude(), e1.getAltitude()));
+                    graph.insertEdge(e, e1, 1.0, CalculosFisica.calculoDistancia(e.getLatitude(), e.getLongitude(),
+                            e.getAltitude(), e1.getLatitude(), e1.getLongitude(), e1.getAltitude()));
                 }
             }
         }
@@ -261,10 +274,9 @@ public class FarmaciaDB extends DataHandler {
     }
 
     /**
-     * Devolve a farmácia mais próxima do endereco cliente recebido por
-     * parâmetro
+     * Devolve a farmácia mais próxima do endereco cliente recebido por parâmetro
      *
-     * @param graph grafo com a lista de farmácias
+     * @param graph           grafo com a lista de farmácias
      * @param enderecoCliente
      * @param list
      * @return farmácia mais próxima
@@ -273,21 +285,21 @@ public class FarmaciaDB extends DataHandler {
 
         double min = Double.MAX_VALUE;
         Farmacia farmaciaByEndereco = null;
-        System.out.println("GRAHP "+graph.toString());
+        System.out.println("GRAHP " + graph.toString());
         for (Endereco f1 : graph.vertices()) {
             if (getFarmaciaByEndereco(f1.getMorada()) != null && !list.contains(f1)) {
                 LinkedList<Endereco> shortPath = new LinkedList<>();
-                System.out.println("FARM: "+f1.toString());
+                System.out.println("FARM: " + f1.toString());
                 double valor = GraphAlgorithms.shortestPath(graph, enderecoCliente, f1, shortPath);
-                System.out.println("VALOR: "+valor);
+                System.out.println("VALOR: " + valor);
                 if (valor < min && valor != 0) {
-                    System.out.println("Entraste? "+f1.toString());
+                    System.out.println("Entraste? " + f1.toString());
                     min = valor;
                     farmaciaByEndereco = getFarmaciaByEndereco(f1.getMorada());
                 }
             }
         }
-        System.out.println("FARMACIADB "+farmaciaByEndereco);
+        System.out.println("FARMACIADB " + farmaciaByEndereco);
         return farmaciaByEndereco;
 
     }

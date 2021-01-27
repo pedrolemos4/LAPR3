@@ -96,7 +96,6 @@ public class ParqueDB extends DataHandler {
     public int addParque(int nif, int numMax, String tipo, int maxCap) {
         int idParque = 0;
         try {
-            openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addParque(?,?,?,?) }")) {
                 callStmt.registerOutParameter(1, OracleTypes.INTEGER);
                 callStmt.setInt(2, nif);
@@ -109,6 +108,7 @@ public class ParqueDB extends DataHandler {
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
         return idParque;
     }
@@ -133,11 +133,14 @@ public class ParqueDB extends DataHandler {
                     int maxCap = rSet.getInt(5);
                     list.add(new Parque(id, nifF, numMax, tipo, maxCap));
                 }
+                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
+        closeAll();
         return list;
     }
 
@@ -156,8 +159,10 @@ public class ParqueDB extends DataHandler {
             try ( ResultSet rSet = stm.executeQuery(query)) {
                 numMax = rSet.getInt(1);
             }
+            closeAll();
         } catch (SQLException e) {
             Logger.getLogger(ParqueDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
         return numMax;
     }
@@ -176,9 +181,11 @@ public class ParqueDB extends DataHandler {
                     int maxCap = rSet.getInt(5);
                     return new Parque(id, farmaciaNIF, numeroMaximo, tipo, maxCap);
                 }
+                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
         return null;
     }

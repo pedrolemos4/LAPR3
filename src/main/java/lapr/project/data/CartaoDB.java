@@ -83,7 +83,6 @@ public class CartaoDB extends DataHandler {
      */
     public void addCartao(long numeroCartao, String dataDeValidade, int ccv) throws ParseException {
         try {
-            openConnection();
             try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }")) {
                 callStmt.setLong(1, numeroCartao);
                 SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
@@ -96,6 +95,7 @@ public class CartaoDB extends DataHandler {
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
     }
 
@@ -116,11 +116,14 @@ public class CartaoDB extends DataHandler {
                     int ccv = rSet.getInt(3);
                     list.add(new Cartao(numeroCartao, dataDeValidade, ccv));
                 }
+                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             Logger.getLogger(CartaoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
+        closeAll();
         return list;
     }
 }

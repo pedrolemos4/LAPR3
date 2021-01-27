@@ -38,8 +38,6 @@ public class TransferenciaDB extends DataHandler {
      */
     public void addTransferencia(int idRem, int idDes, int idProd, int qtd, int estado) {
         try {
-            openConnection();
-
             try (CallableStatement callStmt = getConnection().prepareCall("{ call addTransferencia(?,?,?,?,?) }")) {
                 callStmt.setInt(1, idRem);
                 callStmt.setInt(2, idDes);
@@ -52,6 +50,7 @@ public class TransferenciaDB extends DataHandler {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
     }
 

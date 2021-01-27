@@ -6,7 +6,6 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -32,8 +31,8 @@ public class ProdutosDB extends DataHandler {
     /**
      * Devolve o produto criado com os dados enviados por parâmetro
      *
-     * @param desig designação do produto
-     * @param peso peso do produto
+     * @param desig     designação do produto
+     * @param peso      peso do produto
      * @param precoBase preço base do produto
      * @return novo produto
      */
@@ -56,7 +55,7 @@ public class ProdutosDB extends DataHandler {
      *
      * @param prod produto a registar
      * @param farm farmácia para onde o produto vai ser enviado
-     * @param qtd quantidade do produto a enviar
+     * @param qtd  quantidade do produto a enviar
      * @return true se o produto for registado com sucesso, false se não
      */
     public boolean registaProduto(Produto prod, int farm, int qtd) {
@@ -85,16 +84,14 @@ public class ProdutosDB extends DataHandler {
     /**
      * Adiciona o produto à base de dados
      *
-     * @param desig designação do produto
-     * @param peso peso do produto
+     * @param desig     designação do produto
+     * @param peso      peso do produto
      * @param precoBase preço base do produto
      * @return id do produto criado
      */
     public int addProduto(String desig, double peso, double precoBase) {
         int id = 0;
         try {
-            openConnection();
-
             try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addProduto(?,?,?) }")) {
                 callStmt.registerOutParameter(1, OracleTypes.INTEGER);
                 callStmt.setString(2, desig);
@@ -108,6 +105,7 @@ public class ProdutosDB extends DataHandler {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
         return id;
     }
@@ -115,14 +113,12 @@ public class ProdutosDB extends DataHandler {
     /**
      * Adiciona o produto criado ao stock da farmácia selecionada
      *
-     * @param nif nif da farmácia onde será adicionado o produto
+     * @param nif  nif da farmácia onde será adicionado o produto
      * @param prod id do produto a adicionar
-     * @param qtd quantidade a ser adicionada
+     * @param qtd  quantidade a ser adicionada
      */
     public void addProdutoStock(int nif, int prod, int qtd) {
         try {
-            openConnection();
-
             try (CallableStatement callStmt = getConnection().prepareCall("{ call addProdutoStock(?,?,?) }")) {
 
                 callStmt.setInt(1, nif);
@@ -135,6 +131,7 @@ public class ProdutosDB extends DataHandler {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
     }
 
@@ -155,10 +152,10 @@ public class ProdutosDB extends DataHandler {
     /**
      * Atualiza as informações do produto na base de dados
      *
-     * @param desig designação do produto
-     * @param peso peso do produto
+     * @param desig     designação do produto
+     * @param peso      peso do produto
      * @param precoBase preço base do produto
-     * @param id id do produto
+     * @param id        id do produto
      */
     private void atualizarProduto(String desig, double peso, double precoBase, int id) throws SQLException {
         try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?,?) }")) {
@@ -175,6 +172,7 @@ public class ProdutosDB extends DataHandler {
 
             } catch (NullPointerException ex) {
                 Logger.getLogger(ProdutosDB.class.getName()).log(Level.WARNING, ex.getMessage());
+                closeAll();
             }
         }
     }
@@ -182,8 +180,8 @@ public class ProdutosDB extends DataHandler {
     /**
      * Atualiza o stock de uma farmácia na base de dados
      *
-     * @param nif nif da farmácia a atualizar
-     * @param idProduto id do produto a atualizar
+     * @param nif        nif da farmácia a atualizar
+     * @param idProduto  id do produto a atualizar
      * @param quantidade nova quantidade
      * @return true se for atualizado com sucesso, false se não
      */
@@ -204,6 +202,7 @@ public class ProdutosDB extends DataHandler {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProdutosDB.class.getName()).log(Level.SEVERE, null, ex);
+            closeAll();
         }
         return removed;
     }
@@ -228,9 +227,11 @@ public class ProdutosDB extends DataHandler {
 
                     return new Produto(id1, desig, peso1, precoBase);
                 }
+                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
         return null;
     }
@@ -242,7 +243,8 @@ public class ProdutosDB extends DataHandler {
      */
     public Map<Produto, Integer> getLista(int nif) {
         Map<Produto, Integer> map = new HashMap<>();
-        String query = "SELECT * FROM produto p INNER JOIN StockFarmacia s ON s.ProdutoidProduto = p.idProduto AND s.FarmaciaNIF = " + nif;
+        String query = "SELECT * FROM produto p INNER JOIN StockFarmacia s ON s.ProdutoidProduto = p.idProduto AND s.FarmaciaNIF = "
+                + nif;
 
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
@@ -262,11 +264,14 @@ public class ProdutosDB extends DataHandler {
                         map.put(p, stock);
                     }
                 }
+                closeAll();
                 return map;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
+        closeAll();
         return map;
     }
 
@@ -275,7 +280,7 @@ public class ProdutosDB extends DataHandler {
      *
      * @param prod produto a adicionar
      * @param qntd quantidade do produto
-     * @return 
+     * @return
      */
     public boolean addListaProdutos(Produto prod, int qntd) {
 
@@ -300,9 +305,9 @@ public class ProdutosDB extends DataHandler {
     /**
      * Remove os produtos da base de dados
      *
-     * @param prod produto a ser removido
-     * @param nif nif da farmácia
-     * @param qtd quantidade do produto
+     * @param prod     produto a ser removido
+     * @param nif      nif da farmácia
+     * @param qtd      quantidade do produto
      * @param qtdStock quantidade do produto em stock
      */
     public boolean removerProdutosEncomenda(Produto prod, int nif, int qtd, int qtdStock) {
@@ -314,11 +319,11 @@ public class ProdutosDB extends DataHandler {
      * Devolve o preco total tendo em conta a taxa
      *
      * @param preco
-     * @param taxa taxa da encomenda
+     * @param taxa  taxa da encomenda
      * @return preço total
      */
     public double getPrecoTotal(double preco, double taxa) {
-        BigDecimal bd = new BigDecimal(preco + preco*taxa).setScale(2,RoundingMode.HALF_EVEN);
+        BigDecimal bd = new BigDecimal(preco + preco * taxa).setScale(2, RoundingMode.HALF_EVEN);
         return bd.doubleValue();
     }
 
@@ -336,8 +341,8 @@ public class ProdutosDB extends DataHandler {
                 preco = preco + entry.getKey().getPrecoBase();
             }
         }
-//        System.out.println("PRECO: "+Math.floor(preco));
-        BigDecimal bd = new BigDecimal(preco).setScale(2,RoundingMode.HALF_EVEN);
+        // System.out.println("PRECO: "+Math.floor(preco));
+        BigDecimal bd = new BigDecimal(preco).setScale(2, RoundingMode.HALF_EVEN);
         return bd.doubleValue();
 
     }
@@ -356,7 +361,7 @@ public class ProdutosDB extends DataHandler {
                 peso = peso + entry.getKey().getPeso();
             }
         }
-        BigDecimal bd = new BigDecimal(peso).setScale(2,RoundingMode.HALF_EVEN);
+        BigDecimal bd = new BigDecimal(peso).setScale(2, RoundingMode.HALF_EVEN);
         return bd.doubleValue();
     }
 

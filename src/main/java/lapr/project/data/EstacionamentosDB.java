@@ -21,17 +21,17 @@ import java.util.logging.Logger;
  */
 public class EstacionamentosDB extends DataHandler {
 
-    public EstacionamentosDB(){
-        //dummyConstructor
+    public EstacionamentosDB() {
+        // dummyConstructor
     }
-    
+
     /**
      * Cria um novo estacionamento
      *
-     * @param numLote número de lote do estacionamento
+     * @param numLote    número de lote do estacionamento
      * @param carregador disponibilidade do carregador do estacionamento (1 se
-     * disponível, 0 se não esta disponível)
-     * @param idParque id do parque
+     *                   disponível, 0 se não esta disponível)
+     * @param idParque   id do parque
      * @return novo estacionamento criado
      */
     public Estacionamento novoEstacionamento(int numLote, int carregador, int idParque) {
@@ -60,7 +60,8 @@ public class EstacionamentosDB extends DataHandler {
      * @return true se o estacionamento é valido
      */
     public boolean validaEstacionamento(Estacionamento estac) {
-        return !(estac == null || estac.getNumeroLote() <= 0 || estac.getCarregador() < 0 || estac.getCarregador() > 1 || estac.getIdParque() < 0);
+        return !(estac == null || estac.getNumeroLote() <= 0 || estac.getCarregador() < 0 || estac.getCarregador() > 1
+                || estac.getIdParque() < 0);
     }
 
     /**
@@ -79,13 +80,12 @@ public class EstacionamentosDB extends DataHandler {
      *
      * @param numeroLote número de lote do estacionamento
      * @param carregador disponibilidade do carregador do estacionamento (1 se
-     * disponível, 0 se não esta disponível)
-     * @param idParque id do parque
+     *                   disponível, 0 se não esta disponível)
+     * @param idParque   id do parque
      */
     public void addEstacionamento(int numeroLote, int carregador, int idParque) {
         try {
-            openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamento(?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamento(?,?,?) }")) {
                 callStmt.setInt(1, numeroLote);
                 callStmt.setInt(2, carregador);
                 callStmt.setInt(3, idParque);
@@ -94,18 +94,20 @@ public class EstacionamentosDB extends DataHandler {
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
     }
 
     /**
      * Devolve uma lista de estacionamentos da base de dados
+     * 
      * @param query query a ser aplicada na base de dados
      * @return lista de estacionamentos
      */
-    public List<Estacionamento> getFromQuery(String query){
+    public List<Estacionamento> getFromQuery(String query) {
         ArrayList<Estacionamento> list = new ArrayList<>();
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int numLote = rSet.getInt(1);
                     int carregador = rSet.getInt(2);
@@ -114,9 +116,12 @@ public class EstacionamentosDB extends DataHandler {
                 }
                 return list;
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
+        closeAll();
         return list;
     }
 
@@ -131,8 +136,8 @@ public class EstacionamentosDB extends DataHandler {
     }
 
     /**
-     * Retorna lista de estacionamento de um determinado parque recendo o seu
-     * nif por parâmetro
+     * Retorna lista de estacionamento de um determinado parque recendo o seu nif
+     * por parâmetro
      *
      * @param farmNIF
      * @param parqueID
@@ -140,22 +145,23 @@ public class EstacionamentosDB extends DataHandler {
      */
     public List<Estacionamento> getListaEstacionamentosByFarmaciaNifParqueId(int farmNIF, int parqueID) {
         String query = "SELECT * FROM estacionamento e INNER JOIN parque p ON p.FarmaciaNIF = e.ParqueFarmaciaNIF "
-                + "INNER JOIN farmacia f ON f.NIF = e.ParqueFarmaciaNIF "
-                + "WHERE e.ParqueFarmaciaNIF = " + farmNIF + "AND p.FarmaciaNIF = " + farmNIF + "AND p.idParque = " + parqueID;
-        
+                + "INNER JOIN farmacia f ON f.NIF = e.ParqueFarmaciaNIF " + "WHERE e.ParqueFarmaciaNIF = " + farmNIF
+                + "AND p.FarmaciaNIF = " + farmNIF + "AND p.idParque = " + parqueID;
+
         return getFromQuery(query);
     }
 
     /**
      * Devolve o estacionamento cujo id é o mesmo que o recebido por parâmetro
+     * 
      * @param loteEstacionameto id do estacionamento
      * @return estacionamento
      */
     public Estacionamento getEstacionamentoById(int loteEstacionameto) {
         String query = "SELECT * FROM estacionamento WHERE numerolote = " + loteEstacionameto;
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int lote = rSet.getInt(1);
@@ -163,52 +169,61 @@ public class EstacionamentosDB extends DataHandler {
                     int idParque = rSet.getInt(3);
                     return new Estacionamento(lote, carregador, idParque);
                 }
+                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
         return null;
     }
 
     /**
      * Adiciona um veículo ao estacionamento
+     * 
      * @param estacionamento estacionamento onde vai ser colocado o veículo
-     * @param veiculo veículo a estacionar
+     * @param veiculo        veículo a estacionar
      * @return true se o veículo for colocado com sucessso, false se não
      */
     public boolean addEstacionamentoVeiculo(Estacionamento estacionamento, Veiculo veiculo, int idParque) {
         try {
             openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoVeiculo(?,?,?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection()
+                    .prepareCall("{ call addEstacionamentoVeiculo(?,?,?,?,?) }")) {
                 callStmt.setInt(1, veiculo.getId());
                 callStmt.setInt(2, estacionamento.getNumeroLote());
                 callStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
                 callStmt.setTimestamp(4, null);
-                callStmt.setInt(5,idParque);
+                callStmt.setInt(5, idParque);
                 callStmt.execute();
             }
             closeAll();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
         return false;
     }
 
-    public boolean getEstacionamentoVeiculo(Estacionamento estacionamento, Veiculo veiculo){
-        String query = "SELECT * FROM estacionamentoveiculo WHERE estacionamentonumerolote = " + estacionamento.getNumeroLote() + " and VEICULOIDVEICULO = " + veiculo.getId() + " and ESTACIONAMENTOIDPARQUE = " + estacionamento.getIdParque();
+    public boolean getEstacionamentoVeiculo(Estacionamento estacionamento, Veiculo veiculo) {
+        String query = "SELECT * FROM estacionamentoveiculo WHERE estacionamentonumerolote = "
+                + estacionamento.getNumeroLote() + " and VEICULOIDVEICULO = " + veiculo.getId()
+                + " and ESTACIONAMENTOIDPARQUE = " + estacionamento.getIdParque();
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
                 if (rSet.next()) {
                     return false;
-                }else{
+                } else {
                     return true;
                 }
             }
         } catch (SQLException e) {
             Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
+        closeAll();
         return false;
     }
 }

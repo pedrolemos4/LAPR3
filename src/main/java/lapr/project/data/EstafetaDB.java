@@ -40,10 +40,12 @@ public class EstafetaDB extends DataHandler {
 
                     list.add(new Estafeta(nif, idEstado, peso));
                 }
+                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
         return list;
     }
@@ -111,7 +113,6 @@ public class EstafetaDB extends DataHandler {
      */
     public void addEstafeta(int nif, int estadoEstafeta, double peso) {
         try {
-            openConnection();
             try (CallableStatement callStmt = getConnection().prepareCall("{ call addEstafeta(?,?,?) }")) {
                 callStmt.setInt(1, nif);
                 callStmt.setInt(2, estadoEstafeta);
@@ -121,6 +122,7 @@ public class EstafetaDB extends DataHandler {
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
     }
 
@@ -164,6 +166,7 @@ public class EstafetaDB extends DataHandler {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            closeAll();
         }
 
     }
@@ -198,6 +201,7 @@ public class EstafetaDB extends DataHandler {
             }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
+                closeAll();
             }
 
     }
@@ -222,8 +226,10 @@ public class EstafetaDB extends DataHandler {
                     return new Estafeta(nif, idEstadoEstafeta, peso);
                 }
             }
+            closeAll();
         } catch (SQLException e) {
             Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
         return null;
     }
@@ -244,8 +250,10 @@ public class EstafetaDB extends DataHandler {
                     return new Utilizador(nif, nome, email, nss, password);
                 }
             }
+            closeAll();
         } catch (SQLException e) {
             Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
         return null;
     }

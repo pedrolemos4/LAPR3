@@ -21,24 +21,25 @@ import lapr.project.model.Cliente;
  */
 public class ClienteDB extends DataHandler {
 
-    public ClienteDB(){
-        //dummyConstructor
+    public ClienteDB() {
+        // dummyConstructor
     }
-    
+
     /**
      * Cria um novo cliente
      *
-     * @param nif nif do cliente
-     * @param nome nome do cliente
-     * @param email email do cliente
+     * @param nif                   nif do cliente
+     * @param nome                  nome do cliente
+     * @param email                 email do cliente
      * @param numeroSegurancaSocial número de segurança social do cliente
-     * @param creditos número de créditos do cliente
-     * @param password password do cliente
-     * @param morada morada do cliente
-     * @param numCC número do cartão de cidadão do cliente
+     * @param creditos              número de créditos do cliente
+     * @param password              password do cliente
+     * @param morada                morada do cliente
+     * @param numCC                 número do cartão de cidadão do cliente
      * @return o novo cliente criado
      */
-    public Cliente novoCliente(int nif, String nome, String email, int numeroSegurancaSocial, double creditos, String morada, long numCC, String password) {
+    public Cliente novoCliente(int nif, String nome, String email, int numeroSegurancaSocial, double creditos,
+            String morada, long numCC, String password) {
         return new Cliente(nif, nome, email, numeroSegurancaSocial, creditos, morada, numCC, password);
     }
 
@@ -81,15 +82,14 @@ public class ClienteDB extends DataHandler {
     /**
      * Adiciona o cliente à base de dados
      *
-     * @param nif nif do cliente
-     * @param creditos créditos do cliente
+     * @param nif            nif do cliente
+     * @param creditos       créditos do cliente
      * @param enderecoMorada morada do cliente
-     * @param numCC número do cartão de cidadão do cliente
+     * @param numCC          número do cartão de cidadão do cliente
      */
     public void addCliente(int nif, double creditos, String enderecoMorada, long numCC) {
         try {
-            openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCliente(?,?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addCliente(?,?,?,?) }")) {
                 callStmt.setInt(1, nif);
                 callStmt.setDouble(2, creditos);
                 callStmt.setString(3, enderecoMorada);
@@ -99,6 +99,7 @@ public class ClienteDB extends DataHandler {
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
     }
 
@@ -111,8 +112,8 @@ public class ClienteDB extends DataHandler {
         ArrayList<Cliente> list = new ArrayList<>();
         String query = "SELECT * FROM cliente";
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     int nif = rSet.getInt(1);
                     int creditos = rSet.getInt(2);
@@ -121,11 +122,14 @@ public class ClienteDB extends DataHandler {
 
                     list.add(new Cliente(nif, creditos, enderecoMorada, numCC));
                 }
+                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
+        closeAll();
         return list;
     }
 
@@ -137,11 +141,9 @@ public class ClienteDB extends DataHandler {
      */
     public Cliente getClienteByNIF(int nif) {
         String query = "SELECT c.utilizadornif, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito "
-                + "FROM cliente c "
-                + "INNER JOIN utilizador u ON c.UtilizadorNIF = u.NIF "
-                + "WHERE u.NIF = " + nif;
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+                + "FROM cliente c " + "INNER JOIN utilizador u ON c.UtilizadorNIF = u.NIF " + "WHERE u.NIF = " + nif;
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int id1 = rSet.getInt(1);
@@ -149,12 +151,15 @@ public class ClienteDB extends DataHandler {
                     String morada = rSet.getString(3);
                     long num = rSet.getLong(4);
 
-                    return new Cliente(id1,creds,morada,num);
+                    return new Cliente(id1, creds, morada, num);
                 }
+                //closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
+        closeAll();
         return null;
     }
 
@@ -165,10 +170,11 @@ public class ClienteDB extends DataHandler {
      * @return cliente com a morada especificada por parâmetro
      */
     public Cliente getClienteByMorada(String end) {
-        String query = "SELECT c.utilizadorNIF, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito FROM cliente c INNER JOIN endereco e ON c.EnderecoMorada = e.morada WHERE c.EnderecoMorada = '" + end + "'";
+        String query = "SELECT c.utilizadorNIF, c.creditos, c.enderecomorada, c.cartaonumerocartaocredito FROM cliente c INNER JOIN endereco e ON c.EnderecoMorada = e.morada WHERE c.EnderecoMorada = '"
+                + end + "'";
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
                 if (rSet.next()) {
                     int aInt = rSet.getInt(1);
                     double aInt1 = rSet.getDouble(2);
@@ -176,16 +182,21 @@ public class ClienteDB extends DataHandler {
                     long aInt2 = rSet.getLong(4);
                     return new Cliente(aInt, aInt1, string, aInt2);
                 }
+                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
+        closeAll();
         return null;
     }
 
     /**
-     * Remove uma certa quantidade de créditos de um cliente com base na data em que fez a encomenda
-     * @param nif nif do cliente
+     * Remove uma certa quantidade de créditos de um cliente com base na data em que
+     * fez a encomenda
+     * 
+     * @param nif          nif do cliente
      * @param creditosData data
      * @return true se removeu com sucesso, false se não
      * @throws SQLException
@@ -194,16 +205,16 @@ public class ClienteDB extends DataHandler {
 
         boolean removed = false;
 
-        try ( CallableStatement callV = getConnection().prepareCall("{ call procRemoverCreditos(?,?) }")) {
+        try (CallableStatement callV = getConnection().prepareCall("{ call procRemoverCreditos(?,?) }")) {
 
             callV.setInt(1, nif);
             callV.setDouble(2, creditosData);
             callV.execute();
-
+            closeAll();
             removed = true;
         } catch (SQLException | NullPointerException ex) {
             Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, ex.getMessage());
-
+            closeAll();
         }
 
         return removed;
@@ -211,28 +222,29 @@ public class ClienteDB extends DataHandler {
 
     /**
      * Adiciona uma certa quantidade de créditos a um cliente
+     * 
      * @param c cliente a adicionar os créditos
      * @param d valor em créditos
      * @return true se adicionou com sucesso, false se não
      */
     public boolean addCreditos(Cliente c, double d) {
         boolean bool = false;
-        
+
         try {
-            openConnection();
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCreditosCliente(?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addCreditosCliente(?,?) }")) {
                 callStmt.setInt(1, c.getClienteNIF());
                 callStmt.setDouble(2, d);
-                
+
                 callStmt.execute();
-                
-                bool=true;
+            
+                bool = true;
             }
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
-        
+
         return bool;
     }
 }

@@ -36,7 +36,6 @@ public class UtilizadorDB extends DataHandler {
      */
     public void addUtilizador(int nif, String nome, String email, int numeroSegurancaSocial, String password) {
         try {
-            openConnection();
             try (CallableStatement callStmt = getConnection().prepareCall("{ call addUtilizador(?,?,?,?,?) }")) {
                 callStmt.setInt(1, nif);
                 callStmt.setString(2, nome);
@@ -48,6 +47,7 @@ public class UtilizadorDB extends DataHandler {
             closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
+            closeAll();
         }
     }
 
@@ -67,10 +67,11 @@ public class UtilizadorDB extends DataHandler {
             callStmt.execute();
 
             result = callStmt.getInt(1);
-
+            closeAll();
 
         } catch (SQLException e) {
             Logger.getLogger(UtilizadorDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
         return result;
     }
@@ -99,10 +100,13 @@ public class UtilizadorDB extends DataHandler {
 
                     return new Cliente(nif, nome, email, nSegSocial, creditos, morada, numCC, password);
                 }
+                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(UtilizadorDB.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
+        closeAll();
         return null;
     }
 }

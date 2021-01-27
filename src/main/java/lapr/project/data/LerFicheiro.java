@@ -133,8 +133,10 @@ public class LerFicheiro extends DataHandler {
                     }
                 }
             }
+            closeAll();
         } catch (SQLException e) {
             Logger.getLogger(LerFicheiro.class.getName()).log(Level.WARNING, e.getMessage());
+            closeAll();
         }
         return bool;
     }
