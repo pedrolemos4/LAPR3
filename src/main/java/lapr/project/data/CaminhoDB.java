@@ -22,8 +22,7 @@ public class CaminhoDB extends DataHandler {
     public void addCaminho(String morada1, String morada2, double roadResistanceCoefficient, double velocidadeVento,
             double direcaoVento) {
         try {
-            // openConnection();
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addCaminho(?,?,?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCaminho(?,?,?,?,?) }")) {
                 callStmt.setString(1, morada1);
                 callStmt.setString(2, morada2);
                 callStmt.setDouble(3, roadResistanceCoefficient);
@@ -41,8 +40,8 @@ public class CaminhoDB extends DataHandler {
     public List<Caminho> getAllCaminhos() {
         String query = "SELECT * FROM caminho";
         ArrayList<Caminho> list = new ArrayList<>();
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     String morada1 = rSet.getString(1);
@@ -72,8 +71,8 @@ public class CaminhoDB extends DataHandler {
     public Caminho getCaminhoByEnderecos(String morada1, String morada2) {
         String query = "SELECT * FROM caminho WHERE morada1 = '" + morada1 + "' AND morada2 = '" + morada2 + "'";
 
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
                 if (rSet.next()) {
                     String morada3 = rSet.getString(1);
                     String morada4 = rSet.getString(2);

@@ -31,8 +31,8 @@ public class ProdutosDB extends DataHandler {
     /**
      * Devolve o produto criado com os dados enviados por parâmetro
      *
-     * @param desig     designação do produto
-     * @param peso      peso do produto
+     * @param desig designação do produto
+     * @param peso peso do produto
      * @param precoBase preço base do produto
      * @return novo produto
      */
@@ -55,7 +55,7 @@ public class ProdutosDB extends DataHandler {
      *
      * @param prod produto a registar
      * @param farm farmácia para onde o produto vai ser enviado
-     * @param qtd  quantidade do produto a enviar
+     * @param qtd quantidade do produto a enviar
      * @return true se o produto for registado com sucesso, false se não
      */
     public boolean registaProduto(Produto prod, int farm, int qtd) {
@@ -84,15 +84,15 @@ public class ProdutosDB extends DataHandler {
     /**
      * Adiciona o produto à base de dados
      *
-     * @param desig     designação do produto
-     * @param peso      peso do produto
+     * @param desig designação do produto
+     * @param peso peso do produto
      * @param precoBase preço base do produto
      * @return id do produto criado
      */
     public int addProduto(String desig, double peso, double precoBase) {
         int id = 0;
         try {
-            try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addProduto(?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addProduto(?,?,?) }")) {
                 callStmt.registerOutParameter(1, OracleTypes.INTEGER);
                 callStmt.setString(2, desig);
                 callStmt.setDouble(3, peso);
@@ -113,13 +113,13 @@ public class ProdutosDB extends DataHandler {
     /**
      * Adiciona o produto criado ao stock da farmácia selecionada
      *
-     * @param nif  nif da farmácia onde será adicionado o produto
+     * @param nif nif da farmácia onde será adicionado o produto
      * @param prod id do produto a adicionar
-     * @param qtd  quantidade a ser adicionada
+     * @param qtd quantidade a ser adicionada
      */
     public void addProdutoStock(int nif, int prod, int qtd) {
         try {
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addProdutoStock(?,?,?) }")) {
+            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addProdutoStock(?,?,?) }")) {
 
                 callStmt.setInt(1, nif);
                 callStmt.setInt(2, prod);
@@ -152,13 +152,13 @@ public class ProdutosDB extends DataHandler {
     /**
      * Atualiza as informações do produto na base de dados
      *
-     * @param desig     designação do produto
-     * @param peso      peso do produto
+     * @param desig designação do produto
+     * @param peso peso do produto
      * @param precoBase preço base do produto
-     * @param id        id do produto
+     * @param id id do produto
      */
     private void atualizarProduto(String desig, double peso, double precoBase, int id) throws SQLException {
-        try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?,?) }")) {
+        try ( CallableStatement callStmt = getConnection().prepareCall("{ call atualizarProduto(?,?,?,?) }")) {
 
             callStmt.setString(1, desig);
             callStmt.setDouble(2, peso);
@@ -180,14 +180,14 @@ public class ProdutosDB extends DataHandler {
     /**
      * Atualiza o stock de uma farmácia na base de dados
      *
-     * @param nif        nif da farmácia a atualizar
-     * @param idProduto  id do produto a atualizar
+     * @param nif nif da farmácia a atualizar
+     * @param idProduto id do produto a atualizar
      * @param quantidade nova quantidade
      * @return true se for atualizado com sucesso, false se não
      */
     public boolean atualizarStock(int nif, int idProduto, int quantidade) {
         boolean removed = false;
-        try (CallableStatement callStmt = getConnection().prepareCall("{ call procAtualizarStock(?,?,?) }")) {
+        try ( CallableStatement callStmt = getConnection().prepareCall("{ call procAtualizarStock(?,?,?) }")) {
             callStmt.setInt(1, nif);
             callStmt.setInt(2, idProduto);
             callStmt.setInt(3, quantidade);
@@ -216,8 +216,8 @@ public class ProdutosDB extends DataHandler {
     public Produto getProdutoByID(int id) {
         String query = "SELECT * FROM produto p WHERE p.idProduto= " + id;
 
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int id1 = rSet.getInt(1);
@@ -246,8 +246,8 @@ public class ProdutosDB extends DataHandler {
         String query = "SELECT * FROM produto p INNER JOIN StockFarmacia s ON s.ProdutoidProduto = p.idProduto AND s.FarmaciaNIF = "
                 + nif;
 
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     int id = rSet.getInt(1);
@@ -305,9 +305,9 @@ public class ProdutosDB extends DataHandler {
     /**
      * Remove os produtos da base de dados
      *
-     * @param prod     produto a ser removido
-     * @param nif      nif da farmácia
-     * @param qtd      quantidade do produto
+     * @param prod produto a ser removido
+     * @param nif nif da farmácia
+     * @param qtd quantidade do produto
      * @param qtdStock quantidade do produto em stock
      */
     public boolean removerProdutosEncomenda(Produto prod, int nif, int qtd, int qtdStock) {
@@ -319,11 +319,11 @@ public class ProdutosDB extends DataHandler {
      * Devolve o preco total tendo em conta a taxa
      *
      * @param preco
-     * @param taxa  taxa da encomenda
+     * @param taxa taxa da encomenda
      * @return preço total
      */
     public double getPrecoTotal(double preco, double taxa) {
-        BigDecimal bd = new BigDecimal(preco + preco * taxa).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal bd = BigDecimal.valueOf(preco + preco * taxa).setScale(2, RoundingMode.HALF_EVEN);
         return bd.doubleValue();
     }
 
@@ -341,8 +341,7 @@ public class ProdutosDB extends DataHandler {
                 preco = preco + entry.getKey().getPrecoBase();
             }
         }
-        // System.out.println("PRECO: "+Math.floor(preco));
-        BigDecimal bd = new BigDecimal(preco).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal bd = BigDecimal.valueOf(preco).setScale(2, RoundingMode.HALF_EVEN);
         return bd.doubleValue();
 
     }
@@ -361,7 +360,7 @@ public class ProdutosDB extends DataHandler {
                 peso = peso + entry.getKey().getPeso();
             }
         }
-        BigDecimal bd = new BigDecimal(peso).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal bd = BigDecimal.valueOf(peso).setScale(2, RoundingMode.HALF_EVEN);
         return bd.doubleValue();
     }
 
