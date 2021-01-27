@@ -22,6 +22,7 @@ import oracle.jdbc.OracleTypes;
 public class ReciboDB extends DataHandler {
     /**
      * Regista o recibo na base de dados
+     * 
      * @param rec recibo a registar
      * @return true se o recibo for registado com sucesso, false se não
      * @throws SQLException
@@ -38,15 +39,17 @@ public class ReciboDB extends DataHandler {
 
     /**
      * Valida o recibo recebido opr parâmetro
+     * 
      * @param rec recibo a verificar
      * @return true se o recibo for válido, false se não
      */
     private boolean validaRecibo(Recibo rec) {
-        return !(rec.getData() == null ||  rec.getNif() < 0 || rec.getIdEncomenda() < 0);
+        return !(rec.getData() == null || rec.getNif() < 0 || rec.getIdEncomenda() < 0);
     }
 
     /**
      * Adiciona o recibo à base de dados
+     * 
      * @param rec recibo a adicionar
      * @return id do recibo
      * @throws SQLException
@@ -58,9 +61,10 @@ public class ReciboDB extends DataHandler {
 
     /**
      * Adiciona o recibo à base de dados
-     * @param data data do recibo
-     * @param preco preco da encomenda
-     * @param nif nif do cliente
+     * 
+     * @param data        data do recibo
+     * @param preco       preco da encomenda
+     * @param nif         nif do cliente
      * @param idEncomenda id da encomenda
      * @return id do recibo
      * @throws SQLException
@@ -68,7 +72,7 @@ public class ReciboDB extends DataHandler {
      */
     private int addRecibo(String data, double preco, int nif, int idEncomenda) throws SQLException, ParseException {
         int id = 0;
-        try ( CallableStatement callStmt = getConnection().prepareCall("{ ? = call addRecibo(?,?,?,?) }")) {
+        try (CallableStatement callStmt = getConnection().prepareCall("{ ? = call addRecibo(?,?,?,?) }")) {
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             java.util.Date date = sdf1.parse(data);
@@ -77,25 +81,23 @@ public class ReciboDB extends DataHandler {
             callStmt.setDouble(3, preco);
             callStmt.setInt(4, nif);
             callStmt.setInt(5, idEncomenda);
-            
+
             callStmt.execute();
             id = callStmt.getInt(1);
-
-        }
-        try {
+            return id;
+        } catch (SQLException e) {
+            Logger.getLogger(ReciboDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return 0;
+        } finally {
             closeAll();
-
-        } catch (NullPointerException ex) {
-
-            Logger.getLogger(ReciboDB.class.getName()).log(Level.WARNING, ex.getMessage());
         }
-        return id;
     }
 
     /**
      * Regista o produto na linha do recibo
-     * @param rec recibo onde se vai registar
-     * @param prod produto a registar
+     * 
+     * @param rec   recibo onde se vai registar
+     * @param prod  produto a registar
      * @param quant quantidade do produto
      * @return true se o produto for registado com sucesso, false se não
      */
@@ -108,30 +110,29 @@ public class ReciboDB extends DataHandler {
 
     /**
      * Regista o produto na linha do recibo
-     * @param rec recibo onde se vai registar
-     * @param prod produto a registar
+     * 
+     * @param rec   recibo onde se vai registar
+     * @param prod  produto a registar
      * @param quant quantidade do produto
      * @return true se o produto for registado com sucesso, false se não
      */
     private boolean registaRecibo(int rec, int prod, int quant) {
-        boolean bo = false;
         try {
-            try ( CallableStatement callStmt1 = getConnection().prepareCall("{ call addLinhaRecibo(?,?,?) }")) {
+            try (CallableStatement callStmt1 = getConnection().prepareCall("{ call addLinhaRecibo(?,?,?) }")) {
 
                 callStmt1.setInt(1, rec);
                 callStmt1.setInt(2, prod);
                 callStmt1.setInt(3, quant);
 
                 callStmt1.execute();
-                bo=true;
+                return true;
             }
-            closeAll();
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(ReciboDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return false;
+        } finally {
             closeAll();
         }
-        return bo;
     }
 
 }

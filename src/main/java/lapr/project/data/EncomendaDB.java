@@ -50,13 +50,13 @@ public class EncomendaDB extends DataHandler {
                     e.setId(idEncomenda);
                     return e;
                 }
-                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
         return null;
     }
 
@@ -130,13 +130,13 @@ public class EncomendaDB extends DataHandler {
             callStmt.setInt(8, nif);
             callStmt.execute();
             id = callStmt.getInt(1);
-            try {
-                closeAll();
-            } catch (NullPointerException ex) {
-                Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, ex.getMessage());
-            }
+            return id;
+        } catch (NullPointerException ex) {
+            Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            return 0;
+        } finally {
+            closeAll();
         }
-        return id;
     }
 
     /**
@@ -162,21 +162,20 @@ public class EncomendaDB extends DataHandler {
      * @return true se os dados foram registados, false se não
      */
     private boolean registaEncomendaProduto(int enc, int p, int stock) {
-        boolean aux = false;
         try {
             try (CallableStatement callStmt1 = getConnection().prepareCall("{ call addEncomendaProduto(?,?,?) }")) {
                 callStmt1.setInt(1, enc);
                 callStmt1.setInt(2, p);
                 callStmt1.setInt(3, stock);
                 callStmt1.execute();
-                aux = true;
+                return true;
             }
-            closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
+        } finally {
             closeAll();
         }
-        return aux;
     }
 
     /**
@@ -213,7 +212,6 @@ public class EncomendaDB extends DataHandler {
         ArrayList<Encomenda> list = new ArrayList<>();
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
-
                 while (rSet.next()) {
                     int idEncomenda = rSet.getInt(1);
                     Timestamp dataPedida = rSet.getTimestamp(2);
@@ -228,15 +226,14 @@ public class EncomendaDB extends DataHandler {
                     e.setId(idEncomenda);
                     list.add(e);
                 }
-                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
-        return list;
     }
 
     /**
@@ -291,20 +288,17 @@ public class EncomendaDB extends DataHandler {
      * @throws SQLException
      */
     public boolean updateEncomenda(int idEncomenda, int estado) throws SQLException {
-        boolean updated = false;
         try (CallableStatement callSmt = getConnection().prepareCall("{ call updateEncomenda(?,?) }")) {
             callSmt.setInt(2, estado);
             callSmt.setInt(1, idEncomenda);
             callSmt.execute();
-            updated = true;
-            try {
-                closeAll();
-            } catch (NullPointerException ex) {
-                Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, ex.getMessage());
-            }
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return false;
+        } finally {
+            closeAll();
         }
-        closeAll();
-        return updated;
     }
 
     /**

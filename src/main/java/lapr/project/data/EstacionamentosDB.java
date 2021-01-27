@@ -84,16 +84,14 @@ public class EstacionamentosDB extends DataHandler {
      * @param idParque   id do parque
      */
     public void addEstacionamento(int numeroLote, int carregador, int idParque) {
-        try {
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamento(?,?,?) }")) {
-                callStmt.setInt(1, numeroLote);
-                callStmt.setInt(2, carregador);
-                callStmt.setInt(3, idParque);
-                callStmt.execute();
-            }
-            closeAll();
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamento(?,?,?) }")) {
+            callStmt.setInt(1, numeroLote);
+            callStmt.setInt(2, carregador);
+            callStmt.setInt(3, idParque);
+            callStmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(EstacionamentosDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
             closeAll();
         }
     }
@@ -116,13 +114,12 @@ public class EstacionamentosDB extends DataHandler {
                 }
                 return list;
             }
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(EstacionamentosDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
-        return list;
     }
 
     /**
@@ -159,20 +156,18 @@ public class EstacionamentosDB extends DataHandler {
      */
     public Estacionamento getEstacionamentoById(int loteEstacionameto) {
         String query = "SELECT * FROM estacionamento WHERE numerolote = " + loteEstacionameto;
-
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
-
                 if (rSet.next()) {
                     int lote = rSet.getInt(1);
                     int carregador = rSet.getInt(2);
                     int idParque = rSet.getInt(3);
                     return new Estacionamento(lote, carregador, idParque);
                 }
-                closeAll();
             }
         } catch (SQLException e) {
-            Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            Logger.getLogger(EstacionamentosDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
             closeAll();
         }
         return null;
@@ -186,24 +181,20 @@ public class EstacionamentosDB extends DataHandler {
      * @return true se o veículo for colocado com sucessso, false se não
      */
     public boolean addEstacionamentoVeiculo(Estacionamento estacionamento, Veiculo veiculo, int idParque) {
-        try {
-            openConnection();
-            try (CallableStatement callStmt = getConnection()
-                    .prepareCall("{ call addEstacionamentoVeiculo(?,?,?,?,?) }")) {
-                callStmt.setInt(1, veiculo.getId());
-                callStmt.setInt(2, estacionamento.getNumeroLote());
-                callStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-                callStmt.setTimestamp(4, null);
-                callStmt.setInt(5, idParque);
-                callStmt.execute();
-            }
-            closeAll();
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call addEstacionamentoVeiculo(?,?,?,?,?) }")) {
+            callStmt.setInt(1, veiculo.getId());
+            callStmt.setInt(2, estacionamento.getNumeroLote());
+            callStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            callStmt.setTimestamp(4, null);
+            callStmt.setInt(5, idParque);
+            callStmt.execute();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(EstacionamentosDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return false;
+        } finally {
             closeAll();
         }
-        return false;
     }
 
     public boolean getEstacionamentoVeiculo(Estacionamento estacionamento, Veiculo veiculo) {
@@ -220,10 +211,10 @@ public class EstacionamentosDB extends DataHandler {
                 }
             }
         } catch (SQLException e) {
-            Logger.getLogger(EntregaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            Logger.getLogger(EstacionamentosDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return false;
+        } finally {
             closeAll();
         }
-        closeAll();
-        return false;
     }
 }

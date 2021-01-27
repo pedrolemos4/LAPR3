@@ -78,17 +78,15 @@ public class EnderecoDB extends DataHandler {
      * @param altitude  altitude do endereço
      */
     public void addEndereco(String morada, double latitude, double longitude, double altitude) {
-        try {
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addEndereco(?,?,?,?) }")) {
-                callStmt.setString(1, morada);
-                callStmt.setDouble(2, latitude);
-                callStmt.setDouble(3, longitude);
-                callStmt.setDouble(4, altitude);
-                callStmt.execute();
-            }
-            closeAll();
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call addEndereco(?,?,?,?) }")) {
+            callStmt.setString(1, morada);
+            callStmt.setDouble(2, latitude);
+            callStmt.setDouble(3, longitude);
+            callStmt.setDouble(4, altitude);
+            callStmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
             closeAll();
         }
     }
@@ -111,14 +109,14 @@ public class EnderecoDB extends DataHandler {
                     double altitude = rSet.getDouble(4);
                     list.add(new Endereco(morada, latitude, longitude, altitude));
                 }
-                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        return list;
     }
 
     /**
@@ -139,14 +137,14 @@ public class EnderecoDB extends DataHandler {
                     double altitude = rSet.getDouble(4);
                     list.add(new Endereco(morada, latitude, longitude, altitude));
                 }
-                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        return list;
     }
 
     /**
@@ -159,23 +157,21 @@ public class EnderecoDB extends DataHandler {
         Endereco end = new Endereco();
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
-
                 if (rSet.next()) {
                     String morada = rSet.getString(1);
                     double latitude = rSet.getDouble(2);
                     double longitude = rSet.getDouble(3);
                     double altitude = rSet.getDouble(4);
-
                     end = new Endereco(morada, latitude, longitude, altitude);
                 }
-
             }
-            closeAll();
+            return end;
         } catch (SQLException e) {
             Logger.getLogger(EnderecoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        return end;
     }
 
     /**

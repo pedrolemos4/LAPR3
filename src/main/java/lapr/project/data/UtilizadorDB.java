@@ -28,25 +28,24 @@ public class UtilizadorDB extends DataHandler {
 
     /**
      * Adiciona um utilizador à base de dados
-     * @param nif nid do utilizador
-     * @param nome nome do utilizador
-     * @param email email do utilizador
+     * 
+     * @param nif                   nid do utilizador
+     * @param nome                  nome do utilizador
+     * @param email                 email do utilizador
      * @param numeroSegurancaSocial número de segurança do utilizador
-     * @param password password do utilizador
+     * @param password              password do utilizador
      */
     public void addUtilizador(int nif, String nome, String email, int numeroSegurancaSocial, String password) {
-        try {
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call addUtilizador(?,?,?,?,?) }")) {
-                callStmt.setInt(1, nif);
-                callStmt.setString(2, nome);
-                callStmt.setString(3, email);
-                callStmt.setInt(4, numeroSegurancaSocial);
-                callStmt.setString(5, password);
-                callStmt.execute();
-            }
-            closeAll();
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call addUtilizador(?,?,?,?,?) }")) {
+            callStmt.setInt(1, nif);
+            callStmt.setString(2, nome);
+            callStmt.setString(3, email);
+            callStmt.setInt(4, numeroSegurancaSocial);
+            callStmt.setString(5, password);
+            callStmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(UtilizadorDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
             closeAll();
         }
     }
@@ -60,34 +59,36 @@ public class UtilizadorDB extends DataHandler {
      */
     public int validateLogin(String email, String password) {
         int result = 0;
-        try (CallableStatement callStmt = dataHandler.getConnection().prepareCall("{ ? = call funcValidateLogin(?,?) }")) {
+        try (CallableStatement callStmt = dataHandler.getConnection()
+                .prepareCall("{ ? = call funcValidateLogin(?,?) }")) {
             callStmt.registerOutParameter(1, OracleTypes.INTEGER);
             callStmt.setString(2, email);
             callStmt.setString(3, password);
             callStmt.execute();
 
             result = callStmt.getInt(1);
-            closeAll();
+            return result;
 
         } catch (SQLException e) {
             Logger.getLogger(UtilizadorDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return 0;
+        } finally {
             closeAll();
         }
-        return result;
     }
 
     /**
      * Devolve o cliente cujo nif é igual ao recebido por parâmetro
+     * 
      * @param nif nif do cliente
      * @return cliente
      */
     public Cliente getByID(int nif) {
-        String query = "SELECT * FROM cliente p,utilizador s "
-                + "WHERE p.Utilizadornif= " + nif 
-                + " AND s.nif = " + nif;
+        String query = "SELECT * FROM cliente p,utilizador s " + "WHERE p.Utilizadornif= " + nif + " AND s.nif = "
+                + nif;
 
-        try (Statement stm = getConnection().createStatement()){
-            try(ResultSet rSet  = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 if (rSet.next()) {
                     int creditos = rSet.getInt(2);
@@ -100,13 +101,13 @@ public class UtilizadorDB extends DataHandler {
 
                     return new Cliente(nif, nome, email, nSegSocial, creditos, morada, numCC, password);
                 }
-                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(UtilizadorDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
         return null;
     }
 }

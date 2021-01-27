@@ -81,20 +81,18 @@ public class FarmaciaDB extends DataHandler {
      * @param morada morada da farmácia
      */
     public boolean addFarmacia(int nif, String email, String morada) {
-        boolean res = false;
         try (CallableStatement callStmt = getConnection().prepareCall("{ call addFarmacia(?,?,?) }")) {
             callStmt.setInt(1, nif);
             callStmt.setString(2, email);
             callStmt.setString(3, morada);
             callStmt.execute();
-
-            closeAll();
-            res = true;
+            return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return false;
+        } finally {
             closeAll();
         }
-        return res;
     }
 
     /**
@@ -114,15 +112,14 @@ public class FarmaciaDB extends DataHandler {
                     String morada = rSet.getString(3);
                     list.add(new Farmacia(nif, email, morada));
                 }
-                closeAll();
-                return list;
             }
+            return list;
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
-        return list;
     }
 
     /**
@@ -144,10 +141,11 @@ public class FarmaciaDB extends DataHandler {
 
                     return new Farmacia(nif, email, morada);
                 }
-                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
         return null;
@@ -174,15 +172,14 @@ public class FarmaciaDB extends DataHandler {
                 if (list.isEmpty()) {
                     list = new ArrayList<>(getLstFarmaciasByProduto(p));
                 }
-                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
-        return list;
     }
 
     /**
@@ -204,15 +201,14 @@ public class FarmaciaDB extends DataHandler {
                     String morada = rSet.getString(3);
                     list.add(new Farmacia(nif, email, morada));
                 }
-                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
-        return list;
     }
 
     /**
@@ -234,12 +230,12 @@ public class FarmaciaDB extends DataHandler {
                     return (new Farmacia(nif, email, morada1));
                 }
             }
-            closeAll();
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
         return null;
     }
 

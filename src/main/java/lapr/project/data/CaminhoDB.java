@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr.project.model.Caminho;
 import lapr.project.model.Endereco;
-
 /**
  *
  * @author beatr
@@ -21,18 +20,16 @@ public class CaminhoDB extends DataHandler {
 
     public void addCaminho(String morada1, String morada2, double roadResistanceCoefficient, double velocidadeVento,
             double direcaoVento) {
-        try {
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCaminho(?,?,?,?,?) }")) {
-                callStmt.setString(1, morada1);
-                callStmt.setString(2, morada2);
-                callStmt.setDouble(3, roadResistanceCoefficient);
-                callStmt.setDouble(4, velocidadeVento);
-                callStmt.setDouble(5, direcaoVento);
-                callStmt.execute();
-            }
-            closeAll();
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call addCaminho(?,?,?,?,?) }")) {
+            callStmt.setString(1, morada1);
+            callStmt.setString(2, morada2);
+            callStmt.setDouble(3, roadResistanceCoefficient);
+            callStmt.setDouble(4, velocidadeVento);
+            callStmt.setDouble(5, direcaoVento);
+            callStmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
             closeAll();
         }
     }
@@ -40,8 +37,8 @@ public class CaminhoDB extends DataHandler {
     public List<Caminho> getAllCaminhos() {
         String query = "SELECT * FROM caminho";
         ArrayList<Caminho> list = new ArrayList<>();
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
 
                 while (rSet.next()) {
                     String morada1 = rSet.getString(1);
@@ -56,23 +53,22 @@ public class CaminhoDB extends DataHandler {
                     Caminho e = new Caminho(end1, end2, roadResistanceCoefficient, velocidadeVento, direcaoVento);
                     list.add(e);
                 }
-                closeAll();
                 return list;
             }
 
         } catch (SQLException e) {
             Logger.getLogger(CaminhoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
-        return list;
     }
 
     public Caminho getCaminhoByEnderecos(String morada1, String morada2) {
         String query = "SELECT * FROM caminho WHERE morada1 = '" + morada1 + "' AND morada2 = '" + morada2 + "'";
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
                 if (rSet.next()) {
                     String morada3 = rSet.getString(1);
                     String morada4 = rSet.getString(2);
@@ -88,9 +84,9 @@ public class CaminhoDB extends DataHandler {
             }
         } catch (SQLException e) {
             Logger.getLogger(CaminhoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
             closeAll();
         }
-        closeAll();
         return null;
     }
 

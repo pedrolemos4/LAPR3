@@ -100,6 +100,8 @@ public class ClienteDB extends DataHandler {
         } catch (SQLException e) {
             e.printStackTrace();
             closeAll();
+        } finally {
+            closeAll();
         }
     }
 
@@ -122,15 +124,15 @@ public class ClienteDB extends DataHandler {
 
                     list.add(new Cliente(nif, creditos, enderecoMorada, numCC));
                 }
-                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return list;
+        } finally {
             closeAll();
         }
-        closeAll();
-        return list;
+
     }
 
     /**
@@ -144,7 +146,6 @@ public class ClienteDB extends DataHandler {
                 + "FROM cliente c " + "INNER JOIN utilizador u ON c.UtilizadorNIF = u.NIF " + "WHERE u.NIF = " + nif;
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
-
                 if (rSet.next()) {
                     int id1 = rSet.getInt(1);
                     double creds = rSet.getDouble(2);
@@ -153,13 +154,12 @@ public class ClienteDB extends DataHandler {
 
                     return new Cliente(id1, creds, morada, num);
                 }
-                //closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
             closeAll();
         }
-        closeAll();
         return null;
     }
 
@@ -182,13 +182,12 @@ public class ClienteDB extends DataHandler {
                     long aInt2 = rSet.getLong(4);
                     return new Cliente(aInt, aInt1, string, aInt2);
                 }
-                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
             closeAll();
         }
-        closeAll();
         return null;
     }
 
@@ -202,22 +201,18 @@ public class ClienteDB extends DataHandler {
      * @throws SQLException
      */
     public boolean removerCreditos(int nif, double creditosData) throws SQLException {
-
-        boolean removed = false;
-
         try (CallableStatement callV = getConnection().prepareCall("{ call procRemoverCreditos(?,?) }")) {
-
             callV.setInt(1, nif);
             callV.setDouble(2, creditosData);
             callV.execute();
             closeAll();
-            removed = true;
+            return true;
         } catch (SQLException | NullPointerException ex) {
             Logger.getLogger(ClienteDB.class.getName()).log(Level.WARNING, ex.getMessage());
+            return false;
+        } finally {
             closeAll();
         }
-
-        return removed;
     }
 
     /**
@@ -228,23 +223,18 @@ public class ClienteDB extends DataHandler {
      * @return true se adicionou com sucesso, false se não
      */
     public boolean addCreditos(Cliente c, double d) {
-        boolean bool = false;
-
         try {
             try (CallableStatement callStmt = getConnection().prepareCall("{ call addCreditosCliente(?,?) }")) {
                 callStmt.setInt(1, c.getClienteNIF());
                 callStmt.setDouble(2, d);
-
                 callStmt.execute();
-            
-                bool = true;
+                return true;
             }
-            closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
+        } finally {
             closeAll();
         }
-
-        return bool;
     }
 }

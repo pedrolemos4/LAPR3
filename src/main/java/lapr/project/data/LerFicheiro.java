@@ -133,9 +133,10 @@ public class LerFicheiro extends DataHandler {
                     }
                 }
             }
-            closeAll();
         } catch (SQLException e) {
-            Logger.getLogger(LerFicheiro.class.getName()).log(Level.WARNING, e.getMessage());
+            Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return false;
+        } finally {
             closeAll();
         }
         return bool;

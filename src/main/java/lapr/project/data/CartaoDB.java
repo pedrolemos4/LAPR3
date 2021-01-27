@@ -23,16 +23,16 @@ import lapr.project.model.Cartao;
  */
 public class CartaoDB extends DataHandler {
 
-    public CartaoDB(){
-        //dummy constructor
+    public CartaoDB() {
+        // dummy constructor
     }
-    
+
     /**
      * Cria um novo cartão de crédito
      *
-     * @param numeroCartao número do cartão de crédito
+     * @param numeroCartao   número do cartão de crédito
      * @param dataDeValidade data de validade do cartão de crédito
-     * @param ccv código de segurança do cartão de crédito
+     * @param ccv            código de segurança do cartão de crédito
      * @return o novo cartão de crédito criado
      */
     public Cartao novoCartao(long numeroCartao, String dataDeValidade, int ccv) {
@@ -76,14 +76,14 @@ public class CartaoDB extends DataHandler {
     /**
      * Adiciona cartão de crédito à base de dados
      *
-     * @param numeroCartao número do cartão de crédito
+     * @param numeroCartao   número do cartão de crédito
      * @param dataDeValidade data de validade do cartão de crédito
-     * @param ccv código de segurança do cartão de crédito
+     * @param ccv            código de segurança do cartão de crédito
      * @throws java.text.ParseException
      */
     public void addCartao(long numeroCartao, String dataDeValidade, int ccv) throws ParseException {
         try {
-            try ( CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }")) {
+            try (CallableStatement callStmt = getConnection().prepareCall("{ call addCartao(?,?,?) }")) {
                 callStmt.setLong(1, numeroCartao);
                 SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
                 java.util.Date date = sdf1.parse(dataDeValidade);
@@ -92,9 +92,9 @@ public class CartaoDB extends DataHandler {
                 callStmt.setInt(3, ccv);
                 callStmt.execute();
             }
-            closeAll();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
             closeAll();
         }
     }
@@ -108,22 +108,21 @@ public class CartaoDB extends DataHandler {
         ArrayList<Cartao> list = new ArrayList<>();
         String query = "SELECT * FROM cartao";
 
-        try ( Statement stm = getConnection().createStatement()) {
-            try ( ResultSet rSet = stm.executeQuery(query)) {
+        try (Statement stm = getConnection().createStatement()) {
+            try (ResultSet rSet = stm.executeQuery(query)) {
                 while (rSet.next()) {
                     long numeroCartao = rSet.getLong(1);
                     String dataDeValidade = rSet.getTimestamp(2).toString();
                     int ccv = rSet.getInt(3);
                     list.add(new Cartao(numeroCartao, dataDeValidade, ccv));
                 }
-                closeAll();
                 return list;
             }
         } catch (SQLException e) {
             Logger.getLogger(CartaoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
-        return list;
     }
 }

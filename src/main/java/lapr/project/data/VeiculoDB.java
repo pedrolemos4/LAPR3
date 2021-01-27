@@ -61,17 +61,13 @@ public class VeiculoDB extends DataHandler {
             callStmt.execute();
 
             id = callStmt.getInt(1);
-
-            try {
-
-                closeAll();
-
-            } catch (NullPointerException ex) {
-
-                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
-            }
+            return id;
+        } catch (SQLException e) {
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return 0;
+        } finally {
+            closeAll();
         }
-        return id;
     }
 
     public Drone novoDrone(Veiculo ve, int id, double powerPro) {
@@ -95,14 +91,10 @@ public class VeiculoDB extends DataHandler {
             callStmt.setInt(1, drone.getId());
             callStmt.setDouble(2, drone.getLargura());
             callStmt.execute();
-            try {
-
-                closeAll();
-
-            } catch (NullPointerException ex) {
-
-                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
-            }
+        } catch (SQLException e) {
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            closeAll();
         }
     }
 
@@ -127,11 +119,10 @@ public class VeiculoDB extends DataHandler {
             callStmt.setInt(1, scooter.getId());
             // callStmt.setDouble(2, scooter.getAreaFrontal());
             callStmt.execute();
-            try {
-                closeAll();
-            } catch (NullPointerException ex) {
-                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
-            }
+        } catch (SQLException e) {
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
+            closeAll();
         }
     }
 
@@ -170,15 +161,14 @@ public class VeiculoDB extends DataHandler {
                     v.setId(id);
                     list.add(v);
                 }
-                closeAll();
                 return list;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
-        return list;
     }
 
     /**
@@ -209,15 +199,14 @@ public class VeiculoDB extends DataHandler {
                     v.setId(id);
                     list.add(v);
                 }
-                closeAll();
                 return list;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
-        return list;
     }
 
     /**
@@ -248,10 +237,11 @@ public class VeiculoDB extends DataHandler {
                     v.setId(id);
                     return v;
                 }
-                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
         return null;
@@ -277,13 +267,13 @@ public class VeiculoDB extends DataHandler {
                     s.setId(id);
                     return s;
                 }
-                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
         return null;
     }
 
@@ -309,13 +299,13 @@ public class VeiculoDB extends DataHandler {
                     d.setId(id);
                     return d;
                 }
-                closeAll();
             }
         } catch (SQLException e) {
             Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return null;
+        } finally {
             closeAll();
         }
-        closeAll();
         return null;
     }
 
@@ -327,8 +317,6 @@ public class VeiculoDB extends DataHandler {
      * @throws SQLException
      */
     public boolean updateVeiculo(Veiculo veiculo) throws SQLException {
-        boolean removed = false;
-
         try (CallableStatement callSmt = getConnection().prepareCall("{ call updateVeiculo(?,?,?,?,?,?,?,?,?) }")) {
 
             callSmt.setInt(1, veiculo.getId());
@@ -342,17 +330,14 @@ public class VeiculoDB extends DataHandler {
             callSmt.setDouble(9, veiculo.getAreaFrontal());
             callSmt.execute();
 
-            removed = true;
-            try {
+            return true;
 
-                closeAll();
-
-            } catch (NullPointerException ex) {
-                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
-            }
+        } catch (SQLException e) {
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return false;
+        } finally {
+            closeAll();
         }
-
-        return removed;
     }
 
     /**
@@ -364,19 +349,18 @@ public class VeiculoDB extends DataHandler {
      * @throws SQLException
      */
     public boolean updateDrone(int id, double powerPro) throws SQLException {
-        boolean removed = false;
         try (CallableStatement callSmt = getConnection().prepareCall("{ call updateDrone(?,?) }")) {
             callSmt.setInt(1, id);
             callSmt.setDouble(2, powerPro);
             callSmt.execute();
-            removed = true;
-            try {
-                closeAll();
-            } catch (NullPointerException ex) {
-                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
-            }
+            return true;
+
+        } catch (SQLException e) {
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return false;
+        } finally {
+            closeAll();
         }
-        return removed;
     }
 
     // /**
@@ -411,18 +395,16 @@ public class VeiculoDB extends DataHandler {
      * @throws SQLException
      */
     public boolean removeVeiculo(int id) throws SQLException {
-        boolean removed = false;
         try (CallableStatement callV = getConnection().prepareCall("{ call procRemoveveiculo(?) }")) {
             callV.setInt(1, id);
             callV.execute();
-            removed = true;
-            try {
-                closeAll();
-            } catch (NullPointerException ex) {
-                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
-            }
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return false;
+        } finally {
+            closeAll();
         }
-        return removed;
     }
 
     /**
@@ -433,18 +415,17 @@ public class VeiculoDB extends DataHandler {
      * @throws SQLException
      */
     public boolean removeDrone(int id) throws SQLException {
-        boolean removed = false;
         try (CallableStatement callV = getConnection().prepareCall("{ call procRemovedrone(?) }")) {
             callV.setInt(1, id);
             callV.execute();
-            removed = true;
-            try {
-                closeAll();
-            } catch (NullPointerException ex) {
-                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
-            }
+            return true;
+
+        } catch (SQLException e) {
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return false;
+        } finally {
+            closeAll();
         }
-        return removed;
     }
 
     /**
@@ -455,18 +436,17 @@ public class VeiculoDB extends DataHandler {
      * @throws SQLException
      */
     public boolean removeScooter(int id) throws SQLException {
-        boolean removed = false;
         try (CallableStatement callV = getConnection().prepareCall("{ call procRemovescooter(?) }")) {
             callV.setInt(1, id);
             callV.execute();
-            removed = true;
-            try {
-                closeAll();
-            } catch (NullPointerException ex) {
-                Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, ex.getMessage());
-            }
+            return true;
+
+        } catch (SQLException e) {
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+            return false;
+        } finally {
+            closeAll();
         }
-        return removed;
     }
 
     public void addEstacionamentoVeiculo(Estacionamento estac, Veiculo scoot) {
@@ -480,18 +460,16 @@ public class VeiculoDB extends DataHandler {
      * @param idVeiculo veículo a estacionar
      */
     private void addEstacionamentoVeiculo(int numLote, int idVeiculo) {
-        try {
-            try (CallableStatement callStmt = getConnection().prepareCall("{ call AddEstacionamentoVeiculo(?,?) }")) {
-                callStmt.setInt(1, numLote);
-                callStmt.setInt(2, idVeiculo);
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call AddEstacionamentoVeiculo(?,?) }")) {
+            callStmt.setInt(1, numLote);
+            callStmt.setInt(2, idVeiculo);
 
-                callStmt.execute();
-            }
-            closeAll();
+            callStmt.execute();
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
+        } finally {
             closeAll();
         }
     }
-
 }
