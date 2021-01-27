@@ -68,7 +68,7 @@ public class RegistarEntregaUI {
             }
         }
 
-        System.out.println("Lista de enderecos UI: " +new ArrayList<>(listEnderecos).toString());
+        System.out.println("Lista de enderecos UI: " + new ArrayList<>(listEnderecos).toString());
 
         System.out.println("\nEstafeta:\t" + est
                 + "\nDataInicio:\t" + dataInicio
@@ -111,10 +111,12 @@ public class RegistarEntregaUI {
                     double distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(), v.getPercentagemBateria(), v.getPotencia());
                     graphScooter = controller.generateGraphScooter(listEnderecosScooter, new ArrayList<>(listEnderecos), est, v, pesoEntrega);
                     double energiaTotalGastaScooter = controller.getPath(graphScooter, graphDistancia, new ArrayList<>(listEnderecos), finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0, v, distanciaVeiculo);
-                    if (energiaTotalGastaScooter < minScooter) {
-                        minScooter = energiaTotalGastaScooter;
-                        scooter = v;
-                        listMinScooter = list;
+                    if (energiaTotalGastaScooter != 0) {
+                        if (energiaTotalGastaScooter < minScooter) {
+                            minScooter = energiaTotalGastaScooter;
+                            scooter = v;
+                            listMinScooter = list;
+                        }
                     }
                     finalShortPathScooter = new LinkedList<>();
                     list = new LinkedList<>();
@@ -132,10 +134,12 @@ public class RegistarEntregaUI {
                         Drone d = controller.getDroneById(v.getId());
                         graphDrone = controller.generateGraphDrone(listEnderecosDrone, new ArrayList<>(listEnderecos), est, v, d.getLargura(), pesoEntrega);
                         double energiaTotalGastaDrone = controller.getPath(graphDrone, graphDistancia, new ArrayList<>(listEnderecos), finalShortPathDrone, controller.getEnderecoOrigem(nifFarmacia), 0, v, distanciaVeiculo);
-                        if (energiaTotalGastaDrone < minDrone) {
-                            minDrone = energiaTotalGastaDrone;
-                            drone = v;
-                            listMinDrone = list;
+                        if (energiaTotalGastaDrone != 0) {
+                            if (energiaTotalGastaDrone < minDrone) {
+                                minDrone = energiaTotalGastaDrone;
+                                drone = v;
+                                listMinDrone = list;
+                            }
                         }
                         finalShortPathDrone = new LinkedList<>();
                         list = new LinkedList<>();
