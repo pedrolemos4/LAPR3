@@ -105,7 +105,7 @@ public class EntregaDB extends DataHandler {
      * @return grafo com os endereços e as ruas definidas
      */
     public Graph<Endereco, Double> generateGraphScooter(List<Endereco> listEnderecos,
-            List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
+                                                        List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
         Graph<Endereco, Double> graph = new Graph<>(true);
 
         double energiaGasta;
@@ -146,8 +146,8 @@ public class EntregaDB extends DataHandler {
      * @return grafo com os endereços e as ruas definidas
      */
     public Graph<Endereco, Double> generateGraphDrone(List<Endereco> listEnderecos,
-            List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double atributo,
-            double pesoTotalEntrega) {
+                                                      List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double atributo,
+                                                      double pesoTotalEntrega) {
         Graph<Endereco, Double> graph = new Graph<>(true);
         double energiaGasta;
 
@@ -188,8 +188,8 @@ public class EntregaDB extends DataHandler {
      * @return valor da energia
      */
     public double getPath(Graph<Endereco, Double> graphEnergia, Graph<Endereco, Double> graphDistancia,
-            ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia,
-            Veiculo v, double distanciaVeiculo) {
+                          ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia,
+                          Veiculo v, double distanciaVeiculo) {
         LinkedList<Endereco> caminhoAVerificar = new LinkedList<>();
         if (finalShortPath.isEmpty()) {
             finalShortPath.addFirst(origem);
@@ -222,6 +222,12 @@ public class EntregaDB extends DataHandler {
                     energia = energia + GraphAlgorithms.shortestPath(graphEnergia, list.get(i), list.get(i + 1),
                             new LinkedList<>());
                 }
+                //falta calcular energia quando n há paragem (quando a lista tem apenas 2 endereços)
+                if (list.size() == 1) {
+                    energia = energia + GraphAlgorithms.shortestPath(graphEnergia, origem, list.getFirst(),
+                            new LinkedList<>());
+                }
+
                 finalShortPath.addAll(list);
                 // mandar para a 2 volta
                 getPath(graphEnergia, graphDistancia, listEnderecos, finalShortPath, endereco, energia, v,
@@ -235,7 +241,7 @@ public class EntregaDB extends DataHandler {
     }
 
     public Pair<LinkedList<Endereco>, Double> checkCaminho(Graph<Endereco, Double> graphDistancia,
-            LinkedList<Endereco> finalShortPath, Veiculo v, double distanciaVeiculo) {
+                                                           LinkedList<Endereco> finalShortPath, Veiculo v, double distanciaVeiculo) {
         double distancia = 0;
         int i = finalShortPath.size() - 1;
         double valorAuxDistancia = 0;
@@ -261,8 +267,7 @@ public class EntregaDB extends DataHandler {
                     // finalShortPath.get(aux) é o endereco de origem
                     // finalShortPath.get(aux + 1) é o endereco por onde ele n pode passar na
                     // listaNova que vamos retornar
-                    // uma vez q o caminho entre finalShortPath.get(aux) e finalShortPath.get(aux +
-                    // 1) n é possivel
+                    // uma vez q o caminho entre finalShortPath.get(aux) e finalShortPath.get(aux + 1) n é possivel
                     valorAuxDistancia = getListComParqueMaisProximo(graphDistancia, novaLista, v,
                             finalShortPath.get(aux), finalShortPath.get(aux + 1), distanciaVeiculo);
 
@@ -272,6 +277,7 @@ public class EntregaDB extends DataHandler {
                 } else {
                     // só chega aqui se n houver paragem pelo caminho
                     distanciaVeiculo = distanciaVeiculo - distancia;
+                    distancia = 0;
                 }
             }
             if (v.getDescricao().equalsIgnoreCase(DRONE)) {
@@ -302,7 +308,7 @@ public class EntregaDB extends DataHandler {
     }
 
     private double getListComParqueMaisProximo(Graph<Endereco, Double> graph, LinkedList<Endereco> list, Veiculo v,
-            Endereco enderecoInicial, Endereco enderecoPorOndeNaoPodePassar, double distanciaVeiculo) {
+                                               Endereco enderecoInicial, Endereco enderecoPorOndeNaoPodePassar, double distanciaVeiculo) {
         double min = Double.MAX_VALUE;
         for (Endereco f1 : graph.vertices()) {
             if (far.getFarmaciaByEndereco(f1.getMorada()) != null) {
@@ -311,21 +317,18 @@ public class EntregaDB extends DataHandler {
                     if (v.getDescricao().equalsIgnoreCase(SCOOTER) && p.getTipo().equalsIgnoreCase(SCOOTER)) {
                         LinkedList<Endereco> shortPath = new LinkedList<>();
                         double valor = GraphAlgorithms.shortestPath(graph, enderecoInicial, f1, shortPath);
-                        if (!shortPath.contains(enderecoPorOndeNaoPodePassar)) {
-                            if (valor < min && valor != 0 && valor < distanciaVeiculo) {
-                                min = valor;
-                                list.addAll(shortPath);
-                            }
+                        if (!shortPath.contains(enderecoPorOndeNaoPodePassar) && valor < min && valor > 0 && valor < distanciaVeiculo) {
+                            min = valor;
+                            list.addAll(shortPath);
+
                         }
                     }
                     if (v.getDescricao().equalsIgnoreCase(DRONE) && p.getTipo().equalsIgnoreCase(DRONE)) {
                         LinkedList<Endereco> shortPath = new LinkedList<>();
                         double valor = GraphAlgorithms.shortestPath(graph, enderecoInicial, f1, shortPath);
-                        if (!shortPath.contains(enderecoPorOndeNaoPodePassar)) {
-                            if (valor < min && valor != 0 && valor < distanciaVeiculo) {
-                                min = valor;
-                                list.addAll(shortPath);
-                            }
+                        if (!shortPath.contains(enderecoPorOndeNaoPodePassar) && valor < min && valor > 0 && valor < distanciaVeiculo) {
+                            min = valor;
+                            list.addAll(shortPath);
                         }
                     }
                 }

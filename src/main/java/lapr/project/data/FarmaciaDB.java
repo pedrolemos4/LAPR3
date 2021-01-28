@@ -276,21 +276,16 @@ public class FarmaciaDB extends DataHandler {
 
         double min = Double.MAX_VALUE;
         Farmacia farmaciaByEndereco = null;
-        System.out.println("GRAHP " + graph.toString());
         for (Endereco f1 : graph.vertices()) {
             if (getFarmaciaByEndereco(f1.getMorada()) != null && !list.contains(f1)) {
                 LinkedList<Endereco> shortPath = new LinkedList<>();
-                System.out.println("FARM: " + f1.toString());
                 double valor = GraphAlgorithms.shortestPath(graph, enderecoCliente, f1, shortPath);
-                System.out.println("VALOR: " + valor);
                 if (valor < min && valor != 0) {
-                    System.out.println("Entraste? " + f1.toString());
                     min = valor;
                     farmaciaByEndereco = getFarmaciaByEndereco(f1.getMorada());
                 }
             }
         }
-        System.out.println("FARMACIADB " + farmaciaByEndereco);
         return farmaciaByEndereco;
 
     }

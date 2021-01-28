@@ -68,11 +68,9 @@ public class RegistarEntregaUI {
             }
         }
 
-        System.out.println("Lista de enderecos UI: " + new ArrayList<>(listEnderecos).toString());
-
         System.out.println("\nEstafeta:\t" + est
                 + "\nDataInicio:\t" + dataInicio
-                + "\nPeso maximo da entrega:\t" + pesoMaximoEntrega
+                + "\nPeso maximo da entrega:\t" + pesoMaximoEntrega + " Kg"
                 + "\nLista das encomendas:\t");
         for (Encomenda e : listEncomendaByEntrega) {
             System.out.println(e.toString());
