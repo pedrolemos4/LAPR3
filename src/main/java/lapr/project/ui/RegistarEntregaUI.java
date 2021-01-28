@@ -3,14 +3,13 @@ package lapr.project.ui;
 import lapr.project.controller.RegistarEntregaController;
 import lapr.project.data.*;
 import lapr.project.model.*;
+import lapr.project.utils.CalculosFisica;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import lapr.project.utils.CalculosFisica;
 
 /**
  * @author beatr
@@ -111,6 +110,7 @@ public class RegistarEntregaUI {
                         if (energiaTotalGastaScooter < minScooter) {
                             minScooter = energiaTotalGastaScooter;
                             scooter = v;
+                            listMinScooter = new LinkedList<>();
                             listMinScooter.addAll(finalShortPathScooter);
                         }
                     }

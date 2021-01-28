@@ -1,5 +1,10 @@
 package lapr.project.data;
 
+import lapr.project.model.*;
+import lapr.project.utils.CalculosFisica;
+import oracle.jdbc.OracleTypes;
+import oracle.ucp.util.Pair;
+
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -10,19 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import oracle.ucp.util.Pair;
-import lapr.project.model.Caminho;
-import lapr.project.model.Encomenda;
-import lapr.project.model.Endereco;
-import lapr.project.model.Entrega;
-import lapr.project.model.Estafeta;
-import lapr.project.model.Graph;
-import lapr.project.model.GraphAlgorithms;
-import lapr.project.model.Parque;
-import lapr.project.model.Veiculo;
-import lapr.project.utils.CalculosFisica;
-import oracle.jdbc.OracleTypes;
 
 /**
  * @author beatr
@@ -232,8 +224,10 @@ public class EntregaDB extends DataHandler {
 
             finalShortPath.addAll(list);
             // mandar para a 2 volta
-            getPath(graphEnergia, graphDistancia, listEnderecos, finalShortPath, endereco, energia, v,
+            energia = getPath(graphEnergia, graphDistancia, listEnderecos, finalShortPath, endereco, energia, v,
                     veiculoCapacidade);
+        }else{
+            return 0;
         }
 
         return energia;

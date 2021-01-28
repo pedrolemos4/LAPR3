@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Exemplo de classe cujas instâncias manipulam dados de BD Oracle.
@@ -32,7 +30,7 @@ public class DataHandler {
     /**
      * A ligação à BD.
      */
-    private Connection connection;
+    private static Connection connection;
 
     /**
      * A invocação de "stored procedures".
