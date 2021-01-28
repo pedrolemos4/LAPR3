@@ -92,8 +92,6 @@ public class RegistarEntregaUI {
             LinkedList<Endereco> listMinScooter = new LinkedList<>();
             LinkedList<Endereco> listMinDrone = new LinkedList<>();
 
-            LinkedList<Endereco> list = new LinkedList<>();
-
             Veiculo scooter = null;
             Veiculo drone = null;
 
@@ -113,11 +111,10 @@ public class RegistarEntregaUI {
                         if (energiaTotalGastaScooter < minScooter) {
                             minScooter = energiaTotalGastaScooter;
                             scooter = v;
-                            listMinScooter = list;
+                            listMinScooter.addAll(finalShortPathScooter);
                         }
                     }
                     finalShortPathScooter = new LinkedList<>();
-                    list = new LinkedList<>();
                 } else if ((v.getDescricao()).equalsIgnoreCase(DRONE)) {
                     boolean flag = false;
                     for (Endereco e : listEnderecos) {
@@ -136,11 +133,10 @@ public class RegistarEntregaUI {
                             if (energiaTotalGastaDrone < minDrone) {
                                 minDrone = energiaTotalGastaDrone;
                                 drone = v;
-                                listMinDrone = list;
+                                listMinDrone.addAll(finalShortPathDrone);
                             }
                         }
                         finalShortPathDrone = new LinkedList<>();
-                        list = new LinkedList<>();
                     }
                 }
             }
