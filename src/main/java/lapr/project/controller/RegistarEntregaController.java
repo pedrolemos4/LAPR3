@@ -1,32 +1,14 @@
 package lapr.project.controller;
 
+import lapr.project.data.*;
+import lapr.project.login.UserSession;
+import lapr.project.model.*;
+
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import lapr.project.data.CaminhoDB;
-import lapr.project.data.ClienteDB;
-import lapr.project.data.EmailDB;
-import lapr.project.data.EncomendaDB;
-import lapr.project.data.EnderecoDB;
-import lapr.project.data.EntregaDB;
-import lapr.project.data.EstafetaDB;
-import lapr.project.data.FarmaciaDB;
-import lapr.project.data.UtilizadorDB;
-import lapr.project.data.VeiculoDB;
-import lapr.project.login.UserSession;
-import lapr.project.model.Caminho;
-import lapr.project.model.Cliente;
-import lapr.project.model.Drone;
-import lapr.project.model.Encomenda;
-import lapr.project.model.Endereco;
-import lapr.project.model.Entrega;
-import lapr.project.model.Estafeta;
-import lapr.project.model.Farmacia;
-import lapr.project.model.Graph;
-import lapr.project.model.Utilizador;
-import lapr.project.model.Veiculo;
 
 /**
  *
@@ -207,8 +189,8 @@ public class RegistarEntregaController {
         return entregaDB.generateGraphDrone(listEnderecos,listEnderecosEncomenda, est, veiculo, atributo, pesoTotal);
     }
 
-    public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graphDistancia,List<Endereco> listEnderecos) {
-        return farmaciaDB.generateGrafo(graphDistancia, listEnderecos);
+    public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graphDistancia,List<Endereco> listEnderecos, String tipoCaminho) {
+        return farmaciaDB.generateGrafo(graphDistancia, listEnderecos, tipoCaminho);
     }
     
     /**

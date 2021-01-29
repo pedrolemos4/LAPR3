@@ -86,9 +86,9 @@ public class RegistarEntregaUI {
             LinkedList<Endereco> finalShortPathScooter = new LinkedList<>();
             LinkedList<Endereco> finalShortPathDrone = new LinkedList<>();
             Graph<Endereco, Double> graphDistanciaScooter = new Graph<>(true);
-            controller.generateGrafo(graphDistanciaScooter, listEnderecosScooter);
+            controller.generateGrafo(graphDistanciaScooter, listEnderecosScooter,"Terrestre");
             Graph<Endereco, Double> graphDistanciaDrone = new Graph<>(true);
-            controller.generateGrafo(graphDistanciaDrone, listEnderecosDrone);
+            controller.generateGrafo(graphDistanciaDrone, listEnderecosDrone,"Aerea");
 
             LinkedList<Endereco> listMinScooter = new LinkedList<>();
             LinkedList<Endereco> listMinDrone = new LinkedList<>();

@@ -3,7 +3,6 @@ package lapr.project.controller;
 import lapr.project.data.*;
 import lapr.project.login.UserSession;
 import lapr.project.model.*;
-import lapr.project.utils.CalculosFisica;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -517,7 +516,7 @@ public class RegistarEntregaControllerTest {
         String morada2 = "morada2";
         Endereco end1 = new Endereco(morada1,12,54, 5);
         Endereco end2 = new Endereco(morada2,23,45, 32);
-        Caminho expResult = new Caminho(end1, end2, 12, 32, 3);
+        Caminho expResult = new Caminho(end1, end2, 12, 32, 3,"Terrestre");
         when(caminhoDB.getCaminhoByEnderecos(morada1, morada2)).thenReturn(expResult);
         Caminho result = instance.getCaminhoByEnderecos(morada1, morada2);
         assertEquals(expResult, result);
@@ -528,8 +527,8 @@ public class RegistarEntregaControllerTest {
         System.out.println("generateGrafo");
         List<Endereco> farms = new ArrayList<>();
         Graph<Endereco, Double> expResult = new Graph<>(false);
-        when(farmaciaDB.generateGrafo(expResult, farms)).thenReturn(expResult);
-        Graph<Endereco, Double> result = instance.generateGrafo(expResult, farms);
+        when(farmaciaDB.generateGrafo(expResult, farms,"Terrestre")).thenReturn(expResult);
+        Graph<Endereco, Double> result = instance.generateGrafo(expResult, farms,"Terrestre");
         assertEquals(expResult, result);
 
     }

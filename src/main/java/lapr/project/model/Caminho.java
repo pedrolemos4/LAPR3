@@ -11,6 +11,7 @@ public class Caminho {
     private double roadResistanceCoefficient;
     private double velocidadeVento;
     private double direcaoVento;
+    private String tipo;
     
     /**
      * Constrói uma instância de Caminho recebendo o endereço de origem, o endereço de destino,
@@ -21,12 +22,13 @@ public class Caminho {
      * @param velocidadeVento velocidade do vento
      * @param direcaoVento direçao do vento
      */
-    public Caminho(Endereco end1, Endereco end2, double roadResistanceCoefficient, double velocidadeVento, double direcaoVento) {
+    public Caminho(Endereco end1, Endereco end2, double roadResistanceCoefficient, double velocidadeVento, double direcaoVento, String tipo) {
         this.end1 = end1;
         this.end2 = end2;
         this.roadResistanceCoefficient = roadResistanceCoefficient;
         this.velocidadeVento = velocidadeVento;
         this.direcaoVento = direcaoVento;
+        this.tipo = tipo;
     }
     
     /**
@@ -108,14 +110,28 @@ public class Caminho {
     public void setDirecaoVento(double direcaoVento) {
         this.direcaoVento = direcaoVento;
     }
-    
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     /**
      * Devolve a descrição textual do Caminho
      * @return descriçao textual do caminho
      */
     @Override
     public String toString() {
-        return "Caminho{" + "end1=" + end1 + ", end2=" + end2 + ", roadResistanceCoefficient=" + roadResistanceCoefficient + ", velocidadeVento=" + velocidadeVento + ", direcaoVento=" + direcaoVento + '}';
+        return "Caminho{" +
+                "end1=" + end1 +
+                ", end2=" + end2 +
+                ", roadResistanceCoefficient=" + roadResistanceCoefficient +
+                ", velocidadeVento=" + velocidadeVento +
+                ", direcaoVento=" + direcaoVento +
+                ", tipo='" + tipo + '\'' +
+                '}';
     }
-    
 }

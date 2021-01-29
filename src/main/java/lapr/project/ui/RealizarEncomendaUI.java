@@ -61,7 +61,7 @@ public class RealizarEncomendaUI {
         Endereco enderecoCliente = controller.getEnderecoByNifCliente(cliente.getClienteNIF());
 
         Graph<Endereco, Double> graph = new Graph<>(true);
-        graph = controller2.generateGrafo(graph, controller.getLstEnderecos());
+        graph = controller2.generateGrafo(graph, controller.getLstEnderecos(),"Terrestre");
 
         Farmacia farm = controller2.getFarmaciaProxima(graph, enderecoCliente, new ArrayList<>());
         int nif = farm.getNIF();

@@ -108,7 +108,8 @@ public class EntregaDB extends DataHandler {
 
         for (Endereco e : graph.vertices()) {
             for (Endereco end : graph.vertices()) {
-                if (caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada()) != null) {
+                Caminho caminho = caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada());
+                if (caminho != null && (caminho.getTipo().equals("Terrestre") || caminho.getTipo().equals("Ambos"))) {
                     energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(),
                             veiculo.getAreaFrontal(), pesoTotalEntrega, end, e,
                             caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada())
@@ -149,7 +150,8 @@ public class EntregaDB extends DataHandler {
 
         for (Endereco e : graph.vertices()) {
             for (Endereco endereco : graph.vertices()) {
-                if (caminhoDB.getCaminhoByEnderecos(endereco.getMorada(), e.getMorada()) != null) {
+                Caminho caminho = caminhoDB.getCaminhoByEnderecos(endereco.getMorada(), e.getMorada());
+                if (caminho != null && (caminho.getTipo().equals("Aerea") || caminho.getTipo().equals("Ambos"))) {
                     energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), atributo,
                             veiculo.getAreaFrontal(), pesoTotalEntrega, endereco, e,
                             caminhoDB.getCaminhoByEnderecos(endereco.getMorada(), e.getMorada()).getDirecaoVento(),

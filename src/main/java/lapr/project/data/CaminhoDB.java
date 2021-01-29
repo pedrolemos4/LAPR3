@@ -45,11 +45,12 @@ public class CaminhoDB extends DataHandler {
                     Double roadResistanceCoefficient = rSet.getDouble(3);
                     Double velocidadeVento = rSet.getDouble(4);
                     Double direcaoVento = rSet.getDouble(5);
+                    String tipo = rSet.getString(6);
 
                     Endereco end1 = end.getEnderecoByMorada(morada3);
                     Endereco end2 = end.getEnderecoByMorada(morada4);
 
-                    return new Caminho(end1, end2, roadResistanceCoefficient, velocidadeVento, direcaoVento);
+                    return new Caminho(end1, end2, roadResistanceCoefficient, velocidadeVento, direcaoVento,tipo);
                 }
             }
         } catch (SQLException e) {

@@ -246,7 +246,7 @@ public class FarmaciaDB extends DataHandler {
      * @param graph
      * @return grafo
      */
-    public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graph, List<Endereco> lst) {
+    public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graph, List<Endereco> lst, String tipoCaminho) {
 
         for (Endereco endereco : lst) {
             graph.insertVertex(endereco);
@@ -254,7 +254,8 @@ public class FarmaciaDB extends DataHandler {
 
         for (Endereco e1 : graph.vertices()) {
             for (Endereco e : graph.vertices()) {
-                if (cam.getCaminhoByEnderecos(e.getMorada(), e1.getMorada()) != null) {
+                Caminho caminho = cam.getCaminhoByEnderecos(e.getMorada(), e1.getMorada());
+                if (caminho != null && (caminho.getTipo().equals(tipoCaminho) || caminho.getTipo().equals("Ambos"))) {
                     graph.insertEdge(e, e1, 1.0, CalculosFisica.calculoDistancia(e.getLatitude(), e.getLongitude(),
                             e.getAltitude(), e1.getLatitude(), e1.getLongitude(), e1.getAltitude()));
                 }
