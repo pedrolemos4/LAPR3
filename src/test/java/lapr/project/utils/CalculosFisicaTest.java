@@ -405,6 +405,48 @@ public class CalculosFisicaTest {
     }
 
     /**
+     * Test of calculoHeadWindDrone method, of class CalculosFisica.
+     */
+    @Test
+    public void testCalculoHeadWindDrone1() {
+        System.out.println("calculoHeadWindDrone1");
+        double velocidadeVento = 9.0;
+        double direcaoVento = -1.0;
+        double expResult = 9.0;
+        double result = CalculosFisica.calculoHeadWindDrone(velocidadeVento, direcaoVento);
+        assertEquals(expResult, result, 0.0);
+
+    }
+
+    /**
+     * Test of calculoHeadWindDrone method, of class CalculosFisica.
+     */
+    @Test
+    public void testCalculoHeadWindDrone2() {
+        System.out.println("calculoHeadWindDrone2");
+        double velocidadeVento = 9.0;
+        double direcaoVento = 185.0;
+        double expResult = 9.0;
+        double result = CalculosFisica.calculoHeadWindDrone(velocidadeVento, direcaoVento);
+        assertEquals(expResult, result, 0.0);
+
+    }
+
+    /**
+     * Test of calculoHeadWindDrone method, of class CalculosFisica.
+     */
+    @Test
+    public void testCalculoHeadWindDrone3() {
+        System.out.println("calculoHeadWindDrone3");
+        double velocidadeVento = 9.0;
+        double direcaoVento = 0.0;
+        double expResult = 9.0;
+        double result = CalculosFisica.calculoHeadWindDrone(velocidadeVento, direcaoVento);
+        assertEquals(expResult, result, 0.0);
+
+    }
+
+    /**
      * Test of getDistanciaQueDronePodePercorrer method, of class CalculosFisica.
      */
     @Test

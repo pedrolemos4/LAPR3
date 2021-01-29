@@ -319,9 +319,6 @@ public class RegistarEntregaControllerTest {
         listEnderecos.add(e2);
         Endereco e3 = new Endereco("rrs", 34, 111, 34);
         listEnderecos.add(e3);
-        graph.insertVertex(e3);
-        graph.insertVertex(e2);
-        graph.insertVertex(e1);
         graph.insertEdge(e1, e2, 1.0, 34);
         graph.insertEdge(e2, e3, 1.0, 12);
         graph.insertEdge(e1, e3, 1.0, 23);
@@ -332,11 +329,6 @@ public class RegistarEntregaControllerTest {
         when(enderecoDB.getLstEnderecos()).thenReturn(listEnderecos);
         Farmacia f = new Farmacia(122365784,"farmacia@gmail.com", "morada");
         when(farmaciaDB.getFarmaciaByEndereco(f.getMorada())).thenReturn(f);
-        ArrayList<Endereco> list = new ArrayList<>();
-        list.add(e1);
-        list.add(e2);
-        list.add(e3);
-        finalShortPath.addAll(list.subList(1,list.size()));
         Endereco origem = e1;
         double energia = 0.0;
         double expResult = 0.0;

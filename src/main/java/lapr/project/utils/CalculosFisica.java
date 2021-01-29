@@ -277,9 +277,7 @@ public class CalculosFisica {
      * @return calculo da velocidade
      */
     public static double calculoHeadWindDrone(double velocidadeVento, double direcaoVento) {
-        if (direcaoVento == 90) {
-            return 0;
-        } else if (direcaoVento < 180 && direcaoVento > 0) {
+       if (direcaoVento < 180 && direcaoVento > 0) {
             return velocidadeVento * Math.cos(Math.toRadians(direcaoVento));
         } else {
             return velocidadeVento;

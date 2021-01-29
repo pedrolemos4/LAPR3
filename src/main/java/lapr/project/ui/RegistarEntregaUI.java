@@ -93,8 +93,8 @@ public class RegistarEntregaUI {
             LinkedList<Endereco> listMinScooter = new LinkedList<>();
             LinkedList<Endereco> listMinDrone = new LinkedList<>();
 
-            Veiculo scooter = null;
-            Veiculo drone = null;
+            Veiculo scooter = new Veiculo();
+            Veiculo drone = new Veiculo();
 
             Graph<Endereco, Double> graphScooter = new Graph<>(true);
             Graph<Endereco, Double> graphDrone = new Graph<>(true);
