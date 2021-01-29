@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,13 +84,13 @@ public class VeiculoDB extends DataHandler {
     }
 
     private boolean validaDrone(Drone drone) {
-        return !(drone.getLargura() < 0);
+        return !(drone.getHoverPower() < 0);
     }
 
     public void addDrone(Drone drone) throws SQLException {
         try (CallableStatement callStmt = getConnection().prepareCall("{ call addDrone(?,?) }")) {
             callStmt.setInt(1, drone.getId());
-            callStmt.setDouble(2, drone.getLargura());
+            callStmt.setDouble(2, drone.getHoverPower());
             callStmt.execute();
         } catch (SQLException e) {
             Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
@@ -117,7 +118,6 @@ public class VeiculoDB extends DataHandler {
     public void addScooter(Scooter scooter) throws SQLException {
         try (CallableStatement callStmt = getConnection().prepareCall("{ call addScooter(?) }")) {
             callStmt.setInt(1, scooter.getId());
-            // callStmt.setDouble(2, scooter.getAreaFrontal());
             callStmt.execute();
         } catch (SQLException e) {
             Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
@@ -165,7 +165,7 @@ public class VeiculoDB extends DataHandler {
             }
         } catch (SQLException e) {
             Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
-            return null;
+            return Collections.emptyList();
         } finally {
             closeAll();
         }
@@ -203,7 +203,7 @@ public class VeiculoDB extends DataHandler {
             }
         } catch (SQLException e) {
             Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
-            return null;
+            return Collections.emptyList();
         } finally {
             closeAll();
         }

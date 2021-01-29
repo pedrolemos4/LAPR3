@@ -34,7 +34,7 @@ public class AdicionarParqueUI {
     /**
      * Interface responsável por adicionar parques
      */
-    public void AdicionaParque() {
+    public void adicionaParque() {
         System.out.println("Lista de Farmácias:");
         List<Farmacia> lf = controller.getListaFarmacias();
 

@@ -38,16 +38,17 @@ public class CalculosFisicaTest {
     @Test
     public void testCalculoEnergiaDrone() {
         System.out.println("calculoEnergiaDrone");
-        double pesoVeiculo = 23.0;
-        double potencia = 23.0;
-        double powerPro = 0.5;
+        double pesoVeiculo = 3.3;
+        double areaFrontal = 3.0;
+        double hoverPower = 1000;
         double pesoEncomenda = 5.0;
         Endereco end1 = new Endereco("vfve", 41.149742, 8.646549, 20);
         Endereco end2 = new Endereco("tg", 41.150171, 8.645606, 47);
-        double velocidadeVento = 12.0;
-        double direcaoVento = 15.0;
-        double expResult = 63461.78675174951;
-        double result = CalculosFisica.calculoEnergiaDrone(pesoVeiculo, powerPro, potencia, pesoEncomenda, end1, end2, direcaoVento, velocidadeVento);
+        double velocidadeVento = 9.0;
+        double direcaoVento = 30.0;
+        double expResult = 2.895310462861433E9;
+        double result = CalculosFisica.calculoEnergiaDrone(pesoVeiculo, hoverPower, areaFrontal, pesoEncomenda, end1, end2, direcaoVento, velocidadeVento);
+        System.out.println(result);
         assertEquals(expResult, result, 0.0);
 
     }
@@ -56,13 +57,13 @@ public class CalculosFisicaTest {
      * Test of calculoTempo method, of class CalculosFisica.
      */
     @Test
-    public void testCalculoTempo() {
-        System.out.println("calculoTempo");
+    public void testCalculoTempoScooter() {
+        System.out.println("calculoTempoScooter");
         double distancia = 48.0;
         double velocidadeVento = 12.0;
         double direcaoVento = 15.0;
         double expResult = 24.379217700936035;
-        double result = CalculosFisica.calculoTempo(distancia, velocidadeVento, direcaoVento);
+        double result = CalculosFisica.calculoTempoScooter(distancia, velocidadeVento, direcaoVento);
         assertEquals(expResult, result, 0.0);
 
     }
@@ -157,7 +158,7 @@ public class CalculosFisicaTest {
         double velocidadeVento = 12.0;
         double direcaoVento = 15.0;
         double expResult = 16.103660093849353;
-        double result = CalculosFisica.calculoAerodynamicDragForce(areaFrontal, velocidadeVento, direcaoVento,2);
+        double result = CalculosFisica.calculoAerodynamicDragForce(areaFrontal, velocidadeVento, direcaoVento);
         assertEquals(expResult, result, 0.0);
 
     }
@@ -181,87 +182,165 @@ public class CalculosFisicaTest {
     }
 
     /**
-     * Test of calculoVelocidade method, of class CalculosFisica.
+     * Test of calculoVelocidadeScooter method, of class CalculosFisica.
      */
     @Test
-    public void testCalculoVelocidade() {
-        System.out.println("calculoVelocidade");
+    public void testCalculoVelocidadeScooter() {
+        System.out.println("calculoVelocidadeScooter");
         double velocidadeVento = 12.0;
         double direcaoVento = 15.0;
         double expResult = 1.9688900845311803;
-        double result = CalculosFisica.calculoVelocidade(velocidadeVento, direcaoVento);
+        double result = CalculosFisica.calculoVelocidadeScooter(velocidadeVento, direcaoVento);
         assertEquals(expResult, result, 0.0);
 
+    }
+
+    /**
+     * Test of calculoVelocidadeDrone method, of class CalculosFisica.
+     */
+    @Test
+    public void calculoVelocidadeDrone() {
+        System.out.println("calculoVelocidadeDrone");
+        double velocidadeVento = 12.0;
+        double direcaoVento = 15.0;
+        double expResult = 46.00889008453118;
+        double result = CalculosFisica.calculoVelocidadeDrone(velocidadeVento, direcaoVento);
+        assertEquals(expResult, result, 0.0);
     }
     
     /**
      * Test of calculoVelocidade method, of class CalculosFisica.
      */
     @Test
-    public void testCalculoVelocidade1() {
-        System.out.println("calculoVelocidade1");
+    public void testCalculoVelocidadeScooter1() {
+        System.out.println("calculoVelocidadeScooter1");
         double velocidadeVento = 12.0;
         double direcaoVento = 90.0;
         double expResult = 1.5600000000000005;
-        double result = CalculosFisica.calculoVelocidade(velocidadeVento, direcaoVento);        
+        double result = CalculosFisica.calculoVelocidadeScooter(velocidadeVento, direcaoVento);
         assertEquals(expResult, result, 0.0);
 
+    }
+
+    /**
+     * Test of calculoVelocidadeDrone method, of class CalculosFisica.
+     */
+    @Test
+    public void calculoVelocidadeDrone1() {
+        System.out.println("calculoVelocidadeDrone1");
+        double velocidadeVento = 12.0;
+        double direcaoVento = 90.0;
+        double expResult = 45.6;
+        double result = CalculosFisica.calculoVelocidadeDrone(velocidadeVento, direcaoVento);
+        assertEquals(expResult, result, 0.0);
     }
     
     /**
      * Test of calculoVelocidade method, of class CalculosFisica.
      */
     @Test
-    public void testCalculoVelocidade2() {
-        System.out.println("calculoVelocidade2");
+    public void testCalculoVelocidadeScooter2() {
+        System.out.println("calculoVelocidadeScooter2");
         double velocidadeVento = 12.0;
         double direcaoVento = 185.0;
         double expResult = 13.56;
-        double result = CalculosFisica.calculoVelocidade(velocidadeVento, direcaoVento); 
+        double result = CalculosFisica.calculoVelocidadeScooter(velocidadeVento, direcaoVento);
         assertEquals(expResult, result, 0.0);
 
+    }
+
+    /**
+     * Test of calculoVelocidadeDrone method, of class CalculosFisica.
+     */
+    @Test
+    public void calculoVelocidadeDrone2() {
+        System.out.println("calculoVelocidadeDrone2");
+        double velocidadeVento = 12.0;
+        double direcaoVento = 185.0;
+        double expResult = 57.6;
+        double result = CalculosFisica.calculoVelocidadeDrone(velocidadeVento, direcaoVento);
+        assertEquals(expResult, result, 0.0);
     }
     
     /**
      * Test of calculoVelocidade method, of class CalculosFisica.
      */
     @Test
-    public void testCalculoVelocidade3() {
-        System.out.println("calculoVelocidade3");
+    public void testCalculoVelocidadeScooter3() {
+        System.out.println("calculoVelocidadeScooter3");
         double velocidadeVento = 12.0;
         double direcaoVento = -1.0;
         double expResult = 13.56;
-        double result = CalculosFisica.calculoVelocidade(velocidadeVento, direcaoVento); 
+        double result = CalculosFisica.calculoVelocidadeScooter(velocidadeVento, direcaoVento);
         assertEquals(expResult, result, 0.0);
 
+    }
+
+    /**
+     * Test of calculoVelocidadeDrone method, of class CalculosFisica.
+     */
+    @Test
+    public void calculoVelocidadeDrone3() {
+        System.out.println("calculoVelocidadeDrone3");
+        double velocidadeVento = 12.0;
+        double direcaoVento = -1.0;
+        double expResult = 57.6;
+        double result = CalculosFisica.calculoVelocidadeDrone(velocidadeVento, direcaoVento);
+        assertEquals(expResult, result, 0.0);
     }
     
     /**
      * Test of calculoVelocidade method, of class CalculosFisica.
      */
     @Test
-    public void testCalculoVelocidade4() {
-        System.out.println("calculoVelocidade4");
+    public void testCalculoVelocidadeScooter4() {
+        System.out.println("calculoVelocidadeScooter4");
         double velocidadeVento = 12.0;
         double direcaoVento = 180.0;
         double expResult = 13.56;
-        double result = CalculosFisica.calculoVelocidade(velocidadeVento, direcaoVento); 
+        double result = CalculosFisica.calculoVelocidadeScooter(velocidadeVento, direcaoVento);
         assertEquals(expResult, result, 0.0);
 
+    }
+    
+    /**
+     * Test of calculoVelocidadeDrone method, of class CalculosFisica.
+     */
+    @Test
+    public void calculoVelocidadeDrone4() {
+        System.out.println("calculoVelocidadeDrone4");
+        double velocidadeVento = 12.0;
+        double direcaoVento = 180.0;
+        double expResult = 57.6;
+        double result = CalculosFisica.calculoVelocidadeDrone(velocidadeVento, direcaoVento);
+        assertEquals(expResult, result, 0.0);
     }
     
     /**
      * Test of calculoVelocidade method, of class CalculosFisica.
      */
     @Test
-    public void testCalculoVelocidade5() {
+    public void testCalculoVelocidadeScooterScooter5() {
         System.out.println("calculoVelocidade5");
         double velocidadeVento = 12.0;
         double direcaoVento = 0.0;
         double expResult = 13.56;
-        double result = CalculosFisica.calculoVelocidade(velocidadeVento, direcaoVento); 
+        double result = CalculosFisica.calculoVelocidadeScooter(velocidadeVento, direcaoVento);
         assertEquals(expResult, result, 0.0);
 
+    }
+
+    /**
+     * Test of calculoVelocidadeDrone method, of class CalculosFisica.
+     */
+    @Test
+    public void calculoVelocidadeDrone5() {
+        System.out.println("calculoVelocidadeDrone5");
+        double velocidadeVento = 12.0;
+        double direcaoVento = 0.0;
+        double expResult = 57.6;
+        double result = CalculosFisica.calculoVelocidadeDrone(velocidadeVento, direcaoVento);
+        assertEquals(expResult, result, 0.0);
     }
 
     /**
@@ -274,9 +353,69 @@ public class CalculosFisicaTest {
         double percentagemBateria = 100.0;
         double potencia = 250.0;
         double expResult = 47839.68;
-        double result = CalculosFisica.getDistanciaQuePodePercorrer(capacidade, percentagemBateria, potencia);
+        double result = CalculosFisica.getDistanciaQueScooterPodePercorrer(capacidade, percentagemBateria, potencia);
         assertEquals(expResult, result, 0.0);
 
     }
-    
+
+    /**
+     * Test of calculoTempoDrone method, of class CalculosFisica.
+     */
+    @Test
+    public void calculoTempoDrone() {
+        System.out.println("calculoTempoDrone");
+        double distancia = 48.0;
+        double velocidadeVento = 12.0;
+        double direcaoVento = 15.0;
+        double expResult = 1.0432766344028424;
+        double result = CalculosFisica.calculoTempoDrone(distancia, velocidadeVento, direcaoVento);
+        System.out.println(result);
+        assertEquals(expResult, result, 0.0);
+    }
+
+    /**
+     * Test of calculoSubidaDescida method, of class CalculosFisica.
+     */
+    @Test
+    public void testCalculoSubidaDescida() {
+        System.out.println("calculoSubidaDescida");
+        double pesoVeiculo = 3.3;
+        double pesoTotalEntrega = 5.0;
+        double areaFrontal = 1.0;
+        double expResult = 23636.326496798683;
+        double result = CalculosFisica.calculoSubidaDescida(pesoVeiculo, pesoTotalEntrega, areaFrontal);
+        assertEquals(expResult, result, 0.0);
+
+    }
+
+
+
+    /**
+     * Test of calculoHeadWindDrone method, of class CalculosFisica.
+     */
+    @Test
+    public void testCalculoHeadWindDrone() {
+        System.out.println("calculoHeadWindDrone");
+        double velocidadeVento = 9.0;
+        double direcaoVento = 15.0;
+        double expResult = 8.693332436601615;
+        double result = CalculosFisica.calculoHeadWindDrone(velocidadeVento, direcaoVento);
+        assertEquals(expResult, result, 0.0);
+
+    }
+
+    /**
+     * Test of getDistanciaQueDronePodePercorrer method, of class CalculosFisica.
+     */
+    @Test
+    public void getDistanciaQueDronePodePercorrer() {
+        System.out.println("getDistanciaQuePodePercorrer");
+        double capacidade = 350.0;
+        double percentagemBateria = 100.0;
+        double potencia = 250.0;
+        double expResult = 56448.0;
+        double result = CalculosFisica.getDistanciaQueDronePodePercorrer(capacidade, percentagemBateria, potencia);
+        assertEquals(expResult, result, 0.0);
+
+    }
 }

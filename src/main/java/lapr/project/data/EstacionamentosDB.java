@@ -11,6 +11,7 @@ import lapr.project.model.Veiculo;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -116,7 +117,7 @@ public class EstacionamentosDB extends DataHandler {
             }
         } catch (SQLException e) {
             Logger.getLogger(EstacionamentosDB.class.getName()).log(Level.WARNING, e.getMessage());
-            return null;
+            return Collections.emptyList();
         } finally {
             closeAll();
         }

@@ -233,7 +233,7 @@ public class VeiculoControllerTest {
         expResult.setId(1);
         VeiculoController vC = new VeiculoController(new VeiculoDB());
         assertEquals(expResult.toString(), vC.novoDrone(ve, expResult.getId(),
-                expResult.getLargura()).toString());
+                expResult.getHoverPower()).toString());
     }
 
     /**

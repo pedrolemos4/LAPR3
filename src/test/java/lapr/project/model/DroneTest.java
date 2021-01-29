@@ -21,14 +21,14 @@ public class DroneTest {
     }
 
     /**
-     * Test of getPowerPro method, of class Drone.
+     * Test of getHoverPower method, of class Drone.
      */
     @Test
-    public void testGetPowerPro() {
-        System.out.println("getPowerPro");
+    public void testGetHoverPower() {
+        System.out.println("getHoverPower");
         Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1,5);
         double expResult = 50.0;
-        double result = instance.getLargura();
+        double result = instance.getHoverPower();
         assertEquals(expResult, result, 0.0);
     }
 
@@ -36,12 +36,12 @@ public class DroneTest {
      * Test of setPowerPro method, of class Drone.
      */
     @Test
-    public void testSetPowerPro() {
-        System.out.println("setPowerPro");
+    public void testSetHoverPro() {
+        System.out.println("setHoverPro");
         double powerPro = 30.0;
         Drone instance = new Drone("descricao", 100, 85, 50, 30, 40, 1, 50, 1,5);
-        instance.setLargura(powerPro);
-        assertEquals(powerPro, instance.getLargura());
+        instance.setHoverPower(powerPro);
+        assertEquals(powerPro, instance.getHoverPower());
     }
 
     /**
@@ -62,7 +62,7 @@ public class DroneTest {
                 + "\nPotência= \t" + instance.getPotencia()
                 +"\nEstado: \t" + instance.getEstadoVeiculo().getDesignacao()
                 +"\nArea Frontal: \t" + instance.getAreaFrontal()
-                + "\nLargura: \t" + instance.getLargura();
+                + "\nLargura: \t" + instance.getHoverPower();
         assertEquals(expResult, instance.toString());
     }
 

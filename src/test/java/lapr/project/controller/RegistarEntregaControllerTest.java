@@ -304,42 +304,48 @@ public class RegistarEntregaControllerTest {
 
     }
 
-//    /**
-//     * Test of getPath method, of class RegistarEntregaController.
-//     */
-//    @Test
-//    public void testGetPath() {
-//        System.out.println("getPath");
-//        Graph<Endereco, Double> graph = new Graph<>(true) ;
-//        ArrayList<Endereco> listEnderecos = new ArrayList<>();
-//        Endereco e1 = new Endereco("dfad", 23, 34, 1);
-//        listEnderecos.add(e1);
-//        Endereco e2 = new Endereco("hte", 3, 5, 2);
-//        listEnderecos.add(e2);
-//        Endereco e3 = new Endereco("rrs", 34, 111, 34);
-//        listEnderecos.add(e3);
-//        graph.insertVertex(e3);
-//        graph.insertVertex(e2);
-//        graph.insertVertex(e1);
-//        graph.insertEdge(e1, e2, 1.0, 34);
-//        graph.insertEdge(e2, e3, 1.0, 12);
-//        graph.insertEdge(e1, e3, 1.0, 23);
-//        LinkedList<Endereco> finalShortPath = new LinkedList<>();
-//        ArrayList<Endereco> list = new ArrayList<>();
-//        list.add(e1);
-//        list.add(e2);
-//        list.add(e3);
-//        finalShortPath.addAll(list.subList(1,list.size()));
-//        Endereco origem = e1;
-//        double energia = 48.0;
-//        double expResult = 48.0;
-//        Veiculo veiculo = new Veiculo(1, "scooter", 34, 12, 34, 45, 75, 54,23);
-//        double distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(veiculo.getCapacidade(),veiculo.getPercentagemBateria(), veiculo.getPotencia());
-//        RegistarEntregaController teste = new RegistarEntregaController(new UtilizadorDB(), new FarmaciaDB(), new EstafetaDB(), new EntregaDB(), new EncomendaDB(), new VeiculoDB(), new EnderecoDB(), new EmailDB(), new ClienteDB(), new CaminhoDB());
-//        double result = teste.getPath(graph, listEnderecos, finalShortPath, origem, energia, veiculo, distanciaVeiculo);
-//        assertEquals(expResult, result, 0.0);
-//
-//    }
+    /**
+     * Test of getPath method, of class RegistarEntregaController.
+     */
+    @Test
+    public void testGetPath() {
+        System.out.println("getPath");
+        Graph<Endereco, Double> graph = new Graph<>(true) ;
+        Graph<Endereco, Double> graphDistancia = new Graph<>(true) ;
+        ArrayList<Endereco> listEnderecos = new ArrayList<>();
+        Endereco e1 = new Endereco("dfad", 23, 34, 1);
+        listEnderecos.add(e1);
+        Endereco e2 = new Endereco("hte", 3, 5, 2);
+        listEnderecos.add(e2);
+        Endereco e3 = new Endereco("rrs", 34, 111, 34);
+        listEnderecos.add(e3);
+        graph.insertVertex(e3);
+        graph.insertVertex(e2);
+        graph.insertVertex(e1);
+        graph.insertEdge(e1, e2, 1.0, 34);
+        graph.insertEdge(e2, e3, 1.0, 12);
+        graph.insertEdge(e1, e3, 1.0, 23);
+        graphDistancia.insertEdge(e1,e2,1.0,13);
+        graphDistancia.insertEdge(e2,e3,1.0,16);
+        graphDistancia.insertEdge(e1,e3,1.0,23);
+        LinkedList<Endereco> finalShortPath = new LinkedList<>();
+        when(enderecoDB.getLstEnderecos()).thenReturn(listEnderecos);
+        Farmacia f = new Farmacia(122365784,"farmacia@gmail.com", "morada");
+        when(farmaciaDB.getFarmaciaByEndereco(f.getMorada())).thenReturn(f);
+        ArrayList<Endereco> list = new ArrayList<>();
+        list.add(e1);
+        list.add(e2);
+        list.add(e3);
+        finalShortPath.addAll(list.subList(1,list.size()));
+        Endereco origem = e1;
+        double energia = 0.0;
+        double expResult = 0.0;
+        Veiculo veiculo = new Veiculo(1, "scooter", 34, 12, 34, 45, 75, 54,23);
+        double distanciaVeiculo = 100;
+        double result = instance.getPath(graph, graphDistancia, listEnderecos, finalShortPath, origem, energia, veiculo, distanciaVeiculo);
+        assertEquals(expResult, result, 0.0);
+
+    }
 
     /**
      * Test of getFarmaciaByNif method, of class RegistarEntregaController.

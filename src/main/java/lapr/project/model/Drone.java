@@ -12,7 +12,7 @@ package lapr.project.model;
 public class Drone extends Veiculo {
 
     private int id;
-    private double largura;
+    private double hoverPower;
 
     /**
      * Construtor completo
@@ -24,38 +24,38 @@ public class Drone extends Veiculo {
      * @param pesoVeiculo
      * @param potencia
      * @param estado
-     * @param largura
+     * @param hoverPower
      * @param id
      */
     public Drone(String descricao, int capacidade, double percentagemBateria,
             double pesoMaximo, double pesoVeiculo, double potencia, int estado,
-            double largura, int id, double areaFrontal) {
+            double hoverPower, int id, double areaFrontal) {
         super(descricao, capacidade, percentagemBateria, pesoMaximo, pesoVeiculo,
                 potencia, estado, areaFrontal);
         this.id = id;
-        this.largura = largura;
+        this.hoverPower = hoverPower;
     }
 
     /**
      * Construtor que recebe uma instância de veículo,o id e a powerpro
      * @param ve
      * @param id
-     * @param largura
+     * @param hoverPower
      */
-    public Drone(Veiculo ve, int id, double largura) {
+    public Drone(Veiculo ve, int id, double hoverPower) {
         super(ve);
         this.id = id;
-        this.largura = largura;
+        this.hoverPower = hoverPower;
     }
     
     /**
      * Controi uma instância Drone com o id e a power pro
      * @param id
-     * @param largura
+     * @param hoverPower
      */
-    public Drone(int id, double largura){
+    public Drone(int id, double hoverPower){
         this.id = id;
-        this.largura = largura;
+        this.hoverPower = hoverPower;
     }
 
     /**
@@ -72,8 +72,8 @@ public class Drone extends Veiculo {
      *
      * @return
      */
-    public double getLargura() {
-        return largura;
+    public double getHoverPower() {
+        return hoverPower;
     }
 
     /**
@@ -81,8 +81,8 @@ public class Drone extends Veiculo {
      *
      * @param largura
      */
-    public void setLargura(double largura) {
-        this.largura = largura;
+    public void setHoverPower(double hoverPower) {
+        this.hoverPower = hoverPower;
     }
 
     /**
@@ -93,6 +93,6 @@ public class Drone extends Veiculo {
     @Override
     public String toString() {
         return super.toString()
-                + "\nLargura: \t" + largura;
+                + "\nLargura: \t" + hoverPower;
     }
 }

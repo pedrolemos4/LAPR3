@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,7 +24,6 @@ import java.util.logging.Logger;
  */
 public class FarmaciaDB extends DataHandler {
 
-    private final EnderecoDB end = new EnderecoDB();
     private final CaminhoDB cam = new CaminhoDB();
 
     /**
@@ -116,7 +116,7 @@ public class FarmaciaDB extends DataHandler {
             return list;
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
-            return null;
+            return Collections.emptyList();
         } finally {
             closeAll();
         }
@@ -176,7 +176,7 @@ public class FarmaciaDB extends DataHandler {
             }
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
-            return null;
+            return Collections.emptyList();
         } finally {
             closeAll();
         }
@@ -188,7 +188,7 @@ public class FarmaciaDB extends DataHandler {
      * @param p produto
      * @return lista de farmácias
      */
-    public ArrayList<Farmacia> getLstFarmaciasByProduto(Produto p) {
+    public List<Farmacia> getLstFarmaciasByProduto(Produto p) {
         ArrayList<Farmacia> list = new ArrayList<>();
         String query = "SELECT * FROM farmacia f INNER JOIN stockfarmacia s ON s.farmacianif = f.nif "
                 + "INNER JOIN produto p ON s.produtoidproduto = p.idProduto AND p.idProduto =" + p.getId();
@@ -205,7 +205,7 @@ public class FarmaciaDB extends DataHandler {
             }
         } catch (SQLException e) {
             Logger.getLogger(FarmaciaDB.class.getName()).log(Level.WARNING, e.getMessage());
-            return null;
+            return Collections.emptyList();
         } finally {
             closeAll();
         }

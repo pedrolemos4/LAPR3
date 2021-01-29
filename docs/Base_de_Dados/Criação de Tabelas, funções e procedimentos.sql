@@ -67,7 +67,7 @@ CREATE TABLE "LAPR3_G23".veiculo
 
 CREATE TABLE "LAPR3_G23".drone
 (           idDrone number(10),
-            largura number(5,2),
+            hoverPower number(5,2),
             PRIMARY KEY (idDrone)
 );
 /
@@ -712,10 +712,10 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE updateDrone(p_id "LAPR3_G23".drone.idDrone%type,p_largura "LAPR3_G23".drone.largura%type) 
+CREATE OR REPLACE PROCEDURE updateDrone(p_id "LAPR3_G23".drone.idDrone%type,p_hoverPower "LAPR3_G23".drone.hoverPower%type)
 AS
 BEGIN
-  UPDATE "LAPR3_G23".drone SET "LAPR3_G23".drone.largura = p_largura
+  UPDATE "LAPR3_G23".drone SET "LAPR3_G23".drone.hoverPower = p_hoverPower
  WHERE "LAPR3_G23".drone.idDrone = p_id;
 END;
 /
@@ -776,10 +776,10 @@ BEGIN
 END;
 /
 
-create or replace PROCEDURE addDrone (idDrone "LAPR3_G23".drone.idDrone%type, largura "LAPR3_G23".drone.largura%type)
+create or replace PROCEDURE addDrone (idDrone "LAPR3_G23".drone.idDrone%type, hoverPower "LAPR3_G23".drone.hoverPower%type)
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".drone VALUES (idDrone,largura);
+  INSERT INTO "LAPR3_G23".drone VALUES (idDrone,hoverPower);
 END;
 /
 

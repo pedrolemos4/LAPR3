@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,36 +30,6 @@ public class CaminhoDB extends DataHandler {
             callStmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            closeAll();
-        }
-    }
-
-    public List<Caminho> getAllCaminhos() {
-        String query = "SELECT * FROM caminho";
-        ArrayList<Caminho> list = new ArrayList<>();
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
-
-                while (rSet.next()) {
-                    String morada1 = rSet.getString(1);
-                    String morada2 = rSet.getString(2);
-                    Double roadResistanceCoefficient = rSet.getDouble(3);
-                    Double velocidadeVento = rSet.getDouble(4);
-                    Double direcaoVento = rSet.getDouble(5);
-
-                    Endereco end1 = end.getEnderecoByMorada(morada1);
-                    Endereco end2 = end.getEnderecoByMorada(morada2);
-
-                    Caminho e = new Caminho(end1, end2, roadResistanceCoefficient, velocidadeVento, direcaoVento);
-                    list.add(e);
-                }
-                return list;
-            }
-
-        } catch (SQLException e) {
-            Logger.getLogger(CaminhoDB.class.getName()).log(Level.WARNING, e.getMessage());
-            return null;
         } finally {
             closeAll();
         }

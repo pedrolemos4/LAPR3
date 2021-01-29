@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,7 +45,7 @@ public class EstafetaDB extends DataHandler {
             }
         } catch (SQLException e) {
             Logger.getLogger(EstafetaDB.class.getName()).log(Level.WARNING, e.getMessage());
-            return null;
+            return Collections.emptyList();
         } finally {
             closeAll();
         }
@@ -150,7 +151,6 @@ public class EstafetaDB extends DataHandler {
      * @param peso           peso do estafeta
      */
     private void atualizarEstafeta(int nif, int estadoEstafeta, double peso) {
-
         try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarEstafeta(?,?,?) }")) {
 
             callStmt.setInt(1, nif);
@@ -176,10 +176,6 @@ public class EstafetaDB extends DataHandler {
      * @param password              password do utilizador
      */
     private void atualizarUtilizador(int nif, String nome, String email, int numeroSegurancaSocial, String password) {
-        System.out.println(nif);
-        System.out.println(nome);
-        System.out.println(numeroSegurancaSocial);
-        System.out.println(password);
         try (CallableStatement callStmt = getConnection().prepareCall("{ call atualizarUtilizador(?,?,?,?,?) }")) {
 
             callStmt.setInt(1, nif);

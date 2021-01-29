@@ -137,10 +137,10 @@ public class AdminUI {
         System.out.println("Insira a área frontal do seu veículo: ");
         double areaFrontal = LER.nextDouble();
 
-        double largura = 0.0;
+        double hoverpower = 0.0;
         if (descricao.equalsIgnoreCase("drone")) {
-            System.out.println("Insira a largura do veículo");
-            largura = LER.nextDouble();
+            System.out.println("Insira a potencia que o veiculo precisa para levantar voo");
+            hoverpower = LER.nextDouble();
             System.out.println("Descrição:\t" + descricao
                     + "\nEstado:\t" + estado
                     + "\nCapacidade de Bateria:\t" + capacidade
@@ -148,7 +148,7 @@ public class AdminUI {
                     + "\nPeso:\t" + peso
                     + "\nPeso máximo:\t" + pesoMaximo
                     + "\nPotencia:\t" + potencia
-                    + "\nLargura:\t" + largura);
+                    + "\nLargura:\t" + hoverpower);
 
             System.out.println("\nConfirme a informação relativa ao veículo(S/N)");
             LER.nextLine();
@@ -159,9 +159,9 @@ public class AdminUI {
                 VeiculoController sc = new VeiculoController(new VeiculoDB());
                 try {
                     Veiculo ve = sc.addVeiculo(descricao, capacidade, percentagemBateria, peso, pesoMaximo, potencia, idestado, areaFrontal);
-                    Drone dr = sc.novoDrone(ve, ve.getId(), largura);
+                    Drone dr = sc.novoDrone(ve, ve.getId(), hoverpower);
                     sc.registaDrone(dr);
-                    System.out.println("\n\nVeículo adicionado com sucesso'");
+                    System.out.println("\n\nVeículo adicionado com sucesso");
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -234,7 +234,7 @@ public class AdminUI {
         VeiculoController sc = new VeiculoController(new VeiculoDB());
         List<Veiculo> lista = sc.getListaVeiculo();
 
-        double cap, pesoMaximo, peso, potencia, largura = 0;
+        double cap, pesoMaximo, peso, potencia, hoverpower = 0;
         for (Veiculo s : lista) {
             System.out.println();
             System.out.println(s.toString());
@@ -289,8 +289,8 @@ public class AdminUI {
             System.out.println("Pretende atualizar o valor do power pro do veículo? (S/N)");
             resposta = LER.nextLine();
             if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
-                System.out.println("Insira o valor da largura atualizado do veículo:");
-                largura = LER.nextDouble();
+                System.out.println("Insira o novo valor da potencia que o veiculo precisa para poder levantar voo:");
+                hoverpower = LER.nextDouble();
             }
         }
 
@@ -301,7 +301,7 @@ public class AdminUI {
         if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
             try {
                 if (veiculo.getDescricao().equalsIgnoreCase("drone")) {
-                    sc.updateDrone(veiculo.getId(), largura);
+                    sc.updateDrone(veiculo.getId(), hoverpower);
                 }
                 sc.updateVeiculo(veiculo);
                 System.out.println("Veículo atualizado com sucesso.");
@@ -346,7 +346,7 @@ public class AdminUI {
 
     public void adicionarParque() throws ClassNotFoundException, SQLException, ParseException {
         AdicionarParqueUI adcParkUI = new AdicionarParqueUI();
-        adcParkUI.AdicionaParque();
+        adcParkUI.adicionaParque();
         menu();
     }
 }

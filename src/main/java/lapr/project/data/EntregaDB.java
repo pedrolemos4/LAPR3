@@ -161,7 +161,6 @@ public class EntregaDB extends DataHandler {
                         listEnderecosEncomenda.remove(e);
                     }
                 }
-
             }
         }
         return graph;
@@ -271,11 +270,11 @@ public class EntregaDB extends DataHandler {
                                 finalShortPath.get(aux - 1), finalShortPath.get(aux), distanciaVeiculo);
                     }
                     // uma vez que já chegou à farmacia repomos a distancia do veiculo
-                    distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(),
+                    distanciaVeiculo = CalculosFisica.getDistanciaQueScooterPodePercorrer(v.getCapacidade(),
                             v.getPercentagemBateria(), v.getPotencia());
                 } else {
                     // só chega aqui se n houver paragem pelo caminho
-                    distanciaVeiculo = reporBateria(finalShortPath, aux, v, distancia, distanciaVeiculo);
+                    distanciaVeiculo = reporBateria(finalShortPath, aux, v, distancia, distanciaVeiculo, v.getDescricao());
                     distancia = 0;
                 }
             }
@@ -289,10 +288,10 @@ public class EntregaDB extends DataHandler {
                             finalShortPath.get(aux + 1).getLongitude(), 0);
                     distancia = distancia + getListComParqueMaisProximo(graphDistancia, novaLista, v,
                             finalShortPath.get(aux), finalShortPath.get(aux + 1), distanciaVeiculo);
-                    distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(),
+                    distanciaVeiculo = CalculosFisica.getDistanciaQueDronePodePercorrer(v.getCapacidade(),
                             v.getPercentagemBateria(), v.getPotencia());
                 } else {
-                    distanciaVeiculo = reporBateria(finalShortPath, aux, v, distancia, distanciaVeiculo);
+                    distanciaVeiculo = reporBateria(finalShortPath, aux, v, distancia, distanciaVeiculo, v.getDescricao());
                     distancia = 0;
                 }
             }
@@ -308,17 +307,18 @@ public class EntregaDB extends DataHandler {
     }
 
 
-    public double reporBateria(LinkedList<Endereco> finalShortPath, int aux, Veiculo v, double distancia, double distanciaVeiculo) {
+    public double reporBateria(LinkedList<Endereco> finalShortPath, int aux, Veiculo v, double distancia, double distanciaVeiculo, String descricao) {
         if (far.getFarmaciaByEndereco(finalShortPath.get(aux + 1).getMorada()) != null) {
             for (Parque p : parqueDB
                     .getLstParquesByFarmaciaNif(far.getFarmaciaByEndereco(finalShortPath.get(aux + 1).getMorada()).getNIF())) {
-                if (v.getDescricao().equalsIgnoreCase(SCOOTER) && p.getTipo().equalsIgnoreCase(SCOOTER)) {
-                    distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(),
-                            v.getPercentagemBateria(), v.getPotencia());
-                }
-                if (v.getDescricao().equalsIgnoreCase(DRONE) && p.getTipo().equalsIgnoreCase(DRONE)) {
-                    distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(),
-                            v.getPercentagemBateria(), v.getPotencia());
+                if (v.getDescricao().equalsIgnoreCase(descricao) && p.getTipo().equalsIgnoreCase(descricao)) {
+                    if(descricao.equalsIgnoreCase(SCOOTER)) {
+                        distanciaVeiculo = CalculosFisica.getDistanciaQueScooterPodePercorrer(v.getCapacidade(),
+                                v.getPercentagemBateria(), v.getPotencia());
+                    }else{
+                        distanciaVeiculo = CalculosFisica.getDistanciaQueDronePodePercorrer(v.getCapacidade(),
+                                v.getPercentagemBateria(), v.getPotencia());
+                    }
                 }
             }
         } else {
@@ -326,6 +326,7 @@ public class EntregaDB extends DataHandler {
         }
         return distanciaVeiculo;
     }
+
 
     private double getListComParqueMaisProximo(Graph<Endereco, Double> graph, LinkedList<Endereco> list, Veiculo v,
                                                Endereco enderecoInicial, Endereco enderecoPorOndeNaoPodePassar, double distanciaVeiculo) {
@@ -414,7 +415,7 @@ public class EntregaDB extends DataHandler {
                         finalShortPath.get(aux + 1).getAltitude());
                 Caminho c = caminhoDB.getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(),
                         finalShortPath.get(aux + 1).getMorada());
-                tempo = tempo + CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
+                tempo = tempo + CalculosFisica.calculoTempoScooter(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
             }
             if ((veiculo.getDescricao()).equalsIgnoreCase(DRONE)) {
                 distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(),
@@ -422,7 +423,7 @@ public class EntregaDB extends DataHandler {
                         finalShortPath.get(aux + 1).getLongitude(), 0);
                 Caminho c = caminhoDB.getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(),
                         finalShortPath.get(aux + 1).getMorada());
-                tempo = tempo + CalculosFisica.calculoTempo(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
+                tempo = tempo + CalculosFisica.calculoTempoDrone(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
             }
         }
         String s = String.format("%06d", (int) tempo);
