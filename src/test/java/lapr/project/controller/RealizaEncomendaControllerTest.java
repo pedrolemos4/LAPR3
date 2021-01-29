@@ -6,11 +6,10 @@ import lapr.project.model.*;
 import lapr.project.utils.Data;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.stubbing.Answer;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -49,9 +48,15 @@ class RealizaEncomendaControllerTest {
         System.out.println("produtoEncomenda");
         Produto prod = new Produto("a", 1, 1);
         prod.setId(1);
+
+        Produto prod1 = new Produto("a1", 11, 11);
+        prod1.setId(2);
+
         int nif = 12;
         Map<Produto,Integer> m = new HashMap<>();
         m.put(prod, 1);
+        m.put(prod1,2);
+
         boolean expResult = true;
         when(produtoDB.getLista(nif)).thenReturn(m);
         when(produtoDB.addListaProdutos(prod, 1)).thenReturn(expResult);
@@ -66,8 +71,18 @@ class RealizaEncomendaControllerTest {
         System.out.println("produtoEncomenda1");
         Produto prod = new Produto("a", 1, 1);
         prod.setId(1);
+
+        Produto prod1 = new Produto("a1", 11, 11);
+        prod1.setId(2);
+
         int nif = 12;
+        Map<Produto,Integer> m = new HashMap<>();
+        m.put(prod, 1);
+        m.put(prod1,2);
+
         boolean expResult = false;
+        when(produtoDB.getLista(nif)).thenReturn(m);
+        when(produtoDB.addListaProdutos(prod, 4)).thenReturn(expResult);
         assertEquals(expResult, instance.produtoEncomenda(nif, prod, 1));
     }
 
@@ -79,6 +94,7 @@ class RealizaEncomendaControllerTest {
         System.out.println("registaEncomenda");
         int expResult = 1;
         Encomenda enc = new Encomenda(1234, 12, "02-01-2000", 10, 20, 10, 1);
+
         when(encDB.registaEncomenda(enc)).thenReturn(expResult);
         assertEquals(expResult, instance.registaEncomenda(enc));
     }
@@ -118,7 +134,7 @@ class RealizaEncomendaControllerTest {
     public void testRegistaEncomendaProduto1() {
         System.out.println("registaEncomendaProduto1");
         Encomenda enc = new Encomenda(1234, 12,"02-01-2000", 10, 20, 10, 1);
-        Produto p = new Produto();
+        Produto p = new Produto("sdf", 50, 58);
         boolean expResult = false;
         int stock = 1;
         when(encDB.registaEncomendaProduto(enc, p, stock)).thenReturn(expResult);
@@ -131,7 +147,7 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testGetListStock() {
         System.out.println("getListStock");
-        Produto p = new Produto();
+        Produto p = new Produto("sdf", 50, 58);
         Map<Produto, Integer> expResult = new HashMap<>();
         int nif = 12;
         expResult.put(p, 1);
@@ -194,7 +210,7 @@ class RealizaEncomendaControllerTest {
     public void testNovoRecibo_Recibo_Produto() {
         System.out.println("novoRecibo");
         Recibo rec = new Recibo();
-        Produto prod = new Produto();
+        Produto prod = new Produto("sdf", 50, 58);
         boolean expResult = true;
         int quant = 0;
         when(reciboDB.registaRecibo(rec, prod, quant)).thenReturn(expResult);
@@ -208,7 +224,7 @@ class RealizaEncomendaControllerTest {
     public void testNovoRecibo_Recibo_Produto1() {
         System.out.println("novoRecibo");
         Recibo rec = new Recibo();
-        Produto prod = new Produto();
+        Produto prod = new Produto("sdf", 50, 58);
         boolean expResult = false;
         int quant = 0;
         when(reciboDB.registaRecibo(rec, prod, quant)).thenReturn(expResult);
@@ -327,7 +343,7 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testRemoverCreditos() throws Exception {
         System.out.println("removerCreditos");
-        Cliente c1 = new Cliente();
+        Cliente c1 = new Cliente(1, "nome", "email", 1, 1, "morada", 1, "password");
         double creditosData = 0.0;
         boolean expResult = true;
         boolean expResult1 = true;
@@ -342,7 +358,7 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testRemoverCreditos1() throws Exception {
         System.out.println("removerCreditos1");
-        Cliente c1 = new Cliente();
+        Cliente c1 = new Cliente(1, "nome", "email", 1, 1, "morada", 1, "password");
         double creditosData = 0.0;
         boolean expResult = false;
         boolean expResult1 = false;
@@ -357,7 +373,13 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testGetMapaEncomenda() {
         System.out.println("getMapaEncomenda");
-        Map<Produto, Integer> expResult = new TreeMap<>();
+        Map<Produto, Integer> expResult = new HashMap<>();
+
+        Produto prod = new Produto("sdfa", 58, 50);
+        expResult.put(prod,1);
+
+        Boolean expResult1 = true;
+        when(produtoDB.addListaProdutos(prod, 1)).thenReturn(expResult1);
         when(produtoDB.getMapaEncomenda()).thenReturn(expResult);
         assertEquals(expResult, instance.getMapaEncomenda());
     }
@@ -369,11 +391,15 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testRemoverProdutosEncomenda() {
         System.out.println("removerProdutosEncomenda");
-        int map = 0;
-        Produto p = new Produto();
+        int map = 2;
+        Produto p = new Produto("sdfa", 58, 50);
         int nif = 123;
-        int mapStock = 0;
+        int mapStock = 1;
         Boolean expResult = true;
+        int expResult1 = 1;
+        boolean expResult2 = true;
+        when(produtoDB.addProduto(p)).thenReturn(expResult1);
+        when(produtoDB.addProdutoStock(nif,expResult1,3)).thenReturn(expResult2);
         when(produtoDB.removerProdutosEncomenda(p, nif, map, mapStock)).thenReturn(expResult);
         assertEquals(expResult, instance.removerProdutosEncomenda(p, nif, map, mapStock));
     }
@@ -385,11 +411,15 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testRemoverProdutosEncomenda1() {
         System.out.println("removerProdutosEncomenda1");
-        int map = 1;
-        Produto p = new Produto();
+        int map = 40;
+        Produto p = new Produto("sdfa", 58, 50);
         int nif = 123;
         int mapStock = 0;
-        Boolean expResult = false;
+        Boolean expResult = true;
+        int expResult1 = 1;
+        boolean expResult2 = true;
+        when(produtoDB.addProduto(p)).thenReturn(expResult1);
+        when(produtoDB.addProdutoStock(nif,expResult1,3)).thenReturn(expResult2);
         when(produtoDB.removerProdutosEncomenda(p, nif, map, mapStock)).thenReturn(expResult);
         assertEquals(expResult, instance.removerProdutosEncomenda(p, nif, map, mapStock));
     }
@@ -426,9 +456,9 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testNotificaCliente() {
         System.out.println("notificaCliente");
-        String email = "";
-        String assunto = "";
-        String mensagem = "";
+        String email = "admlapr123@gmail.com";
+        String assunto = "Teste";
+        String mensagem = "Mensagem teste";
         boolean expResult = true;
         when(emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem)).thenReturn(expResult);
         boolean result = instance.notificaCliente(email, assunto, mensagem);
@@ -441,9 +471,9 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testNotificaCliente1() {
         System.out.println("notificaCliente1");
-        String email = "";
-        String assunto = "";
-        String mensagem = "";
+        String email = "123@gmail.com";
+        String assunto = "Teste";
+        String mensagem = "Mensagem teste";
         boolean expResult = false;
         when(emailDB.sendEmail("admlapr123", email, assunto, mensagem)).thenReturn(expResult);
         boolean result = instance.notificaCliente(email, assunto, mensagem);
@@ -457,7 +487,7 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testRegistaRecibo() throws Exception {
         System.out.println("registaRecibo");
-        Recibo rec = new Recibo();
+        Recibo rec = new Recibo(123, 10.2, "data", 321);
         boolean expResult = true;
         when(reciboDB.registaRecibo(rec)).thenReturn(expResult);
         boolean result = instance.registaRecibo(rec);
@@ -470,7 +500,7 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testRegistaRecibo1() throws Exception {
         System.out.println("registaRecibo1");
-        Recibo rec = new Recibo();
+        Recibo rec = new Recibo(123, 10.2, "data", 321);
         rec.setData(null);
         boolean expResult = false;
         when(reciboDB.registaRecibo(rec)).thenReturn(expResult);
@@ -484,7 +514,7 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testGeraCreditos() {
         System.out.println("geraCreditos");
-        Cliente c = new Cliente();
+        Cliente c = new Cliente(1, "nome", "email", 1, 1, "morada", 1, "password");
         double precoTotal = 2.0;
         boolean expResult = true;
         when(encDB.geraCreditos(c, precoTotal)).thenReturn(expResult);
@@ -510,8 +540,8 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testNovoRecibo() {
         System.out.println("novoRecibo");
-        Recibo rec = new Recibo();
-        Produto prod = new Produto();
+        Recibo rec = new Recibo(123, 10.2, "data", 321);
+        Produto prod = new Produto("sdfa", 58, 50);
         int quant = 3;
         boolean expResult = false;
         when(reciboDB.registaRecibo(rec, prod, quant)).thenReturn(expResult);
@@ -525,10 +555,12 @@ class RealizaEncomendaControllerTest {
     @Test
     public void testGetEnderecoByNifCliente() {
         System.out.println("getEnderecoByNifCliente");
-        int nif = 0;
-        Endereco expResult = new Endereco();
-        when(endDB.getEnderecoByNifCliente(nif)).thenReturn(expResult);
-        Endereco result = instance.getEnderecoByNifCliente(nif);
+        Cliente c = new Cliente(1, "nome", "email", 1, 1, "Rua da FEUP", 1, "password");
+        Boolean expResult1 = true;
+        when(cliDB.addCliente(c)).thenReturn(expResult1);
+        Endereco expResult = new Endereco("Rua da FEUP", 43.45, 31.70, 35.23);
+        when(endDB.getEnderecoByNifCliente(c.getClienteNIF())).thenReturn(expResult);
+        Endereco result = instance.getEnderecoByNifCliente(c.getClienteNIF());
         assertEquals(expResult, result);
     }
     
@@ -539,7 +571,7 @@ class RealizaEncomendaControllerTest {
     public void testGetEnderecoByNifCliente1() {
         System.out.println("getEnderecoByNifCliente1");
         int nif = 123;
-        Endereco expResult = new Endereco();
+        Endereco expResult = new Endereco("Rua da FEUP", 43.45, 31.70, 35.23);
         expResult.setMorada("adeus");
         when(endDB.getEnderecoByNifCliente(nif)).thenReturn(expResult);
         Endereco result = instance.getEnderecoByNifCliente(nif);
@@ -553,7 +585,7 @@ class RealizaEncomendaControllerTest {
     public void testGetEnderecoOrigem() {
         System.out.println("getEnderecoOrigem");
         int nifFarmacia = 0;
-        Endereco expResult = new Endereco();
+        Endereco expResult = new Endereco("Rua da FEUP", 43.45, 31.70, 35.23);
         when(endDB.getEnderecoByNifFarmacia(nifFarmacia)).thenReturn(expResult);
         Endereco result = instance.getEnderecoOrigem(nifFarmacia);
         assertEquals(expResult, result);
@@ -566,7 +598,7 @@ class RealizaEncomendaControllerTest {
     public void testGetEnderecoOrigem1() {
         System.out.println("getEnderecoOrigem1");
         int nifFarmacia = 123;
-        Endereco expResult = new Endereco();
+        Endereco expResult = new Endereco("Rua da FEUP", 43.45, 31.70, 35.23);
         expResult.setMorada("ola");
         when(endDB.getEnderecoByNifFarmacia(nifFarmacia)).thenReturn(expResult);
         Endereco result = instance.getEnderecoOrigem(nifFarmacia);
@@ -609,6 +641,27 @@ class RealizaEncomendaControllerTest {
         double expResult = 0.15;
         when(encDB.getTaxa(preco)).thenReturn(expResult);
         double result = instance.getTaxa(preco);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getLstEnderecos method, of class RealizaEncomendaController.
+     */
+    @Test
+    public void testGetLstEnderecos() {
+        System.out.println("getLstEnderecos");
+        List<Endereco> expResult = new ArrayList<>();
+
+        Endereco e1 = new Endereco("Rua da FEUP", 43.45, 31.70, 35.23);
+        Endereco e2 = new Endereco("Rua do ISEP", 44.05, 32, 36);
+        Endereco e3 = new Endereco("Rua da FEP", 42.35, 30, 35);
+
+        expResult.add(e1);
+        expResult.add(e2);
+        expResult.add(e3);
+
+        when(endDB.getLstEnderecos()).thenReturn(expResult);
+        List<Endereco> result = instance.getLstEnderecos();
         assertEquals(expResult, result);
     }
 }

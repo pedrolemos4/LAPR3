@@ -116,18 +116,21 @@ public class ProdutosDB extends DataHandler {
      * @param prod id do produto a adicionar
      * @param qtd  quantidade a ser adicionada
      */
-    public void addProdutoStock(int nif, int prod, int qtd) {
+    public boolean addProdutoStock(int nif, int prod, int qtd) {
+        boolean b=false;
         try (CallableStatement callStmt = getConnection().prepareCall("{ call addProdutoStock(?,?,?) }")) {
 
             callStmt.setInt(1, nif);
             callStmt.setInt(2, prod);
             callStmt.setInt(3, qtd);
             callStmt.execute();
+            b = true;
         } catch (SQLException e) {
             Logger.getLogger(ProdutosDB.class.getName()).log(Level.WARNING, e.getMessage());
         } finally {
             closeAll();
         }
+        return b;
     }
 
     /**
