@@ -109,6 +109,27 @@ class EstacionamentoControllerTest {
         assertFalse(instance.checkParkings("src/main/java/lapr/project/parking/teste/casos testes unitários JAVA/getDirectoryNull"));
     }
 
+    @Test
+    void checkParkingsFalse1() throws FileNotFoundException {
+        System.out.println("simulateScooterMalEstacionada1()");
+
+        Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
+        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
+        Estacionamento estacionamento = new Estacionamento(0, 1, 0);
+        Parque parque = new Parque(0, 1, 1, "drone", 20);
+        path = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateScooterMalEstacionada";
+
+        when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
+        when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
+        when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(parqueDB.getParqueByID(0)).thenReturn(parque);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+
+        assertFalse(instance.checkParkings(path));
+    }
+
     //Estimativa = -1, falta de .flag
     @Test
     void simulateScooterMalEstacionada() throws Exception {
