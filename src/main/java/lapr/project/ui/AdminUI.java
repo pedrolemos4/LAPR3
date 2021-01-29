@@ -26,6 +26,9 @@ import java.util.logging.Logger;
 public class AdminUI {
 
     private static final int PERCENTAGEM = 100;
+    private static final String DRONE = "drone";
+    private static final String SCOOTER = "scooter";
+    private static final String CONFIRMACAO = "\nConfirme a informação relativa ao veículo(S/N)";
 
     /**
      * Scanner para leitura de teclado
@@ -38,10 +41,6 @@ public class AdminUI {
      */
     public void showMenu() {
         System.out.println("\nRIDE SHARING - Menu Administrador\n--------------------------------"
-                //+ "\n 1 - Add park"
-                //+ "\n 2 - Add point of interest"
-                //+ "\n 3 - Remove park"
-                //+ "\n 4 - Update park"
                 + "\n 1 - Adicionar veiculo"
                 + "\n 2 - Remover veiculo"
                 + "\n 3 - Atualizar veiculo"
@@ -51,8 +50,6 @@ public class AdminUI {
                 + "\n 7 - Atualizar item"
                 + "\n 8 - Registar farmácia"
                 + "\n 9 - Adicionar parque"
-                //+ "\n 9 - Report about unlocked vehicles"
-                //+ "\n 10 - Add path"
                 + "\n 0 - Exit"
                 + "\n Escolha uma das opções.");
     }
@@ -137,10 +134,9 @@ public class AdminUI {
         System.out.println("Insira a área frontal do seu veículo: ");
         double areaFrontal = LER.nextDouble();
 
-        double hoverpower = 0.0;
-        if (descricao.equalsIgnoreCase("drone")) {
+        if (descricao.equalsIgnoreCase(DRONE)) {
             System.out.println("Insira a potencia que o veiculo precisa para levantar voo");
-            hoverpower = LER.nextDouble();
+            double hoverpower = LER.nextDouble();
             System.out.println("Descrição:\t" + descricao
                     + "\nEstado:\t" + estado
                     + "\nCapacidade de Bateria:\t" + capacidade
@@ -148,9 +144,9 @@ public class AdminUI {
                     + "\nPeso:\t" + peso
                     + "\nPeso máximo:\t" + pesoMaximo
                     + "\nPotencia:\t" + potencia
-                    + "\nLargura:\t" + hoverpower);
+                    + "\nHover Power:\t" + hoverpower);
 
-            System.out.println("\nConfirme a informação relativa ao veículo(S/N)");
+            System.out.println(CONFIRMACAO);
             LER.nextLine();
             String confirmacao = LER.nextLine();
 
@@ -179,7 +175,7 @@ public class AdminUI {
                     + "\nPotencia:\t" + potencia
                     + "\nÁrea Frontal:\t" + areaFrontal);
 
-            System.out.println("\nConfirme a informação relativa ao veículo(S/N)");
+            System.out.println(CONFIRMACAO);
             LER.nextLine();
             String confirmacao = LER.nextLine();
 
@@ -213,10 +209,10 @@ public class AdminUI {
 
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("N")) {
             try {
-                if (v.getDescricao().equalsIgnoreCase("drone")) {
+                if (v.getDescricao().equalsIgnoreCase(DRONE)) {
                     sc.removeDrone(idVeiculo);
                 }
-                if (v.getDescricao().equalsIgnoreCase("scooter")) {
+                if (v.getDescricao().equalsIgnoreCase(SCOOTER)) {
                     sc.removeScooter(idVeiculo);
                 }
                 sc.removeVeiculo(idVeiculo);
@@ -234,7 +230,11 @@ public class AdminUI {
         VeiculoController sc = new VeiculoController(new VeiculoDB());
         List<Veiculo> lista = sc.getListaVeiculo();
 
-        double cap, pesoMaximo, peso, potencia, hoverpower = 0;
+        double cap;
+        double pesoMaximo;
+        double peso;
+        double potencia;
+        double hoverpower = 0;
         for (Veiculo s : lista) {
             System.out.println();
             System.out.println(s.toString());
@@ -285,7 +285,7 @@ public class AdminUI {
             veiculo.setEstadoVeiculo(idestado);
         }
 
-        if (veiculo.getDescricao().equalsIgnoreCase("drone")) {
+        if (veiculo.getDescricao().equalsIgnoreCase(DRONE)) {
             System.out.println("Pretende atualizar o valor do power pro do veículo? (S/N)");
             resposta = LER.nextLine();
             if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
@@ -294,13 +294,13 @@ public class AdminUI {
             }
         }
 
-        System.out.println("\nConfirme a informação relativa ao veículo(S/N)");
+        System.out.println(CONFIRMACAO);
         LER.nextLine();
         String confirmacao = LER.nextLine();
 
         if (confirmacao.equalsIgnoreCase("S") || confirmacao.equalsIgnoreCase("SIM")) {
             try {
-                if (veiculo.getDescricao().equalsIgnoreCase("drone")) {
+                if (veiculo.getDescricao().equalsIgnoreCase(DRONE)) {
                     sc.updateDrone(veiculo.getId(), hoverpower);
                 }
                 sc.updateVeiculo(veiculo);

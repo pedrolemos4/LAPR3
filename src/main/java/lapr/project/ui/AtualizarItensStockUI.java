@@ -2,7 +2,6 @@ package lapr.project.ui;
 
 import java.sql.SQLException;
 import lapr.project.controller.AtualizarItensStockController;
-import lapr.project.controller.InserirItensStockController;
 import lapr.project.controller.PedirItemFarmaciaController;
 import lapr.project.data.EmailDB;
 import lapr.project.data.FarmaciaDB;

@@ -166,16 +166,16 @@ public class RealizarEncomendaUI {
 
             Map<Produto, Integer> mapaEncomenda = controller.getMapaEncomenda();
 
-            int idnovaencomenda = controller.registaEncomenda(enc);
+            controller.registaEncomenda(enc);
 
             Map<Produto, Integer> stock = controller.getListStock(nif);
 
-            for (Produto p1 : mapaEncomenda.keySet()) {
-                controller.removerProdutosEncomenda(p1, nif, mapaEncomenda.get(p1), stock.get(p1));
+            for (Map.Entry<Produto, Integer> p1 : mapaEncomenda.entrySet()) {
+                controller.removerProdutosEncomenda(p1.getKey(), nif, mapaEncomenda.get(p1.getKey()), stock.get(p1.getKey()));
             }
 
-            for (Produto p : mapaEncomenda.keySet()) {
-                controller.registaEncomendaProduto(enc, p, mapaEncomenda.get(p));
+            for (Map.Entry<Produto, Integer> p : mapaEncomenda.entrySet()) {
+                controller.registaEncomendaProduto(enc, p.getKey(), mapaEncomenda.get(p.getKey()));
             }
 
             double precoTotal = controller.getPrecoTotal(controller.getPreco(), enc.getTaxa());
@@ -192,8 +192,8 @@ public class RealizarEncomendaUI {
             String mensagem = rec.toString();
             controller.notificaCliente(UserSession.getInstance().getUser().getEmail(), assunto, mensagem);
 
-            for (Produto p : mapaEncomenda.keySet()) {
-                controller.novoRecibo(rec, p, mapaEncomenda.get(p));
+            for (Map.Entry<Produto, Integer> p : mapaEncomenda.entrySet()) {
+                controller.novoRecibo(rec, p.getKey(), mapaEncomenda.get(p.getKey()));
             }
 
             System.out.println("Data do Recibo:");
@@ -201,8 +201,8 @@ public class RealizarEncomendaUI {
             System.out.println("Preco Total:");
             System.out.println(precoTotal);
             System.out.println("Lista de Produtos:");
-            for (Produto p : mapaEncomenda.keySet()) {
-                System.out.println(p.getDesignacao() + " " + mapaEncomenda.get(p));
+            for (Map.Entry<Produto, Integer> p : mapaEncomenda.entrySet()) {
+                System.out.println(p.getKey().getDesignacao() + " " + mapaEncomenda.get(p.getKey()));
             }
 
             System.out.println("\n\nEncomenda adicionada com sucesso!");

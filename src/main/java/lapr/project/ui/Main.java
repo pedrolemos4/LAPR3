@@ -19,7 +19,6 @@ class Main {
     /**
      * Logger class.
      */
-    private static final Logger LOGGER = Logger.getLogger("MainLog");
     private static final String FARMACIAS = "docs/Dados_de_Leitura/farmacias.csv";
     private static final String PARQUES = "docs/Dados_de_Leitura/parques.csv";
     private static final String ESTACIONAMENTOS = "docs/Dados_de_Leitura/estacionamentos.csv";

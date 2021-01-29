@@ -10,6 +10,7 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -230,7 +231,7 @@ public class EncomendaDB extends DataHandler {
             }
         } catch (SQLException e) {
             Logger.getLogger(EncomendaDB.class.getName()).log(Level.WARNING, e.getMessage());
-            return null;
+            return Collections.emptyList();
         } finally {
             closeAll();
         }
