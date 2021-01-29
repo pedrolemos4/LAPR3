@@ -50,7 +50,7 @@ public class EstacionamentoController {
         String estimatePath = getDiretory(path);
         if(estimatePath != null) {
             path = path + "/" + estimatePath;
-            return simulateParkingVeiculo(path);
+            return (simulateParkingVeiculo(path) ? (true) : (false));
         }
         return false;
     }
@@ -106,9 +106,9 @@ public class EstacionamentoController {
             String SCOOTER = "scooter";
             if (estimativa == -1){
                 if(veiculo.getDescricao().equalsIgnoreCase(SCOOTER)) {
-                    return notificaEstafeta(false, estimativa, estafeta.getEmail());
+                    return (notificaEstafeta(false, estimativa, estafeta.getEmail()) ? (true) : (false));
                 }else{
-                    return notificaAdministrador(false,estimativa,veiculo.getId());
+                    return (notificaAdministrador(false,estimativa,veiculo.getId()) ? (true) : (false));
                 }
             } else {
                 if(estacionamentosDB.getEstacionamentoVeiculo(estac,veiculo)){
@@ -121,15 +121,15 @@ public class EstacionamentoController {
                         throwables.printStackTrace();
                     }
                     if (veiculo.getDescricao().equalsIgnoreCase(SCOOTER)) {
-                        return notificaEstafeta(true, estimativa, estafeta.getEmail());
+                        return (notificaEstafeta(true, estimativa, estafeta.getEmail()) ? (true) : (false));
                     } else {
-                        return notificaAdministrador(true, estimativa, veiculo.getId());
+                        return (notificaAdministrador(true, estimativa, veiculo.getId()) ? (true) : (false));
                     }
                 }else{
                     if (veiculo.getDescricao().equalsIgnoreCase(SCOOTER)) {
-                        return updateEstimativa(estimativa, estafeta.getEmail());
+                        return (updateEstimativa(estimativa, estafeta.getEmail()) ? (true) : (false));
                     } else {
-                        return updateEstimativa(estimativa, adminEmail);
+                        return (updateEstimativa(estimativa, adminEmail) ? (true) : (false));
                     }
                 }
             }
