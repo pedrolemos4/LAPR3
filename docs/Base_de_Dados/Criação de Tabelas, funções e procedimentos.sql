@@ -268,6 +268,7 @@ CREATE TABLE "LAPR3_G23".Caminho
             roadResistanceCoefficient number(5,2) check(roadResistanceCoefficient > 0),
             velocidadeVento number(5,2) check(velocidadeVento > 0),
             direcaoVento number(5,2) check(direcaoVento BETWEEN 0 AND 360),
+            tipo varchar(255),
             PRIMARY KEY (morada1, morada2)
 );
 /
@@ -762,10 +763,11 @@ END;
 
 CREATE OR REPLACE PROCEDURE addCaminho(morada1 "LAPR3_G23".caminho.morada1%type, morada2 "LAPR3_G23".caminho.morada2%type,
 roadResistanceCoefficient "LAPR3_G23".caminho.roadResistanceCoefficient%type, velocidadeVento "LAPR3_G23".caminho.velocidadeVento%type,
-direcaoVento "LAPR3_G23".caminho.direcaoVento%type) 
+direcaoVento "LAPR3_G23".caminho.direcaoVento%type,
+tipodecaminho "LAPR3_G23".caminho.tipo%type) 
 AS
 BEGIN
-  INSERT INTO "LAPR3_G23".caminho VALUES(morada1, morada2, roadResistanceCoefficient, velocidadeVento, direcaoVento);
+  INSERT INTO "LAPR3_G23".caminho VALUES(morada1, morada2, roadResistanceCoefficient, velocidadeVento, direcaoVento, tipodecaminho);
 END;
 /
 

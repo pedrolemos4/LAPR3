@@ -1,13 +1,14 @@
 package lapr.project.data;
 
+import lapr.project.model.Caminho;
+import lapr.project.model.Endereco;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lapr.project.model.Caminho;
-import lapr.project.model.Endereco;
 /**
  *
  * @author beatr
@@ -17,13 +18,14 @@ public class CaminhoDB extends DataHandler {
     public final EnderecoDB end = new EnderecoDB();
 
     public void addCaminho(String morada1, String morada2, double roadResistanceCoefficient, double velocidadeVento,
-            double direcaoVento) {
-        try (CallableStatement callStmt = getConnection().prepareCall("{ call addCaminho(?,?,?,?,?) }")) {
+            double direcaoVento, String tipo) {
+        try (CallableStatement callStmt = getConnection().prepareCall("{ call addCaminho(?,?,?,?,?,?) }")) {
             callStmt.setString(1, morada1);
             callStmt.setString(2, morada2);
             callStmt.setDouble(3, roadResistanceCoefficient);
             callStmt.setDouble(4, velocidadeVento);
             callStmt.setDouble(5, direcaoVento);
+            callStmt.setString(6, tipo);
             callStmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();

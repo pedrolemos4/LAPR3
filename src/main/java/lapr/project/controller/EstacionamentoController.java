@@ -20,7 +20,7 @@ public class EstacionamentoController {
     private final VeiculoDB veiculoDB;
     private final ParqueDB parqueDB;
     private final EstafetaDB estafetaDB;
-    private final static String adminEmail = "admlapr123@gmail.com";
+    private static final String ADMINEMAIL = "admlapr123@gmail.com";
 
     /**
      * Constroi uma instancia de EstacionamentoController recebendo uma
@@ -103,9 +103,9 @@ public class EstacionamentoController {
         }
 
         if (veiculo.getDescricao().equalsIgnoreCase(parque.getTipo()) && estac.getCarregador() == 1) {
-            String SCOOTER = "scooter";
+            String scooter = "scooter";
             if (estimativa == -1){
-                if(veiculo.getDescricao().equalsIgnoreCase(SCOOTER)) {
+                if(veiculo.getDescricao().equalsIgnoreCase(scooter)) {
                     return (notificaEstafeta(false, estimativa, estafeta.getEmail()) ? (true) : (false));
                 }else{
                     return (notificaAdministrador(false,estimativa,veiculo.getId()) ? (true) : (false));
@@ -120,16 +120,16 @@ public class EstacionamentoController {
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
-                    if (veiculo.getDescricao().equalsIgnoreCase(SCOOTER)) {
+                    if (veiculo.getDescricao().equalsIgnoreCase(scooter)) {
                         return (notificaEstafeta(true, estimativa, estafeta.getEmail()) ? (true) : (false));
                     } else {
                         return (notificaAdministrador(true, estimativa, veiculo.getId()) ? (true) : (false));
                     }
                 }else{
-                    if (veiculo.getDescricao().equalsIgnoreCase(SCOOTER)) {
+                    if (veiculo.getDescricao().equalsIgnoreCase(scooter)) {
                         return (updateEstimativa(estimativa, estafeta.getEmail()) ? (true) : (false));
                     } else {
-                        return (updateEstimativa(estimativa, adminEmail) ? (true) : (false));
+                        return (updateEstimativa(estimativa, ADMINEMAIL) ? (true) : (false));
                     }
                 }
             }
@@ -156,24 +156,24 @@ public class EstacionamentoController {
         } else {
             mensagem = "A scooter foi estacionada sem sucesso, tente novamente.";
         }
-        return emailDB.sendEmail(adminEmail, email, assunto, mensagem);
+        return emailDB.sendEmail(ADMINEMAIL, email, assunto, mensagem);
     }
 
-    public boolean notificaAdministrador(boolean bemEstacionado, int estimativa, int IdVeiculo) {
+    public boolean notificaAdministrador(boolean bemEstacionado, int estimativa, int idVeiculo) {
         String assunto = "Acoplagem Drone";
         String mensagem;
         if (bemEstacionado) {
-            mensagem = "O drone " + IdVeiculo + " foi acoplado com sucesso, com uma estimativa de cerca de " + estimativa + " horas até estar completamente carregado.";
+            mensagem = "O drone " + idVeiculo + " foi acoplado com sucesso, com uma estimativa de cerca de " + estimativa + " horas até estar completamente carregado.";
         } else {
-            mensagem = "O drone " + IdVeiculo + " foi acoplado sem sucesso.";
+            mensagem = "O drone " + idVeiculo + " foi acoplado sem sucesso.";
         }
-        return emailDB.sendEmail(adminEmail, adminEmail, assunto, mensagem);
+        return emailDB.sendEmail(ADMINEMAIL, ADMINEMAIL, assunto, mensagem);
     }
 
     public boolean updateEstimativa(int estimativa, String email) {
         String assunto = "Atualização de carregamento";
         String mensagem = "Devido à quantidade de carregamentos a serem realizados em simultâneo, a nova estimativa de carregamento do seu veículo é de cerca de " + estimativa + " horas.";
-        return emailDB.sendEmail(adminEmail, email, assunto, mensagem);
+        return emailDB.sendEmail(ADMINEMAIL, email, assunto, mensagem);
     }
 
     /**

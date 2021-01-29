@@ -111,7 +111,7 @@ class EstacionamentoControllerTest {
 
     @Test
     void checkParkingsFalse1() throws FileNotFoundException {
-        System.out.println("simulateScooterMalEstacionada1()");
+        System.out.println("checkParkingsFalse1()");
 
         Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
         Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);

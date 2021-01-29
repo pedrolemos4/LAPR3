@@ -85,7 +85,7 @@ public class LerFicheiro extends DataHandler {
                             vctrl.addVeiculo(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]), Double.parseDouble(items[5]), Integer.parseInt(items[6]), Double.parseDouble(items[7]));
                             break;
                         case "docs/Dados_de_Leitura/caminhos.csv":
-                            pathdb.addCaminho(items[0], items[1], Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]));
+                            pathdb.addCaminho(items[0], items[1], Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]), items[5]);
                             break;
                         case "docs/Dados_de_Leitura/drones.csv":
                             Drone drone = new Drone(Integer.parseInt(items[0]), Double.parseDouble(items[1]));
