@@ -237,8 +237,8 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         Parque parque = new Parque(0, 1, 1, "scooter", 20);
-        path = null;
-        pathReserve = null;
+        path = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateScooterMalEstacionada3";
 
         String pathtest = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3/estimate_1.data";
 
