@@ -110,28 +110,24 @@ public class EstacionamentoController {
                 }else{
                     return (notificaAdministrador(false,estimativa,veiculo.getId()) ? (true) : (false));
                 }
-            } else {
-                if(estacionamentosDB.getEstacionamentoVeiculo(estac,veiculo)){
-                    estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo,estac.getIdParque());
-                    try {
-                        veiculo.setEstadoVeiculo(2);
-                        veiculoDB.updateVeiculo(veiculo);
+            } else if (estacionamentosDB.getEstacionamentoVeiculo(estac, veiculo)) {
+                estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo, estac.getIdParque());
+                try {
+                    veiculo.setEstadoVeiculo(2);
+                    veiculoDB.updateVeiculo(veiculo);
 
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
-                    if (veiculo.getDescricao().equalsIgnoreCase(scooter)) {
-                        return (notificaEstafeta(true, estimativa, estafeta.getEmail()) ? (true) : (false));
-                    } else {
-                        return (notificaAdministrador(true, estimativa, veiculo.getId()) ? (true) : (false));
-                    }
-                }else{
-                    if (veiculo.getDescricao().equalsIgnoreCase(scooter)) {
-                        return (updateEstimativa(estimativa, estafeta.getEmail()) ? (true) : (false));
-                    } else {
-                        return (updateEstimativa(estimativa, ADMINEMAIL) ? (true) : (false));
-                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
+                if (veiculo.getDescricao().equalsIgnoreCase(scooter)) {
+                    return (notificaEstafeta(true, estimativa, estafeta.getEmail()) ? (true) : (false));
+                } else {
+                    return (notificaAdministrador(true, estimativa, veiculo.getId()) ? (true) : (false));
+                }
+            } else if (veiculo.getDescricao().equalsIgnoreCase(scooter)) {
+                return (updateEstimativa(estimativa, estafeta.getEmail()) ? (true) : (false));
+            } else {
+                return (updateEstimativa(estimativa, ADMINEMAIL) ? (true) : (false));
             }
         } else {
             return false;
