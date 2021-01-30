@@ -69,7 +69,7 @@ public class EncomendaDB extends DataHandler {
      */
     public boolean validaEncomenda(Encomenda enc) {
         return enc.getNif() != 0 && enc.getDataPedida() != null
-                && (enc.getEstado().getEstado() < 3 || enc.getEstado().getEstado() > 0) && enc.getPesoEncomenda() > 0
+                && (enc.getEstado()< 3 || enc.getEstado() > 0) && enc.getPesoEncomenda() > 0
                 && enc.getPreco() > 0 && enc.getTaxa() > 0;
     }
 
@@ -97,7 +97,7 @@ public class EncomendaDB extends DataHandler {
      */
     public int addEncomenda(Encomenda enc) throws SQLException, ParseException {
         return addEncomenda(enc.getNif(), enc.getNifFarmacia(), enc.getDataPedida(), enc.getPreco(),
-                enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado().getEstado());
+                enc.getPesoEncomenda(), enc.getTaxa(), enc.getEstado());
     }
 
     /**

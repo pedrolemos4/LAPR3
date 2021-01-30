@@ -84,7 +84,7 @@ public class VeiculoDB extends DataHandler {
     }
 
     private boolean validaDrone(Drone drone) {
-        return !(drone.getHoverPower() < 0);
+        return drone.getHoverPower() >= 0;
     }
 
     public void addDrone(Drone drone) throws SQLException {
@@ -112,7 +112,7 @@ public class VeiculoDB extends DataHandler {
     }
 
     private boolean validaScooter(Scooter scooter) {
-        return !(scooter.getAreaFrontal() < 0);
+        return scooter.getAreaFrontal() >= 0;
     }
 
     public void addScooter(Scooter scooter) throws SQLException {

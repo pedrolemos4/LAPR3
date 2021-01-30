@@ -170,7 +170,7 @@ public class EntregaDB extends DataHandler {
      * @return valor da energia
      */
     public double getPath(Graph<Endereco, Double> graphEnergia, Graph<Endereco, Double> graphDistancia,
-                          ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia,
+                          List<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia,
                           Veiculo v, double distanciaVeiculo) {
         LinkedList<Endereco> caminhoAVerificar = new LinkedList<>();
         if (finalShortPath.isEmpty()) {

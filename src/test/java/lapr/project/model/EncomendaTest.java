@@ -118,9 +118,8 @@ class EncomendaTest {
         Cliente c = new Cliente();
         lp.add(p);
         Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
-        EstadoEncomenda e = new EstadoEncomenda(1);
         int expResult = 1;
-        int result = instance.getEstado().getEstado();
+        int result = instance.getEstado();
         assertEquals(expResult, result);
     }
 
@@ -296,7 +295,7 @@ class EncomendaTest {
         System.out.println("getEstado");
         Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);;
         int expResult = 1;
-        int result = instance.getEstado().getEstado();
+        int result = instance.getEstado();
         assertEquals(expResult, result);
     }
 
@@ -308,8 +307,7 @@ class EncomendaTest {
         System.out.println("setEstado");
         int estado = 0;
         Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
-        EstadoEncomenda e = new EstadoEncomenda(estado,"");
-        instance.setEstado(e);
+        instance.setEstado(2);
     }
 
     /**
@@ -510,7 +508,7 @@ class EncomendaTest {
         Encomenda o = (Encomenda) outroObjeto;
         boolean expResult = true;
         boolean result = instance1.getDataPedida().equals(o.getDataPedida())
-                && instance1.getEstado().getEstado() == o.getEstado().getEstado()
+                && instance1.getEstado() == o.getEstado()
                 && instance1.getId() == o.getId()
                 && instance1.getNif() == o.getNif()
                 && instance1.getNifFarmacia() == o.getNifFarmacia()
@@ -569,6 +567,34 @@ class EncomendaTest {
         System.out.println("toString");
         Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
         String expResult = "Encomenda{dataPedida=01-01-2000, preco=10.0, pesoEncomenda=10.0, taxa=10.0, nifCliente=123456789, nifFarmacia=12, estado=Encomendado, id=0}";
+        String result = instance.toString();
+        System.out.println(result);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of toString method, of class Encomenda.
+     */
+    @Test
+    public void testToString1() {
+        System.out.println("toString1");
+        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 2);
+        String expResult = "Encomenda{dataPedida=01-01-2000, preco=10.0, pesoEncomenda=10.0, taxa=10.0, nifCliente=123456789, nifFarmacia=12, estado=Entregando, id=0}";
+        String result = instance.toString();
+        System.out.println(result);
+        assertEquals(expResult, result);
+
+    }
+
+    /**
+     * Test of toString method, of class Encomenda.
+     */
+    @Test
+    public void testToString2() {
+        System.out.println("toString2");
+        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 3);
+        String expResult = "Encomenda{dataPedida=01-01-2000, preco=10.0, pesoEncomenda=10.0, taxa=10.0, nifCliente=123456789, nifFarmacia=12, estado=Entregue, id=0}";
         String result = instance.toString();
         System.out.println(result);
         assertEquals(expResult, result);
