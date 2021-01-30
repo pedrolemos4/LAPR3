@@ -519,7 +519,37 @@ class EncomendaTest {
                 && Double.compare(instance1.getPreco(), o.getPreco()) == 0;
         assertEquals(expResult, result);
     }
-    
+
+    /**
+     * Test of equals method, of class Encomenda.
+     */
+    @Test
+    public void testEquals13() {
+        System.out.println("equals13");
+        Produto p = new Produto();
+        Encomenda instance1 = new Encomenda(123456789,13,"01-02-2000",10,10,10, 2);
+        Encomenda instance2 = new Encomenda(123456789,13,"01-12-2000",10,10,10, 1);
+        boolean expResult = false;
+        boolean result = instance1.equals(instance2);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Encomenda.
+     */
+    @Test
+    public void testEquals14() {
+        System.out.println("equals14");
+        Produto p = new Produto();
+        Encomenda instance1 = new Encomenda(123456789,13,"01-02-2000",10,10,10, 2);
+        Encomenda instance2 = new Encomenda(123456789,13,"01-12-2000",10,10,10, 1);
+        instance1.setId(1);
+        instance2.setId(3);
+        boolean expResult = false;
+        boolean result = instance1.equals(instance2);
+        assertEquals(expResult, result);
+    }
+
     /**
      * Test of hashCode method, of class Encomenda.
      */
