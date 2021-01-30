@@ -21,7 +21,6 @@ import java.util.logging.Logger;
  */
 public class EntregaDB extends DataHandler {
 
-    private static final String DRONE = "drone";
     private static final String SCOOTER = "scooter";
     private final ParqueDB parqueDB = new ParqueDB();
     private final CaminhoDB caminhoDB = new CaminhoDB();
@@ -99,15 +98,10 @@ public class EntregaDB extends DataHandler {
     public Graph<Endereco, Double> generateGraphScooter(List<Endereco> listEnderecos,
                                                         List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double pesoTotalEntrega) {
         Graph<Endereco, Double> graph = new Graph<>(true);
-
         double energiaGasta;
 
         for (Endereco e : listEnderecos) {
-            graph.insertVertex(e);
-        }
-
-        for (Endereco e : graph.vertices()) {
-            for (Endereco end : graph.vertices()) {
+            for (Endereco end : listEnderecos) {
                 Caminho caminho = caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada());
                 if (caminho != null && (caminho.getTipo().equals("Terrestre") || caminho.getTipo().equals("Ambos"))) {
                     energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(),
@@ -139,17 +133,13 @@ public class EntregaDB extends DataHandler {
      * @return grafo com os endereços e as ruas definidas
      */
     public Graph<Endereco, Double> generateGraphDrone(List<Endereco> listEnderecos,
-                                                      List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double atributo,
+                                                      List<Endereco> listEnderecosEncomenda, Veiculo veiculo, double atributo,
                                                       double pesoTotalEntrega) {
         Graph<Endereco, Double> graph = new Graph<>(true);
         double energiaGasta;
 
         for (Endereco e : listEnderecos) {
-            graph.insertVertex(e);
-        }
-
-        for (Endereco e : graph.vertices()) {
-            for (Endereco endereco : graph.vertices()) {
+            for (Endereco endereco : listEnderecos) {
                 Caminho caminho = caminhoDB.getCaminhoByEnderecos(endereco.getMorada(), e.getMorada());
                 if (caminho != null && (caminho.getTipo().equals("Aerea") || caminho.getTipo().equals("Ambos"))) {
                     energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), atributo,
@@ -173,8 +163,7 @@ public class EntregaDB extends DataHandler {
      *
      * @param graphEnergia   grafo a ver o caminho
      * @param listEnderecos  lista de endereços do grafo
-     * @param finalShortPath lista de endereços com o caminho com menos energia
-     *                       gasta
+     * @param finalShortPath lista de endereços com o caminho com menos energia gasta
      * @param origem         vértice de origem
      * @param energia        energia gasta nessa rua
      * @param v              veiculo usado no percurso
@@ -230,7 +219,6 @@ public class EntregaDB extends DataHandler {
         }else{
             return 0;
         }
-
         return energia;
     }
 
@@ -279,8 +267,7 @@ public class EntregaDB extends DataHandler {
                     distanciaVeiculo = reporBateria(finalShortPath, aux, v, distancia, distanciaVeiculo, v.getDescricao());
                     distancia = 0;
                 }
-            }
-            if (v.getDescricao().equalsIgnoreCase(DRONE)) {
+            }else{
                 distancia = distancia + CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(),
                         finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(),
                         finalShortPath.get(aux + 1).getLongitude(), 0);
@@ -345,8 +332,7 @@ public class EntregaDB extends DataHandler {
                             list.addAll(shortPath);
 
                         }
-                    }
-                    if (v.getDescricao().equalsIgnoreCase(DRONE) && p.getTipo().equalsIgnoreCase(DRONE)) {
+                    } else{
                         LinkedList<Endereco> shortPath = new LinkedList<>();
                         double valor = GraphAlgorithms.shortestPath(graph, enderecoInicial, f1, shortPath);
                         if (!shortPath.contains(enderecoPorOndeNaoPodePassar) && valor < min && valor > 0 && valor < distanciaVeiculo) {
@@ -418,8 +404,7 @@ public class EntregaDB extends DataHandler {
                 Caminho c = caminhoDB.getCaminhoByEnderecos(finalShortPath.get(aux).getMorada(),
                         finalShortPath.get(aux + 1).getMorada());
                 tempo = tempo + CalculosFisica.calculoTempoScooter(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
-            }
-            if ((veiculo.getDescricao()).equalsIgnoreCase(DRONE)) {
+            } else {
                 distancia = CalculosFisica.calculoDistancia(finalShortPath.get(aux).getLatitude(),
                         finalShortPath.get(aux).getLongitude(), 0, finalShortPath.get(aux + 1).getLatitude(),
                         finalShortPath.get(aux + 1).getLongitude(), 0);

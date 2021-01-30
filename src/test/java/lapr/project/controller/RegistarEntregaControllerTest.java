@@ -297,8 +297,8 @@ public class RegistarEntregaControllerTest {
         expResult.insertEdge(e1, e2, 1.0, 2);
         expResult.insertEdge(e2, e3, 1.0, 5);
         expResult.insertEdge(e1, e3, 1.0, 1);
-        when(entregaDB.generateGraphDrone(listEnderecos,listEnderecosEntrega, est, veiculo,largura, pesoTotal)).thenReturn(expResult);
-        Graph<Endereco, Double> result = instance.generateGraphDrone(listEnderecos,listEnderecosEntrega, est, veiculo,largura, pesoTotal);
+        when(entregaDB.generateGraphDrone(listEnderecos,listEnderecosEntrega, veiculo,largura, pesoTotal)).thenReturn(expResult);
+        Graph<Endereco, Double> result = instance.generateGraphDrone(listEnderecos,listEnderecosEntrega, veiculo,largura, pesoTotal);
         assertEquals(expResult, result);
 
     }

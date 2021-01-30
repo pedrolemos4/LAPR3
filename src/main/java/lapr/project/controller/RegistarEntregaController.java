@@ -185,8 +185,8 @@ public class RegistarEntregaController {
      * @param pesoTotal peso total da entrega
      * @return 
      */
-    public Graph<Endereco, Double> generateGraphDrone(List<Endereco> listEnderecos,List<Endereco> listEnderecosEncomenda, Estafeta est, Veiculo veiculo, double atributo, double pesoTotal) {
-        return entregaDB.generateGraphDrone(listEnderecos,listEnderecosEncomenda, est, veiculo, atributo, pesoTotal);
+    public Graph<Endereco, Double> generateGraphDrone(List<Endereco> listEnderecos,List<Endereco> listEnderecosEncomenda, Veiculo veiculo, double atributo, double pesoTotal) {
+        return entregaDB.generateGraphDrone(listEnderecos,listEnderecosEncomenda, veiculo, atributo, pesoTotal);
     }
 
     public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graphDistancia,List<Endereco> listEnderecos, String tipoCaminho) {

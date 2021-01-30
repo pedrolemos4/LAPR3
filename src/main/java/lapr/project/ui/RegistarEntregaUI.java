@@ -104,6 +104,7 @@ public class RegistarEntregaUI {
 
             List<Veiculo> listVeiculos = controller.getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia);
             for (Veiculo v : listVeiculos) {
+                System.out.println("veiculo: " +v.toString());
                 if ((v.getDescricao()).equalsIgnoreCase(SCOOTER)) {
                     double distanciaVeiculo = CalculosFisica.getDistanciaQueScooterPodePercorrer(v.getCapacidade(), v.getPercentagemBateria(), v.getPotencia());
                     graphScooter = controller.generateGraphScooter(listEnderecosScooter, new ArrayList<>(listEnderecos), est, v, pesoEntrega);
@@ -127,7 +128,7 @@ public class RegistarEntregaUI {
                     } else {
                         double distanciaVeiculo = CalculosFisica.getDistanciaQueDronePodePercorrer(v.getCapacidade(), v.getPercentagemBateria(), v.getPotencia());
                         Drone d = controller.getDroneById(v.getId());
-                        graphDrone = controller.generateGraphDrone(listEnderecosDrone, new ArrayList<>(listEnderecos), est, v, d.getHoverPower(), pesoEntrega);
+                        graphDrone = controller.generateGraphDrone(listEnderecosDrone, new ArrayList<>(listEnderecos), v, d.getHoverPower(), pesoEntrega);
                         double energiaTotalGastaDrone = controller.getPath(graphDrone, graphDistanciaDrone, new ArrayList<>(listEnderecos), finalShortPathDrone, controller.getEnderecoOrigem(nifFarmacia), 0, v, distanciaVeiculo);
                         if (energiaTotalGastaDrone != 0 && energiaTotalGastaDrone < minDrone) {
                             minDrone = energiaTotalGastaDrone;
@@ -158,7 +159,7 @@ public class RegistarEntregaUI {
             if (a == true || b == true) {
                 System.out.println("Escolha o meio por onde pretende realizar a entrega (terrestre/aereo)");
                 String escolha = LER.nextLine();
-                Veiculo v = null;
+                Veiculo v = new Veiculo();
                 double energia = 0;
                 LinkedList<Endereco> listaFinal;
                 while (!escolha.equalsIgnoreCase("terrestre") && !escolha.equalsIgnoreCase("aereo")) {
@@ -203,8 +204,7 @@ public class RegistarEntregaUI {
                         Caminho c = controller.getCaminhoByEnderecos(listaFinal.get(aux).getMorada(), listaFinal.get(aux + 1).getMorada());
                         double tempo = CalculosFisica.calculoTempoScooter(distancia, c.getVelocidadeVento(), c.getDirecaoVento());
                         System.out.println("Caminho: " + c.toString() + "Distancia: " + distancia + "Energia: " + energiaPorTroco + "Tempo: " + tempo);
-                    }
-                    if (v.getDescricao().equalsIgnoreCase(DRONE)) {
+                    }else{
                         double energiaPorTroco = graphScooter.getEdge(listaFinal.get(aux), listaFinal.get(aux + 1)).getWeight();
                         double distancia = CalculosFisica.calculoDistancia(listaFinal.get(aux).getLatitude(), listaFinal.get(aux).getLongitude(), 0,
                                 listaFinal.get(aux).getLatitude(), listaFinal.get(aux).getLongitude(), 0);
@@ -228,47 +228,4 @@ public class RegistarEntregaUI {
             }
         }
     }
-
-    //criar grafo com tempo????
-//
-//    public void getRota(List<Veiculo> listVeiculos, ){
-//        for (Veiculo v : listVeiculos) {
-//            if ((v.getDescricao()).equalsIgnoreCase(SCOOTER)) {
-//                double distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(), v.getPercentagemBateria(), v.getPotencia());
-//                graphScooter = controller.generateGraphScooter(listEnderecosScooter, new ArrayList<>(listEnderecos), est, v, pesoEntrega);
-//                double energiaTotalGastaScooter = controller.getPath(graphScooter, graphDistancia, new ArrayList<>(listEnderecos), finalShortPathScooter, controller.getEnderecoOrigem(nifFarmacia), 0, v, distanciaVeiculo);
-//                if (energiaTotalGastaScooter != 0) {
-//                    if (energiaTotalGastaScooter < minScooter) {
-//                        minScooter = energiaTotalGastaScooter;
-//                        scooter = v;
-//                        listMinScooter.addAll(finalShortPathScooter);
-//                    }
-//                }
-//                finalShortPathScooter = new LinkedList<>();
-//            } else if ((v.getDescricao()).equalsIgnoreCase(DRONE)) {
-//                boolean flag = false;
-//                for (Endereco e : listEnderecos) {
-//                    if (e.getAltitude() > 150) {
-//                        flag = true;
-//                    }
-//                }
-//                if (flag) {
-//                    break;
-//                } else {
-//                    double distanciaVeiculo = CalculosFisica.getDistanciaQuePodePercorrer(v.getCapacidade(), v.getPercentagemBateria(), v.getPotencia());
-//                    Drone d = controller.getDroneById(v.getId());
-//                    graphDrone = controller.generateGraphDrone(listEnderecosDrone, new ArrayList<>(listEnderecos), est, v, d.getLargura(), pesoEntrega);
-//                    double energiaTotalGastaDrone = controller.getPath(graphDrone, graphDistancia, new ArrayList<>(listEnderecos), finalShortPathDrone, controller.getEnderecoOrigem(nifFarmacia), 0, v, distanciaVeiculo);
-//                    if (energiaTotalGastaDrone != 0) {
-//                        if (energiaTotalGastaDrone < minDrone) {
-//                            minDrone = energiaTotalGastaDrone;
-//                            drone = v;
-//                            listMinDrone.addAll(finalShortPathDrone);
-//                        }
-//                    }
-//                    finalShortPathDrone = new LinkedList<>();
-//                }
-//            }
-//        }
-//    }
 }

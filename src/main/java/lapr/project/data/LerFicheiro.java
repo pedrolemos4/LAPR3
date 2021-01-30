@@ -57,54 +57,54 @@ public class LerFicheiro extends DataHandler {
                     String[] items = in.nextLine().split(";");
                     System.out.println("Ficheiro: "+nameFile);
                     switch (nameFile) {
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/farmacias.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/farmacias.csv":
                             fdb.addFarmacia(Integer.parseInt(items[0]), items[1], items[2]);
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/parques.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/parques.csv":
                             pdb.addParque(Integer.parseInt(items[0]), Integer.parseInt(items[1]), items[2], Integer.parseInt(items[3]));
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/estacionamentos.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/estacionamentos.csv":
                             edb.addEstacionamento(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Integer.parseInt(items[2]));
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/cartoes.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/cartoes.csv":
                             cdb.addCartao(Long.parseLong(items[0]), items[1], Integer.parseInt(items[2]));
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/enderecos.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/enderecos.csv":
                             endb.addEndereco(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]), Double.parseDouble(items[3]));
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/utilizadores.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/utilizadores.csv":
                             udb.addUtilizador(Integer.parseInt(items[0]), items[1], items[2], Integer.parseInt(items[3]), items[4]);
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/clientes.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/clientes.csv":
                             cldb.addCliente(Integer.parseInt(items[0]), Double.parseDouble(items[1]), items[2], Long.parseLong(items[3]));
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/estafetas.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/estafetas.csv":
                             esdb.addEstafeta(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Double.parseDouble(items[2]));
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/veiculos.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/veiculos.csv":
                             vctrl.addVeiculo(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]), Double.parseDouble(items[5]), Integer.parseInt(items[6]), Double.parseDouble(items[7]));
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/caminhos.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/caminhos.csv":
                             pathdb.addCaminho(items[0], items[1], Double.parseDouble(items[2]), Double.parseDouble(items[3]), Double.parseDouble(items[4]), items[5]);
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/drones.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/drones.csv":
                             Drone drone = new Drone(Integer.parseInt(items[0]), Double.parseDouble(items[1]));
                             vdb.addDrone(drone);
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/scooters.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/scooters.csv":
                             Scooter scooter = new Scooter(Integer.parseInt(items[0]));
                             vdb.addScooter(scooter);
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/produtos.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/produtos.csv":
                             proddb.addProduto(items[0], Double.parseDouble(items[1]), Double.parseDouble(items[2]));
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/stock.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/stock.csv":
                             proddb.addProdutoStock(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Integer.parseInt(items[2]));
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/encomendas.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/encomendas.csv":
                             encdb.addEncomenda(Integer.parseInt(items[0]), Integer.parseInt(items[1]), items[2], Double.parseDouble(items[3]), Double.parseDouble(items[4]), Double.parseDouble(items[5]), Integer.parseInt(items[6]));
                             break;
-                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/estacionamentoveiculo.csv":
+                        case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/estacionamentoveiculo.csv":
                             Estacionamento e = new Estacionamento();
                             Veiculo v = new Veiculo();
                             e.setNumeroLote(Integer.parseInt(items[2]));

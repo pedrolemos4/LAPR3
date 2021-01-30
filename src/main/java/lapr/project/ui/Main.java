@@ -18,22 +18,22 @@ class Main {
     /**
      * Logger class.
      */
-    private static final String FARMACIAS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/farmacias.csv";
-    private static final String PARQUES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/parques.csv";
-    private static final String ESTACIONAMENTOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/estacionamentos.csv";
-    private static final String ESTACIONAMENTOVEICULO = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/estacionamentoveiculo.csv";
-    private static final String CARTOES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/cartoes.csv";
-    private static final String ENDERECOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/enderecos.csv";
-    private static final String UTILIZADORES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/utilizadores.csv";
-    private static final String CLIENTES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/clientes.csv";
-    private static final String ESTAFETAS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/estafetas.csv";
-    private static final String VEICULOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/veiculos.csv";
-    private static final String DRONES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/drones.csv";
-    private static final String SCOOTERS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/scooters.csv";
-    private static final String CAMINHOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/caminhos.csv";
-    private static final String ENCOMENDAS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/encomendas.csv";
-    private static final String PRODUTOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/produtos.csv";
-    private static final String STOCK = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/stock.csv";
+    private static final String FARMACIAS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/farmacias.csv";
+    private static final String PARQUES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/parques.csv";
+    private static final String ESTACIONAMENTOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/estacionamentos.csv";
+    private static final String ESTACIONAMENTOVEICULO = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/estacionamentoveiculo.csv";
+    private static final String CARTOES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/cartoes.csv";
+    private static final String ENDERECOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/enderecos.csv";
+    private static final String UTILIZADORES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/utilizadores.csv";
+    private static final String CLIENTES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/clientes.csv";
+    private static final String ESTAFETAS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/estafetas.csv";
+    private static final String VEICULOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/veiculos.csv";
+    private static final String DRONES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/drones.csv";
+    private static final String SCOOTERS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/scooters.csv";
+    private static final String CAMINHOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/caminhos.csv";
+    private static final String ENCOMENDAS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/encomendas.csv";
+    private static final String PRODUTOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/produtos.csv";
+    private static final String STOCK = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/stock.csv";
 
     /**
      * Private constructor to hide implicit public one.
