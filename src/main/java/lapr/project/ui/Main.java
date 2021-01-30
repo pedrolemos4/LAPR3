@@ -66,21 +66,21 @@ class Main {
                 new ProdutosDB(), new EncomendaDB());
 
         if (!readFile.baseDadosCheia()) {
-//            readFile.read(ENDERECOS);
-//            readFile.read(CARTOES);
-//            readFile.read(VEICULOS);
-//            readFile.read(DRONES);
-//            readFile.read(SCOOTERS);
-//            readFile.read(UTILIZADORES);
-//            readFile.read(FARMACIAS);
-//            readFile.read(PARQUES);
-//            readFile.read(ESTACIONAMENTOS);
-//            readFile.read(PRODUTOS);
-//            readFile.read(STOCK);
-//            readFile.read(CLIENTES);
-//            readFile.read(ESTAFETAS);
-//            readFile.read(ENCOMENDAS);
-//            readFile.read(ESTACIONAMENTOVEICULO);
+            readFile.read(ENDERECOS);
+            readFile.read(CARTOES);
+            readFile.read(VEICULOS);
+            readFile.read(DRONES);
+            readFile.read(SCOOTERS);
+            readFile.read(UTILIZADORES);
+            readFile.read(FARMACIAS);
+            readFile.read(PARQUES);
+            readFile.read(ESTACIONAMENTOS);
+            readFile.read(PRODUTOS);
+            readFile.read(STOCK);
+            readFile.read(CLIENTES);
+            readFile.read(ESTAFETAS);
+            readFile.read(ENCOMENDAS);
+            readFile.read(ESTACIONAMENTOVEICULO);
             readFile.read(CAMINHOS);
         }
 
