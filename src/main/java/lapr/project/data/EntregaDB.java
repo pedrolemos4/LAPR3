@@ -9,7 +9,6 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -126,7 +125,6 @@ public class EntregaDB extends DataHandler {
      *
      * @param listEnderecos          lista de endereços
      * @param listEnderecosEncomenda lista dos endereços das encomendas realizadas
-     * @param est                    estafeta
      * @param veiculo                veículo
      * @param atributo               atributo
      * @param pesoTotalEntrega       peso total de entrega

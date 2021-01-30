@@ -205,11 +205,7 @@ public class EstacionamentosDB extends DataHandler {
 
         try (Statement stm = getConnection().createStatement()) {
             try (ResultSet rSet = stm.executeQuery(query)) {
-                if (rSet.next()) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !rSet.next();
             }
         } catch (SQLException e) {
             Logger.getLogger(EstacionamentosDB.class.getName()).log(Level.WARNING, e.getMessage());
