@@ -16,6 +16,7 @@ public class EstacionamentoController {
     private final ParqueDB parqueDB;
     private final EstafetaDB estafetaDB;
     private static final String ADMINEMAIL = "admlapr123@gmail.com";
+    private static final String SCOOTER = "scooter";
 
     /**
      * Constroi uma instancia de EstacionamentoController recebendo uma
@@ -95,45 +96,47 @@ public class EstacionamentoController {
 
         if (newFile.delete() && newFileFlag.delete()) {
             return adicionarEstacionamentoVeiculo(veiculo, parque, estac, estafeta,estimativa);
+        }else {
+            return false;
+        }
+    }
+
+    public boolean adicionarEstacionamentoVeiculo(Veiculo veiculo, Parque parque, Estacionamento estac, Utilizador estafeta, int estimativa) {
+        if (veiculo.getDescricao().equalsIgnoreCase(parque.getTipo()) && estac.getCarregador() == 1) {
+            if (estimativa == -1) {
+                return notificarMauEstacionamento(veiculo, estafeta, estimativa);
+            } else if (estacionamentosDB.getEstacionamentoVeiculo(estac, veiculo)) {
+                estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo, estac.getIdParque());
+                try {
+                    veiculo.setEstadoVeiculo(2);
+                    veiculoDB.updateVeiculo(veiculo);
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                return notificarNovaEstimativa(veiculo, estafeta, estimativa);
+            } else {
+                return notificarUpdateEstimativa(veiculo, estafeta, estimativa);
+            }
+
         } else {
             return false;
         }
     }
 
-    public boolean adicionarEstacionamentoVeiculo(Veiculo veiculo, Parque parque, Estacionamento estac, Utilizador estafeta, int estimativa){
-        if (veiculo.getDescricao().equalsIgnoreCase(parque.getTipo()) && estac.getCarregador() == 1) {
-            String scooter = "scooter";
-            if (estimativa == -1){
-                if(veiculo.getDescricao().equalsIgnoreCase(scooter)) {
-                    return (notificaEstafeta(false, estimativa, estafeta.getEmail()));
-                }else{
-                    return (notificaAdministrador(false,estimativa,veiculo.getId()));
-                }
-            } else {
-                if(estacionamentosDB.getEstacionamentoVeiculo(estac,veiculo)){
-                    estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo,estac.getIdParque());
-                    try {
-                        veiculo.setEstadoVeiculo(2);
-                        veiculoDB.updateVeiculo(veiculo);
-
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
-                    if (veiculo.getDescricao().equalsIgnoreCase(scooter)) {
-                        return (notificaEstafeta(true, estimativa, estafeta.getEmail()));
-                    } else {
-                        return (notificaAdministrador(true, estimativa, veiculo.getId()));
-                    }
-                }else{
-                    if (veiculo.getDescricao().equalsIgnoreCase(scooter)) {
-                        return (updateEstimativa(estimativa, estafeta.getEmail()));
-                    } else {
-                        return (updateEstimativa(estimativa, ADMINEMAIL));
-                    }
-                }
-            }
+    public boolean notificarNovaEstimativa(Veiculo veiculo, Utilizador estafeta, int estimativa){
+        if (veiculo.getDescricao().equalsIgnoreCase(SCOOTER)) {
+            return (notificaEstafeta(true, estimativa, estafeta.getEmail()));
         } else {
-            return false;
+            return (notificaAdministrador(true, estimativa, veiculo.getId()));
+        }
+    }
+
+    public boolean notificarMauEstacionamento(Veiculo veiculo, Utilizador estafeta, int estimativa){
+        if (veiculo.getDescricao().equalsIgnoreCase(SCOOTER)) {
+            return (notificaEstafeta(false, estimativa, estafeta.getEmail()));
+        } else {
+            return (notificaAdministrador(false, estimativa, veiculo.getId()));
         }
     }
 
@@ -167,6 +170,14 @@ public class EstacionamentoController {
             mensagem = "O drone " + idVeiculo + " foi acoplado sem sucesso.";
         }
         return emailDB.sendEmail(ADMINEMAIL, ADMINEMAIL, assunto, mensagem);
+    }
+
+    public boolean notificarUpdateEstimativa(Veiculo veiculo, Utilizador estafeta, int estimativa){
+        if (veiculo.getDescricao().equalsIgnoreCase(SCOOTER)) {
+            return (updateEstimativa(estimativa, estafeta.getEmail()));
+        } else {
+            return (updateEstimativa(estimativa, ADMINEMAIL));
+        }
     }
 
     public boolean updateEstimativa(int estimativa, String email) {

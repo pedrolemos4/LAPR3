@@ -6,7 +6,6 @@ import lapr.project.model.*;
 
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

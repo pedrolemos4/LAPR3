@@ -240,6 +240,79 @@ class EstacionamentoControllerTest {
         copyContent(fileflag1, fileflag);*/
     }
 
+    @Test
+    void simulateScooterMalEstacionada3() throws Exception {
+        System.out.println("simulateScooterMalEstacionada3()");
+
+        Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
+        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
+        Estacionamento estacionamento = new Estacionamento(0, 0, 0);
+        Parque parque = new Parque(0, 1, 1, "scooter", 20);
+        path = null;
+        pathReserve = null;
+
+        String pathtest = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3/estimate_1.data";
+
+        when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
+        when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
+        when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(parqueDB.getParqueByID(0)).thenReturn(parque);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+
+        new FileInputStream(new File("src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3/estimate_1.data"));
+        new FileInputStream(new File("src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3/estimate_1.data.flag"));
+        assertFalse(instance.simulateParkingVeiculo(pathtest));
+    }
+
+    @Test
+    void simulateScooterMalEstacionada4() throws Exception {
+        System.out.println("simulateScooterMalEstacionada4()");
+
+        Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
+        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
+        Estacionamento estacionamento = new Estacionamento(0, 0, 0);
+        Parque parque = new Parque(0, 1, 1, "scooter", 20);
+        path = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3";
+        pathReserve = null;
+
+        String pathtest = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3/estimate_1.data";
+
+        when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
+        when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
+        when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(parqueDB.getParqueByID(0)).thenReturn(parque);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+
+        new FileInputStream(new File("src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3/estimate_1.data.flag"));
+        assertFalse(instance.simulateParkingVeiculo(pathtest));
+    }
+
+    @Test
+    void simulateScooterMalEstacionada5() throws Exception {
+        System.out.println("simulateScooterMalEstacionada5()");
+
+        Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
+        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
+        Estacionamento estacionamento = new Estacionamento(0, 0, 0);
+        Parque parque = new Parque(0, 1, 1, "scooter", 20);
+        path = null;
+        pathReserve = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3";
+
+        String pathtest = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3/estimate_1.data";
+
+        when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
+        when(estacionamentosDB.getEstacionamentoById(estacionamento.getNumeroLote())).thenReturn(estacionamento);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
+        when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(parqueDB.getParqueByID(0)).thenReturn(parque);
+        when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
+
+        new FileInputStream(new File("src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3/estimate_1.data.flag"));
+        assertFalse(instance.simulateParkingVeiculo(pathtest));
+    }
+
     //Estimativa = -1, falta de .flag
     @Test
     void simulateDroneMalEstacionado() throws Exception {
@@ -336,17 +409,6 @@ class EstacionamentoControllerTest {
         when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
         assertFalse(instance.simulateParkingVeiculo(pathtest));
-
-        /*new File(path).createNewFile();
-        new File(path + ".flag").createNewFile();
-
-        File file = new File(path);
-        File fileflag = new File(path + ".flag");
-        File file1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateDroneMalEstacionado/estimate_1.data");
-        File fileflag1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateDroneMalEstacionado/estimate_1.data.flag");
-
-        copyContent(file1,file);
-        copyContent(fileflag1, fileflag);*/
     }
 
     //Estimativa 2 horas
@@ -376,17 +438,6 @@ class EstacionamentoControllerTest {
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
 
         assertTrue(instance.simulateParkingVeiculo(pathtest));
-
-        /*new File(path).createNewFile();
-        new File(path + ".flag").createNewFile();
-
-        File file = new File(path);
-        File fileflag = new File(path + ".flag");
-        File file1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateScooterBemEstacionada/estimate_1.data");
-        File fileflag1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateScooterBemEstacionada/estimate_1.data.flag");
-
-        copyContent(file1,file);
-        copyContent(fileflag1, fileflag);*/
     }
 
     @Test
