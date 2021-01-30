@@ -54,7 +54,7 @@ CREATE TABLE "LAPR3_G23".Administrador
 CREATE TABLE "LAPR3_G23".veiculo 
 (           idveiculo number(10) GENERATED AS IDENTITY, 
             descricao varchar(255) NOT NULL, CONSTRAINT ckDescricao check (lower(descricao) in ('drone','scooter')),
-            capacidade number(5,2) NOT NULL,
+            capacidade number(10,2) NOT NULL,
             percentagemBateria number(5,2) NOT NULL,
             pesoMaximo number(5,2) NOT NULL, 
             pesoveiculo number(5,2) NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE "LAPR3_G23".veiculo
 
 CREATE TABLE "LAPR3_G23".drone
 (           idDrone number(10),
-            hoverPower number(5,2),
+            hoverPower number(10,2),
             PRIMARY KEY (idDrone)
 );
 /
@@ -822,20 +822,20 @@ update "LAPR3_G23".veiculo set capacidade = 65 where idveiculo = 21;
 
 select * from veiculo order by idveiculo;
 
-select * from stockfarmacia;
+select * from recibo;
 --IVULFacKOHnE
 
-delete from stockfarmacia where stock = -1;
+delete from stockfarmacia;
 
-select * from encomenda;
+select * from utilizador where nif = 222541709;
 
-select * from cliente where utilizadornif = 226138330;
+select * from cliente where utilizadornif = 222541709;
 
 update cliente set creditos = 2000 where utilizadornif = 226138330;
 
 select * from utilizador;
 
-select * from estafeta;
+select * from cliente;
 
 select * from transferenciaproduto;
 
