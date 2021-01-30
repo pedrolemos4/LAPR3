@@ -104,7 +104,7 @@ public class EstacionamentoController {
     public boolean adicionarEstacionamentoVeiculo(Veiculo veiculo, Parque parque, Estacionamento estac, Utilizador estafeta, int estimativa) {
         if (veiculo.getDescricao().equalsIgnoreCase(parque.getTipo()) && estac.getCarregador() == 1) {
             if (estimativa == -1) {
-                return notificarMauEstacionamento(veiculo, estafeta, estimativa);
+                return notificarMauEstacionamento(veiculo, estafeta, estimativa) ;
             } else if (estacionamentosDB.getEstacionamentoVeiculo(estac, veiculo)) {
                 estacionamentosDB.addEstacionamentoVeiculo(estac, veiculo, estac.getIdParque());
                 try {
