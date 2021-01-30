@@ -227,17 +227,6 @@ class EstacionamentoControllerTest {
         when(estafetaDB.getUtilizadorEstafetaByNIF(estafeta.getNIF())).thenReturn(estafeta);
 
         assertFalse(instance.simulateParkingVeiculo(pathtest));
-
-        /*new File(path).createNewFile();
-        new File(path + ".flag").createNewFile();
-
-        File file = new File(path);
-        File fileflag = new File(path + ".flag");
-        File file1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateScooterMalEstacionada/estimate_1.data");
-        File fileflag1 = new File("src/main/java/lapr/project/parking/teste/reserve/simulateScooterMalEstacionada/estimate_1.data.flag");
-
-        copyContent(file1,file);
-        copyContent(fileflag1, fileflag);*/
     }
 
     @Test
@@ -274,7 +263,7 @@ class EstacionamentoControllerTest {
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         Parque parque = new Parque(0, 1, 1, "scooter", 20);
         path = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3";
-        pathReserve = null;
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateScooterMalEstacionada3";
 
         String pathtest = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3/estimate_1.data";
 
@@ -297,8 +286,8 @@ class EstacionamentoControllerTest {
         Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
         Estacionamento estacionamento = new Estacionamento(0, 0, 0);
         Parque parque = new Parque(0, 1, 1, "scooter", 20);
-        path = null;
-        pathReserve = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3";
+        path = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3";
+        pathReserve = "src/main/java/lapr/project/parking/teste/reserve/simulateScooterMalEstacionada3";
 
         String pathtest = "src/main/java/lapr/project/parking/teste/simulateScooterMalEstacionada3/estimate_1.data";
 
@@ -701,7 +690,7 @@ class EstacionamentoControllerTest {
     }
 
     @AfterEach
-    void afterUp() throws Exception {
+    void afterEach() throws Exception {
         if(path != null && pathReserve != null) {
             new File(path + "/estimate_1.data").createNewFile();
             new File(path + "/estimate_1.data.flag").createNewFile();
