@@ -179,7 +179,6 @@ public class RegistarEntregaController {
      * Devolve um grafo da scooter recebendo por parametro uma lista de endereços, o estafeta, o veiculo e o pesoTotal
      * @param listEnderecos lista de endereços
      * @param listEnderecosEncomenda lista de endereços dos clientes que fizeram encomendas relativas à entrega
-     * @param est estafeta associado à entrega
      * @param veiculo veiculo associado à entrega
      * @param atributo atributo do veiculo
      * @param pesoTotal peso total da entrega
@@ -204,7 +203,7 @@ public class RegistarEntregaController {
      * @param v veiculo usado no percurso
      * @return energia gasta no percurso
      */
-    public double getPath(Graph<Endereco, Double> graphEnergia,Graph<Endereco, Double> graphDistancia, ArrayList<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia, Veiculo v, double distanciaVeiculo) {
+    public double getPath(Graph<Endereco, Double> graphEnergia,Graph<Endereco, Double> graphDistancia, List<Endereco> listEnderecos, LinkedList<Endereco> finalShortPath, Endereco origem, double energia, Veiculo v, double distanciaVeiculo) {
         return entregaDB.getPath(graphEnergia, graphDistancia, listEnderecos, finalShortPath, origem, energia, v, distanciaVeiculo);
     }
     

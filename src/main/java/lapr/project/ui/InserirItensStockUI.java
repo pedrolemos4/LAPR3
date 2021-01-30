@@ -41,10 +41,10 @@ public class InserirItensStockUI {
 
         Map<Produto, Integer> map = controller.getListaProdutos(nif);
         System.out.println("Stock da farmácia: ");
-        for (Produto prod : map.keySet()) {
-            System.out.println("Id produto: " + prod.getId() + ", Designacao: "+prod.getDesignacao() + ", Quantidade: " + map.get(prod)
-                    + ", Preco: " + prod.getPrecoBase()
-                    + ", Peso: " + prod.getPeso());
+        for (Map.Entry<Produto, Integer> prod : map.entrySet()) {
+            System.out.println("Id produto: " + prod.getKey().getId() + ", Designacao: "+prod.getKey().getDesignacao() + ", Quantidade: " + map.get(prod.getKey())
+                    + ", Preco: " + prod.getKey().getPrecoBase()
+                    + ", Peso: " + prod.getKey().getPeso());
         }
 
         System.out.println("--Registo de Novo Produto--");

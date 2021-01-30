@@ -55,7 +55,6 @@ public class LerFicheiro extends DataHandler {
             try (Scanner in = new Scanner(new File(nameFile))) {
                 while (in.hasNextLine()) {
                     String[] items = in.nextLine().split(";");
-                    System.out.println("Ficheiro: "+nameFile);
                     switch (nameFile) {
                         case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/farmacias.csv":
                             fdb.addFarmacia(Integer.parseInt(items[0]), items[1], items[2]);

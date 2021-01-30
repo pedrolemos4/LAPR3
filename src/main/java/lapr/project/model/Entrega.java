@@ -184,10 +184,7 @@ public class Entrega {
         if (!Objects.equals(this.dataInicio, other.dataInicio)) {
             return false;
         }
-        if (!Objects.equals(this.dataFim, other.dataFim)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.dataFim, other.dataFim);
     }
     
     /**

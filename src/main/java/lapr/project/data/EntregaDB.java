@@ -9,7 +9,6 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +20,7 @@ import java.util.logging.Logger;
  */
 public class EntregaDB extends DataHandler {
 
+    private static final String DRONE = "drone";
     private static final String SCOOTER = "scooter";
     private final ParqueDB parqueDB = new ParqueDB();
     private final CaminhoDB caminhoDB = new CaminhoDB();
@@ -126,7 +126,6 @@ public class EntregaDB extends DataHandler {
      *
      * @param listEnderecos          lista de endereços
      * @param listEnderecosEncomenda lista dos endereços das encomendas realizadas
-     * @param est                    estafeta
      * @param veiculo                veículo
      * @param atributo               atributo
      * @param pesoTotalEntrega       peso total de entrega
@@ -332,7 +331,7 @@ public class EntregaDB extends DataHandler {
                             list.addAll(shortPath);
 
                         }
-                    } else{
+                    } else if (v.getDescricao().equalsIgnoreCase(DRONE) && p.getTipo().equalsIgnoreCase(DRONE)) {
                         LinkedList<Endereco> shortPath = new LinkedList<>();
                         double valor = GraphAlgorithms.shortestPath(graph, enderecoInicial, f1, shortPath);
                         if (!shortPath.contains(enderecoPorOndeNaoPodePassar) && valor < min && valor > 0 && valor < distanciaVeiculo) {

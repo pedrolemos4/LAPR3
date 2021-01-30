@@ -161,10 +161,8 @@ public class AdminUI {
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                menu();
-            } else {
-                menu();
             }
+            menu();
         } else {
             System.out.println("Descrição:\t" + descricao
                     + "\nEstado:\t" + estado
@@ -190,10 +188,8 @@ public class AdminUI {
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                menu();
-            } else {
-                menu();
             }
+            menu();
         }
     }
 
@@ -220,10 +216,8 @@ public class AdminUI {
             } catch (SQLException ex) {
                 Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            menu();
-        } else {
-            menu();
         }
+        menu();
     }
 
     public void updateVeiculo() throws ClassNotFoundException, SQLException, ParseException {
@@ -279,11 +273,10 @@ public class AdminUI {
         int idestado;
         if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("SIM")) {
             idestado = 1;
-            veiculo.setEstadoVeiculo(idestado);
         } else {
             idestado = 0;
-            veiculo.setEstadoVeiculo(idestado);
         }
+        veiculo.setEstadoVeiculo(idestado);
 
         if (veiculo.getDescricao().equalsIgnoreCase(DRONE)) {
             System.out.println("Pretende atualizar o valor do power pro do veículo? (S/N)");
@@ -308,10 +301,8 @@ public class AdminUI {
             } catch (SQLException ex) {
                 Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            menu();
-        } else {
-            menu();
         }
+        menu();
     }
 
     public void registarEstafeta() throws ClassNotFoundException, SQLException, ParseException {

@@ -156,10 +156,10 @@ public class RegistarEntregaUI {
             } else {
                 System.out.println(minDrone + " J");
             }
-            if (a == true || b == true) {
+            if (a || b) {
                 System.out.println("Escolha o meio por onde pretende realizar a entrega (terrestre/aereo)");
                 String escolha = LER.nextLine();
-                Veiculo v = new Veiculo();
+                Veiculo v;
                 double energia = 0;
                 LinkedList<Endereco> listaFinal;
                 while (!escolha.equalsIgnoreCase("terrestre") && !escolha.equalsIgnoreCase("aereo")) {

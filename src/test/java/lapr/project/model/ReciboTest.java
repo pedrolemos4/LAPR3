@@ -2,10 +2,7 @@ package lapr.project.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -211,8 +208,11 @@ class ReciboTest {
     @Test
     public void testToString1() {
         System.out.println("toString1");
+        StringBuilder s = new StringBuilder();
         String expResult = "Recibo{nif=12, id=0, preco=20.0, data=01/01/2001, idEncomenda=1";
         Recibo instance = new Recibo(12,20.0,"01/01/2001",1);
+        s.append("Recibo{").append("nif=").append(instance.getNif()).append(", id=").append(instance.getId()).append(", preco=").append(instance.getPreco()).append(", data=").append(instance.getData()).append(", idEncomenda=").append(instance.getIdEncomenda());
+        s.append(", produto=").append(new Produto(1,"produto",12,15)).append("quantidade=").append(5).append('}');
         String result = instance.toString();
         assertEquals(expResult, result);
     }
