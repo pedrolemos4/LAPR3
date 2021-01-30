@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 /**
  * @author Nuno Bettencourt <nmb@isep.ipp.pt> on 24/05/16.
@@ -19,22 +18,22 @@ class Main {
     /**
      * Logger class.
      */
-    private static final String FARMACIAS = "docs/Dados_de_Leitura/farmacias.csv";
-    private static final String PARQUES = "docs/Dados_de_Leitura/parques.csv";
-    private static final String ESTACIONAMENTOS = "docs/Dados_de_Leitura/estacionamentos.csv";
-    private static final String ESTACIONAMENTOVEICULO = "docs/Dados_de_Leitura/estacionamentoveiculo.csv";
-    private static final String CARTOES = "docs/Dados_de_Leitura/cartoes.csv";
-    private static final String ENDERECOS = "docs/Dados_de_Leitura/enderecos.csv";
-    private static final String UTILIZADORES = "docs/Dados_de_Leitura/utilizadores.csv";
-    private static final String CLIENTES = "docs/Dados_de_Leitura/clientes.csv";
-    private static final String ESTAFETAS = "docs/Dados_de_Leitura/estafetas.csv";
-    private static final String VEICULOS = "docs/Dados_de_Leitura/veiculos.csv";
-    private static final String DRONES = "docs/Dados_de_Leitura/drones.csv";
-    private static final String SCOOTERS = "docs/Dados_de_Leitura/scooters.csv";
-    private static final String CAMINHOS = "docs/Dados_de_Leitura/caminhos.csv";
-    private static final String ENCOMENDAS = "docs/Dados_de_Leitura/encomendas.csv";
-    private static final String PRODUTOS = "docs/Dados_de_Leitura/produtos.csv";
-    private static final String STOCK = "docs/Dados_de_Leitura/stock.csv";
+    private static final String FARMACIAS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/farmacias.csv";
+    private static final String PARQUES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/parques.csv";
+    private static final String ESTACIONAMENTOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/estacionamentos.csv";
+    private static final String ESTACIONAMENTOVEICULO = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/estacionamentoveiculo.csv";
+    private static final String CARTOES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/cartoes.csv";
+    private static final String ENDERECOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/enderecos.csv";
+    private static final String UTILIZADORES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/utilizadores.csv";
+    private static final String CLIENTES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/clientes.csv";
+    private static final String ESTAFETAS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/estafetas.csv";
+    private static final String VEICULOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/veiculos.csv";
+    private static final String DRONES = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/drones.csv";
+    private static final String SCOOTERS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/scooters.csv";
+    private static final String CAMINHOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/caminhos.csv";
+    private static final String ENCOMENDAS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/encomendas.csv";
+    private static final String PRODUTOS = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/produtos.csv";
+    private static final String STOCK = "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioBase/stock.csv";
 
     /**
      * Private constructor to hide implicit public one.
@@ -67,21 +66,21 @@ class Main {
                 new ProdutosDB(), new EncomendaDB());
 
         if (!readFile.baseDadosCheia()) {
-            readFile.read(ENDERECOS);
-            readFile.read(CARTOES);
-            readFile.read(VEICULOS);
-            readFile.read(DRONES);
-            readFile.read(SCOOTERS);
-            readFile.read(UTILIZADORES);
-            readFile.read(FARMACIAS);
-            readFile.read(PARQUES);
-            readFile.read(ESTACIONAMENTOS);
-            readFile.read(PRODUTOS);
-            readFile.read(STOCK);
-            readFile.read(CLIENTES);
-            readFile.read(ESTAFETAS);
-            readFile.read(ENCOMENDAS);
-            readFile.read(ESTACIONAMENTOVEICULO);
+//            readFile.read(ENDERECOS);
+//            readFile.read(CARTOES);
+//            readFile.read(VEICULOS);
+//            readFile.read(DRONES);
+//            readFile.read(SCOOTERS);
+//            readFile.read(UTILIZADORES);
+//            readFile.read(FARMACIAS);
+//            readFile.read(PARQUES);
+//            readFile.read(ESTACIONAMENTOS);
+//            readFile.read(PRODUTOS);
+//            readFile.read(STOCK);
+//            readFile.read(CLIENTES);
+//            readFile.read(ESTAFETAS);
+//            readFile.read(ENCOMENDAS);
+//            readFile.read(ESTACIONAMENTOVEICULO);
             readFile.read(CAMINHOS);
         }
 

@@ -55,16 +55,17 @@ public class RealizarEncomendaUI {
                 }
             }
         }
-        System.out.println("Introduza o id de um produto apresentado ou 0 para terminar.");
         Cliente cliente = controller.getCliente();
 
         Endereco enderecoCliente = controller.getEnderecoByNifCliente(cliente.getClienteNIF());
 
         Graph<Endereco, Double> graph = new Graph<>(true);
         graph = controller2.generateGrafo(graph, controller.getLstEnderecos(),"Terrestre");
-
+        System.out.println("endereço; " + enderecoCliente.getMorada());
         Farmacia farm = controller2.getFarmaciaProxima(graph, enderecoCliente, new ArrayList<>());
         int nif = farm.getNIF();
+        System.out.println("farmacia mais proximo: " +farm.getMorada());
+        System.out.println("Introduza o id de um produto apresentado ou 0 para terminar.");
 
         while (true) {
 
@@ -202,10 +203,11 @@ public class RealizarEncomendaUI {
             System.out.println(precoTotal);
             System.out.println("Lista de Produtos:");
             for (Map.Entry<Produto, Integer> p : mapaEncomenda.entrySet()) {
-                System.out.println(p.getKey().getDesignacao() + " " + mapaEncomenda.get(p.getKey()));
+                System.out.println(p.getKey().getDesignacao() + " " + p.getValue());
             }
 
             System.out.println("\n\nEncomenda adicionada com sucesso!");
+            System.out.println("Está agora com " +controller.getCliente().getCreditos() + " créditos.");
             rcUI.menuCliente();
         } else {
             System.out.println("\n\nEncomenda cancelada.");
