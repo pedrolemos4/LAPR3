@@ -11,7 +11,7 @@ package lapr.project.model;
  */
 public class Scooter extends Veiculo {
 
-    private int id;
+    private final int id;
 
     /**
      * Construtor completo

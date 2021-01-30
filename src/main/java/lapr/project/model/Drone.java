@@ -11,7 +11,7 @@ package lapr.project.model;
  */
 public class Drone extends Veiculo {
 
-    private int id;
+    private final int id;
     private double hoverPower;
 
     /**
