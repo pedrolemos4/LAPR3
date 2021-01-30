@@ -1,15 +1,10 @@
 package lapr.project.controller;
 
 import lapr.project.data.*;
-import lapr.project.model.Estacionamento;
-import lapr.project.model.Parque;
-import lapr.project.model.Utilizador;
-import lapr.project.model.Veiculo;
+import lapr.project.model.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -49,8 +44,11 @@ public class EstacionamentoController {
     public boolean checkParkings(String path) throws FileNotFoundException {
         String estimatePath = getDiretory(path);
         if(estimatePath != null) {
-            path = path + "/" + estimatePath;
-            return (simulateParkingVeiculo(path) ? (true) : (false));
+            StringBuilder sb;
+            sb = new StringBuilder();
+            path = sb.append(path).append("/").append(estimatePath).toString();
+
+            return (simulateParkingVeiculo(path));
         }
         return false;
     }
@@ -95,20 +93,21 @@ public class EstacionamentoController {
 
         Utilizador estafeta = estafetaDB.getUtilizadorEstafetaByNIF(nifEstafeta);
 
-        try {
-            java.nio.file.Files.delete(Paths.get(newFile.getPath()));
-            java.nio.file.Files.delete(Paths.get(newFileFlag.getPath()));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (newFile.delete() && newFileFlag.delete()) {
+            return adicionarEstacionamentoVeiculo(veiculo, parque, estac, estafeta,estimativa);
+        } else {
+            return false;
         }
+    }
 
+    public boolean adicionarEstacionamentoVeiculo(Veiculo veiculo, Parque parque, Estacionamento estac, Utilizador estafeta, int estimativa){
         if (veiculo.getDescricao().equalsIgnoreCase(parque.getTipo()) && estac.getCarregador() == 1) {
             String scooter = "scooter";
             if (estimativa == -1){
                 if(veiculo.getDescricao().equalsIgnoreCase(scooter)) {
-                    return (notificaEstafeta(false, estimativa, estafeta.getEmail()) ? (true) : (false));
+                    return (notificaEstafeta(false, estimativa, estafeta.getEmail()));
                 }else{
-                    return (notificaAdministrador(false,estimativa,veiculo.getId()) ? (true) : (false));
+                    return (notificaAdministrador(false,estimativa,veiculo.getId()));
                 }
             } else {
                 if(estacionamentosDB.getEstacionamentoVeiculo(estac,veiculo)){
@@ -121,15 +120,15 @@ public class EstacionamentoController {
                         throwables.printStackTrace();
                     }
                     if (veiculo.getDescricao().equalsIgnoreCase(scooter)) {
-                        return (notificaEstafeta(true, estimativa, estafeta.getEmail()) ? (true) : (false));
+                        return (notificaEstafeta(true, estimativa, estafeta.getEmail()));
                     } else {
-                        return (notificaAdministrador(true, estimativa, veiculo.getId()) ? (true) : (false));
+                        return (notificaAdministrador(true, estimativa, veiculo.getId()));
                     }
                 }else{
                     if (veiculo.getDescricao().equalsIgnoreCase(scooter)) {
-                        return (updateEstimativa(estimativa, estafeta.getEmail()) ? (true) : (false));
+                        return (updateEstimativa(estimativa, estafeta.getEmail()));
                     } else {
-                        return (updateEstimativa(estimativa, ADMINEMAIL) ? (true) : (false));
+                        return (updateEstimativa(estimativa, ADMINEMAIL));
                     }
                 }
             }
@@ -191,8 +190,8 @@ public class EstacionamentoController {
 
         pathnames = f.list();
 
-        String estimate = null;
-        String fileExtension = null;
+        String estimate;
+        String fileExtension;
         boolean flag = true;
         String filename = null;
         if (pathnames != null) {
