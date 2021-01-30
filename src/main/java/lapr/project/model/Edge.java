@@ -187,23 +187,6 @@ public class Edge<V,E> implements Comparable {
     }
 
     /**
-     * Clona a edge
-     * @return 
-     */
-    @Override
-    public Edge<V,E> clone() {
-
-        Edge<V,E> newEdge = new Edge<>();
-
-        newEdge.element = element;
-        newEdge.weight = weight;
-        newEdge.vOrig = vOrig;
-        newEdge.vDest = vDest;
-
-        return newEdge;
-    }
-
-    /**
      * Devolve a descrição textual da Edge
      * @return 
      */

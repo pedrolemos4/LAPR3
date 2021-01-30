@@ -190,24 +190,6 @@ public class Vertex<V, E> {
     }
 
     /**
-     * Devolve um clone do vertice
-     * @return 
-     */
-    @Override
-    public Vertex<V,E> clone() {
-
-        Vertex<V,E> newVertex = new Vertex<>();
-
-        newVertex.setKey(key);
-        newVertex.setElement(element);
-
-        for (V vert : outVerts.keySet())
-            newVertex.addAdjVert(vert, this.getEdge(vert));
-
-        return newVertex;
-    }
-
-    /**
      * Devolve a descrição do vertice
      * @return 
      */

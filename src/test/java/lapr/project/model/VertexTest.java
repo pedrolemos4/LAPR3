@@ -265,58 +265,6 @@ public class VertexTest {
         assertFalse("should not be equal to null", instance.equals(null));
 		
 	assertTrue("should be equal to itself", instance.equals(instance));
-		
-	assertTrue("should be equal to a clone", instance.equals(instance.clone()));
-        
-        Vertex<String,Integer> other = instance.clone();
-        other.remAdjVert("vAdj2");
-        assertFalse("instance should not be equal to other", instance.equals(other));
-        
-        other.addAdjVert("vAdj2",edge1);
-        assertTrue("instance should be equal to other", instance.equals(other));
-        
-        Vertex<String, Integer> instance3 = new Vertex<>(3,"Vertex3");
-        Edge<String,Integer> edge2 = new Edge<>(null, 3, instance, instance3); 
-        instance.addAdjVert("vAdj3",edge2);
-        assertFalse("instance should not be equal to other", instance.equals(other));
-    }
-
-    /**
-     * Test of clone method, of class Vertex.
-     */
-    @Test
-    public void testClone() {
-        System.out.println("clone");
-        
-        Edge<String,Integer> edge1 = new Edge<>(); 
-        String vAdj1 = "VAdj1"; 
-        instance.addAdjVert(vAdj1,edge1);
-        
-        Edge<String,Integer> edge2 = new Edge<>(); 
-        String vAdj2 = "VAdj2"; 
-        instance.addAdjVert(vAdj2,edge2);
-        
-        Vertex<String,Integer> instClone = instance.clone();
-	
-        assertTrue("number of adacency vertices should be equal", instance.numAdjVerts()==instClone.numAdjVerts());
- 	
-        //adjacency vertices should be equal
-        Iterator<String> itvertClone = instClone.getAllAdjVerts().iterator();
-        Iterator<String> itvertSource = instance.getAllAdjVerts().iterator();
-	while (itvertSource.hasNext())
-            assertTrue("vertices should be equal ",(itvertSource.next().equals(itvertClone.next())==true));
-
-         //and edges also
-        Iterator<Edge<String,Integer>> itedgeSource = instance.getAllOutEdges().iterator();
-        while (itedgeSource.hasNext()){
-            Iterator<Edge<String,Integer>> itedgeClone = instClone.getAllOutEdges().iterator();
-            boolean exists=false;
-            while (itedgeClone.hasNext()){
-                if (itedgeSource.next().equals(itedgeClone.next()))
-                   exists=true;
-            }
-            assertTrue("edges should be equal ",(exists==true)); 
-        }
     }
 
     /**
