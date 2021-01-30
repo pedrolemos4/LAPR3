@@ -658,6 +658,20 @@ class EstacionamentoControllerTest {
         assertTrue(instance.notificaEstafeta(false, 3, email));
     }
 
+    @Test
+    void notificaEstafetaEmailNaoEnviado() {
+        System.out.println("notificaEstafetaEmailNaoEnviado()");
+        path = null;
+        pathReserve = null;
+        String email = "admlapr123@gmail.com";
+        String assunto = "Estacionamento Scooter";
+        String mensagem = "A scooter foi estacionada sem sucesso, tente novamente.";
+
+        when(emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem)).thenReturn(false);
+
+        assertFalse(instance.notificaEstafeta(false, 3, email));
+    }
+
     //Email não enviado
     @Test
     void notificaEstafeta3() {
@@ -686,6 +700,20 @@ class EstacionamentoControllerTest {
         when(emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem)).thenReturn(true);
 
         assertTrue(instance.notificaAdministrador(true, 3, 1));
+    }
+
+    @Test
+    void notificaAdministradorEmailNaoEnviado() {
+        System.out.println("notificaAdministradorEmailNaoEnviado()");
+        path = null;
+        pathReserve = null;
+        String email = "admlapr123@gmail.com";
+        String assunto = "Acoplagem Drone";
+        String mensagem = "O drone 1 foi acoplado com sucesso, com uma estimativa de cerca de 3 horas até estar completamente carregado.";
+
+        when(emailDB.sendEmail("admlapr123@gmail.com", email, assunto, mensagem)).thenReturn(false);
+
+        assertFalse(instance.notificaAdministrador(true, 3, 1));
     }
     //Notifica drone mal estacionado
     @Test
@@ -763,6 +791,26 @@ class EstacionamentoControllerTest {
         when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
 
         assertTrue(instance.adicionarEstacionamentoVeiculo(veiculo,parque,estacionamento,estafeta,2));
+    }
+
+    @Test
+    void adicionarEstacionamentoVeiculoFalse() throws SQLException {
+        System.out.println("adicionarEstacionamentoVeiculoFalse()");
+
+        Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
+        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
+        Estacionamento estacionamento = new Estacionamento(0, 1, 0);
+        Parque parque = new Parque(0, 1, 1, "scooter", 20);
+        path = null;
+        pathReserve = null;
+        SQLException throwables = new SQLException();
+
+        when(veiculoDB.getVeiculoById(veiculo.getId())).thenReturn(veiculo);
+        when(estacionamentosDB.addEstacionamentoVeiculo(estacionamento, veiculo, estacionamento.getIdParque())).thenReturn(true);
+        when(estacionamentosDB.getEstacionamentoVeiculo(estacionamento, veiculo)).thenReturn(true);
+        when(veiculoDB.updateVeiculo(veiculo)).thenThrow(throwables);
+
+        assertFalse(instance.adicionarEstacionamentoVeiculo(veiculo,parque,estacionamento,estafeta,2));
     }
 
     @Test

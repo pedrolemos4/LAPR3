@@ -113,6 +113,7 @@ public class EstacionamentoController {
 
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
+                    return false;
                 }
                 return notificarNovaEstimativa(veiculo, estafeta, estimativa);
             } else {
