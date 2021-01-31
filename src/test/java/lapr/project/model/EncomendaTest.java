@@ -555,7 +555,33 @@ class EncomendaTest {
         boolean result = instance1.equals(outroObjeto);
         assertEquals(expResult, result);
     }
+    
+      /**
+     * Test of equals method, of class Encomenda.
+     */
+    @Test
+    public void testEquals16() {
+        System.out.println("equals16");
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda outroObjeto = new Encomenda(123456789, 13, "01-01-2000", 13, 13, 13, 1);
+        boolean expResult = false;
+        boolean result = instance1.equals(outroObjeto);
+        assertEquals(expResult, result);
+    }
 
+      /**
+     * Test of equals method, of class Encomenda.
+     */
+    @Test
+    public void testEquals17() {
+        System.out.println("equals17");
+        Encomenda outroObjeto = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-01-2000", 13, 13, 13, 1);
+        boolean expResult = false;
+        boolean result = instance1.equals(outroObjeto);
+        assertEquals(expResult, result);
+    }
+    
     /**
      * Test of hashCode method, of class Encomenda.
      */
