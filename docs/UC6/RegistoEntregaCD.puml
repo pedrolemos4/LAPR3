@@ -60,7 +60,7 @@ class Veiculo {
 
 class Drone {
   -Integer idDrone
-  -Double largura
+  -Double hoverPower
 }
 
 class Scooter {
@@ -84,7 +84,6 @@ RegistarEntregaUI ..> RegistarEntregaController
 
 RegistarEntregaController ..> EstafetaDB
 RegistarEntregaController ..> EntregaDB
-RegistarEntregaController ..> AplicacaoPOT
 RegistarEntregaController ..> SessaoUtilizador
 
 EntregaDB "1" --> "*" Entrega : tem registadas

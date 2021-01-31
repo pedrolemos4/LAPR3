@@ -12,7 +12,6 @@ class Parque {
 class Farmacia {
   -NIF
   -email
-  -morada
 }
 
 class Utilizador {
@@ -25,7 +24,7 @@ class Utilizador {
 
 class Veiculo {
   -idVeiculo
-  -tipo
+  -descricao
   -percentagemBateria
   -pesoMaximo
   -pesoVeiculo
@@ -33,10 +32,16 @@ class Veiculo {
   -areaFrontal
 }
 
+class Drone{
+  -idDrone
+  -hoverPower
+}
+
 Administrador "1" -- "1" Utilizador: atua como >
 Administrador "1" -- "1..*" Parque: remove >
 Farmacia "1" -- "1" Parque: tem >
 Farmacia "1" -- "1" Administrador: tem >
-Parque "1" -- "0..*" Veiculo: tem > 
+Parque "1" -- "0..*" Veiculo: tem >
+Veiculo "1" -- "1" Drone: é <
 
 @enduml

@@ -85,6 +85,12 @@ CTRL -> RS : listaVeiculos = getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmac
 activate RS
 deactivate RS
 deactivate CTRL
+UI -> CTRL : generateGrafo(graphDistanciaScooter, listEnderecosScooter,Terrestre)
+activate CTRL
+CTRL -> FARDB : generateGrafo(graphDistanciaScooter, listEnderecosScooter,Terrestre)
+activate FARDB
+deactivate FARDB
+deactivate CTRL
 loop
 UI -> CTRL : generateGraphScooter(listEnderecosScooter, listEnderecos, est, veiculo, pesoEntrega)
 activate CTRL
@@ -92,9 +98,9 @@ CTRL -> ENTRDB : graphScooter = generateGraphScooter(listEnderecosScooter, listE
 activate ENTRDB
 deactivate ENTRDB
 deactivate CTRL
-UI -> CTRL : getPath(graphScooter, listEnderecos, finalShortPathScooter, endereco, 0, veiculo, 0, list)
+UI -> CTRL : getPath(graphScooter, graphDistanciaScooter, listEnderecos, finalShortPathScooter, endereco, 0, veiculo, 0, list)
 activate CTRL
-CTRL -> ENTRDB : getPath(graphScooter, listEnderecos, finalShortPathScooter, endereco, 0, veiculo, 0, list)
+CTRL -> ENTRDB : getPath(graphScooter, graphDistanciaScooter, listEnderecos, finalShortPathScooter, endereco, 0, veiculo, 0, list)
 activate ENTRDB
 deactivate ENTRDB
 deactivate CTRL

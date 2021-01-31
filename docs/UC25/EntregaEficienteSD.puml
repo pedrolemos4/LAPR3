@@ -13,9 +13,9 @@ participant ":EntregaDB" as ENDB
 activate ADMIN
 ADMIN -> UI : pretende saber qual a entrega mais eficiente
 activate UI
-UI -> CTRL : getListaVeiculoEntrega(pesoMaximoEntrega)
+UI -> CTRL : getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia)
 activate CTRL
-CTRL -> DRDB : listaVeiculos = getListaVeiculoEntrega(pesoMaximoEntrega)
+CTRL -> DRDB : listaVeiculos = getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia)
 activate DRDB
 deactivate DRDB
 deactivate CTRL

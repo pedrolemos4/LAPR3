@@ -9,6 +9,7 @@ class SessaoUtilizador{
 
 class FarmaciaDB{
   +getLstFarmacias()
+  +generateGrafo(graphDistanciaScooter, listEnderecosScooter,Terrestre)
 }
 
 class VeiculoDB{
@@ -34,7 +35,7 @@ class Entrega {
 
 class EntregaDB {
   +generateGraphScooter(listEnderecosScooter, listEnderecos, est, veiculo, pesoEntrega)
-  +getPath(graphScooter, listEnderecos, finalShortPathScooter, endereco, 0, veiculo, 0, list)
+  +getPath(graphScooter, graphDistanciaScooter, listEnderecos, finalShortPathScooter, endereco, 0, veiculo, 0, list)
 }
 
 class EstafetaDB {
@@ -49,8 +50,9 @@ class RegistarEntregaController {
   +getEnderecoOrigem(nifFarmacia)
   +getLstEnderecosScooter()
   +getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia)
+  +generateGrafo(graphDistanciaScooter, listEnderecosScooter,Terrestre)
   +generateGraphScooter(listEnderecosScooter, listEnderecos, est, veiculo, pesoEntrega)
-  +getPath(graphScooter, listEnderecos, finalShortPathScooter, endereco, 0, veiculo, 0, list)
+  +getPath(graphScooter, graphDistanciaScooter, listEnderecos, finalShortPathScooter, endereco, 0, veiculo, 0, list)
 }
 
 class RegistarEntregaUI {
@@ -116,7 +118,7 @@ class Veiculo {
 
 class Drone {
   -Integer idDrone
-  -Double largura
+  -Double hoverPower
 }
 
 class Farmacia {

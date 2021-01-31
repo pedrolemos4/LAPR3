@@ -11,11 +11,6 @@ class Entrega {
 }
 
 class Estafeta {
-  -NIF
-  -nome
-  -email
-  -numeroSegurancaSocial
-  -password
   -pesoEstafeta
 }
 

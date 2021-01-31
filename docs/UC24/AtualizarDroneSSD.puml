@@ -5,7 +5,7 @@ actor "Administrador" as UNR
 activate UNR
 UNR -> ":Sistema" : Pretende atualizar um novo drone
 activate ":Sistema"
-":Sistema" --> UNR : solicita dados do drone(percentagemBateria, pesoMaximo, pesoVeiculo, potencia, areaFrontal)
+":Sistema" --> UNR : solicita dados do drone(percentagemBateria, pesoMaximo, pesoVeiculo, potencia, areaFrontal, hoverPower)
 deactivate ":Sistema"
 
 

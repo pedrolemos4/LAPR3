@@ -87,7 +87,7 @@ class Veiculo {
 
 class Drone {
   -idDrone
-  -hoverpower
+  -hoverPower
 }
 
 
@@ -137,6 +137,7 @@ class Caminho {
   -roadResistanceCoefficient
   -velocidadeVento
   -direcaoVento
+  -tipo
 }
 
 Encomenda "1" -- "1" EstadoEncomenda : tem >
@@ -176,7 +177,5 @@ TransferenciaProduto "1" -- "*" EstadoTransferencia: tem >
 TransferenciaProduto "1" -- "1" Produto: referente a >
 Caminho "1" -- "1" Endereco: referente a >
 Caminho "1" -- "1" Endereco: referente a >
-
-
 
 @enduml

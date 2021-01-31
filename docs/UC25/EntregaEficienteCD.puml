@@ -2,7 +2,7 @@
 skinparam classAttributeIconSize 0
 
 class VeiculoDB {
-  +getListaVeiculoEntrega(pesoMaximoEntrega)
+  +getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia)
 }
 
 class EntregaDB {
@@ -11,7 +11,7 @@ class EntregaDB {
 }
 
 class RegistarEntregaController {
-    +getListaVeiculoEntrega(pesoMaximoEntrega)
+    +getListaVeiculoEntrega(pesoMaximoEntrega, nifFarmacia)
     +generateGraphScooter(listEnderecosScooter, listEnderecos, est, v, pesoEntrega)
     +getPath(graphScooter, listEnderecos, finalShortPathScooter, endereco, 0, v)
 }
@@ -28,11 +28,6 @@ class Entrega {
 }
 
 class Estafeta {
-  -Integer NIF
-  -String nome
-  -String email
-  -Integer numeroSegurancaSocial
-  -String password
   -Double pesoEstafeta
 }
 

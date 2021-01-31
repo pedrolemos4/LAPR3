@@ -2,11 +2,13 @@
 skinparam classAttributeIconSize 0
 
 class VeiculoDB {
-  +update(veiculo)
+  +updateDrone(idVeiculo, hoverPower)
+  +updateVeiculo(veiculo)
 }
 
 class VeiculoController {
-    +update(veiculo)
+  +updateDrone(idVeiculo, hoverPower)
+  +updateVeiculo(veiculo)
 }
 
 class AdminUI {
@@ -22,7 +24,6 @@ class Parque {
 class Farmacia {
   -Integer NIF
   -String email
-  -String morada
 }
 
 class Utilizador {
@@ -35,12 +36,17 @@ class Utilizador {
 
 class Veiculo {
   -Integer idVeiculo
-  -String tipo
+  -String descricao
   -Double percentagemBateria
   -Double pesoMaximo
   -Double pesoVeiculo
   -Double potencia
   -Double areaFrontal
+}
+
+class Drone{
+  -Integer idDrone
+  -Double hoverPower
 }
 
 Administrador "1" -- "1" Utilizador: atua como >
@@ -49,10 +55,10 @@ Farmacia "1" -- "1" Parque: tem >
 Farmacia "1" -- "1" Administrador: tem >
 Parque "1" -- "0..*" Veiculo: tem > 
 VeiculoDB "1" -- "*" Veiculo: tem registados> 
+Veiculo "1" -- "1" Drone: é <
 
 AdminUI ..> VeiculoController 
 
 VeiculoController ..> VeiculoDB
-
 
 @enduml
