@@ -35,7 +35,7 @@ o funcionamento continua tal como mostra na situação 1.
 * Nenhuma das farmácias tem todos os produtos necessários na quantidade pretendida. Neste caso 
 o cliente é notificado da situação, recebendo apenas todos os produtos que existiam nas farmácias.
 
-## Adminstrador
+## Administrador
 Um administrador poderá fazer o login na plataforma e dentro ela terá uma variedade de operações que pode realizar:
 *	**Adicionar veículo** – Adiciona um veículo, seja scooter ou drone, à base de dados da plataforma.
 *	**Remover veículo** – Remove um veículo, seja scooter ou drone, da base de dados da plataforma.
