@@ -311,36 +311,6 @@ public class VeiculoControllerTest {
 
     }
 
-//    /**
-//     * Test of updateScooter method, of class VeiculoController.
-//     */
-//    @Test
-//    public void testUpdateScooter() throws Exception {
-//        System.out.println("updateScooter");
-//        int id = 1;
-//        double areaFrontal = 15.0;
-//        boolean expResult = false;
-//        when(veiculoDBMock.updateScooter(id, areaFrontal)).thenReturn(expResult);
-//        boolean result = instance.updateScooter(id, areaFrontal);
-//        assertEquals(expResult, result);
-//
-//    }
-    
-//    /**
-//     * Test of updateScooter method, of class VeiculoController.
-//     */
-//    @Test
-//    public void testUpdateScooter1() throws Exception {
-//        System.out.println("updateScooter1");
-//        int id = 1;
-//        double areaFrontal = 15.0;
-//        boolean expResult = true;
-//        when(veiculoDBMock.updateScooter(id, areaFrontal)).thenReturn(expResult);
-//        boolean result = instance.updateScooter(id, areaFrontal);
-//        assertEquals(expResult, result);
-//
-//    }
-
     /**
      * Test of removeDrone method, of class VeiculoController.
      */

@@ -32,7 +32,7 @@ class Veiculo {
 
 class Drone {
   -idDrone
-  -largura
+  -hoverPower
 }
 
 class Estafeta {

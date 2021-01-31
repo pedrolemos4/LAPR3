@@ -98,7 +98,7 @@ public class RegistarEntregaUI {
             Veiculo drone = new Veiculo();
 
             Graph<Endereco, Double> graphScooter = new Graph<>(true);
-            Graph<Endereco, Double> graphDrone;
+            Graph<Endereco, Double> graphDrone = new Graph<>(true);
 
             double minScooter = Double.MAX_VALUE;
             double minDrone = Double.MAX_VALUE;
@@ -211,30 +211,30 @@ public class RegistarEntregaUI {
                                 .getWeight();
                         double distancia = CalculosFisica.calculoDistancia(listaFinal.get(aux).getLatitude(),
                                 listaFinal.get(aux).getLongitude(), listaFinal.get(aux).getAltitude(),
-                                listaFinal.get(aux).getLatitude(), listaFinal.get(aux).getLongitude(),
-                                listaFinal.get(aux).getAltitude());
+                                listaFinal.get(aux + 1).getLatitude(), listaFinal.get(aux + 1).getLongitude(),
+                                listaFinal.get(aux + 1).getAltitude());
                         Caminho c = controller.getCaminhoByEnderecos(listaFinal.get(aux).getMorada(),
                                 listaFinal.get(aux + 1).getMorada());
                         double tempo = CalculosFisica.calculoTempoScooter(distancia, c.getVelocidadeVento(),
                                 c.getDirecaoVento());
                         ImprimirFicheiro.imprimirFicheiro("Caminho: " + c.toString() + "Distancia: " + distancia
                                 + "Energia: " + energiaPorTroco + "Tempo: " + tempo);
-                        System.out.println("Caminho: " + c.toString() + "Distancia: " + distancia + "Energia: "
-                                + energiaPorTroco + "Tempo: " + tempo);
+                        System.out.println("Caminho: " + c.toString() + " Distancia: " + distancia + "m, Energia: "
+                                + energiaPorTroco + "J, Tempo: " + tempo + " s");
                     } else {
-                        double energiaPorTroco = graphScooter.getEdge(listaFinal.get(aux), listaFinal.get(aux + 1))
+                        double energiaPorTroco = graphDrone.getEdge(listaFinal.get(aux), listaFinal.get(aux + 1))
                                 .getWeight();
                         double distancia = CalculosFisica.calculoDistancia(listaFinal.get(aux).getLatitude(),
-                                listaFinal.get(aux).getLongitude(), 0, listaFinal.get(aux).getLatitude(),
-                                listaFinal.get(aux).getLongitude(), 0);
+                                listaFinal.get(aux).getLongitude(), 0, listaFinal.get(aux + 1).getLatitude(),
+                                listaFinal.get(aux + 1).getLongitude(), 0);
                         Caminho c = controller.getCaminhoByEnderecos(listaFinal.get(aux).getMorada(),
                                 listaFinal.get(aux + 1).getMorada());
                         double tempo = CalculosFisica.calculoTempoDrone(distancia, c.getVelocidadeVento(),
                                 c.getDirecaoVento());
                         ImprimirFicheiro.imprimirFicheiro("Caminho: " + c.toString() + "Distancia: " + distancia
                                 + "Energia: " + energiaPorTroco + "Tempo: " + tempo);
-                        System.out.println("Caminho: " + c.toString() + "Distancia: " + distancia + "Energia: "
-                                + energiaPorTroco + "Tempo: " + tempo);
+                        System.out.println("Caminho: " + c.toString() + " Distancia: " + distancia + "m, Energia: "
+                                + energiaPorTroco + "J, Tempo: " + tempo + " s");
                     }
                 }
 

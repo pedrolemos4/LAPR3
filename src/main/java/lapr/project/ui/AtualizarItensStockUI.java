@@ -73,7 +73,6 @@ public class AtualizarItensStockUI {
             String confirm = LER.next();
 
             if (confirm.equalsIgnoreCase("S") || confirm.equalsIgnoreCase("SIM")) {
-                System.out.println("Produto id: " + produto.getId());
                 produto.setDesignacao(desig);
                 produto.setPeso(peso);
                 produto.setPrecoBase(preco);

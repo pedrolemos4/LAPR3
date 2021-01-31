@@ -142,8 +142,7 @@ public class EstacionamentosDB extends DataHandler {
      * @return lista de estacionamento do parque
      */
     public List<Estacionamento> getListaEstacionamentosByFarmaciaNifParqueId(int farmNIF, int parqueID) {
-        String query = "SELECT * FROM estacionamento e INNER JOIN parque p ON p.FarmaciaNIF = e.ParqueFarmaciaNIF "
-                + "INNER JOIN farmacia f ON f.NIF = e.ParqueFarmaciaNIF " + "WHERE e.ParqueFarmaciaNIF = " + farmNIF
+        String query = "SELECT * FROM estacionamento e INNER JOIN parque p ON p.idParque = e.idParque "
                 + "AND p.FarmaciaNIF = " + farmNIF + "AND p.idParque = " + parqueID;
 
         return getFromQuery(query);

@@ -29,13 +29,7 @@ public class RegistarFarmaciaUI {
      */
     public void registaFarmacia() {
         List<Parque> lparks = new ArrayList<>();
-        System.out.println("Lista de Farmácias: ");
-        List<Farmacia> lf = controller.getListaFarmacias();
 
-        for (Farmacia farm : lf) {
-            System.out.println(farm);
-            System.out.println(controller.getListaParquesByFarmaciaNif(farm.getNIF()));
-        }
         System.out.println("--Registo de Nova Farmácia--");
         System.out.println("Introduza os dados relativos à nova Farmácia");
         System.out.println("NIF:");
