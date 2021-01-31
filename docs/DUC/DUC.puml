@@ -1,0 +1,72 @@
+@startuml
+
+usecase UC1 as "UC1 - Registar Cliente"
+usecase UC2 as "UC2 - Leitura de dados"
+usecase UC3 as "UC3 - Adicionar scooter"
+usecase UC4 as "UC4 - Atualizar scooter"
+usecase UC5 as "UC5 - Remover scooter"
+usecase UC6 as "UC6 - Registo entrega"
+
+usecase UC7 as "UC7 - Adicionar Drone"
+usecase UC8 as "UC8 - Remover Drone"
+usecase UC9 as "UC9 - Notificar Estafeta"
+usecase UC10 as "UC10 - Registar Estafeta"
+
+usecase UC11 as "UC11 - Inicia Entrega"
+usecase UC12 as "UC12 - Estaciona Veículo"
+usecase UC13 as "UC13 - Inserir Itens Stock"
+usecase UC14 as "UC14 - Realiza Encomenda"
+
+usecase UC15 as "UC15 - Farmácia Mais Próxima Cliente"
+usecase UC16 as "UC16 - Inserir Estacionamento"
+usecase UC17 as "UC17 - Atualizar Estafeta"
+usecase UC18 as "UC18 - Atualizar Item Stock"
+
+usecase UC19 as "UC19 - Pedir Item Farmácia"
+usecase UC20 as "UC20 - Notificar Cliente"
+usecase UC21 as "UC21 - Registar Farmácia"
+usecase UC22 as "UC22 - Enviar Nota Transferência"
+
+usecase UC23 as "UC23 - Enviar Nota Entrega"
+usecase UC24 as "UC24 - Atualizar Drone"
+usecase UC25 as "UC25 - Entrega Eficiente"
+
+actor "Cliente" as CLI
+actor "Administrador" as ADM
+actor "Farmacia" as FAR
+actor "Estafeta" as EST
+actor "Utilizador" as UNR
+
+left to right direction
+
+CLI -->(UC1)
+CLI -->(UC14)
+CLI -->(UC15)
+
+UNR -->(UC2)
+UNR -->(UC12)
+
+ADM -->(UC3)
+ADM -->(UC4)
+ADM -->(UC5)
+ADM --> (UC7)
+ADM --> (UC8)
+ADM --> (UC9)
+ADM --> (UC10)
+ADM --> (UC13)
+ADM -->(UC16)
+ADM -->(UC17)
+ADM -->(UC18)
+ADM -->(UC21)
+ADM -->(UC24)
+
+FAR --> (UC19)
+FAR -->(UC22)
+FAR -->(UC23)
+
+EST -->(UC6)
+EST --> (UC11)
+EST --> (UC20)
+EST --> (UC25)
+
+@enduml
