@@ -5,9 +5,6 @@
  */
 package lapr.project.controller;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import lapr.project.data.EstacionamentosDB;
 import lapr.project.data.FarmaciaDB;
 import lapr.project.data.ParqueDB;
@@ -16,7 +13,12 @@ import lapr.project.model.Farmacia;
 import lapr.project.model.Parque;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -113,21 +115,19 @@ public class InserirEstacionamentosControllerTest {
     }
 
     /**
-     * Test of getNumMaxParqueByNIF method, of class
-     * InserirEstacionamentosController.
      *
      * @throws java.sql.SQLException
      */
     @Test
-    public void testGetNumMaxByFarmaciaNifParqueId() throws SQLException {
-        System.out.println("getNumMaxParqueByNIF");
+    public void testgetParqueByID() throws SQLException {
+        System.out.println("getgetParqueByID");
         Farmacia farm = new Farmacia(123456789, "email", "rua1");
         farmaciaMock.addFarmacia(farm);
         Parque parque = new Parque(1, 123456789, 20, "drones",1000);
         parqueMock.addParque(parque);
-        int expResult = parque.getNumeroMaximo();
-        when(parqueMock.getNumMaxByFarmaciaNifParqueId(123456789, 1)).thenReturn(20);
-        int result = instance1.getNumMaxByFarmaciaNifParqueId(123456789, 1);
+        Parque expResult = parque;
+        when(parqueMock.getParqueByID(1)).thenReturn(parque);
+        Parque result = instance1.getParqueByID(1);
         assertEquals(expResult, result);
     }
 

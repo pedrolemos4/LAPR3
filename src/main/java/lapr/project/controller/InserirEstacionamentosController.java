@@ -5,13 +5,14 @@
  */
 package lapr.project.controller;
 
-import java.util.List;
 import lapr.project.data.EstacionamentosDB;
 import lapr.project.data.FarmaciaDB;
 import lapr.project.data.ParqueDB;
 import lapr.project.model.Estacionamento;
 import lapr.project.model.Farmacia;
 import lapr.project.model.Parque;
+
+import java.util.List;
 
 /**
  *
@@ -99,13 +100,11 @@ public class InserirEstacionamentosController {
     }
 
     /**
-     * Retorna o limite máximo de veiculos do parque recebendo o nif da farmácia
-     * referente ao parque
-     * @param farmNIF nif da farmacia
+     * Retorna o parque através do seu id.
      * @param parqueID id do parque
-     * @return limite máximo de veiculos do parque
+     * @return parque
      */
-    public int getNumMaxByFarmaciaNifParqueId(int farmNIF, int parqueID) {
-        return parqueDB.getNumMaxByFarmaciaNifParqueId(farmNIF, parqueID);
+    public Parque getParqueByID(int parqueID) {
+        return parqueDB.getParqueByID(parqueID);
     }
 }
