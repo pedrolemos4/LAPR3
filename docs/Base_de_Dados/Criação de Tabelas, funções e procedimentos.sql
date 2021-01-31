@@ -29,8 +29,8 @@ drop table "LAPR3_G23".caminho CASCADE CONSTRAINTS PURGE;
 
 
 CREATE TABLE "LAPR3_G23".Farmacia 
-(           NIF number(10),
-            email varchar(255) NOT NULL UNIQUE,
+(           NIF number(10), CONSTRAINT ckNifFarmacia CHECK(REGEXP_LIKE(NIF, '^\d{9}$')),
+            email varchar(255) NOT NULL UNIQUE, CONSTRAINT ckEmailFarmacia CHECK(REGEXP_LIKE(email, '^\S+@gmail.com')),
             Morada varchar(255) NOT NULL,
             PRIMARY KEY (NIF)
 );
@@ -123,7 +123,7 @@ CREATE TABLE "LAPR3_G23".Parque
 (           idParque number(10) GENERATED AS IDENTITY, 
             FarmaciaNIF number(10) NOT NULL,
             numeroMaximo number(10) NOT NULL,
-            tipo varchar(255) NOT NULL,
+            tipo varchar(255) NOT NULL, CONSTRAINT cktipoParque check (lower(tipo) in ('drone','scooter')),
             maxCap number(10) NOT NULL,
             PRIMARY KEY (idParque)
 );
@@ -139,10 +139,10 @@ CREATE TABLE "LAPR3_G23".Endereco
 /
 
 CREATE TABLE "LAPR3_G23".Utilizador 
-(           NIF number(10), 
+(           NIF number(10), CONSTRAINT ckNifUtilizador CHECK(REGEXP_LIKE(NIF, '^\d{9}$')),
             nome varchar(255) NOT NULL, 
-            email varchar(255) NOT NULL UNIQUE, 
-            numeroSegurancaSocial number(10) NOT NULL UNIQUE, 
+            email varchar(255) NOT NULL UNIQUE,  CONSTRAINT ckEmailUtilizador CHECK(REGEXP_LIKE(email, '^\S+@gmail.com')),
+            numeroSegurancaSocial number(10) NOT NULL UNIQUE, CONSTRAINT ckNumeroSegurancaSocial CHECK(REGEXP_LIKE(numeroSegurancaSocial, '^\d{9}$')),
             password varchar(255) NOT NULL, 
             PRIMARY KEY (NIF)
  );
@@ -207,7 +207,7 @@ CREATE TABLE "LAPR3_G23".Estacionamentoveiculo
 CREATE TABLE "LAPR3_G23".Recibo 
 (           idRecibo number(10) GENERATED AS IDENTITY, 
             dataRecibo timestamp NOT NULL, 
-            preco number(10) NOT NULL,
+            preco number(10, 2) NOT NULL,
             ClienteUtilizadorNIF number(10) NOT NULL, 
             EncomendaidEncomenda number(10) NOT NULL,
             PRIMARY KEY (idRecibo)
@@ -224,16 +224,16 @@ CREATE TABLE "LAPR3_G23".LinhaRecibo
 
 CREATE TABLE "LAPR3_G23".Pagamento 
 (           idPagamento number(10) GENERATED AS IDENTITY, 
-            precoTotal number(10) NOT NULL,
+            precoTotal number(10, 2) NOT NULL,
             EncomendaidEncomenda number(10) NOT NULL, 
             PRIMARY KEY (idPagamento)
 );
 /
 
 CREATE TABLE "LAPR3_G23".Cartao 
-(           numeroCartaoCredito number(16),
+(           numeroCartaoCredito number(16), CONSTRAINT ckNumeroCartaoCredito CHECK(REGEXP_LIKE(numeroCartaoCredito, '^\d{16}$')),
             dataDeValidade date NOT NULL, 
-            CCV number(3) NOT NULL, 
+            CCV number(3) NOT NULL, CONSTRAINT ckCCV CHECK(REGEXP_LIKE(CCV, '^\d{3}$')),
             PRIMARY KEY (numeroCartaoCredito)
 );
 /
@@ -268,7 +268,7 @@ CREATE TABLE "LAPR3_G23".Caminho
             roadResistanceCoefficient number(5,2) check(roadResistanceCoefficient > 0),
             velocidadeVento number(5,2) check(velocidadeVento > 0),
             direcaoVento number(5,2) check(direcaoVento BETWEEN 0 AND 360),
-            tipo varchar(255),
+            tipo varchar(255), CONSTRAINT cktipoCaminho check (lower(tipo) in ('terrestre','aerea','tipo')),
             PRIMARY KEY (morada1, morada2)
 );
 /
