@@ -75,7 +75,7 @@ quanto tempo este demora a ter a carga completa.
 
 # Modelo Relacional
 
-![docs/Base_de_Dados/Entity Relationship.jpg](docs/Base_de_Dados/Entity Relationship.jpg)
+![docs/Base_de_Dados/Entity_Relationship.jpg](docs/Base_de_Dados/Entity_Relationship.jpg)
 
 # Casos de Uso
 
