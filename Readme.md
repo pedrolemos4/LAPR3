@@ -75,12 +75,12 @@ quanto tempo este demora a ter a carga completa.
 
 # Modelo Relacional
 
-![docs/Base_de_Dados/ModeloRelacional.svg](docs/Base_de_Dados/ModeloRelacional.svg)
+![docs/Base_de_Dados/Entity Relationship.jpg](docs/Base_de_Dados/Entity Relationship.jpg)
 
 # Casos de Uso
 
 * [UC1 - Registar Cliente](docs/UC1/UC1.md)
-* [UC2 - Registar Farmácia](docs/UC2/UC2.md)
+* [UC2 - Leitura de Dados](docs/UC2/UC2.md)
 * [UC3 - Adicionar Scooter](docs/UC3/UC3.md)
 * [UC4 - Atualizar Scooter](docs/UC4/UC4.md)
 * [UC5 - Remover Scooter](docs/UC5/UC5.md)
@@ -104,7 +104,6 @@ quanto tempo este demora a ter a carga completa.
 * [UC23 - Enviar Nota Entrega](docs/UC23/UC23.md)
 * [UC24 - Atualizar Drone](docs/UC24/UC24.md)
 * [UC25 - Entrega Eficiente](docs/UC25/UC25.md)
-* [UC26 - Leitura de Dados](docs/UC26/UC26.md)
 
 ## Java source files
 
