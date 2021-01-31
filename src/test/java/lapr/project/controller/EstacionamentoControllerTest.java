@@ -839,6 +839,70 @@ class EstacionamentoControllerTest {
         assertTrue(instance.adicionarEstacionamentoVeiculo(veiculo,parque,estacionamento,estafeta,2));
     }
 
+    @Test
+    void notificarMauEstacionamento() {
+        System.out.println("notificarMauEstacionamento()");
+
+        Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
+        Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0,5);
+        path = null;
+        pathReserve = null;
+
+        String assunto = "Acoplagem Drone";
+        String mensagem = "O drone 1 foi acoplado sem sucesso.";
+        when(emailDB.sendEmail("admlapr123@gmail.com", "admlapr123@gmail.com", assunto, mensagem)).thenReturn(true);
+
+        assertTrue(instance.notificarMauEstacionamento(veiculo,estafeta,-1));
+    }
+
+    @Test
+    void notificarMauEstacionamento1() {
+        System.out.println("notificarMauEstacionamento1()");
+
+        Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
+        Veiculo veiculo = new Veiculo(1, "drone", 120, 55, 50, 50, 50, 0,5);
+        path = null;
+        pathReserve = null;
+
+        String assunto = "Acoplagem Drone";
+        String mensagem = "O drone 1 foi acoplado sem sucesso.";
+        when(emailDB.sendEmail("admlapr123@gmail.com", "admlapr123@gmail.com", assunto, mensagem)).thenReturn(false);
+
+        assertFalse(instance.notificarMauEstacionamento(veiculo,estafeta,-1));
+    }
+
+    @Test
+    void notificarMauEstacionamento2() {
+        System.out.println("notificarMauEstacionamento2()");
+
+        Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
+        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
+        path = null;
+        pathReserve = null;
+
+        String assunto = "Estacionamento Scooter";
+        String mensagem = "A scooter foi estacionada sem sucesso, tente novamente.";
+        when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(true);
+
+        assertTrue(instance.notificarMauEstacionamento(veiculo,estafeta,-1));
+    }
+
+    @Test
+    void notificarMauEstacionamento3() {
+        System.out.println("notificarMauEstacionamento3()");
+
+        Estafeta estafeta = new Estafeta(1, "um", "um", 20, 20, "pass", 0);
+        Veiculo veiculo = new Veiculo(1, "scooter", 120, 55, 50, 50, 50, 0,5);
+        path = null;
+        pathReserve = null;
+
+        String assunto = "Estacionamento Scooter";
+        String mensagem = "A scooter foi estacionada sem sucesso, tente novamente.";
+        when(emailDB.sendEmail("admlapr123@gmail.com", estafeta.getEmail(), assunto, mensagem)).thenReturn(false);
+
+        assertFalse(instance.notificarMauEstacionamento(veiculo,estafeta,-1));
+    }
+
     @AfterEach
     void afterEach() throws Exception {
         if(path != null && pathReserve != null) {
