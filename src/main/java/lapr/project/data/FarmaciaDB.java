@@ -248,12 +248,8 @@ public class FarmaciaDB extends DataHandler {
      */
     public Graph<Endereco, Double> generateGrafo(Graph<Endereco, Double> graph, List<Endereco> lst, String tipoCaminho) {
 
-        for (Endereco endereco : lst) {
-            graph.insertVertex(endereco);
-        }
-
-        for (Endereco e1 : graph.vertices()) {
-            for (Endereco e : graph.vertices()) {
+        for (Endereco e1 : lst) {
+            for (Endereco e : lst) {
                 Caminho caminho = cam.getCaminhoByEnderecos(e.getMorada(), e1.getMorada());
                 if (caminho != null && (caminho.getTipo().equalsIgnoreCase(tipoCaminho) || caminho.getTipo().equalsIgnoreCase("Ambos"))) {
                     graph.insertEdge(e, e1, 1.0, CalculosFisica.calculoDistancia(e.getLatitude(), e.getLongitude(),

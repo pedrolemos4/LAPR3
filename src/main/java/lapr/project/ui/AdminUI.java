@@ -50,6 +50,7 @@ public class AdminUI {
                 + "\n 7 - Atualizar item"
                 + "\n 8 - Registar farmácia"
                 + "\n 9 - Adicionar parque"
+                + "\n 10 - Adicionar estacionamento"
                 + "\n 0 - Exit"
                 + "\n Escolha uma das opções.");
     }
@@ -87,6 +88,9 @@ public class AdminUI {
                     break;
                 case "9":
                     adicionarParque();
+                    break;
+                case "10":
+                    adicionarEstacionamento();
                     break;
                 case "0":
                     UserSession.getInstance().doLogout();
@@ -184,7 +188,7 @@ public class AdminUI {
                     Veiculo ve = sc.addVeiculo(descricao, capacidade, percentagemBateria, peso, pesoMaximo, potencia, idestado, areaFrontal);
                     Scooter sr = sc.novaScooter(ve, ve.getId());
                     sc.registaScooter(sr);
-                    System.out.println("\n\nVeículo adicionado com sucesso'");
+                    System.out.println("\n\nVeículo adicionado com sucesso");
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -194,9 +198,15 @@ public class AdminUI {
     }
 
     public void removeVeiculo() throws ClassNotFoundException, SQLException, ParseException {
+        VeiculoController sc = new VeiculoController(new VeiculoDB());
+        System.out.println("Lista de veiculos: ");
+        for (Veiculo v : sc.getListaVeiculo()){
+            System.out.println(v.toString());
+            System.out.println("\n\n");
+        }
+
         System.out.println("Insira o id do veículo a remover:");
         int idVeiculo = LER.nextInt();
-        VeiculoController sc = new VeiculoController(new VeiculoDB());
         Veiculo v = sc.getVeiculoById(idVeiculo);
         System.out.println("veiculo: " + v.toString());
         System.out.println("Confirma a remoção do veículo com o id " + idVeiculo + "?(S/N)");
@@ -229,6 +239,7 @@ public class AdminUI {
         double peso;
         double potencia;
         double hoverpower = 0;
+        System.out.println("Lista de veiculos: ");
         for (Veiculo s : lista) {
             System.out.println();
             System.out.println(s.toString());
@@ -279,7 +290,7 @@ public class AdminUI {
         veiculo.setEstadoVeiculo(idestado);
 
         if (veiculo.getDescricao().equalsIgnoreCase(DRONE)) {
-            System.out.println("Pretende atualizar o valor do power pro do veículo? (S/N)");
+            System.out.println("Pretende atualizar o valor da potencia que o veiculo precisa para poder levantar voo? (S/N)");
             resposta = LER.nextLine();
             if (resposta.equalsIgnoreCase("S") || resposta.equalsIgnoreCase("Sim")) {
                 System.out.println("Insira o novo valor da potencia que o veiculo precisa para poder levantar voo:");
@@ -338,6 +349,12 @@ public class AdminUI {
     public void adicionarParque() throws ClassNotFoundException, SQLException, ParseException {
         AdicionarParqueUI adcParkUI = new AdicionarParqueUI();
         adcParkUI.adicionaParque();
+        menu();
+    }
+
+    public void adicionarEstacionamento() throws ClassNotFoundException, SQLException, ParseException {
+        InserirEstacionamentosUI ui = new InserirEstacionamentosUI();
+        ui.inserirEstacionamento();
         menu();
     }
 }

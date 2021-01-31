@@ -369,12 +369,12 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE atualizarEstafeta(UtilizadorNIF "LAPR3_G23".estafeta.utilizadorNif%type, EstadoEstafetaid "LAPR3_G23".estafeta.estadoestafetaid%type,
-pesoEstafeta "LAPR3_G23".estafeta.pesoestafeta%type) 
+CREATE OR REPLACE PROCEDURE atualizarEstafeta(p_UtilizadorNIF "LAPR3_G23".estafeta.utilizadorNif%type, p_EstadoEstafetaid "LAPR3_G23".estafeta.estadoestafetaid%type,
+p_pesoEstafeta "LAPR3_G23".estafeta.pesoestafeta%type) 
 AS
 BEGIN
-  UPDATE "LAPR3_G23".estafeta SET "LAPR3_G23".estafeta.EstadoEstafetaid = EstadoEstafetaid, "LAPR3_G23".estafeta.pesoEstafeta = pesoEstafeta
-  WHERE "LAPR3_G23".estafeta.UtilizadorNif = UtilizadorNIF;
+  UPDATE "LAPR3_G23".estafeta SET "LAPR3_G23".estafeta.EstadoEstafetaid = p_EstadoEstafetaid, "LAPR3_G23".estafeta.pesoEstafeta = p_pesoEstafeta
+  WHERE "LAPR3_G23".estafeta.UtilizadorNif = p_UtilizadorNIF;
 END;
 /
 
@@ -513,14 +513,14 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PROCEDURE atualizarUtilizador(NIF "LAPR3_G23".utilizador.nif%type, nome "LAPR3_G23".utilizador.nome%type, 
-email "LAPR3_G23".utilizador.email%type, numeroSegurancaSocial "LAPR3_G23".utilizador.numeroSegurancaSocial%type,
-password "LAPR3_G23".utilizador.password%type) 
+CREATE OR REPLACE PROCEDURE atualizarUtilizador(p_NIF "LAPR3_G23".utilizador.nif%type, p_nome "LAPR3_G23".utilizador.nome%type, 
+p_email "LAPR3_G23".utilizador.email%type, p_numeroSegurancaSocial "LAPR3_G23".utilizador.numeroSegurancaSocial%type,
+p_password "LAPR3_G23".utilizador.password%type) 
 AS
 BEGIN
-  UPDATE "LAPR3_G23".utilizador SET "LAPR3_G23".utilizador.nome = nome, "LAPR3_G23".utilizador.email = email, 
-    "LAPR3_G23".utilizador.numeroSegurancaSocial = numeroSegurancaSocial, "LAPR3_G23".utilizador.password = password
-    WHERE "LAPR3_G23".utilizador.NIF = NIF;
+  UPDATE "LAPR3_G23".utilizador SET "LAPR3_G23".utilizador.nome = p_nome, "LAPR3_G23".utilizador.email = p_email, 
+    "LAPR3_G23".utilizador.numeroSegurancaSocial = p_numeroSegurancaSocial, "LAPR3_G23".utilizador.password = p_password
+    WHERE "LAPR3_G23".utilizador.NIF = p_NIF;
 END;
 /
 
@@ -850,8 +850,13 @@ FROM produto p
 INNER JOIN StockFarmacia s ON s.ProdutoidProduto = p.idProduto 
 AND s.FarmaciaNIF = 555666555;
 
-select * from farmacia;
-select * from utilizador;
+SELECT * FROM estacionamento e INNER JOIN parque p ON p.idParque = e.idParque 
+                AND p.FarmaciaNIF = 444444444 AND p.idParque = 8;
+
+select * from parque;
+select * from stockfarmacia;
+select * from estacionamento;
+select * from parque;
 select * from encomenda;
 update "LAPR3_G23".encomenda SET "LAPR3_G23".encomenda.EstadoEncomendaidEstadoEncomenda = 1 where "LAPR3_G23".encomenda.EstadoEncomendaidEstadoEncomenda = 3;
 select * from entrega;

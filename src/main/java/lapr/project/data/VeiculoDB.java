@@ -247,35 +247,6 @@ public class VeiculoDB extends DataHandler {
         return null;
     }
 
-    /**
-     * Devolve o scooter de acordo com o id recebido por parâmetro
-     *
-     * @param idVeiculo id do veículo
-     * @return veículo
-     */
-    public Scooter getScooterById(int idVeiculo) {
-        String query = "SELECT * FROM scooter s INNER JOIN veiculo v ON v.idveiculo = s.id WHERE v.idVeiculo = "
-                + idVeiculo;
-
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
-
-                if (rSet.next()) {
-                    int id = rSet.getInt(1);
-                    Veiculo v = getVeiculoById(idVeiculo);
-                    Scooter s = new Scooter(v, id);
-                    s.setId(id);
-                    return s;
-                }
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING, e.getMessage());
-            return null;
-        } finally {
-            closeAll();
-        }
-        return null;
-    }
 
     /**
      * Devolve o drone de acordo com o id recebido por parâmetro
@@ -362,30 +333,6 @@ public class VeiculoDB extends DataHandler {
             closeAll();
         }
     }
-
-    // /**
-    // * Atualiza a informação de uma scooter na base de dados
-    // *
-    // * @param id id da scooter
-    // * @return true se a scooter foi alterado com sucesso, false se não
-    // * @throws SQLException
-    // */
-    // public boolean updateScooter(int id) throws SQLException {
-    // boolean removed = false;
-    // try ( CallableStatement callSmt = getConnection().prepareCall("{ call
-    // updateScooter(?) }")) {
-    // callSmt.setInt(1, id);
-    // callSmt.execute();
-    // removed = true;
-    // try {
-    // closeAll();
-    // } catch (NullPointerException ex) {
-    // Logger.getLogger(VeiculoDB.class.getName()).log(Level.WARNING,
-    // ex.getMessage());
-    // }
-    // }
-    // return removed;
-    // }
 
     /**
      * Remove o veículo da base de dados

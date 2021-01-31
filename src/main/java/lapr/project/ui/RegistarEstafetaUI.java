@@ -23,12 +23,6 @@ public class RegistarEstafetaUI {
     }
 
     public void registaEstafeta() {
-        System.out.println("Lista de Estafetas: ");
-        List<Estafeta> le = controller.getListaEstafetas();
-
-        for(Estafeta est : le){
-            System.out.println(est);
-        }
 
         System.out.println("--Registo de Novo Estafeta--");
 
@@ -73,14 +67,7 @@ public class RegistarEstafetaUI {
      */
     public static void textoMenuEstafeta() {
         System.out.println("\nRIDE SHARING - Menu Estafeta\n------------"
-                + "\n 1 - Realizar entrega"/*
-                + "\n 2 - Find parks near me"
-                + "\n 3 - Check rentals history"
-                + "\n 4 - Park vehicle"
-                + "\n 5 - Pay monthly invoice"
-                + "\n 6 - Check Spots in a Park for my loaned vehicle"
-                + "\n 7 - Check Spots in a Park for Scooters"
-                + "\n 8 - Check Spots in a Park for Bicycles"*/
+                + "\n 1 - Realizar entrega"
                 + "\n 0 - Exit"
                 + "\n Escolha uma opção válida.");
     }
