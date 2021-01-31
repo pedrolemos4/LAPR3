@@ -103,7 +103,7 @@ public class EntregaDB extends DataHandler {
         for (Endereco e : listEnderecos) {
             for (Endereco end : listEnderecos) {
                 Caminho caminho = caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada());
-                if (caminho != null && (caminho.getTipo().equals("Terrestre") || caminho.getTipo().equals("Ambos"))) {
+                if (caminho != null && (caminho.getTipo().equalsIgnoreCase("Terrestre") || caminho.getTipo().equalsIgnoreCase("Ambos"))) {
                     energiaGasta = CalculosFisica.calculoEnergiaScooter(est.getPesoEstafeta(), veiculo.getPesoVeiculo(),
                             veiculo.getAreaFrontal(), pesoTotalEntrega, end, e,
                             caminhoDB.getCaminhoByEnderecos(end.getMorada(), e.getMorada())
@@ -140,7 +140,7 @@ public class EntregaDB extends DataHandler {
         for (Endereco e : listEnderecos) {
             for (Endereco endereco : listEnderecos) {
                 Caminho caminho = caminhoDB.getCaminhoByEnderecos(endereco.getMorada(), e.getMorada());
-                if (caminho != null && (caminho.getTipo().equals("Aerea") || caminho.getTipo().equals("Ambos"))) {
+                if (caminho != null && (caminho.getTipo().equalsIgnoreCase("Aerea") || caminho.getTipo().equalsIgnoreCase("Ambos"))) {
                     energiaGasta = CalculosFisica.calculoEnergiaDrone(veiculo.getPesoVeiculo(), atributo,
                             veiculo.getAreaFrontal(), pesoTotalEntrega, endereco, e,
                             caminhoDB.getCaminhoByEnderecos(endereco.getMorada(), e.getMorada()).getDirecaoVento(),

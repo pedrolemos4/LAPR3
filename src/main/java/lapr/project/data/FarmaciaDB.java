@@ -255,7 +255,7 @@ public class FarmaciaDB extends DataHandler {
         for (Endereco e1 : graph.vertices()) {
             for (Endereco e : graph.vertices()) {
                 Caminho caminho = cam.getCaminhoByEnderecos(e.getMorada(), e1.getMorada());
-                if (caminho != null && (caminho.getTipo().equals(tipoCaminho) || caminho.getTipo().equals("Ambos"))) {
+                if (caminho != null && (caminho.getTipo().equalsIgnoreCase(tipoCaminho) || caminho.getTipo().equalsIgnoreCase("Ambos"))) {
                     graph.insertEdge(e, e1, 1.0, CalculosFisica.calculoDistancia(e.getLatitude(), e.getLongitude(),
                             e.getAltitude(), e1.getLatitude(), e1.getLongitude(), e1.getAltitude()));
                 }

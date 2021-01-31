@@ -268,7 +268,7 @@ CREATE TABLE "LAPR3_G23".Caminho
             roadResistanceCoefficient number(5,2) check(roadResistanceCoefficient > 0),
             velocidadeVento number(5,2) check(velocidadeVento > 0),
             direcaoVento number(5,2) check(direcaoVento BETWEEN 0 AND 360),
-            tipo varchar(255), CONSTRAINT cktipoCaminho check (lower(tipo) in ('terrestre','aerea','tipo')),
+            tipo varchar(255), CONSTRAINT cktipoCaminho check (lower(tipo) in ('terrestre','aerea','ambos')),
             PRIMARY KEY (morada1, morada2)
 );
 /

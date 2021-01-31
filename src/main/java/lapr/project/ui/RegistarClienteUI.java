@@ -39,12 +39,6 @@ public class RegistarClienteUI {
      */
     public boolean registaCliente() throws ParseException, ClassNotFoundException, SQLException {
         boolean aux = false;
-        System.out.println("Lista de Clientes: ");
-        List<Cliente> lc = controller.getListaClientes();
-
-        for (Cliente cl : lc) {
-            System.out.println(cl);
-        }
 
         System.out.println("--Registo de Novo Cliente--");
 

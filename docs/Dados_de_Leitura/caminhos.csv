@@ -1,10 +1,10 @@
-Farmacia Almeida Cunha, Lda;R. do Bolhão;0.7;7.5;20
-R. do Bolhão;Rua da Firmeza;0.6;6.8;70
-R. do Bolhão;Farmacia Sa da Bandeira;0.7;9;154
-R. do Bolhão;Rua da Conceição;0.6;5.8;83
-Rua de Fernandes Tomás;Rua da Conceição;0.4;7.2;1
-Farmacia Sa da Bandeira;Rua de Fernandes Tomás;0.6;7.5;100
-Rua de Fernandes Tomás;Farmacia Lemos;0.5;4;315
-Rua da Conceição;Farmacia Almeida Cunha, Lda;0.4;5.3;61
-Rua da Firmeza;Farmacia Lemos;0.7;5.2;254
-Farmacia Lemos;Rua da Conceição;0.9;5.5;32
+Farmacia Almeida Cunha, Lda;R. do Bolhão;0.7;7.5;20;ambos
+R. do Bolhão;Rua da Firmeza;0.6;6.8;70;ambos
+R. do Bolhão;Farmacia Sa da Bandeira;0.7;9;154;ambos
+R. do Bolhão;Rua da Conceição;0.6;5.8;83;ambos
+Rua de Fernandes Tomás;Rua da Conceição;0.4;7.2;1;ambos
+Farmacia Sa da Bandeira;Rua de Fernandes Tomás;0.6;7.5;100;ambos
+Rua de Fernandes Tomás;Farmacia Lemos;0.5;4;315;ambos
+Rua da Conceição;Farmacia Almeida Cunha, Lda;0.4;5.3;61;ambos
+Rua da Firmeza;Farmacia Lemos;0.7;5.2;254;ambos
+Farmacia Lemos;Rua da Conceição;0.9;5.5;32;ambos
