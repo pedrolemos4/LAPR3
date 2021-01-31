@@ -23,12 +23,10 @@ class EstadoTransferencia {
 class Farmacia {
   -NIF
   -email
-  -morada
 }
 
 Farmacia "1" -- "*" Farmacia: pede produto a >
 Farmacia "1" -- "*" Produto: tem >
-
 Farmacia "1" -- "*" TransferenciaProduto: realiza >
 TransferenciaProduto "1" -- "*" EstadoTransferencia: tem >
 TransferenciaProduto "1" -- "1" Produto: referente a >

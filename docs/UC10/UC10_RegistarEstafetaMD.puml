@@ -5,19 +5,15 @@ left to right direction
 
 class Farmacia {
   -NIF
+  -email
 }
 
 class Estafeta {
-  -NIF
-  -nome
-  -email
   -pesoEstafeta
-  -numeroSegurancaSocial
-  -password
 }
 
 class EstadoEstafeta {
-  -id_estado_estafeta
+  -id
   -designacao
 }
 

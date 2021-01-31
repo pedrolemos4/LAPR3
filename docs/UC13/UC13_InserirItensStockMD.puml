@@ -12,6 +12,7 @@ class Produto {
 
 class Farmacia {
   -NIF
+  -email
 }
 
 class Utilizador {
