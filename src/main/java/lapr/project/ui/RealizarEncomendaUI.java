@@ -40,7 +40,7 @@ public class RealizarEncomendaUI {
 
         List<Farmacia> lstFarmacias = controller2.getLstFarmacias();
         if (lstFarmacias.isEmpty()) {
-            System.out.println("Não existem farmácias");
+            System.out.println("Nao existem farmacias");
             rcUI.menuCliente();
         }
 
@@ -61,10 +61,8 @@ public class RealizarEncomendaUI {
 
         Graph<Endereco, Double> graph = new Graph<>(true);
         graph = controller2.generateGrafo(graph, controller.getLstEnderecos(),"Terrestre");
-        System.out.println("endereço; " + enderecoCliente.getMorada());
         Farmacia farm = controller2.getFarmaciaProxima(graph, enderecoCliente, new ArrayList<>());
         int nif = farm.getNIF();
-        System.out.println("farmacia mais proximo: " +farm.getMorada());
         System.out.println("Introduza o id de um produto apresentado ou 0 para terminar.");
 
         while (true) {
@@ -75,7 +73,7 @@ public class RealizarEncomendaUI {
                 break;
             }
 
-            System.out.println("Insira a quantidade do produto que pretende.");
+            System.out.println("Insira a quantidade do produto que pretende");
             int qntd = LER.nextInt();
             Produto prod = controller.getProdutoByID(idInserido);
 
@@ -116,9 +114,9 @@ public class RealizarEncomendaUI {
                     }
                 }
                 if (qntd > 0) {
-                    System.out.println("Não havia a quantidade que pretende.");
-                    String assunto = "Produto não disponível.";
-                    String mensagem = "O produto não estava disponível na quantidade pretendida logo foi inserido a quantidade existente em stock.";
+                    System.out.println("Nao havia a quantidade que pretende");
+                    String assunto = "Produto nao disponivel";
+                    String mensagem = "O produto nao estava disponivel na quantidade pretendida logo foi inserido a quantidade existente em stock";
                     String email = UserSession.getInstance().getUser().getEmail();
                     controller.notificaCliente(email, assunto, mensagem);
                 }
@@ -143,7 +141,7 @@ public class RealizarEncomendaUI {
             Date date1 = new Date(System.currentTimeMillis());
             String dataInicio = formatter.format(date1);
 
-            System.out.println("Possui " + controller.getCliente().getCreditos() + " creditos.");
+            System.out.println("Possui " + controller.getCliente().getCreditos() + " creditos");
             System.out.println("Deseja pagar com creditos? (S/N)");
             LER.nextLine();
             String credsC = LER.nextLine();
@@ -152,10 +150,10 @@ public class RealizarEncomendaUI {
                 Data date = Data.dataAtual();
                 double creditosData = controller.getCreditosData(date, controller.getPreco());
                 if (controller.getCliente().getCreditos() < creditosData) {
-                    System.out.println("Creditos insuficientes.");
+                    System.out.println("Creditos insuficientes");
                 } else {
                     controller.removerCreditos(controller.getCliente().getClienteNIF(), controller.getCliente().getCreditos() - creditosData);
-                    System.out.println("Foram retirados: " + creditosData + " creditos.");
+                    System.out.println("Foram retirados: " + creditosData + " creditos");
                 }
             }
 
@@ -189,7 +187,7 @@ public class RealizarEncomendaUI {
 
             controller.registaRecibo(rec);
 
-            String assunto = "Recibo.";
+            String assunto = "Recibo";
             String mensagem = rec.toString();
             controller.notificaCliente(UserSession.getInstance().getUser().getEmail(), assunto, mensagem);
 
@@ -207,10 +205,10 @@ public class RealizarEncomendaUI {
             }
 
             System.out.println("\n\nEncomenda adicionada com sucesso!");
-            System.out.println("Está agora com " +controller.getCliente().getCreditos() + " créditos.");
+            System.out.println("Esta agora com " +controller.getCliente().getCreditos() + " creditos");
             rcUI.menuCliente();
         } else {
-            System.out.println("\n\nEncomenda cancelada.");
+            System.out.println("\n\nEncomenda cancelada");
         }
     }
 }
