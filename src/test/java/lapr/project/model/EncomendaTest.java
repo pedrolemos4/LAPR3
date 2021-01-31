@@ -518,6 +518,19 @@ class EncomendaTest {
         assertEquals(expResult, result);
     }
     
+       /**
+     * Test of equals method, of class Encomenda.
+     */
+    @Test
+    public void testEquals13() {
+        System.out.println("equals13");
+        Encomenda instance1 = new Encomenda(123456759,12,"01-04-2000",10,10,10, 1);
+        Encomenda instance2 = new Encomenda(123456789,13,"01-02-2000",10,10,10, 2);
+        boolean expResult = false;
+        boolean result = instance1.equals(instance2);
+        assertEquals(expResult, result);
+    }
+    
     /**
      * Test of hashCode method, of class Encomenda.
      */
