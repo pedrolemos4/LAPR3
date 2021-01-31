@@ -8,6 +8,9 @@ tanto por cartão como por um sistema de créditos que são dados ao cliente com
 Na aplicação o administrador poderá fazer a gestão de tudo relacionado com a empresa (farmácias, produtos, 
 estafetas, scooters, drones, etc .) alterando o que for necessário.
 
+Para testar as funcionalidades da aplicação, a base de dados ja está preenchida com todos os dados necessários,
+tendo tambem um administrador registado (Username: admin - Password: adminpass) e também clientes.
+
 ## Utilizador não-registado
 Um utilizador não-registado inicialmente poderá realizar o registo inserindo os seus dados e credenciais 
 a utilizar no login de forma a poder usufruir das funcionalidades da aplicação.
@@ -16,7 +19,7 @@ a utilizar no login de forma a poder usufruir das funcionalidades da aplicação
 Após estar registado, o cliente poderá efetuar uma encomenda na plataforma. 
 Assim que entra, ser-lhe-ão apresentadas a lista de farmácias existentes na área e os produtos em 
 stock de cada uma delas. A partir daí o utilizador poderá selecionar os produtos a comprar e a
- quantidade que deseja comprar deles. A partir daqui poderão acontecer três situações:
+quantidade que deseja comprar deles. A partir daqui poderão acontecer três situações:
 
 * A farmácia mais próxima do cliente tem todos os produtos necessários e apresenta a lista dos mesmos. 
 O cliente poderá então decidir se irá realizar o pagamento ou não e caso sim, se irá pagar com créditos ou não. 
@@ -52,6 +55,12 @@ quanto é o peso máximo que pode levar. O sistema com estas informações faz u
 todos os veículos existentes e após fazer todos os cálculos necessários mostra ao estafeta os custos 
 energéticos pela via terrestre e via aérea e indica qual deles é o mais eficiente. Com essa informação 
 o estafeta poderá escolher um dos dois métodos e em seguida procede à realização da entrega.
+
+## Viagem de entrega
+Durante a realização da viagem da entrega o estafeta percorre os caminhos existentes no grafo criado de forma a diminuir ao mínimo
+o consumo energético. Caso não tenha energia suficiente para percorrer o percurso restante,
+ele irá parar no parque mais próximo de forma a carregar a bateria até ter energia para completar a entrega.
+O estafeta poderá ter que realizar várias voltas de forma a poder chegar a todos os pontos de entrega.
 
 ## Carregamento dos veículos
 Todos os veículos estacionados também podem ser carregados em estações de carregamento, 
