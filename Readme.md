@@ -79,7 +79,7 @@ quanto tempo este demora a ter a carga completa.
 
 # Diagrama de Casos de Uso
 
-![Diagrama de Casos de Uso](docs/DUC/DUC.md)
+* [Diagrama de Casos de Uso](docs/DUC/DUC.md)
 
 # Casos de Uso
 
