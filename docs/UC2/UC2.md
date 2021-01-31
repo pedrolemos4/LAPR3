@@ -1,10 +1,7 @@
-# UC26 - Leitura de Dados
+# UC2 - Leitura de Dados
 
 ### SSD
 ![SSD-LEITURA DE DADOS.svg](SSD-LEITURA DE DADOS.svg)
-
-### MD
-![MD-LEITURA DE DADOS.svg](MD-LEITURA DE DADOS.svg)
 
 ### SD
 ![SD-LEITURA DE DADOS.svg](SD-LEITURA DE DADOS.svg)
