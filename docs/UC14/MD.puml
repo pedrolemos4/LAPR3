@@ -58,6 +58,7 @@ class Caminho {
   -roadResistanceCoefficient
   -velocidadeVento
   -direcaoVento
+  -tipo
 }
 
 class Farmacia {

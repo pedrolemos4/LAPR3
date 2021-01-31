@@ -120,6 +120,13 @@ class Cliente {
   +getNif()
 }
 
+class Caminho {
+  -roadResistanceCoefficient
+  -velocidadeVento
+  -direcaoVento
+  -tipo
+}
+
 RealizaEncomendaUI .> RealizaEncomendaController
 
 RealizaEncomendaController .> ClienteDataHandler
@@ -148,5 +155,6 @@ Recibo "1" -- "1" Cliente: referente a >
 Cliente "1" -- "*" Encomenda: realiza e paga >
 Encomenda "1" -- "1..*" Produto: tem >
 Cliente "1" -- "1" Endereco: tem >
+Caminho "1" -- "1" Endereco: referente a >
 
 @enduml
