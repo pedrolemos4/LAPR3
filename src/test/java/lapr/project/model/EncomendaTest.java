@@ -9,14 +9,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class EncomendaTest {
 
     @Test
-    void EncomendaConstructorTest(){
+    void EncomendaConstructorTest() {
         List<Produto> lp = new ArrayList<>();
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
 
-        assertEquals(instance,instance);
+        assertEquals(instance, instance);
     }
 
     @Test
@@ -26,7 +26,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         String expResult = "01-01-2000";
         String result = instance.getDataPedida();
         assertEquals(expResult, result);
@@ -39,7 +39,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10,1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         double expResult = 10;
         double result = instance.getPreco();
         assertEquals(expResult, result);
@@ -53,7 +53,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         instance.setPreco(11);
         assertEquals(preco, instance.getPreco());
     }
@@ -65,7 +65,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         double expResult = 10;
         double result = instance.getPesoEncomenda();
         assertEquals(expResult, result);
@@ -79,7 +79,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         instance.setPesoEncomenda(11);
         assertEquals(peso, instance.getPesoEncomenda());
     }
@@ -91,12 +91,12 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda( c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         double expResult = 10;
         double result = instance.getTaxa();
         assertEquals(expResult, result);
     }
-    
+
     @Test
     public void setTaxa() {
         System.out.println("getTaxa");
@@ -104,7 +104,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda( c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         double expResult = 10;
         double result = instance.getTaxa();
         assertEquals(expResult, result);
@@ -117,12 +117,11 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         int expResult = 1;
         int result = instance.getEstado();
         assertEquals(expResult, result);
     }
-
 
     /**
      * Test of getCliente method, of class Encomenda.
@@ -132,14 +131,13 @@ class EncomendaTest {
         System.out.println("getNif");
         List<Produto> lp = new ArrayList<>();
         Produto p = new Produto();
-        Cliente c = new Cliente(123,"Teste","@",1234,12,"Ali",123,"pass");
+        Cliente c = new Cliente(123, "Teste", "@", 1234, 12, "Ali", 123, "pass");
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         int expResult = c.getNIF();
         int result = instance.getNif();
         assertEquals(expResult, result);
     }
-
 
     /**
      * Test of getDataPedida method, of class Encomenda.
@@ -151,7 +149,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         String expResult = "01-01-2000";
         String result = instance.getDataPedida();
         assertEquals(expResult, result);
@@ -167,7 +165,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         double expResult = 10.0;
         double result = instance.getPreco();
         assertEquals(expResult, result, 0.0);
@@ -184,7 +182,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10,1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         instance.setPreco(preco);
     }
 
@@ -198,11 +196,12 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         double expResult = 10.0;
         double result = instance.getPesoEncomenda();
         assertEquals(expResult, result, 0.0);
     }
+
     /**
      * Test of setPesoEncomenda method, of class Encomenda.
      */
@@ -214,7 +213,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         instance.setPesoEncomenda(pesoEncomenda);
     }
 
@@ -228,7 +227,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         double expResult = 10.0;
         double result = instance.getTaxa();
         assertEquals(expResult, result, 0.0);
@@ -245,7 +244,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         instance.setTaxa(taxa);
     }
 
@@ -257,7 +256,7 @@ class EncomendaTest {
         Produto p = new Produto();
         Cliente c = new Cliente();
         lp.add(p);
-        Encomenda instance = new Encomenda(c.getNIF(),12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(c.getNIF(), 12, "01-01-2000", 10, 10, 10, 1);
         instance.setNif(nif);
     }
 
@@ -267,7 +266,7 @@ class EncomendaTest {
     @Test
     public void testGetId() {
         System.out.println("getId");
-        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(123456789, 12, "01-01-2000", 10, 10, 10, 1);
         int expResult = 1;
         instance.setId(expResult);
         int result = instance.getId();
@@ -282,7 +281,7 @@ class EncomendaTest {
     public void testSetId() {
         System.out.println("setId");
         int id = 2;
-        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(123456789, 12, "01-01-2000", 10, 10, 10, 1);
         instance.setId(id);
         assertEquals(id, instance.getId());
     }
@@ -293,7 +292,7 @@ class EncomendaTest {
     @Test
     public void testGetEstado() {
         System.out.println("getEstado");
-        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);;
+        Encomenda instance = new Encomenda(123456789, 12, "01-01-2000", 10, 10, 10, 1);;
         int expResult = 1;
         int result = instance.getEstado();
         assertEquals(expResult, result);
@@ -306,7 +305,7 @@ class EncomendaTest {
     public void testSetEstado() {
         System.out.println("setEstado");
         int estado = 0;
-        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(123456789, 12, "01-01-2000", 10, 10, 10, 1);
         instance.setEstado(2);
     }
 
@@ -316,7 +315,7 @@ class EncomendaTest {
     @Test
     public void testGetNifFarmacia() {
         System.out.println("getNifFarmacia");
-        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(123456789, 12, "01-01-2000", 10, 10, 10, 1);
         int expResult = 12;
         assertEquals(expResult, instance.getNifFarmacia());
     }
@@ -328,7 +327,7 @@ class EncomendaTest {
     public void testSetNifFarmacia() {
         System.out.println("setNifFarmacia");
         int nifFarmacia = 0;
-        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(123456789, 12, "01-01-2000", 10, 10, 10, 1);
         instance.setNifFarmacia(nifFarmacia);
     }
 
@@ -338,106 +337,106 @@ class EncomendaTest {
     @Test
     public void testEquals() {
         System.out.println("equals");
-        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(123456789, 12, "01-01-2000", 10, 10, 10, 1);
         Encomenda instance1 = instance;
         boolean expResult = true;
         boolean result = instance.equals(instance1);
         assertEquals(expResult, result);
 
     }
-    
+
     /**
      * Test of equals method, of class Encomenda.
      */
     @Test
     public void testEquals1() {
         System.out.println("equals1");
-        Encomenda instance = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
-        Encomenda instance1 = new Encomenda(123456779,13,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda instance1 = new Encomenda(123456779, 13, "01-01-2000", 10, 10, 10, 1);
         boolean expResult = false;
         boolean result = instance.equals(instance1);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of equals method, of class Encomenda.
      */
     @Test
     public void testEquals2() {
         System.out.println("equals2");
-        Encomenda outroObjeto = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
-        Encomenda instance1 = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
+        Encomenda outroObjeto = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda instance1 = new Encomenda(123456789, 12, "01-01-2000", 10, 10, 10, 1);
         boolean expResult = false;
         boolean result = instance1.equals(outroObjeto);
         assertEquals(expResult, result);
 
     }
-    
+
     /**
      * Test of equals method, of class Encomenda.
      */
     @Test
     public void testEquals3() {
         System.out.println("equals3");
-        Encomenda outroObjeto = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
-        Encomenda instance1 = new Encomenda(123456789,13,"01-02-2000",10,10,10, 1);
+        Encomenda outroObjeto = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-02-2000", 10, 10, 10, 1);
         boolean expResult = false;
         boolean result = instance1.equals(outroObjeto);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of equals method, of class Encomenda.
      */
     @Test
     public void testEquals4() {
         System.out.println("equals4");
-        Encomenda outroObjeto = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
-        Encomenda instance1 = new Encomenda(123456789,13,"01-01-2000",13,10,10, 1);
+        Encomenda outroObjeto = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-01-2000", 13, 10, 10, 1);
         boolean expResult = false;
         boolean result = instance1.equals(outroObjeto);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of equals method, of class Encomenda.
      */
     @Test
     public void testEquals5() {
         System.out.println("equals5");
-        Encomenda outroObjeto = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
-        Encomenda instance1 = new Encomenda(123456789,13,"01-01-2000",10,14,10, 1);
+        Encomenda outroObjeto = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-01-2000", 10, 14, 10, 1);
         boolean expResult = false;
         boolean result = instance1.equals(outroObjeto);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of equals method, of class Encomenda.
      */
     @Test
     public void testEquals6() {
         System.out.println("equals6");
-        Encomenda outroObjeto = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
-        Encomenda instance1 = new Encomenda(123456789,13,"01-01-2000",10,10,13, 1);
+        Encomenda outroObjeto = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 13, 1);
         boolean expResult = false;
         boolean result = instance1.equals(outroObjeto);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of equals method, of class Encomenda.
      */
     @Test
     public void testEquals7() {
         System.out.println("equals7");
-        Encomenda outroObjeto = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
-        Encomenda instance1 = new Encomenda(123456789,13,"01-01-2000",10,10,10, 2);
+        Encomenda outroObjeto = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 2);
         boolean expResult = false;
         boolean result = instance1.equals(outroObjeto);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of equals method, of class Encomenda.
      */
@@ -445,24 +444,24 @@ class EncomendaTest {
     public void testEquals8() {
         System.out.println("equals8");
         Encomenda outroObjeto = new Encomenda();
-        Encomenda instance1 = new Encomenda(123456789,13,"01-02-2000",10,10,10, 2);
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-02-2000", 10, 10, 10, 2);
         boolean expResult = false;
         boolean result = instance1.equals(outroObjeto);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of equals method, of class Encomenda.
      */
     @Test
     public void testEquals9() {
         System.out.println("equals9");
-        Encomenda instance1 = new Encomenda(123456789,13,"01-02-2000",10,10,10, 2);
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-02-2000", 10, 10, 10, 2);
         boolean expResult = false;
         boolean result = instance1.equals(null);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of equals method, of class Encomenda.
      */
@@ -470,21 +469,21 @@ class EncomendaTest {
     public void testEquals10() {
         System.out.println("equals10");
         Produto p = new Produto();
-        Encomenda instance1 = new Encomenda(123456789,13,"01-02-2000",10,10,10, 2);
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-02-2000", 10, 10, 10, 2);
         boolean expResult = false;
         boolean result = instance1.equals(p);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of equals method, of class Encomenda.
      */
     @Test
     public void testEquals11() {
         System.out.println("equals11");
-        Object outroObjeto = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
-        Encomenda instance1 = new Encomenda(123456789,13,"01-02-2000",10,10,10, 1);
-        Encomenda o = (Encomenda) outroObjeto;
+        Encomenda outroObjeto = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-02-2000", 10, 10, 10, 1);
+        Encomenda o = outroObjeto;
         boolean expResult = false;
         boolean result = instance1.getDataPedida().equals(o.getDataPedida())
                 && instance1.getEstado() == o.getEstado()
@@ -496,16 +495,16 @@ class EncomendaTest {
                 && Double.compare(instance1.getPreco(), o.getPreco()) == 0;
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of equals method, of class Encomenda.
      */
     @Test
     public void testEquals12() {
         System.out.println("equals12");
-        Object outroObjeto = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
-        Encomenda instance1 = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
-        Encomenda o = (Encomenda) outroObjeto;
+        Encomenda outroObjeto = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda o = outroObjeto;
         boolean expResult = true;
         boolean result = instance1.getDataPedida().equals(o.getDataPedida())
                 && instance1.getEstado() == o.getEstado()
@@ -517,27 +516,53 @@ class EncomendaTest {
                 && Double.compare(instance1.getPreco(), o.getPreco()) == 0;
         assertEquals(expResult, result);
     }
-    
-       /**
+
+    /**
      * Test of equals method, of class Encomenda.
      */
     @Test
     public void testEquals13() {
         System.out.println("equals13");
-        Encomenda instance1 = new Encomenda(123456759,12,"01-04-2000",10,10,10, 1);
-        Encomenda instance2 = new Encomenda(123456789,13,"01-02-2000",10,10,10, 2);
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda outroObjeto = new Encomenda(123456789, 13, "01-01-2000", 13, 10, 10, 1);
         boolean expResult = false;
-        boolean result = instance1.equals(instance2);
+        boolean result = instance1.equals(outroObjeto);
         assertEquals(expResult, result);
     }
-    
+
+    /**
+     * Test of equals method, of class Encomenda.
+     */
+    @Test
+    public void testEquals14() {
+        System.out.println("equals14");
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda outroObjeto = new Encomenda(123456789, 13, "01-01-2000", 10, 14, 10, 1);
+        boolean expResult = false;
+        boolean result = instance1.equals(outroObjeto);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Encomenda.
+     */
+    @Test
+    public void testEquals15() {
+        System.out.println("equals15");
+        Encomenda instance1 = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
+        Encomenda outroObjeto = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 13, 1);
+        boolean expResult = false;
+        boolean result = instance1.equals(outroObjeto);
+        assertEquals(expResult, result);
+    }
+
     /**
      * Test of hashCode method, of class Encomenda.
      */
     @Test
     public void testHashCode() {
         System.out.println("hashCode");
-        Encomenda instance = new Encomenda(123456789,13,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(123456789, 13, "01-01-2000", 10, 10, 10, 1);
         Encomenda expResult = instance;
         assertEquals(expResult.hashCode(), instance.hashCode());
     }
@@ -548,7 +573,7 @@ class EncomendaTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 1);
+        Encomenda instance = new Encomenda(123456789, 12, "01-01-2000", 10, 10, 10, 1);
         String expResult = "Encomenda{dataPedida=01-01-2000, preco=10.0, pesoEncomenda=10.0, taxa=10.0, nifCliente=123456789, nifFarmacia=12, estado=Encomendado, id=0}";
         String result = instance.toString();
         System.out.println(result);
@@ -562,7 +587,7 @@ class EncomendaTest {
     @Test
     public void testToString1() {
         System.out.println("toString1");
-        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 2);
+        Encomenda instance = new Encomenda(123456789, 12, "01-01-2000", 10, 10, 10, 2);
         String expResult = "Encomenda{dataPedida=01-01-2000, preco=10.0, pesoEncomenda=10.0, taxa=10.0, nifCliente=123456789, nifFarmacia=12, estado=Entregando, id=0}";
         String result = instance.toString();
         System.out.println(result);
@@ -576,7 +601,7 @@ class EncomendaTest {
     @Test
     public void testToString2() {
         System.out.println("toString2");
-        Encomenda instance = new Encomenda(123456789,12,"01-01-2000",10,10,10, 3);
+        Encomenda instance = new Encomenda(123456789, 12, "01-01-2000", 10, 10, 10, 3);
         String expResult = "Encomenda{dataPedida=01-01-2000, preco=10.0, pesoEncomenda=10.0, taxa=10.0, nifCliente=123456789, nifFarmacia=12, estado=Entregue, id=0}";
         String result = instance.toString();
         System.out.println(result);
