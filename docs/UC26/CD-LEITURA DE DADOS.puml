@@ -1,18 +1,13 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class LerFicheiroDB {
-  +lerFicheiro(String file)
+class Main {
 }
 
-class LerFicheiroController {
-  +lerFicheiro(String file)
+class LerFicheiro {
+  +read(String fileName)
 }
 
-class LerFicheiroUI {
-}
-
-LerFicheiroUI ..> LerFicheiroController
-LerFicheiroController ..> LerFicheiroDB
+Main ..> LerFicheiro
 
 @enduml

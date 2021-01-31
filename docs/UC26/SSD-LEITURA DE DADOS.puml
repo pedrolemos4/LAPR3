@@ -1,14 +1,12 @@
 @startuml
 autonumber
-actor "Administrador" as ADMIN
+actor "Utilizador" as UTIL
 
-activate ADMIN
-ADMIN -> ":Sistema" : inicia a leitura do ficheiro de dados
+activate UTIL
+UTIL -> ":Sistema" : inicia a aplicação
 activate ":Sistema"
-":Sistema" --> ADMIN: solicita o nome do ficheiro de leitura
-ADMIN -> ":Sistema" : introduz os dados solicitados
-":Sistema" --> ADMIN: operação bem sucedida
+":Sistema" --> UTIL: leitura de dados bem sucedida
 deactivate ":Sistema"
-deactivate ADMIN
+deactivate UTIL
 
 @enduml

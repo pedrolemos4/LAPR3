@@ -1,28 +1,19 @@
 @startuml
 autonumber
-actor "Administrador" as ADM
-participant ":LerFicheiroUI" as UI
-participant ":LerFicheiroController" as CTRL
-participant ":LerFicheiroDB" as DB
+actor "Utilizador" as UTIL
+participant ":Main" as MAIN
+participant ":LerFicheiro" as LF
 
-activate ADM
-ADM -> UI : inicia a leitura do ficheiro de dados
-activate UI
-UI --> ADM : solicita o nome do ficheiro de leitura
-deactivate UI
+activate UTIL
+UTIL -> MAIN : inicia a aplicação
+activate MAIN
+loop
+MAIN -> LF : read(fileName)
+activate LF
+deactivate LF
+end
 
-ADM -> UI : introduz os dados solicitados
-activate UI
-
-UI -> CTRL : lerFicheiro(file)
-activate CTRL
-CTRL -> DB: lerFicheiro(file)
-activate DB
-deactivate DB
-deactivate CTRL
-deactivate CTRL
-
-UI --> ADM : operação bem sucedida
-deactivate UI
-deactivate ADM
+MAIN --> UTIL : leitura de dados bem sucedida
+deactivate MAIN
+deactivate UTIL
 @enduml
