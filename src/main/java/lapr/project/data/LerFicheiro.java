@@ -33,8 +33,8 @@ public class LerFicheiro extends DataHandler {
     private final EncomendaDB encdb;
 
     public LerFicheiro(FarmaciaDB far, ParqueDB par, EstacionamentosDB est, CartaoDB car,
-                       EnderecoDB end, UtilizadorDB uti, ClienteDB cli, EstafetaDB estDB, CaminhoDB cam,
-                       VeiculoDB vei, ProdutosDB prod, EncomendaDB encDB) {
+            EnderecoDB end, UtilizadorDB uti, ClienteDB cli, EstafetaDB estDB, CaminhoDB cam,
+            VeiculoDB vei, ProdutosDB prod, EncomendaDB encDB) {
         this.fdb = far;
         this.pdb = par;
         this.edb = est;
@@ -50,12 +50,12 @@ public class LerFicheiro extends DataHandler {
         this.encdb = encDB;
     }
 
-    public void read(String nameFile) throws ParseException, SQLException {
+    public void read(String fileName) throws ParseException, SQLException {
         try {
-            try (Scanner in = new Scanner(new File(nameFile))) {
+            try ( Scanner in = new Scanner(new File(fileName))) {
                 while (in.hasNextLine()) {
                     String[] items = in.nextLine().split(";");
-                    switch (nameFile) {
+                    switch (fileName) {
                         case "docs/Dados_de_Leitura/Cenarios_de _Teste/CenarioCurto/farmacias.csv":
                             fdb.addFarmacia(Integer.parseInt(items[0]), items[1], items[2]);
                             break;
@@ -123,8 +123,8 @@ public class LerFicheiro extends DataHandler {
     public boolean baseDadosCheia() {
         String query = "SELECT COUNT(*) FROM caminho";
         boolean bool = true;
-        try (Statement stm = getConnection().createStatement()) {
-            try (ResultSet rSet = stm.executeQuery(query)) {
+        try ( Statement stm = getConnection().createStatement()) {
+            try ( ResultSet rSet = stm.executeQuery(query)) {
                 if (rSet.next()) {
                     int contador = rSet.getInt(1);
                     if (contador == 0) {
