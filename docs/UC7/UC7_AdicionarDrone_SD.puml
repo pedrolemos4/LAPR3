@@ -12,16 +12,16 @@ ADMIN -> UI : inicia a adição de novo drone
 activate UI
 UI -> ADMIN : solicita os dados necessários do drone
 deactivate UI
-ADMIN -> UI : insere os dados (descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado)
+ADMIN -> UI : insere os dados (descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado,hoverPower)
 activate UI
-UI -> CTRL : addVeiculo(descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado)
+UI -> CTRL : addVeiculo(descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado,hoverPower)
 activate CTRL
-CTRL -> DRDB : addVeiculo(descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado)
+CTRL -> DRDB : addVeiculo(descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado,hoverPower)
 activate DRDB
 deactivate DRDB
-CTRL -> DRDB : veiculo = newVeiculo(descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado)
+CTRL -> DRDB : veiculo = newVeiculo(descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado,hoverPower)
 activate DRDB
-DRDB -> DRON : create (descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado)
+DRDB -> DRON : create (descrição,percentagem de bateria, peso máximo, peso do drone,potencia, área frontal, estado,hoverPower)
 activate DRON
 deactivate DRON
 deactivate DRDB
@@ -44,6 +44,3 @@ deactivate UI
 deactivate ADMIN
 
 @enduml
-
-
-

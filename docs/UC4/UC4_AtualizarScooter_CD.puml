@@ -1,27 +1,27 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class ScooterDB {
-  +Scooter setScooter(double percentagem de bateria,double peso máximo)
+class VeiculoDB {
+  +Veiculo setVeiculo(double percentagem de bateria,double peso máximo)
   +scooterHandler(Scooter scooter)
-  +validaScooter(Scooter scooter)
-  +addScooter(Scooter scooter)
+  +validaVeiculo (Veiculo veiculo)
+  +addVeiculo (Veiculo veiculo)
 }
 
-class ScooterController {
-    +Scooter setScooter(double percentagemBateria, double precoMaximo)
+class VeiculoController {
+    +Veiculo setVeiculo(double percentagemBateria, double preco, double peso máximo, double pesoVeiculo, double potencia, double areaFrontal)
     +scooterHandler()
 }
 
-class ScooterUI {
+class AdminUI {
 }
 
-class Scooter {
-   +Scooter setScooter(percentagem de bateria,peso máximo)
+class Veiculo {
+   +Veiculo setVeiculo(double percentagemBateria, double preco, double peso máximo, double pesoVeiculo, double potencia, double areaFrontal)
 }
 
-ScooterUI ..> ScooterController 
+AdminUI ..> VeiculoController 
 
-ScooterController ..> ScooterDB
-ScooterDB ..> Scooter
+VeiculoController  ..> VeiculoDB
+VeiculoDB ..> Veiculo
 @enduml

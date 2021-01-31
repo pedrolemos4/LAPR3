@@ -1,27 +1,43 @@
 @startuml
-skinparam classAttributeIconSize 0
+autonumber
 
-class VeiculoDB {
-  +Scooter setScooter(double percentagem de bateria,double peso máximo)
-  +scooterHandler(Scooter scooter)
-  +validaScooter(Scooter scooter)
-  +addScooter(Scooter scooter)
-}
+actor "Administrador" as ADMIN
 
-class VeiculoController {
-    +Scooter setScooter(double percentagemBateria, double precoMaximo)
-    +scooterHandler()
-}
+participant ":AdminUI" as UI
+participant ":VeiculoController" as CTRL
+participant ":VeiculoDB" as SCHL
+participant "veiculo :Veiculo" as SCOOT
 
-class AdminUI {
-}
 
-class Veiculo {
-   +Scooter setScooter(percentagem de bateria,peso máximo)
-}
+activate ADMIN
+ADMIN -> UI : inicia a atualização de uma scooter
+activate UI
+UI -> ADMIN : solicita os dados necessários (percentagem de bateria, peso máximo, pesoVeiculo, potencia, areaFrontal)
+ADMIN -> UI : insere os dados 
+UI -> CTRL : setVeiculo(percentagem de bateria,peso máximo,pesoVeículo,potencia,areaFrontal)
+activate CTRL
+CTRL -> SCHL : setVeiculo(percentagem de bateria,peso máximo,pesoVeículo,potencia,areaFrontal)
+activate SCHL
+SCHL -> SCOOT : veiculo = setVeiculo(percentagem de bateria,peso máximo,pesoVeículo,potencia,areaFrontal)
+activate SCOOT 
+deactivate SCOOT
+deactivate SCHL
+deactivate CTRL
+  
+UI --> ADMIN : apresenta dos dados e solicita confirmação
+deactivate UI
 
-AdminUI ..> VeiculoController 
+ADMIN -> UI : confirma os dados da scooter
+activate UI 
+UI -> CTRL : updateVeiculo()
+activate CTRL
+CTRL -> SCHL : updateVeiculo(veiculo)
+activate SCHL
+SCHL -> SCHL : validaVeiculo(veiculo)
+SCHL -> SCHL : addVeiculo(veiculo)
+deactivate SCHL
+deactivate CTRL
+deactivate UI
+deactivate ADMIN
 
-VeiculoController ..> VeiculoDB
-VeiculoDB ..> Veiculo
 @enduml
