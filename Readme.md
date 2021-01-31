@@ -77,6 +77,10 @@ quanto tempo este demora a ter a carga completa.
 
 ![docs/Base_de_Dados/Entity_Relationship.jpg](docs/Base_de_Dados/Entity_Relationship.jpg)
 
+# Diagrama de Casos de Uso
+
+![Diagrama de Casos de Uso](docs/DUC/DUC.md)
+
 # Casos de Uso
 
 * [UC1 - Registar Cliente](docs/UC1/UC1.md)
