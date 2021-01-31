@@ -16,7 +16,7 @@ participant "cl:Cliente" as CLIENTE
 activate ADM
 ADM -> UI : inicia o seu registo
 activate UI
-UI --> ADM : solicita dados do cliente \n(NIF, nome, email, endereço residencial, localização GPS (latitude, longitude, altitude), \nnúmero de segurança social, password, número de cartão de crédito, data de validade, CCV)
+UI --> ADM : solicita dados do cliente (NIF, nome, email, creditos, morada, \nnumero de cartao de credito e password), localização GPS (latitude, \nlongitude, altitude), data de validade do CC e CCV
 deactivate UI
 
 ADM -> UI : introduz os dados solicitados
